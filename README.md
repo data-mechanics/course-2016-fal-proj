@@ -58,3 +58,11 @@ WriteResult({ "nInserted" : 1 })
 For temporary collections that are only necessary during intermediate steps of of a computation, use `createTemp()`; for permanent collections that represent data that is imported or derived, use `createPerm()`.
 
 If you do not want to run `db.loadServerScripts()` every time you open a new terminal, you can use a `.mongorc.js` file in your home directory to store any commands or calls you want issued whenever you run `mongo`.
+
+## Other Required libraries and tools
+
+You will need the latest versions of the PROV and DML Python libraries. If you have `pip` installed, the following should install the latest versions automatically:
+```
+pip install prov --upgrade
+pip install dml --upgrade
+```
