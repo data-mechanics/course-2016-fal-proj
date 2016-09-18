@@ -63,7 +63,7 @@ If you do not want to run `db.loadServerScripts()` every time you open a new ter
 
 You will need the latest versions of the PROV and DML Python libraries. If you have `pip` installed, the following should install the latest versions automatically:
 ```
-pip install prov --upgrade
-pip install dml --upgrade
+pip install prov --upgrade --no-cache-dir
+pip install dml --upgrade --no-cache-dir
 ```
 If you are having trouble with `lxml`, you could try retrieving it [here](http://www.lfd.uci.edu/~gohlke/pythonlibs/).
