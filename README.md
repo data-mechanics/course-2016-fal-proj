@@ -66,3 +66,4 @@ You will need the latest versions of the PROV and DML Python libraries. If you h
 pip install prov --upgrade
 pip install dml --upgrade
 ```
+If you are having trouble with `lxml`, you could try retrieving it [here](http://www.lfd.uci.edu/~gohlke/pythonlibs/).
