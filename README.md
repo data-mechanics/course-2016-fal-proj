@@ -67,3 +67,10 @@ pip install prov --upgrade --no-cache-dir
 pip install dml --upgrade --no-cache-dir
 ```
 If you are having trouble with `lxml`, you could try retrieving it [here](http://www.lfd.uci.edu/~gohlke/pythonlibs/).
+
+# Project #1 Narrative (Question 2a)
+### *by Nisa Gurung and Kristel Tan* 
+
+Companies spend millions of dollars on advertisements every year; hence why it is important to place them in locations where the advertisements will have the most impact on consumers. Accomplishing this not only helps businesses, but also reaps benefits for any given city. Eliminating ineffective advertisements can minimize waste while increasing competition for the best ad placements can also help boost a city’s economy. With that said, five publicly available data sets that we will use to help determine the most effective ad placements in the city of Boston include the MBTA-Realtime API, Year 2014 Bluebook 14th Edition, Big Belly Locations, Twitter API, and Instagram API. 
+
+Each of these data sets support our two main focuses of research: existing physical forms of advertisements and social media user density around Boston. Using geolocation endpoints from the Twitter and Instagram API, we can begin to get a sense of where the most active social media users are in Boston. This information gives some indication of the likelihood that an advertisement may be shared on social media or whether a company might want to budget for more digital ads in that location instead. The MBTA-Realtime API, Bluebook, and Big Belly Location information will help us identify the busiest train and bus stops where ads can be placed as well as the additional option of advertising on garbage cans around the city. 
