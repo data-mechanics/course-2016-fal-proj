@@ -15,9 +15,6 @@ class example(dml.Algorithm):
     def execute(trial = False):
         '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
         startTime = datetime.datetime.now()
-        
-        current_dir = os.getcwd()
-        parent = os.path.normpath(os.path.join(current_dir, ".."))
 
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
@@ -34,32 +31,35 @@ class example(dml.Algorithm):
 
         url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/json-data/colleges-and-universities.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
-        r1 = json.load(response)
+        r1 = json.loads(response)
         s1 = json.dumps(r1, sort_keys=True, indent=2)
         repo.dropPermanent("colleges")
         repo.createPermanent("colleges")
         repo['ktan_ngurung.colleges'].insert_many(r1)
 
-        # filename = parent + '/json-data/hubway-stations-in-boston.json'
-        # res = open(filename, 'r')
-        # r2 = json.load(res)
-        # repo.dropPermanent("hubways")
-        # repo.createPermanent("hubways")
-        # repo['ktan_ngurung.hubways'].insert_many(r2)
+        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/json-data/hubway-stations-in-boston.json'
+        response = urllib.request.urlopen(url).read().decode('utf-8')
+        r2 = json.loads(response)
+        s2 = json.dumps(r2, sort_keys=True, indent=2)
+        repo.dropPermanent("hubways")
+        repo.createPermanent("hubways")
+        repo['ktan_ngurung.hubways'].insert_many(r2)
 
-        # filename = parent + '/json-data/mbta-bus-stops.json'
-        # res = open(filename, 'r')
-        # r3 = json.load(res)
-        # repo.dropPermanent("busStops")
-        # repo.createPermanent("busStops")
-        # repo['ktan_ngurung.busStops'].insert_many(r3)
+        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/json-data/mbta-bus-stops.json'
+        response = urllib.request.urlopen(url).read().decode('utf-8')
+        r3 = json.loads(response)
+        s3 = json.dumps(r3, sort_keys=True, indent=2)
+        repo.dropPermanent("busStops")
+        repo.createPermanent("busStops")
+        repo['ktan_ngurung.busStops'].insert_many(r3)
 
-        # filename = parent + '/json-data/t-stop-locations.json'
-        # res = open(filename, 'r')
-        # r4 = json.load(res)
-        # repo.dropPermanent("tStops")
-        # repo.createPermanent("tStops")
-        # repo['ktan_ngurung.tStops'].insert_many(r4)
+        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/json-data/t-stop-locations.json'
+        response = urllib.request.urlopen(url).read().decode('utf-8')
+        r4 = json.loads(response)
+        s4 = json.dumps(r4, sort_keys=True, indent=2)
+        repo.dropPermanent("tStops")
+        repo.createPermanent("tStops")
+        repo['ktan_ngurung.tStops'].insert_many(r4)
 
         repo.logout()
 
