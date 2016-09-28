@@ -23,13 +23,9 @@ class countHostipals(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('aydenbu_huangyh', 'aydenbu_huangyh')
-
-        # repo.dropPermanent("zip_hospitals_count")
-        # repo.createPermanent("zip_hospitals_count")
-        # repo['aydenbu_huangyh.zip_hospitals_count'].insert_many(result)
-
         hospitals = repo['aydenbu_huangyh.hospitalLoc']
 
+        # MapReduce function
         mapper = Code("""
                        function() {
                             emit(this.zipcode, 1);
@@ -45,19 +41,19 @@ class countHostipals(dml.Algorithm):
                             return total;
                         }
                         """)
-
+        repo.dropPermanent("zip_hospitals_count")
         result = hospitals.map_reduce(mapper, reducer, "aydenbu_huangyh.zip_hospitals_count")
 
+        '''
         # Save the result to the db
         # repo.dropPermanent("zip_hospitals_count")
         #repo.createPermanent("zip_hospitals_count")
         # repo['aydenbu_huangyh.zip_hospitals_count'].insert_many(result)
-
+        '''
         repo.logout()
-
         endTime = datetime.datetime.now()
 
-        return {"start":startTime, "end":endTime}
+        return {"start": startTime, "end": endTime}
 
 
 
