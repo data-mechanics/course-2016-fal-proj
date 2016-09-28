@@ -1,40 +1,47 @@
 /*
  * Transformation 2
+ *
  * Description:
+ *       Finds the number of crimes and 311 reports in a 100ft sqare area. Based
+ *       on latitude and longitude.
  */
 
 // Get number of crimes per coordinates
-//db.crimes_per_location.drop();
+//db.jas91_smaf91.crimes_per_location.drop();
 db.jas91_smaf91.crime.mapReduce(
-        function(){
-            emit(this.geo_info.geometry, 1);
-        },
-        function(k,vs) {
-            return Array.sum(vs)
-        },
-        { 
-            finalize: function(k, v) { 
-                return {total: v, type: 'crime'}; 
-            },
-            out: "jas91_smaf91.crime_per_location"
+    function(){
+        var id = {
+            latitude:  this.geo_info.geometry.coordinates[0], 
+            longitude: this.geo_info.geometry.coordinates[1],
+            type: 'crime'
         }
+        emit(id, 1);
+    },
+    function(k,vs) {
+        return Array.sum(vs)
+    },
+    { 
+        out: "jas91_smaf91.crime_per_location"
+    }
 );
 
 // Get number of 311 requests per coordinates
-//db.sr311_per_location.drop();
+//db.jas91_smaf91.sr311_per_location.drop();
 db.jas91_smaf91.sr311.mapReduce(
-        function(){
-            emit(this.geo_info.geometry, 1);
-        },
-        function(k,vs) {
-            return Array.sum(vs)
-        },
-        { 
-            finalize: function(k, v) { 
-                return {total: v, type: 'sr311'}; 
-            },
-            out: "jas91_smaf91.sr311_per_location"
+    function(){
+        var id = {
+            latitude:  this.geo_info.geometry.coordinates[0], 
+            longitude: this.geo_info.geometry.coordinates[1],
+            type: 'sr311'
         }
+        emit(id, 1);
+    },
+    function(k,vs) {
+        return Array.sum(vs)
+    },
+    { 
+        out: "jas91_smaf91.sr311_per_location"
+    }
 );
 
 function union(X, Y, XY) {
@@ -48,33 +55,32 @@ function union(X, Y, XY) {
     });
 }
 
+//db.jas91_smaf91.union_crime_sr311.drop();
 union('jas91_smaf91.crime_per_location', 'jas91_smaf91.sr311_per_location', 'jas91_smaf91.union_crime_sr311')
 
+//db.jas91_smaf91.sr311_crime_per_location.drop();
 db.jas91_smaf91.union_crime_sr311.mapReduce(
-        function(){
-            emit(this._id, {total: this.value.total, type: this.value.type});
-        },
-        function(k,vs) {
-            total_crimes = 0
-            total_sr311 = 0
-            for (i = 0; i < vs.length; i++) {
-                if (vs[i].type == 'sr311') {
-                    total_sr311++;
-                } else {
-                    total_crimes++;
-                }
-            }
-            return {crime: total_crimes, sr311: total_sr311};
-        },
-        { 
-            finalize: function(k, v) { 
-                if (v.type == 'crime') {
-                    return {crime: v.total, sr311: 0}; 
-                } else {
-                    return {crime: 0, sr311: v.total}; 
-                }
-                return {crime: v.crime, sr311: v.sr311}; 
-            },
-            out: "jas91_smaf91.sr311_crime_per_location"
+    function(){
+        var id = {
+            latitude:  this._id.latitude, 
+            longitude: this._id.longitude
         }
+        if (this._id.type == 'sr311') {
+            emit(id, {crime: 0, sr311: this.value});
+        } else {
+            emit(id, {crime: this.value, sr311: 0});
+        }
+    },
+    function(k,vs) {
+        var total_crimes = 0
+        var total_sr311 = 0
+        vs.forEach(function(v, i) {
+            total_crimes += v.crime;
+            total_sr311 += v.sr311;
+        });
+        return {crime: total_crimes, sr311: total_sr311}
+    },
+    { 
+        out: "jas91_smaf91.sr311_crime_per_location"
+    }
 );

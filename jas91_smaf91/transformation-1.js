@@ -1,10 +1,11 @@
 /*
  * Transformation 1
  * Description:
- * Standarizes geo location information for each dataset following the GeoJSON standard
+ *      Standarizes geo location information for each dataset following the 
+ *      GeoJSON standard
  */
 
-const precision = 4;
+const precision = 3;
 
 function transform_geo_info(zip_code, latitude, longitude) {
     return {
