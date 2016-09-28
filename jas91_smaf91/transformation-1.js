@@ -24,8 +24,8 @@ function transform_geo_info(zip_code, latitude, longitude) {
 db.jas91_smaf91.food.find().forEach(function(x) {
 
     var zip_code = x.zip;
-    var latitude = x.location ? x.location.coordinates[0].toFixed(precision) : null; 
-    var longitude = x.location ? x.location.coordinates[1].toFixed(precision) : null; 
+    var latitude = x.location ? x.location.coordinates[1].toFixed(precision) : null; 
+    var longitude = x.location ? x.location.coordinates[0].toFixed(precision) : null; 
 
     db.jas91_smaf91.food.update({_id: x._id},
         {
@@ -43,8 +43,8 @@ db.jas91_smaf91.food.find().forEach(function(x) {
 db.jas91_smaf91.schools.find().forEach(function(x) {
     
     var zip_code = x.zip_code;
-    var latitude = x.map_location ? x.map_location.coordinates[0].toFixed(precision) : null;
-    var longitude = x.map_location ? x.map_location.coordinates[1].toFixed(precision) : null;
+    var latitude = x.map_location ? x.map_location.coordinates[1].toFixed(precision) : null;
+    var longitude = x.map_location ? x.map_location.coordinates[0].toFixed(precision) : null;
 
     db.jas91_smaf91.schools.update({_id: x._id},
         {
