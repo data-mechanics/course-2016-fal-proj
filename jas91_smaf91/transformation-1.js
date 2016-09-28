@@ -85,8 +85,8 @@ db.jas91_smaf91.hospitals.find().forEach(function(x) {
 db.jas91_smaf91.crime.find().forEach(function(x) {
     
     var zip_code = null;
-    var latitude  = x.location ? x.location.coordinates[0].toFixed(precision) : null;
-    var longitude = x.location ? x.location.coordinates[1].toFixed(precision) : null;
+    var latitude  = x.location ? x.location.coordinates[1].toFixed(precision) : null;
+    var longitude = x.location ? x.location.coordinates[0].toFixed(precision) : null;
 
     db.jas91_smaf91.crime.update( {_id: x._id},
         {
