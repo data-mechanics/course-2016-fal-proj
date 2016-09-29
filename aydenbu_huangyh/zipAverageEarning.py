@@ -11,8 +11,8 @@ from bson.json_util import dumps
 
 class zipAverageEarning(dml.Algorithm):
     contributor = 'aydenbu_huangyh'
-    reads = []
-    writes = ['aydenbu_huangyh.earningsReport']
+    reads = ['aydenbu_huangyh.earningReport']
+    writes = ['aydenbu_huangyh.zip_avg_earnings']
 
     @staticmethod
     def execute(trial = False):
@@ -30,7 +30,7 @@ class zipAverageEarning(dml.Algorithm):
             """
             function() {
                 var k = this.postal;
-                var v = {count:1, totalEarnings:parseFloat(this.total_earnings)};
+                var v = {count:1, totalEarnings:parseFloat(this.total_earnings), avg:parseFloat(this.total_earnings)};
                 emit(k, v)
             }
             """
@@ -44,7 +44,7 @@ class zipAverageEarning(dml.Algorithm):
                     reduceVal.count += vs[i].count;
                     reduceVal.totalEarnings += parseFloat(vs[i].totalEarnings);
                 }
-                reduceVal.avg = reduceVal.totalEarnings/reduceVal.count;
+                reduceVal.avg = (reduceVal.totalEarnings/reduceVal.count).toFixed(2);
                 return reduceVal;
             }
             """
@@ -84,13 +84,13 @@ class zipAverageEarning(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/')  # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:aydenbu_huangyh#zip_avg_earnings',
+        this_script = doc.agent('alg:aydenbu_huangyh#zipAverageEarning',
                                 {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-        resource = doc.entity('bdp:wc8w-nujj',
-                              {'prov:label': '311, Service Requests', prov.model.PROV_TYPE: 'ont:DataResource',
+        resource = doc.entity('dat:employee_earnings_report_2015',
+                              {'prov:label': 'Employee Earnings Report 2015', prov.model.PROV_TYPE: 'ont:DataResource',
                                'ont:Extension': 'json'})
 
-        get_zip_avg_earnings = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime)
+        get_zip_avg_earnings = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_LABEL: "Compute the avg earning from each zip"})
         doc.wasAssociatedWith(get_zip_avg_earnings, this_script)
         doc.usage(get_zip_avg_earnings, resource, startTime, None,
                   {prov.model.PROV_TYPE: 'ont:Computation'})
