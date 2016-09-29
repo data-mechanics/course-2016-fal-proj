@@ -12,7 +12,7 @@ from bson.json_util import dumps
 class countHostipals(dml.Algorithm):
     contributor = 'aydenbu_huangyh'
     reads = []
-    writes = ['aydenbu_huangyh.hospitalLoc']
+    writes = ['aydenbu_huangyh.hospitalLocation']
 
     @staticmethod
     def execute(trial = False):
@@ -23,7 +23,7 @@ class countHostipals(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('aydenbu_huangyh', 'aydenbu_huangyh')
-        hospitals = repo['aydenbu_huangyh.hospitalLoc']
+        hospitals = repo['aydenbu_huangyh.hospitalLocation']
 
         # MapReduce function
         mapper = Code("""
@@ -42,6 +42,7 @@ class countHostipals(dml.Algorithm):
                         }
                         """)
         repo.dropPermanent("zip_hospitals_count")
+        # repo.createPermanent("zip_hospitals_count")
         result = hospitals.map_reduce(mapper, reducer, "aydenbu_huangyh.zip_hospitals_count")
 
         '''

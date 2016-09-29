@@ -44,21 +44,21 @@ class example(dml.Algorithm):
         # repo.createPermanent("jsri-cpsq")
         # repo['aydenbu_huangyh.jsri-cpsq'].insert_many(r)
 
-        # url = "https://data.cityofboston.gov/resource/u6fv-m8v4.json"
-        # response = urllib.request.urlopen(url).read().decode("utf-8")
-        # r = json.loads(response)
-        # s = json.dumps(r, sort_keys=True, indent=2)
-        # repo.dropPermanent("hospitalLoc")
-        # repo.createPermanent("hospitalLoc")
-        # repo['aydenbu_huangyh.hospitalLoc'].insert_many(r)
+        url = "https://data.cityofboston.gov/resource/u6fv-m8v4.json"
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("hospitalLocation")
+        repo.createPermanent("hospitalLocation")
+        repo['aydenbu_huangyh.hospitalLocation'].insert_many(r)
 
         url = "https://data.cityofboston.gov/resource/bejm-5s9g.json"
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("earnings")
-        repo.createPermanent("earnings")
-        repo['aydenbu_huangyh.earnings'].insert_many(r)
+        repo.dropPermanent("earningsReport")
+        repo.createPermanent("earningsReport")
+        repo['aydenbu_huangyh.earningsReport'].insert_many(r)
 
         repo.logout()
 
@@ -87,30 +87,30 @@ class example(dml.Algorithm):
 
         this_script = doc.agent('alg:aydenbu_huangyh#example', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_found = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        get_lost = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        doc.wasAssociatedWith(get_found, this_script)
-        doc.wasAssociatedWith(get_lost, this_script)
-        doc.usage(get_found, resource, startTime, None,
+        get_earningsReport = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_hospitalLocation = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        doc.wasAssociatedWith(get_hospitalLocation, this_script)
+        doc.wasAssociatedWith(get_earningsReport, this_script)
+        doc.usage(get_earningsReport, resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=Animal+Found&$select=type,latitude,longitude,OPEN_DT'
+                 'ont:Query':'?type=POSTAL, Earnings'
                 }
             )
-        doc.usage(get_lost, resource, startTime, None,
+        doc.usage(get_hospitalLocation, resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=Animal+Lost&$select=type,latitude,longitude,OPEN_DT'
+                 'ont:Query':'?type=zipcode'
                 }
             )
 
-        lost = doc.entity('dat:aydenbu_huangyh#lost', {prov.model.PROV_LABEL:'Animals Lost', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(lost, this_script)
-        doc.wasGeneratedBy(lost, get_lost, endTime)
-        doc.wasDerivedFrom(lost, resource, get_lost, get_lost, get_lost)
+        earningsReport = doc.entity('dat:aydenbu_huangyh#earningsReport', {prov.model.PROV_LABEL:'Earnings Report', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(earningsReport, this_script)
+        doc.wasGeneratedBy(earningsReport, get_earningsReport, endTime)
+        doc.wasDerivedFrom(earningsReport, resource, get_earningsReport, get_earningsReport, get_earningsReport)
 
-        found = doc.entity('dat:aydenbu_huangyh#found', {prov.model.PROV_LABEL:'Animals Found', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(found, this_script)
-        doc.wasGeneratedBy(found, get_found, endTime)
-        doc.wasDerivedFrom(found, resource, get_found, get_found, get_found)
+        hospitalLocation = doc.entity('dat:aydenbu_huangyh#hospitalLocation', {prov.model.PROV_LABEL:'Animals Found', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(hospitalLocation, this_script)
+        doc.wasGeneratedBy(hospitalLocation, get_hospitalLocation, endTime)
+        doc.wasDerivedFrom(hospitalLocation, resource, get_hospitalLocation, get_hospitalLocation, get_hospitalLocation)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
