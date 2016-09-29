@@ -11,8 +11,8 @@ from bson.json_util import dumps
 
 class countHostipals(dml.Algorithm):
     contributor = 'aydenbu_huangyh'
-    reads = []
-    writes = ['aydenbu_huangyh.hospitalLocation']
+    reads = ['aydenbu_huangyh.hospitalLocation']
+    writes = ['aydenbu_huangyh.zip_hospitals_count']
 
     @staticmethod
     def execute(trial = False):
@@ -77,13 +77,13 @@ class countHostipals(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/')  # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:aydenbu_huangyh#zip_hospitals_count',
+        this_script = doc.agent('alg:aydenbu_huangyh#countHospitals',
                                 {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
         resource = doc.entity('bdp:wc8w-nujj',
-                              {'prov:label': '311, Service Requests', prov.model.PROV_TYPE: 'ont:DataResource',
+                              {'prov:label': 'Hospital Location', prov.model.PROV_TYPE: 'ont:DataResource',
                                'ont:Extension': 'json'})
 
-        get_zip_hospitals_count = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime)
+        get_zip_hospitals_count = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_LABEL: "Count the number of hospital in each zip"})
         doc.wasAssociatedWith(get_zip_hospitals_count, this_script)
         doc.usage(get_zip_hospitals_count, resource, startTime, None,
                   {prov.model.PROV_TYPE: 'ont:Computation'})
