@@ -20,7 +20,6 @@ agencytag = '<agency tag="mbta" title="MBTA" regionTitle="Massachusetts"/>'
 agency = 'mbta'
 base = 'http://webservices.nextbus.com/service/publicXMLFeed'
 
-
 # Retrieve route list data
 url = '{}?command={}&a={}'.format(base, 'routeList', agency)
 response = urllib.request.urlopen(url).read().decode("utf-8")
