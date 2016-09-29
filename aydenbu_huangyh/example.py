@@ -60,6 +60,14 @@ class example(dml.Algorithm):
         repo.createPermanent("earningsReport")
         repo['aydenbu_huangyh.earningsReport'].insert_many(r)
 
+        url = "https://data.cityofboston.gov/resource/ybm6-m5qd.json"
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("healthyCornerStores")
+        repo.createPermanent("healthyCornerStores")
+        repo['aydenbu_huangyh.healthyCornerStores'].insert_many(r)
+
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -86,11 +94,13 @@ class example(dml.Algorithm):
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
         this_script = doc.agent('alg:aydenbu_huangyh#example', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'City of Boston Dataset', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         get_earningsReport = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_hospitalLocation = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_healthyCornerStores = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(get_hospitalLocation, this_script)
         doc.wasAssociatedWith(get_earningsReport, this_script)
+        doc.wasAssociatedWith(get_healthyCornerStores, this_script)
         doc.usage(get_earningsReport, resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
                  'ont:Query':'?type=POSTAL, Earnings'
@@ -101,16 +111,27 @@ class example(dml.Algorithm):
                  'ont:Query':'?type=zipcode'
                 }
             )
+        doc.usage(get_healthyCornerStores, resource, startTime, None,
+                  {prov.model.PROV_TYPE:'ont:Retrieval',
+                   'ont:Query':'?type=zipcode'
+                   }
+            )
 
         earningsReport = doc.entity('dat:aydenbu_huangyh#earningsReport', {prov.model.PROV_LABEL:'Earnings Report', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(earningsReport, this_script)
         doc.wasGeneratedBy(earningsReport, get_earningsReport, endTime)
         doc.wasDerivedFrom(earningsReport, resource, get_earningsReport, get_earningsReport, get_earningsReport)
 
-        hospitalLocation = doc.entity('dat:aydenbu_huangyh#hospitalLocation', {prov.model.PROV_LABEL:'Animals Found', prov.model.PROV_TYPE:'ont:DataSet'})
+        hospitalLocation = doc.entity('dat:aydenbu_huangyh#hospitalLocation', {prov.model.PROV_LABEL:'Hospital Location', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(hospitalLocation, this_script)
         doc.wasGeneratedBy(hospitalLocation, get_hospitalLocation, endTime)
         doc.wasDerivedFrom(hospitalLocation, resource, get_hospitalLocation, get_hospitalLocation, get_hospitalLocation)
+
+        healthyCornerStores = doc.entity('dat:aydenbu_huangyh#healthCornerStores',
+                                      {prov.model.PROV_LABEL: 'Health Corner Store', prov.model.PROV_TYPE: 'ont:DataSet'})
+        doc.wasAttributedTo(healthyCornerStores, this_script)
+        doc.wasGeneratedBy(healthyCornerStores, get_healthyCornerStores, endTime)
+        doc.wasDerivedFrom(healthyCornerStores, resource, get_healthyCornerStores, get_healthyCornerStores, get_healthyCornerStores)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
