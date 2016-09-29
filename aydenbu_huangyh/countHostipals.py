@@ -79,7 +79,7 @@ class countHostipals(dml.Algorithm):
 
         this_script = doc.agent('alg:aydenbu_huangyh#countHospitals',
                                 {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-        resource = doc.entity('bdp:wc8w-nujj',
+        resource = doc.entity('dat:hospital_location',
                               {'prov:label': 'Hospital Location', prov.model.PROV_TYPE: 'ont:DataResource',
                                'ont:Extension': 'json'})
 
