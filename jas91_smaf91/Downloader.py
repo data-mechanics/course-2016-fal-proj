@@ -94,6 +94,7 @@ class Downloader(dml.Algorithm):
 
 		return doc
 
+# REMEMBER TO COMMENT THIS BEFORE SUBMITTING
 Downloader.execute()
 '''
 doc = example.provenance()
