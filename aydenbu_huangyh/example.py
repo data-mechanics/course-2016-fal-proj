@@ -68,6 +68,14 @@ class example(dml.Algorithm):
         repo.createPermanent("healthyCornerStores")
         repo['aydenbu_huangyh.healthyCornerStores'].insert_many(r)
 
+        url = "https://data.cityofboston.gov/resource/rdqf-ter7.json"
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("communityGardens")
+        repo.createPermanent("communityGardens")
+        repo['aydenbu_huangyh.communityGardens'].insert_many(r)
+
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -98,9 +106,13 @@ class example(dml.Algorithm):
         get_earningsReport = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_hospitalLocation = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_healthyCornerStores = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_communityGardens = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+
         doc.wasAssociatedWith(get_hospitalLocation, this_script)
         doc.wasAssociatedWith(get_earningsReport, this_script)
         doc.wasAssociatedWith(get_healthyCornerStores, this_script)
+        doc.wasAssociatedWith(get_communityGardens, this_script)
+
         doc.usage(get_earningsReport, resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
                  'ont:Query':'?type=POSTAL, Earnings'
@@ -117,6 +129,12 @@ class example(dml.Algorithm):
                    }
             )
 
+        doc.usage(get_communityGardens, resource, startTime, None,
+                  {prov.model.PROV_TYPE: 'ont:Retrieval',
+                   'ont:Query': '?type=zipcode'
+                   }
+                  )
+
         earningsReport = doc.entity('dat:aydenbu_huangyh#earningsReport', {prov.model.PROV_LABEL:'Earnings Report', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(earningsReport, this_script)
         doc.wasGeneratedBy(earningsReport, get_earningsReport, endTime)
@@ -132,6 +150,15 @@ class example(dml.Algorithm):
         doc.wasAttributedTo(healthyCornerStores, this_script)
         doc.wasGeneratedBy(healthyCornerStores, get_healthyCornerStores, endTime)
         doc.wasDerivedFrom(healthyCornerStores, resource, get_healthyCornerStores, get_healthyCornerStores, get_healthyCornerStores)
+
+        communityGardens = doc.entity('dat:aydenbu_huangyh#communityGardens',
+                                         {prov.model.PROV_LABEL: 'Community Gardens',
+                                          prov.model.PROV_TYPE: 'ont:DataSet'})
+        doc.wasAttributedTo(communityGardens, this_script)
+        doc.wasGeneratedBy(communityGardens, get_communityGardens, endTime)
+        doc.wasDerivedFrom(communityGardens, resource, get_communityGardens, get_communityGardens,
+                           get_communityGardens)
+
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
