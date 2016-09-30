@@ -7,8 +7,8 @@ import uuid
 
 class transformation1(dml.Algorithm):
     contributor = 'jas91_smaf91'
-    reads = []
-    writes = []
+    reads = ['crime', 'sr311', 'schools', 'hospitals', 'food']
+    writes = ['crime', 'sr311', 'schools', 'hospitals', 'food']
 
     @staticmethod
     def execute(trial = False):
@@ -131,6 +131,94 @@ class transformation1(dml.Algorithm):
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-        pass
+        '''
+        Create the provenance document describing everything happening
+        in this script. Each run of the script will generate a new
+        document describing that invocation event.
+        '''
 
-transformation1.execute()
+        client = dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('jas91_smaf91', 'jas91_smaf91')
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:jas91_smaf91#transformation1', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        standarize = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label': 'Standarize geographical information'})
+        doc.wasAssociatedWith(standarize, this_script)
+
+        resource_crime = doc.entity('dat:jas91_smaf91#crime', {'prov:label':'Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.usage(
+            standarize, 
+            resource_crime, 
+            startTime, 
+            None,
+            {prov.model.PROV_TYPE:'ont:Computation'}
+        )
+
+        resource_sr311 = doc.entity('dat:jas91_smaf91#sr311', {'prov:label':'311 Service Reports', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.usage(
+            standarize, 
+            resource_sr311, 
+            startTime, 
+            None,
+            {prov.model.PROV_TYPE:'ont:Computation'}
+        )
+
+        resource_hospitals = doc.entity('dat:jas91_smaf91#hospitals', {'prov:label':'Hospital Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.usage(
+            standarize, 
+            resource_hospitals, 
+            startTime, 
+            None,
+            {prov.model.PROV_TYPE:'ont:Computation'}
+        )
+
+        resource_food = doc.entity('dat:jas91_smaf91#food', {'prov:label':'Food Establishment Inspections', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.usage(
+            standarize, 
+            resource_food, 
+            startTime, 
+            None,
+            {prov.model.PROV_TYPE:'ont:Computation'}
+        )
+
+        resource_schools = doc.entity('dat:jas91_smaf91#schools', {'prov:label':'Schools', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.usage(
+            standarize, 
+            resource_schools, 
+            startTime, 
+            None,
+            {prov.model.PROV_TYPE:'ont:Computation'}
+        )
+
+        doc.wasAttributedTo(resource_crime, this_script)
+        doc.wasAttributedTo(resource_sr311, this_script)
+        doc.wasAttributedTo(resource_hospitals, this_script)
+        doc.wasAttributedTo(resource_food, this_script)
+        doc.wasAttributedTo(resource_schools, this_script)
+
+        doc.wasGeneratedBy(resource_crime, standarize, endTime)
+        doc.wasGeneratedBy(resource_sr311, standarize, endTime)
+        doc.wasGeneratedBy(resource_hospitals, standarize, endTime)
+        doc.wasGeneratedBy(resource_food, standarize, endTime)
+        doc.wasGeneratedBy(resource_schools, standarize, endTime)
+
+        doc.wasDerivedFrom(resource_sr311, resource_sr311, standarize, standarize, standarize) 
+        doc.wasDerivedFrom(resource_hospitals, resource_hospitals, standarize, standarize, standarize) 
+        doc.wasDerivedFrom(resource_food, resource_food, standarize, standarize, standarize) 
+        doc.wasDerivedFrom(resource_schools, resource_schools, standarize, standarize, standarize) 
+        doc.wasDerivedFrom(resource_crime, resource_crime, standarize, standarize, standarize) 
+
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
+
+#transformation1.execute()
+doc = transformation1.provenance()
+print(json.dumps(json.loads(doc.serialize()), indent=4))
