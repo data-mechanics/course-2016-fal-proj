@@ -36,7 +36,7 @@ class countHostipals(dml.Algorithm):
                         function(k, vs) {
                             var total = 0;
                             for (var i = 0; i < vs.length; i++) {
-                                total += vs[i]
+                                total += vs[i];
                             }
                             return total;
                         }
