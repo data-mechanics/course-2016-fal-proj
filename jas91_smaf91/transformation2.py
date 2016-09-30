@@ -1,12 +1,15 @@
 import dml
 import prov.model
 import datetime
+import uuid
+import json
+
 from bson.code import Code
 
 class transformation2(dml.Algorithm):
     contributor = 'jas91_smaf91'
-    reads = []
-    writes = []
+    reads = ['jas91_smaf91.crime', 'jas91_smaf91.sr311']
+    writes = ['jas91_smaf91.sr311_crime_per_zip_code']
 
     @staticmethod
     def execute(trial = False):
@@ -84,6 +87,62 @@ class transformation2(dml.Algorithm):
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-        pass
+        '''
+        Create the provenance document describing everything happening
+        in this script. Each run of the script will generate a new
+        document describing that invocation event.
+        '''
 
+        client = dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('jas91_smaf91', 'jas91_smaf91')
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:jas91_smaf91#transformation2', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        reports = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Crimes and 311 requests per zip code.'})
+        doc.wasAssociatedWith(reports, this_script)
+
+        resource_sr311 = doc.entity('dat:jas91_smaf91#sr311', {'prov:label':'311 Service Reports', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.usage(
+            reports, 
+            resource_sr311, 
+            startTime, 
+            None,
+            {
+                prov.model.PROV_TYPE:'ont:Query',
+                'ont:Query':'db.jas91_smaf91.sr311.find({},{geo_info: 1})'
+            }
+        )
+
+        resource_crime = doc.entity('dat:jas91_smaf91#crime', {'prov:label':'Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.usage(
+            reports, 
+            resource_crime, 
+            startTime, 
+            None,
+            {
+                prov.model.PROV_TYPE:'ont:Query',
+                'ont:Query':'db.jas91_smaf91.crime.find({},{geo_info: 1})'
+            }
+        )
+
+        sr311_crime_per_zip_code = doc.entity('dat:jas91_smaf91#sr311_crime_per_zip_code', {'prov:label':'Crimes and 311 requests per zip code', prov.model.PROV_TYPE:'ont:DataSet'})
+
+        doc.wasAttributedTo(sr311_crime_per_zip_code, this_script)
+        doc.wasGeneratedBy(sr311_crime_per_zip_code, reports, endTime)
+
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
+
+'''
 transformation2.execute()
+doc = transformation2.provenance()
+print(json.dumps(json.loads(doc.serialize()), indent=4))
+'''
