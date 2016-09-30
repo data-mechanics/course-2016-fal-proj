@@ -76,7 +76,7 @@ class countHealthyCornerStores(dml.Algorithm):
         doc.usage(get_zip_Healthycornerstores_count, resource, startTime, None,
                   {prov.model.PROV_TYPE: 'ont:Computation'})
 
-        zip_Healthycornerstores_count = doc.entity('dat:aydenbu_huangyh#zip_Healthycornerstores',
+        zip_Healthycornerstores_count = doc.entity('dat:aydenbu_huangyh#zip_Healthycornerstores_count',
                                          {prov.model.PROV_LABEL: 'Healthy Corner Stores Count',
                                           prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(zip_Healthycornerstores_count, this_script)

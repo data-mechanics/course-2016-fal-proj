@@ -76,8 +76,8 @@ class countPublicSchool(dml.Algorithm):
         doc.usage(get_zip_PublicSchool_count, resource, startTime, None,
                   {prov.model.PROV_TYPE: 'ont:Computation'})
 
-        zip_PublicSchool_count = doc.entity('dat:aydenbu_huangyh#zip_PublicSchool',
-                                         {prov.model.PROV_LABEL: 'Healthy Corner Stores Count',
+        zip_PublicSchool_count = doc.entity('dat:aydenbu_huangyh#zip_publicSchool_count',
+                                         {prov.model.PROV_LABEL: 'Public Schools Count',
                                           prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(zip_PublicSchool_count, this_script)
         doc.wasGeneratedBy(zip_PublicSchool_count, get_zip_PublicSchool_count, endTime)
