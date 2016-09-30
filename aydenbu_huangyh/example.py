@@ -76,6 +76,14 @@ class example(dml.Algorithm):
         repo.createPermanent("communityGardens")
         repo['aydenbu_huangyh.communityGardens'].insert_many(r)
 
+        url = "https://data.cityofboston.gov/resource/492y-i77g.json"
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("publicSchool")
+        repo.createPermanent("publicSchool")
+        repo['aydenbu_huangyh.publicSchool'].insert_many(r)
+
         repo.logout()
 
         endTime = datetime.datetime.now()
