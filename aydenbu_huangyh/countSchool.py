@@ -37,7 +37,7 @@ class countPublicSchool(dml.Algorithm):
                             for (var i = 0; i < vs.length; i++) {
                                 total += vs[i];
                             }
-                            return total;
+                            return  total;
                         }"""
                       )
         repo.dropPermanent("zip_PublicSchool_count")
@@ -76,7 +76,7 @@ class countPublicSchool(dml.Algorithm):
         doc.usage(get_zip_PublicSchool_count, resource, startTime, None,
                   {prov.model.PROV_TYPE: 'ont:Computation'})
 
-        zip_PublicSchool_count = doc.entity('dat:aydenbu_huangyh#zip_Healthycornerstores',
+        zip_PublicSchool_count = doc.entity('dat:aydenbu_huangyh#zip_PublicSchool',
                                          {prov.model.PROV_LABEL: 'Healthy Corner Stores Count',
                                           prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(zip_PublicSchool_count, this_script)
