@@ -1,13 +1,15 @@
-import json
 import dml
 import prov.model
 import datetime
 import uuid
+import json
 
-class transformation3(dml.Algorithm):
+from bson.code import Code
+
+class transformation2(dml.Algorithm):
     contributor = 'jas91_smaf91'
-    reads = ['jas91_smaf91.311', 'jas91_smaf91.hospitals', 'jas91_smaf91.food', 'jas91_smaf91.schools']
-    writes = ['jas91_smaf91.crime']
+    reads = ['jas91_smaf91.crime', 'jas91_smaf91.sr311']
+    writes = ['jas91_smaf91.sr311_crime_per_zip_code']
 
     @staticmethod
     def execute(trial = False):
@@ -18,58 +20,64 @@ class transformation3(dml.Algorithm):
         repo = client.repo
         repo.authenticate('jas91_smaf91', 'jas91_smaf91')
 
-        def project(document):
-            return {'geo_info': document['geo_info']}
+        map_function = Code('''function() {
+            id = {
+                zip_code: this.geo_info.properties.zip_code,
+                type: 'crime'
+            }
+            emit(id,1);
+        }''')
 
-        def union(collection1, collection2, result, f):
+        reduce_function = Code('''function(k,vs){
+            return Array.sum(vs);        
+        }''')
+        
+        repo.jas91_smaf91.crime.map_reduce(map_function, reduce_function, 'jas91_smaf91.crime_per_zip_code')
+
+        map_function = Code('''function(){
+            id = {
+                zip_code: this.geo_info.properties.zip_code,
+                type: 'sr311'
+            }
+            emit(id,1);
+        }''')
+
+        repo.jas91_smaf91.sr311.map_reduce(map_function, reduce_function, 'jas91_smaf91.sr311_per_zip_code')
+        
+        def union(collection1, collection2, result):
             for document in repo[collection1].find():
-                document = f(document) 
-                coordinates = document['geo_info']['geometry']['coordinates']
-                if coordinates[0] and coordinates[1]:
-                    repo[result].insert(f(document))
+                repo[result].insert(document)
 
             for document in repo[collection2].find():
-                document = f(document)
-                coordinates = document['geo_info']['geometry']['coordinates']
-                if coordinates[0] and coordinates[1]:
-                    repo[result].insert(f(document))
+                repo[result].insert(document)
 
         repo.dropPermanent('jas91_smaf91.union_temp')
         repo.createPermanent('jas91_smaf91.union_temp')
-        print('[OUT] computing the union of the datasets')
-        union('jas91_smaf91.sr311', 'jas91_smaf91.food', 'jas91_smaf91.union_temp', project)
-        union('jas91_smaf91.schools', 'jas91_smaf91.hospitals', 'jas91_smaf91.union_temp', project)
-        print('[OUT] done')
+        
+        union('jas91_smaf91.crime_per_zip_code', 'jas91_smaf91.sr311_per_zip_code', 'jas91_smaf91.union_temp')
 
-        print('[OUT] indexing by latitude and longitude')
-        repo.jas91_smaf91.union_temp.ensure_index([('geo_info.geometry', dml.pymongo.GEOSPHERE)])
-        print('[OUT] done')
+        map_function = Code('''function(){
+            id = this._id.zip_code;
+            if (this._id.type == 'sr311') {
+                emit(id, {crime: 0, sr311: this.value});    
+            } else {
+                emit(id, {crime: this.value, sr311: 0});    
+            }
+        }''')
+        
+        reduce_function = Code('''function(k,vs){
+            var total_crimes = 0
+            var total_sr311 = 0
+            vs.forEach(function(v, i) {
+                total_crimes += v.crime;
+                total_sr311 += v.sr311;
+            });
+            return {crime: total_crimes, sr311: total_sr311}
+                    
+        }''') 
 
-        print('[OUT] filling crime zip codes')
-        for document in repo.jas91_smaf91.crime.find():
-            latitude = document['geo_info']['geometry']['coordinates'][0]
-            longitude = document['geo_info']['geometry']['coordinates'][1]
-            neighbor = repo.jas91_smaf91.union_temp.find_one({ 
-                'geo_info.geometry': {
-                    '$near': { 
-                        '$geometry': {
-                            'type': 'Point', 
-                            'coordinates' :[latitude,longitude]
-                            }, 
-                        '$maxDistance': 1000, 
-                        '$minDistance': 0 
-                        } 
-                    }
-                })
-
-            if neighbor:
-                zip_code = neighbor['geo_info']['properties']['zip_code']
-                document['geo_info']['properties']['zip_code'] = zip_code
-                repo.jas91_smaf91.crime.update(
-                        {'_id': document['_id']}, 
-                        document,
-                        upsert=False
-                        )
+        repo.jas91_smaf91.union_temp.map_reduce(map_function, reduce_function, 'jas91_smaf91.sr311_crime_per_zip_code')
+        
         repo.logout()
         print('[OUT] done')
 
@@ -95,13 +103,13 @@ class transformation3(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:jas91_smaf91#transformation3', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        populate = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Populate crime zip code field'})
-        doc.wasAssociatedWith(populate, this_script)
+        this_script = doc.agent('alg:jas91_smaf91#transformation2', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        reports = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Crimes and 311 requests per zip code.'})
+        doc.wasAssociatedWith(reports, this_script)
 
         resource_sr311 = doc.entity('dat:jas91_smaf91#sr311', {'prov:label':'311 Service Reports', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.usage(
-            populate, 
+            reports, 
             resource_sr311, 
             startTime, 
             None,
@@ -111,53 +119,22 @@ class transformation3(dml.Algorithm):
             }
         )
 
-        resource_hospitals = doc.entity('dat:jas91_smaf91#hospitals', {'prov:label':'Hospital Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        resource_crime = doc.entity('dat:jas91_smaf91#crime', {'prov:label':'Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.usage(
-            populate, 
-            resource_hospitals, 
+            reports, 
+            resource_crime, 
             startTime, 
             None,
             {
                 prov.model.PROV_TYPE:'ont:Query',
-                'ont:Query':'db.jas91_smaf91.hospitals.find({},{geo_info: 1})'
+                'ont:Query':'db.jas91_smaf91.crime.find({},{geo_info: 1})'
             }
         )
 
-        resource_food = doc.entity('dat:jas91_smaf91#food', {'prov:label':'Food Establishment Inspections', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.usage(
-            populate, 
-            resource_food, 
-            startTime, 
-            None,
-            {
-                prov.model.PROV_TYPE:'ont:Query',
-                'ont:Query':'db.jas91_smaf91.food.find({},{geo_info: 1})'
-            }
-        )
+        sr311_crime_per_zip_code = doc.entity('dat:jas91_smaf91#sr311_crime_per_zip_code', {'prov:label':'Crimes and 311 requests per zip code', prov.model.PROV_TYPE:'ont:DataSet'})
 
-        resource_schools = doc.entity('dat:jas91_smaf91#schools', {'prov:label':'Schools', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.usage(
-            populate, 
-            resource_schools, 
-            startTime, 
-            None,
-            {
-                prov.model.PROV_TYPE:'ont:Query',
-                'ont:Query':'db.jas91_smaf91.sr311.schools({},{geo_info: 1})'
-            }
-        )
-
-        crime = doc.entity('dat:jas91_smaf91#crime', {'prov:label':'Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.usage(
-            populate, 
-            crime, 
-            startTime, 
-            None,
-            {prov.model.PROV_TYPE:'ont:Computation'}
-        )
-
-        doc.wasAttributedTo(crime, this_script)
-        doc.wasGeneratedBy(crime, populate, endTime)
+        doc.wasAttributedTo(sr311_crime_per_zip_code, this_script)
+        doc.wasGeneratedBy(sr311_crime_per_zip_code, reports, endTime)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
@@ -165,7 +142,7 @@ class transformation3(dml.Algorithm):
         return doc
 
 '''
-transformation3.execute()
-doc = transformation3.provenance()
+transformation2.execute()
+doc = transformation2.provenance()
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 '''
