@@ -6,7 +6,7 @@ import datetime
 import uuid
 
 class example(dml.Algorithm):
-    contributor = 'alice_bob'
+    contributor = 'aditid_benli'
     reads = []
     writes = ['alice_bob.lost', 'alice_bob.found']
 
