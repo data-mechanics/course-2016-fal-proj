@@ -6,6 +6,7 @@ import datetime
 import uuid
 from bson.code import Code
 from bson.json_util import dumps
+from helpers import *
 
 
 
@@ -20,9 +21,14 @@ class zipAverageEarning(dml.Algorithm):
         startTime = datetime.datetime.now()
 
         # Setup the database connection
-        client = dml.pymongo.MongoClient()
-        repo = client.repo
-        repo.authenticate('aydenbu_huangyh', 'aydenbu_huangyh')
+        # client = dml.pymongo.MongoClient()
+        # repo = client.repo
+        # repo.authenticate(getAuth('db_username'), getAuth('db_password'))
+
+        # Connect to the Database
+        repo = openDb(getAuth("db_username"), getAuth("db_password"))
+
+        # get the collection
         earnings = repo['aydenbu_huangyh.earningsReport']
 
         # MaoReduce function
@@ -30,8 +36,11 @@ class zipAverageEarning(dml.Algorithm):
             """
             function() {
                 var k = this.postal;
-                var v = {count:1, totalEarnings:parseFloat(this.total_earnings), avg:parseFloat(this.total_earnings)};
-                emit(k, v)
+                if  (k != null) {
+                    k = k.substring(1);
+                    var v = {count:1, totalEarnings:parseFloat(this.total_earnings), avg:parseFloat(this.total_earnings)};
+                    emit(k, v)
+                }
             }
             """
         )

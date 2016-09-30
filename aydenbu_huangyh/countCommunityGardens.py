@@ -6,6 +6,7 @@ import datetime
 import uuid
 from bson.code import Code
 from bson.json_util import dumps
+from helpers import *
 
 
 
@@ -20,9 +21,13 @@ class countCommunityGardens(dml.Algorithm):
         startTime = datetime.datetime.now()
 
         # Set up the database connection
-        client = dml.pymongo.MongoClient()
-        repo = client.repo
-        repo.authenticate('aydenbu_huangyh', 'aydenbu_huangyh')
+        # client = dml.pymongo.MongoClient()
+        # repo = client.repo
+        # repo.authenticate('aydenbu_huangyh', 'aydenbu_huangyh')
+        # communityGardens = repo['aydenbu_huangyh.communityGardens']
+
+        # Connect to the Database
+        repo = openDb(getAuth("db_username"), getAuth("db_password"))
         communityGardens = repo['aydenbu_huangyh.communityGardens']
 
         # MapReduce function
