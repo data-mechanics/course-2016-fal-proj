@@ -28,9 +28,15 @@ class transformation1(dml.Algorithm):
                     'coordinates': [latitude, longitude]
                 },
                 'properties': {
-                    'zip_code': zip_code
+                    'zip_code': to_int(zip_code)
                 }
             }
+
+        def to_int(x):
+            try:
+                return int(x)
+            except:
+                return None
 
         def to_float(x):
             try:
@@ -40,17 +46,17 @@ class transformation1(dml.Algorithm):
 
         def get_geo_info_food(entry):
             zip_code = entry['zip'] if 'zip' in entry else None
-            latitude = entry['location']['coordinates'][0] if 'location' in entry else None
+            latitude = entry['location']['coordinates'][1] if 'location' in entry else None
             latitude = to_float(latitude)
-            longitude = entry['location']['coordinates'][1] if 'location' in entry else None
+            longitude = entry['location']['coordinates'][0] if 'location' in entry else None
             longitude = to_float(longitude)
             return zip_code, latitude, longitude
 
         def get_geo_info_schools(entry):
             zip_code = entry['zip_code'] if 'zip_code' in entry else None
-            latitude = entry['map_location']['coordinates'][0] if 'map_location' in entry else None
+            latitude = entry['map_location']['coordinates'][1] if 'map_location' in entry else None
             latitude = to_float(latitude)
-            longitude = entry['map_location']['coordinates'][1] if 'map_location' in entry else None
+            longitude = entry['map_location']['coordinates'][0] if 'map_location' in entry else None
             longitude = to_float(longitude)
             return zip_code, latitude, longitude
 
@@ -72,9 +78,9 @@ class transformation1(dml.Algorithm):
 
         def get_geo_info_sr311(entry):
             zip_code = entry['location_zipcode'] if 'location_zipcode' in entry else None
-            latitude = entry['geocoded_location']['latitude'][1] if 'geocoded_location' in entry else None
+            latitude = entry['geocoded_location']['latitude'] if 'geocoded_location' in entry else None
             latitude = to_float(latitude)
-            longitude = entry['geocoded_location']['longitude'][0] if 'geocoded_location' in entry else None
+            longitude = entry['geocoded_location']['longitude'] if 'geocoded_location' in entry else None
             longitude = to_float(longitude)
             return zip_code, latitude, longitude
 

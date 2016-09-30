@@ -1,10 +1,8 @@
-import urllib.request
 import json
 import dml
 import prov.model
 import datetime
 import uuid
-import os
 
 class transformation3(dml.Algorithm):
     contributor = 'jas91_smaf91'
@@ -48,7 +46,7 @@ class transformation3(dml.Algorithm):
         print('[OUT] done')
 
         print('[OUT] filling crime zip codes')
-        for document in repo.jas91_smaf91.union_temp.find():
+        for document in repo.jas91_smaf91.crime.find():
             latitude = document['geo_info']['geometry']['coordinates'][0]
             longitude = document['geo_info']['geometry']['coordinates'][1]
             neighbor = repo.jas91_smaf91.union_temp.find_one({ 
@@ -58,7 +56,7 @@ class transformation3(dml.Algorithm):
                             'type': 'Point', 
                             'coordinates' :[latitude,longitude]
                             }, 
-                        '$maxDistance': 100, 
+                        '$maxDistance': 1000, 
                         '$minDistance': 0 
                         } 
                     }
@@ -72,8 +70,7 @@ class transformation3(dml.Algorithm):
                         document,
                         upsert=False
                         )
-
-                repo.logout()
+        repo.logout()
         print('[OUT] done')
 
         endTime = datetime.datetime.now()
