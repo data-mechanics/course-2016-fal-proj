@@ -6,8 +6,8 @@ import uuid
 
 class transformation3(dml.Algorithm):
     contributor = 'jas91_smaf91'
-    reads = []
-    writes = []
+    reads = ['jas91_smaf91.311', 'jas91_smaf91.hospitals', 'jas91_smaf91.food', 'jas91_smaf91.schools']
+    writes = ['jas91_smaf91.crime']
 
     @staticmethod
     def execute(trial = False):
@@ -79,6 +79,93 @@ class transformation3(dml.Algorithm):
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-        pass
+        '''
+        Create the provenance document describing everything happening
+        in this script. Each run of the script will generate a new
+        document describing that invocation event.
+        '''
 
+        client = dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('jas91_smaf91', 'jas91_smaf91')
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:jas91_smaf91#transformation3', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        populate = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Populate crime zip code field'})
+        doc.wasAssociatedWith(populate, this_script)
+
+        resource_sr311 = doc.entity('dat:jas91_smaf91#sr311', {'prov:label':'311 Service Reports', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.usage(
+            populate, 
+            resource_sr311, 
+            startTime, 
+            None,
+            {
+                prov.model.PROV_TYPE:'ont:Query',
+                'ont:Query':'db.jas91_smaf91.sr311.find({},{geo_info: 1})'
+            }
+        )
+
+        resource_hospitals = doc.entity('dat:jas91_smaf91#hospitals', {'prov:label':'Hospital Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.usage(
+            populate, 
+            resource_hospitals, 
+            startTime, 
+            None,
+            {
+                prov.model.PROV_TYPE:'ont:Query',
+                'ont:Query':'db.jas91_smaf91.hospitals.find({},{geo_info: 1})'
+            }
+        )
+
+        resource_food = doc.entity('dat:jas91_smaf91#food', {'prov:label':'Food Establishment Inspections', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.usage(
+            populate, 
+            resource_food, 
+            startTime, 
+            None,
+            {
+                prov.model.PROV_TYPE:'ont:Query',
+                'ont:Query':'db.jas91_smaf91.food.find({},{geo_info: 1})'
+            }
+        )
+
+        resource_schools = doc.entity('dat:jas91_smaf91#schools', {'prov:label':'Schools', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.usage(
+            populate, 
+            resource_schools, 
+            startTime, 
+            None,
+            {
+                prov.model.PROV_TYPE:'ont:Query',
+                'ont:Query':'db.jas91_smaf91.sr311.schools({},{geo_info: 1})'
+            }
+        )
+
+        crime = doc.entity('dat:jas91_smaf91#crime', {'prov:label':'Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.usage(
+            populate, 
+            crime, 
+            startTime, 
+            None,
+            {prov.model.PROV_TYPE:'ont:Computation'}
+        )
+
+        doc.wasAttributedTo(crime, this_script)
+        doc.wasGeneratedBy(crime, populate, endTime)
+
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
+
+'''
 transformation3.execute()
+doc = transformation3.provenance()
+print(json.dumps(json.loads(doc.serialize()), indent=4))
+'''

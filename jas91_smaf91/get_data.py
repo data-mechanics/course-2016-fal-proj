@@ -65,7 +65,7 @@ class get_data(dml.Algorithm):
         this_script = doc.agent('alg:jas91_smaf91#get_data', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
 
         resource_crime = doc.entity('bdp:ufcx-3fdn', {'prov:label':'Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_crime = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_crime = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Crime Incident Report Data'})
         doc.wasAssociatedWith(get_crime, this_script)
         doc.usage(
             get_crime, 
@@ -76,7 +76,7 @@ class get_data(dml.Algorithm):
         )
 
         resource_sr311 = doc.entity('bdp:rtbk-4hc4', {'prov:label':'311 Service Reports', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_sr311 = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_sr311 = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label': 'Get 311 Service Reports'})
         doc.wasAssociatedWith(get_sr311, this_script)
         doc.usage(
             get_sr311, 
@@ -87,7 +87,7 @@ class get_data(dml.Algorithm):
         )
 
         resource_hospitals = doc.entity('bdp:u6fv-m8v4', {'prov:label':'Hospital Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_hospitals = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_hospitals = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label': 'Get Hospital Locations'})
         doc.wasAssociatedWith(get_hospitals, this_script)
         doc.usage(
             get_hospitals, 
@@ -98,7 +98,7 @@ class get_data(dml.Algorithm):
         )
 
         resource_food = doc.entity('bdp:427a-3cn5', {'prov:label':'Food Establishment Inspections', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_food = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_food = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label': 'Get Food Establishment Inspections'})
         doc.wasAssociatedWith(get_food, this_script)
         doc.usage(
             get_food, 
@@ -109,7 +109,7 @@ class get_data(dml.Algorithm):
         )
 
         resource_schools = doc.entity('bdp:pzcy-jpz4', {'prov:label':'Schools', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_schools = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_schools = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label': 'Get Schools'})
         doc.wasAssociatedWith(get_schools, this_script)
         doc.usage(
             get_schools, 
@@ -122,27 +122,22 @@ class get_data(dml.Algorithm):
         crime = doc.entity('dat:jas91_smaf91#crime', {prov.model.PROV_LABEL:'Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(crime, this_script)
         doc.wasGeneratedBy(crime, get_crime, endTime)
-        doc.wasDerivedFrom(crime, resource_crime, get_crime, get_crime, get_crime)
 
         sr311 = doc.entity('dat:jas91_smaf91#sr311', {prov.model.PROV_LABEL:'311 Service Reports', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(sr311, this_script)
         doc.wasGeneratedBy(sr311, get_sr311, endTime)
-        doc.wasDerivedFrom(sr311, resource_sr311, get_sr311, get_sr311, get_sr311)
 
         hospitals = doc.entity('dat:jas91_smaf91#hospitals', {prov.model.PROV_LABEL:'Hospital Lost', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(hospitals, this_script)
         doc.wasGeneratedBy(hospitals, get_hospitals, endTime)
-        doc.wasDerivedFrom(hospitals, resource_hospitals, get_hospitals, get_hospitals, get_hospitals)
 
-        food = doc.entity('dat:jas91_smaf91#lost', {prov.model.PROV_LABEL:'Food Establishment Inspections', prov.model.PROV_TYPE:'ont:DataSet'})
+        food = doc.entity('dat:jas91_smaf91#food', {prov.model.PROV_LABEL:'Food Establishment Inspections', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(food, this_script)
         doc.wasGeneratedBy(food, get_food, endTime)
-        doc.wasDerivedFrom(food, resource_food, get_food, get_food, get_food)
 
         schools = doc.entity('dat:jas91_smaf91#schools', {prov.model.PROV_LABEL:'Schools', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(schools, this_script)
         doc.wasGeneratedBy(schools, get_schools, endTime)
-        doc.wasDerivedFrom(schools, resource_schools, get_schools, get_schools, get_schools)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
@@ -152,6 +147,6 @@ class get_data(dml.Algorithm):
 # REMEMBER TO COMMENT THIS BEFORE SUBMITTING
 '''
 get_data.execute()
-'''
 doc = get_data.provenance()
 print(json.dumps(json.loads(doc.serialize()), indent=4))
+'''

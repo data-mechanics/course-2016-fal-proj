@@ -7,8 +7,8 @@ import uuid
 
 class transformation1(dml.Algorithm):
     contributor = 'jas91_smaf91'
-    reads = ['crime', 'sr311', 'schools', 'hospitals', 'food']
-    writes = ['crime', 'sr311', 'schools', 'hospitals', 'food']
+    reads = ['jas91_smaf91.crime', 'jas91_smaf91.311', 'jas91_smaf91.hospitals', 'jas91_smaf91.food', 'jas91_smaf91.schools']
+    writes = ['jas91_smaf91.crime', 'jas91_smaf91.311', 'jas91_smaf91.hospitals', 'jas91_smaf91.food', 'jas91_smaf91.schools']
 
     @staticmethod
     def execute(trial = False):
@@ -225,6 +225,8 @@ class transformation1(dml.Algorithm):
 
         return doc
 
-#transformation1.execute()
+'''
+transformation1.execute()
 doc = transformation1.provenance()
 print(json.dumps(json.loads(doc.serialize()), indent=4))
+'''
