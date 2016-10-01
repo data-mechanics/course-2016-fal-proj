@@ -6,9 +6,9 @@ import datetime
 import uuid
 
 class example(dml.Algorithm):
-    contributor = 'aditid_benli'
+    contributor = 'alice_bob'
     reads = []
-    writes = ['aditid_benli.jam', 'aditid_benli.comparking', 'aditid_benli.inters', 'aditid_benli.metparking', 'aditid_benli.partickets']
+    writes = ['alice_bob.lost', 'alice_bob.found', 'alice_bob.jam']
 
     @staticmethod
     def execute(trial = False):
@@ -18,48 +18,32 @@ class example(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('aditid_benli', 'aditid_benli')
-        
+        repo.authenticate('alice_bob', 'alice_bob')
+
+        url = 'http://cs-people.bu.edu/lapets/591/examples/lost.json'
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("lost")
+        repo.createPermanent("lost")
+        repo['alice_bob.lost'].insert_many(r)
+
+        url = 'http://cs-people.bu.edu/lapets/591/examples/found.json'
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("found")
+        repo.createPermanent("found")
+        repo['alice_bob.found'].insert_many(r)
+
         url = 'https://data.cityofboston.gov/resource/yqgx-2ktq.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
         repo.dropPermanent("jam")
         repo.createPermanent("jam")
-        repo['aditid_benli.jam'].insert_many(r)
+        repo['alice_bob.jam'].insert_many(r)
 
-        url = 'https://data.cambridgema.gov/api/views/vr3p-e9ke/rows.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("comparking")
-        repo.createPermanent("comparking")
-        repo['aditid_benli.comparking'].insert_one(r)
-        
-        url = 'https://data.cambridgema.gov/api/views/impv-6fac/rows.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("inters")
-        repo.createPermanent("inters")
-        repo['aditid_benli.inters'].insert_one(r)
-        
-        url = 'https://data.cambridgema.gov/api/views/up94-ihbw/rows.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("metparking")
-        repo.createPermanent("metparking")
-        repo['aditid_benli.metparking'].insert_one(r)
-        
-        url = 'https://data.cambridgema.gov/api/views/vnxa-cuyr/rows.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("partickets")
-        repo.createPermanent("partickets")
-        repo['aditid_benli.partickets'].insert_one(r)
-        
         repo.logout()
 
         endTime = datetime.datetime.now()
