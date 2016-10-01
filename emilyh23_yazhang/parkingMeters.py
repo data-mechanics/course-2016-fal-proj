@@ -26,14 +26,13 @@ class example(dml.Algorithm):
         repo = client.repo
         #repo.authenticate('alice_bob', 'alice_bob')
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')       
-        
-        url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/962da9bb739f440ba33e746661921244_9.geojson'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
+
+        filen = '../data/parking_meters.json'
+        res = open(filen, 'r')
+        r = json.load(res)
         repo.dropPermanent("parkingMeters")
         repo.createPermanent("parkingMeters")
-        repo['emilyh23_yazhang.parkingMeters'].insert_one(r)
+        repo['emilyh23_yazhang.parkingMeters'].insert_many(r)
 
         repo.logout()
 
