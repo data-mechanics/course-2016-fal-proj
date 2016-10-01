@@ -33,16 +33,16 @@ class countCommunityGardens(dml.Algorithm):
         # MapReduce function
         mapper = Code("""
                         function() {
-                            emit(this.zip_code, 1);
+                            emit(this.zip_code, {numofGarden: 1});
                         }
                         """)
         reducer = Code("""
                         function(k, vs) {
                             var total = 0;
                             for (var i = 0; i < vs.length; i++) {
-                                total += vs[i];
+                                total += vs[i].numofGarden;
                             }
-                            return total;
+                            return {numofGarden :total};
                         }"""
                        )
         repo.dropPermanent("zip_communityGardens_count")

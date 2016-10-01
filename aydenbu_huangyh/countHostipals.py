@@ -32,7 +32,7 @@ class countHostipals(dml.Algorithm):
         # MapReduce function
         mapper = Code("""
                        function() {
-                            emit(this.zipcode, 1);
+                            emit(this.zipcode, {numofHospital:1});
                         }
                       """)
 
@@ -40,9 +40,9 @@ class countHostipals(dml.Algorithm):
                         function(k, vs) {
                             var total = 0;
                             for (var i = 0; i < vs.length; i++) {
-                                total += vs[i];
+                                total += vs[i].numofHospital;
                             }
-                            return total;
+                            return {numofHospital: total};
                         }
                         """)
         repo.dropPermanent("zip_hospitals_count")

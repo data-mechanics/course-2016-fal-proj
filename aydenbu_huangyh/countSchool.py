@@ -21,27 +21,24 @@ class countPublicSchool(dml.Algorithm):
         startTime = datetime.datetime.now()
 
         # Set up the database connection
-        # client = dml.pymongo.MongoClient()
-        # repo = client.repo
-        # repo.authenticate('aydenbu_huangyh', 'aydenbu_huangyh')
-
-        # Connect to the Database
+        client = dml.pymongo.MongoClient()
+        repo = client.repo
         repo = openDb(getAuth("db_username"), getAuth("db_password"))
-        stores = repo['aydenbu_huangyh.publicSchool']
+        schools = repo['aydenbu_huangyh.publicSchool']
 
         # MapReduce function
         mapper = Code("""
                         function() {
-                            emit(this.zipcode, 1);
+                            emit(this.zipcode, {numofSchool:1});
                         }
                       """)
         reducer = Code("""
                         function(k, vs) {
                             var total = 0;
                             for (var i = 0; i < vs.length; i++) {
-                                total += vs[i];
+                                total += vs[i].numofSchool;
                             }
-                            return  total;
+                            return  { numofSchool: total};
                         }"""
                       )
         repo.dropPermanent("zip_PublicSchool_count")

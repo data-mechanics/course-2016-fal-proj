@@ -32,16 +32,16 @@ class countHealthyCornerStores(dml.Algorithm):
         # MapReduce function
         mapper = Code("""
                         function() {
-                            emit(this.zip, 1);
+                            emit(this.zip, {numofStore:1});
                         }
                       """)
         reducer = Code("""
                         function(k, vs) {
                             var total = 0;
                             for (var i = 0; i < vs.length; i++) {
-                                total += vs[i];
+                                total += vs[i].numofStore;
                             }
-                            return total;
+                            return {numofStore: total};
                         }"""
                       )
         repo.dropPermanent("zip_Healthycornerstores_count")
