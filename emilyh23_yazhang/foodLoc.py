@@ -58,23 +58,6 @@ class example(dml.Algorithm):
         repo.createPermanent("cornerStore")
         repo['emilyh23_yazhang.cornerStore'].insert_one(r)
         
-        url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/962da9bb739f440ba33e746661921244_9.geojson'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("parkingMeters")
-        repo.createPermanent("parkingMeters")
-        repo['emilyh23_yazhang.parkingMeters'].insert_one(r)
-
-        '''
-        url = ''
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("zoningDistricts")
-        repo.createPermanent("zoningDistricts")
-        repo['emilyh23_yazhang.zoningDistricts'].insert_one(r)
-        '''
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -153,16 +136,6 @@ class example(dml.Algorithm):
         #don't delete -- need for later
         doc.wasGeneratedBy(cornerStore, this_run, endTime)
         doc.wasDerivedFrom(cornerStore, resource, this_run, this_run, this_run)
-
-        '''
-        zoningDistrict = doc.entity('dat:zoningDistricts', {prov.model.PROV_LABEL:'zoningDistricts', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(zoningDistricts, this_script)
-        #doc.wasGeneratedBy(cornerStore, get_lost, endTime)
-        #doc.wasDerivedFrom(cornerStore, resource, get_lost, get_lost, get_lost)
-        #don't delete -- need for later
-        doc.wasGeneratedBy(zoningDistricts, this_run, endTime)
-        doc.wasDerivedFrom(zoningDistricts, resource, this_run, this_run, this_run)
-        '''
                         
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
