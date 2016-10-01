@@ -9,7 +9,7 @@ from bson.json_util import dumps
 from helpers import *
 
 
-
+#  Count the hospital
 class countHostipals(dml.Algorithm):
     contributor = 'aydenbu_huangyh'
     reads = ['aydenbu_huangyh.hospitalLocation']
