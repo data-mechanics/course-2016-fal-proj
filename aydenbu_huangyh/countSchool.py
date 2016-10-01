@@ -42,7 +42,7 @@ class countPublicSchool(dml.Algorithm):
                         }"""
                       )
         repo.dropPermanent("zip_PublicSchool_count")
-        result = stores.map_reduce(mapper, reducer, "aydenbu_huangyh.zip_PublicSchool_count")
+        result = schools.map_reduce(mapper, reducer, "aydenbu_huangyh.zip_PublicSchool_count")
 
         repo.logout()
         endTime = datetime.datetime.now()
