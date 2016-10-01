@@ -4,6 +4,8 @@ import dml
 import prov.model
 import datetime
 import uuid
+import xmljson
+from json import dumps
 
 class example(dml.Algorithm):
     #contributor = 'alice_bob'
@@ -24,7 +26,7 @@ class example(dml.Algorithm):
         repo = client.repo
         #repo.authenticate('alice_bob', 'alice_bob')
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
-        
+        '''
         url = 'http://cs-people.bu.edu/lapets/591/examples/lost.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
@@ -40,14 +42,22 @@ class example(dml.Algorithm):
         repo.dropPermanent("found")
         repo.createPermanent("found")
         repo['emilyh23_yazhang.found'].insert_many(r)
-        '''
+        '''        
+        #filen = '../data/food_estab.json'
+        #res = open(filen, 'r')
+        #r = json.load(res)
+        #repo.dropPermanent("foodEst")
+        #repo.createPermanent("foodEst")
+        #repo['emilyh23_yazhang.foodEst'].insert_one(r)
+        
+        
         url = 'https://data.cityofboston.gov/api/views/gb6y-34cq/rows.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
         repo.dropPermanent("foodEst")
         repo.createPermanent("foodEst")
-        repo['emilyh23_yazhang.foodEst'].insert_many(r)
+        repo['emilyh23_yazhang.foodEst'].insert_one(r)
         
         url = 'https://data.cityofboston.gov/api/views/4vcu-nshu/rows.json?accessType=DOWNLOAD'
         response = urllib.request.urlopen(url).read().decode("utf-8")
@@ -55,7 +65,7 @@ class example(dml.Algorithm):
         s = json.dumps(r, sort_keys=True, indent=2)
         repo.dropPermanent("cornerStore")
         repo.createPermanent("cornerStore")
-        repo['emilyh23_yazhang.cornerStore'].insert_many(r)
+        repo['emilyh23_yazhang.cornerStore'].insert_one(r)
         
         url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/962da9bb739f440ba33e746661921244_9.geojson'
         response = urllib.request.urlopen(url).read().decode("utf-8")
@@ -63,8 +73,7 @@ class example(dml.Algorithm):
         s = json.dumps(r, sort_keys=True, indent=2)
         repo.dropPermanent("parkingMeters")
         repo.createPermanent("parkingMeters")
-        repo['emilyh23_yazhang.parkingMeters'].insert_many(r)        
-        '''
+        repo['emilyh23_yazhang.parkingMeters'].insert_one(r)        
         
         repo.logout()
 
