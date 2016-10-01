@@ -64,7 +64,7 @@ class example(dml.Algorithm):
         repo.dropPermanent("parkingMeters")
         repo.createPermanent("parkingMeters")
         repo['emilyh23_yazhang.parkingMeters'].insert_one(r)   
-        '''
+        
         url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/eebd3daed05a45678894db30d9bf0cfb_0.geojson'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
@@ -72,6 +72,14 @@ class example(dml.Algorithm):
         repo.dropPermanent("zoningDistricts")
         repo.createPermanent("zoningDistricts")
         repo['emilyh23_yazhang.zoningDistricts'].insert_one(r)  
+        '''
+  
+        filen = '../data/zoning_district.json'
+        res = open(filen, 'r')
+        r = json.load(res)
+        repo.dropPermanent("zoningDistricts")
+        repo.createPermanent("zoningDistricts")
+        repo['emilyh23_yazhang.zoningDistricts'].insert_many(r)         
         
         repo.logout()
 
