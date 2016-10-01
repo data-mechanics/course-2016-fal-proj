@@ -14,7 +14,7 @@ class retrieve(dml.Algorithm):
     def execute(trial = False):
         '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
         startTime = datetime.datetime.now()
-        
+
         # Set up the database connection.
         # client = dml.pymongo.MongoClient()
         # repo = client.repo
@@ -22,7 +22,7 @@ class retrieve(dml.Algorithm):
 
         with open('../auth.json') as jsonFile:
             auth = json.load(jsonFile)
-        
+
         socrataAppToken = auth["socrata"]["app"]
 
         # Boston Police Department Firearms Recovery Counts
@@ -30,7 +30,7 @@ class retrieve(dml.Algorithm):
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r1 = json.loads(response)
         s1 = json.dumps(r1, sort_keys=True, indent=2)
-    
+
         # Crime Incident Reports (July 2012 - August 2015)
         url = 'https://data.cityofboston.gov/resource/ufcx-3fdn.json?$$app_token=' + socrataAppToken
         response = urllib.request.urlopen(url).read().decode("utf-8")

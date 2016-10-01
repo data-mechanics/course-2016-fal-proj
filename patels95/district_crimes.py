@@ -5,10 +5,10 @@ import prov.model
 import datetime
 import uuid
 
-class firearm_recovery(dml.Algorithm):
+class district_crimes(dml.Algorithm):
     contributor = 'patels95'
-    reads = []
-    writes = ['patels95.firearm_recovery']
+    reads = ['patels95.crimes']
+    writes = ['patels95.district_crimes']
 
     @staticmethod
     def execute(trial = False):
@@ -25,20 +25,20 @@ class firearm_recovery(dml.Algorithm):
 
         socrataAppToken = auth["socrata"]["app"]
 
-        # Boston Police Department Firearms Recovery Counts
-        url = 'https://data.cityofboston.gov/resource/ffz3-2uqv.json?$$app_token=' + socrataAppToken
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
+        districts = ['A1', 'A15', 'A7', 'B2', 'B3', 'C6', 'C11', 'D4', 'D14', 'E5', 'E13', 'E18']
+        data = []
 
-        for i in range(len(r)):
-            total = int(r[i]['crimegunsrecovered']) + int(r[i]['gunssurrenderedsafeguarded']) + \
-             int(r[i]['buybackgunsrecovered'])
-            r[i]['totalgunsrecovered'] = total
-            r[i]['collectiondate'] = r[i]['collectiondate'][:10]
+        # count the number of firearm crimes in each district
+        for d in districts:
+            count = 0
+            for crime in repo['patels95.crimes'].find():
+                if d == crime['reptdistrict']:
+                    count += 1
+            data.append({'district': d, 'total_crimes': count})
 
-        repo.dropPermanent("firearm_recovery")
-        repo.createPermanent("firearm_recovery")
-        repo['patels95.firearm_recovery'].insert_many(r)
+        repo.dropPermanent("district_crimes")
+        repo.createPermanent("district_crimes")
+        repo['patels95.district_crimes'].insert_many(data)
 
         repo.logout()
 
@@ -50,7 +50,7 @@ class firearm_recovery(dml.Algorithm):
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
         pass
 
-firearm_recovery.execute()
+district_crimes.execute()
 # doc = retrieve.provenance()
 # print(doc.get_provn())
 # print(json.dumps(json.loads(doc.serialize()), indent=4))
