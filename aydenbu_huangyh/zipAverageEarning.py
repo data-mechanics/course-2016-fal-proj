@@ -62,6 +62,17 @@ class zipAverageEarning(dml.Algorithm):
         repo.dropPermanent("zip_avg_earnings")
         result = earnings.map_reduce(mapper, reducer, "aydenbu_huangyh.zip_avg_earnings")
 
+        zip_avg_earnings = repo['aydenbu_huangyh.zip_avg_earnings']
+
+
+        # Remove the unrelated field, only keep the avg field
+        zip_avg_earnings.update(
+            {},
+            { '$unset': {'value.count': '', 'value.totalEarnings': ''}},
+            multi = True,
+            upsert = False
+        )
+
         '''
                 # Save the result to the db
                 # repo.dropPermanent("zip_hospitals_count")
