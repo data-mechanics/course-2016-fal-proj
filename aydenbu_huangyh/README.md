@@ -32,8 +32,8 @@ Lastly, we merge the previous dataset with the average earnings dataset to obtai
 The `auth.json` file contains the credentials with the following format
 ```
 {
-  "db_username": "aydenbu_huangyh",
-  "db_password": "aydenbu_huangyh"
+  "db_username": "alice_bob",
+  "db_password": "alice_bob"
 }
 ```
 If you want to connect to the db needs the authentication, there is a `helpers.py` script that is imported in every activity scripts.
