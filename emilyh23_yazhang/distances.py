@@ -33,7 +33,7 @@ class example(dml.Algorithm):
         repo.dropPermanent("lost")
         repo.createPermanent("lost")
         repo['emilyh23_yazhang.lost'].insert_many(r)
-        
+
         url = 'http://cs-people.bu.edu/lapets/591/examples/found.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
@@ -51,7 +51,10 @@ class example(dml.Algorithm):
         filen = '../data/food_estab_test.json'
         res = open(filen, 'r')
         r = json.load(res)
-        s = json.dumps(r, sort_keys=True, indent=2)
+        
+        # r_loc gets all the location values for the key 'location' in r
+        r_loc = [k['location'] for k in r]    
+        
         #repo.dropPermanent("foodEst")
         #repo.createPermanent("foodEst")
         #repo['emilyh23_yazhang.foodEst'].insert_one(r)  
