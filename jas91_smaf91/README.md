@@ -13,6 +13,8 @@ The algorithm that retrieve these datasets automatically may be found in the fil
 
 ## 2.c
 
+The following transformations must be executed in order.
+
 #### Transformation 1
 
 The first transformation has the objective to standarize the geographic information of the datasets. The GeoJSON format was used in the following way:

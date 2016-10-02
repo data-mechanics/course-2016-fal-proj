@@ -6,7 +6,7 @@ import json
 
 from bson.code import Code
 
-class transformation2(dml.Algorithm):
+class transformation3(dml.Algorithm):
     contributor = 'jas91_smaf91'
     reads = ['jas91_smaf91.crime', 'jas91_smaf91.sr311']
     writes = ['jas91_smaf91.sr311_crime_per_zip_code']
@@ -103,7 +103,7 @@ class transformation2(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:jas91_smaf91#transformation2', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:jas91_smaf91#transformation3', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         reports = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Crimes and 311 requests per zip code.'})
         doc.wasAssociatedWith(reports, this_script)
 
@@ -142,7 +142,7 @@ class transformation2(dml.Algorithm):
         return doc
 
 '''
-transformation2.execute()
-doc = transformation2.provenance()
+transformation3.execute()
+doc = transformation3.provenance()
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 '''

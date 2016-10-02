@@ -4,7 +4,7 @@ import prov.model
 import datetime
 import uuid
 
-class transformation3(dml.Algorithm):
+class transformation2(dml.Algorithm):
     contributor = 'jas91_smaf91'
     reads = ['jas91_smaf91.311', 'jas91_smaf91.hospitals', 'jas91_smaf91.food', 'jas91_smaf91.schools']
     writes = ['jas91_smaf91.crime']
@@ -95,7 +95,7 @@ class transformation3(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:jas91_smaf91#transformation3', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:jas91_smaf91#transformation2', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         populate = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Populate crime zip code field'})
         doc.wasAssociatedWith(populate, this_script)
 
@@ -165,7 +165,7 @@ class transformation3(dml.Algorithm):
         return doc
 
 '''
-transformation3.execute()
-doc = transformation3.provenance()
+transformation2.execute()
+doc = transformation2.provenance()
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 '''
