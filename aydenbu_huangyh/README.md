@@ -29,7 +29,7 @@ Lastly, we merge the previous dataset with the average earnings dataset to obtai
 ##Instruction
 **To run the project, please follow the follow instructions:**
 ###Authentication
-The auth.json file contains the credentials with the following format
+The `auth.json` file contains the credentials with the following format
 ```
 {
   "db_username": "aydenbu_huangyh",
@@ -37,3 +37,7 @@ The auth.json file contains the credentials with the following format
 }
 ```
 If you want to connect to the db needs the authentication, there is a `helpers.py` script that is imported in every activity scripts.
+In every script, we use the functions in `helpers.py` to connect to the authenticated database. The following code in every activity script is to connect to the database by reading the `user_name` and `pass_word` in `auth.json`:
+```
+repo = openDb(getAuth("db_username"), getAuth("db_password"))
+```
