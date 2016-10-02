@@ -4,8 +4,8 @@
 + Yehui Huang
 + Xiongying Qiao
 
-##Summary
-In this project, we've considered the relationship between the avg income and the number of some kind of public buildings (Hospital, School, HealthStore and Public Garden). The analyze is based on the zipcode.
+##Narrative 2a
+In this project, we've considered the relationship between the avg income and the number of some kind of public buildings (Hospital, School, HealthStore and Public Garden). The analyze is based on the zipcode. We want to see if the total number of the public buildings is proportional to the average earnings.
  
 ##Datasets
 The five datasets we used:
