@@ -29,3 +29,10 @@ Lastly, we merge the previous dataset with the average earnings dataset to obtai
 ##Instruction
 **To run the project, please follow the follow instructions:**
 ###Authentication
+The auth.json file contains the credentials with the following format
+```
+{
+  "db_username": "aydenbu_huangyh",
+  "db_password": "aydenbu_huangyh"
+}
+```
