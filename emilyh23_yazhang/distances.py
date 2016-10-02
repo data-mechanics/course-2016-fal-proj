@@ -99,7 +99,7 @@ class example(dml.Algorithm):
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
-        #doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/') # boston open data
+        doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/') # boston open data
         doc.add_namespace('gma', 'https://developers.google.com/maps/') # google maps api
         
         #this_script = doc.agent('alg:alice_bob#example', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
@@ -129,28 +129,6 @@ class example(dml.Algorithm):
         doc.wasAttributedTo(found, this_script)
         doc.wasGeneratedBy(found, get_found, endTime)
         doc.wasDerivedFrom(found, resource, get_found, get_found, get_found)
-        
-        
-        foodEst = doc.entity('dat:foodEst', {prov.model.PROV_LABEL:'foodEst', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(foodEst, this_script)
-        doc.wasGeneratedBy(foodEst, get_lost, endTime)
-        doc.wasDerivedFrom(foodEst, resource, get_lost, get_lost, get_lost)
-        #doc.wasGeneratedBy(foodEst, this_run, endTime)
-        #doc.wasDerivedFrom(foodEst, resource, this_run, this_run, this_run) # dont delete need for later
-        
-        cornerStore = doc.entity('dat:cornerStore', {prov.model.PROV_LABEL:'cornerStore', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(cornerStore, this_script)
-        doc.wasGeneratedBy(cornerStore, get_lost, endTime)
-        doc.wasDerivedFrom(cornerStore, resource, get_lost, get_lost, get_lost)
-        #doc.wasGeneratedBy(cornerStore, this_run, endTime)
-        #doc.wasDerivedFrom(cornerStore, resource, this_run, this_run, this_run) # dont delete need for later
-        
-        parkingMeters = doc.entity('dat:parkingMeters', {prov.model.PROV_LABEL:'parkingMeters', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(parkingMeters, this_script)
-        doc.wasGeneratedBy(parkingMeters, get_lost, endTime)
-        doc.wasDerivedFrom(parkingMeters, resource, get_lost, get_lost, get_lost)
-        #doc.wasGeneratedBy(parkingMeters, this_run, endTime)
-        #doc.wasDerivedFrom(parkingMeters, resource, this_run, this_run, this_run) # dont delete need for later
         '''
         
         distances = doc.entity('dat:distances', {prov.model.PROV_LABEL:'distances', prov.model.PROV_TYPE:'ont:DataSet'})
