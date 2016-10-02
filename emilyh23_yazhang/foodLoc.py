@@ -46,34 +46,10 @@ class example(dml.Algorithm):
         filen = '../data/food_estab.json'
         res = open(filen, 'r')
         r = json.load(res)
+        #s = json.dumps(r, sort_keys=True, indent=2)
         repo.dropPermanent("foodEst")
         repo.createPermanent("foodEst")
         repo['emilyh23_yazhang.foodEst'].insert_one(r)   
-                
-        filen = '../data/corner_stores.json'
-        res = open(filen, 'r')
-        r = json.load(res)
-        repo.dropPermanent("cornerStore")
-        repo.createPermanent("cornerStore")
-        repo['emilyh23_yazhang.cornerStore'].insert_one(r)   
-        
-        '''
-        url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/962da9bb739f440ba33e746661921244_9.geojson'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("parkingMeters")
-        repo.createPermanent("parkingMeters")
-        repo['emilyh23_yazhang.parkingMeters'].insert_one(r)   
-        
-        url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/eebd3daed05a45678894db30d9bf0cfb_0.geojson'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("zoningDistricts")
-        repo.createPermanent("zoningDistricts")
-        repo['emilyh23_yazhang.zoningDistricts'].insert_one(r)  
-        '''
         
         repo.logout()
 
@@ -111,15 +87,18 @@ class example(dml.Algorithm):
         resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'Active Food Establishment Licenses', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         #get_found = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         #get_lost = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        this_run = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation', 'ont:Query':'?accessType=NONE'})
+        this_run = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation', 'ont:Query':'?accessType=DOWNLOAD'})
         doc.wasAssociatedWith(this_run, this_script)
+        doc.used(this_run, resource, startTime)
+        
+        '''
         doc.usage(this_run, resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
                  'ont:Query':'?type=Animal+Found&$select=type,latitude,longitude,OPEN_DT'
                 }
             )
 
-        '''
+        
         lost = doc.entity('dat:alice_bob#lost', {prov.model.PROV_LABEL:'Animals Lost', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(lost, this_script)
         doc.wasGeneratedBy(lost, get_lost, endTime)
@@ -137,28 +116,7 @@ class example(dml.Algorithm):
         #doc.wasDerivedFrom(foodEst, resource, get_lost, get_lost, get_lost)
         doc.wasGeneratedBy(foodEst, this_run, endTime)
         doc.wasDerivedFrom(foodEst, resource, this_run, this_run, this_run) # dont delete need for later
-        
-        cornerStore = doc.entity('dat:cornerStore', {prov.model.PROV_LABEL:'cornerStore', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(cornerStore, this_script)
-        #doc.wasGeneratedBy(cornerStore, get_lost, endTime)
-        #doc.wasDerivedFrom(cornerStore, resource, get_lost, get_lost, get_lost)
-        doc.wasGeneratedBy(cornerStore, this_run, endTime)
-        doc.wasDerivedFrom(cornerStore, resource, this_run, this_run, this_run) # dont delete need for later
-        '''
-        parkingMeters = doc.entity('dat:parkingMeters', {prov.model.PROV_LABEL:'parkingMeters', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(parkingMeters, this_script)
-        doc.wasGeneratedBy(parkingMeters, get_lost, endTime)
-        doc.wasDerivedFrom(parkingMeters, resource, get_lost, get_lost, get_lost)
-        #doc.wasGeneratedBy(parkingMeters, this_run, endTime)
-        #doc.wasDerivedFrom(parkingMeters, resource, this_run, this_run, this_run) # dont delete need for later
-        
-        zoningDistricts = doc.entity('dat:zoningDistricts', {prov.model.PROV_LABEL:'zoningDistricts', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(zoningDistricts, this_script)
-        doc.wasGeneratedBy(zoningDistricts, get_lost, endTime)
-        doc.wasDerivedFrom(zoningDistricts, resource, get_lost, get_lost, get_lost)
-        #doc.wasGeneratedBy(zoningDistricts, this_run, endTime)
-        #doc.wasDerivedFrom(zoningDistricts, resource, this_run, this_run, this_run) # dont delete need for later
-        '''
+
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
