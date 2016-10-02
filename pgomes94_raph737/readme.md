@@ -7,9 +7,13 @@ Data Sets
 ---
 
 Hospitals: https://data.cityofboston.gov/Public-Health/Hospital-Locations/46f7-2snz
+
 Population:
+
 MBTA/Train:
+
 Traffic: https://data.cityofboston.gov/dataset/Waze-Point-Data/b38s-xmkq and https://data.cityofboston.gov/Transportation/Waze-Jam-Data/yqgx-2ktq
+
 Crime: https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-August-2015-To-Date-Source-/fqn4-4qap
 
 ---
