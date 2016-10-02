@@ -1,5 +1,5 @@
 # BU CS591L1 Fall 2016 Project 1
-===================================
+----------------------------------
 **Team Members:**
 + Yehui Huang
 + Xiongying Qiao
