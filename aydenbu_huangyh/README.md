@@ -16,3 +16,6 @@ The five datasets we used:
 <li>'community_gardens':'https://data.cityofboston.gov/resource/rdqf-ter7.json'</li>
 <li>'public_schools':'https://data.cityofboston.gov/resource/492y-i77g.json'</li>
 </ol>
+
+##Porcess
+Firstly we can obtain the number of average earnings in each zipcode area by using MapReduce to project and reduce to get the total earnings and counts in each zipcode, then we can obtain the average earning by (total earning / counts) for each zipcode area.
