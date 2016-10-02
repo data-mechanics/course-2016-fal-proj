@@ -76,53 +76,85 @@ class example(dml.Algorithm):
         '''
 
          # Set up the database connection.
-        # client = dml.pymongo.MongoClient()
-        # repo = client.repo
-        # repo.authenticate('ktan_ngurung', 'ktan_ngurung')
+        client = dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('ktan_ngurung', 'ktan_ngurung')
 
-        # doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filenameame> format.
-        # doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
-        # doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
-        # doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
-        # doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        # this_script = doc.agent('alg:ktan_ngurung#example', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        # resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        # get_found = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        # get_lost = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        # doc.wasAssociatedWith(get_found, this_script)
-        # doc.wasAssociatedWith(get_lost, this_script)
-        # doc.usage(get_found, resource, startTime, None,
-        #         {prov.model.PROV_TYPE:'ont:Retrieval',
-        #          'ont:Query':'?type=Animal+Found&$select=type,latitude,longitude,OPEN_DT'
-        #         }
-        #     )
-        # doc.usage(get_lost, resource, startTime, None,
-        #         {prov.model.PROV_TYPE:'ont:Retrieval',
-        #          'ont:Query':'?type=Animal+Lost&$select=type,latitude,longitude,OPEN_DT'
-        #         }
-        #     )
+        this_script = doc.agent('alg:ktan_ngurung#landmarkLocations', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'Landmark Locations for Advertisements', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+       
+        get_bigBelly = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_colleges = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_hubways = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_busStops = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_tStops = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+       
+        doc.wasAssociatedWith(get_bigBelly, this_script)
+        doc.wasAssociatedWith(get_colleges, this_script)
+        doc.wasAssociatedWith(get_hubways, this_script)
+        doc.wasAssociatedWith(get_busStops, this_script)
+        doc.wasAssociatedWith(get_tStops, this_script)
 
-        # lost = doc.entity('dat:ktan_ngurung#lost', {prov.model.PROV_LABEL:'Animals Lost', prov.model.PROV_TYPE:'ont:DataSet'})
-        # doc.wasAttributedTo(lost, this_script)
-        # doc.wasGeneratedBy(lost, get_lost, endTime)
-        # doc.wasDerivedFrom(lost, resource, get_lost, get_lost, get_lost)
+        doc.usage(get_bigBelly, resource, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval'}
+            )
 
-        # found = doc.entity('dat:ktan_ngurung#found', {prov.model.PROV_LABEL:'Animals Found', prov.model.PROV_TYPE:'ont:DataSet'})
-        # doc.wasAttributedTo(found, this_script)
-        # doc.wasGeneratedBy(found, get_found, endTime)
-        # doc.wasDerivedFrom(found, resource, get_found, get_found, get_found)
+        doc.usage(get_colleges, resource, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval'}
+            )
 
-        # repo.record(doc.serialize()) # Record the provenance document.
-        # repo.logout()
+        doc.usage(get_hubways, resource, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval'}
+            )
 
-        # return doc
-        pass
+        doc.usage(get_busStops, resource, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval'}
+            )
+
+        doc.usage(get_tStops, resource, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval'}
+            )
+
+        bigBelly = doc.entity('dat:ktan_ngurung#bigBelly', {prov.model.PROV_LABEL:'Big Belly Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(bigBelly, this_script)
+        doc.wasGeneratedBy(bigBelly, get_bigBelly, endTime)
+        doc.wasDerivedFrom(bigBelly, resource, get_bigBelly, get_bigBelly, get_bigBelly)
+
+        colleges = doc.entity('dat:ktan_ngurung#colleges', {prov.model.PROV_LABEL:'Colleges and Universities', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(colleges, this_script)
+        doc.wasGeneratedBy(colleges, get_colleges, endTime)
+        doc.wasDerivedFrom(colleges, resource, get_colleges, get_colleges, get_colleges)
+
+        hubways = doc.entity('dat:ktan_ngurung#hubways', {prov.model.PROV_LABEL:'Hubway Stations', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(hubways, this_script)
+        doc.wasGeneratedBy(hubways, get_hubways, endTime)
+        doc.wasDerivedFrom(hubways, resource, get_hubways, get_hubways, get_hubways)
+
+        busStops = doc.entity('dat:ktan_ngurung#busStops', {prov.model.PROV_LABEL:'MBTA Bus Stops', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(busStops, this_script)
+        doc.wasGeneratedBy(busStops, get_busStops, endTime)
+        doc.wasDerivedFrom(busStops, resource, get_busStops, get_busStops, get_busStops)
+
+        tStops = doc.entity('dat:ktan_ngurung#tStops', {prov.model.PROV_LABEL:'T-Stop Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(tStops, this_script)
+        doc.wasGeneratedBy(tStops, get_tStops, endTime)
+        doc.wasDerivedFrom(tStops, resource, get_tStops, get_tStops, get_tStops)
+
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc 
 
 
 example.execute()
-# doc = example.provenance()
-# print(doc.get_provn())
-# print(json.dumps(json.loads(doc.serialize()), indent=4))
+doc = example.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
