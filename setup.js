@@ -45,7 +45,6 @@ db.createUser({
 // Create repository users if they are not already present.
 listFiles().forEach(function(f) {
   if (f.isDirectory) {
-
     var userName = f.baseName;
     if (db.system.users.find({user:userName}).count() > 0) {
       print("Found '" + userName + "' user in admin database; not creating a new user.");
