@@ -45,38 +45,53 @@ class example(dml.Algorithm):
         
         filen = '../data/fire_hydrant.json'
         res = open(filen, 'r')
-        r = json.load(res)
+        r1 = json.load(res)
         repo.dropPermanent("fireHydrants")
         repo.createPermanent("fireHydrants")
-        repo['emilyh23_yazhang.fireHydrants'].insert_many(r)   
+        repo['emilyh23_yazhang.fireHydrants'].insert_many(r1)   
   
         filen = '../data/fire_boxes.json'
         res = open(filen, 'r')
-        r = json.load(res)
+        r2 = json.load(res)
         repo.dropPermanent("fireBoxes")
         repo.createPermanent("fireBoxes")
-        repo['emilyh23_yazhang.fireBoxes'].insert_many(r)  
+        repo['emilyh23_yazhang.fireBoxes'].insert_many(r2)  
   
         filen = '../data/fire_departments.json'
         res = open(filen, 'r')
-        r = json.load(res)
+        r3 = json.load(res)
         repo.dropPermanent("fireDepartments")
         repo.createPermanent("fireDepartments")
-        repo['emilyh23_yazhang.fireDepartments'].insert_many(r)
+        repo['emilyh23_yazhang.fireDepartments'].insert_many(r3)
   
         filen = '../data/fire_districts.json'
         res = open(filen, 'r')
-        r = json.load(res)
+        r4 = json.load(res)
         repo.dropPermanent("fireDistricts")
         repo.createPermanent("fireDistricts")
-        repo['emilyh23_yazhang.fireDistricts'].insert_many(r)         
+        repo['emilyh23_yazhang.fireDistricts'].insert_many(r4)         
     
-        filen = '../data/311Request.json'
+        filen = '../data/Fire_311_Service_Requests.json'
         res = open(filen, 'r')
-        r = json.load(res)
-        repo.dropPermanent("311Request")
-        repo.createPermanent("311Request")
-        repo['emilyh23_yazhang.311Request'].insert_many(r) 
+        r5 = json.load(res)
+        repo.dropPermanent("Fire_311_Service_Requests")
+        repo.createPermanent("Fire_311_Service_Requests")
+        repo['emilyh23_yazhang.Fire_311_Service_Requests'].insert_many(r5) 
+        
+        #r5, r2
+    
+        # creates a new list of dictionaries that contain just fire incidents, their districts, and their ontime/delay status
+        fireInc = []
+        for dic in r5:
+            #print(type(dic['FIELD8']))
+            if (dic['FIELD8'] == 'Fire Department' or 'Fire.' or 'Fire Hydrant' or 'Fire in Food Establishment'):
+                transformed_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17']}
+                fireInc.append(transformed_dic)
+        s = json.dumps(fireInc, sort_keys=True, indent=2)
+        print(s)
+        #fireByDis = [{'District 1':}]
+        
+        
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -154,10 +169,10 @@ class example(dml.Algorithm):
         doc.wasGeneratedBy(fireHydrants, this_run, endTime)
         doc.wasDerivedFrom(fireHydrants, resource, this_run, this_run, this_run)   
         
-        fireHydrants = doc.entity('dat:311Request', {prov.model.PROV_LABEL:'311Request', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(311Request, this_script)
-        doc.wasGeneratedBy(311Request, this_run, endTime)
-        doc.wasDerivedFrom(311Request, resource, this_run, this_run, this_run)  
+        fireRequest = doc.entity('dat:fireRequest', {prov.model.PROV_LABEL:'fireRequest', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(fireRequest, this_script)
+        doc.wasGeneratedBy(fireRequest, this_run, endTime)
+        doc.wasDerivedFrom(fireRequest, resource, this_run, this_run, this_run)  
         
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
