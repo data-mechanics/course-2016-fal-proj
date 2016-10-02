@@ -38,7 +38,7 @@ for document in data:
 
 
 # Get all crime data
-'''data = repo.alice_bob.crime.find()
+data = repo.alice_bob.crime.find()
 
 # for each crime incident
 for document in data:
@@ -60,7 +60,7 @@ for document in data:
         toDict['streetLightCount'] = num
 
         # Create a new entry
-        res = repo.alice_bob.streetLightCrimes.insert_one(toDict)'''
+        res = repo.alice_bob.streetLightCrimes.insert_one(toDict)
 
 
 # Get Master Address Data
