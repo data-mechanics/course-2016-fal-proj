@@ -1,6 +1,6 @@
 # Narrative
-We chose to use the following public datasets from the Boston Data Portal: Active Food Establishment Licenses/Map (outlines the locations of all restaurants in Boston) and Corner Stores (outlines the locations of convenience stores and small markets in Boston). We will also be using the public datasets from the Boston Maps Open Data: Parking Meters (provide all locations via longitude and latitude of parking meters in Boston) and Zoning Districts (outlines specific districts within Boston). These datasets contain location data that need to be standardized. 
-Once standardized, we'd like to use the Google Maps API to visualize the space and distance between parking zones and food establishment locations. 
+We chose to use the following public dataset from the Boston Data Portal: Active Food Establishment Licenses/Map (outlines the locations of all restaurants in Boston). We will also be using the public datasets from the Boston Maps Open Data: Parking Meters (provide all locations via longitude and latitude of parking meters in Boston) and Zoning Districts (outlines specific districts within Boston). These datasets contain location data that need to be standardized. 
+Once standardized, we'd like to use the Google Maps Distance Matrix and Geocoding APIs to visualize the space and distance between parking zones and food establishment locations. 
 After obtaining this information, we'll analyze availability in parking zones and convenience of parking in regards to distance from 
 desired food establishments located in specific areas of Boston. We hope that this will enhance user experience in finding parking around Boston.
 
