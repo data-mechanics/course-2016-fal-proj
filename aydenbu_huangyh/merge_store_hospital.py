@@ -51,7 +51,7 @@ class merge(dml.Algorithm):
 
 
         # Create a new collection and insert the result data set
-        repo.dropPermanent("zip_health")
+        repo.dropPermanent("merge_store_hospital")
         repo.createPermanent("merge_store_hospital")
         repo['aydenbu_huangyh.merge_store_hospital'].insert_many(zip_health)
 
