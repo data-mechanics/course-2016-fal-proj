@@ -19,3 +19,5 @@ The five datasets we used:
 
 ##Porcess
 Firstly we can obtain the number of average earnings in each zipcode area by using MapReduce to project and reduce to get the total earnings and counts in each zipcode, then we can obtain the average earning by (total earning divides counts) for each zipcode area.
+
+Secondly we can obtain number of hospital, number of garden, number of store and number of school group by the zipcode by applying the simple MapReduce Function.
