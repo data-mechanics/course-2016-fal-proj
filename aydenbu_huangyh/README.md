@@ -28,4 +28,4 @@ Lastly, we merge the previous dataset with the average earnings dataset to obtai
 
 ##Instruction
 **To run the project, please follow the follow instructions:**
-#Authentication
+###Authentication
