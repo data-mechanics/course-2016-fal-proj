@@ -24,29 +24,6 @@ class example(dml.Algorithm):
         # Set up the database connection.
         repo = openDb(getAuth("db_username"), getAuth("db_password"))
 
-        # url = 'http://cs-people.bu.edu/lapets/591/examples/lost.json'
-        # response = urllib.request.urlopen(url).read().decode("utf-8")
-        # r = json.loads(response)
-        # s = json.dumps(r, sort_keys=True, indent=2)
-        # repo.dropPermanent("lost")
-        # repo.createPermanent("lost")
-        # repo['aydenbu_huangyh.lost'].insert_many(r)
-        #
-        # url = 'http://cs-people.bu.edu/lapets/591/examples/found.json'
-        # response = urllib.request.urlopen(url).read().decode("utf-8")
-        # r = json.loads(response)
-        # s = json.dumps(r, sort_keys=True, indent=2)
-        # repo.dropPermanent("found")
-        # repo.createPermanent("found")
-        # repo['aydenbu_huangyh.found'].insert_many(r)
-        #
-        # url = "https://data.cityofboston.gov/resource/jsri-cpsq.json"
-        # response = urllib.request.urlopen(url).read().decode("utf-8")
-        # r = json.loads(response)
-        # s = json.dumps(r, sort_keys=True, indent=2)
-        # repo.dropPermanent("jsri-cpsq")
-        # repo.createPermanent("jsri-cpsq")
-        # repo['aydenbu_huangyh.jsri-cpsq'].insert_many(r)
 
         url = "https://data.cityofboston.gov/resource/u6fv-m8v4.json"
         response = urllib.request.urlopen(url).read().decode("utf-8")
