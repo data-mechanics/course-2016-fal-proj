@@ -21,7 +21,7 @@ class example(dml.Algorithm):
         repo = client.repo
         repo.authenticate('ktan_ngurung', 'ktan_ngurung')
 
-        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/json-data/big-belly-locations.json'
+        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/data-files/big-belly-locations.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r0 = json.loads(response)
         s0 = json.dumps(r0, sort_keys=True, indent=2)
@@ -29,7 +29,7 @@ class example(dml.Algorithm):
         repo.createPermanent("bigBelly")
         repo['ktan_ngurung.bigBelly'].insert_one(r0)
 
-        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/json-data/colleges-and-universities.json'
+        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/data-files/colleges-and-universities.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r1 = json.loads(response)
         s1 = json.dumps(r1, sort_keys=True, indent=2)
@@ -37,7 +37,7 @@ class example(dml.Algorithm):
         repo.createPermanent("colleges")
         repo['ktan_ngurung.colleges'].insert_many(r1)
 
-        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/json-data/hubway-stations-in-boston.json'
+        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/data-files/hubway-stations-in-boston.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r2 = json.loads(response)
         s2 = json.dumps(r2, sort_keys=True, indent=2)
@@ -45,7 +45,7 @@ class example(dml.Algorithm):
         repo.createPermanent("hubways")
         repo['ktan_ngurung.hubways'].insert_many(r2)
 
-        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/json-data/mbta-bus-stops.json'
+        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/data-files/mbta-bus-stops.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r3 = json.loads(response)
         s3 = json.dumps(r3, sort_keys=True, indent=2)
@@ -53,7 +53,7 @@ class example(dml.Algorithm):
         repo.createPermanent("busStops")
         repo['ktan_ngurung.busStops'].insert_many(r3)
 
-        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/json-data/t-stop-locations.json'
+        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/data-files/t-stop-locations.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r4 = json.loads(response)
         s4 = json.dumps(r4, sort_keys=True, indent=2)
