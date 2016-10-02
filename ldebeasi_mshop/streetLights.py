@@ -6,9 +6,9 @@ import datetime
 import uuid
 
 class streetLights(dml.Algorithm):
-    contributor = 'alice_bob'
+    contributor = 'ldebeasi_mshop'
     reads = []
-    writes = ['alice_bob.streetLights']
+    writes = ['ldebeasi_mshop.streetLights']
 
     @staticmethod
     def execute(trial = False):
@@ -19,7 +19,7 @@ class streetLights(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
 
-        repo.authenticate("alice_bob", "alice_bob")
+        repo.authenticate("ldebeasi_mshop", "ldebeasi_mshop")
 
         hasMore = True
         offset = 0
@@ -48,7 +48,7 @@ class streetLights(dml.Algorithm):
 
             s = json.dumps(r, sort_keys=True, indent=2)
 
-            repo['alice_bob.streetLights'].insert_many(r)
+            repo['ldebeasi_mshop.streetLights'].insert_many(r)
 
         repo.logout()
 
@@ -64,43 +64,29 @@ class streetLights(dml.Algorithm):
         document describing that invocation event.
         '''
 
-         # Set up the database connection.
+        # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('alice_bob', 'alice_bob')
+        repo.authenticate('ldebeasi_mshop', 'ldebeasi_mshop')
 
-        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
-        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/ldebeasi_mshop') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/ldebeasi_mshop') # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:alice_bob#example', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_found = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        get_lost = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        doc.wasAssociatedWith(get_found, this_script)
-        doc.wasAssociatedWith(get_lost, this_script)
-        doc.usage(get_found, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=Animal+Found&$select=type,latitude,longitude,OPEN_DT'
-                }
-            )
-        doc.usage(get_lost, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=Animal+Lost&$select=type,latitude,longitude,OPEN_DT'
-                }
+        this_script = doc.agent('alg:ldebeasi_mshop#streetLights', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource = doc.entity('bdp:fbdp-b7et', {'prov:label':'Streetlight Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        get_streetlights = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        doc.wasAssociatedWith(get_streetlights, this_script)
+        doc.usage(get_streetlights, resource, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        lost = doc.entity('dat:alice_bob#lost', {prov.model.PROV_LABEL:'Animals Lost', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(lost, this_script)
-        doc.wasGeneratedBy(lost, get_lost, endTime)
-        doc.wasDerivedFrom(lost, resource, get_lost, get_lost, get_lost)
-
-        found = doc.entity('dat:alice_bob#found', {prov.model.PROV_LABEL:'Animals Found', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(found, this_script)
-        doc.wasGeneratedBy(found, get_found, endTime)
-        doc.wasDerivedFrom(found, resource, get_found, get_found, get_found)
+        street_lights = doc.entity('dat:ldebeasi_mshop#streetLights', {prov.model.PROV_LABEL:'Streetlight Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(street_lights, this_script)
+        doc.wasGeneratedBy(street_lights, get_streetlights, endTime)
+        doc.wasDerivedFrom(street_lights, resource, get_streetlights, get_streetlights, get_streetlights)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
@@ -108,8 +94,8 @@ class streetLights(dml.Algorithm):
         return doc
 
 streetLights.execute()
-#doc = threeOneOne.provenance()
-#print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+doc = streetLights.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof

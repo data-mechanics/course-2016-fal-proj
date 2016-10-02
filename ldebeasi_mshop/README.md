@@ -9,3 +9,9 @@ We propose to answer the question of whether or not a neighborhood is safe. User
 * Crime Incident Reports: https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-August-2015-To-Date-Source-/fqn4-4qap
 * Approved Building Permits: https://data.cityofboston.gov/Permitting/Approved-Building-Permits/msk6-43c6
 * Master Address List: https://data.cityofboston.gov/City-Services/Master-Address-List/t85d-b449
+
+## Retrieve and Combine Data
+
+1. Run approvedBuildingPermits.py, crime.py, masterAddress.py, streetLights.py, and threeOnOne.py. This will retrieve all data and store the information in MongoDB.
+
+2. To combine datasets, you will need to run three files. Run streetLightCrimes.py to combine Street Light Locations and Crime Incident Reports. Run maintenance.py to combine Closed 311 Service Requests and Approved Building Permits. Run addressStreetLights.py to combine the Master Address List and Street Light Locations. The first combination will get the number of street lights within the area of a specific crime. The second combination will combine the approved building permits and closed 311 requests to later help us measure the amount of maintenance in a certain area. The third combination will get the number of street lights around a certain address. 
