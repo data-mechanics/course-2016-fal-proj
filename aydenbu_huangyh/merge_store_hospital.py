@@ -37,7 +37,7 @@ class merge(dml.Algorithm):
                 zip = {'_id': document['_id'],
                         'value': {
                             'numofHospital': document['value']['numofHospital'],
-                            'numofStore': 0.0}
+                            'numofStore': 0.0}  # Assign the 0 to the num if there is no result
                        }
                 zip_health.append(zip)
                 continue
