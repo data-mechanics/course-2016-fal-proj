@@ -20,8 +20,6 @@
 // Load the configuration file.
 var config = JSON.parse(cat("config.json"));
 
-print("config.repo.name:",config.repo.name);
-
 // Create role capable of evaluating stored functions.
 db = new Mongo().getDB('admin');
 db.dropRole("evaluator");
@@ -47,7 +45,7 @@ db.createUser({
 // Create repository users if they are not already present.
 listFiles().forEach(function(f) {
   if (f.isDirectory) {
-      print(f);
+
     var userName = f.baseName;
     if (db.system.users.find({user:userName}).count() > 0) {
       print("Found '" + userName + "' user in admin database; not creating a new user.");
