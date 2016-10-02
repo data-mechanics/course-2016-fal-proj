@@ -80,17 +80,62 @@ class example(dml.Algorithm):
         
         #r5, r2
     
-        # creates a new list of dictionaries that contain just fire incidents, their districts, and their ontime/delay status
-        fireInc = []
-        for dic in r5:
-            #print(type(dic['FIELD8']))
-            if (dic['FIELD8'] == 'Fire Department' or 'Fire.' or 'Fire Hydrant' or 'Fire in Food Establishment'):
-                transformed_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17']}
-                fireInc.append(transformed_dic)
-        s = json.dumps(fireInc, sort_keys=True, indent=2)
-        print(s)
-        #fireByDis = [{'District 1':}]
+        # filtering: creates a new list of dictionaries that contain just fire incidents, their districts, and their ontime/delay status
+    
+        fireDep = []
+        fire = []
+        fireHydrant = []
+        fireEstab = []
         
+        for dic in r5:
+            if (dic['FIELD8'] == 'Fire Department'):
+                new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
+                #new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
+                fireDep.append(new_dic)
+            elif (dic['FIELD8'] == 'Fire in Food Establishment'):
+                new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
+                fireEstab.append(new_dic)
+            elif (dic['FIELD8'] == 'Fire'):
+                new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'],'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
+                fire.append(new_dic)
+            elif (dic['FIELD8'] == 'Fire Hydrant'):
+                new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'],'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
+                fireHydrant.append(new_dic)
+        
+        
+        s = json.dumps(fire, sort_keys=True, indent=2)
+        #print(s)
+        districts = ['999' ,'1','12','11','3','4','6','7','8','9']
+        
+        
+        fireByDis = [{d: []} for d in districts]
+        #fireByDis = {}
+        print(fireByDis)
+        #v = {'type': 'fire'}
+        for dic in fire:
+            if (dic['District'] == '999'):
+                fireByDis[0]['999'].append(dic) 
+            elif (dic['District'] == '1'):
+                fireByDis[1]['1'].append(dic) 
+            elif (dic['District'] == '12'):
+                fireByDis[2]['12'].append(dic) 
+            elif (dic['District'] == '11'):
+                fireByDis[3]['11'].append(dic) 
+            elif (dic['District'] == '3'):
+                fireByDis[4]['3'].append(dic)
+            elif (dic['District'] == '4'):
+                fireByDis[5]['4'].append(dic) 
+            elif (dic['District'] == '6'):
+                fireByDis[6]['6'].append(dic) 
+            elif (dic['District'] == '7'):
+                fireByDis[7]['7'].append(dic) 
+            elif (dic['District'] == '8'):
+                fireByDis[8]['8'].append(dic) 
+            elif (dic['District'] == '9'):
+                fireByDis[9]['9'].append(dic) 
+        s = json.dumps(fireByDis, sort_keys=True, indent=2)
+        print(s)
+        #fireByDis[0]['District empty'] = {'type Fire': 0, 'type dep': 0}
         
         repo.logout()
 
@@ -181,7 +226,7 @@ class example(dml.Algorithm):
 
 example.execute()
 doc = example.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#print(doc.get_provn())
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
