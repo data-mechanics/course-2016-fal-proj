@@ -85,10 +85,16 @@ class example(dml.Algorithm):
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+        doc.add_namespace('ods', 'https://boston.opendatasoft.com/api/records/1.0/search/?dataset=')
+        doc.add_namespace('ede', 'http://erikdemaine.org/maps/')
 
         this_script = doc.agent('alg:ktan_ngurung#landmarkLocations', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'Landmark Locations for Advertisements', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-       
+        bigBelly_resource = doc.entity('bdp:42qi-w8d7', {'prov:label':'Big Belly Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        colleges_resource = doc.entity('ods:colleges-and-universities', {'prov:label':'Colleges and Universities', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        hubways_resource = doc.entity('ods:hubway-stations-in-boston', {'prov:label':'Hubway Stations in Boston', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        busStops_resource = doc.entity('ods:mbta-bus-stops&facet=town', {'prov:label':'MBTA Bus Stops', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        tStops_resource = doc.entity('ede:mbta', {'prov:label':'T-Stop Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+
         get_bigBelly = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_colleges = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_hubways = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
@@ -101,50 +107,50 @@ class example(dml.Algorithm):
         doc.wasAssociatedWith(get_busStops, this_script)
         doc.wasAssociatedWith(get_tStops, this_script)
 
-        doc.usage(get_bigBelly, resource, startTime, None,
+        doc.usage(get_bigBelly, bigBelly_resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        doc.usage(get_colleges, resource, startTime, None,
+        doc.usage(get_colleges, colleges_resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        doc.usage(get_hubways, resource, startTime, None,
+        doc.usage(get_hubways, hubways_resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        doc.usage(get_busStops, resource, startTime, None,
+        doc.usage(get_busStops, busStops_resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        doc.usage(get_tStops, resource, startTime, None,
+        doc.usage(get_tStops, tStops_resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        bigBelly = doc.entity('dat:ktan_ngurung#bigBelly', {prov.model.PROV_LABEL:'Big Belly Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        bigBelly = doc.entity('dat:ktan_ngurung#bigBelly', {prov.model.PROV_LABEL:'Big Belly Locations Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(bigBelly, this_script)
         doc.wasGeneratedBy(bigBelly, get_bigBelly, endTime)
-        doc.wasDerivedFrom(bigBelly, resource, get_bigBelly, get_bigBelly, get_bigBelly)
+        doc.wasDerivedFrom(bigBelly, bigBelly_resource, get_bigBelly, get_bigBelly, get_bigBelly)
 
-        colleges = doc.entity('dat:ktan_ngurung#colleges', {prov.model.PROV_LABEL:'Colleges and Universities', prov.model.PROV_TYPE:'ont:DataSet'})
+        colleges = doc.entity('dat:ktan_ngurung#colleges', {prov.model.PROV_LABEL:'Colleges and Universities Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(colleges, this_script)
         doc.wasGeneratedBy(colleges, get_colleges, endTime)
-        doc.wasDerivedFrom(colleges, resource, get_colleges, get_colleges, get_colleges)
+        doc.wasDerivedFrom(colleges, colleges_resource, get_colleges, get_colleges, get_colleges)
 
-        hubways = doc.entity('dat:ktan_ngurung#hubways', {prov.model.PROV_LABEL:'Hubway Stations', prov.model.PROV_TYPE:'ont:DataSet'})
+        hubways = doc.entity('dat:ktan_ngurung#hubways', {prov.model.PROV_LABEL:'Hubway Stations in Boston Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(hubways, this_script)
         doc.wasGeneratedBy(hubways, get_hubways, endTime)
-        doc.wasDerivedFrom(hubways, resource, get_hubways, get_hubways, get_hubways)
+        doc.wasDerivedFrom(hubways, hubways_resource, get_hubways, get_hubways, get_hubways)
 
-        busStops = doc.entity('dat:ktan_ngurung#busStops', {prov.model.PROV_LABEL:'MBTA Bus Stops', prov.model.PROV_TYPE:'ont:DataSet'})
+        busStops = doc.entity('dat:ktan_ngurung#busStops', {prov.model.PROV_LABEL:'MBTA Bus Stops Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(busStops, this_script)
         doc.wasGeneratedBy(busStops, get_busStops, endTime)
-        doc.wasDerivedFrom(busStops, resource, get_busStops, get_busStops, get_busStops)
+        doc.wasDerivedFrom(busStops, busStops_resource, get_busStops, get_busStops, get_busStops)
 
-        tStops = doc.entity('dat:ktan_ngurung#tStops', {prov.model.PROV_LABEL:'T-Stop Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        tStops = doc.entity('dat:ktan_ngurung#tStops', {prov.model.PROV_LABEL:'T-Stop Locations Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(tStops, this_script)
         doc.wasGeneratedBy(tStops, get_tStops, endTime)
-        doc.wasDerivedFrom(tStops, resource, get_tStops, get_tStops, get_tStops)
+        doc.wasDerivedFrom(tStops, tStops_resource, get_tStops, get_tStops, get_tStops)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
