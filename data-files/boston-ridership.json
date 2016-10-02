@@ -1,0 +1,82 @@
+[
+	{
+		"line": "Red Line",
+    	"title": "Red Line (main)",
+    	"stations": [
+    		{
+    			"title": "Alewife Station",
+    			"entries": 11221
+      		},
+      		{
+    			"title": "Davis Station",
+    			"entries": 12875
+      		},
+      		{
+    			"title": "Porter Square Station",
+    			"entries": 8850
+      		},
+      		{
+		        "title": "Harvard Square Station",
+		        "entries": 23199
+		    },
+		    {
+		        "title": "Central Station",
+		        "entries": 16525
+      		},
+      		{
+		        "title": "Kendall/MIT Station",
+		        "entries": 15433
+	      	},
+      		{
+		        "title": "Charles/Massachusetts General Hospital Station",
+		        "entries": 12065
+      		},
+      		{
+		        "title": "Park Street Station",
+		        "entries": 19653
+      		},
+      		{
+		        "title": "Downtown Crossing Station",
+		        "entries": 23478
+      		},
+      		{
+		        "title": "South Station",
+		        "entries": 25037
+      		},
+      		{
+		        "title": "Broadway Station",
+		        "entries": 5264
+      		},
+      		{
+		        "title": "Andrew Station",
+		        "entries": 6425
+      		},
+      		{
+		        "title": "JFK / UMass Station",
+		        "entries": 8920
+		    }
+		]
+    },
+    {
+    	"line": "Red Line",
+    	"title": "Red Line (Ashmont)",
+   		"stations": [
+   			{
+        		"title": "Savin Hill Station",
+		        "entries": 2440
+		    },
+      		{
+		        "title": "Fields Corner Station",
+		        "entries": 5298
+      		},
+      		{
+		        "title": "Shawmut Station",
+		        "entries": 2411
+	      	},
+	      	{
+		        "title": "Ashmont Station",
+		        "entries": 9293
+	      	}
+	      ]
+   	}
+]

@@ -124,104 +124,12 @@
         "longitude": -71.052392721176147
       },
       {
-        "latitude": 42.320914303987962,
-        "longitude": -71.052253246307373
-      },
-      {
-        "latitude": 42.318820024579864,
-        "longitude": -71.051995754241943
-      },
-      {
-        "latitude": 42.316305210616285,
-        "longitude": -71.051738262176514
-      },
-      {
-        "latitude": 42.315361137789381,
-        "longitude": -71.05182409286499
-      },
-      {
-        "latitude": 42.314893062816942,
-        "longitude": -71.051909923553467
-      },
-      {
-        "latitude": 42.314401183670839,
-        "longitude": -71.052103042602539
-      },
-      {
-        "latitude": 42.31363162310096,
-        "longitude": -71.052306890487671
-      },
-      {
         "latitude": 42.311307017022905,
         "title": "Savin Hill Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14289&lat=42.311099&lng=-71.053175",
         "address": "Savin Hill Avenue at Sidney Street, Dorchester",
         "lines": "Red Line (Ashmont)",
         "longitude": -71.053229570388794
-      },
-      {
-        "latitude": 42.310410473649071,
-        "longitude": -71.05358362197876
-      },
-      {
-        "latitude": 42.309918559469843,
-        "longitude": -71.053851842880249
-      },
-      {
-        "latitude": 42.308331713334731,
-        "longitude": -71.054420471191406
-      },
-      {
-        "latitude": 42.304340618487608,
-        "longitude": -71.055514812469482
-      },
-      {
-        "latitude": 42.303586804771626,
-        "longitude": -71.055750846862793
-      },
-      {
-        "latitude": 42.303269406822629,
-        "longitude": -71.055793762207031
-      },
-      {
-        "latitude": 42.302959942281753,
-        "longitude": -71.05582594871521
-      },
-      {
-        "latitude": 42.302412424367859,
-        "longitude": -71.05583667755127
-      },
-      {
-        "latitude": 42.301983928766234,
-        "longitude": -71.055783033370972
-      },
-      {
-        "latitude": 42.301563365432692,
-        "longitude": -71.055890321731567
-      },
-      {
-        "latitude": 42.301245957283122,
-        "longitude": -71.05607271194458
-      },
-      {
-        "latitude": 42.300904741737746,
-        "longitude": -71.056383848190308
-      },
-      {
-        "latitude": 42.300793647905344,
-        "longitude": -71.05656623840332
-      },
-      {
-        "latitude": 42.300579394960756,
-        "longitude": -71.056995391845703
-      },
-      {
-        "latitude": 42.300396882618124,
-        "longitude": -71.057671308517456
-      },
-      {
-        "latitude": 42.300333399940151,
-        "longitude": -71.058293581008911
       },
       {
         "latitude": 42.300261981850944,
@@ -232,76 +140,12 @@
         "longitude": -71.060707569122314
       },
       {
-        "latitude": 42.299627150831078,
-        "longitude": -71.063293218612671
-      },
-      {
-        "latitude": 42.299206571755725,
-        "longitude": -71.064355373382568
-      },
-      {
-        "latitude": 42.298754247728262,
-        "longitude": -71.064999103546143
-      },
-      {
-        "latitude": 42.298246371263829,
-        "longitude": -71.065503358840942
-      },
-      {
-        "latitude": 42.297897203818437,
-        "longitude": -71.065793037414551
-      },
-      {
-        "latitude": 42.297397256150987,
-        "longitude": -71.066136360168457
-      },
-      {
-        "latitude": 42.296786203611632,
-        "longitude": -71.066393852233887
-      },
-      {
-        "latitude": 42.296421156408393,
-        "longitude": -71.066468954086304
-      },
-      {
-        "latitude": 42.295667247877859,
-        "longitude": -71.066522598266602
-      },
-      {
-        "latitude": 42.295373617902833,
-        "longitude": -71.066490411758423
-      },
-      {
-        "latitude": 42.294794289882915,
-        "longitude": -71.06630802154541
-      },
-      {
-        "latitude": 42.29395306436669,
-        "longitude": -71.066082715988159
-      },
-      {
         "latitude": 42.292794376862929,
         "title": "Shawmut Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14352&lat=42.293712&lng=-71.065912",
         "address": "Dayton Street between Centre Street and Lyndhurst Street, Dorchester",
         "lines": "Red Line (Ashmont)",
         "longitude": -71.065782308578491
-      },
-      {
-        "latitude": 42.292048361299429,
-        "longitude": -71.065524816513062
-      },
-      {
-        "latitude": 42.28872292913119,
-        "longitude": -71.064902544021606
-      },
-      {
-        "latitude": 42.287048241692816,
-        "longitude": -71.064537763595581
-      },
-      {
-        "latitude": 42.286500585429678,
-        "longitude": -71.064419746398926
       },
       {
         "latitude": 42.285924000000001,
