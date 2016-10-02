@@ -42,3 +42,9 @@ In every script, we use the functions in `helpers.py` to connect to the authenti
 repo = openDb(getAuth("db_username"), getAuth("db_password"))
 ```
 Just need to store your own `db_username` and `db_password` in the `auth.json`
+
+###Order to run python files:
+Please run these python files with following order:
+```
+
+```
