@@ -18,4 +18,4 @@ The five datasets we used:
 </ol>
 
 ##Porcess
-Firstly we can obtain the number of average earnings in each zipcode area by using MapReduce to project and reduce to get the total earnings and counts in each zipcode, then we can obtain the average earning by (total earning / counts) for each zipcode area.
+Firstly we can obtain the number of average earnings in each zipcode area by using MapReduce to project and reduce to get the total earnings and counts in each zipcode, then we can obtain the average earning by (total earning divides counts) for each zipcode area.
