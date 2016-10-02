@@ -53,8 +53,14 @@ class example(dml.Algorithm):
         r = json.load(res)
         
         # r_loc gets all the location values for the key 'location' in r
-        r_loc = [k['location'] for k in r]    
-        
+        r_loc = [k['location'] for k in r]  
+        # cleaned up r_loc, r_loc format: [{'longitude': '...', 'latitude': '...'}, {'longitude': '...', 'latitude': '...'}, ...]
+        for dic in r_loc:
+            dic['latitude'] = dic.pop('_latitude')
+            dic['longitude'] = dic.pop('_longitude')
+            del dic['_needs_recoding']
+        print(r_loc)
+
         #repo.dropPermanent("foodEst")
         #repo.createPermanent("foodEst")
         #repo['emilyh23_yazhang.foodEst'].insert_one(r)  
