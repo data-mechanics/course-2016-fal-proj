@@ -1,0 +1,2930 @@
+[
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"586027c621bef6f3a0da48716cea972ab86c7518",
+      "fields":{
+         "comment":"0203504000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 726-3140",
+         "objectid":5,
+         "ref_id":0,
+         "cost":9386500,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"9109",
+         "city":"Charlestown",
+         "zipcode":"70077",
+         "id1":"36 1st Avenue, Boston, Massachusetts 02129-4557",
+         "latitude":42.374916,
+         "numstudent":900,
+         "numstude_1":"928",
+         "address":"36 1st Avenue, Boston, Massachusetts 02129",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.05397,
+               42.374928
+            ]
+         },
+         "schoolid":"166869",
+         "name":"MGH Institute of Health Professions",
+         "url":"http://www.mghihp.edu",
+         "numstories":"3.5",
+         "geo_point_2d":[
+            42.374928,
+            -71.05397
+         ],
+         "longitude":-71.05397,
+         "contact":"MGH INSTITUTE OF HEALTH",
+         "y":2961964.5,
+         "x":776687.3,
+         "numstude_2":1096
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.05397,
+            42.374928
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"b659e74006b3719ec309ee2d2a9ebf3ad24b0b6a",
+      "fields":{
+         "comment":"0401847000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 735-9715",
+         "objectid":6,
+         "ref_id":0,
+         "campushous":"48%",
+         "cost":99370400,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"86640",
+         "city":"Fenway/Kenmore",
+         "zipcode":"52212",
+         "id1":"400 The Fenway, Boston, Massachusetts 02115",
+         "latitude":42.341515,
+         "numstudent":2454,
+         "numstude_1":"2519",
+         "address":"400 Fenway, Massachusetts 02115",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.10348,
+               42.341526
+            ]
+         },
+         "schoolid":"165671",
+         "name":"Emmanuel College",
+         "url":"http://www.emmanuel.edu",
+         "numstories":"3",
+         "geo_point_2d":[
+            42.341526,
+            -71.10348
+         ],
+         "longitude":-71.10348,
+         "contact":"EMMANUEL COLLEGE TRUSTEES",
+         "y":2949726.5,
+         "x":763367,
+         "numstude_2":2436
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.10348,
+            42.341526
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"562e64f900e32d1826087dfb18cc30686c11a0ce",
+      "fields":{
+         "comment":"0401806000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 267-6100",
+         "objectid":7,
+         "ref_id":0,
+         "campushous":"14%",
+         "cost":8437121,
+         "yearbuilt":"1987",
+         "backuppowe":0,
+         "id":"86302",
+         "city":"Fenway/Kenmore",
+         "zipcode":"113496",
+         "id1":"230 The Fenway, Boston, Massachusetts 02115-5596",
+         "latitude":42.33854,
+         "numstudent":754,
+         "numstude_1":"747",
+         "address":"230 The Fenway, Boston, Massachusetts 02115",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.096695,
+               42.338547
+            ]
+         },
+         "schoolid":"166984",
+         "name":"School of the Museum of Fine Arts-Boston",
+         "url":"http://www.smfa.edu",
+         "numstories":"3",
+         "geo_point_2d":[
+            42.338547,
+            -71.096695
+         ],
+         "longitude":-71.096695,
+         "contact":"MUSEUM OF FINE ARTS",
+         "y":2948649.8,
+         "x":765206.25,
+         "numstude_2":651
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.096695,
+            42.338547
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"3149c7bc6b89e687f5051a38606124edf789d5b2",
+      "fields":{
+         "comment":"0401842000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 521-2000",
+         "objectid":8,
+         "ref_id":0,
+         "campushous":"75%",
+         "cost":55553100,
+         "yearbuilt":"1976",
+         "backuppowe":0,
+         "id":"86125",
+         "city":"Fenway/Kenmore",
+         "zipcode":"240740",
+         "id1":"300 The Fenway, Boston, Massachusetts 02115-5898",
+         "latitude":42.339188,
+         "numstudent":5003,
+         "numstude_1":"4829",
+         "address":"300 Fenway, Boston, Massachusetts 02115",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.09994,
+               42.339195
+            ]
+         },
+         "schoolid":"167783",
+         "name":"Simmons",
+         "url":"http://www.simmons.edu",
+         "numstories":"4",
+         "geo_point_2d":[
+            42.339195,
+            -71.09994
+         ],
+         "longitude":-71.09994,
+         "contact":"SIMMONS COLLEGE",
+         "y":2948882.2,
+         "x":764327.5,
+         "numstude_2":4900
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.09994,
+            42.339195
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"13eaebaa2458c0f354575342efe12f89229b25d4",
+      "fields":{
+         "comment":"0401795000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 536-6340",
+         "objectid":10,
+         "ref_id":0,
+         "campushous":"29%",
+         "cost":4900600,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"22285",
+         "city":"Fenway/Kenmore",
+         "zipcode":"35350",
+         "id1":"8 the Fenway, Boston, Massachusetts 02215",
+         "latitude":42.346058,
+         "numstudent":682,
+         "numstude_1":"710",
+         "address":"8 Fenway, Boston, Massachusetts 02215",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.09001,
+               42.346066
+            ]
+         },
+         "schoolid":"164933",
+         "name":"The Boston Conservatory",
+         "url":"http://www.bostonconservatory.edu",
+         "numstories":"6",
+         "geo_point_2d":[
+            42.346066,
+            -71.09001
+         ],
+         "longitude":-71.09001,
+         "contact":"BOSTON CONSERVATRY MUSIC",
+         "y":2951398.8,
+         "x":766999.75,
+         "numstude_2":774
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.09001,
+            42.346066
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"d86c4a2f4a1efd0af680152e47018b24952b1cf7",
+      "fields":{
+         "comment":"1100029000",
+         "match_type":"NCES",
+         "phonenumbe":"(617) 427-0060",
+         "objectid":12,
+         "ref_id":0,
+         "cost":30893400,
+         "yearbuilt":"1986",
+         "backuppowe":0,
+         "id":"89176",
+         "city":"Roxbury",
+         "zipcode":"144812",
+         "id1":"1234 Columbus Ave, Roxbury Crossing, Massachusett*",
+         "latitude":42.329235,
+         "numstudent":2749,
+         "numstude_1":"2744",
+         "address":"1234 Columbus Ave, Roxbury Crossing, Massachusetts 02120",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.0955,
+               42.329243
+            ]
+         },
+         "schoolid":"167631",
+         "name":"Roxbury Community College",
+         "url":"http://www.rcc.mass.edu",
+         "numstories":"5",
+         "geo_point_2d":[
+            42.329243,
+            -71.0955
+         ],
+         "longitude":-71.0955,
+         "contact":"BOARD OF REGENTS OF",
+         "y":2945261.2,
+         "x":765546.56,
+         "numstude_2":2437
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.0955,
+            42.329243
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"11d97b72bf25a7f13564bd1ee6ae15954d65ae7c",
+      "fields":{
+         "comment":"1303400000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 287-5000",
+         "objectid":13,
+         "ref_id":0,
+         "cost":195575300,
+         "yearbuilt":"1960",
+         "backuppowe":0,
+         "id":"91520",
+         "city":"North Dorchester",
+         "zipcode":"264200",
+         "id1":"100 Morrissey Boulevard, Boston, Massachusetts 02*",
+         "latitude":42.31381,
+         "numstudent":14912,
+         "numstude_1":"15741",
+         "address":"100 Morrissey Blvd, Boston, Massachusetts 02125",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.0392,
+               42.31382
+            ]
+         },
+         "schoolid":"166638",
+         "name":"University of Massachusetts-Boston",
+         "url":"http://www.umb.edu",
+         "numstories":"5",
+         "geo_point_2d":[
+            42.31382,
+            -71.0392
+         ],
+         "longitude":-71.0392,
+         "contact":"COMMONWEALTH OF MASS",
+         "y":2939717,
+         "x":780798.44,
+         "numstude_2":16277
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.0392,
+            42.31382
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"c39dcce167a547b8147f7de6d7a1a8034c530734",
+      "fields":{
+         "comment":"0503757000",
+         "match_type":"Consortium",
+         "phonenumbe":"(617)-353-4101",
+         "objectid":19,
+         "ref_id":0,
+         "cost":82800,
+         "yearbuilt":"1925",
+         "backuppowe":0,
+         "id":"16267",
+         "city":"Fenway/Kenmore",
+         "zipcode":"0",
+         "latitude":42.34954,
+         "numstudent":0,
+         "address":"19 Deerfield Rd",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.09701,
+               42.34955
+            ]
+         },
+         "schoolid":"0",
+         "name":"Boston University Rental Office",
+         "numstories":"4",
+         "geo_point_2d":[
+            42.34955,
+            -71.09701
+         ],
+         "longitude":-71.09701,
+         "contact":"BOSTON UNIVERSITY TRSTS OF",
+         "y":2952658.8,
+         "x":765101.8,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.09701,
+            42.34955
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"5892725239123b6e47b4471b712d936ceb605a39",
+      "fields":{
+         "comment":"0401882000",
+         "match_type":"Consortium",
+         "objectid":26,
+         "ref_id":0,
+         "cost":522739567,
+         "yearbuilt":"1906",
+         "backuppowe":0,
+         "id":"98086",
+         "city":"Fenway/Kenmore",
+         "zipcode":"67821",
+         "id1":"Massachusetts Hall, Cambridge, Massachusetts 02138",
+         "latitude":42.336502,
+         "numstudent":0,
+         "numstude_1":"27392",
+         "address":"200 Longwood Ave",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.10247,
+               42.33651
+            ]
+         },
+         "schoolid":"0",
+         "name":"Harvard Medical School",
+         "url":"http://www.hms.harvard.edu",
+         "numstories":"5",
+         "geo_point_2d":[
+            42.33651,
+            -71.10247
+         ],
+         "longitude":-71.10247,
+         "contact":"HARVARD COLLEGE",
+         "y":2947900,
+         "x":763648,
+         "numstude_2":1732
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.10247,
+            42.33651
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"c724ff9da673ed55cdc089b55f6099e6a5bfff84",
+      "fields":{
+         "comment":"2200480000",
+         "match_type":"Consortium",
+         "objectid":30,
+         "ref_id":0,
+         "cost":26812300,
+         "yearbuilt":"1975",
+         "backuppowe":0,
+         "id":"79841",
+         "city":"Allston/Brighton",
+         "zipcode":"92340",
+         "latitude":42.365227,
+         "numstudent":0,
+         "address":"Soldiers Field Rd",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.120056,
+               42.365234
+            ]
+         },
+         "schoolid":"0",
+         "name":"Harvard Business School",
+         "url":"http://www.hbs.edu",
+         "numstories":"3",
+         "geo_point_2d":[
+            42.365234,
+            -71.120056
+         ],
+         "longitude":-71.120056,
+         "contact":"HARVARD COLLEGE",
+         "y":2958346.8,
+         "x":758846.6,
+         "numstude_2":913
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.120056,
+            42.365234
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"ec23e367fbcc297bd7320ddd493bcdb71ce3870b",
+      "fields":{
+         "comment":"0302292000",
+         "match_type":"NCES",
+         "phonenumbe":"(617) 227-0155",
+         "objectid":32,
+         "ref_id":0,
+         "cost":5845800,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"9019",
+         "city":"North End",
+         "zipcode":"33790",
+         "id1":"150 North Street, Boston, Massachusetts 02109",
+         "latitude":42.36589,
+         "numstudent":144,
+         "numstude_1":"151",
+         "address":"39 North Bennet St, Boston, Massachusetts 02113",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.05478,
+               42.3659
+            ]
+         },
+         "schoolid":"167297",
+         "name":"North Bennet Street School",
+         "url":"http://www.nbss.org",
+         "numstories":"4",
+         "geo_point_2d":[
+            42.3659,
+            -71.05478
+         ],
+         "longitude":-71.05478,
+         "contact":"NO BENNETT ST IND SCHL",
+         "y":2958673.8,
+         "x":776486.1,
+         "numstude_2":161
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.05478,
+            42.3659
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"dc01cbb244c0d60efe2e079cbc2372a9239b4ece",
+      "fields":{
+         "comment":"0501353000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 236-8000",
+         "objectid":35,
+         "ref_id":0,
+         "campushous":"19%",
+         "cost":832000,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"14049",
+         "city":"Back Bay",
+         "zipcode":"10182",
+         "id1":"122 Commonwealth Avenue, Boston, Massachusetts 02*",
+         "latitude":42.35177,
+         "numstudent":753,
+         "numstude_1":"1225",
+         "address":"122 Commonwealth Avenue, Boston, Massachusetts 02116",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.07694,
+               42.35178
+            ]
+         },
+         "schoolid":"164641",
+         "name":"Bay State College",
+         "url":"http://www.baystate.edu",
+         "numstories":"4",
+         "geo_point_2d":[
+            42.35178,
+            -71.07694
+         ],
+         "longitude":-71.07694,
+         "contact":"PFANNENSTIEHL FREDERICK G TS",
+         "y":2953497.5,
+         "x":770523,
+         "numstude_2":1204
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.07694,
+            42.35178
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"6331477d5a114c386bcb7dfea4897e5b9591fe4f",
+      "fields":{
+         "comment":"0502814000",
+         "match_type":"NCES",
+         "phonenumbe":"(617) 536-4623",
+         "objectid":36,
+         "ref_id":0,
+         "cost":594700,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"13825",
+         "city":"Back Bay",
+         "zipcode":"8520",
+         "latitude":42.35498,
+         "numstudent":23,
+         "address":"111 Beacon St, Boston, Massachusetts 02116",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.07316,
+               42.35499
+            ]
+         },
+         "schoolid":"165149",
+         "name":"Butera School Of Art",
+         "url":"http://www.buteraschool.com",
+         "numstories":"5",
+         "geo_point_2d":[
+            42.35499,
+            -71.07316
+         ],
+         "longitude":-71.07316,
+         "contact":"BUTERA JOSEPH L",
+         "y":2954672.5,
+         "x":771538.9,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.07316,
+            42.35499
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"fc3137e43f6bf1b659c1e81715b84a5efd9d296a",
+      "fields":{
+         "comment":"0401844000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 732-2800",
+         "objectid":44,
+         "ref_id":0,
+         "campushous":"17%",
+         "cost":87531900,
+         "yearbuilt":"1917",
+         "backuppowe":0,
+         "id":"86582",
+         "city":"Fenway/Kenmore",
+         "zipcode":"104000",
+         "id1":"179 Longwood Ave, Boston, Massachusetts 02115-5896",
+         "latitude":42.33688,
+         "numstudent":4252,
+         "numstude_1":"5327",
+         "address":"179 Longwood Ave, Boston, Massachusetts 02115",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.10112,
+               42.336887
+            ]
+         },
+         "schoolid":"166656",
+         "name":"MCPHS University",
+         "url":"http://www.mcp.edu",
+         "numstories":"4",
+         "geo_point_2d":[
+            42.336887,
+            -71.10112
+         ],
+         "longitude":-71.10112,
+         "contact":"MASS COLLEGE OF PHARMACY",
+         "y":2948039.8,
+         "x":764012.4,
+         "numstude_2":6548
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.10112,
+            42.336887
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"8f4bda0d57e74a3953c693b427268cd04fdebc5e",
+      "fields":{
+         "comment":"0402236000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 373-2000",
+         "objectid":46,
+         "ref_id":0,
+         "cost":426358800,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"23123",
+         "city":"Fenway/Kenmore",
+         "zipcode":"142900",
+         "id1":"360 Huntington Ave, Boston, Massachusetts 02115-5*",
+         "latitude":42.34005,
+         "numstudent":27537,
+         "numstude_1":"26959",
+         "address":"360 Huntington Ave, Boston, Massachusetts 02115",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.08889,
+               42.340057
+            ]
+         },
+         "schoolid":"167358",
+         "name":"Northeastern University",
+         "url":"http://www.northeastern.edu",
+         "numstories":"3",
+         "geo_point_2d":[
+            42.340057,
+            -71.08889
+         ],
+         "longitude":-71.08889,
+         "contact":"NORTHEASTERN UNIVERSITY",
+         "y":2949210,
+         "x":767313,
+         "numstude_2":8479
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.08889,
+            42.340057
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"fdb9bac98a626a0b92948beedb445a3d425cdbfd",
+      "fields":{
+         "comment":"2100360000",
+         "match_type":"Consortium",
+         "phonenumbe":"(617)-353-3696",
+         "objectid":14,
+         "ref_id":0,
+         "cost":1484500,
+         "yearbuilt":"0",
+         "backuppowe":0,
+         "id":"15399",
+         "city":"Fenway/Kenmore",
+         "zipcode":"0",
+         "latitude":42.350834,
+         "numstudent":0,
+         "address":"771 Commonwealth Ave",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.109,
+               42.35084
+            ]
+         },
+         "schoolid":"0",
+         "name":"Boston University Research",
+         "numstories":"5",
+         "geo_point_2d":[
+            42.35084,
+            -71.109
+         ],
+         "longitude":-71.109,
+         "contact":"BOSTON UNIVERSITY TRSTS",
+         "y":2953114.8,
+         "x":761858.25,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.109,
+            42.35084
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"0b8ac98256e72689070b967374f3c7991288b4a2",
+      "fields":{
+         "comment":"0504089000",
+         "match_type":"Consortium",
+         "phonenumbe":"(617)-353-2711",
+         "objectid":16,
+         "ref_id":0,
+         "cost":19403300,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"15282",
+         "city":"Fenway/Kenmore",
+         "zipcode":"85902",
+         "latitude":42.349834,
+         "numstudent":0,
+         "address":"635 Commonwealth Ave",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.10204,
+               42.349842
+            ]
+         },
+         "schoolid":"0",
+         "name":"Boston University Sargent College",
+         "url":"http://www.bu.edu/sargent/about-us/fast-facts/",
+         "numstories":"7",
+         "geo_point_2d":[
+            42.349842,
+            -71.10204
+         ],
+         "longitude":-71.10204,
+         "contact":"BOSTON UNIVERSITY TRS OF",
+         "y":2952759.5,
+         "x":763740.2,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.10204,
+            42.349842
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"17196328c28ebf1567f3ddf335eb0f7598076f52",
+      "fields":{
+         "comment":"0304817000",
+         "match_type":"NCES",
+         "objectid":33,
+         "ref_id":0,
+         "cost":1618800,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"12435",
+         "city":"Financial District",
+         "zipcode":"25175",
+         "x":774455.56,
+         "latitude":42.35485,
+         "numstudent":205,
+         "address":"30 West Street, Boston, Massachusetts 02111",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.06237,
+               42.35486
+            ]
+         },
+         "schoolid":"164845",
+         "name":"Empire Beauty School-Boston",
+         "numstories":"5",
+         "geo_point_2d":[
+            42.35486,
+            -71.06237
+         ],
+         "longitude":-71.06237,
+         "contact":"CHENG HUNG TS",
+         "y":2954639.8,
+         "numstude_1":"280",
+         "numstude_2":241
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.06237,
+            42.35486
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"549937b2501a0cb5d12d1f065ac394465592b964",
+      "fields":{
+         "comment":"0502574000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 236-8800",
+         "objectid":38,
+         "ref_id":0,
+         "campushous":"40%",
+         "cost":280651,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"13866",
+         "city":"Back Bay",
+         "zipcode":"21600",
+         "id1":"118 Beacon Street, Boston, Massachusetts 02116",
+         "latitude":42.35525,
+         "numstudent":1593,
+         "numstude_1":"1821",
+         "address":"118 Beacon Street, Boston, Massachusetts 02116",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.07414,
+               42.35526
+            ]
+         },
+         "schoolid":"165802",
+         "name":"Fisher College",
+         "url":"http://www.fisher.edu",
+         "numstories":"5",
+         "geo_point_2d":[
+            42.35526,
+            -71.07414
+         ],
+         "longitude":-71.07414,
+         "contact":"FISHER SCHOOL",
+         "y":2954769.5,
+         "x":771273.5,
+         "numstude_2":1930
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.07414,
+            42.35526
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"44e11bef36e64c5436af6653c5e2d9e2083b7a5b",
+      "fields":{
+         "comment":"0504144000",
+         "match_type":"NCES",
+         "phonenumbe":"(617) 585-6600",
+         "objectid":52,
+         "ref_id":0,
+         "campushous":"27%",
+         "cost":7212500,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"98366",
+         "city":"Fenway/Kenmore",
+         "zipcode":"37990",
+         "latitude":42.3485,
+         "numstudent":0,
+         "address":"700 Beacon St, Boston, Massachusetts 02215",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.09937,
+               42.348507
+            ]
+         },
+         "schoolid":"16645201",
+         "name":"Art Institute of Boston at Lesley University",
+         "url":"http://www.aiboston.edu",
+         "numstories":"4",
+         "geo_point_2d":[
+            42.348507,
+            -71.09937
+         ],
+         "longitude":-71.09937,
+         "contact":"ART INSTITUTE OF BOSTON",
+         "y":2952276.8,
+         "x":764465.6,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.09937,
+            42.348507
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"179be1201aa7040a443247c8b2cf5eda99593d31",
+      "fields":{
+         "city":"Boston",
+         "schoolid":"167543",
+         "name":"Rets Technical Center",
+         "objectid":61,
+         "url":"http://www.retstech.com",
+         "numstudent":0,
+         "geo_point_2d":[
+            42.352013,
+            -71.11921
+         ],
+         "longitude":0,
+         "zipcode":"02215",
+         "latitude":0,
+         "cost":0,
+         "backuppowe":0,
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.11921,
+               42.352013
+            ]
+         },
+         "numstude_2":0,
+         "ref_id":0,
+         "id":"167543",
+         "address":"965 Commonwealth Ave",
+         "phonenumbe":"(617) 783-1197"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.11921,
+            42.352013
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"51c723415b3cf58c8f6436df75c05e9ae3bcedcc",
+      "fields":{
+         "comment":"0402011000",
+         "match_type":"NCES",
+         "phonenumbe":"(617) 734-5200",
+         "objectid":11,
+         "ref_id":0,
+         "campushous":"70%",
+         "cost":11614900,
+         "yearbuilt":"1925",
+         "backuppowe":0,
+         "id":"86683",
+         "city":"Fenway/Kenmore",
+         "zipcode":"75256",
+         "id1":"200 Riverway, Boston, Massachusetts 02215-4176",
+         "latitude":42.34174,
+         "numstudent":1055,
+         "numstude_1":"1285",
+         "address":"200 the Riverway, Boston, Massachusetts 02215",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.10642,
+               42.341747
+            ]
+         },
+         "schoolid":"168290",
+         "name":"Wheelock College",
+         "url":"http://www.wheelock.edu",
+         "numstories":"3",
+         "geo_point_2d":[
+            42.341747,
+            -71.10642
+         ],
+         "longitude":-71.10642,
+         "contact":"WHEELOCK SCHOOL",
+         "y":2949804.2,
+         "x":762571.25,
+         "numstude_2":1378
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.10642,
+            42.341747
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"33e5044fad61f2ce0dff58885353c700a0ab86f2",
+      "fields":{
+         "comment":"0504037000",
+         "match_type":"Consortium",
+         "phonenumbe":"(617)-353-2300",
+         "objectid":18,
+         "ref_id":0,
+         "cost":2624800,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"16291",
+         "city":"Fenway/Kenmore",
+         "zipcode":"13055",
+         "latitude":42.350433,
+         "numstudent":0,
+         "address":"121 Bay State Rd",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.09885,
+               42.35044
+            ]
+         },
+         "schoolid":"0",
+         "name":"Boston University Admissions",
+         "numstories":"4",
+         "geo_point_2d":[
+            42.35044,
+            -71.09885
+         ],
+         "longitude":-71.09885,
+         "contact":"BOSTON UNIVERSITY TRSTS",
+         "y":2952982,
+         "x":764603.2,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.09885,
+            42.35044
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"546460a916c6239cb31a444d6590737bac1d8c23",
+      "fields":{
+         "comment":"0801408000",
+         "match_type":"Consortium",
+         "phonenumbe":"(617)-414-2188",
+         "objectid":22,
+         "ref_id":0,
+         "cost":72049800,
+         "yearbuilt":"1978",
+         "backuppowe":0,
+         "id":"17534",
+         "city":"South End",
+         "zipcode":"262488",
+         "latitude":42.336388,
+         "numstudent":0,
+         "address":"85 East Newton St",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.07097,
+               42.336395
+            ]
+         },
+         "schoolid":"0",
+         "name":"Boston University School of Medicine",
+         "numstories":"10",
+         "geo_point_2d":[
+            42.336395,
+            -71.07097
+         ],
+         "longitude":-71.07097,
+         "contact":"COMMWLTH OF MASS",
+         "y":2947900,
+         "x":772165,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.07097,
+            42.336395
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"cd06ebbc72a23a0be568ff5226ab100f3914be14",
+      "fields":{
+         "comment":"0401996000",
+         "match_type":"Consortium",
+         "phonenumbe":"(617)-632-2739",
+         "objectid":28,
+         "ref_id":0,
+         "cost":37257100,
+         "yearbuilt":"1991",
+         "backuppowe":0,
+         "id":"86735",
+         "city":"Fenway/Kenmore",
+         "zipcode":"399470",
+         "latitude":42.34004,
+         "numstudent":0,
+         "address":"375 Longwood Ave",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.10831,
+               42.34005
+            ]
+         },
+         "schoolid":"0",
+         "name":"MASCO Colleges of the Fenway",
+         "numstories":"7",
+         "geo_point_2d":[
+            42.34005,
+            -71.10831
+         ],
+         "longitude":-71.10831,
+         "contact":"CONG ADATH ISRAEL OF BOSTON",
+         "y":2949182.5,
+         "x":762063.1,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.10831,
+            42.34005
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"dbb972491f01bf2c0181b54763e53534fb517937",
+      "fields":{
+         "comment":"0304211000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 951-2350",
+         "objectid":31,
+         "ref_id":0,
+         "cost":12889200,
+         "yearbuilt":"1920",
+         "backuppowe":0,
+         "id":"12255",
+         "city":"Financial District",
+         "zipcode":"127396",
+         "id1":"10 High St Ste 204, Boston, Massachusetts 02110",
+         "latitude":42.35353,
+         "numstudent":765,
+         "numstude_1":"1319",
+         "address":"10 High St, Boston, Massachusetts 02110",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.05673,
+               42.35354
+            ]
+         },
+         "schoolid":"164438",
+         "name":"New England College of Business and Finance",
+         "url":"http://www.finance.edu",
+         "numstories":"11",
+         "geo_point_2d":[
+            42.35354,
+            -71.05673
+         ],
+         "longitude":-71.05673,
+         "contact":"POWER JOHN F",
+         "y":2954166.8,
+         "x":775982.5,
+         "numstude_2":1145
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.05673,
+            42.35354
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"456c35347b907f8f51a339974c9993966a816531",
+      "fields":{
+         "comment":"0500043010",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 824-8500",
+         "objectid":37,
+         "ref_id":0,
+         "campushous":"48%",
+         "cost":4545500,
+         "yearbuilt":"0",
+         "backuppowe":0,
+         "id":"14326",
+         "city":"Beacon Hill",
+         "zipcode":"0",
+         "id1":"120 Boylston Street, Boston, Massachusetts 02116-*",
+         "latitude":42.35222,
+         "numstudent":4556,
+         "numstude_1":"4469",
+         "address":"120 Boylston Street, Boston, Massachusetts 02116",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.065735,
+               42.352226
+            ]
+         },
+         "schoolid":"165662",
+         "name":"Emerson College",
+         "url":"http://www.emerson.edu",
+         "geo_point_2d":[
+            42.352226,
+            -71.065735
+         ],
+         "longitude":-71.065735,
+         "contact":"EMERSON COLLEGE",
+         "y":2953676.5,
+         "x":773550.7,
+         "numstude_2":4561
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.065735,
+            42.352226
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"c64843c6d20837956a715d89db0488f84a355739",
+      "fields":{
+         "comment":"0500077000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 451-0010",
+         "objectid":40,
+         "ref_id":0,
+         "cost":8714400,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"13000",
+         "city":"Beacon Hill",
+         "zipcode":"65429",
+         "id1":"154 Stuart St, Boston, Massachusetts 02116",
+         "latitude":42.35077,
+         "numstudent":1096,
+         "address":"154 Stuart St, Boston, Massachusetts 02116",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.06642,
+               42.35078
+            ]
+         },
+         "schoolid":"167215",
+         "name":"New England School of Law",
+         "url":"http://www.nesl.edu",
+         "numstories":"5",
+         "geo_point_2d":[
+            42.35078,
+            -71.06642
+         ],
+         "longitude":-71.06642,
+         "contact":"NEW ENGLAND SCHOOL OF LAW",
+         "y":2953147.5,
+         "x":773367.25,
+         "numstude_2":964
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.06642,
+            42.35078
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"e4d928c2ee53e7934a5094c0fbacfd0fde4efda4",
+      "fields":{
+         "comment":"0202161000",
+         "match_type":"NCES",
+         "phonenumbe":"(617) 580-4010",
+         "objectid":41,
+         "ref_id":0,
+         "cost":16958900,
+         "yearbuilt":"1920",
+         "backuppowe":0,
+         "id":"2262",
+         "city":"Charlestown",
+         "zipcode":"606500",
+         "latitude":42.38101,
+         "numstudent":619,
+         "address":"570 Rutherford Ave, Charlestown, Massachusetts 02129",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.07245,
+               42.38102
+            ]
+         },
+         "schoolid":"167543",
+         "name":"Kaplan Career Institute (Closed)",
+         "numstories":"3",
+         "geo_point_2d":[
+            42.38102,
+            -71.07245
+         ],
+         "longitude":-71.07245,
+         "contact":"HOOD BUSINESS PARK LLC",
+         "y":2964159.2,
+         "x":771684.06,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.07245,
+            42.38102
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"e6daf738b60f46ecabbbbc99055e6ff346ce33d8",
+      "fields":{
+         "comment":"0503938000",
+         "match_type":"NCES",
+         "phonenumbe":"(617) 695-4103",
+         "objectid":50,
+         "ref_id":0,
+         "cost":3854600,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"16255",
+         "city":"Fenway/Kenmore",
+         "zipcode":"34112",
+         "x":765180.6,
+         "latitude":42.34849,
+         "numstudent":249,
+         "address":"540 Commonwealth Ave, Boston, Massachusetts 02215",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.096725,
+               42.3485
+            ]
+         },
+         "schoolid":"457013",
+         "name":"Kaplan Career Institute (Closed)",
+         "numstories":"3",
+         "geo_point_2d":[
+            42.3485,
+            -71.096725
+         ],
+         "longitude":-71.096725,
+         "contact":"SHUBERT FOUNDATION INC",
+         "y":2952277,
+         "numstude_1":"218",
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.096725,
+            42.3485
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"25e975ff4d3658e81c549c2ca0218f63a508a8e2",
+      "fields":{
+         "comment":"2009228000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 327-6777",
+         "objectid":58,
+         "ref_id":0,
+         "cost":5477000,
+         "yearbuilt":"1975",
+         "backuppowe":0,
+         "id":"41509",
+         "city":"West Roxbury",
+         "zipcode":"119454",
+         "id1":"One Wells Avenue, Newton, Massachusetts 02459",
+         "latitude":42.278893,
+         "numstudent":448,
+         "numstude_1":"558",
+         "address":"221 Rivermoor St, Boston, Massachusetts 02132",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.18035,
+               42.2789
+            ]
+         },
+         "schoolid":"166717",
+         "name":"Massachusetts School of Professional Psychology",
+         "url":"http://www.mspp.edu",
+         "numstories":"1",
+         "geo_point_2d":[
+            42.2789,
+            -71.18035
+         ],
+         "longitude":-71.18035,
+         "contact":"CITY OF BOSTON",
+         "y":2926817.8,
+         "x":742669.8,
+         "numstude_2":652
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.18035,
+            42.2789
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"faa607738c620c1c1b2016453b0257a058feb08b",
+      "fields":{
+         "comment":"1810945000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 364-3510",
+         "objectid":59,
+         "ref_id":0,
+         "cost":3326900,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"62594",
+         "city":"Hyde Park",
+         "zipcode":"35206",
+         "id1":"950 Metropolitan Ave, Boston, Massachusetts 02136*",
+         "latitude":42.254,
+         "numstudent":147,
+         "numstude_1":"103",
+         "address":"950 Metropolitan Ave, Boston, Massachusetts 02136",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.11026,
+               42.25401
+            ]
+         },
+         "schoolid":"164614",
+         "name":"Boston Baptist College",
+         "url":"http://www.boston.edu",
+         "numstories":"3",
+         "geo_point_2d":[
+            42.25401,
+            -71.11026
+         ],
+         "longitude":-71.11026,
+         "contact":"BOSTON BAPTIST COLLEGE",
+         "y":2917825.8,
+         "x":761679.2,
+         "numstude_2":96
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.11026,
+            42.25401
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"7d08f15f5ef3179affce033d9a56a8ed0d2d0146",
+      "fields":{
+         "comment":"0300381001",
+         "match_type":"NCES",
+         "phonenumbe":"(617) 726-2589",
+         "objectid":1,
+         "ref_id":0,
+         "cost":106836600,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"98627",
+         "city":"West End",
+         "zipcode":"365190",
+         "id1":"Fruit St, Boston, Massachusetts 02114-2696",
+         "latitude":42.36259,
+         "numstudent":10,
+         "address":"Fruit St, Boston, Massachusetts 02114",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.070145,
+               42.3626
+            ]
+         },
+         "schoolid":"431594",
+         "name":"Massachusetts General Hospital Dietetic Internship",
+         "url":"N/A",
+         "numstories":"13",
+         "geo_point_2d":[
+            42.3626,
+            -71.070145
+         ],
+         "longitude":-71.070145,
+         "contact":"MASS GEN EYE * EAR INF",
+         "y":2957450,
+         "x":772341,
+         "numstude_2":20
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.070145,
+            42.3626
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"b89022cb9b7484092522a213a51837f839e2eb77",
+      "fields":{
+         "comment":"0202170000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 228-2000",
+         "objectid":4,
+         "ref_id":0,
+         "cost":17181400,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"1949",
+         "city":"Charlestown",
+         "zipcode":"203509",
+         "id1":"250 New Rutherford Ave, Boston, Massachusetts 021*",
+         "latitude":42.37512,
+         "numstudent":11009,
+         "numstude_1":"12934",
+         "address":"250 New Rutherford Ave, Boston, Massachusetts 02129",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.06957,
+               42.375126
+            ]
+         },
+         "schoolid":"165112",
+         "name":"Bunker Hill Community College",
+         "url":"http://www.bhcc.mass.edu",
+         "numstories":"4",
+         "geo_point_2d":[
+            42.375126,
+            -71.06957
+         ],
+         "longitude":-71.06957,
+         "contact":"COMMONWEALTH OF MASS",
+         "y":2962015.5,
+         "x":772471.75,
+         "numstude_2":14023
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.06957,
+            42.375126
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"299a589fa798d9f52cbeb88095891946ed126ec7",
+      "fields":{
+         "comment":"2100392000",
+         "match_type":"Consortium",
+         "phonenumbe":"(617)-353-9000",
+         "objectid":15,
+         "ref_id":0,
+         "cost":5529700,
+         "yearbuilt":"1931",
+         "backuppowe":0,
+         "id":"15400",
+         "city":"Fenway/Kenmore",
+         "zipcode":"54767",
+         "latitude":42.351162,
+         "numstudent":0,
+         "address":"1 University Rd",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.10977,
+               42.35117
+            ]
+         },
+         "schoolid":"0",
+         "name":"Boston University School of Law",
+         "url":"http://www.bu.edu/law/about/overview.html",
+         "numstories":"3",
+         "geo_point_2d":[
+            42.35117,
+            -71.10977
+         ],
+         "longitude":-71.10977,
+         "contact":"BOSTON UNIVERSITY TRSTS",
+         "y":2953233.8,
+         "x":761649.06,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.10977,
+            42.35117
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"65c5d1a5dffa056d136b9a58a5a9765b87e39e26",
+      "fields":{
+         "comment":"0503981000",
+         "match_type":"Consortium",
+         "phonenumbe":"(617)-353-9720",
+         "objectid":17,
+         "ref_id":0,
+         "cost":998700,
+         "yearbuilt":"1960",
+         "backuppowe":0,
+         "id":"16275",
+         "city":"Fenway/Kenmore",
+         "zipcode":"12908",
+         "latitude":42.349438,
+         "numstudent":0,
+         "address":"595 Commonwealth Ave",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.09811,
+               42.349445
+            ]
+         },
+         "schoolid":"0",
+         "name":"Boston University School of Management",
+         "numstories":"2",
+         "geo_point_2d":[
+            42.349445,
+            -71.09811
+         ],
+         "longitude":-71.09811,
+         "contact":"BOSTON UNIVERSITY TRSTS OF",
+         "y":2952620,
+         "x":764805,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.09811,
+            42.349445
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"478da62f4ffc52c1e0c8dc74b19af1f4f6ecca60",
+      "fields":{
+         "comment":"2100400000",
+         "match_type":"Consortium",
+         "phonenumbe":"(617)-353-6500",
+         "objectid":20,
+         "ref_id":0,
+         "cost":18007000,
+         "yearbuilt":"1990",
+         "backuppowe":0,
+         "id":"84599",
+         "city":"Allston/Brighton",
+         "zipcode":"122743",
+         "latitude":42.35196,
+         "numstudent":0,
+         "address":"25 Buick Street",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.115234,
+               42.351967
+            ]
+         },
+         "schoolid":"0",
+         "name":"Boston University Trustees",
+         "numstories":"3",
+         "geo_point_2d":[
+            42.351967,
+            -71.115234
+         ],
+         "longitude":-71.11523,
+         "contact":"BOSTON UNIVERSITY",
+         "y":2953517.8,
+         "x":760172.7,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.115234,
+            42.351967
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"4eccb5842b9bc4a1c94e2b4eb525d30d86690005",
+      "fields":{
+         "city":"Chestnut Hill",
+         "y":2946850,
+         "schoolid":"164924",
+         "match_type":"Consortium",
+         "name":"Boston College",
+         "objectid":24,
+         "numstudent":15036,
+         "geo_point_2d":[
+            42.33384,
+            -71.16972
+         ],
+         "longitude":-71.169716,
+         "ref_id":0,
+         "numstude_1":"14754",
+         "latitude":42.33383,
+         "cost":0,
+         "yearbuilt":"0",
+         "backuppowe":0,
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.16972,
+               42.33384
+            ]
+         },
+         "x":745469.5,
+         "numstude_2":14309,
+         "id":"14097",
+         "address":"140 Commonwealth Avenue, Chestnut Hill, Massachusetts 02467"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.16972,
+            42.33384
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"e6de5f12f7129eae67c7a9ec5454ec1c7046c325",
+      "fields":{
+         "comment":"0402012000",
+         "match_type":"Consortium",
+         "phonenumbe":"(617)-521-1101",
+         "objectid":25,
+         "ref_id":0,
+         "cost":21821300,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"86676",
+         "city":"Fenway/Kenmore",
+         "zipcode":"48601",
+         "id1":"300 The Fenway, Boston, Massachusetts 02115-5898",
+         "latitude":42.34105,
+         "numstudent":0,
+         "address":"94 Pilgrim Rd.",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.105896,
+               42.34106
+            ]
+         },
+         "schoolid":"0",
+         "name":"Simmons College",
+         "numstories":"2",
+         "geo_point_2d":[
+            42.34106,
+            -71.105896
+         ],
+         "longitude":-71.105896,
+         "contact":"SIMMONS FEMALE COLLEGE",
+         "y":2949553.5,
+         "x":762714.2,
+         "numstude_2":4655
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.105896,
+            42.34106
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"c47215175dc2db764f647dbbaf06c097088c22c9",
+      "fields":{
+         "comment":"0305251000",
+         "match_type":"Consortium",
+         "objectid":27,
+         "ref_id":0,
+         "cost":31126800,
+         "yearbuilt":"1945",
+         "backuppowe":0,
+         "id":"11753",
+         "city":"Chinatown",
+         "zipcode":"133416",
+         "id1":"Medford, Massachusetts 02155-5555",
+         "x":774702.9,
+         "latitude":42.3498,
+         "numstudent":0,
+         "address":"136 Harrison Ave",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.06149,
+               42.349808
+            ]
+         },
+         "schoolid":"0",
+         "name":"Tufts University School of Medicine",
+         "numstories":"8",
+         "geo_point_2d":[
+            42.349808,
+            -71.06149
+         ],
+         "longitude":-71.06149,
+         "contact":"TUFTS UNIVERSITY TRST",
+         "y":2952800.8,
+         "numstude_1":"10777",
+         "numstude_2":797
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.06149,
+            42.349808
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"5355629732d6626f32915371ec995299d49fe208",
+      "fields":{
+         "comment":"0503507000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 266-2030",
+         "objectid":45,
+         "ref_id":0,
+         "cost":5568600,
+         "yearbuilt":"1900",
+         "backuppowe":0,
+         "id":"15908",
+         "city":"Back Bay",
+         "zipcode":"17037",
+         "id1":"424 Beacon St, Boston, Massachusetts 02115",
+         "latitude":42.35185,
+         "numstudent":467,
+         "numstude_1":"475",
+         "address":"424 Beacon St, Boston, Massachusetts 02115",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.08681,
+               42.35186
+            ]
+         },
+         "schoolid":"167093",
+         "name":"New England College of Optometry",
+         "url":"http://www.neco.edu",
+         "numstories":"5",
+         "geo_point_2d":[
+            42.35186,
+            -71.08681
+         ],
+         "longitude":-71.08681,
+         "contact":"NEW ENGLAND COLLEGE",
+         "y":2953513.8,
+         "x":767854.94,
+         "numstude_2":502
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.08681,
+            42.35186
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"804667b6ac216a61dd2e28df3a9356a6e069dfbc",
+      "fields":{
+         "comment":"0503755000",
+         "match_type":"NCES",
+         "phonenumbe":"(617) 437-1868",
+         "objectid":51,
+         "ref_id":0,
+         "cost":452500,
+         "yearbuilt":"1923",
+         "backuppowe":0,
+         "id":"16296",
+         "city":"Fenway/Kenmore",
+         "zipcode":"16500",
+         "id1":"537 Commonwealth Ave, Boston, Massachusetts 02215",
+         "latitude":42.34922,
+         "numstudent":119,
+         "numstude_1":"98",
+         "address":"537 Commonwealth Ave, Boston, Massachusetts 02215",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.096924,
+               42.349228
+            ]
+         },
+         "schoolid":"167224",
+         "name":"New England School of Photography",
+         "url":"http://www.nesop.com",
+         "numstories":"3",
+         "geo_point_2d":[
+            42.349228,
+            -71.096924
+         ],
+         "longitude":-71.09692,
+         "contact":"TRUSTEES OF BOSTON",
+         "y":2952542.2,
+         "x":765126.7,
+         "numstude_2":66
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.096924,
+            42.349228
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"35361264b4f0aa1d619bf6883d6fa378ec1b0934",
+      "fields":{
+         "comment":"2101830005",
+         "match_type":"NCES",
+         "phonenumbe":"(617) 783-9955",
+         "objectid":54,
+         "ref_id":0,
+         "cost":3189600,
+         "yearbuilt":"1964",
+         "backuppowe":0,
+         "id":"80906",
+         "city":"Allston/Brighton",
+         "zipcode":"63504",
+         "id1":"1505 Commonwealth Ave, Brighton, Massachusetts 02*",
+         "latitude":42.34711,
+         "numstudent":700,
+         "numstude_1":"422",
+         "address":"1505 Commonwealth Ave, Brighton, Massachusetts 02135",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.14154,
+               42.34712
+            ]
+         },
+         "schoolid":"167020",
+         "name":"Everest Institute-Brighton",
+         "url":"http://www.bryman-institute.com",
+         "numstories":"5",
+         "geo_point_2d":[
+            42.34712,
+            -71.14154
+         ],
+         "longitude":-71.14154,
+         "contact":"COMMEX LLC",
+         "y":2951719.2,
+         "x":753068.4,
+         "numstude_2":369
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.14154,
+            42.34712
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"77f6a2f31232899e844d2772cdac79198c1c1f38",
+      "fields":{
+         "comment":"2205268070",
+         "match_type":"NCES",
+         "phonenumbe":"(617) 254-2610",
+         "objectid":55,
+         "ref_id":0,
+         "campushous":"100%",
+         "cost":1265300,
+         "yearbuilt":"1964",
+         "backuppowe":0,
+         "id":"88667",
+         "city":"Allston/Brighton",
+         "zipcode":"83600",
+         "id1":"127 Lake Street, Brighton, Massachusetts 02135-38*",
+         "latitude":42.344322,
+         "numstudent":145,
+         "numstude_1":"183",
+         "address":"127 Lake Street, Brighton, Massachusetts 02135",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.16305,
+               42.34433
+            ]
+         },
+         "schoolid":"167677",
+         "name":"Saint John's Seminary",
+         "url":"http://www.sjs.edu",
+         "numstories":"3",
+         "geo_point_2d":[
+            42.34433,
+            -71.16305
+         ],
+         "longitude":-71.16305,
+         "contact":"TRUSTEES OF BOSTON COLLEGE",
+         "y":2950680,
+         "x":747258,
+         "numstude_2":192
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.16305,
+            42.34433
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"eda1956d5e3198f58de4cb266c5d4610561f4506",
+      "fields":{
+         "comment":"1001487000",
+         "match_type":"NCES",
+         "phonenumbe":"(617) 731-7000",
+         "objectid":57,
+         "ref_id":0,
+         "campushous":"73.5%",
+         "cost":0,
+         "yearbuilt":"1999",
+         "backuppowe":0,
+         "id":"90949",
+         "city":"Jamaica Plain",
+         "zipcode":"0",
+         "id1":"400 Heath St, Chestnut Hill, Massachusetts 02467",
+         "latitude":42.32879,
+         "numstudent":484,
+         "numstude_1":"343",
+         "address":"400 Heath St, Chestnut Hill, Massachusetts 02467",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.11022,
+               42.3288
+            ]
+         },
+         "schoolid":"167455",
+         "name":"Pine Manor College",
+         "url":"http://www.pmc.edu",
+         "numstories":"2.0",
+         "geo_point_2d":[
+            42.3288,
+            -71.11022
+         ],
+         "longitude":-71.11022,
+         "contact":"BACK OF THE HILL CONDO TRUST",
+         "y":2945080.2,
+         "x":761565.5,
+         "numstude_2":346
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.11022,
+            42.3288
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"249dcf8e147302ef3420f3ba3f5c9529d1160bec",
+      "fields":{
+         "city":"Boston",
+         "schoolid":"164845",
+         "name":"Blaine The Beauty Career School-Boston",
+         "objectid":60,
+         "url":"http://www.blainebeautyschools.com",
+         "numstudent":0,
+         "geo_point_2d":[
+            42.348606,
+            -71.0964
+         ],
+         "longitude":0,
+         "zipcode":"02215",
+         "latitude":0,
+         "cost":0,
+         "backuppowe":0,
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.0964,
+               42.348606
+            ]
+         },
+         "numstude_2":0,
+         "ref_id":0,
+         "id":"164845",
+         "address":"530 Commonwealth Ave",
+         "phonenumbe":"(508) 370-7447"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.0964,
+            42.348606
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"890025b81eab1abab05c56a2afb4c175a7712e3f",
+      "fields":{
+         "comment":"0302802001",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 573-8000",
+         "objectid":2,
+         "ref_id":0,
+         "campushous":"21%",
+         "cost":21673500,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"11959",
+         "city":"Boston",
+         "zipcode":"149016",
+         "id1":"8 Ashburton Place, Boston, Massachusetts 02108-27*",
+         "latitude":42.358906,
+         "numstudent":9148,
+         "numstude_1":"9101",
+         "address":"8 Ashburton Pl Beacon Hill, Boston, Massachusetts 02108",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.06195,
+               42.358913
+            ]
+         },
+         "schoolid":"168005",
+         "name":"Suffolk University",
+         "url":"http://www.suffolk.edu",
+         "numstories":"12",
+         "geo_point_2d":[
+            42.358913,
+            -71.06195
+         ],
+         "longitude":-71.06195,
+         "contact":"SUFFOLK UNIVERSITY TRSTS OF",
+         "y":2956118,
+         "x":774562,
+         "numstude_2":8675
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.06195,
+            42.358913
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"4cc22f48d1c325d8a8465fc0a58fc55478fbe2c5",
+      "fields":{
+         "comment":"0500688000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 423-4630",
+         "objectid":3,
+         "ref_id":0,
+         "cost":15975800,
+         "yearbuilt":"1920",
+         "backuppowe":0,
+         "id":"16632",
+         "city":"South End",
+         "zipcode":"78750",
+         "id1":"41 Berkeley St, Boston, Massachusetts 02116",
+         "latitude":42.346104,
+         "numstudent":594,
+         "numstude_1":"472",
+         "address":"41 Berkeley St, Boston, Massachusetts 02116",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.07019,
+               42.34611
+            ]
+         },
+         "schoolid":"165884",
+         "name":"Benjamin Franklin Institute of Technology",
+         "url":"http://www.bfit.edu",
+         "numstories":"4",
+         "geo_point_2d":[
+            42.34611,
+            -71.07019
+         ],
+         "longitude":-71.07018,
+         "contact":"CITY OF BOSTON",
+         "y":2951441.5,
+         "x":772358.94,
+         "numstude_2":482
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.07019,
+            42.34611
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"9b8e5ae512515202dd58c52676f416201c7e9116",
+      "fields":{
+         "comment":"0503991000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 353-2000",
+         "objectid":9,
+         "ref_id":0,
+         "campushous":"74%",
+         "cost":66943300,
+         "yearbuilt":"1996",
+         "backuppowe":0,
+         "id":"15422",
+         "city":"Fenway/Kenmore",
+         "zipcode":"593154",
+         "id1":"One Silber Way, Boston, Massachusetts 02215",
+         "latitude":42.34956,
+         "numstudent":31960,
+         "numstude_1":"32439",
+         "address":"One Silber Way, Boston, Massachusetts 02215",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.09971,
+               42.349567
+            ]
+         },
+         "schoolid":"164988",
+         "name":"Boston University",
+         "url":"http://www.bu.edu",
+         "numstories":"8",
+         "geo_point_2d":[
+            42.349567,
+            -71.09971
+         ],
+         "longitude":-71.09971,
+         "contact":"BOSTON UNIVERSITY TRSTS OF",
+         "y":2952662.5,
+         "x":764372.1,
+         "numstude_2":32411
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.09971,
+            42.349567
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"45b08a513ea8d8ee8f499af937ab3fdd6087561c",
+      "fields":{
+         "comment":"0801418000",
+         "match_type":"Consortium",
+         "phonenumbe":"(617)-638-4935",
+         "objectid":23,
+         "ref_id":0,
+         "cost":13981647,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"17638",
+         "city":"South End",
+         "zipcode":"82563",
+         "latitude":42.33532,
+         "numstudent":0,
+         "address":"715 Albany St",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.071625,
+               42.335327
+            ]
+         },
+         "schoolid":"0",
+         "name":"Boston University Public Health",
+         "url":"http://www.bu.edu/sph/about/busph-at-a-glance/",
+         "numstories":"5",
+         "geo_point_2d":[
+            42.335327,
+            -71.071625
+         ],
+         "longitude":-71.071625,
+         "contact":"BOSTON UNIVERSITY TRSTS OF",
+         "y":2947509.8,
+         "x":771990.06,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.071625,
+            42.335327
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"f0977b0a7ba7d4c4f92b62f0286a1771616efc0a",
+      "fields":{
+         "comment":"2200530001",
+         "match_type":"Consortium",
+         "phonenumbe":"(617)-495-3434",
+         "objectid":29,
+         "ref_id":0,
+         "cost":831000,
+         "yearbuilt":"0",
+         "backuppowe":0,
+         "id":"79838",
+         "city":"Allston/Brighton",
+         "latitude":42.366432,
+         "numstudent":0,
+         "address":"Harvard Way",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.122925,
+               42.36644
+            ]
+         },
+         "schoolid":"0",
+         "name":"Harvard University Sailing",
+         "geo_point_2d":[
+            42.36644,
+            -71.122925
+         ],
+         "longitude":-71.122925,
+         "contact":"HARVARD COLLEGE",
+         "y":2958782.5,
+         "x":758069,
+         "numstude_2":0
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.122925,
+            42.36644
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"3a400a39cab70e3749b5e8f67f64d89fadba5311",
+      "fields":{
+         "comment":"0304884000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 292-4723",
+         "objectid":34,
+         "ref_id":0,
+         "cost":4285100,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"11884",
+         "city":"Financial District",
+         "zipcode":"63096",
+         "id1":"178 Tremont St 7th Fl, Boston, Massachusetts 0211*",
+         "latitude":42.35289,
+         "numstudent":617,
+         "numstude_1":"562",
+         "address":"178 Tremont St, Boston, Massachusetts 02111",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.06408,
+               42.352898
+            ]
+         },
+         "schoolid":"429128",
+         "name":"Urban College of Boston",
+         "url":"http://www.urbancollege.edu",
+         "numstories":"10",
+         "geo_point_2d":[
+            42.352898,
+            -71.06408
+         ],
+         "longitude":-71.06408,
+         "contact":"ACTION FOR BOSTON COMMUNITY",
+         "y":2953923.2,
+         "x":773997.06,
+         "numstude_2":762
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.06408,
+            42.352898
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"e37519123c730fe48ce2b3ec679b551e098b9d4d",
+      "fields":{
+         "comment":"0501320000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 578-7100",
+         "objectid":39,
+         "ref_id":0,
+         "cost":5200400,
+         "yearbuilt":"1920",
+         "backuppowe":0,
+         "id":"14004",
+         "city":"Back Bay",
+         "zipcode":"52830",
+         "id1":"126 Newbury Street, Boston, Massachusetts 02116",
+         "latitude":42.351006,
+         "numstudent":158,
+         "address":"126 Newbury Street, Boston, Massachusetts 02116",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.076416,
+               42.351013
+            ]
+         },
+         "schoolid":"166276",
+         "name":"Sanford-Brown College-Boston",
+         "url":"http://www.gibbscollege.com",
+         "numstories":"6",
+         "geo_point_2d":[
+            42.351013,
+            -71.076416
+         ],
+         "longitude":-71.076416,
+         "contact":"BEEKMAN TOWN HOUSE LLC",
+         "y":2953219,
+         "x":770666,
+         "numstude_2":71
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.076416,
+            42.351013
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"f5501db66067851f92e22cf800e93e0a1bfb8bef",
+      "fields":{
+         "comment":"0503062000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 262-5000",
+         "objectid":42,
+         "ref_id":0,
+         "cost":11385900,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"15443",
+         "city":"Back Bay",
+         "zipcode":"42344",
+         "id1":"320 Newbury Street, Boston, Massachusetts 02115-2*",
+         "latitude":42.34846,
+         "numstudent":1406,
+         "numstude_1":"1215",
+         "address":"320 Newbury Street, Boston, Massachusetts 02115",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.0858,
+               42.34847
+            ]
+         },
+         "schoolid":"164872",
+         "name":"Boston Architectural College",
+         "url":"http://www.the-bac.edu",
+         "numstories":"6",
+         "geo_point_2d":[
+            42.34847,
+            -71.0858
+         ],
+         "longitude":-71.0858,
+         "contact":"BOSTON ARCHITECTURAL COLLEGE",
+         "y":2952279.5,
+         "x":768133.94,
+         "numstude_2":1037
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.0858,
+            42.34847
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"72f27976e36823348aab8743c84c04e559a2266d",
+      "fields":{
+         "comment":"0401841000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 879-7000",
+         "objectid":43,
+         "ref_id":0,
+         "campushous":"28%",
+         "cost":65800100,
+         "yearbuilt":"1900",
+         "backuppowe":0,
+         "id":"86503",
+         "city":"Fenway/Kenmore",
+         "zipcode":"217791",
+         "id1":"621 Huntington Ave, Boston, Massachusetts 02115-5*",
+         "latitude":42.336384,
+         "numstudent":2422,
+         "numstude_1":"2422",
+         "address":"621 Huntington Ave, Boston, Massachusetts 02115",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.10034,
+               42.33639
+            ]
+         },
+         "schoolid":"166674",
+         "name":"Massachusetts College of Art and Design",
+         "url":"http://www.massart.edu",
+         "numstories":"6",
+         "geo_point_2d":[
+            42.33639,
+            -71.10034
+         ],
+         "longitude":-71.10034,
+         "contact":"COMMWLTH OF MASS",
+         "y":2947860,
+         "x":764224,
+         "numstude_2":2264
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.10034,
+            42.33639
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"01781477f8e581ea94ba02f8fd05d9def5d736cd",
+      "fields":{
+         "comment":"0402246000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 585-1100",
+         "objectid":47,
+         "ref_id":0,
+         "campushous":"40%",
+         "cost":299000,
+         "yearbuilt":"0",
+         "backuppowe":0,
+         "id":"22925",
+         "city":"Fenway/Kenmore",
+         "zipcode":"0",
+         "id1":"290 Huntington Ave, Boston, Massachusetts 02115-5*",
+         "latitude":42.34109,
+         "numstudent":785,
+         "numstude_1":"775",
+         "address":"290 Huntington Ave, Boston, Massachusetts 02115",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.08645,
+               42.341103
+            ]
+         },
+         "schoolid":"167057",
+         "name":"The New England Conservatory of Music",
+         "url":"http://www.newenglandconservatory.edu",
+         "numstories":"4",
+         "geo_point_2d":[
+            42.341103,
+            -71.08645
+         ],
+         "longitude":-71.08645,
+         "contact":"NEW ENGLAND CONS OF MUSIC",
+         "y":2949594,
+         "x":767972.3,
+         "numstude_2":813
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.08645,
+            42.341103
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"5d8ea174eaaf4325eaf0b0e1fbc8b79565d086d7",
+      "fields":{
+         "comment":"0402024000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 442-9010",
+         "objectid":48,
+         "ref_id":0,
+         "campushous":"41%",
+         "cost":12929600,
+         "yearbuilt":"1900",
+         "backuppowe":0,
+         "id":"86223",
+         "city":"Fenway/Kenmore",
+         "zipcode":"236886",
+         "id1":"550 Huntington Ave, Boston, Massachusetts 02115",
+         "latitude":42.33662,
+         "numstudent":3808,
+         "numstude_1":"3988",
+         "address":"550 Huntington Ave, Boston, Massachusetts 02115",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.09494,
+               42.336628
+            ]
+         },
+         "schoolid":"168227",
+         "name":"Wentworth Institute of Technology",
+         "url":"http://www.wit.edu",
+         "numstories":"3",
+         "geo_point_2d":[
+            42.336628,
+            -71.09494
+         ],
+         "longitude":-71.09494,
+         "contact":"WENTWORTH INSTITUTE",
+         "y":2947953,
+         "x":765683.7,
+         "numstude_2":4179
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.09494,
+            42.336628
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"ff86a7ef6e1cf905803c8d2c771ea60aeb151be7",
+      "fields":{
+         "comment":"0401384000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 266-1400",
+         "objectid":49,
+         "ref_id":0,
+         "campushous":"20%",
+         "cost":4647300,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"23134",
+         "city":"Fenway/Kenmore",
+         "zipcode":"36300",
+         "id1":"1140 Boylston St, Boston, Massachusetts 02215",
+         "latitude":42.346687,
+         "numstudent":4145,
+         "numstude_1":"4307",
+         "address":"1140 Boylston St, Boston, Massachusetts 02215",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.08901,
+               42.3467
+            ]
+         },
+         "schoolid":"164748",
+         "name":"Berklee College of Music",
+         "url":"http://www.berklee.edu",
+         "numstories":"6",
+         "geo_point_2d":[
+            42.3467,
+            -71.08901
+         ],
+         "longitude":-71.08901,
+         "contact":"M B H ASSOCIATES LPS",
+         "y":2951630,
+         "x":767269,
+         "numstude_2":4519
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.08901,
+            42.3467
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"18f0e371c5625409e7a35c45b340592755206116",
+      "fields":{
+         "comment":"1605018000",
+         "match_type":"NCES & Consortium",
+         "phonenumbe":"(617) 296-8300",
+         "objectid":53,
+         "ref_id":0,
+         "cost":51941000,
+         "yearbuilt":"1899",
+         "backuppowe":0,
+         "id":"59172",
+         "city":"South Dorchester",
+         "zipcode":"282494",
+         "id1":"303 Adams Street, Milton, Massachusetts 02186",
+         "latitude":42.277393,
+         "numstudent":669,
+         "numstude_1":"732",
+         "address":"2120 Dorchester Ave, Boston, Massachusetts 02124",
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.06515,
+               42.2774
+            ]
+         },
+         "schoolid":"165264",
+         "name":"Laboure College",
+         "url":"http://www.laboure.edu",
+         "numstories":"8",
+         "geo_point_2d":[
+            42.2774,
+            -71.06515
+         ],
+         "longitude":-71.06515,
+         "contact":"NEW CARITAS CHRISTI HOSPITAL",
+         "y":2926409.5,
+         "x":773848.3,
+         "numstude_2":698
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.06515,
+            42.2774
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   },
+   {
+      "datasetid":"colleges-and-universities",
+      "recordid":"648c463237e7de48a3a50666efad1603c9958de1",
+      "fields":{
+         "comment":"0401895001",
+         "name":"Harvard University of Public Health",
+         "objectid":460,
+         "url":"http://www.hsph.harvard.edu/",
+         "numstories":"6",
+         "numstudent":0,
+         "geo_point_2d":[
+            42.335075,
+            -71.10353
+         ],
+         "longitude":0,
+         "zipcode":"02115",
+         "latitude":0,
+         "cost":0,
+         "contact":"HARVARD COLLEGE",
+         "backuppowe":0,
+         "geo_shape":{
+            "type":"Point",
+            "coordinates":[
+               -71.10353,
+               42.335075
+            ]
+         },
+         "numstude_2":502,
+         "ref_id":0,
+         "address":"677 Huntington Ave",
+         "phonenumbe":"(617) 432-1031"
+      },
+      "geometry":{
+         "type":"Point",
+         "coordinates":[
+            -71.10353,
+            42.335075
+         ]
+      },
+      "record_timestamp":"2016-08-12T09:17:14-04:00"
+   }
+]
