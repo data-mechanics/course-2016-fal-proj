@@ -4,12 +4,12 @@ import dml
 import prov.model
 import datetime
 import uuid
-from geopy.distance import vincenty
+from bson.code import Code
 
-class example(dml.Algorithm):
+class transformation1(dml.Algorithm):
     contributor = 'aditid_benli'
-    reads = []
-    writes = ['aditid_benli.jam', 'aditid_benli.comparking', 'aditid_benli.inters', 'aditid_benli.metparking', 'aditid_benli.partickets']
+    reads = ['aditid_benli.jam']
+    writes = ['aditid_benli.jamMR']
 
     @staticmethod
     def execute(trial = False):
@@ -21,84 +21,34 @@ class example(dml.Algorithm):
         repo = client.repo
         repo.authenticate('aditid_benli', 'aditid_benli')
         
-        url = 'https://data.cityofboston.gov/resource/yqgx-2ktq.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("jam")
-        repo.createPermanent("jam")
-        repo['aditid_benli.jam'].insert_many(r)
+        map_function = Code('''function() {
+            emit(this.street, {num:1});
+            }''')
+        
+    
+        reduce_function = Code('''function(k, vs) {
+            var total = 0;
+            for (var i = 0; i < vs.length; i++)
+            total += vs[i].num;
+            return {street:k, num:total};
+            }''')
 
         
-        url = 'https://data.cambridgema.gov/api/views/impv-6fac/rows.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("inters")
-        repo.createPermanent("inters")
-        repo['aditid_benli.inters'].insert_one(r)
-        
-        url = 'https://data.cambridgema.gov/api/views/up94-ihbw/rows.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("metparking")
-        repo.createPermanent("metparking")
-        repo['aditid_benli.metparking'].insert_one(r)
-        
-        url = 'https://data.cambridgema.gov/api/views/vnxa-cuyr/rows.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        data = r['data']
-        newData = []                                                                #tranformation #1
-        for i in range(len(data)):
-        if data[i][-2] == "NO PARKING" or data[i][-2] == "RESIDENT PERMIT ONLY":   
-        newData.append(data[i])                                                     #Filters out ticketing data that aren't relevant to parking demand in an area, i.e double parking or meter expiration
-        r['data'] = newData
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("partickets")
-        repo.createPermanent("partickets")
-        repo['aditid_benli.partickets'].insert_many(r)
-        
-        url = 'https://data.cambridgema.gov/api/views/vr3p-e9ke/rows.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("comparking")
-        repo.createPermanent("comparking")
-        repo['aditid_benli.comparking'].insert_one(r)
+        repo.aditid_benli.jam.map_reduce(map_function, reduce_function, 'aditid_benli.jamMR');
 
+#        repo.aditid_benli.jamMR.map_reduce(map_function, reduce_function, 'aditid_benli.jamMR')
 
+#        repo.aditid_benli.jam.map_reduce('aditid_benli.jamMR')
+
+#        mapReduce()
+
+        
         repo.logout()
 
         endTime = datetime.datetime.now()
 
         return {"start":startTime, "end":endTime}
 
-
-class example(dml.Algorithm):
-    contributor = 'aditid_benli'
-    reads = []
-    writes = ['aditid_benli.jam', 'aditid_benli.comparking', 'aditid_benli.inters', 'aditid_benli.metparking', 'aditid_benli.partickets']
-
-    @staticmethod
-    def execute(trial = False):
-        '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
-        startTime = datetime.datetime.now()
-        
-        # Set up the database connection.
-        client = dml.pymongo.MongoClient()
-        repo = client.repo
-        repo.authenticate('aditid_benli', 'aditid_benli')
-        
-        
-
-
-        repo.logout()
-
-        endTime = datetime.datetime.now()
-
-        return {"start":startTime, "end":endTime}
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -151,8 +101,8 @@ class example(dml.Algorithm):
 
         return doc
 
-example.execute()
-doc = example.provenance()
+transformation1.execute()
+doc = transformation1.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 
