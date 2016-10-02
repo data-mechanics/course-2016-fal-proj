@@ -10,9 +10,9 @@ In this project, we've considered the relationship between the avg income and th
 ##Datasets
 The five datasets we used:
 <ol>
-<li>'hospital_location':'https://data.cityofboston.gov/resource/u6fv-m8v4.json'</li>
+<li>'hospital_locations':'https://data.cityofboston.gov/resource/u6fv-m8v4.json'</li>
 <li>'employee_earnings_report_2015':'https://data.cityofboston.gov/resource/bejm-5s9g.json'</li>
-<li>'health_corner_store':'https://data.cityofboston.gov/resource/ybm6-m5qd.json'</li>
-<li>'community_garden':'https://data.cityofboston.gov/resource/rdqf-ter7.json'</li>
-<li>'public_school':'https://data.cityofboston.gov/resource/492y-i77g.json'</li>
+<li>'health_corner_stores':'https://data.cityofboston.gov/resource/ybm6-m5qd.json'</li>
+<li>'community_gardens':'https://data.cityofboston.gov/resource/rdqf-ter7.json'</li>
+<li>'public_schools':'https://data.cityofboston.gov/resource/492y-i77g.json'</li>
 </ol>
