@@ -21,8 +21,7 @@ class countPublicSchool(dml.Algorithm):
         startTime = datetime.datetime.now()
 
         # Set up the database connection
-        client = dml.pymongo.MongoClient()
-        repo = client.repo
+
         repo = openDb(getAuth("db_username"), getAuth("db_password"))
         schools = repo['aydenbu_huangyh.publicSchool']
 

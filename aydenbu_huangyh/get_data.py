@@ -16,9 +16,7 @@ class example(dml.Algorithm):
         startTime = datetime.datetime.now()
         
         # Set up the database connection.
-        client = dml.pymongo.MongoClient()
-        repo = client.repo
-        repo.authenticate('aydenbu_huangyh', 'aydenbu_huangyh')
+        repo = openDb(getAuth("db_username"), getAuth("db_password"))
 
         # url = 'http://cs-people.bu.edu/lapets/591/examples/lost.json'
         # response = urllib.request.urlopen(url).read().decode("utf-8")
