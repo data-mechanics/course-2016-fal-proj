@@ -51,9 +51,9 @@ class merge(dml.Algorithm):
 
 
         # Create a new collection and insert the result data set
-        repo.dropPermanent("zip_public")
-        repo.createPermanent("zip_public")
-        repo['aydenbu_huangyh.zip_public'].insert_many(zip_public)
+        repo.dropPermanent("merge_school_garden")
+        repo.createPermanent("merge_school_garden")
+        repo['aydenbu_huangyh.merge_school_garden'].insert_many(zip_public)
 
         repo.logout()
         endTime = datetime.datetime.now()
@@ -107,8 +107,8 @@ class merge(dml.Algorithm):
                   {prov.model.PROV_TYPE: 'ont:Computation'})
 
         # The Result Entity
-        zip_public = doc.entity('dat:aydenbu_huangyh#zip_public',
-                                            {prov.model.PROV_LABEL: 'Zip Public Building',
+        zip_public = doc.entity('dat:aydenbu_huangyh#merge_school_garden',
+                                            {prov.model.PROV_LABEL: 'Merge Public Building Count',
                                              prov.model.PROV_TYPE: 'ont:DataSet'})
 
         # Result Entity was attributed to the agent
