@@ -52,8 +52,8 @@ class example(dml.Algorithm):
         data = r['data']
         newData = []                                                                #tranformation #1
         for i in range(len(data)):
-        if data[i][-2] == "NO PARKING" or data[i][-2] == "RESIDENT PERMIT ONLY":   
-        newData.append(data[i])                                                     #Filters out ticketing data that aren't relevant to parking demand in an area, i.e double parking or meter expiration
+            if data[i][-2] == "NO PARKING" or data[i][-2] == "RESIDENT PERMIT ONLY":   
+                newData.append(data[i])                                                     #Filters out ticketing data that aren't relevant to parking demand in an area, i.e double parking or meter expiration
         r['data'] = newData
         s = json.dumps(r, sort_keys=True, indent=2)
         repo.dropPermanent("partickets")
