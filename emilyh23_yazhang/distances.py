@@ -51,20 +51,13 @@ class example(dml.Algorithm):
         filen = '../data/food_estab_test.json'
         res = open(filen, 'r')
         r = json.load(res)
-        '''
-        for keys, val in r:
-            if (keys == 'location'):
-                print(val)
-        '''     
-        # testing ends
-        
-        #s = json.dumps(r, sort_keys=True, indent=2)
+        s = json.dumps(r, sort_keys=True, indent=2)
         #repo.dropPermanent("foodEst")
         #repo.createPermanent("foodEst")
         #repo['emilyh23_yazhang.foodEst'].insert_one(r)  
         # testing ends        
         
-        # r is a dictionary        
+        # r is a list        
         r = json.loads(response)        
         # s is a string
         s = json.dumps(r, sort_keys=True, indent=2)
