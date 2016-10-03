@@ -4,7 +4,7 @@ Project proposal
 We decide to combine the following data:
   Boston Public Schools:<https://data.cityofboston.gov/dataset/Boston-Public-Schools-School-Year-2012-2013-/e29s-ympv>
   Employee Earnings Report:<https://data.cityofboston.gov/Finance/Employee-Earnings-Report-2015/ah28-sywy>
-  Master Address List:<https://data.cityofboston.gov/City-Services/Master-Address-List/t85d-b449>
+  Corner Stores:<https://data.cityofboston.gov/dataset/Corner-Stores/4vcu-nshu>
   Active Food Establishment License:<https://data.cityofboston.gov/Permitting/Active-Food-Establishment-Licenses/gb6y-34cq>
   Hospital Locations:<https://data.cityofboston.gov/Public-Health/Hospital-Locations/46f7-2snz>
 
