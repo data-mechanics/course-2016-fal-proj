@@ -29,7 +29,11 @@ class example(dml.Algorithm):
         for doc in t_stop_locations:
             docDict = dict(doc)
             for station in docDict['stations']:
-                print(station['title'])
+                try:
+                    print(station['title'])
+                except KeyError:
+                    print('**** PASSING KEYERROR ****')
+                    pass
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):

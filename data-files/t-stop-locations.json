@@ -685,10 +685,6 @@
         "longitude": -71.095296000000005
       },
       {
-        "latitude": 42.34584198011197,
-        "longitude": -71.10352635383606
-      },
-      {
         "latitude": 42.345286905588999,
         "title": "Fenway Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15617&lat=42.345347&lng=-71.104156",
@@ -719,10 +715,6 @@
         "address": "Cypress Street at Tappan Street, Brookline",
         "lines": "Green Line (D)",
         "longitude": -71.125863790512085
-      },
-      {
-        "latitude": 42.331725705779192,
-        "longitude": -71.13024115562439
       },
       {
         "latitude": 42.33596092081828,
