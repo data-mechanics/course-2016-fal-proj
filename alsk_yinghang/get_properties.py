@@ -10,7 +10,7 @@ token = json.loads(open('../auth.json').read())['token']
 class  get_properties(dml.Algorithm):
     contributor = 'alsk_yinghang'
     reads = []
-    writes = ['alsk_yinghang.police_stations']
+    writes = ['alsk_yinghang.properties']
 
     @staticmethod
     def execute(trial=False):
@@ -41,15 +41,12 @@ class  get_properties(dml.Algorithm):
         # r1 = json.loads(response)
         # s = json.dumps(r, sort_keys=True, indent=2)
 
-        # print(r1)
-        print("Print result")
-        print(r)
         repo.dropPermanent("properties")
         repo.createPermanent("properties")
         repo['alsk_yinghang.properties'].ensure_index([('location', dml.pymongo.GEOSPHERE)])
-        print("Trying to add to DB")
+        print("Trying to add to DB....")
         repo['alsk_yinghang.properties'].insert_many(new)
-
+        print("Done. Logging out....")
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -91,4 +88,4 @@ get_properties.execute()
 doc = get_properties.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
-print("DONE!!!!!!!!")
+print("Done with get_properties!!!!!!!!")

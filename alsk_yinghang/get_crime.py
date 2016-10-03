@@ -1,4 +1,3 @@
-import urllib.request
 import json
 import dml
 import prov.model
@@ -23,8 +22,8 @@ class  get_crime(dml.Algorithm):
 
         print("Downloading data................")
         url = 'https://data.cityofboston.gov/resource/29yf-ye7n.json?$$app_token=%s' % (token)
-        # response = urllib.request.urlopen(url).read().decode("utf-8")
-        print("Using pandas")
+        
+        print("Using pandas........")
         df = pd.read_json(url)
         new = df[['lat', 'long', 'offense_code_group', 'incident_number']]
         new = new[np.isfinite(new['lat'])]
@@ -34,9 +33,9 @@ class  get_crime(dml.Algorithm):
         # s = json.dumps(r, sort_keys=True, indent=2)
         repo.dropPermanent("crime")
         repo.createPermanent("crime")
-        print("Trying to add to DB")
+        print("Trying to add to DB........")
         repo['alsk_yinghang.crime'].insert_many(r)
-
+        print("DONE! Logging out........")
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -78,4 +77,4 @@ get_crime.execute()
 doc = get_crime.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
-print("DONE!!!!!!!!")
+print("DONE WITH GET_CRIME!!!!!!!!")

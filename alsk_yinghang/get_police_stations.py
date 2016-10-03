@@ -1,4 +1,3 @@
-import urllib.request
 import json
 import dml
 import prov.model
@@ -31,16 +30,12 @@ class  get_police_stations(dml.Algorithm):
         # r1 = json.loads(response)
         # s = json.dumps(r, sort_keys=True, indent=2)
 
-        # print(r1)
-        print(r)
         repo.dropPermanent("police_stations")
         repo.createPermanent("police_stations")
         repo['alsk_yinghang.police_stations'].ensure_index([("location", dml.pymongo.GEOSPHERE)])
-        print("Dataframe")
-        print(df)
-        print("Trying to add to DB")
+        print("Trying to add to DB......")
         repo['alsk_yinghang.police_stations'].insert_many(r)
-
+        print("Done....Logging out now")
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -82,4 +77,4 @@ get_police_stations.execute()
 doc = get_police_stations.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
-print("DONE!!!!!!!!")
+print("Done with get_police_stations!!!!!!!!")

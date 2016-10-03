@@ -1,4 +1,3 @@
-import urllib.request
 import json
 import dml
 import prov.model
@@ -10,7 +9,7 @@ token = json.loads(open('../auth.json').read())['token']
 class  get_lights(dml.Algorithm):
     contributor = 'alsk_yinghang'
     reads = []
-    writes = ['alsk_yinghang.police_stations']
+    writes = ['alsk_yinghang.lights']
 
     @staticmethod
     def execute(trial=False):
@@ -23,7 +22,7 @@ class  get_lights(dml.Algorithm):
         print("Downloading data................")
         url = 'https://data.cityofboston.gov/resource/fbdp-b7et.json?$$app_token=%s' % (token)
 
-        print("Using pandas")
+        print("Using pandas......")
         df = pd.read_json(url)
         zip = df[['objectid', 'the_geom']]
         zip.columns = ['light_id', 'location']
@@ -32,16 +31,12 @@ class  get_lights(dml.Algorithm):
         # r1 = json.loads(response)
         # s = json.dumps(r, sort_keys=True, indent=2)
 
-        # print(r1)
-        print(r)
         repo.dropPermanent("lights")
         repo.createPermanent("lights")
         repo['alsk_yinghang.lights'].ensure_index([("location", dml.pymongo.GEOSPHERE)])
-        print("Dataframe")
-        print(df)
-        print("Trying to add to DB")
+        print("Trying to add to DB..........")
         repo['alsk_yinghang.lights'].insert_many(r)
-
+        print("Done.....Logging out")
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -89,4 +84,4 @@ get_lights.execute()
 doc = get_lights.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
-print("DONE!!!!!!!!")
+print("Done with get_lights!!!!!!!!")

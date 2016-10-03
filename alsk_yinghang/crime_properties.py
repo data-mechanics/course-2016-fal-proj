@@ -4,6 +4,7 @@ import prov.model
 import datetime
 import pandas as pd
 from bson.son import SON
+import uuid
 
 class crime_properties(dml.Algorithm):
     contributor = 'alsk_yinghang'
@@ -24,6 +25,7 @@ class crime_properties(dml.Algorithm):
         num_collections = repo['alsk_yinghang.crime'].count()
         print(num_collections)
         counter = 1
+        print("Running counter.....")
         for doc in repo['alsk_yinghang.crime'].find():
             results = repo.command(
                     'geoNear', 'alsk_yinghang.properties',
@@ -44,7 +46,7 @@ class crime_properties(dml.Algorithm):
             jsonObj = doc
             doc['avg_tax'] = avg
             crime_and_properties.append(jsonObj)
-            print(counter/num_collections*100)
+            print(str(format(counter/num_collections*100, '.2f'))+"%")
             counter = counter + 1
 
         repo.dropPermanent("crime_properties")

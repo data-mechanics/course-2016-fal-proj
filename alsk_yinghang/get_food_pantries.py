@@ -1,4 +1,3 @@
-import urllib.request
 import json
 import dml
 import prov.model
@@ -10,7 +9,7 @@ token = json.loads(open('../auth.json').read())['token']
 class  get_food_pantries(dml.Algorithm):
     contributor = 'alsk_yinghang'
     reads = []
-    writes = ['alsk_yinghang.police_stations']
+    writes = ['alsk_yinghang.food_pantries']
 
     @staticmethod
     def execute(trial=False):
@@ -23,7 +22,7 @@ class  get_food_pantries(dml.Algorithm):
         print("Downloading data................")
         url = 'https://data.cityofboston.gov/resource/4tie-bhxw.json?$$app_token=%s' % (token)
 
-        print("Using pandas")
+        print("Using pandas...........")
         df = pd.read_json(url)
         zip = df[['location_1', 'name', 'area']]
         zip.columns = ['location', 'name', 'area']
@@ -32,16 +31,12 @@ class  get_food_pantries(dml.Algorithm):
         # r1 = json.loads(response)
         # s = json.dumps(r, sort_keys=True, indent=2)
 
-        # print(r1)
-        print(r)
         repo.dropPermanent("food_pantries")
         repo.createPermanent("food_pantries")
         repo['alsk_yinghang.food_pantries'].ensure_index([("location", dml.pymongo.GEOSPHERE)])
-        print("Dataframe")
-        print(df)
-        print("Trying to add to DB")
+        print("Trying to add to DB...........")
         repo['alsk_yinghang.food_pantries'].insert_many(r)
-
+        print("Done! Logging out now...........")
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -83,4 +78,4 @@ get_food_pantries.execute()
 doc = get_food_pantries.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
-print("DONE!!!!!!!!")
+print("Done with get_food_pantries!!!!!!!!")
