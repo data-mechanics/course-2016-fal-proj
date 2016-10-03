@@ -8,7 +8,7 @@ import uuid
 class example(dml.Algorithm):
     contributor = 'emilyh23_yazhang'
     reads = []
-    writes = ['emilyh23_yazhang.Fire_311_Service_Requests']    
+    writes = ['emilyh23_yazhang.fireCounts']    
     
     @staticmethod
     def execute(trial = False):
@@ -166,7 +166,7 @@ class example(dml.Algorithm):
 
         this_script = doc.agent('alg:fireCounts', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         Fire_311_Service_Requests = doc.entity('dat:Fire_311_Service_Requests', {prov.model.PROV_LABEL:'Fire_311_Service_Requests', prov.model.PROV_TYPE:'ont:DataSet'})
-        this_run = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation', 'ont:Query':'?accessType=DOWNLOAD'})
+        this_run = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
         doc.wasAssociatedWith(this_run, this_script)
         doc.used(this_run, Fire_311_Service_Requests, startTime)
                 
