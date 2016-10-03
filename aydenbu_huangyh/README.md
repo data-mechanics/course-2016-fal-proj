@@ -46,5 +46,5 @@ Just need to store your own `db_username` and `db_password` in the `auth.json`
 ###Run the program:
 Please execute the `execute.py` to run the whole program:
 ```
-python3.5 execute.py
+python3 execute.py
 ```
