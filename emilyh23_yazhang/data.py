@@ -20,13 +20,15 @@ class example(dml.Algorithm):
         repo = client.repo
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
         
+        #The URL requested json file data was not in the format that was useful for our datasets so we converted and stored our own version of the data as a json file.
+        #cleaned json files from the downloadable URLs -- more meaningful than the data from the URL requests
         filen = '../data/fire_hydrant.json'
         res = open(filen, 'r')
         r1 = json.load(res)
         repo.dropPermanent("fireHydrants")
         repo.createPermanent("fireHydrants")
         repo['emilyh23_yazhang.fireHydrants'].insert_many(r1)   
-  
+    
         filen = '../data/fire_boxes.json'
         res = open(filen, 'r')
         r2 = json.load(res)
