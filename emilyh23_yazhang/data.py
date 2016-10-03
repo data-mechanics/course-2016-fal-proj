@@ -25,11 +25,12 @@ class example(dml.Algorithm):
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
         
         # http://bostonopendata.boston.opendata.arcgis.com/datasets/1b0717d5b4654882ae36adc4a20fd64b_0.csv
-        #### TESTING CSV TO DATAFRAME: working ###
+        
+        #### TESTING: fetches CSV download and converts it to dataframe: working ###
         data = pd.read_csv('http://bostonopendata.boston.opendata.arcgis.com/datasets/1b0717d5b4654882ae36adc4a20fd64b_0.csv')
         #print(data)
         
-        ### TESTING DATAFRAME TO JSON: doesn't work ###
+        ### TESTING: dataframe to json: prints out garbage ###
         x = DataFrame.to_json(data)
         s = json.dumps(x, sort_keys=True, indent=2)
         #print(s)
