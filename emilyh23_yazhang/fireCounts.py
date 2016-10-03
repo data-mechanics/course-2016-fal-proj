@@ -73,8 +73,10 @@ class example(dml.Algorithm):
             elif (dic['District'] == '9'):
                 fireByDis[8]['9'].append(dic) 
         
-        # REDUCE
-        # disFireCount the frequencies of fire in each district
+        #s = json.dumps(fireHydrantByDis, sort_keys=True, indent=2)
+        #print(s)
+        
+        # REDUCE: disFireCount the frequencies of fire in each district
         disFireCount = [{d: 0} for d in districts]
         for dic in fireByDis:
             for k, v in dic.items():
