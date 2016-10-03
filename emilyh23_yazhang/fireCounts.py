@@ -37,7 +37,7 @@ class example(dml.Algorithm):
         fireHydrant = []
         fireEstab = []
         
-        for dic in data:
+        for dic in r5:
             if (dic['FIELD8'] == 'Fire Department'):
                 new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
                 fireDep.append(new_dic)
