@@ -115,25 +115,36 @@ class PublicandEarning(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/')  # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:aydenbu_huangyh#school_hospital',
+        this_script = doc.agent('alg:aydenbu_huangyh#public_earning',
                                 {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-        resource = doc.entity('dat:school_hospital_merge',
-                              {'prov:label': 'school_hospital', prov.model.PROV_TYPE: 'ont:DataResource',
-                               'ont:Extension': 'json'})
 
-        get_school_hospital_count = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
-                                               {prov.model.PROV_LABEL: "Count the number of CornerStores in each zip"})
-        doc.wasAssociatedWith(get_school_hospital_count, this_script)
-        doc.usage(get_school_hospital_count, resource, startTime, None,
+        resource_public = doc.entity('dat:zip_public',
+                              {'prov:label': 'zip_public', prov.model.PROV_TYPE: 'ont:DataResource',
+                               'ont:Extension': 'json'})
+        resource_earning = doc.entity('dat:zip_avg_earnings',
+                                     {'prov:label': 'zip_avg_earnings', prov.model.PROV_TYPE: 'ont:DataResource',
+                                      'ont:Extension': 'json'})
+
+
+        get_public_earning = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
+                                               {prov.model.PROV_LABEL: "Count the avg earnings and number of public buildings"})
+        doc.wasAssociatedWith(get_public_earning, this_script)
+
+        doc.usage(get_public_earning, resource_public, startTime, None,
+                  {prov.model.PROV_TYPE: 'ont:Computation'})
+        doc.usage(get_public_earning, resource_earning, startTime, None,
                   {prov.model.PROV_TYPE: 'ont:Computation'})
 
-        school_hospital_count = doc.entity('dat:aydenbu_huangyh#school_hospital',
-                                         {prov.model.PROV_LABEL: 'Public Schools Count',
+        public_earning = doc.entity('dat:aydenbu_huangyh#public_earning',
+                                         {prov.model.PROV_LABEL: 'Public Building and avg earnings count',
                                           prov.model.PROV_TYPE: 'ont:DataSet'})
-        doc.wasAttributedTo(school_hospital_count, this_script)
-        doc.wasGeneratedBy(school_hospital_count,get_school_hospital_count, endTime)
-        doc.wasDerivedFrom(school_hospital_count, resource, get_school_hospital_count, get_school_hospital_count,
-                           get_school_hospital_count)
+
+        doc.wasAttributedTo(public_earning, this_script)
+        doc.wasGeneratedBy(public_earning,get_public_earning, endTime)
+        doc.wasDerivedFrom(public_earning, resource_earning, get_public_earning, get_public_earning,
+                           get_public_earning)
+        doc.wasDerivedFrom(public_earning, resource_public, get_public_earning, get_public_earning,
+                           get_public_earning)
 
         repo.record(doc.serialize())  # Record the provenance document.
         repo.logout()
