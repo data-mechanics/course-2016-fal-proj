@@ -89,6 +89,36 @@ class getData(dml.Algorithm):
                 repo['alaw_tyroneh.'+key].insert_many(csvfile) 
         
         
+        #MBTA API, gets xml files of every T and Commuter rail stop
+        route_url = "http://realtime.mbta.com/developer/api/v2/routes?api_key=wX9NwuHnZU2ToO7GmGR9uw&format=json"
+
+        response = urllib.request.urlopen(route_url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+
+        routesA = [d for d in r["mode"] if d["mode_name"] == "Subway" or d["mode_name"] == "Commuter Rail"]
+        routesB = [route for d in routesA for route in d['route']]
+
+        stop_base = "http://realtime.mbta.com/developer/api/v2/stopsbyroute?api_key=wX9NwuHnZU2ToO7GmGR9uw"
+        stop_urls = {route["route_id"]:"{}&route={}&format=json".format(stop_base, route["route_id"]) for route in routesB}
+        responses = {route:urllib.request.urlopen(stop_urls[route]).read().decode("utf-8") for route in stop_urls}
+        json_stops = {route:json.loads(responses[route]) for route in responses}
+        #stops_dumps = {route:json.dumps(json_stops[route], sort_keys=True, indent=2) for route in json_stops}
+        stops_dumps = json.dumps(json_stops, sort_keys=True, indent=2)
+
+        result = []
+        for key in json_stops:
+            result.append({key:json_stops[key]})
+
+        if(trial == True):
+                print(result)
+                print('-----------------')
+        else:
+            # Set up the database connection
+            repo.dropPermanent('TCStops')
+            repo.createPermanent('TCStops')
+            repo['alaw_tyroneh.TCStops'].insert_many(result) 
+
         repo.logout()
         endTime = datetime.datetime.now()
         
@@ -113,10 +143,11 @@ class getData(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/') # Boston Data Portal
-        doc.add_namespace('cdp', 'https://data.cityofboston.gov/resource/') # Cambridge Data Portal
-        doc.add_namespace('sdp', 'https://data.cityofboston.gov/resource/') # Somerville Data Portal
-        doc.add_namespace('brdp', 'https://data.cityofboston.gov/resource/') # Brookline Data Portal
-        doc.add_namespace('hub', 'https://data.cityofboston.gov/resource/') # Hubway Data 
+        doc.add_namespace('cdp', 'https://data.cambridgema.gov/resource/') # Cambridge Data Portal
+        doc.add_namespace('sdp', 'https://data.somervillema.gov/resource/') # Somerville Data Portal
+        doc.add_namespace('brdp', 'http://data.brooklinema.gov/datasets/') # Brookline Data Portal
+        doc.add_namespace('hub', 'https://s3.amazonaws.com/hubway-data/') # Hubway Data 
+        doc.add_namespace('mbta', 'http://realtime.mbta.com/developer/api/v2/routes') # MBTA API
 
         this_script = doc.agent('alg:alaw_tyroneh#getData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
@@ -165,6 +196,15 @@ class getData(dml.Algorithm):
                 }
             )
         
+        resource_TCStops = doc.entity('mbta:wX9NwuHnZU2ToO7GmGR9uw', {'prov:label':'T and Commuter Stations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        get_TCStops = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get T and Commuter Stations'})
+        doc.wasAssociatedWith(get_TCStops, this_script)
+        doc.usage(get_TCStops, resource_TCStops, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval',
+                 'ont:Query':""
+                }
+            )
+
         BostonProperty = doc.entity('dat:alaw_tyroneh#BostonProperty', {prov.model.PROV_LABEL:'Boston Residential Property Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(BostonProperty, this_script)
         doc.wasGeneratedBy(BostonProperty, get_BostonProperty, endTime)
@@ -185,16 +225,23 @@ class getData(dml.Algorithm):
         doc.wasAttributedTo(HubwayStations, this_script)
         doc.wasGeneratedBy(HubwayStations, get_HubwayStations, endTime)
 
+        TCStops = doc.entity('dat:alaw_tyroneh#TCStops', {prov.model.PROV_LABEL:'T and Commuter Stations', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(TCStops, this_script)
+        doc.wasGeneratedBy(TCStops, get_TCStops, endTime)
+
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
         return doc
     
-    def run():
+    def run(t=False):
         '''
         Scrap datasets and write provenance files
         '''
 
-        times = getData.execute()
+        times = getData.execute(trial=t)
         getData.provenance(startTime = times['start'], endTime = times['end'])
+
+if __name__ == '__main__':
+    getData.run()
 ## eof
