@@ -97,7 +97,7 @@ class example(dml.Algorithm):
         doc.add_namespace('ede', 'http://erikdemaine.org/maps/')
         doc.add_namespace('mbt', 'http://www.mbta.com/about_the_mbta/document_library/')
 
-        this_script = doc.agent('alg:ktan_ngurung#landmarkLocations', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:ktan_ngurung#tRidershipLocation', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         tStops_resource = doc.entity('ede:mbta', {'prov:label':'T-Stop Locations', prov.model.PROV_TYPE:'ont:DataSet', 'ont:Extension':'yaml'})
         ridership_resource = doc.entity('mbt:?search=blue+book&submit_document_search=Search+Library', {'prov:label':'Boston 2014 Bluebook', prov.model.PROV_TYPE:'ont:DataSet', 'ont:Extension':'pdf'})
         this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
