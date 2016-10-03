@@ -5,12 +5,12 @@ import prov.model
 import datetime
 import uuid
 
-class alg1(dml.Algorithm):
+class getGeoJSON(dml.Algorithm):
     contributor = 'bsowens_ggelinas'
     reads = ['bsowens_ggelinas.stations',
               'bsowens_ggelinas.incidents',
               'bsowens_ggelinas.property',
-              'bsoquitwens_ggelinas.fio',
+              'bsowens_ggelinas.fio',
               'bsowens_ggelinas.hospitals']
     writes = ['bsowens_ggelinas.stations',
               'bsowens_ggelinas.incidents',
@@ -79,7 +79,10 @@ class alg1(dml.Algorithm):
             long = myfloat(long)
             return zip, lat, long
 
+
+
         def get_loc_fio(item):
+            # Dependent on "getFIOcoord.py" (must be run before this function returns anything other than None)
             zip = None
             lat = item['coords']['lat'] if 'coords' in item else None
             lat = myfloat(lat)
@@ -114,7 +117,7 @@ class alg1(dml.Algorithm):
             },
             'fio': {
                 'name': 'bsowens_ggelinas.fio',
-                'unset': {},
+                'unset': {'coords': ''},
                 'loc': get_loc_fio
             },
             'hospitals': {
@@ -145,8 +148,6 @@ class alg1(dml.Algorithm):
         endTime = datetime.datetime.now()
 
         return {"start":startTime, "end":endTime}
-
-
 
 
 
@@ -248,9 +249,9 @@ class alg1(dml.Algorithm):
 
         return doc
 
+<<<<<<< HEAD
 alg1.execute()
 doc = alg1.provenance()
 print (doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 
-##eof
