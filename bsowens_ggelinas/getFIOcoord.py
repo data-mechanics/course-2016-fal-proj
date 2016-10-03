@@ -12,12 +12,12 @@ class getFIOcoord(dml.Algorithm):
     reads = ['bsowens_ggelinas.stations',
               'bsowens_ggelinas.incidents',
               'bsowens_ggelinas.property',
-              'bsoquitwens_ggelinas.fio',
+              'bsowens_ggelinas.fio',
               'bsowens_ggelinas.hospitals']
     writes = ['bsowens_ggelinas.stations',
               'bsowens_ggelinas.incidents',
               'bsowens_ggelinas.property',
-              'bsoquitwens_ggelinas.fio',
+              'bsowens_ggelinas.fio',
               'bsowens_ggelinas.hospitals']
 
     @staticmethod
@@ -51,24 +51,22 @@ class getFIOcoord(dml.Algorithm):
 
 
 
-        for collection_name in collections:
-            collection = collections[collection_name]
-            print('Status: Processing collection: ', collection_name)
-            for doc in repo[collection['name']].find():
-                if 'coords' in doc:
-                    #skip this iteration if the data is already present
-                    continue
-                coords = coord_query(doc)
 
-                repo[collection['name']].update(
-                    {'_id': doc['_id']},
-                    {
-                        '$set': {'coords': coords},
-                        '$unset': collection['unset']
-                    },
-                    upsert=False
-                )
-            print('Status: Completed collection: ', collection_name)
+        for doc in repo['bsowens_ggelinas.fio'].find():
+            if 'coords' in doc:
+                #skip this iteration if the data is already present
+                continue
+            coords = coord_query(doc)
+
+            repo[collection['name']].update(
+                {'_id': doc['_id']},
+                {
+                    '$set': {'coords': coords},
+                    '$unset': collection['unset']
+                },
+                upsert=False
+            )
+        print('Status: Completed collection: ', collection_name)
 
         repo.logout()
 

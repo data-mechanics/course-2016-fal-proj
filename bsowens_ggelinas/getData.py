@@ -32,8 +32,8 @@ class getData(dml.Algorithm):
         }
 
         for set in dataSets:
-            print(set)
-            print(dataSets[set])
+
+            print("Downloading dataset: ",set)
             url = dataSets[set]
             response = urllib.request.urlopen(url).read().decode("utf-8")
             r = json.loads(response)
@@ -41,7 +41,7 @@ class getData(dml.Algorithm):
             repo.dropPermanent(set)
             repo.createPermanent(set)
             repo['bsowens_ggelinas.' + set].insert_many(r)
-            print('done')
+            print('Done!')
 
 
         repo.logout()

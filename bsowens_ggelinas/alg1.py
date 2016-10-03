@@ -5,17 +5,17 @@ import prov.model
 import datetime
 import uuid
 
-class alg1(dml.Algorithm):
+class getGeoJSON(dml.Algorithm):
     contributor = 'bsowens_ggelinas'
     reads = ['bsowens_ggelinas.stations',
               'bsowens_ggelinas.incidents',
               'bsowens_ggelinas.property',
-              'bsoquitwens_ggelinas.fio',
+              'bsowens_ggelinas.fio',
               'bsowens_ggelinas.hospitals']
     writes = ['bsowens_ggelinas.stations',
               'bsowens_ggelinas.incidents',
               'bsowens_ggelinas.property',
-              'bsoquitwens_ggelinas.fio',
+              'bsowens_ggelinas.fio',
               'bsowens_ggelinas.hospitals']
 
     @staticmethod
@@ -256,6 +256,6 @@ class alg1(dml.Algorithm):
 
         return doc
 
-alg1.execute()
-doc = alg1.provenance()
+getGeoJSON.execute()
+doc = getGeoJSON.provenance()
 #print(json.dumps(json.loads(doc.serialize()), indent=4))
