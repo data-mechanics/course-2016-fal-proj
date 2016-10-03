@@ -43,7 +43,7 @@ repo = openDb(getAuth("db_username"), getAuth("db_password"))
 ```
 Just need to store your own `db_username` and `db_password` in the `auth.json`
 
-###Order to run python files:
+###Run the program:
 Please execute the `execute.py` to run the whole program:
 ```
 python3.5 execute.py
