@@ -19,14 +19,17 @@ class example(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
-    
+
+        '''
         filen = '../data/Fire_311_Service_Requests.json'
         res = open(filen, 'r')
         r5 = json.load(res)
         repo.dropPermanent("Fire_311_Service_Requests")
         repo.createPermanent("Fire_311_Service_Requests")
         repo['emilyh23_yazhang.Fire_311_Service_Requests'].insert_many(r5)
+        '''
         
+        r5 = repo.emilyh23_yazhang.Fire_311_Service_Requests.find()        
 
         # MAPPING: creates lists of dictionaries that contains fire incidents by category, their districts, and their ontime/delay status, and their lat/long
         fireDep = []
@@ -34,7 +37,7 @@ class example(dml.Algorithm):
         fireHydrant = []
         fireEstab = []
         
-        for dic in r5:
+        for dic in data:
             if (dic['FIELD8'] == 'Fire Department'):
                 new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
                 fireDep.append(new_dic)
@@ -51,7 +54,8 @@ class example(dml.Algorithm):
         # list of districts
         districts = ['1','12','11','3','4','6','7','8','9']
         
-        # fireByDis is a list of dictionaries that groups fires by district
+        # fireByDis is a list of dictionaries for each district and the frequencies of fire in each districT
+        # REDUCE
         fireByDis = [{d: []} for d in districts]
         for dic in fire:
             if (dic['District'] == '1'):
@@ -73,10 +77,8 @@ class example(dml.Algorithm):
             elif (dic['District'] == '9'):
                 fireByDis[8]['9'].append(dic) 
         
-        #s = json.dumps(fireHydrantByDis, sort_keys=True, indent=2)
+        #s = json.dumps(fireByDis, sort_keys=True, indent=2)
         #print(s)
-        
-        # REDUCE: disFireCount the frequencies of fire in each district
         disFireCount = [{d: 0} for d in districts]
         for dic in fireByDis:
             for k, v in dic.items():
@@ -140,7 +142,7 @@ class example(dml.Algorithm):
         doc.wasAssociatedWith(this_run, this_script)
         doc.used(this_run, Fire_311_Service_Requests, startTime)
                 
-        # new map-reduced dataset
+        #New map-reduced dataset
         fireCounts = doc.entity('dat:fireCounts', {prov.model.PROV_LABEL:'fireCounts', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(fireCounts, this_script)
         doc.wasGeneratedBy(fireCounts, this_run, endTime)

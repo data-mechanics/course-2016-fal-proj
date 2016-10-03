@@ -19,14 +19,15 @@ class example(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
-        
+        '''
         filen = '../data/Fire_311_Service_Requests.json'
         res = open(filen, 'r')
         r5 = json.load(res)
         repo.dropPermanent("Fire_311_Service_Requests")
         repo.createPermanent("Fire_311_Service_Requests")
         repo['emilyh23_yazhang.Fire_311_Service_Requests'].insert_many(r5)
-        
+        '''
+        r5 = repo.emilyh23_yazhang.Fire_311_Service_Requests.find() 
 
         # MAPPING: creates lists of dictionaries that contains fire incidents by category, their districts, and their ontime/delay status, and their lat/long
         fireDep = []
@@ -51,7 +52,8 @@ class example(dml.Algorithm):
         # list of districts
         districts = ['1','12','11','3','4','6','7','8','9']
         
-        # fireHydrantByDis is a list of dictionaries of fire hydrant repair incidents grouped by district
+        # fireHydrantByDis is a list of dictionaries for each district and the frequencies of fire hydrant repair incidents in each district
+        # REDUCE
         fireHydrantByDis = [{d: []} for d in districts]
         for dic in fireHydrant:
             if (dic['District'] == '1'):
@@ -75,8 +77,8 @@ class example(dml.Algorithm):
         
         #s = json.dumps(fireHydrantByDis, sort_keys=True, indent=2)
         #print(s)
-        
-        # REDUCE: number of fire hydrant repairs by district
+
+        #number of fire hydrant repairs by district
         fireHydrantCount = [{d: 0} for d in districts]
         for dic in fireHydrantByDis:
             for k, v in dic.items():
