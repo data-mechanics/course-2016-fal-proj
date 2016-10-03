@@ -7,13 +7,15 @@ import uuid
 import pandas as pd
 from pandas import Series, DataFrame
 import csv
-
+import requests
+from contextlib import closing
+from urllib import request
 
 class example(dml.Algorithm):
     contributor = 'emilyh23_yazhang'
     reads = []
     writes = ['emilyh23_yazhang.Fire_311_Service_Requests', 'emilyh23_yazhang.fireBoxes', 'emilyh23_yazhang.fireDepartments', 'emilyh23_yazhang.fireDistricts', 'emilyh23_yazhang.fireHydrants']    
-    
+        
     @staticmethod
     def execute(trial = False):
         '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
@@ -24,16 +26,27 @@ class example(dml.Algorithm):
         repo = client.repo
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
         
-        # http://bostonopendata.boston.opendata.arcgis.com/datasets/1b0717d5b4654882ae36adc4a20fd64b_0.csv
+        # fetching the csv 
+        response = request.urlopen('http://bostonopendata.boston.opendata.arcgis.com/datasets/1b0717d5b4654882ae36adc4a20fd64b_0.csv')
+        data = response.read()
+        # Save the string to a file
+        csvstr = str(data).strip("b'")
+
+        # saving the csv to data folder
+        lines = csvstr.split("\\n")
+        d = open("../data/fire_hydrant_new.csv", "w")
+        for line in lines:
+            d.write(line + "\n")
+                    
+        # parsing the new csv to get json file
+        f=open("../data/fire_hydrant_new.csv", 'r')
+        csv_reader = csv.DictReader(f)
         
-        #### TESTING: fetches CSV download and converts it to dataframe: working ###
-        data = pd.read_csv('http://bostonopendata.boston.opendata.arcgis.com/datasets/1b0717d5b4654882ae36adc4a20fd64b_0.csv')
-        print(data)
-        
-        ### TESTING: dataframe to json: prints out garbage ###
-        #x = DataFrame.to_json(data)
-        print (data.groupby(level=0).apply(lambda x: x.to_json(orient='records')))
-        #print(x)
+        json_filename = "../data/fire_hydrant_new.json"
+        jsonWriter = open(json_filename,'w') 
+        dataJson = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader]) + "\n]"
+        jsonWriter.write(dataJson)
+        jsonWriter.close()
         
         filen = '../data/fire_hydrant.json'
         res = open(filen, 'r')
@@ -41,8 +54,29 @@ class example(dml.Algorithm):
         repo.dropPermanent("fireHydrants")
         repo.createPermanent("fireHydrants")
         repo['emilyh23_yazhang.fireHydrants'].insert_many(r1)   
+
+        # fetching the csv 
+        response = request.urlopen('http://bostonopendata.boston.opendata.arcgis.com/datasets/3a0f4db1e63a4a98a456fdb71dc37a81_4.csv')
+        data = response.read()
+        # Save the string to a file
+        csvstr = str(data).strip("b'")
+
+        # saving the csv to data folder
+        lines = csvstr.split("\\n")
+        d = open("../data/fire_boxes_new.csv", "w")
+        for line in lines:
+            d.write(line + "\n")
+                    
+        # parsing the new csv to get json file
+        f=open("../data/fire_boxes_new.csv", 'r')
+        csv_reader = csv.DictReader(f)
         
-        # http://bostonopendata.boston.opendata.arcgis.com/datasets/3a0f4db1e63a4a98a456fdb71dc37a81_4.csv
+        json_filename = "../data/fire_boxes_new.json"
+        jsonWriter = open(json_filename,'w') 
+        dataJson = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader]) + "\n]"
+        jsonWriter.write(dataJson)
+        jsonWriter.close()        
+        
         filen = '../data/fire_boxes.json'
         res = open(filen, 'r')
         r2 = json.load(res)
@@ -51,14 +85,58 @@ class example(dml.Algorithm):
         repo['emilyh23_yazhang.fireBoxes'].insert_many(r2)  
         
         # http://bostonopendata.boston.opendata.arcgis.com/datasets/092857c15cbb49e8b214ca5e228317a1_2.csv
+
+        # fetching the csv 
+        response = request.urlopen('http://bostonopendata.boston.opendata.arcgis.com/datasets/092857c15cbb49e8b214ca5e228317a1_2.csv')
+        data = response.read()
+        # Save the string to a file
+        csvstr = str(data).strip("b'")
+
+        # saving the csv to data folder
+        lines = csvstr.split("\\n")
+        d = open("../data/fire_departments_new.csv", "w")
+        for line in lines:
+            d.write(line + "\n")
+                    
+        # parsing the new csv to get json file
+        f=open("../data/fire_departments_new.csv", 'r')
+        csv_reader = csv.DictReader(f)
+        
+        json_filename = "../data/fire_departments_new.json"
+        jsonWriter = open(json_filename,'w') 
+        dataJson = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader]) + "\n]"
+        jsonWriter.write(dataJson)
+        jsonWriter.close()              
+        
         filen = '../data/fire_departments.json'
         res = open(filen, 'r')
         r3 = json.load(res)
         repo.dropPermanent("fireDepartments")
         repo.createPermanent("fireDepartments")
         repo['emilyh23_yazhang.fireDepartments'].insert_many(r3)
-       
-        # http://bostonopendata.boston.opendata.arcgis.com/datasets/bffebec4fa844e84917e0f13937ec0d7_3.csv
+        
+        # fetching the csv 
+        response = request.urlopen('http://bostonopendata.boston.opendata.arcgis.com/datasets/bffebec4fa844e84917e0f13937ec0d7_3.csv')
+        data = response.read()
+        # Save the string to a file
+        csvstr = str(data).strip("b'")
+
+        # saving the csv to data folder
+        lines = csvstr.split("\\n")
+        d = open("../data/fire_districts_new.csv", "w")
+        for line in lines:
+            d.write(line + "\n")
+                    
+        # parsing the new csv to get json file
+        f=open("../data/fire_districts_new.csv", 'r')
+        csv_reader = csv.DictReader(f)
+        
+        json_filename = "../data/fire_districts_new.json"
+        jsonWriter = open(json_filename,'w') 
+        dataJson = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader]) + "\n]"
+        jsonWriter.write(dataJson)
+        jsonWriter.close()              
+        
         filen = '../data/fire_districts.json'
         res = open(filen, 'r')
         r4 = json.load(res)
