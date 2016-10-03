@@ -66,8 +66,8 @@
         "entries": 8920
       },
  			{
-      		"title": "Savin Hill Station",
-	        "entries": 2440
+        "title": "Savin Hill Station",
+        "entries": 2440
 	    },
   		{
         "title": "Fields Corner Station",
@@ -88,12 +88,12 @@
     "title": "Red Line (Mattapan)",
     "stations": [
       {
-          "title": "Ashmont Station",
-          "entries": 9293
+        "title": "Ashmont Station",
+        "entries": 9293
       },
       {
-          "title": "Cedar Grove Station",
-          "entries": 91
+        "title": "Cedar Grove Station",
+        "entries": 91
       },
       {
         "title": "Butler Station",
@@ -126,12 +126,12 @@
     "title": "Red Line (Braintree)",
     "stations": [
       {
-          "title": "JFK / UMass Station",
-          "entries": 8920
+        "title": "JFK / UMass Station",
+        "entries": 8920
       },
       {
-          "title": "North Quincy Station",
-          "entries": 6975
+        "title": "North Quincy Station",
+        "entries": 6975
       },
       {
         "title": "Wollaston Station",
