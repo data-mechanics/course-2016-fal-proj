@@ -18,7 +18,9 @@ We performed three transformations as follows on our datasets.
 
 1. Transformation 1
 
-...This transformation T-stop names, locations, and number of entries into a new collection called ridershipLocation. To run the file:
+...This transformation T-stop names, locations, and number of entries into a new collection called ridershipLocation. 
+...To run the file:
+
 ```
 >>> python tRidershipLocation.py
 ```
