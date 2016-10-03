@@ -9,7 +9,7 @@ import prov.model
 import datetime
 import uuid
 
-<<<<<<< HEAD
+
 class numOfCrimeInDistricts(dml.Algorithm):
     contributor = 'bsowens_ggelinas'
     reads = ['bsowens_ggelinas.stations',
@@ -17,15 +17,6 @@ class numOfCrimeInDistricts(dml.Algorithm):
               'bsowens_ggelinas.property',
               'bsowens_ggelinas.fio',
               'bsowens_ggelinas.hospitals']
-=======
-class numOfCrimeInDistrics(dml.Algorithm):
-    contributor = 'bsowens_ggelinas'
-    reads = ['bsowens_ggelinas.stations',
-             'bsowens_ggelinas.incidents',
-             'bsowens_ggelinas.property',
-             'bsoquitwens_ggelinas.fio',
-             'bsowens_ggelinas.hospitals']
->>>>>>> origin/master
     writes = ['bsowens_ggelinas.stations',
               'bsowens_ggelinas.incidents',
               'bsowens_ggelinas.property',
@@ -40,7 +31,7 @@ class numOfCrimeInDistrics(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('bsowens_ggelinas', 'bsowens_ggelinas')
-<<<<<<< HEAD
+
 
         repo['bsowens_ggelinas.stations'].remove({"name": "Boston Police Headquarters"})
 
@@ -185,5 +176,3 @@ numOfCrimeInDistricts.execute()
 doc = numOfCrimeInDistricts.provenance()
 print(json.dumps(json.loads(doc.serialize()),indent=4))
 
-=======
->>>>>>> origin/master
