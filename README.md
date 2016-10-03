@@ -1,21 +1,3 @@
-# 2a
-We chose to use the following public dataset from the Boston Data Portal: 311, Service Request (which we'll use to outline fire incidents happening in Boston). We will also be using the public datasets from the Boston Maps Open Data: Fire Districts (outlines the zones of fire districts), Fire Departments (outlines the locations of fire departments around in Boston), Fire Hydrants (outlines the location of fire hydrants around Boston), and Fire Boxes (outlines the location of fire boxes around Boston). 
-
-After obtaining this information, we'll analyze how well fire incidents are being attended to around different parts of Boston by district. We would like to know if there are any areas that require more fire attention than others and if further safety actions need to be taken. 
-
-# 2b
-
-Getting data from all of the datasets and importing them into the repo database by running data.py. 
-
-# 2c
-Transformation #1: Map-reduce(?) the 311 requests by district, returns the number of incidents in each district by reason (fire hydrant, fire department requests, fires for food establishments -- other). 
-
-Transformation #1: Merge the 311 service request dataset with the fireboxes dataset so that it is categorized by district. It will help us visualize where requests are coming from and whether they were addressed on time. 
-
-Transformation #2: Map-reduce the 311 service requests by district to count the number of incidents to compare in later analysis. 
-
-Transformation #3: Filter 311 service requests to incidents only related to fire hydrant repairs. Merge on X,Y coordinates (latitude and longitude) of Fire Hydrants and 311 Service Requests to get the on-time/delay status. 
-
 # course-2016-fal-proj
 Project repository for the course project in the Fall 2016 iteration of the Data Mechanics course at Boston University.
 
