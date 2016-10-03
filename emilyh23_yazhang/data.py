@@ -20,6 +20,7 @@ class example(dml.Algorithm):
         repo = client.repo
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
         
+        # no download link for csv file provided so the datasets are downloaded and stored and converted it to json
         filen = '../data/fire_hydrant.json'
         res = open(filen, 'r')
         r1 = json.load(res)
