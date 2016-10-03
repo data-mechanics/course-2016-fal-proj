@@ -93,7 +93,7 @@ class dataRequests(dml.Algorithm):
 		has_more_stops = True
 		count = 0
 
-		with open('mbtaStops.csv', 'w') as f:
+		with open('./resources/mbtaStopsWeb.csv', 'w') as f:
 			wr = csv.writer(f);
 			while has_more_stops:
 
