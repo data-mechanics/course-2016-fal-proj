@@ -109,7 +109,7 @@ class example(dml.Algorithm):
         get_hubways = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_busStops = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_tStops = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        get_ridership = doc.activity('log:uuid'+st(uuid.uuid4()), startTime, endTime)
+        get_ridership = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
        
         doc.wasAssociatedWith(get_bigBelly, this_script)
         doc.wasAssociatedWith(get_colleges, this_script)

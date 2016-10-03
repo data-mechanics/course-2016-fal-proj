@@ -22,3 +22,33 @@ class example(dml.Algorithm):
 
         repo.dropPermanent("tRidershipLocation")
         repo.createPermanent("tRidershipLocation")
+
+        t_stop_locations = list(repo.ktan_ngurung.tStops.find())
+        ridership = repo.ktan_ngurung.find()
+
+        for doc in t_stop_locations:
+            docDict = dict(doc)
+            for station in docDict['stations']:
+                print(station['title'])
+
+    @staticmethod
+    def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
+        '''
+        Create the provenance document describing everything happening
+        in this script. Each run of the script will generate a new
+        document describing that invocation event.
+        '''
+
+         # Set up the database connection.
+        client = dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('ktan_ngurung', 'ktan_ngurung')
+
+        pass
+
+example.execute()
+doc = example.provenance()
+#print(doc.get_provn())
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
+
+## eof
