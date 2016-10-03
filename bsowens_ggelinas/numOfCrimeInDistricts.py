@@ -1,8 +1,5 @@
 import urllib.request
-<<<<<<< HEAD
-=======
 import urllib.parse
->>>>>>> origin/master
 import json
 import dml
 import prov.model
