@@ -1,7 +1,7 @@
 # course-2016-fal-proj
 Project repository for the course project in the Fall 2016 iteration of the Data Mechanics course at Boston University.
 
-# 2a
+# Datasets Used:
 We chose to use the following public dataset from the Boston Data Portal: 311, Service Request (which we'll use to outline fire incidents happening in Boston). We will also be using the public datasets from the Boston Maps Open Data: Fire Districts (outlines the zones of fire districts), Fire Departments (outlines the locations of fire departments around in Boston), Fire Hydrants (outlines the location of fire hydrants around Boston), and Fire Boxes (outlines the location of fire boxes around Boston). 
 
 311, Service Requests: https://data.cityofboston.gov/City-Services/311-Service-Requests/awu8-dc52
@@ -12,13 +12,13 @@ Fire Boxes: http://bostonopendata.boston.opendata.arcgis.com/datasets/3a0f4db1e6
 
 After obtaining this information, we'll analyze how well fire incidents are being attended to around different parts of Boston by district. We would like to know if there are any areas that require more fire attention than others and if further safety actions need to be taken. 
 
-# 2b
+# Retrieving Data
 
 Getting data from all of the datasets and importing them into the repo database by running data.py. 
 
-# 2c
-Transformation #1: Map and reduce the 311 requests by district, returns the number of incidents in each district for "Fire", X,Y coordinates, ontime/delay status.
+# Transforming Data
+Transformation #1: Run fireCounts.py to create a new dataset by mapping and reducing the 311 requests by district, which returns the number of incidents in each district for "Fire".
 
-Transformation #2: Map and reduce the 311 requests by district, returns the number of incidents in each district by "Fire Department", X,Y coordinates, ontime/delay status.
+Transformation #2: Run fireDepCounts.py to create a new dataset by mapping and reducing the 311 requests by district, which returns the number of incidents in each district for "Fire Department".
 
-Transformation #3: Map and reduce the 311 requests by district, returns the number of incidents in each district by "Fire Hydrant", X,Y coordinates, ontime/delay status.
+Transformation #3: Run hydrantCounts.py to create a new dataset by mapping and reducing the 311 requests by district, which returns the number of incidents in each district for "Fire Hydrant".
