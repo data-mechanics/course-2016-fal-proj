@@ -110,10 +110,10 @@ class example(dml.Algorithm):
         doc.wasGeneratedBy(fireHydrants, this_run, endTime)
         doc.wasDerivedFrom(fireHydrants, resource, this_run, this_run, this_run)   
         
-        fireRequest = doc.entity('dat:fireRequest', {prov.model.PROV_LABEL:'fireRequest', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(fireRequest, this_script)
-        doc.wasGeneratedBy(fireRequest, this_run, endTime)
-        doc.wasDerivedFrom(fireRequest, resource, this_run, this_run, this_run)  
+        Fire_311_Service_Requests = doc.entity('dat:Fire_311_Service_Requests', {prov.model.PROV_LABEL:'Fire_311_Service_Requests', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(Fire_311_Service_Requests, this_script)
+        doc.wasGeneratedBy(Fire_311_Service_Requests, this_run, endTime)
+        doc.wasDerivedFrom(Fire_311_Service_Requests, resource, this_run, this_run, this_run)  
         
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()

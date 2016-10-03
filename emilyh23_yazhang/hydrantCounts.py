@@ -82,59 +82,61 @@ class example(dml.Algorithm):
         # list of districts
         districts = ['1','12','11','3','4','6','7','8','9']
         
-        # fireByDis is a list of dictionaries for each district and the frequencies of fire in each districT
+        # fireHydrantByDis is a list of dictionaries for each district and the frequencies of fire in each districT
         # REDUCE
-        fireByDis = [{d: []} for d in districts]
-        for dic in fire:
+        fireHydrantByDis = [{d: []} for d in districts]
+        for dic in fireHydrant:
             if (dic['District'] == '1'):
-                fireByDis[0]['1'].append(dic) 
+                fireHydrantByDis[0]['1'].append(dic) 
             elif (dic['District'] == '12'):
-                fireByDis[1]['12'].append(dic) 
+                fireHydrantByDis[1]['12'].append(dic) 
             elif (dic['District'] == '11'):
-                fireByDis[2]['11'].append(dic) 
+                fireHydrantByDis[2]['11'].append(dic) 
             elif (dic['District'] == '3'):
-                fireByDis[3]['3'].append(dic)
+                fireHydrantByDis[3]['3'].append(dic)
             elif (dic['District'] == '4'):
-                fireByDis[4]['4'].append(dic) 
+                fireHydrantByDis[4]['4'].append(dic) 
             elif (dic['District'] == '6'):
-                fireByDis[5]['6'].append(dic) 
+                fireHydrantByDis[5]['6'].append(dic) 
             elif (dic['District'] == '7'):
-                fireByDis[6]['7'].append(dic) 
+                fireHydrantByDis[6]['7'].append(dic) 
             elif (dic['District'] == '8'):
-                fireByDis[7]['8'].append(dic) 
+                fireHydrantByDis[7]['8'].append(dic) 
             elif (dic['District'] == '9'):
-                fireByDis[8]['9'].append(dic) 
+                fireHydrantByDis[8]['9'].append(dic) 
         
-        #s = json.dumps(fireByDis, sort_keys=True, indent=2)
-        #print(s)
-        disFireCount = [{d: 0} for d in districts]
-        for dic in fireByDis:
-            for k, v in dic.items():
-                if (k=='1'):
-                    disFireCount[0]['1'] = {'count':len(dic[k]), 'Type': 'Fire'}
-                if (k=='12'):
-                    disFireCount[1]['12'] = {'count':len(dic[k]), 'Type': 'Fire'}
-                if (k=='11'):
-                    disFireCount[2]['11'] = {'count':len(dic[k]), 'Type': 'Fire'}
-                if (k=='3'):
-                    disFireCount[3]['3'] = {'count':len(dic[k]), 'Type': 'Fire'}
-                if (k=='4'):
-                    disFireCount[4]['4'] = {'count':len(dic[k]), 'Type': 'Fire'}
-                if (k=='6'):
-                    disFireCount[5]['6'] = {'count':len(dic[k]), 'Type': 'Fire'}
-                if (k=='7'):
-                    disFireCount[6]['7'] = {'count':len(dic[k]), 'Type': 'Fire'}
-                if (k=='8'):
-                    disFireCount[7]['8'] = {'count':len(dic[k]), 'Type': 'Fire'}
-                if (k=='9'):
-                    disFireCount[8]['9'] = {'count':len(dic[k]), 'Type': 'Fire'}
-        
-        #s = json.dumps(r, sort_keys=True, indent=2)
+        #s = json.dumps(fireHydrantByDis, sort_keys=True, indent=2)
         #print(s)
 
-        repo.dropPermanent("fireCounts")
-        repo.createPermanent("fireCounts")
-        repo['emilyh23_yazhang.fireCounts'].insert_many(disFireCount)
+        #number of fire hydrant repairs by district
+        fireHydrantCount = [{d: 0} for d in districts]
+        for dic in fireHydrantByDis:
+            for k, v in dic.items():
+                if (k=='1'):
+                    fireHydrantCount[0]['1'] = {'count':len(dic[k]), 'Type': 'Fire Hydrant'}
+                if (k=='12'):
+                    fireHydrantCount[1]['12'] = {'count':len(dic[k]), 'Type': 'Fire Hydrant'}
+                if (k=='11'):
+                    fireHydrantCount[2]['11'] = {'count':len(dic[k]), 'Type': 'Fire Hydrant'}
+                if (k=='3'):
+                    fireHydrantCount[3]['3'] = {'count':len(dic[k]), 'Type': 'Fire Hydrant'}
+                if (k=='4'):
+                    fireHydrantCount[4]['4'] = {'count':len(dic[k]), 'Type': 'Fire Hydrant'}
+                if (k=='6'):
+                    fireHydrantCount[5]['6'] = {'count':len(dic[k]), 'Type': 'Fire Hydrant'}
+                if (k=='7'):
+                    fireHydrantCount[6]['7'] = {'count':len(dic[k]), 'Type': 'Fire Hydrant'}
+                if (k=='8'):
+                    fireHydrantCount[7]['8'] = {'count':len(dic[k]), 'Type': 'Fire Hydrant'}
+                if (k=='9'):
+                    fireHydrantCount[8]['9'] = {'count':len(dic[k]), 'Type': 'Fire Hydrant'}
+        
+        #s = json.dumps(fireHydrantCount, sort_keys=True, indent=2)
+        #print(s)
+
+        repo.dropPermanent("hydrantCounts")
+        repo.createPermanent("hydrantCounts")
+        repo['emilyh23_yazhang.hydrantCounts'].insert_many(fireHydrantCount)
     
         repo.logout()
 
@@ -164,17 +166,17 @@ class example(dml.Algorithm):
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
         doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/') # boston open data
 
-        this_script = doc.agent('alg:fireCounts', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:hydrantCounts', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         Fire_311_Service_Requests = doc.entity('dat:Fire_311_Service_Requests', {prov.model.PROV_LABEL:'Fire_311_Service_Requests', prov.model.PROV_TYPE:'ont:DataSet'})
         this_run = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation', 'ont:Query':'?accessType=DOWNLOAD'})
         doc.wasAssociatedWith(this_run, this_script)
         doc.used(this_run, Fire_311_Service_Requests, startTime)
                 
         #New map-reduced dataset
-        fireCounts = doc.entity('dat:fireCounts', {prov.model.PROV_LABEL:'fireCounts', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(fireCounts, this_script)
-        doc.wasGeneratedBy(fireCounts, this_run, endTime)
-        doc.wasDerivedFrom(fireCounts, Fire_311_Service_Requests, this_run, this_run, this_run)
+        hydrantCounts = doc.entity('dat:hydrantCounts', {prov.model.PROV_LABEL:'hydrantCounts', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(hydrantCounts, this_script)
+        doc.wasGeneratedBy(hydrantCounts, this_run, endTime)
+        doc.wasDerivedFrom(hydrantCounts, Fire_311_Service_Requests, this_run, this_run, this_run)
         
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
