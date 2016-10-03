@@ -6,7 +6,7 @@ import datetime
 import uuid
 from geopy.distance import vincenty
 
-class example(dml.Algorithm):
+class example2(dml.Algorithm):
     contributor = 'aditid_benli'
     reads = []
     writes = ['aditid_benli.jam', 'aditid_benli.comparking', 'aditid_benli.inters', 'aditid_benli.metparking', 'aditid_benli.partickets']

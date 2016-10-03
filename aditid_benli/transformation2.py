@@ -4,16 +4,16 @@ import dml
 import prov.model
 import datetime
 import uuid
-from geopy.distance import vincenty
+from bson.code import Code
 
-class example(dml.Algorithm):
+class transformation2(dml.Algorithm):
     contributor = 'aditid_benli'
-    reads = []
-    writes = ['aditid_benli.jam', 'aditid_benli.comparking', 'aditid_benli.inters', 'aditid_benli.metparking', 'aditid_benli.partickets']
+    reads = ['aditid_benli.jam', 'aditid_benli.crime']
+    writes = ['aditid_benli.crimeLocations','aditid_benli.jamMR']
 
     @staticmethod
     def execute(trial = False):
-        '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
+        '''Retrieve some data sets.'''
         startTime = datetime.datetime.now()
         
         # Set up the database connection.
@@ -21,60 +21,87 @@ class example(dml.Algorithm):
         repo = client.repo
         repo.authenticate('aditid_benli', 'aditid_benli')
         
-        url = 'https://data.cityofboston.gov/resource/yqgx-2ktq.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("jam")
-        repo.createPermanent("jam")
-        repo['aditid_benli.jam'].insert_many(r)
 
-        
-        url = 'https://data.cambridgema.gov/api/views/impv-6fac/rows.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("inters")
-        repo.createPermanent("inters")
-        repo['aditid_benli.inters'].insert_one(r)
-        
-        url = 'https://data.cambridgema.gov/api/views/up94-ihbw/rows.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("metparking")
-        repo.createPermanent("metparking")
-        repo['aditid_benli.metparking'].insert_one(r)
-        
-        url = 'https://data.cambridgema.gov/api/views/vnxa-cuyr/rows.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        data = r['data']
-        newData = []                                                                #tranformation #1
-        # for i in range(len(data)):
-        #     if data[i][-2] == "NO PARKING" or data[i][-2] == "RESIDENT PERMIT ONLY":   
-        #         newData.append(data[i])                                                     #Filters out ticketing data that aren't relevant to parking demand in an area, i.e double parking or meter expiration
-        # r['data'] = newData
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("partickets")
-        repo.createPermanent("partickets")
-        repo['aditid_benli.partickets'].insert_many(r)
-        
-        url = 'https://data.cambridgema.gov/api/views/vr3p-e9ke/rows.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("comparking")
-        repo.createPermanent("comparking")
-        repo['aditid_benli.comparking'].insert_one(r)
+        #Put Crime and locations together
+        map_function = Code('''function() {
+            if (this.street != undefined)
+                {
+                if (this.lat != undefined)
+                    {
+                    id = {
+                        street:this.street,
+                        lat:this.lat,
+                        long:this.long
+                        }
+                    emit(id,num:1);
+                    }
+                }
+            }''')
 
+
+        reduce_function = Code('''function(k, vs) {
+            var total = 0;
+            for (var i = 0; i < vs.length; i++)
+            total += vs[i].num;
+            return {num:total};
+            }''')
+        
+        #reset resulting directory
+        repo.dropPermanent('aditid_benli.crimeLocations')
+        repo.createPermanent('aditid_benli.crimeLocations')
+
+        repo.aditid_benli.crime.map_reduce(map_function, reduce_function, 'aditid_benli.crimeLocations');
+
+
+        #union
+        def union(collection1, collection2, result):
+            for document in repo[collection1].find():
+                repo[result].insert(document)
+                
+            for document in repo[collection2].find():
+                repo[result].insert(document)
+        
+        #reset resulting directory
+        repo.dropPermanent('aditid_benli.jamCrime')
+        repo.createPermanent('aditid_benli.jamCrime')
+        
+        
+#        union('aditid_benli.jam', 'aditid_benli.crime','aditid_benli.jamCrime')
+#
+#        #Find coordinates of each street
+#        map_function = Code('''function() {
+#            if (this._id == this.street){
+#                emit(this._id, {
+#            
+#            emit(this.street, {num:1});
+#            }''')
+#        
+#        
+#        +            id = this._id.zip_code;
+#            +            if (this._id.type == 'sr311') {
+#                +                emit(id, {crime: 0, sr311: this.value});
+#                    +            } else {
+#                        +                emit(id, {crime: this.value, sr311: 0});
+#                            +            }
+#                                +        }''')
+#
+#        
+#        reduce_function = Code('''function(k, vs) {
+#            var total = 0;
+#            for (var i = 0; i < vs.length; i++)
+#            total += vs[i].num;
+#            return {jams:total};
+#            }''')
+#        
+
+        repo.aditid_benli.jamCrime.map_reduce(map_function, reduce_function, 'aditid_benli.jamMR');
+        
 
         repo.logout()
 
         endTime = datetime.datetime.now()
 
         return {"start":startTime, "end":endTime}
-
 
 
     @staticmethod
@@ -128,8 +155,8 @@ class example(dml.Algorithm):
 
         return doc
 
-example.execute()
-doc = example.provenance()
+transformation2.execute()
+doc = transformation2.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 
