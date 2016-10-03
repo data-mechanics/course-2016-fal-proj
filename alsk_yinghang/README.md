@@ -22,3 +22,8 @@ Lastly, we've combined Property Assessments with crime to calculate the average 
 ```shell
 pip install pandas
 ```
+
+## Running the project
+```shell
+python main_file.py
+```
