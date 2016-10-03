@@ -26,15 +26,17 @@ class getFIOcoord(dml.Algorithm):
 
         def coord_query(item):
             #returns a tuple of (lat,long)
+
+            address_str = item["location"]
+            google_key = AIzaSyA8VYW_KUzsrG_1d1ow7_fql6wxRNvq5O8
+            url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address_str + "+MA&key=" + google_key
+            url = url.replace(" ", "+")
             try:
-                address_str = item["location"]
-                url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address_str + "+MA&key=AIzaSyA8VYW_KUzsrG_1d1ow7_fql6wxRNvq5O8"
-                url = url.replace(" ", "+")
                 urlres = urllib.request.urlopen(url).read().decode("utf-8")
                 result = json.loads(urlres)
                 return result['results'][0]['geometry']['location']
             except:
-                print("Google Geocoding error: probably throttled :-(")
+                #print("Google Geocoding error: probably throttled :-(")
                 return {'lat': None, 'lng':None}
 
 

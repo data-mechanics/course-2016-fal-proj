@@ -28,7 +28,8 @@ class numOfCrimeInDistricts(dml.Algorithm):
 
         # We had to hard code the list of districts because the names
         # were not consistent in the dataset. If we use it in the future
-        # we will make it actually pull these from the dataset
+        # we will make it actually pull these from the dataset.
+
         districts = ['A1', 'D4', 'E13', 'B3', 'E18', 'D14', 'A7', 'C6', 'B2', 'E5', 'C11']
         counter = 0
         for doc in repo['bsowens_ggelinas.stations'].find():
@@ -38,9 +39,7 @@ class numOfCrimeInDistricts(dml.Algorithm):
 
             repo['bsowens_ggelinas.stations'].update(
                 {'_id': doc['_id']},
-                {
-                    '$set': {'num_crimes': num_crimes},
-                },
+                {'$set': {'num_crimes': num_crimes},},
                 upsert=False
             )
             counter += 1
