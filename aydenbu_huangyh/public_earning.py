@@ -30,14 +30,16 @@ class PublicandEarning(dml.Algorithm):
             publics_array.append({"zip":document['_id'], 'value':{'avg': 0,
                                                                     'numofHospital': document['value']['numofHospital'],
                                                                     'numofSchool': document['value']['numofSchool'],
-                                                                    'numofGarden':document['value']['numofGarden']}})
+                                                                    'numofGarden':document['value']['numofGarden'],
+                                                                     'numofStore': document['value']['numofStore']}})
 
         earnings_array = []
         for document in earnings.find():
             earnings_array.append({"zip":document['_id'], "value":{'avg': document['value']['avg'],
                                                                   'numofSchool': 0,
                                                                   'numofHospital': 0,
-                                                                  'numofGarden': 0
+                                                                  'numofGarden': 0,
+                                                                   'numofStore': 0
                                                                   }})
 
         repo.dropPermanent("test2")
@@ -68,14 +70,16 @@ class PublicandEarning(dml.Algorithm):
                         "numofSchool" : '',
                         "numofHospital" : '',
                         "numofGarden": '',
+                        "numofStore": ''
                         };
 
 
                         values.forEach(function(value) {
                         if(value.avg !== 0) {result.avg = value.avg;}
                         if(value.numofHospital !== 0) {result.numofHospital = value.numofHospital;}
-                        if(value.numofSchool !== 0) {result.numofSchool += value.numofSchool;}
-                        if(value.numofGarden !== 0) {result.numofGarden += value.numofGarden;}
+                        if(value.numofSchool !== 0) {result.numofSchool = value.numofSchool;}
+                        if(value.numofGarden !== 0) {result.numofGarden = value.numofGarden;}
+                        if(value.numofStore !== 0) {result.numofStore = value.numofStore;}
 
 
                          });
