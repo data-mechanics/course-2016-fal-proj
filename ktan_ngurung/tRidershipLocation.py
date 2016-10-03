@@ -93,7 +93,6 @@ class example(dml.Algorithm):
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
-        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
         doc.add_namespace('ede', 'http://erikdemaine.org/maps/')
         doc.add_namespace('mbt', 'http://www.mbta.com/about_the_mbta/document_library/')
 
