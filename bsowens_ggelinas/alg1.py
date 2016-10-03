@@ -79,7 +79,10 @@ class getGeoJSON(dml.Algorithm):
             long = myfloat(long)
             return zip, lat, long
 
+
+
         def get_loc_fio(item):
+            # Dependent on "getFIOcoord.py" (must be run before this function returns anything other than None)
             zip = None
             lat = item['coords']['lat'] if 'coords' in item else None
             lat = myfloat(lat)
@@ -114,7 +117,7 @@ class getGeoJSON(dml.Algorithm):
             },
             'fio': {
                 'name': 'bsowens_ggelinas.fio',
-                'unset': {},
+                'unset': {'coords': ''},
                 'loc': get_loc_fio
             },
             'hospitals': {
@@ -145,8 +148,6 @@ class getGeoJSON(dml.Algorithm):
         endTime = datetime.datetime.now()
 
         return {"start":startTime, "end":endTime}
-
-
 
 
 
