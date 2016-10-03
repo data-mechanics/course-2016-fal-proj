@@ -13,7 +13,7 @@ class merge(dml.Algorithm):
     contributor = 'aydenbu_huangyh'
     reads = ['aydenbu_huangyh.zip_hospitals_count',
              'aydenbu_huangyh.zip_Healthycornerstores_count']
-    writes = ['aydenbu_huangyh.zip_health']
+    writes = ['aydenbu_huangyh.merge_store_hospital']
 
     @staticmethod
     def execute(trial = False):
