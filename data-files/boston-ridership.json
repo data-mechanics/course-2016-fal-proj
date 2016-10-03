@@ -642,7 +642,7 @@
             "entries":870
          },
          {
-            "lines":"Silver Line (SL1)",
+            "title":"Silver Line (SL1)",
             "entries":2268
          }
       ]
@@ -920,7 +920,6 @@
             "entries":624
          },
          {
-            "latitude":42.190776,
             "title":"Norwood Central",
             "entries":1185
          },

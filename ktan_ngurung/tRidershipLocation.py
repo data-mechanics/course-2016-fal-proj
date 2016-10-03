@@ -24,16 +24,17 @@ class example(dml.Algorithm):
         repo.createPermanent("tRidershipLocation")
 
         t_stop_locations = list(repo.ktan_ngurung.tStops.find())
-        ridership = repo.ktan_ngurung.find()
+        ridership = repo.ktan_ngurung.ridership.find()
 
-        for doc in t_stop_locations:
-            docDict = dict(doc)
-            for station in docDict['stations']:
-                try:
-                    print(station['title'])
-                except KeyError:
-                    print('**** PASSING KEYERROR ****')
-                    pass
+        # for doc in t_stop_locations:
+        #     docDict1 = dict(doc)
+        #     for station in docDict1['stations']:
+        #         print(station['title'])
+
+        for doc in ridership:
+            docDict2 = dict(doc)
+            for station in docDict2['stations']:
+                print(station['title'])
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
