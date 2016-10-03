@@ -24,25 +24,7 @@ class example(dml.Algorithm):
         repo = client.repo
         #repo.authenticate('alice_bob', 'alice_bob')
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
-        
         '''
-        url = 'http://cs-people.bu.edu/lapets/591/examples/lost.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("lost")
-        repo.createPermanent("lost")
-        repo['emilyh23_yazhang.lost'].insert_many(r)
-        
-        url = 'http://cs-people.bu.edu/lapets/591/examples/found.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("found")
-        repo.createPermanent("found")
-        repo['emilyh23_yazhang.found'].insert_many(r)
-        '''
-        
         filen = '../data/fire_hydrant.json'
         res = open(filen, 'r')
         r1 = json.load(res)
@@ -70,14 +52,15 @@ class example(dml.Algorithm):
         repo.dropPermanent("fireDistricts")
         repo.createPermanent("fireDistricts")
         repo['emilyh23_yazhang.fireDistricts'].insert_many(r4)         
-    
+        '''
+        
         filen = '../data/Fire_311_Service_Requests.json'
         res = open(filen, 'r')
         r5 = json.load(res)
         repo.dropPermanent("Fire_311_Service_Requests")
         repo.createPermanent("Fire_311_Service_Requests")
         repo['emilyh23_yazhang.Fire_311_Service_Requests'].insert_many(r5) 
-    
+        
         # MAPPING: creates lists of dictionaries that contains fire incidents by category, their districts, and their ontime/delay status, and their lat/long
     
         fireDep = []
@@ -88,7 +71,6 @@ class example(dml.Algorithm):
         for dic in r5:
             if (dic['FIELD8'] == 'Fire Department'):
                 new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
-                #new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
                 fireDep.append(new_dic)
             elif (dic['FIELD8'] == 'Fire in Food Establishment'):
                 new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
@@ -152,18 +134,17 @@ class example(dml.Algorithm):
                 if (k=='9'):
                     disFireCount[8]['9'] = {'count':len(dic[k]), 'Type': 'Fire'}
         
-                
+        repo.dropPermanent("fireCounts")
+        repo.createPermanent("fireCounts")
+        repo['emilyh23_yazhang.fireCounts'].insert_many(disFireCount) 
                     
-        s = json.dumps(x, sort_keys=True, indent=2)
-        print(s)
+        #s = json.dumps(x, sort_keys=True, indent=2)
+        #print(s)
         repo.logout()
 
         endTime = datetime.datetime.now()
 
         return {"start":startTime, "end":endTime}
-    
-    def union(R, S):
-        return R + S
     
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -191,31 +172,11 @@ class example(dml.Algorithm):
 
         this_script = doc.agent('alg:data', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
     
-        resource = doc.entity('bod:wc8w-nujj', {'prov:label':'data', prov.model.PROV_TYPE:'bod:DataResource', 'bod:Extension':'json'})
+        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'data', prov.model.PROV_TYPE:'bdp:DataResource', 'bdp:Extension':'json'})
         this_run = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation', 'ont:Query':'?accessType=DOWNLOAD'})
-        #get_found = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        #get_lost = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(this_run, this_script)
         doc.used(this_run, resource, startTime)
-
-        '''        
-        doc.usage(get_found, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=Animal+Found&$select=type,latitude,longitude,OPEN_DT'
-                }
-            )
-
-        lost = doc.entity('dat:alice_bob#lost', {prov.model.PROV_LABEL:'Animals Lost', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(lost, this_script)
-        doc.wasGeneratedBy(lost, get_lost, endTime)
-        doc.wasDerivedFrom(lost, resource, get_lost, get_lost, get_lost)
-
-        found = doc.entity('dat:alice_bob#found', {prov.model.PROV_LABEL:'Animals Found', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(found, this_script)
-        doc.wasGeneratedBy(found, get_found, endTime)
-        doc.wasDerivedFrom(found, resource, get_found, get_found, get_found)
         '''
-        
         fireDistricts = doc.entity('dat:fireDistricts', {prov.model.PROV_LABEL:'fireDistricts', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(fireDistricts, this_script)
         doc.wasGeneratedBy(fireDistricts, this_run, endTime)
@@ -235,7 +196,7 @@ class example(dml.Algorithm):
         doc.wasAttributedTo(fireHydrants, this_script)
         doc.wasGeneratedBy(fireHydrants, this_run, endTime)
         doc.wasDerivedFrom(fireHydrants, resource, this_run, this_run, this_run)   
-        
+        '''
         fireRequest = doc.entity('dat:fireRequest', {prov.model.PROV_LABEL:'fireRequest', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(fireRequest, this_script)
         doc.wasGeneratedBy(fireRequest, this_run, endTime)
@@ -248,7 +209,7 @@ class example(dml.Algorithm):
 
 example.execute()
 doc = example.provenance()
-#print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
