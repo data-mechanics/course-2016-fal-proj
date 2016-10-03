@@ -66,7 +66,7 @@ class dataRequests(dml.Algorithm):
 			print("Error: Police requests failed. Status code: {}".format(police_station_request.status_code))
 			return -1
 
-	def get_mbta_stop_locations():
+	def get_mbta_stop_locations_web():
 		stops = {}
 		pp = pprint.PrettyPrinter(indent=4)
 
@@ -119,20 +119,33 @@ class dataRequests(dml.Algorithm):
 	def get_mbta_request_string(api_key,lat,lon):
 		return "http://realtime.mbta.com/developer/api/v2/stopsbylocation?api_key="+api_key+"&lat="+lat+"&lon="+lon+"&format=json"
 
+	def get_mbta_stop_locations_csv():
+		mbta_stops = {}
+		with open('./resources/stops.csv') as csvfile:
+			reader = csv.DictReader(csvfile)
+			for row in reader:
+				mbta_stops[row['stop_id']] = {"stop_name":row['stop_name'],"lat":row['stop_lat'],"lon":row['stop_lon']}
+
+		return mbta_stops
+
+
+
+
 
 	@staticmethod
 	def execute(trial = False):
-		startTime = datetime.datetime.now()
 
-		client = dml.pymongo.MongoClient()
-		repo = client.repo
-		repo.authenticate('pgomes94_raph737', 'pgomes94_raph737')
+		# startTime = datetime.datetime.now()
 
-		hospital_locations = dataRequests.get_hospital_locations()
-		print(type(hospital_locations))
-		repo.dropPermanent("hospital_locations")
-		repo.createPermanent("hospital_locations")
-		repo['pgomes94_raph737.hospital_locations'].insert_many(hospital_locations)
+		# client = dml.pymongo.MongoClient()
+		# repo = client.repo
+		# repo.authenticate('pgomes94_raph737', 'pgomes94_raph737')
+
+		# hospital_locations = dataRequests.get_hospital_locations()
+		# print(type(hospital_locations))
+		# repo.dropPermanent("hospital_locations")
+		# repo.createPermanent("hospital_locations")
+		# repo['pgomes94_raph737.hospital_locations'].insert_many(hospital_locations)
 		'''
 		traffic_locations = dataRequests.get_traffic_locations()
 		repo.dropPermanent("traffic_locations")
@@ -163,7 +176,7 @@ class dataRequests(dml.Algorithm):
 	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
 		pass
 
-dataRequests.execute()
+# dataRequests.execute()
 #cityofboston_api_key = 'KPQpbs4UiZMCXzxGYurpLOFwA'
 
 
