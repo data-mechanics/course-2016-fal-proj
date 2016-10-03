@@ -8,7 +8,7 @@ import uuid
 class example(dml.Algorithm):
     contributor = 'ktan_ngurung'
     reads = []
-    writes = ['ktan_ngurung.bigBelly', 'ktan_ngurung.colleges', 'ktan_ngurung.hubways', 'ktan_ngurung.busStops', 'ktan_ngurung.tStops']
+    writes = ['ktan_ngurung.bigBelly', 'ktan_ngurung.colleges', 'ktan_ngurung.hubways', 'ktan_ngurung.busStops', 'ktan_ngurung.tStops', 'ktan_ngurung.ridership']
 
     @staticmethod
     def execute(trial = False):
