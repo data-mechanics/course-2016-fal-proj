@@ -26,6 +26,7 @@ class proj1(dml.Algorithm):
 			return r
 
 		def kmeans(points_with_weights):
+			print("Inside k-means")
 			#Chose 45 means because that's approximately how many zipcodes Boston has.
 			#This point is what is generated for the zipcode 02215.
 			M = [(42.3457429616475,-71.1025665422545)]*45
@@ -53,9 +54,8 @@ class proj1(dml.Algorithm):
 				return [(key, f([v for (k,v) in R if k == key])) for key in keys]
 
 			count = 0
-			OLD = []
-			while ((sorted(OLD) != sorted(M)) and (count < 10)):
-				OLD = M
+			while (count < 10):
+				print("On iteration #"+str(count))
 				MPD = [(m, p, dist(m,p)) for (m,p) in product(M,P)]
 				PDs = [(p, d) for (m,p,d) in MPD]
 				PD = aggregate(PDs, min) 
@@ -64,7 +64,6 @@ class proj1(dml.Algorithm):
 				#Instead of 1 put salaries as the weight.
 				MWeight = [(m, points_with_weights[p]) for ((m, p, d), (p2,d2)) in product(MPD, PD) if p==p2 and d==d2]
 				MC = aggregate(MWeight, sum)
-
 				M = [scale(t,c) for ((m,t), (m2,c)) in product(MT, MC) if m==m2]
 				M = sorted(M)
 				count+=1
@@ -86,6 +85,7 @@ class proj1(dml.Algorithm):
 		buildings_dates_subset = [record for record in buildingPermits if filter_dates(record)]
 		#Deleting variables no longer needed because was getting the error "Killed:9" which apparently means it's out of memory.
 		del buildingPermits 
+		print("Deleted building-permits json")
 		building_permits_2012 = {}
 		building_permits_2013 = {}
 		building_permits_2014 = {}
@@ -108,24 +108,32 @@ class proj1(dml.Algorithm):
 				return building_permits_dictionary
 			except:
 				return building_permits_dictionary
-
+		print("Starting inserting " +str(len(buildings_dates_subset))+" records")
 		for record in buildings_dates_subset:
 			year = record['issued_date'][0:4]
 			if year == "2012": building_permits_2012 = insertRecord(building_permits_2012, record)
 			elif year == "2013": building_permits_2013 = insertRecord(building_permits_2013, record)
 			elif year == "2014": building_permits_2014 = insertRecord(building_permits_2014, record)
 			elif year == "2015": building_permits_2015 = insertRecord(building_permits_2015, record)
-
+		del buildings_dates_subset
 		print("Finished creating new Building Permits dataset with locations")
 		print("Starting building permits k-means calculations")
+		building_permits_kmeans = []
+		print("2012")
 		building_permits_2012 = kmeans(building_permits_2012)
-		building_permits_2013 = kmeans(building_permits_2013)
-		building_permits_2014 = kmeans(building_permits_2014)
-		building_permits_2015 = kmeans(building_permits_2015)
-		building_permits_kmeans = [(2012,building_permits_2012), (2013, building_permits_2013), (2014, building_permits_2014), (2015, building_permits_2015)]
+		building_permits_kmeans += [(2012,building_permits_2012)]
 		del building_permits_2012
+		print("2013")
+		building_permits_2013 = kmeans(building_permits_2013)
+		building_permits_kmeans += [(2013, building_permits_2013)]
 		del building_permits_2013
+		print("2014")
+		building_permits_2014 = kmeans(building_permits_2014)
+		building_permits_kmeans += [(2014, building_permits_2014)]
 		del building_permits_2014
+		print("2015")
+		building_permits_2015 = kmeans(building_permits_2015)
+		building_permits_kmeans += [(2015,building_permits_2015)]
 		del building_permits_2015
 		print("Finished Building Permits k-means")
 		repo.dropPermanent("building_permits_kmeans")
@@ -229,7 +237,7 @@ class proj1(dml.Algorithm):
 		get_building_permits = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
 		doc.wasAssociatedWith(get_building_permits, this_script)
 		doc.usage(get_building_permits, resource, startTime, None,
-        			{prov.model.PROV_TYPE: 'ont:Retrieval'}) #idk what else to put here
+        			{prov.model.PROV_TYPE: 'ont:Retrieval','ont:Computation':'k-means'}) 
 		building_permits = doc.entity('dat:shreya#building_permits_kmeans',
         	{prov.model.PROV_LABEL:'K-Means of Approved Building Permits By Year (2012-2015)',
         	prov.model.PROV_TYPE: 'ont:DataSet'})
@@ -242,7 +250,7 @@ class proj1(dml.Algorithm):
 		get_crime_reports = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
 		doc.wasAssociatedWith(get_crime_reports, this_script)
 		doc.usage(get_crime_reports, resource, startTime, None,
-        			{prov.model.PROV_TYPE: 'ont:Retrieval'}) #idk what else to put here
+        			{prov.model.PROV_TYPE: 'ont:Retrieval','ont:Computation':'k-means'}) 
 		crime_reports = doc.entity('dat:shreya#crime_reports_kmeans',
         	{prov.model.PROV_LABEL:'K-Means of Crime Reports By Year (2012-2015)',
         	prov.model.PROV_TYPE: 'ont:DataSet'})
@@ -257,13 +265,19 @@ class proj1(dml.Algorithm):
 		resource2015 = doc.entity('bdp:bejm-5s9g',{'prov:label':'Crime Incident Reports',prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
 		get_earnings = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
 		doc.wasAssociatedWith(get_earnings, this_script)
-		doc.usage(get_earnings, resource, startTime, None,
-        			{prov.model.PROV_TYPE: 'ont:Retrieval'}) #idk what else to put here. also how to put in multiple resources.
+		doc.usage(get_earnings, resource2012, startTime, None,
+        			{prov.model.PROV_TYPE: 'ont:Retrieval','ont:Computation':'k-means'}) 
+		doc.usage(get_earnings, resource2013, startTime, None,
+        			{prov.model.PROV_TYPE: 'ont:Retrieval','ont:Computation':'k-means'}) 
+		doc.usage(get_earnings, resource2014, startTime, None,
+        			{prov.model.PROV_TYPE: 'ont:Retrieval','ont:Computation':'k-means'}) 
+		doc.usage(get_earnings, resource2015, startTime, None,
+        			{prov.model.PROV_TYPE: 'ont:Retrieval','ont:Computation':'k-means'}) 
 		earnings = doc.entity('dat:shreya#earnings_kmeans',
         	{prov.model.PROV_LABEL:'K-Means of Employee Earnings By Year (2012-2015)',
         	prov.model.PROV_TYPE: 'ont:DataSet'})
 		doc.wasAttributedTo(earnings, this_script)
-		doc.wasGeneratedBy(earnings, get_crime_reports, endTime)
+		doc.wasGeneratedBy(earnings, get_earnings, endTime)
 		doc.wasDerivedFrom(earnings, resource, get_earnings, get_earnings, get_earnings)
 
 
