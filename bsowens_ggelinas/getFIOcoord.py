@@ -1,11 +1,13 @@
 import urllib.request
+import urllib.parse
 import json
 import dml
 import prov.model
 import datetime
 import uuid
 
-class alg1(dml.Algorithm):
+
+class getFIOcoord(dml.Algorithm):
     contributor = 'bsowens_ggelinas'
     reads = ['bsowens_ggelinas.stations',
               'bsowens_ggelinas.incidents',
@@ -27,100 +29,31 @@ class alg1(dml.Algorithm):
         repo = client.repo
         repo.authenticate('bsowens_ggelinas', 'bsowens_ggelinas')
 
-        def encode_geojson(file,element):
-            zip,lat,long, = file(element)
-            return {
-                'type': 'Feature',
-                'geometry': {
-                    'type': 'Point',
-                    'coordinates': [lat, long]
-                },
-                'properties': {
-                    'zip_code': myint(zip)
-                }
-            }
 
 
-        def myint(num):
-            try:
-                return int(num)
-            except:
-                return None
 
-        def myfloat(num):
-            try:
-                return float(num)
-            except:
-                return None
+        def coord_query(item):
+            #returns a tuple of (lat,long)
+            address_str = item["location"]
 
-        def get_loc_stations(item):
-            zip = item["location_zip"]
-            lat = item['location']['coordinates'][1] if 'location' in item else None
-            lat = myfloat(lat)
-            long = item['location']['coordinates'][0] if 'location' in item else None
-            long = myfloat(long)
-            return zip,lat,long
+            url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address_str + "+MA&key=AIzaSyABZsMBMijsgiBXQuXMgUxs4fxxoxKXsX0"
+            url = url.replace(" ", "+")
+            print(url)
+            urlres = urllib.request.urlopen(url).read().decode("utf-8")
 
-        def get_loc_incidents(item):
-            zip = None
-            lat = item['lat'] if 'lat' in item else None
-            lat = myfloat(lat)
-            long = item['long'] if 'long' in item else None
-            long = myfloat(long)
-            return zip, lat, long
-
-        def get_loc_property(item):
-            zip = item['mail_zipcode']
-            lat = item['latitude']
-            lat = myfloat(lat)
-            long = item['longitude']
-            long = myfloat(long)
-            return zip, lat, long
-
-        def get_loc_fio(item):
-            zip = None
-            lat = None
-            lat = myfloat(lat)
-            long = None
-            long = myfloat(long)
-            return zip, lat, long
-
-        def get_loc_hospitals(item):
-            zip = item['location_zip']
-            lat = item['location']['coordinates'][1]
-            lat = myfloat(lat)
-            long = item['location']['coordinates'][0]
-            long = myfloat(long)
-            return zip, lat, long
+            result = json.loads(urlres)
+            print(type(result))
+            return result['results']['geometry']['location']
 
 
-        collections = {
-            'stations': {
-                'name': 'bsowens_ggelinas.stations',
-                'unset': {'location': '', 'location_zip': ''},
-                'loc': get_loc_stations
-            },
-            'incidents': {
-                'name': 'bsowens_ggelinas.incidents',
-                'unset': {'lat': '', 'long': ''},
-                'loc': get_loc_incidents
-            },
-            'property': {
-                'name': 'bsowens_ggelinas.property',
-                'unset': {'mail_zipcode': '', 'latitude': '', 'longitude': ''},
-                'loc': get_loc_property
-            },
-            'fio': {
+
+        collections = {'fio': {
                 'name': 'bsowens_ggelinas.fio',
-                'unset': {},
-                'loc': get_loc_fio
-            },
-            'hospitals': {
-                'name': 'bsowens_ggelinas.hospitals',
-                'unset': {'location_zip': '', 'location': ''},
-                'loc': get_loc_hospitals
-            }
-        }
+                'unset': {'location':''},
+                'loc': coord_query
+            }}
+
+
 
         for collection_name in collections:
             collection = collections[collection_name]
@@ -128,11 +61,12 @@ class alg1(dml.Algorithm):
             for doc in repo[collection['name']].find():
                 if 'loc_info' in doc:
                     continue
-                geojson = encode_geojson(collection['loc'],doc)
+                coords = coord_query(doc)
+                print(coords)
                 repo[collection['name']].update(
                     {'_id': doc['_id']},
                     {
-                        '$set': {'loc_info': geojson},
+                        '$set': {'coords': coord_query},
                         '$unset': collection['unset']
                     },
                     upsert=False
@@ -143,7 +77,6 @@ class alg1(dml.Algorithm):
         endTime = datetime.datetime.now()
 
         return {"start":startTime, "end":endTime}
-
 
 
 
@@ -181,7 +114,8 @@ class alg1(dml.Algorithm):
         doc.wasAssociatedWith(standarize, this_script)
 
         resource_stations = doc.entity('dat:bsowens_ggelinas#stations',
-                                    {'prov:label': 'Police Station Locations', prov.model.PROV_TYPE: 'ont:DataSet'})
+                                       {'prov:label': 'Police Station Locations',
+                                        prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.usage(
             standarize,
             resource_stations,
@@ -191,7 +125,8 @@ class alg1(dml.Algorithm):
         )
 
         resource_incidents = doc.entity('dat:bsowens_ggelinas#incidents',
-                                    {'prov:label': 'Police Incident Reports', prov.model.PROV_TYPE: 'ont:DataSet'})
+                                        {'prov:label': 'Police Incident Reports',
+                                         prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.usage(
             standarize,
             resource_incidents,
@@ -201,7 +136,7 @@ class alg1(dml.Algorithm):
         )
 
         resource_property = doc.entity('dat:bsowens_ggelinas#property',
-                                        {'prov:label': 'Property Values', prov.model.PROV_TYPE: 'ont:DataSet'})
+                                       {'prov:label': 'Property Values', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.usage(
             standarize,
             resource_property,
@@ -211,8 +146,8 @@ class alg1(dml.Algorithm):
         )
 
         resource_fio = doc.entity('dat:bsowens_ggelinas#fio',
-                                   {'prov:label': 'Field Interrogation Observations',
-                                                             prov.model.PROV_TYPE: 'ont:DataSet'})
+                                  {'prov:label': 'Field Interrogation Observations',
+                                   prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.usage(
             standarize,
             resource_fio,
@@ -222,7 +157,7 @@ class alg1(dml.Algorithm):
         )
 
         resource_hospitals = doc.entity('dat:bsowens_ggelinas#hospitals',
-                                      {'prov:label': 'Hospital Locations', prov.model.PROV_TYPE: 'ont:DataSet'})
+                                        {'prov:label': 'Hospital Locations', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.usage(
             standarize,
             resource_hospitals,
@@ -254,6 +189,5 @@ class alg1(dml.Algorithm):
 
         return doc
 
-alg1.execute()
-doc = alg1.provenance()
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+getFIOcoord.execute()
+doc = getFIOcoord.provenance()
