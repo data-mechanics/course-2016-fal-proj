@@ -1022,14 +1022,6 @@
         "longitude": -71.071189641952515
       },
       {
-        "latitude": 42.434083993843764,
-        "longitude": -71.071414947509766
-      },
-      {
-        "latitude": 42.433212957053009,
-        "longitude": -71.071683168411255
-      },
-      {
         "latitude": 42.427313343787191,
         "title": "Malden Center Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=12975&lat=42.426678&lng=-71.074144",
@@ -1038,56 +1030,12 @@
         "longitude": -71.073871850967407
       },
       {
-        "latitude": 42.421943817149717,
-        "longitude": -71.076232194900513
-      },
-      {
-        "latitude": 42.420439000049576,
-        "longitude": -71.076629161834717
-      },
-      {
-        "latitude": 42.419377686271957,
-        "longitude": -71.07680082321167
-      },
-      {
-        "latitude": 42.418799500311955,
-        "longitude": -71.076865196228027
-      },
-      {
         "latitude": 42.404295585339483,
         "title": "Wellington Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15231&lat=42.405202&lng=-71.076969",
         "address": "Revere Beach Parkway east of Fellsway, Medford",
         "lines": "Orange Line (all)",
         "longitude": -71.077004671096802
-      },
-      {
-        "latitude": 42.401609893961513,
-        "longitude": -71.07703685760498
-      },
-      {
-        "latitude": 42.400342271075154,
-        "longitude": -71.077197790145874
-      },
-      {
-        "latitude": 42.393876996000358,
-        "longitude": -71.077272891998291
-      },
-      {
-        "latitude": 42.390945217961104,
-        "longitude": -71.07704758644104
-      },
-      {
-        "latitude": 42.389217781921189,
-        "longitude": -71.07703685760498
-      },
-      {
-        "latitude": 42.386991062580663,
-        "longitude": -71.076908111572266
-      },
-      {
-        "latitude": 42.386499747320947,
-        "longitude": -71.077111959457397
       },
       {
         "latitude": 42.385754842657292,
@@ -1104,10 +1052,6 @@
         "address": "1 Cambridge Street, Charlestown",
         "lines": "Orange Line (all)",
         "longitude": -71.077101230621338
-      },
-      {
-        "latitude": 42.378107171947711,
-        "longitude": -71.077466011047363
       },
       {
         "latitude": 42.372638318115349,
@@ -1174,10 +1118,6 @@
         "longitude": -71.07603907585144
       },
       {
-        "latitude": 42.346777666070786,
-        "longitude": -71.076865196228027
-      },
-      {
         "latitude": 42.341551919582948,
         "title": "Massachusetts Avenue Station (Orange)",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13073&lat=42.341762&lng=-71.083072",
@@ -1202,28 +1142,12 @@
         "longitude": -71.095404624938965
       },
       {
-        "latitude": 42.33082945330149,
-        "longitude": -71.096069812774658
-      },
-      {
-        "latitude": 42.328346846573773,
-        "longitude": -71.097657680511475
-      },
-      {
-        "latitude": 42.324134915839473,
-        "longitude": -71.099224090576172
-      },
-      {
         "latitude": 42.32273880877684,
         "title": "Jackson Square Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=12395&lat=42.322893&lng=-71.099787",
         "address": "1500 Columbus Avenue at 240 Centre Street, Jamaica Plain",
         "lines": "Orange Line (all)",
         "longitude": -71.100082397460938
-      },
-      {
-        "latitude": 42.321271276479209,
-        "longitude": -71.101069450378418
       },
       {
         "latitude": 42.319200807838655,
@@ -1234,24 +1158,12 @@
         "longitude": -71.102828979492188
       },
       {
-        "latitude": 42.316995406158092,
-        "longitude": -71.104223728179932
-      },
-      {
-        "latitude": 42.31356815376796,
-        "longitude": -71.105693578720093
-      },
-      {
         "latitude": 42.310569154822304,
         "title": "Green Street Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11952&lat=42.310359&lng=-71.107125",
         "address": "150 Green Street at 380 Amory Street, Jamaica Plain",
         "lines": "Orange Line (all)",
         "longitude": -71.107313632965088
-      },
-      {
-        "latitude": 42.309759876656464,
-        "longitude": -71.107807159423828
       },
       {
         "latitude": 42.300362,
@@ -1323,10 +1235,6 @@
         "title": "Terminal A"
       },
       {
-        "latitude": 42.364204000000001,
-        "longitude": -71.019486999999998
-      },
-      {
         "latitude": 42.361325000000001,
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25168&lat=42.361325&lng=-71.018588",
         "lines": "Silver Line (SL1)",
@@ -1334,27 +1242,11 @@
         "title": "Terminal B Stop 1"
       },
       {
-        "latitude": 42.361080999999999,
-        "longitude": -71.018371999999999
-      },
-      {
-        "latitude": 42.361192000000003,
-        "longitude": -71.017921000000001
-      },
-      {
         "latitude": 42.364440999999999,
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25331&lat=42.364441&lng=-71.01882",
         "lines": "Silver Line (SL1)",
         "longitude": -71.018820000000005,
         "title": "Terminal B Stop 2"
-      },
-      {
-        "latitude": 42.366146000000001,
-        "longitude": -71.017748999999995
-      },
-      {
-        "latitude": 42.367018000000002,
-        "longitude": -71.017512999999994
       },
       {
         "latitude": 42.367460999999999,
