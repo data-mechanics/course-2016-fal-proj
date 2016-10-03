@@ -47,6 +47,14 @@ class dataRequests(dml.Algorithm):
 			print("Error: Crime requests failed. Status code: {}".format(crime_data_request.status_code))
 			return -1
 
+	def get_police_station_locations():
+		police_station_data = requests.get("https://data.cityofboston.gov/resource/pyxn-r3i2.json")
+		if police_station_data.status_code == 200:
+			print("Successfully requested police station locations")
+			police_station_locations = {}
+			for json_data in police_station_data.json():
+				police_station_locations[json_data['name']] = (json_data['location']['coordinates'][0],json_data['location']['coordinates'][0])
+		return police_station_locations
 
 	def get_mbta_stops():
 		stops = {}
@@ -88,7 +96,6 @@ class dataRequests(dml.Algorithm):
 						wr.writerow(new_dat) 
 						temp_stops.remove(new_dat)
 
-
 						new_request = get_mbta_request_string(api_key,lat,lon)
 						next_data = requests.get(new_request).json()['stop']
 						new_temp_stops = [(dat['stop_id'],dat['stop_name'],dat['stop_lat'],dat['stop_lon']) for dat in next_data]
@@ -96,7 +103,9 @@ class dataRequests(dml.Algorithm):
 							if (x[2],x[3]) not in stops.keys():
 								temp_stops.append(x)
 		print("Completed getting MBTA stops! Data can be found in mbtaStops.csv")
+		return {}
 
+	#Helper Function for MBTA querying
 	def get_mbta_request_string(api_key,lat,lon):
 		return "http://realtime.mbta.com/developer/api/v2/stopsbylocation?api_key="+api_key+"&lat="+lat+"&lon="+lon+"&format=json"
 
@@ -112,4 +121,5 @@ class dataRequests(dml.Algorithm):
 	@staticmethod
 	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
 		pass
+
 
