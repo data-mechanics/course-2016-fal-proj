@@ -158,7 +158,7 @@ class getData(dml.Algorithm):
         doc.wasAttributedTo(hospitals, this_script)
         doc.wasGeneratedBy(hospitals, hospitals_getInfo, endTime)
 
-        repo.record(doc.serialize()) #Record the provenance document
+        repo.record(doc.serialize())
         repo.logout()
 
         return doc

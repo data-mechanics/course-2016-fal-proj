@@ -53,6 +53,8 @@ class alg1(dml.Algorithm):
             except:
                 return None
 
+        '''The following functions retrieve the zipcode (where available) and coordinates from each dataset'''
+
         def get_loc_stations(item):
             zip = item["location_zip"]
             lat = item['location']['coordinates'][1] if 'location' in item else None
@@ -79,9 +81,9 @@ class alg1(dml.Algorithm):
 
         def get_loc_fio(item):
             zip = None
-            lat = None
+            lat = item['coords']['lat'] if 'coords' in item else None
             lat = myfloat(lat)
-            long = None
+            long = item['coords']['lng'] if 'coords' in item else None
             long = myfloat(long)
             return zip, lat, long
 
@@ -249,7 +251,7 @@ class alg1(dml.Algorithm):
         doc.wasDerivedFrom(resource_fio, resource_fio, standarize, standarize, standarize)
         doc.wasDerivedFrom(resource_hospitals, resource_hospitals, standarize, standarize, standarize)
 
-        repo.record(doc.serialize())  # Record the provenance document.
+        repo.record(doc.serialize())
         repo.logout()
 
         return doc

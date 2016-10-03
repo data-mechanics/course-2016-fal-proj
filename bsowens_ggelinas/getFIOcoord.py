@@ -35,15 +35,11 @@ class getFIOcoord(dml.Algorithm):
         def coord_query(item):
             #returns a tuple of (lat,long)
             address_str = item["location"]
-
             url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address_str + "+MA&key=AIzaSyABZsMBMijsgiBXQuXMgUxs4fxxoxKXsX0"
             url = url.replace(" ", "+")
-            print(url)
             urlres = urllib.request.urlopen(url).read().decode("utf-8")
-
             result = json.loads(urlres)
-            print(type(result))
-            return result['results']['geometry']['location']
+            return result['results'][0]['geometry']['location']
 
 
 
@@ -59,19 +55,21 @@ class getFIOcoord(dml.Algorithm):
             collection = collections[collection_name]
             print('Status: Processing collection: ', collection_name)
             for doc in repo[collection['name']].find():
-                if 'loc_info' in doc:
+                if 'coords' in doc:
+                    #skip this iteration if the data is already present
                     continue
                 coords = coord_query(doc)
-                print(coords)
+
                 repo[collection['name']].update(
                     {'_id': doc['_id']},
                     {
-                        '$set': {'coords': coord_query},
+                        '$set': {'coords': coords},
                         '$unset': collection['unset']
                     },
                     upsert=False
                 )
             print('Status: Completed collection: ', collection_name)
+
         repo.logout()
 
         endTime = datetime.datetime.now()
