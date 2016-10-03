@@ -1,4 +1,4 @@
-# Project #1
+# Assignment #1
 ## Project
 The purpose of this project is to figure out which factors influence crime. With the information we produce, we can predict new potential hotspots for crimes and what measurements can be taken to limit the problem.
 
