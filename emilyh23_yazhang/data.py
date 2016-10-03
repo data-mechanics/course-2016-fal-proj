@@ -78,7 +78,7 @@ class example(dml.Algorithm):
         repo.createPermanent("Fire_311_Service_Requests")
         repo['emilyh23_yazhang.Fire_311_Service_Requests'].insert_many(r5) 
     
-        # filtering: creates lists of dictionaries that contains fire incidents by category, their districts, and their ontime/delay status, and their lat/long
+        # MAPPING: creates lists of dictionaries that contains fire incidents by category, their districts, and their ontime/delay status, and their lat/long
     
         fireDep = []
         fire = []
@@ -105,6 +105,7 @@ class example(dml.Algorithm):
         
         # fireByDis is a list of dictionaries for each district and the frequencies of fire in each districT
         # REDUCE
+        
         fireByDis = [{d: []} for d in districts]
         for dic in fire:
             if (dic['District'] == '1'):
@@ -128,48 +129,42 @@ class example(dml.Algorithm):
         
         #s = json.dumps(fireByDis, sort_keys=True, indent=2)
         #print(s)
-        
-        # reducing the 
+
         disFireCount = [{d: 0} for d in districts]
         for dic in fireByDis:
             for k, v in dic.items():
                 if (k=='1'):
-                    disFireCount[0]['1'] = len(dic['1'])
+                    disFireCount[0]['1'] = {'count':len(dic[k]), 'Type': 'Fire'}
                 if (k=='12'):
-                    disFireCount[1]['12'] = len(dic['12'])
+                    disFireCount[1]['12'] = {'count':len(dic[k]), 'Type': 'Fire'}
                 if (k=='11'):
-                    disFireCount[2]['11'] = len(dic['11'])
+                    disFireCount[2]['11'] = {'count':len(dic[k]), 'Type': 'Fire'}
                 if (k=='3'):
-                    disFireCount[3]['3'] = len(dic['3'])
+                    disFireCount[3]['3'] = {'count':len(dic[k]), 'Type': 'Fire'}
                 if (k=='4'):
-                    disFireCount[4]['4'] = len(dic['4'])
+                    disFireCount[4]['4'] = {'count':len(dic[k]), 'Type': 'Fire'}
                 if (k=='6'):
-                    disFireCount[5]['6'] = len(dic['6'])
+                    disFireCount[5]['6'] = {'count':len(dic[k]), 'Type': 'Fire'}
                 if (k=='7'):
-                    disFireCount[6]['7'] = len(dic['7'])
+                    disFireCount[6]['7'] = {'count':len(dic[k]), 'Type': 'Fire'}
                 if (k=='8'):
-                    disFireCount[7]['8'] = len(dic['8'])
+                    disFireCount[7]['8'] = {'count':len(dic[k]), 'Type': 'Fire'}
                 if (k=='9'):
-                    disFireCount[8]['9'] = len(dic['9'])
-                    
-        print(disFireCount)
-        #print(disFireCount)
-        #print(fireByDis)
-        #for dic in disFireCount:
-            
-            #for k,v in dic.items():
-             #   if fireByDis
-            
-             #   disFireCount[0]['1'] = (len(dic))
+                    disFireCount[8]['9'] = {'count':len(dic[k]), 'Type': 'Fire'}
         
-        #s = json.dumps(disFireCount, sort_keys=True, indent=2)
-        #print(s)
+                
+                    
+        s = json.dumps(x, sort_keys=True, indent=2)
+        print(s)
         repo.logout()
 
         endTime = datetime.datetime.now()
 
         return {"start":startTime, "end":endTime}
-
+    
+    def union(R, S):
+        return R + S
+    
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
         '''
