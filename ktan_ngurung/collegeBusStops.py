@@ -27,11 +27,7 @@ class example(dml.Algorithm):
         colleges = repo.ktan_ngurung.colleges.find()
         collegeAndStopCountsDict = {}
         
-        count = 0
         for stop in busStops:
-
-            if count > 1000:
-                break
 
             coordinates = stop['fields']['geo_point_2d']
             address = geocoder.google(coordinates, method='reverse')
@@ -45,8 +41,6 @@ class example(dml.Algorithm):
 
             else:
                 pass
-
-            count += 1
 
         for college in colleges:
 
