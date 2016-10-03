@@ -162,21 +162,13 @@ class alg1(dml.Algorithm):
         repo = client.repo
         repo.authenticate('bsowens_ggelinas', 'bsowens_ggelinas')
 
-        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/')
-        # The scripts are in <folder>#<filename> format.
-
-        doc.add_namespace('dat', 'http://datamechanics.io/data/')
-        # The data sets are in <user>#<collection> format.
-
-        doc.add_namespace('ont', 'http://datamechanics.io/ontology#')
-        # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
-
-        doc.add_namespace('log', 'http://datamechanics.io/log/')
-        # The event log.
-
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/bsowens_ggelinas') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/bsowens_ggelinas') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:bsowens_ggelinas#transformation1',
+        this_script = doc.agent('alg:bsowens_ggelinas#alg1',
                                 {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
         standarize = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
                                   {'prov:label': 'Standarize geographical information'})
@@ -258,4 +250,7 @@ class alg1(dml.Algorithm):
 
 alg1.execute()
 doc = alg1.provenance()
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+print (doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
+
+##eof

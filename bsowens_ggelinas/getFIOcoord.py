@@ -9,16 +9,8 @@ import uuid
 
 class getFIOcoord(dml.Algorithm):
     contributor = 'bsowens_ggelinas'
-    reads = ['bsowens_ggelinas.stations',
-              'bsowens_ggelinas.incidents',
-              'bsowens_ggelinas.property',
-              'bsoquitwens_ggelinas.fio',
-              'bsowens_ggelinas.hospitals']
-    writes = ['bsowens_ggelinas.stations',
-              'bsowens_ggelinas.incidents',
-              'bsowens_ggelinas.property',
-              'bsowens_ggelinas.fio',
-              'bsowens_ggelinas.hospitals']
+    reads = ['bsowens_ggelinas.fio']
+    writes = ['bsowens_ggelinas.fio']
 
     @staticmethod
     def execute(trial = False):
@@ -34,12 +26,16 @@ class getFIOcoord(dml.Algorithm):
 
         def coord_query(item):
             #returns a tuple of (lat,long)
-            address_str = item["location"]
-            url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address_str + "+MA&key=AIzaSyABZsMBMijsgiBXQuXMgUxs4fxxoxKXsX0"
-            url = url.replace(" ", "+")
-            urlres = urllib.request.urlopen(url).read().decode("utf-8")
-            result = json.loads(urlres)
-            return result['results'][0]['geometry']['location']
+            try:
+                address_str = item["location"]
+                url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address_str + "+MA&key=AIzaSyA8VYW_KUzsrG_1d1ow7_fql6wxRNvq5O8"
+                url = url.replace(" ", "+")
+                urlres = urllib.request.urlopen(url).read().decode("utf-8")
+                result = json.loads(urlres)
+                return result['results'][0]['geometry']['location']
+            except:
+                print("Google Geocoding error: probably throttled :-(")
+                return {'lat': None, 'lng':None}
 
 
 
@@ -50,26 +46,22 @@ class getFIOcoord(dml.Algorithm):
             }}
 
 
-
-        for collection_name in collections:
-            collection = collections[collection_name]
-            print('Status: Processing collection: ', collection_name)
-            for doc in repo[collection['name']].find():
-                if 'coords' in doc:
-                    #skip this iteration if the data is already present
-                    continue
-                coords = coord_query(doc)
-
-                repo[collection['name']].update(
-                    {'_id': doc['_id']},
-                    {
-                        '$set': {'coords': coords},
-                        '$unset': collection['unset']
-                    },
-                    upsert=False
-                )
-            print('Status: Completed collection: ', collection_name)
-
+        print("Running...")
+        for doc in repo['bsowens_ggelinas.fio'].find():
+            collection = collections['fio']
+            if 'coords' in doc:
+                #skip this iteration if the data is already present
+                continue
+            coords = coord_query(doc)
+            repo['bsowens_ggelinas.fio'].update(
+                {'_id': doc['_id']},
+                {
+                    '$set': {'coords': coords},
+                    '$unset': collection['unset']
+                },
+                upsert=False
+            )
+        print('Done finding coordinates')
         repo.logout()
 
         endTime = datetime.datetime.now()

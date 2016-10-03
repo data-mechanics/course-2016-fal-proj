@@ -32,8 +32,8 @@ class getData(dml.Algorithm):
         }
 
         for set in dataSets:
-            print(set)
-            print(dataSets[set])
+
+            print("Downloading dataset: ",set)
             url = dataSets[set]
             response = urllib.request.urlopen(url).read().decode("utf-8")
             r = json.loads(response)
@@ -41,7 +41,7 @@ class getData(dml.Algorithm):
             repo.dropPermanent(set)
             repo.createPermanent(set)
             repo['bsowens_ggelinas.' + set].insert_many(r)
-            print('done')
+            print('Done!')
 
 
         repo.logout()
@@ -63,8 +63,8 @@ class getData(dml.Algorithm):
         repo = client.repo
         repo.authenticate('bsowens_ggelinas', 'bsowens_ggelinas')
 
-        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
-        doc.add_namespace('dat', 'http://datamechanics.io/data/')  # The data sets are in <user>#<collection> format.
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/bsowens_ggelinas') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/bsowens_ggelinas')  # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont',
                           'http://datamechanics.io/ontology#')  # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/')  # The event log.
@@ -143,20 +143,24 @@ class getData(dml.Algorithm):
                               {prov.model.PROV_LABEL: 'Crime Incidents Report', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(incidents, this_script)
         doc.wasGeneratedBy(incidents, incidents_getInfo, endTime)
+        doc.wasDerivedFrom(incidents, incidents_info, incidents_getInfo, incidents_getInfo, incidents_getInfo)
 
         property = doc.entity('dat:bsowens_ggelinas#property',
                          {prov.model.PROV_LABEL: 'Property Assessment 2016', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(property, this_script)
         doc.wasGeneratedBy(property, property_getInfo, endTime)
+        doc.wasDerivedFrom(property, property_info, property_getInfo, property_getInfo, property_getInfo)
 
         fio = doc.entity('dat:bsowens_ggelinas#fio',
                                {prov.model.PROV_LABEL: 'Boston Police Department FIO', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(fio, this_script)
         doc.wasGeneratedBy(fio, fio_getInfo, endTime)
+        doc.wasDerivedFrom(fio, fio_info, fio_getInfo, fio_getInfo, fio_getInfo)
 
         hospitals = doc.entity('dat:bsowens_ggelinas#hospitals', {prov.model.PROV_LABEL:'Hospital Locations', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(hospitals, this_script)
         doc.wasGeneratedBy(hospitals, hospitals_getInfo, endTime)
+        doc.wasDerivedFrom(hospitals, hospitals_info, hospitals_getInfo, hospitals_getInfo, hospitals_getInfo)
 
         repo.record(doc.serialize())
         repo.logout()
