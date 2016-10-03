@@ -20,36 +20,6 @@ class example(dml.Algorithm):
         repo = client.repo
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
         
-        '''
-        filen = '../data/fire_hydrant.json'
-        res = open(filen, 'r')
-        r1 = json.load(res)
-        repo.dropPermanent("fireHydrants")
-        repo.createPermanent("fireHydrants")
-        repo['emilyh23_yazhang.fireHydrants'].insert_many(r1)   
-  
-        filen = '../data/fire_boxes.json'
-        res = open(filen, 'r')
-        r2 = json.load(res)
-        repo.dropPermanent("fireBoxes")
-        repo.createPermanent("fireBoxes")
-        repo['emilyh23_yazhang.fireBoxes'].insert_many(r2)  
-  
-        filen = '../data/fire_departments.json'
-        res = open(filen, 'r')
-        r3 = json.load(res)
-        repo.dropPermanent("fireDepartments")
-        repo.createPermanent("fireDepartments")
-        repo['emilyh23_yazhang.fireDepartments'].insert_many(r3)
-  
-        filen = '../data/fire_districts.json'
-        res = open(filen, 'r')
-        r4 = json.load(res)
-        repo.dropPermanent("fireDistricts")
-        repo.createPermanent("fireDistricts")
-        repo['emilyh23_yazhang.fireDistricts'].insert_many(r4)
-        '''
-    
         filen = '../data/Fire_311_Service_Requests.json'
         res = open(filen, 'r')
         r5 = json.load(res)
