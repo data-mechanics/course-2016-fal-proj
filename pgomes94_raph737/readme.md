@@ -1,14 +1,12 @@
 Patrick Gomes and Raphael Baysa
 
-We decided to look into the optimal area to build a new hospital in the Boston area. The data sets we are using include current hospital locations, police station locations,, mbta/train stops, traffic points and crime rates. The new hopsital would be located far from current hospital locations and from police stations, but near high population density locations, preferably near two or more clusters. Accessibility is a concern so it would have to be close to a bus or train stop, but far away from high traffic areas for ambulances. If possible, the optimal hospital would also be located near, but not in, a crime cluster for faster response. 
+We decided to look into the optimal area to build a new hospital in the Boston area. The data sets we are using include current hospital locations, police station locations, mbta/train stops, traffic points and crime rates. The new hopsital would be located far from current hospital locations and from police stations, but near high population density locations, preferably near two or more clusters. Accessibility is a concern so it would have to be close to a bus or train stop, but far away from high traffic areas for ambulances. If possible, the optimal hospital would also be located near, but not in, a crime cluster for faster response. 
 
 ---
 Data Sets
 ---
 
 Hospitals: https://data.cityofboston.gov/Public-Health/Hospital-Locations/46f7-2snz
-
-Population:
 
 MBTA/Train: http://realtime.mbta.com/developer/api/v2/stopsbylocation?api_key="+api_key+"&lat="+lat+"&lon="+lon+"&format=json
 
