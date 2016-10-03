@@ -95,11 +95,13 @@ class example(dml.Algorithm):
         get_hospitalLocation = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_healthyCornerStores = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_communityGardens = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_publicSchool = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
 
         doc.wasAssociatedWith(get_hospitalLocation, this_script)
         doc.wasAssociatedWith(get_earningsReport, this_script)
         doc.wasAssociatedWith(get_healthyCornerStores, this_script)
         doc.wasAssociatedWith(get_communityGardens, this_script)
+        doc.wasAssociatedWith(get_publicSchool, this_script)
 
         doc.usage(get_earningsReport, resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
@@ -118,6 +120,12 @@ class example(dml.Algorithm):
             )
 
         doc.usage(get_communityGardens, resource, startTime, None,
+                  {prov.model.PROV_TYPE: 'ont:Retrieval',
+                   'ont:Query': '?type=zipcode'
+                   }
+                  )
+
+        doc.usage(get_publicSchool, resource, startTime, None,
                   {prov.model.PROV_TYPE: 'ont:Retrieval',
                    'ont:Query': '?type=zipcode'
                    }
@@ -146,6 +154,14 @@ class example(dml.Algorithm):
         doc.wasGeneratedBy(communityGardens, get_communityGardens, endTime)
         doc.wasDerivedFrom(communityGardens, resource, get_communityGardens, get_communityGardens,
                            get_communityGardens)
+
+        publicSchool = doc.entity('dat:aydenbu_huangyh#publicSchools',
+                                      {prov.model.PROV_LABEL: 'publicSchools',
+                                       prov.model.PROV_TYPE: 'ont:DataSet'})
+        doc.wasAttributedTo(publicSchool, this_script)
+        doc.wasGeneratedBy(publicSchool, get_publicSchool, endTime)
+        doc.wasDerivedFrom(publicSchool, resource, get_publicSchool, get_publicSchool,
+                           get_publicSchool)
 
 
         repo.record(doc.serialize()) # Record the provenance document.
