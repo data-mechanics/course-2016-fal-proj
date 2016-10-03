@@ -249,7 +249,6 @@ class getGeoJSON(dml.Algorithm):
 
         return doc
 
-<<<<<<< HEAD
 alg1.execute()
 doc = alg1.provenance()
 print (doc.get_provn())
