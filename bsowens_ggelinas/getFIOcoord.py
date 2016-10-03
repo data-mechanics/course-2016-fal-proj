@@ -9,16 +9,8 @@ import uuid
 
 class getFIOcoord(dml.Algorithm):
     contributor = 'bsowens_ggelinas'
-    reads = ['bsowens_ggelinas.stations',
-              'bsowens_ggelinas.incidents',
-              'bsowens_ggelinas.property',
-              'bsowens_ggelinas.fio',
-              'bsowens_ggelinas.hospitals']
-    writes = ['bsowens_ggelinas.stations',
-              'bsowens_ggelinas.incidents',
-              'bsowens_ggelinas.property',
-              'bsowens_ggelinas.fio',
-              'bsowens_ggelinas.hospitals']
+    reads = ['bsowens_ggelinas.fio']
+    writes = ['bsowens_ggelinas.fio']
 
     @staticmethod
     def execute(trial = False):

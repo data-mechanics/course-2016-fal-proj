@@ -10,15 +10,9 @@ import uuid
 class numOfCrimeInDistricts(dml.Algorithm):
     contributor = 'bsowens_ggelinas'
     reads = ['bsowens_ggelinas.stations',
-              'bsowens_ggelinas.incidents',
-              'bsowens_ggelinas.property',
-              'bsowens_ggelinas.fio',
-              'bsowens_ggelinas.hospitals']
+              'bsowens_ggelinas.incidents']
     writes = ['bsowens_ggelinas.stations',
-              'bsowens_ggelinas.incidents',
-              'bsowens_ggelinas.property',
-              'bsowens_ggelinas.fio',
-              'bsowens_ggelinas.hospitals']
+              'bsowens_ggelinas.incidents']
 
     @staticmethod
     def execute(trial = False):
