@@ -1,0 +1,2877 @@
+[
+  {
+    "color": "#ff0000",
+    "line": "Red Line",
+    "title": "Red Line (main)",
+    "stations": [
+      {
+        "latitude": 42.394907047664908,
+        "title": "Alewife Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10029&lat=42.395261&lng=-71.142449",
+        "address": "Alewife Brook Parkway and Cambridge Park Drive, Cambridge",
+        "lines": "Red Line (all)",
+        "longitude": -71.14098072052002
+      },
+      {
+        "latitude": 42.396063854763781,
+        "title": "Davis Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11404&lat=42.39662&lng=-71.122527",
+        "address": "College Avenue and Elm Street and Holland Street, Somerville",
+        "lines": "Red Line (all)",
+        "longitude": -71.122055053710938
+      },
+      {
+        "latitude": 42.388346121836598,
+        "title": "Porter Square Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13912&lat=42.388353&lng=-71.119159",
+        "address": "Somerville Avenue at Massachusetts Avenue, Cambridge",
+        "lines": "Red Line (all) and Commuter Rail (Fitchburg)",
+        "longitude": -71.11924409866333
+      },
+      {
+        "latitude": 42.373939,
+        "title": "Harvard Square Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=12084&lat=42.373936&lng=-71.118917",
+        "address": "1400 Massachusetts Avenue and 1 Brattle Street, Cambridge",
+        "lines": "Red Line (all)",
+        "longitude": -71.119106000000002
+      },
+      {
+        "latitude": 42.365163447700851,
+        "title": "Central Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10919&lat=42.365326&lng=-71.103474",
+        "address": "Massachusetts Avenue at Western Avenue at Prospect Street at Magazine Street, Cambridge",
+        "lines": "Red Line (all)",
+        "longitude": -71.103322505950928
+      },
+      {
+        "latitude": 42.362460226799854,
+        "title": "Kendall/MIT Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=12412&lat=42.362427&lng=-71.086058",
+        "address": "Main Street at Broadway at Third Street, Cambridge",
+        "lines": "Red Line (all)",
+        "longitude": -71.086585521697998
+      },
+      {
+        "latitude": 42.361271089862448,
+        "title": "Charles/Massachusetts General Hospital Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11048&lat=42.361279&lng=-71.070493",
+        "address": "Cambridge Street at Charles Street, Boston",
+        "lines": "Red Line (all)",
+        "longitude": -71.072080135345459
+      },
+      {
+        "latitude": 42.356197186067881,
+        "title": "Park Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13771&lat=42.356332&lng=-71.062202",
+        "address": "Tremont Street at Park Street at Winter Street, Boston",
+        "lines": "Red Line (all) and Green Line (all)",
+        "longitude": -71.062295436859131
+      },
+      {
+        "latitude": 42.355294999999998,
+        "title": "Downtown Crossing Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11473&lat=42.355453&lng=-71.060465",
+        "address": "Washington Street at Summer Street and Chauncey Street at Summer Street, Boston",
+        "lines": "Red Line (all), Orange Line (all), and Silver Line (SL5)",
+        "longitude": -71.060788000000002
+      },
+      {
+        "latitude": 42.351709611022265,
+        "title": "South Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14435&lat=42.352573&lng=-71.055428",
+        "address": "Summer Street at Atlantic Avenue, Boston",
+        "lines": "Red Line (all), Silver Line (SL1, SL2, SL4, SL5), Commuter Rail (Framingham/Worcester, Needham, Franklin, Providence/Stoughton, Fairmount, Middleborough/Lakeville, Kingston/Plymouth), Greyhound, Amtrak, and Peter Pan Bus Lines",
+        "longitude": -71.054999828338623
+      },
+      {
+        "latitude": 42.3429,
+        "title": "Broadway Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10641&lat=42.342793&lng=-71.057117",
+        "address": "Dorchester Avenue and Broadway, Boston",
+        "lines": "Red Line (all)",
+        "longitude": -71.057130000000001
+      },
+      {
+        "latitude": 42.329549999999998,
+        "title": "Andrew Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10062&lat=42.329752&lng=-71.056979",
+        "address": "Dorchester Avenue and Southhampton Street and Dorchester Street and Boston Street, Boston",
+        "lines": "Red Line (all)",
+        "longitude": -71.056960000000004
+      },
+      {
+        "latitude": 42.321437862948727,
+        "title": "JFK / UMass Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=12410&lat=42.321065&lng=-71.052545",
+        "address": "599 Old Colony Ave Boston, MA 02127-3805",
+        "lines": "Red Line (Braintree), Commuter Rail (Greenbush, Kingston/Plymouth, Middleborough/Lakeville)",
+        "longitude": -71.052392721176147
+      }
+    ]
+  },
+  {
+    "color": "#ff0000",
+    "line": "Red Line",
+    "title": "Red Line (Ashmont)",
+    "stations": [
+      {
+        "latitude": 42.321437862948727,
+        "title": "JFK / UMass Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=12410&lat=42.321065&lng=-71.052545",
+        "address": "599 Old Colony Ave Boston, MA 02127-3805",
+        "lines": "Red Line (Braintree), Commuter Rail (Greenbush, Kingston/Plymouth, Middleborough/Lakeville)",
+        "longitude": -71.052392721176147
+      },
+      {
+        "latitude": 42.311307017022905,
+        "title": "Savin Hill Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14289&lat=42.311099&lng=-71.053175",
+        "address": "Savin Hill Avenue at Sidney Street, Dorchester",
+        "lines": "Red Line (Ashmont)",
+        "longitude": -71.053229570388794
+      },
+      {
+        "latitude": 42.300261981850944,
+        "title": "Fields Corner Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11781&lat=42.299992&lng=-71.061516",
+        "address": "Dorchester Avenue at Park Street, Dorchester",
+        "lines": "Red Line (Ashmont)",
+        "longitude": -71.060707569122314
+      },
+      {
+        "latitude": 42.292794376862929,
+        "title": "Shawmut Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14352&lat=42.293712&lng=-71.065912",
+        "address": "Dayton Street between Centre Street and Lyndhurst Street, Dorchester",
+        "lines": "Red Line (Ashmont)",
+        "longitude": -71.065782308578491
+      },
+      {
+        "latitude": 42.285924000000001,
+        "title": "Ashmont Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15481&lat=42.284219&lng=-71.063229",
+        "address": "1900 Dorchester Avenue at 200 Ashmont Street, Dorchester",
+        "lines": "Red Line (Ashmont and Mattapan)",
+        "longitude": -71.064218999999994
+      }
+    ]
+  },
+  {
+    "color": "#ff0000",
+    "line": "Red Line",
+    "title": "Red Line (Mattapan)",
+    "stations": [
+      {
+        "latitude": 42.285924000000001,
+        "title": "Ashmont Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15481&lat=42.284219&lng=-71.063229",
+        "address": "1900 Dorchester Avenue at 200 Ashmont Street, Dorchester",
+        "lines": "Red Line (Ashmont and Mattapan)",
+        "longitude": -71.064218999999994
+      },
+      {
+        "latitude": 42.278420118006288,
+        "title": "Cedar Grove Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15659&lat=42.279712&lng=-71.060327",
+        "address": "Adams Street at Milton Street, Dorchester",
+        "lines": "Red Line (Mattapan)",
+        "longitude": -71.059741973876953
+      },
+      {
+        "latitude": 42.272116951571107,
+        "title": "Butler Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15660&lat=42.272253&lng=-71.062453",
+        "address": "Butler Street at Branchfield Street, Dorchester",
+        "lines": "Red Line (Mattapan)",
+        "longitude": -71.062767505645752
+      },
+      {
+        "latitude": 42.270346553400415,
+        "title": "Milton Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15692&lat=42.270093&lng=-71.067612",
+        "address": "1 Adams Street at 1 Elliot Street, Milton",
+        "lines": "Red Line (Mattapan)",
+        "longitude": -71.067949533462524
+      },
+      {
+        "latitude": 42.270013109615185,
+        "title": "Central Avenue Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15664&lat=42.269965&lng=-71.073249",
+        "address": "Central Avenue at Elliot Street, Milton",
+        "lines": "Red Line (Mattapan)",
+        "longitude": -71.073249578475952
+      },
+      {
+        "latitude": 42.267893318588435,
+        "title": "Valley Road Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15665&lat=42.267772&lng=-71.083025",
+        "address": "Valley Road at Elliot Street, Milton",
+        "lines": "Red Line (Mattapan)",
+        "longitude": -71.083066463470459
+      },
+      {
+        "latitude": 42.267567801293161,
+        "title": "Capen Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15667&lat=42.267622&lng=-71.087436",
+        "address": "Capen Street at Eliot Street, Milton",
+        "lines": "Red Line (Mattapan)",
+        "longitude": -71.087229251861572
+      },
+      {
+        "latitude": 42.267456648661003,
+        "title": "Mattapan Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15668&lat=42.267586&lng=-71.092021",
+        "address": "500 River Street at 1670 Blue Hill Avenue, Mattapan",
+        "lines": "Red Line (Mattapan)",
+        "longitude": -71.093130111694336
+      }
+    ]
+  },
+  {
+    "color": "#ff0000",
+    "line": "Red Line",
+    "title": "Red Line (Braintree)",
+    "stations": [
+      {
+        "latitude": 42.321437862948727,
+        "title": "JFK / UMass Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=12410&lat=42.321065&lng=-71.052545",
+        "address": "599 Old Colony Ave Boston, MA 02127-3805",
+        "lines": "Red Line (Braintree), Commuter Rail (Greenbush, Kingston/Plymouth, Middleborough/Lakeville)",
+        "longitude": -71.052392721176147
+      },
+      {
+        "latitude": 42.274816117650168,
+        "title": "North Quincy Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13524&lat=42.274957&lng=-71.029307",
+        "address": "East Squantum Street between Newport Avenue and Hancock Street, North Quincy",
+        "lines": "Red Line (Braintree)",
+        "longitude": -71.029175519943237
+      },
+      {
+        "latitude": 42.265614662222632,
+        "title": "Wollaston Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15412&lat=42.265972&lng=-71.019721",
+        "address": "Newport Avenue at Beale Street or Cleveland Street off Hancock Street, Quincy",
+        "lines": "Red Line (Braintree)",
+        "longitude": -71.019401550292969
+      },
+      {
+        "latitude": 42.250878999999998,
+        "title": "Quincy Center Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13981&lat=42.250879&lng=-71.004798",
+        "address": "175 Thomas E Burgin Pkwy Quincy, MA 02169-4213",
+        "lines": "Red Line (Braintree), Commuter Rail (Greenbush, Kingston/Plymouth, Middleborough/Lakeville)",
+        "longitude": -71.004797999999994
+      },
+      {
+        "latitude": 42.232751570388167,
+        "title": "Quincy Adams Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13946&lat=42.232848&lng=-71.007034",
+        "address": "Burgin Parkway at Centre Street, Quincy",
+        "lines": "Red Line (Braintree)",
+        "longitude": -71.007149219512939
+      },
+      {
+        "latitude": 42.208780424092673,
+        "title": "Braintree Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10431&lat=42.20855&lng=-71.00085",
+        "address": "Ivory Street between Union Street and Pearl Street, Braintree",
+        "lines": "Red Line (Braintree), Commuter Rail (Kingston/Plymouth, Middleborough/Lakeville)",
+        "longitude": -71.001334190368652
+      }
+    ]
+  },
+  {
+    "color": "#00cc00",
+    "line": "Green Line",
+    "title": "Green Line (main)",
+    "stations": [
+      {
+        "latitude": 42.370581999999999,
+        "title": "Lechmere Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15675&lat=42.370774&lng=-71.076593",
+        "address": "1 First Street, Cambridge",
+        "lines": "Green Line (all)",
+        "longitude": -71.076884000000007
+      },
+      {
+        "latitude": 42.366677517679598,
+        "title": "Science Park Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15585&lat=42.368009&lng=-71.070673",
+        "address": "Nashua Street at Charles Street, Boston",
+        "lines": "Green Line (all)",
+        "longitude": -71.068164110183716
+      },
+      {
+        "latitude": 42.365512000000003,
+        "title": "North Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15583&lat=42.365551&lng=-71.061251",
+        "address": "135 Causeway Street at Canal Street, Boston",
+        "lines": "Green Line (all), Orange Line (all), and Commuter Rail (Fitchburg, Haverhill, Lowell, Newburyport, Rockport)",
+        "longitude": -71.061423000000005
+      },
+      {
+        "latitude": 42.362498000000002,
+        "title": "Haymarket Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15582&lat=42.363222&lng=-71.057922",
+        "address": "Congress Street at New Sudbury Street, Boston",
+        "lines": "Green Line (all) and Orange Line (all)",
+        "longitude": -71.058995999999993
+      },
+      {
+        "latitude": 42.359296999999998,
+        "title": "Government Center Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15580&lat=42.359322&lng=-71.059252",
+        "address": "Tremont Street at Court Street at Cambridge Street, Boston",
+        "lines": "Green Line (all) and Blue Line (all)",
+        "longitude": -71.059894999999997
+      },
+      {
+        "latitude": 42.356197186067881,
+        "title": "Park Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13771&lat=42.356332&lng=-71.062202",
+        "address": "Tremont Street at Park Street at Winter Street, Boston",
+        "lines": "Red Line (all) and Green Line (all)",
+        "longitude": -71.062295436859131
+      },
+      {
+        "latitude": 42.352391489359306,
+        "title": "Boylston Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15596&lat=42.352337&lng=-71.06461",
+        "address": "Boylston Street at Tremont Street, Boston",
+        "lines": "Green Line (all) and Silver Line (SL5)",
+        "longitude": -71.064870357513428
+      },
+      {
+        "latitude": 42.351868000000003,
+        "title": "Arlington Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15595&lat=42.351847&lng=-71.070817",
+        "address": "300 Boylston Street and 20 Arlington Street, Boston",
+        "lines": "Green Line (all)",
+        "longitude": -71.070498000000001
+      },
+      {
+        "latitude": 42.349961999999998,
+        "title": "Copley Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15593&lat=42.349991&lng=-71.077463",
+        "address": "640 Boylston Street and 230 Dartmouth Street, Boston",
+        "lines": "Green Line (all)",
+        "longitude": -71.078089000000006
+      }
+    ]
+  },
+  {
+    "color": "#00cc00",
+    "line": "Green Line",
+    "title": "Green Line (B, C, D)",
+    "stations": [
+      {
+        "latitude": 42.349961999999998,
+        "title": "Copley Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15593&lat=42.349991&lng=-71.077463",
+        "address": "640 Boylston Street and 230 Dartmouth Street, Boston",
+        "lines": "Green Line (all)",
+        "longitude": -71.078089000000006
+      },
+      {
+        "latitude": 42.348097000000003,
+        "title": "Hynes Convention Center/ICA Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15670&lat=42.347953&lng=-71.088148",
+        "address": "100 Massachusetts Avenue and 360 Newbury Street, Boston",
+        "lines": "Green Line (B, C, D)",
+        "longitude": -71.088396000000003
+      },
+      {
+        "latitude": 42.348796999999998,
+        "title": "Kenmore Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15591&lat=42.348783&lng=-71.095128",
+        "address": "500 Commonwealth Avenue and 1 Brookline Avenue, Boston",
+        "lines": "Green Line (B, C, D)",
+        "longitude": -71.095296000000005
+      }
+    ]
+  },
+  {
+    "color": "#00cc00",
+    "line": "Green Line",
+    "title": "Green Line (B)",
+    "stations": [
+      {
+        "latitude": 42.348796999999998,
+        "title": "Kenmore Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15591&lat=42.348783&lng=-71.095128",
+        "address": "500 Commonwealth Avenue and 1 Brookline Avenue, Boston",
+        "lines": "Green Line (B, C, D)",
+        "longitude": -71.095296000000005
+      },
+      {
+        "latitude": 42.349297,
+        "title": "Blandford Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11182&lat=42.349126&lng=-71.100235",
+        "address": "Commonwealth Avenue at Sherborn Street, Boston",
+        "lines": "Green Line (B)",
+        "longitude": -71.100796000000003
+      },
+      {
+        "latitude": 42.349648000000002,
+        "title": "Boston University East Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10693&lat=42.349569&lng=-71.103866",
+        "address": "Commonwealth Avenue near Granby Street, Boston",
+        "lines": "Green Line (B)",
+        "longitude": -71.103825000000001
+      },
+      {
+        "latitude": 42.349933521091316,
+        "title": "Boston University Central Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10690&lat=42.34989&lng=-71.106804",
+        "address": "Commonwealth Avenue near St. Marys Street, Boston",
+        "lines": "Green Line (B)",
+        "longitude": -71.106187105178833
+      },
+      {
+        "latitude": 42.350900862009205,
+        "title": "Boston University West Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10694&lat=42.350759&lng=-71.113833",
+        "address": "Commonwealth Avenue near Amory Street, Boston",
+        "lines": "Green Line (B)",
+        "longitude": -71.114072799682617
+      },
+      {
+        "latitude": 42.351130801512809,
+        "title": "St. Paul Street Station (B)",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11203&lat=42.350997&lng=-71.115997",
+        "address": "Commonwealth Avenue at Buick Street at St. Paul Street, Boston",
+        "lines": "Green Line (B)",
+        "longitude": -71.115907430648804
+      },
+      {
+        "latitude": 42.351344882363485,
+        "title": "Pleasant Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11201&lat=42.351345&lng=-71.118783",
+        "address": "Commonwealth Avenue at Pleasant Street, Boston",
+        "lines": "Green Line (B)",
+        "longitude": -71.118214130401611
+      },
+      {
+        "latitude": 42.351741326457805,
+        "title": "Babcock Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11180&lat=42.35169&lng=-71.121547",
+        "address": "Commonwealth Avenue at Babcock Street, Boston",
+        "lines": "Green Line (B)",
+        "longitude": -71.121261119842529
+      },
+      {
+        "latitude": 42.352074337564602,
+        "title": "Packards Corner Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11185&lat=42.351833&lng=-71.124702",
+        "address": "Commonwealth Avenue at Brighton Avenue, Boston",
+        "lines": "Green Line (B)",
+        "longitude": -71.124866008758545
+      },
+      {
+        "latitude": 42.350234825596523,
+        "title": "Harvard Avenue Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11194&lat=42.350118&lng=-71.131197",
+        "address": "Commonwealth Avenue at Harvard Avenue, Allston",
+        "lines": "Green Line (B)",
+        "longitude": -71.131024360656738
+      },
+      {
+        "latitude": 42.348712430151629,
+        "title": "Griggs Street / Long Avenue Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11197&lat=42.348542&lng=-71.134551",
+        "address": "Commonwealth Avenue at Griggs Street, Allston",
+        "lines": "Green Line (B)",
+        "longitude": -71.134157180786133
+      },
+      {
+        "latitude": 42.3484428354488,
+        "title": "Allston Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11178&lat=42.348468&lng=-71.137888",
+        "address": "Commonwealth Avenue at Allston Street, Allston",
+        "lines": "Green Line (B)",
+        "longitude": -71.137783527374268
+      },
+      {
+        "latitude": 42.348474552532686,
+        "title": "Warren Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11210&lat=42.348366&lng=-71.140224",
+        "address": "Commonwealth Avenue at Warren Street, Allston",
+        "lines": "Green Line (B)",
+        "longitude": -71.140294075012207
+      },
+      {
+        "latitude": 42.343685091631073,
+        "title": "Washington Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11212&lat=42.343886&lng=-71.142593",
+        "address": "Commonwealth Avenue at Washington Street, Brighton",
+        "lines": "Green Line (B)",
+        "longitude": -71.142868995666504
+      },
+      {
+        "latitude": 42.341496408563494,
+        "title": "Sutherland Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11189&lat=42.341483&lng=-71.146162",
+        "address": "Commonwealth Avenue at Sutherland Street, Brighton",
+        "lines": "Green Line (B)",
+        "longitude": -71.146624088287354
+      },
+      {
+        "latitude": 42.340338596129072,
+        "title": "Chiswick Road Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11207&lat=42.340839&lng=-71.150459",
+        "address": "Commonwealth Avenue at Chiswick Road, Brighton",
+        "lines": "Green Line (B)",
+        "longitude": -71.151301860809326
+      },
+      {
+        "latitude": 42.338086351966545,
+        "title": "Chestnut Hill Avenue Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11187&lat=42.338145&lng=-71.152961",
+        "address": "Commonwealth Avenue at Chestnut Hill Avenue, Brighton",
+        "lines": "Green Line (B)",
+        "longitude": -71.153340339660645
+      },
+      {
+        "latitude": 42.339577283184219,
+        "title": "South Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11202&lat=42.339455&lng=-71.157622",
+        "address": "Commonwealth Avenue and South Street, Brighton",
+        "lines": "Green Line (B)",
+        "longitude": -71.157782077789307
+      },
+      {
+        "latitude": 42.339942080120501,
+        "title": "Boston College Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10369&lat=42.339902&lng=-71.166124",
+        "address": "Commonwealth Avenue and Lake Street, Brighton",
+        "lines": "Green Line (B)",
+        "longitude": -71.16619348526001
+      }
+    ]
+  },
+  {
+    "color": "#00cc00",
+    "line": "Green Line",
+    "title": "Green Line (C)",
+    "stations": [
+      {
+        "latitude": 42.348796999999998,
+        "title": "Kenmore Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15591&lat=42.348783&lng=-71.095128",
+        "address": "500 Commonwealth Avenue and 1 Brookline Avenue, Boston",
+        "lines": "Green Line (B, C, D)",
+        "longitude": -71.095296000000005
+      },
+      {
+        "latitude": 42.34613537466565,
+        "title": "St. Marys Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15681&lat=42.345947&lng=-71.107385",
+        "address": "Beacon Street at St. Mary's Street, Boston",
+        "lines": "Green Line (C)",
+        "longitude": -71.106809377670288
+      },
+      {
+        "latitude": 42.34495385852275,
+        "title": "Hawes Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15621&lat=42.34487&lng=-71.111129",
+        "address": "Beacon Street at Hawes Street, Brookline",
+        "lines": "Green Line (C)",
+        "longitude": -71.11101508140564
+      },
+      {
+        "latitude": 42.343997000000002,
+        "title": "Kent Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15623&lat=42.344125&lng=-71.113885",
+        "address": "Beacon Street at Powell Street, Brookline",
+        "lines": "Green Line (C)",
+        "longitude": -71.114596000000006
+      },
+      {
+        "latitude": 42.343225157309611,
+        "title": "St. Paul Street Station (C)",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15624&lat=42.343366&lng=-71.116759",
+        "address": "Beacon Street at St. Paul Street, Brookline",
+        "lines": "Green Line (C)",
+        "longitude": -71.117345094680786
+      },
+      {
+        "latitude": 42.342097000000003,
+        "title": "Coolidge Corner Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15625&lat=42.342226&lng=-71.120888",
+        "address": "Beacon Street at Harvard Street, Brookline",
+        "lines": "Green Line (C)",
+        "longitude": -71.121396000000004
+      },
+      {
+        "latitude": 42.341282294172117,
+        "title": "Summit Avenue (formerly Winchester Street) Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15627&lat=42.340946&lng=-71.125182",
+        "address": "Beacon Street at Winchester Street, Brookline",
+        "lines": "Green Line (C)",
+        "longitude": -71.124619245529175
+      },
+      {
+        "latitude": 42.340071999999999,
+        "title": "Brandon Hall Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15629&lat=42.339683&lng=-71.129327",
+        "address": "1477-1485 Beacon Street, Brookline",
+        "lines": "Green Line (C)",
+        "longitude": -71.128525999999994
+      },
+      {
+        "latitude": 42.33960900474095,
+        "title": "Fairbanks Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15683&lat=42.339474&lng=-71.131304",
+        "address": "Beacon Street at Fairbanks Avenue, Brookline",
+        "lines": "Green Line (C)",
+        "longitude": -71.131346225738525
+      },
+      {
+        "latitude": 42.339339370998616,
+        "title": "Washington Square Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15655&lat=42.339258&lng=-71.135387",
+        "address": "Beacon Street at Washington Street, Brookline",
+        "lines": "Green Line (C)",
+        "longitude": -71.135423183441162
+      },
+      {
+        "latitude": 42.338467018616733,
+        "title": "Tappan Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15633&lat=42.338469&lng=-71.138705",
+        "address": "Beacon Street at Tappan Street, Brookline",
+        "lines": "Green Line (C)",
+        "longitude": -71.138792037963867
+      },
+      {
+        "latitude": 42.337705683011926,
+        "title": "Dean Road Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15634&lat=42.337847&lng=-71.141549",
+        "address": "Beacon Street at Dean Road, Brookline",
+        "lines": "Green Line (C)",
+        "longitude": -71.1419677734375
+      },
+      {
+        "latitude": 42.337134675259264,
+        "title": "Englewood Avenue Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15636&lat=42.337049&lng=-71.145357",
+        "address": "Beacon Street at Englewood Avenue, Brookline",
+        "lines": "Green Line (C)",
+        "longitude": -71.145122051239014
+      },
+      {
+        "latitude": 42.335897474008163,
+        "title": "Cleveland Circle Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15685&lat=42.336197&lng=-71.149406",
+        "address": "Beacon Street at Chestnut Hill Avenue, Brighton",
+        "lines": "Green Line (C)",
+        "longitude": -71.150722503662109
+      }
+    ]
+  },
+  {
+    "color": "#00cc00",
+    "line": "Green Line",
+    "title": "Green Line (D)",
+    "stations": [
+      {
+        "latitude": 42.348796999999998,
+        "title": "Kenmore Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15591&lat=42.348783&lng=-71.095128",
+        "address": "500 Commonwealth Avenue and 1 Brookline Avenue, Boston",
+        "lines": "Green Line (B, C, D)",
+        "longitude": -71.095296000000005
+      },
+      {
+        "latitude": 42.345286905588999,
+        "title": "Fenway Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15617&lat=42.345347&lng=-71.104156",
+        "address": "Park Drive at Riverway, Boston",
+        "lines": "Green Line (D)",
+        "longitude": -71.104395389556885
+      },
+      {
+        "latitude": 42.340449620163383,
+        "title": "Longwood Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15680&lat=42.341042&lng=-71.110215",
+        "address": "Chapel Street at Longwood Street, Brookline",
+        "lines": "Green Line (D)",
+        "longitude": -71.110897064208984
+      },
+      {
+        "latitude": 42.332042960232961,
+        "title": "Brookline Village Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15614&lat=42.332002&lng=-71.118129",
+        "address": "Station Street at Washington Street, Brookline",
+        "lines": "Green Line (D)",
+        "longitude": -71.118117570877075
+      },
+      {
+        "latitude": 42.331210163878808,
+        "title": "Brookline Hills Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15679&lat=42.331133&lng=-71.127031",
+        "address": "Cypress Street at Tappan Street, Brookline",
+        "lines": "Green Line (D)",
+        "longitude": -71.125863790512085
+      },
+      {
+        "latitude": 42.33596092081828,
+        "title": "Beaconsfield Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15611&lat=42.335805&lng=-71.140849",
+        "address": "Dean Road south of Beacon Street, Brookline",
+        "lines": "Green Line (D)",
+        "longitude": -71.141602993011475
+      },
+      {
+        "latitude": 42.334937833199568,
+        "title": "Reservoir Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15609&lat=42.334912&lng=-71.149072",
+        "address": "Chestnut Hill Avenue at Beacon Street, Brookline",
+        "lines": "Green Line (D)",
+        "longitude": -71.149402856826782
+      },
+      {
+        "latitude": 42.326673212946723,
+        "title": "Chestnut Hill Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15607&lat=42.326601&lng=-71.16529",
+        "address": "Hammond Street at Boylston Street (Route 9), Brookline",
+        "lines": "Green Line (D)",
+        "longitude": -71.165517568588257
+      },
+      {
+        "latitude": 42.329354178049158,
+        "title": "Newton Center Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15605&lat=42.328354&lng=-71.194444",
+        "address": "Union Street between Herrick Street and Langley Road, Newton",
+        "lines": "Green Line (D)",
+        "longitude": -71.192318201065063
+      },
+      {
+        "latitude": 42.321699640795401,
+        "title": "Newton Highland Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15604&lat=42.321539&lng=-71.205966",
+        "address": "Lincoln Street at Walnut Street, Newton",
+        "lines": "Green Line (D)",
+        "longitude": -71.206179857254028
+      },
+      {
+        "latitude": 42.319192874877594,
+        "title": "Eliot Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15602&lat=42.318744&lng=-71.217023",
+        "address": "Boylston Street (Route 9) at Woodward Street, Newton",
+        "lines": "Green Line (D)",
+        "longitude": -71.216919422149658
+      },
+      {
+        "latitude": 42.326260746635725,
+        "title": "Waban Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15601&lat=42.325981&lng=-71.230712",
+        "address": "Beacon Street at Waban Square, Newton",
+        "lines": "Green Line (D)",
+        "longitude": -71.231178045272827
+      },
+      {
+        "latitude": 42.333684726462756,
+        "title": "Woodland Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15676&lat=42.333336&lng=-71.24434",
+        "address": "Washington Street northeast of Beacon Street, Newton",
+        "lines": "Green Line (D)",
+        "longitude": -71.244921684265137
+      },
+      {
+        "latitude": 42.337110883157045,
+        "title": "Riverside Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15598&lat=42.337394&lng=-71.252327",
+        "address": "Grove Street between Seminary Avenue and Route 128, Newton",
+        "lines": "Green Line (D)",
+        "longitude": -71.251734495162964
+      }
+    ]
+  },
+  {
+    "color": "#00cc00",
+    "line": "Green Line",
+    "title": "Green Line (E)",
+    "stations": [
+      {
+        "latitude": 42.349961999999998,
+        "title": "Copley Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15593&lat=42.349991&lng=-71.077463",
+        "address": "640 Boylston Street and 230 Dartmouth Street, Boston",
+        "lines": "Green Line (all)",
+        "longitude": -71.078089000000006
+      },
+      {
+        "latitude": 42.345635810146973,
+        "title": "Prudential Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15639&lat=42.345503&lng=-71.081401",
+        "address": "Huntington Avenue near Belvidere Street, Boston",
+        "lines": "Green Line (E)",
+        "longitude": -71.081585884094238
+      },
+      {
+        "latitude": 42.342697000000001,
+        "title": "Symphony Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15640&lat=42.342919&lng=-71.084529",
+        "address": "Massachusetts Avenue at Huntington Avenue, Boston",
+        "lines": "Green Line (E)",
+        "longitude": -71.085094999999995
+      },
+      {
+        "latitude": 42.340322735536745,
+        "title": "Northeastern University Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15642&lat=42.340307&lng=-71.088717",
+        "address": "Huntington Avenue at Opera Place, Boston",
+        "lines": "Green Line (E)",
+        "longitude": -71.088892221450806
+      },
+      {
+        "latitude": 42.33772154426439,
+        "title": "Museum of Fine Arts Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15643&lat=42.337732&lng=-71.095125",
+        "address": "Huntington Avenue at Louis Prang Street at Ruggles Street, Boston",
+        "lines": "Green Line (E)",
+        "longitude": -71.095479726791382
+      },
+      {
+        "latitude": 42.335836999999998,
+        "title": "Longwood Medical Area Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15645&lat=42.335898&lng=-71.100052",
+        "address": "Huntington Avenue at Longwood Avenue, Boston",
+        "lines": "Green Line (E)",
+        "longitude": -71.100651999999997
+      },
+      {
+        "latitude": 42.334097,
+        "title": "Brigham Circle Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15646&lat=42.334268&lng=-71.10437",
+        "address": "Huntington Avenue at Francis Street, Boston",
+        "lines": "Green Line (E)",
+        "longitude": -71.104996
+      },
+      {
+        "latitude": 42.333748175505221,
+        "title": "Fenwood Road Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15648&lat=42.333722&lng=-71.105682",
+        "address": "Huntington Avenue at Fenwood Road, Boston",
+        "lines": "Green Line (E)",
+        "longitude": -71.105586290359497
+      },
+      {
+        "latitude": 42.333224718990579,
+        "title": "Mission Park Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15689&lat=42.333106&lng=-71.109678",
+        "address": "Huntington Avenue at Mission Park, Boston",
+        "lines": "Green Line (E)",
+        "longitude": -71.107077598571777
+      },
+      {
+        "latitude": 42.33197950947023,
+        "title": "Riverway Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15690&lat=42.331686&lng=-71.112004",
+        "address": "South Huntington Avenue at Huntington Avenue, Boston",
+        "lines": "Green Line (E)",
+        "longitude": -71.112077236175537
+      },
+      {
+        "latitude": 42.330075956823698,
+        "title": "Back of the Hill Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15652&lat=42.32996&lng=-71.111406",
+        "address": "South Huntington Avenue at Back of the Hill, Boston",
+        "lines": "Green Line (E)",
+        "longitude": -71.111336946487427
+      },
+      {
+        "latitude": 42.328759299206908,
+        "title": "Heath Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15653&lat=42.32868&lng=-71.11068",
+        "address": "South Huntington Avenue at Heath Street, Boston",
+        "lines": "Green Line (E)",
+        "longitude": -71.110596656799316
+      }
+    ]
+  },
+  {
+    "color": null,
+    "line": "Blue Line",
+    "title": "Blue Line",
+    "stations": [
+      {
+        "latitude": 42.361457000000001,
+        "title": "Bowdoin Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10409&lat=42.361457&lng=-71.062129",
+        "address": "Cambridge Street and New Chardon Street, Boston",
+        "lines": "Blue Line (sometimes)",
+        "longitude": -71.062128999999999
+      },
+      {
+        "latitude": 42.359296999999998,
+        "title": "Government Center Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15580&lat=42.359322&lng=-71.059252",
+        "address": "Tremont Street at Court Street at Cambridge Street, Boston",
+        "lines": "Green Line (all) and Blue Line (all)",
+        "longitude": -71.059894999999997
+      },
+      {
+        "latitude": 42.358896999999999,
+        "title": "State Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10180&lat=42.359065&lng=-71.057421",
+        "address": "200 Washington Street and 1 State Street, Boston",
+        "lines": "Blue Line (all) and Orange Line (all)",
+        "longitude": -71.057794999999999
+      },
+      {
+        "latitude": 42.359456000000002,
+        "title": "Aquarium Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14486&lat=42.359634&lng=-71.051807",
+        "address": "183 State Street, Boston",
+        "lines": "Blue Line (all)",
+        "longitude": -71.053569999999993
+      },
+      {
+        "latitude": 42.368859999999998,
+        "title": "Maverick Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13699&lat=42.368343&lng=-71.038422",
+        "address": "220 Sumner Street and Chelsea Street at Meridian Street, Boston",
+        "lines": "Blue Line (all)",
+        "longitude": -71.039925999999994
+      },
+      {
+        "latitude": 42.372733432685969,
+        "title": "(Logan) Airport Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15417&lat=42.372714&lng=-71.03208",
+        "address": "Chelsea Street and Porter Street, Boston",
+        "lines": "Blue Line (all)",
+        "longitude": -71.035194396972656
+      },
+      {
+        "latitude": 42.380797000000001,
+        "title": "Wood Island Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10018&lat=42.379759&lng=-71.022476",
+        "address": "450 Bennington Street, Boston",
+        "lines": "Blue Line (all)",
+        "longitude": -71.023393999999996
+      },
+      {
+        "latitude": 42.386676000000001,
+        "title": "Orient Heights Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13119&lat=42.386769&lng=-71.004941",
+        "address": "1000 Bennington Street, Boston",
+        "lines": "Blue Line (all)",
+        "longitude": -71.006628000000006
+      },
+      {
+        "latitude": 42.388401591475336,
+        "title": "Suffolk Downs Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10077&lat=42.390232&lng=-70.997678",
+        "address": "1230 Bennington Street at Walley Street, Boston",
+        "lines": "Blue Line (all)",
+        "longitude": -71.000357866287231
+      },
+      {
+        "latitude": 42.397418718156729,
+        "title": "Beachmont Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14474&lat=42.39745&lng=-70.992363",
+        "address": "630 Winthrop Avenue at 1 Bennington Street, Revere",
+        "lines": "Blue Line (all)",
+        "longitude": -70.992193222045898
+      },
+      {
+        "latitude": 42.407163364836734,
+        "title": "Revere Beach Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11913&lat=42.408389&lng=-70.99256",
+        "address": "220 Shirley Avenue at 300 Ocean Avenue, Revere",
+        "lines": "Blue Line (all)",
+        "longitude": -70.992193222045898
+      },
+      {
+        "latitude": 42.414245999999999,
+        "title": "Wonderland Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15415&lat=42.413963&lng=-70.990986",
+        "address": "1300 North Shore Road, Revere",
+        "lines": "Blue Line (all)",
+        "longitude": -70.992143999999996
+      }
+    ]
+  },
+  {
+    "color": "#ff6600",
+    "line": "Orange Line",
+    "title": "Orange Line",
+    "stations": [
+      {
+        "latitude": 42.435343016536407,
+        "title": "Oak Grove Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13642&lat=42.436381&lng=-71.071007",
+        "address": "Washington Street at Winter Street, Malden",
+        "lines": "Orange Line (all)",
+        "longitude": -71.071189641952515
+      },
+      {
+        "latitude": 42.427313343787191,
+        "title": "Malden Center Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=12975&lat=42.426678&lng=-71.074144",
+        "address": "Pleasant Street between Summer Street and Commercial Street, Malden",
+        "lines": "Orange Line (all) and Commuter Rail (Haverhill)",
+        "longitude": -71.073871850967407
+      },
+      {
+        "latitude": 42.404295585339483,
+        "title": "Wellington Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15231&lat=42.405202&lng=-71.076969",
+        "address": "Revere Beach Parkway east of Fellsway, Medford",
+        "lines": "Orange Line (all)",
+        "longitude": -71.077004671096802
+      },
+      {
+        "latitude": 42.385754842657292,
+        "title": "Sullivan Square Station (Broadway Exit)",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14490&lat=42.383434&lng=-71.077056",
+        "address": "1 Broadway, Charlestown",
+        "lines": "Orange Line (all)",
+        "longitude": -71.077079772949219
+      },
+      {
+        "latitude": 42.383012883388943,
+        "title": "Sullivan Square Station (Cambridge Street Exit)",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14490&lat=42.383434&lng=-71.077056",
+        "address": "1 Cambridge Street, Charlestown",
+        "lines": "Orange Line (all)",
+        "longitude": -71.077101230621338
+      },
+      {
+        "latitude": 42.372638318115349,
+        "title": "Community College Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11258&lat=42.372593&lng=-71.07052",
+        "address": "Austin Street west of Rutherford Avenue, Charlestown",
+        "lines": "Orange Line (all)",
+        "longitude": -71.070277690887451
+      },
+      {
+        "latitude": 42.365512000000003,
+        "title": "North Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15583&lat=42.365551&lng=-71.061251",
+        "address": "135 Causeway Street at Canal Street, Boston",
+        "lines": "Green Line (all), Orange Line (all), and Commuter Rail (Fitchburg, Haverhill, Lowell, Newburyport, Rockport)",
+        "longitude": -71.061423000000005
+      },
+      {
+        "latitude": 42.362498000000002,
+        "title": "Haymarket Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15582&lat=42.363222&lng=-71.057922",
+        "address": "Congress Street at New Sudbury Street, Boston",
+        "lines": "Green Line (all) and Orange Line (all)",
+        "longitude": -71.058995999999993
+      },
+      {
+        "latitude": 42.358896999999999,
+        "title": "State Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10180&lat=42.359065&lng=-71.057421",
+        "address": "200 Washington Street and 1 State Street, Boston",
+        "lines": "Blue Line (all) and Orange Line (all)",
+        "longitude": -71.057794999999999
+      },
+      {
+        "latitude": 42.355294999999998,
+        "title": "Downtown Crossing Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11473&lat=42.355453&lng=-71.060465",
+        "address": "Washington Street at Summer Street and Chauncey Street at Summer Street, Boston",
+        "lines": "Red Line (all), Orange Line (all), and Silver Line (SL5)",
+        "longitude": -71.060788000000002
+      },
+      {
+        "latitude": 42.352227999999997,
+        "title": "Chinatown Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11108&lat=42.352529&lng=-71.062759",
+        "address": "640 Washington Street and 1 Boylston Street, Boston",
+        "lines": "Orange Line (all) and Silver Line (SL4, SL5)",
+        "longitude": -71.062892000000005
+      },
+      {
+        "latitude": 42.349873000000002,
+        "title": "Tufts (formerly New England) Medical Center Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13443&lat=42.349504&lng=-71.063877",
+        "address": "750 Washington Street, Boston",
+        "lines": "Orange Line (all) and Silver Line (SL4, SL5)",
+        "longitude": -71.063794999999999
+      },
+      {
+        "latitude": 42.34727722151564,
+        "title": "Back Bay Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10124&lat=42.347314&lng=-71.075724",
+        "address": "145 Dartmouth Street, Boston",
+        "lines": "Orange Line (all), Commuter Rail (Framingham/Worcester, Needham, Providence/Stoughton), and Amtrak",
+        "longitude": -71.07603907585144
+      },
+      {
+        "latitude": 42.341551919582948,
+        "title": "Massachusetts Avenue Station (Orange)",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13073&lat=42.341762&lng=-71.083072",
+        "address": "380 Massachusetts Avenue, Boston",
+        "lines": "Orange Line (all)",
+        "longitude": -71.083216667175293
+      },
+      {
+        "latitude": 42.335667478784956,
+        "title": "Ruggles Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14166&lat=42.335742&lng=-71.090437",
+        "address": "Ruggles Street at Tremont Street, Boston",
+        "lines": "Orange Line (all), Commuter Rail (Needham, Franklin, Providence/Stoughton)",
+        "longitude": -71.09052300453186
+      },
+      {
+        "latitude": 42.331527420932943,
+        "title": "Roxbury Crossing Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14153&lat=42.331388&lng=-71.095555",
+        "address": "1400 Tremont Street, Roxbury",
+        "lines": "Orange Line (all)",
+        "longitude": -71.095404624938965
+      },
+      {
+        "latitude": 42.32273880877684,
+        "title": "Jackson Square Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=12395&lat=42.322893&lng=-71.099787",
+        "address": "1500 Columbus Avenue at 240 Centre Street, Jamaica Plain",
+        "lines": "Orange Line (all)",
+        "longitude": -71.100082397460938
+      },
+      {
+        "latitude": 42.319200807838655,
+        "title": "Stony Brook Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14477&lat=42.317251&lng=-71.104021",
+        "address": "100 Boylston Street at 180 Lamartine Street, Jamaica Plain",
+        "lines": "Orange Line (all)",
+        "longitude": -71.102828979492188
+      },
+      {
+        "latitude": 42.310569154822304,
+        "title": "Green Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11952&lat=42.310359&lng=-71.107125",
+        "address": "150 Green Street at 380 Amory Street, Jamaica Plain",
+        "lines": "Orange Line (all)",
+        "longitude": -71.107313632965088
+      },
+      {
+        "latitude": 42.300362,
+        "title": "Forest Hills Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11788&lat=42.300023&lng=-71.113377",
+        "address": "Washington Street at Hyde Park Avenue, Jamaica Plain",
+        "lines": "Orange Line (all), Commuter Rail (Needham)",
+        "longitude": -71.113410999999999
+      }
+    ]
+  },
+  {
+    "color": "#808080",
+    "line": "Silver Line",
+    "title": "Silver Line (SL1, SL2)",
+    "stations": [
+      {
+        "latitude": 42.351709611022265,
+        "title": "South Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14435&lat=42.352573&lng=-71.055428",
+        "address": "Summer Street at Atlantic Avenue, Boston",
+        "lines": "Red Line (all), Silver Line (SL1, SL2, SL4, SL5), Commuter Rail (Framingham/Worcester, Needham, Franklin, Providence/Stoughton, Fairmount, Middleborough/Lakeville, Kingston/Plymouth), Greyhound, Amtrak, and Peter Pan Bus Lines",
+        "longitude": -71.054999828338623
+      },
+      {
+        "latitude": 42.352074337564602,
+        "title": "Courthouse Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25133&lat=42.352724&lng=-71.047514",
+        "address": "Seaport Boulevard at Pittsburg Street, Boston",
+        "lines": "Silver Line (SL1, SL2)",
+        "longitude": -71.045300960540771
+      },
+      {
+        "latitude": 42.348839297847015,
+        "title": "World Trade Center Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25092&lat=42.349098&lng=-71.04206",
+        "address": "Congress Street at C Street at World Trade Center Avenue, Boston",
+        "lines": "Silver Line (SL1, SL2)",
+        "longitude": -71.042532920837402
+      },
+      {
+        "latitude": 42.348014653250175,
+        "title": "Silver Line Way Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25100&lat=42.347928&lng=-71.039287",
+        "address": "Silver Line Way at Pumphouse Rd. between Massport Haul Rd. and D Street, South Boston Waterfront",
+        "lines": "Silver Line (SL1, SL2)",
+        "longitude": -71.037168502807617
+      }
+    ]
+  },
+  {
+    "color": "#808080",
+    "line": "Silver Line",
+    "title": "Silver Line (SL1)",
+    "stations": [
+      {
+        "latitude": 42.348014653250175,
+        "title": "Silver Line Way Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25100&lat=42.347928&lng=-71.039287",
+        "address": "Silver Line Way at Pumphouse Rd. between Massport Haul Rd. and D Street, South Boston Waterfront",
+        "lines": "Silver Line (SL1, SL2)",
+        "longitude": -71.037168502807617
+      },
+      {
+        "latitude": 42.364421999999998,
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25329&lat=42.364422&lng=-71.021494",
+        "lines": "Silver Line (SL1)",
+        "longitude": -71.021494000000004,
+        "title": "Terminal A"
+      },
+      {
+        "latitude": 42.361325000000001,
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25168&lat=42.361325&lng=-71.018588",
+        "lines": "Silver Line (SL1)",
+        "longitude": -71.018587999999994,
+        "title": "Terminal B Stop 1"
+      },
+      {
+        "latitude": 42.364440999999999,
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25331&lat=42.364441&lng=-71.01882",
+        "lines": "Silver Line (SL1)",
+        "longitude": -71.018820000000005,
+        "title": "Terminal B Stop 2"
+      },
+      {
+        "latitude": 42.367460999999999,
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25332&lat=42.367461&lng=-71.018148",
+        "lines": "Silver Line (SL1)",
+        "longitude": -71.018147999999997,
+        "title": "Terminal C"
+      },
+      {
+        "latitude": 42.370241999999998,
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25333&lat=42.370242&lng=-71.020467",
+        "lines": "Silver Line (SL1)",
+        "longitude": -71.020466999999996,
+        "title": "Terminal C"
+      },
+      {
+        "latitude": 42.348014653250175,
+        "title": "Silver Line Way Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25100&lat=42.347928&lng=-71.039287",
+        "address": "Silver Line Way at Pumphouse Rd. between Massport Haul Rd. and D Street, South Boston Waterfront",
+        "lines": "Silver Line (SL1, SL2)",
+        "longitude": -71.037168502807617
+      }
+    ]
+  },
+  {
+    "color": "#808080",
+    "line": "Silver Line",
+    "title": "Silver Line (SL2)",
+    "stations": [
+      {
+        "latitude": 42.348014653250175,
+        "title": "Silver Line Way Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25100&lat=42.347928&lng=-71.039287",
+        "address": "Silver Line Way at Pumphouse Rd. between Massport Haul Rd. and D Street, South Boston Waterfront",
+        "lines": "Silver Line (SL1, SL2)",
+        "longitude": -71.037168502807617
+      },
+      {
+        "latitude": 42.34769,
+        "title": "306 Northern Avenue",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25117&lat=42.34769&lng=-71.035882",
+        "address": "306 Northern Avenue, Boston",
+        "lines": "Silver Line (SL2)",
+        "longitude": -71.035882000000001
+      },
+      {
+        "latitude": 42.346619076210494,
+        "title": "Northern Avenue at Harbor Street",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=6962&lat=42.346621&lng=-71.035215",
+        "address": "Northern Avenue at Harbor Street, Boston",
+        "lines": "Silver Line (SL2)",
+        "longitude": -71.035237312316895
+      },
+      {
+        "latitude": 42.34509659319577,
+        "title": "Northern Avenue at Tide Street",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13614&lat=42.345051&lng=-71.031956",
+        "address": "Northern Avenue at Tide Street, Boston",
+        "lines": "Silver Line (SL2)",
+        "longitude": -71.031975746154785
+      },
+      {
+        "latitude": 42.344625999999998,
+        "title": "21 Dry Dock Avenue",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11475&lat=42.344626&lng=-71.031036",
+        "address": "21 Dry Dock Avenue, Boston",
+        "lines": "Silver Line (SL2)",
+        "longitude": -71.031036
+      },
+      {
+        "latitude": 42.344602000000002,
+        "title": "25 Dry Dock Avenue",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=8190&lat=42.344681&lng=-71.028456",
+        "address": "25 Dry Dock Avenue, Boston",
+        "lines": "Silver Line (SL2)",
+        "longitude": -71.028306999999998
+      },
+      {
+        "latitude": 42.3439388470578,
+        "title": "88 Black Falcon Avenue",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25134&lat=42.344105&lng=-71.02724",
+        "address": "88 Black Falcon Avenue, Boston",
+        "lines": "Silver Line (SL2)",
+        "longitude": -71.027212142944336
+      },
+      {
+        "latitude": 42.344679999999997,
+        "title": "Design Center",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=25093&lat=42.344579&lng=-71.034448",
+        "address": "Dry Dock Avenue at Design Center Place, Boston",
+        "lines": "Silver Line (SL2)",
+        "longitude": -71.034796999999998
+      }
+    ]
+  },
+  {
+    "color": "#808080",
+    "line": "Silver Line",
+    "title": "Silver Line (SL4)",
+    "stations": [
+      {
+        "latitude": 42.351709611022265,
+        "title": "South Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14435&lat=42.352573&lng=-71.055428",
+        "address": "Summer Street at Atlantic Avenue, Boston",
+        "lines": "Red Line (all), Silver Line (SL1, SL2, SL4, SL5), Commuter Rail (Framingham/Worcester, Needham, Franklin, Providence/Stoughton, Fairmount, Middleborough/Lakeville, Kingston/Plymouth), Greyhound, Amtrak, and Peter Pan Bus Lines",
+        "longitude": -71.054999828338623
+      },
+      {
+        "latitude": 42.352227999999997,
+        "title": "Chinatown Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11108&lat=42.352529&lng=-71.062759",
+        "address": "640 Washington Street and 1 Boylston Street, Boston",
+        "lines": "Orange Line (all) and Silver Line (SL4, SL5)",
+        "longitude": -71.062892000000005
+      }
+    ]
+  },
+  {
+    "color": "#808080",
+    "line": "Silver Line",
+    "title": "Silver Line (SL4, SL5)",
+    "stations": [
+      {
+        "latitude": 42.352227999999997,
+        "title": "Chinatown Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11108&lat=42.352529&lng=-71.062759",
+        "address": "640 Washington Street and 1 Boylston Street, Boston",
+        "lines": "Orange Line (all) and Silver Line (SL4, SL5)",
+        "longitude": -71.062892000000005
+      },
+      {
+        "latitude": 42.349873000000002,
+        "title": "Tufts (formerly New England) Medical Center Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13443&lat=42.349504&lng=-71.063877",
+        "address": "750 Washington Street, Boston",
+        "lines": "Orange Line (all) and Silver Line (SL4, SL5)",
+        "longitude": -71.063794999999999
+      },
+      {
+        "latitude": 42.346376999999997,
+        "title": "Herald Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14942&lat=42.346443&lng=-71.064651",
+        "address": "Washington Street at Herald Street, Boston",
+        "lines": "Silver Line (SL4, SL5)",
+        "longitude": -71.064841999999999
+      },
+      {
+        "latitude": 42.343877999999997,
+        "title": "East Berkeley Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=613&lat=42.343845&lng=-71.066041",
+        "address": "Washington Street at East Berkeley Street, Boston",
+        "lines": "Silver Line (SL4, SL5)",
+        "longitude": -71.066039000000004
+      },
+      {
+        "latitude": 42.341197000000001,
+        "title": "Union Park Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15009&lat=42.34136&lng=-71.06955",
+        "address": "Washington Street at Union Park Street, Boston",
+        "lines": "Silver Line (SL4, SL5)",
+        "longitude": -71.069794999999999
+      },
+      {
+        "latitude": 42.338697000000003,
+        "title": "Newton Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15011&lat=42.338754&lng=-71.073783",
+        "address": "Washington Street at Newton Street, Boston",
+        "lines": "Silver Line (SL4, SL5)",
+        "longitude": -71.073795000000004
+      },
+      {
+        "latitude": 42.337456000000003,
+        "title": "Worcester Square Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=9108&lat=42.337386&lng=-71.075846",
+        "address": "Washington Street at Worcester Square, Boston",
+        "lines": "Silver Line (SL4, SL5)",
+        "longitude": -71.075811999999999
+      },
+      {
+        "latitude": 42.336441000000001,
+        "title": "Massachusetts Avenue Station (Silver)",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=4057&lat=42.336378&lng=-71.077232",
+        "address": "Washington Street at Massachusetts Avenue, Boston",
+        "lines": "Silver Line (SL4, SL5)",
+        "longitude": -71.077237999999994
+      },
+      {
+        "latitude": 42.335048866769519,
+        "title": "Lenox Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=9154&lat=42.334958&lng=-71.078958",
+        "address": "Washington Street at Lenox Street, Boston",
+        "lines": "Silver Line (SL4, SL5)",
+        "longitude": -71.078817844390869
+      },
+      {
+        "latitude": 42.33290747049773,
+        "title": "Melnea Cass Boulevard Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=24642&lat=42.332709&lng=-71.081205",
+        "address": "Washington Street at Melnea Cass Boulevard, Boston",
+        "lines": "Silver Line (SL4, SL5)",
+        "longitude": -71.081070899963379
+      },
+      {
+        "latitude": 42.328894138904225,
+        "title": "Dudley Square Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11496&lat=42.329379&lng=-71.084266",
+        "address": "Washington Street at Dudley Street, Roxbury",
+        "lines": "Silver Line (SL4, SL5)",
+        "longitude": -71.085115671157837
+      }
+    ]
+  },
+  {
+    "color": "#808080",
+    "line": "Silver Line",
+    "title": "Silver Line (SL5)",
+    "stations": [
+      {
+        "latitude": 42.349873000000002,
+        "title": "Tufts (formerly New England) Medical Center Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13443&lat=42.349504&lng=-71.063877",
+        "address": "750 Washington Street, Boston",
+        "lines": "Orange Line (all) and Silver Line (SL4, SL5)",
+        "longitude": -71.063794999999999
+      },
+      {
+        "latitude": 42.352391489359306,
+        "title": "Boylston Street Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15596&lat=42.352337&lng=-71.06461",
+        "address": "Boylston Street at Tremont Street, Boston",
+        "lines": "Green Line (all) and Silver Line (SL5)",
+        "longitude": -71.064870357513428
+      },
+      {
+        "latitude": 42.355294999999998,
+        "title": "Downtown Crossing Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11473&lat=42.355453&lng=-71.060465",
+        "address": "Washington Street at Summer Street and Chauncey Street at Summer Street, Boston",
+        "lines": "Red Line (all), Orange Line (all), and Silver Line (SL5)",
+        "longitude": -71.060788000000002
+      },
+      {
+        "latitude": 42.352227999999997,
+        "title": "Chinatown Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11108&lat=42.352529&lng=-71.062759",
+        "address": "640 Washington Street and 1 Boylston Street, Boston",
+        "lines": "Orange Line (all) and Silver Line (SL4, SL5)",
+        "longitude": -71.062892000000005
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Fairmount Line)",
+    "stations": [
+      {
+        "latitude": 42.237749999999998,
+        "title": "Readville",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=170",
+        "address": "1800 Hyde Park Ave Hyde Park, MA 02136-2460",
+        "lines": "Commuter Rail (Franklin, Fairmount)",
+        "longitude": -71.132375999999994
+      },
+      {
+        "latitude": 42.253638000000002,
+        "title": "Fairmount",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=62",
+        "address": "Fairmount Ave and Truman Hwy Hyde Park, MA 02136",
+        "lines": "Commuter Rail (Fairmount)",
+        "longitude": -71.11927
+      },
+      {
+        "latitude": 42.280994,
+        "title": "Morton Street",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=126",
+        "address": "865 Morton St Mattapan, MA 02126-2453",
+        "lines": "Commuter Rail (Fairmount)",
+        "longitude": -71.085475000000002
+      },
+      {
+        "latitude": 42.318669999999997,
+        "title": "Uphams Corner",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=208",
+        "address": "691 Dudley St Dorchester, MA 02125-2204",
+        "lines": "Commuter Rail (Fairmount)",
+        "longitude": -71.069072000000006
+      },
+      {
+        "latitude": 42.351709611022265,
+        "title": "South Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14435&lat=42.352573&lng=-71.055428",
+        "address": "Summer Street at Atlantic Avenue, Boston",
+        "lines": "Red Line (all), Silver Line (SL1, SL2, SL4, SL5), Commuter Rail (Framingham/Worcester, Needham, Franklin, Providence/Stoughton, Fairmount, Middleborough/Lakeville, Kingston/Plymouth), Greyhound, Amtrak, and Peter Pan Bus Lines",
+        "longitude": -71.054999828338623
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Fitchburg/South Acton Line)",
+    "stations": [
+      {
+        "latitude": 42.581738999999999,
+        "title": "Fitchburg",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=65",
+        "address": "100 Main St Fitchburg, MA 01420-7805",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.792749999999998
+      },
+      {
+        "latitude": 42.540576999999999,
+        "title": "North Leominster",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=129",
+        "address": "34 Nashua St Leominster, MA 01453-3312",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.739401999999998
+      },
+      {
+        "latitude": 42.544725999999997,
+        "title": "Shirley",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=189",
+        "address": "Ayer Rd and Phoenix St Shirley, MA 01464",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.648363000000003
+      },
+      {
+        "latitude": 42.560046999999997,
+        "title": "Ayer",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=12",
+        "address": "70 Main St Ayer, MA 01432-1337",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.590117000000006
+      },
+      {
+        "latitude": 42.519235999999999,
+        "title": "Littleton/Route 495",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=105",
+        "address": "Grimes Ln and Foster St Littleton, MA 01460",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.502643000000006
+      },
+      {
+        "latitude": 42.461575000000003,
+        "title": "South Acton",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=192",
+        "address": "10 Central St Acton, MA 01720-3521",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.455321999999995
+      },
+      {
+        "latitude": 42.456372000000002,
+        "title": "West Concord",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=222",
+        "address": "Commonwealth Ave and Main St West Concord, MA 01742",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.392370999999997
+      },
+      {
+        "latitude": 42.457146999999999,
+        "title": "Concord",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=52",
+        "address": "90 Thoreau St Concord, MA 01742-2408",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.358051000000003
+      },
+      {
+        "latitude": 42.414228999999999,
+        "title": "Lincoln",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=104",
+        "address": "160 Lincoln Rd Lincoln, MA 01773-3834",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.325344000000001
+      },
+      {
+        "latitude": 42.395625000000003,
+        "title": "Silver Hill",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=190",
+        "address": "Silver Hill Rd and Merriam St Weston, MA 02493",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.302357000000001
+      },
+      {
+        "latitude": 42.385755000000003,
+        "title": "Hastings",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=82",
+        "address": "105 Viles St Weston, MA 02493-1700",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.289203000000001
+      },
+      {
+        "latitude": 42.378970000000002,
+        "title": "Kendal Green",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=97",
+        "address": "205 Church St Weston, MA 02493-2007",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.282410999999996
+      },
+      {
+        "latitude": 42.361727999999999,
+        "title": "Brandeis/Roberts",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=27",
+        "address": "1 Sawyer Rd Waltham, MA 02453-3427",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.260853999999995
+      },
+      {
+        "latitude": 42.374423999999998,
+        "title": "Waltham",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=213",
+        "address": "75 Carter St Waltham, MA 02453-5312",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.236594999999994
+      },
+      {
+        "latitude": 42.387489000000002,
+        "title": "Waverley",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=215",
+        "address": "525 Trapelo Rd Belmont, MA 02478-1403",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.189864
+      },
+      {
+        "latitude": 42.398420000000002,
+        "title": "Belmont Center",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=18",
+        "address": "Common St and Concord Ave Belmont, MA 02478",
+        "lines": "Commuter Rail (Fitchburg)",
+        "longitude": -71.174498999999997
+      },
+      {
+        "latitude": 42.388346121836598,
+        "title": "Porter Square Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13912&lat=42.388353&lng=-71.119159",
+        "address": "Somerville Avenue at Massachusetts Avenue, Cambridge",
+        "lines": "Red Line (all) and Commuter Rail (Fitchburg)",
+        "longitude": -71.11924409866333
+      },
+      {
+        "latitude": 42.365512000000003,
+        "title": "North Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15583&lat=42.365551&lng=-71.061251",
+        "address": "135 Causeway Street at Canal Street, Boston",
+        "lines": "Green Line (all), Orange Line (all), and Commuter Rail (Fitchburg, Haverhill, Lowell, Newburyport, Rockport)",
+        "longitude": -71.061423000000005
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Framingham/Worcester Line)",
+    "stations": [
+      {
+        "latitude": 42.261795999999997,
+        "title": "Worcester / Union",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=237",
+        "address": "34 Washington Sq Worcester, MA 01604-4013",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.793880999999999
+      },
+      {
+        "latitude": 42.246290999999999,
+        "title": "Grafton",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=74",
+        "address": "1 Pine St North Grafton, MA 01536-1856",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.684613999999996
+      },
+      {
+        "latitude": 42.269317999999998,
+        "title": "Westborough",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=16087",
+        "address": "Smith Pkwy and Fisher St Westborough, MA 01581",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.652203999999998
+      },
+      {
+        "latitude": 42.267518000000003,
+        "title": "Southborough",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=24151",
+        "address": "87 Southville Rd Southborough, MA 01772-2023",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.523621000000006
+      },
+      {
+        "latitude": 42.261693999999999,
+        "title": "Ashland",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=24437",
+        "address": "On Pleasant Street next to the restaurant off of Route 135 - west of Ashland High School",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.478813000000002
+      },
+      {
+        "latitude": 42.276719,
+        "title": "Framingham",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=68",
+        "address": "Irving St and Concord St Framingham, MA 01701",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.416792000000001
+      },
+      {
+        "latitude": 42.281855,
+        "title": "West Natick",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=225",
+        "address": "249 W Central St Natick, MA 01760-3714,",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.390547999999995
+      },
+      {
+        "latitude": 42.285226999999999,
+        "title": "Natick",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=25184",
+        "address": "1 Walnut St Natick, MA 01760-3503",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.347639999999998
+      },
+      {
+        "latitude": 42.296427000000001,
+        "title": "Wellesley Square",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=219",
+        "address": "1 Grove St Wellesley, MA 02482-7714",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.294310999999993
+      },
+      {
+        "latitude": 42.310026999999998,
+        "title": "Wellesley Hills",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=218",
+        "address": "339 Washington St Wellesley, MA 02481-6201",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.276769000000002
+      },
+      {
+        "latitude": 42.323608,
+        "title": "Wellesley Farms",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=217",
+        "address": "90 Croton St Wellesley, MA 02481-3135",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.272288000000003
+      },
+      {
+        "latitude": 42.346086999999997,
+        "title": "Auburndale",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=10",
+        "address": "477 Lexington St Auburndale, MA 02466-1906",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.246657999999996
+      },
+      {
+        "latitude": 42.348599,
+        "title": "West Newton",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=226",
+        "address": "1395 Washington St Newton, MA 02465-2003",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.229010000000002
+      },
+      {
+        "latitude": 42.351602999999997,
+        "title": "Newtonville",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=139",
+        "address": "770 Washington St Newton, MA 02460-1705",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.207337999999993
+      },
+      {
+        "latitude": 42.346795999999998,
+        "title": "Yawkey",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=239",
+        "address": "85 Brookline Ave Boston, MA 02215-3908",
+        "lines": "Commuter Rail (Framingham/Worcester)",
+        "longitude": -71.098937000000006
+      },
+      {
+        "latitude": 42.34727722151564,
+        "title": "Back Bay Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10124&lat=42.347314&lng=-71.075724",
+        "address": "145 Dartmouth Street, Boston",
+        "lines": "Orange Line (all), Commuter Rail (Framingham/Worcester, Needham, Providence/Stoughton), and Amtrak",
+        "longitude": -71.07603907585144
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Framingham/Worcester, Franklin, Needham, Providence/Stoughton)",
+    "stations": [
+      {
+        "latitude": 42.34727722151564,
+        "title": "Back Bay Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10124&lat=42.347314&lng=-71.075724",
+        "address": "145 Dartmouth Street, Boston",
+        "lines": "Orange Line (all), Commuter Rail (Framingham/Worcester, Needham, Providence/Stoughton), and Amtrak",
+        "longitude": -71.07603907585144
+      },
+      {
+        "latitude": 42.351709611022265,
+        "title": "South Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14435&lat=42.352573&lng=-71.055428",
+        "address": "Summer Street at Atlantic Avenue, Boston",
+        "lines": "Red Line (all), Silver Line (SL1, SL2, SL4, SL5), Commuter Rail (Framingham/Worcester, Needham, Franklin, Providence/Stoughton, Fairmount, Middleborough/Lakeville, Kingston/Plymouth), Greyhound, Amtrak, and Peter Pan Bus Lines",
+        "longitude": -71.054999828338623
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Franklin Line)",
+    "stations": [
+      {
+        "latitude": 42.090704000000002,
+        "title": "Forge Park/Route 495",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=67",
+        "address": "1000 W Central St Franklin, MA 02038-3108",
+        "lines": "Commuter Rail (Franklin)",
+        "longitude": -71.430341999999996
+      },
+      {
+        "latitude": 42.083590999999998,
+        "title": "Franklin",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=69",
+        "address": "75 Depot St Franklin, MA 02038-1939",
+        "lines": "Commuter Rail (Franklin)",
+        "longitude": -71.396735000000007
+      },
+      {
+        "latitude": 42.120694,
+        "title": "Norfolk",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=140",
+        "address": "9 Rockwood Rd Norfolk, MA 02056-1409",
+        "lines": "Commuter Rail (Franklin)",
+        "longitude": -71.325216999999995
+      },
+      {
+        "latitude": 42.144191999999997,
+        "title": "Walpole",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=212",
+        "address": "275 West St Walpole, MA 02081-1608",
+        "lines": "Commuter Rail (Franklin)",
+        "longitude": -71.259016000000003
+      },
+      {
+        "latitude": 42.159123000000001,
+        "title": "Plimptonville",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=158",
+        "address": "185 Plimpton St Walpole, MA 02081-3712",
+        "lines": "Commuter Rail (Franklin)",
+        "longitude": -71.236125000000001
+      },
+      {
+        "latitude": 42.172192000000003,
+        "title": "Windsor Gardens",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=232",
+        "address": "Buckminster Drive Norwood, MA 02062-3525",
+        "lines": "Commuter Rail (Franklin)",
+        "longitude": -71.220703999999998
+      },
+      {
+        "latitude": 42.190776,
+        "title": "Norwood Central",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=152",
+        "address": "164 Broadway Norwood, MA 02062-3404",
+        "lines": "Commuter Rail (Franklin)",
+        "longitude": -71.199748
+      },
+      {
+        "latitude": 42.195667999999998,
+        "title": "Norwood Depot",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=153",
+        "address": "14 Hill St Norwood, MA 02062-3650",
+        "lines": "Commuter Rail (Franklin)",
+        "longitude": -71.196783999999994
+      },
+      {
+        "latitude": 42.220714000000001,
+        "title": "Islington",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=94",
+        "address": "48 Carroll Ave Westwood, MA 02090-1444",
+        "lines": "Commuter Rail (Franklin)",
+        "longitude": -71.183406000000005
+      },
+      {
+        "latitude": 42.225895999999999,
+        "title": "Dedham Corporate",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=55",
+        "address": "125 Allied Dr Dedham, MA 02026-6100",
+        "lines": "Commuter Rail (Franklin)",
+        "longitude": -71.173805999999999
+      },
+      {
+        "latitude": 42.232880999999999,
+        "title": "Endicott",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=60",
+        "address": "186 Grant Ave Dedham, MA 02026-5036",
+        "lines": "Commuter Rail (Franklin)",
+        "longitude": -71.160413000000005
+      },
+      {
+        "latitude": 42.237749999999998,
+        "title": "Readville",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=170",
+        "address": "1800 Hyde Park Ave Hyde Park, MA 02136-2460",
+        "lines": "Commuter Rail (Franklin, Fairmount)",
+        "longitude": -71.132375999999994
+      },
+      {
+        "latitude": 42.255121000000003,
+        "title": "Hyde Park",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=91",
+        "address": "1 Pingree St Hyde Park, MA 02136-2751",
+        "lines": "Commuter Rail (Franklin, Providence/Stoughton)",
+        "longitude": -71.125022000000001
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Franklin, Providence/Stoughton)",
+    "stations": [
+      {
+        "latitude": 42.255121000000003,
+        "title": "Hyde Park",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=91",
+        "address": "1 Pingree St Hyde Park, MA 02136-2751",
+        "lines": "Commuter Rail (Franklin, Providence/Stoughton)",
+        "longitude": -71.125022000000001
+      },
+      {
+        "latitude": 42.335667478784956,
+        "title": "Ruggles Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14166&lat=42.335742&lng=-71.090437",
+        "address": "Ruggles Street at Tremont Street, Boston",
+        "lines": "Orange Line (all), Commuter Rail (Needham, Franklin, Providence/Stoughton)",
+        "longitude": -71.09052300453186
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Needham, Franklin, Providence/Stoughton)",
+    "stations": [
+      {
+        "latitude": 42.335667478784956,
+        "title": "Ruggles Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14166&lat=42.335742&lng=-71.090437",
+        "address": "Ruggles Street at Tremont Street, Boston",
+        "lines": "Orange Line (all), Commuter Rail (Needham, Franklin, Providence/Stoughton)",
+        "longitude": -71.09052300453186
+      },
+      {
+        "latitude": 42.34727722151564,
+        "title": "Back Bay Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10124&lat=42.347314&lng=-71.075724",
+        "address": "145 Dartmouth Street, Boston",
+        "lines": "Orange Line (all), Commuter Rail (Framingham/Worcester, Needham, Providence/Stoughton), and Amtrak",
+        "longitude": -71.07603907585144
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Greenbush Line)",
+    "stations": [
+      {
+        "latitude": 42.179499999999997,
+        "title": "Greenbush Station",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=25668",
+        "address": "247 Old Drifway (Driftway and Stockbridge Rd)",
+        "lines": "Commuter Rail (Greenbush)",
+        "longitude": -70.745999999999995
+      },
+      {
+        "latitude": 42.219900000000003,
+        "title": "North Scituate Station",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=25669",
+        "address": "777 Country Way",
+        "lines": "Commuter Rail (Greenbush)",
+        "longitude": -70.787700000000001
+      },
+      {
+        "latitude": 42.241799999999998,
+        "title": "Cohasset Station",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=25670",
+        "address": "110 Chief Justice Cushing Hwy",
+        "lines": "Commuter Rail (Greenbush)",
+        "longitude": -70.835599999999999
+      },
+      {
+        "latitude": 42.244799999999998,
+        "title": "Nantasket Junction Station",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=25671",
+        "address": "190 Summer St",
+        "lines": "Commuter Rail (Greenbush)",
+        "longitude": -70.869699999999995
+      },
+      {
+        "latitude": 42.236699999999999,
+        "title": "West Hingham Station",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=25672",
+        "address": "20 Fort Hill Rd",
+        "lines": "Commuter Rail (Greenbush)",
+        "longitude": -70.903199999999998
+      },
+      {
+        "latitude": 42.219099999999997,
+        "title": "East Weymouth Station",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=25673",
+        "address": "1590 Commercial St",
+        "lines": "Commuter Rail (Greenbush)",
+        "longitude": -70.921400000000006
+      },
+      {
+        "latitude": 42.220799999999997,
+        "title": "Weymouth Landing/East Braintree Station",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=25674",
+        "address": "121 Commercial St Weymouth,MA",
+        "lines": "Commuter Rail (Greenbush)",
+        "longitude": -70.968199999999996
+      },
+      {
+        "latitude": 42.250878999999998,
+        "title": "Quincy Center Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13981&lat=42.250879&lng=-71.004798",
+        "address": "175 Thomas E Burgin Pkwy Quincy, MA 02169-4213",
+        "lines": "Red Line (Braintree), Commuter Rail (Greenbush, Kingston/Plymouth, Middleborough/Lakeville)",
+        "longitude": -71.004797999999994
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Greenbush, Kingston/Plymouth, Middleborough/Lakeville)",
+    "stations": [
+      {
+        "latitude": 42.250878999999998,
+        "title": "Quincy Center Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13981&lat=42.250879&lng=-71.004798",
+        "address": "175 Thomas E Burgin Pkwy Quincy, MA 02169-4213",
+        "lines": "Red Line (Braintree), Commuter Rail (Greenbush, Kingston/Plymouth, Middleborough/Lakeville)",
+        "longitude": -71.004797999999994
+      },
+      {
+        "latitude": 42.321437862948727,
+        "title": "JFK / UMass Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=12410&lat=42.321065&lng=-71.052545",
+        "address": "599 Old Colony Ave Boston, MA 02127-3805",
+        "lines": "Red Line (Braintree), Commuter Rail (Greenbush, Kingston/Plymouth, Middleborough/Lakeville)",
+        "longitude": -71.052392721176147
+      },
+      {
+        "latitude": 42.351709611022265,
+        "title": "South Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14435&lat=42.352573&lng=-71.055428",
+        "address": "Summer Street at Atlantic Avenue, Boston",
+        "lines": "Red Line (all), Silver Line (SL1, SL2, SL4, SL5), Commuter Rail (Framingham/Worcester, Needham, Franklin, Providence/Stoughton, Fairmount, Middleborough/Lakeville, Kingston/Plymouth), Greyhound, Amtrak, and Peter Pan Bus Lines",
+        "longitude": -71.054999828338623
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Haverhill Line)",
+    "stations": [
+      {
+        "latitude": 42.772683999999998,
+        "title": "Haverhill",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=83",
+        "address": "1 Washington Ave Haverhill, MA 01832-5420",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.085961999999995
+      },
+      {
+        "latitude": 42.768898999999998,
+        "title": "Bradford",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=25",
+        "address": "10 Railroad Ave Bradford, MA 01835-7229",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.085998000000004
+      },
+      {
+        "latitude": 42.700094,
+        "title": "Lawrence",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=102",
+        "address": "S Union St and Merrimack St, Lawrence, MA 01843",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.159796999999998
+      },
+      {
+        "latitude": 42.657798,
+        "title": "Andover",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=3",
+        "address": "17 Railroad St Andover, MA 01810-3516",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.144155999999995
+      },
+      {
+        "latitude": 42.626449000000001,
+        "title": "Ballardvale",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=14",
+        "address": "195 Andover St Andover, MA 01810-5638",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.159653000000006
+      },
+      {
+        "latitude": 42.568461999999997,
+        "title": "North Wilmington",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=130",
+        "address": "370 Middlesex Ave Wilmington, MA 01887-2121",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.159723999999997
+      },
+      {
+        "latitude": 42.521479999999997,
+        "title": "Reading",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=169",
+        "address": "35 Lincoln St Reading, MA 01867-3133",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.107439999999997
+      },
+      {
+        "latitude": 42.501810999999996,
+        "title": "Wakefield",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=211",
+        "address": "225 North Ave Wakefield, MA 01880-2314",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.075000000000003
+      },
+      {
+        "latitude": 42.483472999999996,
+        "title": "Greenwood",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=76",
+        "address": "907 Main St Wakefield, MA 01880-3933",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.067233000000002
+      },
+      {
+        "latitude": 42.468792999999998,
+        "title": "Melrose Highlands",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=119",
+        "address": "497 Franklin St Melrose, MA 02176-1742",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.068269999999998
+      },
+      {
+        "latitude": 42.459128,
+        "title": "Melrose/Cedar Park",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=118",
+        "address": "Cedar Park and W Emerson St Melrose, MA 02176,",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.069447999999994
+      },
+      {
+        "latitude": 42.452097000000002,
+        "title": "Wyoming Hill",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=238",
+        "address": "40 W Wyoming Ave Melrose, MA 02176-4626",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.069518000000002
+      },
+      {
+        "latitude": 42.426406999999998,
+        "title": "Malden Center",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=109",
+        "address": "Commercial St and Pleasant St Malden, MA 02148",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.074226999999993
+      },
+      {
+        "latitude": 42.365512000000003,
+        "title": "North Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15583&lat=42.365551&lng=-71.061251",
+        "address": "135 Causeway Street at Canal Street, Boston",
+        "lines": "Green Line (all), Orange Line (all), and Commuter Rail (Fitchburg, Haverhill, Lowell, Newburyport, Rockport)",
+        "longitude": -71.061423000000005
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Lowell Line)",
+    "stations": [
+      {
+        "latitude": 42.638401999999999,
+        "title": "Lowell",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=107",
+        "address": "101 Thorndike St Lowell, MA 01852-3308",
+        "lines": "Commuter Rail (Lowell)",
+        "longitude": -71.314915999999997
+      },
+      {
+        "latitude": 42.592880999999998,
+        "title": "North Billerica",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=143",
+        "address": "Ruggles St and Station St North Billerica, MA 01862",
+        "lines": "Commuter Rail (Lowell)",
+        "longitude": -71.280868999999996
+      },
+      {
+        "latitude": 42.546368000000001,
+        "title": "Wilmington",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=229",
+        "address": "405 Main St Wilmington, MA 01887-3630",
+        "lines": "Commuter Rail (Lowell, Haverhill)",
+        "longitude": -71.173569000000001
+      },
+      {
+        "latitude": 42.518082,
+        "title": "Anderson/Woburn",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=241",
+        "address": "Atlantic Ave and Commerce Way Woburn, MA 01801-1082",
+        "lines": "Commuter Rail (Lowell, Haverhill)",
+        "longitude": -71.138649999999998
+      },
+      {
+        "latitude": 42.503594999999997,
+        "title": "Mishawum",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=122",
+        "address": "250 Mishawum Rd Woburn, MA 01801-2062",
+        "lines": "Commuter Rail (Lowell)",
+        "longitude": -71.137511000000003
+      },
+      {
+        "latitude": 42.452649999999998,
+        "title": "Winchester Center",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=230",
+        "address": "29 Waterfield Rd Winchester, MA 01890",
+        "lines": "Commuter Rail (Lowell)",
+        "longitude": -71.137040999999996
+      },
+      {
+        "latitude": 42.445284000000001,
+        "title": "Wedgemere",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=216",
+        "address": "25 Mystic Valley Pkwy Winchester, MA 01890",
+        "lines": "Commuter Rail (Lowell)",
+        "longitude": -71.140908999999994
+      },
+      {
+        "latitude": 42.421183999999997,
+        "title": "West Medford",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=224",
+        "address": "481 High St Medford, MA 02155-6735",
+        "lines": "Commuter Rail (Lowell)",
+        "longitude": -71.132468000000003
+      },
+      {
+        "latitude": 42.365512000000003,
+        "title": "North Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15583&lat=42.365551&lng=-71.061251",
+        "address": "135 Causeway Street at Canal Street, Boston",
+        "lines": "Green Line (all), Orange Line (all), and Commuter Rail (Fitchburg, Haverhill, Lowell, Newburyport, Rockport)",
+        "longitude": -71.061423000000005
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Haverhill via Lowell)",
+    "stations": [
+      {
+        "latitude": 42.626449000000001,
+        "title": "Ballardvale",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=14",
+        "address": "195 Andover St Andover, MA 01810-5638",
+        "lines": "Commuter Rail (Haverhill)",
+        "longitude": -71.159653000000006
+      },
+      {
+        "latitude": 42.546368000000001,
+        "title": "Wilmington",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=229",
+        "address": "405 Main St Wilmington, MA 01887-3630",
+        "lines": "Commuter Rail (Lowell, Haverhill)",
+        "longitude": -71.173569000000001
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Needham Line)",
+    "stations": [
+      {
+        "latitude": 42.293138999999996,
+        "title": "Needham Heights",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=131",
+        "address": "95 West St Needham, MA 02494-1320",
+        "lines": "Commuter Rail (Needham)",
+        "longitude": -71.235086999999993
+      },
+      {
+        "latitude": 42.280273999999999,
+        "title": "Needham Center",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=132",
+        "address": "Great Plain Ave and Eaton Sq Needham, MA 02492",
+        "lines": "Commuter Rail (Needham)",
+        "longitude": -71.238089000000002
+      },
+      {
+        "latitude": 42.273327000000002,
+        "title": "Needham Junction",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=134",
+        "address": "51 Junction St Needham, MA 02492-2919",
+        "lines": "Commuter Rail (Needham)",
+        "longitude": -71.238006999999996
+      },
+      {
+        "latitude": 42.275841999999997,
+        "title": "Hersey",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=86",
+        "address": "Great Plain Ave and Broad Meadow Rd Needham, MA 02492",
+        "lines": "Commuter Rail (Needham)",
+        "longitude": -71.214853000000005
+      },
+      {
+        "latitude": 42.281599999999997,
+        "title": "West Roxbury",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=227",
+        "address": "450 Lagrange St West Roxbury, MA 02132-3226,",
+        "lines": "Commuter Rail (Needham)",
+        "longitude": -71.159931999999998
+      },
+      {
+        "latitude": 42.284869,
+        "title": "Highland",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=87",
+        "address": "Corey St and Hastings St West Roxbury, MA 02132",
+        "lines": "Commuter Rail (Needham)",
+        "longitude": -71.154700000000005
+      },
+      {
+        "latitude": 42.287137999999999,
+        "title": "Bellevue",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=17",
+        "address": "35 Colbert St West Roxbury, MA 02132-1239",
+        "lines": "Commuter Rail (Needham)",
+        "longitude": -71.146060000000006
+      },
+      {
+        "latitude": 42.287205999999998,
+        "title": "Roslindale Village",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=177",
+        "address": "1 Belgrade Ave Roslindale, MA 02131-3025",
+        "lines": "Commuter Rail (Needham)",
+        "longitude": -71.12961
+      },
+      {
+        "latitude": 42.300362,
+        "title": "Forest Hills Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=11788&lat=42.300023&lng=-71.113377",
+        "address": "Washington Street at Hyde Park Avenue, Jamaica Plain",
+        "lines": "Orange Line (all), Commuter Rail (Needham)",
+        "longitude": -71.113410999999999
+      },
+      {
+        "latitude": 42.335667478784956,
+        "title": "Ruggles Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=14166&lat=42.335742&lng=-71.090437",
+        "address": "Ruggles Street at Tremont Street, Boston",
+        "lines": "Orange Line (all), Commuter Rail (Needham, Franklin, Providence/Stoughton)",
+        "longitude": -71.09052300453186
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Newburyport, Rockport)",
+    "stations": [
+      {
+        "latitude": 42.546906999999997,
+        "title": "Beverly Depot",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=19",
+        "address": "12 Park St Beverly, MA 01915-4202",
+        "lines": "Commuter Rail (Newburyport, Rockport)",
+        "longitude": -70.885167999999993
+      },
+      {
+        "latitude": 42.523927,
+        "title": "Salem",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=184",
+        "address": "252 Bridge St Salem, MA 01970-3980",
+        "lines": "Commuter Rail (Newburyport, Rockport)",
+        "longitude": -70.898903000000004
+      },
+      {
+        "latitude": 42.473739000000002,
+        "title": "Swampscott",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=206",
+        "address": "Burrill St and Railroad Ave Swampscott, MA 01907",
+        "lines": "Commuter Rail (Newburyport, Rockport)",
+        "longitude": -70.922036000000006
+      },
+      {
+        "latitude": 42.462293000000003,
+        "title": "Lynn",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=108",
+        "address": "325 Broad St Lynn, MA 01901-1511",
+        "lines": "Commuter Rail (Newburyport, Rockport)",
+        "longitude": -70.947794000000002
+      },
+      {
+        "latitude": 42.453803999999998,
+        "title": "River Works",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=174",
+        "address": "1000 Western Ave Lynn, MA 01910 General Electric plant (employees only)",
+        "lines": "Commuter Rail (Newburyport, Rockport)",
+        "longitude": -70.975697999999994
+      },
+      {
+        "latitude": 42.39564,
+        "title": "Chelsea",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=46",
+        "address": "Arlington St and 6th St Chelsea, MA 02150",
+        "lines": "Commuter Rail (Newburyport, Rockport)",
+        "longitude": -71.034802999999997
+      },
+      {
+        "latitude": 42.365512000000003,
+        "title": "North Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15583&lat=42.365551&lng=-71.061251",
+        "address": "135 Causeway Street at Canal Street, Boston",
+        "lines": "Green Line (all), Orange Line (all), and Commuter Rail (Fitchburg, Haverhill, Lowell, Newburyport, Rockport)",
+        "longitude": -71.061423000000005
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Rockport)",
+    "stations": [
+      {
+        "latitude": 42.656173000000003,
+        "title": "Rockport",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=175",
+        "address": "17 Railroad Ave Rockport, MA 01966-1463",
+        "lines": "Commuter Rail (Rockport)",
+        "longitude": -70.625615999999994
+      },
+      {
+        "latitude": 42.616069000000003,
+        "title": "Gloucester",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=71",
+        "address": "75 Railroad Ave Gloucester, MA 01930-3540",
+        "lines": "Commuter Rail (Rockport)",
+        "longitude": -70.668767000000003
+      },
+      {
+        "latitude": 42.610928000000001,
+        "title": "West Gloucester",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=223",
+        "address": "290 Essex Ave Gloucester, MA 01930-2350",
+        "lines": "Commuter Rail (Rockport)",
+        "longitude": -70.706456000000003
+      },
+      {
+        "latitude": 42.573569999999997,
+        "title": "Manchester",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=111",
+        "address": "40 Beach St Manchester, MA 01944-1468",
+        "lines": "Commuter Rail (Rockport)",
+        "longitude": -70.770472999999996
+      },
+      {
+        "latitude": 42.561402999999999,
+        "title": "Beverly Farms",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=20",
+        "address": "1 Oak St Beverly, MA 01915-2205,",
+        "lines": "Commuter Rail (Rockport)",
+        "longitude": -70.812745000000007
+      },
+      {
+        "latitude": 42.559513000000003,
+        "title": "Prides Crossing",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=162",
+        "address": "600 Hale St Beverly, MA 01915-5420",
+        "lines": "Commuter Rail (Rockport)",
+        "longitude": -70.824813000000006
+      },
+      {
+        "latitude": 42.561483000000003,
+        "title": "Montserrat",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=125",
+        "address": "180 Essex St Beverly, MA 01915",
+        "lines": "Commuter Rail (Rockport)",
+        "longitude": -70.870035000000001
+      },
+      {
+        "latitude": 42.546906999999997,
+        "title": "Beverly Depot",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=19",
+        "address": "12 Park St Beverly, MA 01915-4202",
+        "lines": "Commuter Rail (Newburyport, Rockport)",
+        "longitude": -70.885167999999993
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Newburyport)",
+    "stations": [
+      {
+        "latitude": 42.800291999999999,
+        "title": "Newburyport",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=136",
+        "address": "25 Boston Way Newburyport, MA 01950-4067",
+        "lines": "Commuter Rail (Newburyport)",
+        "longitude": -70.880262000000002
+      },
+      {
+        "latitude": 42.725351000000003,
+        "title": "Rowley",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=179",
+        "address": "70 Railroad Ave Rowley, MA 01969-1211",
+        "lines": "Commuter Rail (Newburyport)",
+        "longitude": -70.859436000000002
+      },
+      {
+        "latitude": 42.678355000000003,
+        "title": "Ipswich",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=93",
+        "address": "4 Topsfield Rd Ipswich, MA 01938-2132",
+        "lines": "Commuter Rail (Newburyport)",
+        "longitude": -70.840024
+      },
+      {
+        "latitude": 42.610756000000002,
+        "title": "Hamilton/Wenham",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=79",
+        "address": "Bay Rd and Walnut Rd Hamilton, MA 01982",
+        "lines": "Commuter Rail (Newburyport)",
+        "longitude": -70.874004999999997
+      },
+      {
+        "latitude": 42.582470999999998,
+        "title": "North Beverly",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=142",
+        "address": "Enon St and Dodge St Beverly, MA 01915",
+        "lines": "Commuter Rail (Newburyport)",
+        "longitude": -70.884501
+      },
+      {
+        "latitude": 42.546906999999997,
+        "title": "Beverly Depot",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=19",
+        "address": "12 Park St Beverly, MA 01915-4202",
+        "lines": "Commuter Rail (Newburyport, Rockport)",
+        "longitude": -70.885167999999993
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Providence, Stoughton)",
+    "stations": [
+      {
+        "latitude": 42.163423000000002,
+        "title": "Canton Junction",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=37",
+        "address": "Beaumont St and Sherman St Canton, MA 02021",
+        "lines": "Commuter Rail (Providence/Stoughton)",
+        "longitude": -71.153373999999999
+      },
+      {
+        "latitude": 42.209884000000002,
+        "title": "Route 128",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=178",
+        "address": "Blue Hill Dr and University Ave Westwood, MA 02090",
+        "lines": "Commuter Rail (Providence/Stoughton)",
+        "longitude": -71.147099999999995
+      },
+      {
+        "latitude": 42.255121000000003,
+        "title": "Hyde Park",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=91",
+        "address": "1 Pingree St Hyde Park, MA 02136-2751",
+        "lines": "Commuter Rail (Franklin, Providence/Stoughton)",
+        "longitude": -71.125022000000001
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Providence, Stoughton)",
+    "stations": [
+      {
+        "latitude": 41.829641000000002,
+        "title": "Providence",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=163",
+        "address": "100 Gaspee St Providence, RI 02903-1133",
+        "lines": "Commuter Rail (Providence/Stoughton)",
+        "longitude": -71.413331999999997
+      },
+      {
+        "latitude": 41.897942999999998,
+        "title": "South Attleboro",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=193",
+        "address": "1315 Newport Ave Attleboro, MA 02703-8040",
+        "lines": "Commuter Rail (Providence/Stoughton)",
+        "longitude": -71.354620999999995
+      },
+      {
+        "latitude": 41.942096999999997,
+        "title": "Attleboro",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=9",
+        "address": "75 S Main St Attleboro, MA 02703-2906",
+        "lines": "Commuter Rail (Providence/Stoughton)",
+        "longitude": -71.284897000000001
+      },
+      {
+        "latitude": 42.032733999999998,
+        "title": "Mansfield",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=112",
+        "address": "1 Crocker St Mansfield, MA 02048-1905",
+        "lines": "Commuter Rail (Providence/Stoughton)",
+        "longitude": -71.219318000000001
+      },
+      {
+        "latitude": 42.124803999999997,
+        "title": "Sharon",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=187",
+        "address": "1 Upland Rd Sharon, MA 02067-1752",
+        "lines": "Commuter Rail (Providence/Stoughton)",
+        "longitude": -71.183212999999995
+      },
+      {
+        "latitude": 42.163423000000002,
+        "title": "Canton Junction",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=37",
+        "address": "Beaumont St and Sherman St Canton, MA 02021",
+        "lines": "Commuter Rail (Providence/Stoughton)",
+        "longitude": -71.153373999999999
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Stoughton)",
+    "stations": [
+      {
+        "latitude": 42.123818,
+        "title": "Stoughton",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=203",
+        "address": "45 Wyman St Stoughton, MA 02072-2908",
+        "lines": "Commuter Rail (Providence/Stoughton)",
+        "longitude": -71.103089999999995
+      },
+      {
+        "latitude": 42.156768999999997,
+        "title": "Canton Center",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=36",
+        "address": "710 Washington St Canton, MA 02021-3036",
+        "lines": "Commuter Rail (Providence/Stoughton)",
+        "longitude": -71.145529999999994
+      },
+      {
+        "latitude": 42.163423000000002,
+        "title": "Canton Junction",
+        "url": "http://mbta.com/schedules_and_maps/rail/lines/stations/?stopId=37",
+        "address": "Beaumont St and Sherman St Canton, MA 02021",
+        "lines": "Commuter Rail (Providence/Stoughton)",
+        "longitude": -71.153373999999999
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Kingston/Plymouth)",
+    "stations": [
+      {
+        "latitude": 41.981183999999999,
+        "title": "Plymouth",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=159",
+        "address": "385 Court St Plymouth, MA 02360-7310",
+        "lines": "Commuter Rail (Kingston/Plymouth)",
+        "longitude": -70.692514000000003
+      },
+      {
+        "latitude": 41.978548000000004,
+        "title": "Kingston/Route 3",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=101",
+        "address": "194 Marion Dr Kingston, MA 02364-2249",
+        "lines": "Commuter Rail (Kingston/Plymouth)",
+        "longitude": -70.720314999999999
+      },
+      {
+        "latitude": 42.012867,
+        "title": "Halifax",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=78",
+        "address": "6 Garden Rd Halifax, MA 02338-1020",
+        "lines": "Commuter Rail (Kingston/Plymouth)",
+        "longitude": -70.820831999999996
+      },
+      {
+        "latitude": 42.043261999999999,
+        "title": "Hanson",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=80",
+        "address": "1070 Main St Hanson, MA 02341-1543",
+        "lines": "Commuter Rail (Kingston/Plymouth)",
+        "longitude": -70.881552999999997
+      },
+      {
+        "latitude": 42.083562999999998,
+        "title": "Whitman",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=228",
+        "address": "383 South Ave Whitman, MA 02382-2033",
+        "lines": "Commuter Rail (Kingston/Plymouth)",
+        "longitude": -70.923203999999998
+      },
+      {
+        "latitude": 42.108034000000004,
+        "title": "Abington",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=240",
+        "address": "231 Centre Ave Abington, MA 02351-2278",
+        "lines": "Commuter Rail (Kingston/Plymouth)",
+        "longitude": -70.935295999999994
+      },
+      {
+        "latitude": 42.153747000000003,
+        "title": "South Weymouth",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=196",
+        "address": "89 Trotter Rd Weymouth, MA 02190-4100",
+        "lines": "Commuter Rail (Kingston/Plymouth)",
+        "longitude": -70.952489999999997
+      },
+      {
+        "latitude": 42.208780424092673,
+        "title": "Braintree Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10431&lat=42.20855&lng=-71.00085",
+        "address": "Ivory Street between Union Street and Pearl Street, Braintree",
+        "lines": "Red Line (Braintree), Commuter Rail (Kingston/Plymouth, Middleborough/Lakeville)",
+        "longitude": -71.001334190368652
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Kingston/Plymouth, Middleborough/Lakeville)",
+    "stations": [
+      {
+        "latitude": 42.208780424092673,
+        "title": "Braintree Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10431&lat=42.20855&lng=-71.00085",
+        "address": "Ivory Street between Union Street and Pearl Street, Braintree",
+        "lines": "Red Line (Braintree), Commuter Rail (Kingston/Plymouth, Middleborough/Lakeville)",
+        "longitude": -71.001334190368652
+      },
+      {
+        "latitude": 42.250878999999998,
+        "title": "Quincy Center Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13981&lat=42.250879&lng=-71.004798",
+        "address": "175 Thomas E Burgin Pkwy Quincy, MA 02169-4213",
+        "lines": "Red Line (Braintree), Commuter Rail (Greenbush, Kingston/Plymouth, Middleborough/Lakeville)",
+        "longitude": -71.004797999999994
+      }
+    ]
+  },
+  {
+    "color": "#a000a0",
+    "line": "Commuter Rail",
+    "title": "Commuter Rail (Middleborough/Lakeville)",
+    "stations": [
+      {
+        "latitude": 41.878210000000003,
+        "title": "Middleborough/Lakeville",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=120",
+        "address": "125 Commercial Dr Lakeville, MA 02347-1661",
+        "lines": "Commuter Rail (Middleborough/Lakeville)",
+        "longitude": -70.918443999999994
+      },
+      {
+        "latitude": 41.986355000000003,
+        "title": "Bridgewater",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=28",
+        "address": "85 Burrill Ave Bridgewater, MA 02324-2727",
+        "lines": "Commuter Rail (Middleborough/Lakeville)",
+        "longitude": -70.966624999999993
+      },
+      {
+        "latitude": 42.060037999999999,
+        "title": "Campello",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=35",
+        "address": "30 Riverside Ave Brockton, MA 02301-6811",
+        "lines": "Commuter Rail (Middleborough/Lakeville)",
+        "longitude": -71.012460000000004
+      },
+      {
+        "latitude": 42.085720000000002,
+        "title": "Brockton",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=30",
+        "address": "7 Commercial St Brockton, MA 02302-2702",
+        "lines": "Commuter Rail (Middleborough/Lakeville)",
+        "longitude": -71.016859999999994
+      },
+      {
+        "latitude": 42.106046999999997,
+        "title": "Montello",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=124",
+        "address": "150 Spark St Brockton, MA 02302-1621",
+        "lines": "Commuter Rail (Middleborough/Lakeville)",
+        "longitude": -71.021078000000003
+      },
+      {
+        "latitude": 42.155313999999997,
+        "title": "Holbrook/Randolph",
+        "url": "http://www.mbta.com/schedules_and_maps/rail/lines/stations/?stopId=89",
+        "address": "Union St and Center St Randolph, MA 02368",
+        "lines": "Commuter Rail (Middleborough/Lakeville)",
+        "longitude": -71.027518000000001
+      },
+      {
+        "latitude": 42.208780424092673,
+        "title": "Braintree Station",
+        "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=10431&lat=42.20855&lng=-71.00085",
+        "address": "Ivory Street between Union Street and Pearl Street, Braintree",
+        "lines": "Red Line (Braintree), Commuter Rail (Kingston/Plymouth, Middleborough/Lakeville)",
+        "longitude": -71.001334190368652
+      }
+    ]
+  }
+]
