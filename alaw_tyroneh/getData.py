@@ -10,7 +10,7 @@ import xmltodict
 class getData(dml.Algorithm):
     contributor = 'alaw_tyroneh'
     reads = []
-    writes = ['alaw_tyroneh.MBTABusStops']
+    writes = ['alaw_tyroneh.BostonProperty','alaw_tyroneh.CambridgeProperty','alaw_tyroneh.SomervilleProperty','alaw_tyroneh.BrooklineProperty', 'alaw_tyroneh.HubwayStations', 'alaw_tyroneh.TCStops']
 
     @staticmethod
     def execute(trial = False):
