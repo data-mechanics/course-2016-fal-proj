@@ -9,8 +9,8 @@ import re
 
 class example(dml.Algorithm):
     contributor = 'ktan_ngurung'
-    reads = []
-    writes = ['ktan_ngurung.bigBelly', 'ktan_ngurung.colleges', 'ktan_ngurung.hubways', 'ktan_ngurung.busStops', 'ktan_ngurung.tStops']
+    reads = ['ktan_ngurung.ridership', 'ktan_ngurung.tstops']
+    writes = ['ktan_ngurung.tRidershipLocation']
 
     @staticmethod
     def execute(trial = False):
@@ -21,9 +21,6 @@ class example(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('ktan_ngurung', 'ktan_ngurung')
-
-        repo.dropPermanent("tRidershipLocation")
-        repo.createPermanent("tRidershipLocation")
 
         # Get ridership and tstop location data
         ridership = repo.ktan_ngurung.ridership.find()
@@ -114,11 +111,11 @@ class example(dml.Algorithm):
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        ridershipLocation = doc.entity('dat:ktan_ngurung#ridershipLocation', {prov.model.PROV_LABEL:'Number of Entries for Each Train Location', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(ridershipLocation, this_script)
-        doc.wasGeneratedBy(ridershipLocation, this_run, endTime)
-        doc.wasDerivedFrom(ridershipLocation, tStops_resource, this_run, this_run, this_run)
-        doc.wasDerivedFrom(ridershipLocation, ridership_resource, this_run, this_run, this_run)
+        tRidershipLocation = doc.entity('dat:ktan_ngurung#tRidershipLocation', {prov.model.PROV_LABEL:'Number of Entries for Each Train Location', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(tRidershipLocation, this_script)
+        doc.wasGeneratedBy(tRidershipLocation, this_run, endTime)
+        doc.wasDerivedFrom(tRidershipLocation, tStops_resource, this_run, this_run, this_run)
+        doc.wasDerivedFrom(tRidershipLocation, ridership_resource, this_run, this_run, this_run)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
