@@ -139,5 +139,31 @@ class getData(dml.Algorithm):
             {prov.model.PROV_TYPE: 'ont:Retrieval'}
         )
 
+        incidents = doc.entity('dat:bsowens_ggelinas#incidents',
+                              {prov.model.PROV_LABEL: 'Crime Incidents Report', prov.model.PROV_TYPE: 'ont:DataSet'})
+        doc.wasAttributedTo(incidents, this_script)
+        doc.wasGeneratedBy(incidents, incidents_getInfo, endTime)
+
+        property = doc.entity('dat:bsowens_ggelinas#property',
+                         {prov.model.PROV_LABEL: 'Property Assessment 2016', prov.model.PROV_TYPE: 'ont:DataSet'})
+        doc.wasAttributedTo(property, this_script)
+        doc.wasGeneratedBy(property, property_getInfo, endTime)
+
+        fio = doc.entity('dat:bsowens_ggelinas#fio',
+                               {prov.model.PROV_LABEL: 'Boston Police Department FIO', prov.model.PROV_TYPE: 'ont:DataSet'})
+        doc.wasAttributedTo(fio, this_script)
+        doc.wasGeneratedBy(fio, fio_getInfo, endTime)
+
+        hospitals = doc.entity('dat:bsowens_ggelinas#hospitals', {prov.model.PROV_LABEL:'Hospital Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(hospitals, this_script)
+        doc.wasGeneratedBy(hospitals, hospitals_getInfo, endTime)
+
+        repo.record(doc.serialize()) #Record the provenance document
+        repo.logout()
+
+        return doc
+
 
 getData.execute()
+doc = getData.provenance()
+print(json.dumps(json.loads(doc.serialize()),indent=4))
