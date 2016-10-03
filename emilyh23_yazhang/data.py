@@ -28,12 +28,12 @@ class example(dml.Algorithm):
         
         #### TESTING: fetches CSV download and converts it to dataframe: working ###
         data = pd.read_csv('http://bostonopendata.boston.opendata.arcgis.com/datasets/1b0717d5b4654882ae36adc4a20fd64b_0.csv')
-        #print(data)
+        print(data)
         
         ### TESTING: dataframe to json: prints out garbage ###
-        x = DataFrame.to_json(data)
-        s = json.dumps(x, sort_keys=True, indent=2)
-        #print(s)
+        #x = DataFrame.to_json(data)
+        print (data.groupby(level=0).apply(lambda x: x.to_json(orient='records')))
+        #print(x)
         
         filen = '../data/fire_hydrant.json'
         res = open(filen, 'r')
