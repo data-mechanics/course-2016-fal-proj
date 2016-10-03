@@ -171,34 +171,6 @@
         "longitude": -71.064218999999994
       },
       {
-        "latitude": 42.285175078825894,
-        "longitude": -71.063958406448364
-      },
-      {
-        "latitude": 42.284825838911026,
-        "longitude": -71.063733100891113
-      },
-      {
-        "latitude": 42.283952730653908,
-        "longitude": -71.063239574432373
-      },
-      {
-        "latitude": 42.283412984952086,
-        "longitude": -71.063003540039062
-      },
-      {
-        "latitude": 42.282809734283973,
-        "longitude": -71.062670946121216
-      },
-      {
-        "latitude": 42.281801657777144,
-        "longitude": -71.061973571777344
-      },
-      {
-        "latitude": 42.281214267178761,
-        "longitude": -71.061555147171021
-      },
-      {
         "latitude": 42.278420118006288,
         "title": "Cedar Grove Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15659&lat=42.279712&lng=-71.060327",
@@ -219,28 +191,12 @@
         "longitude": -71.062767505645752
       },
       {
-        "latitude": 42.27106900888387,
-        "longitude": -71.064602136611938
-      },
-      {
-        "latitude": 42.27048151824058,
-        "longitude": -71.066597700119019
-      },
-      {
         "latitude": 42.270346553400415,
         "title": "Milton Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15692&lat=42.270093&lng=-71.067612",
         "address": "1 Adams Street at 1 Elliot Street, Milton",
         "lines": "Red Line (Mattapan)",
         "longitude": -71.067949533462524
-      },
-      {
-        "latitude": 42.270338614283176,
-        "longitude": -71.070599555969238
-      },
-      {
-        "latitude": 42.270251283927493,
-        "longitude": -71.071511507034302
       },
       {
         "latitude": 42.270013109615185,
@@ -251,10 +207,6 @@
         "longitude": -71.073249578475952
       },
       {
-        "latitude": 42.269766995213708,
-        "longitude": -71.075438261032104
-      },
-      {
         "latitude": 42.267893318588435,
         "title": "Valley Road Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15665&lat=42.267772&lng=-71.083025",
@@ -263,48 +215,12 @@
         "longitude": -71.083066463470459
       },
       {
-        "latitude": 42.267647195910413,
-        "longitude": -71.083989143371582
-      },
-      {
-        "latitude": 42.26752016447481,
-        "longitude": -71.084600687026978
-      },
-      {
-        "latitude": 42.267401072271461,
-        "longitude": -71.085362434387207
-      },
-      {
-        "latitude": 42.267377253803787,
-        "longitude": -71.085705757141113
-      },
-      {
-        "latitude": 42.267401072271461,
-        "longitude": -71.08628511428833
-      },
-      {
         "latitude": 42.267567801293161,
         "title": "Capen Street Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15667&lat=42.267622&lng=-71.087436",
         "address": "Capen Street at Eliot Street, Milton",
         "lines": "Red Line (Mattapan)",
         "longitude": -71.087229251861572
-      },
-      {
-        "latitude": 42.267948894544027,
-        "longitude": -71.088978052139282
-      },
-      {
-        "latitude": 42.267964773379482,
-        "longitude": -71.089310646057129
-      },
-      {
-        "latitude": 42.267853621447308,
-        "longitude": -71.090759038925171
-      },
-      {
-        "latitude": 42.267631316994958,
-        "longitude": -71.091896295547485
       },
       {
         "latitude": 42.267456648661003,
@@ -330,170 +246,6 @@
         "longitude": -71.052392721176147
       },
       {
-        "latitude": 42.320953967698102,
-        "longitude": -71.052178144454956
-      },
-      {
-        "latitude": 42.318685163289835,
-        "longitude": -71.05183482170105
-      },
-      {
-        "latitude": 42.318098116659918,
-        "longitude": -71.051759719848633
-      },
-      {
-        "latitude": 42.316273477305927,
-        "longitude": -71.051609516143799
-      },
-      {
-        "latitude": 42.315377004676591,
-        "longitude": -71.051673889160156
-      },
-      {
-        "latitude": 42.314821661243954,
-        "longitude": -71.051802635192871
-      },
-      {
-        "latitude": 42.313679225058728,
-        "longitude": -71.052135229110718
-      },
-      {
-        "latitude": 42.312885854395631,
-        "longitude": -71.052457094192505
-      },
-      {
-        "latitude": 42.312465363889309,
-        "longitude": -71.052403450012207
-      },
-      {
-        "latitude": 42.311941730274874,
-        "longitude": -71.052242517471313
-      },
-      {
-        "latitude": 42.311465695935951,
-        "longitude": -71.051791906356812
-      },
-      {
-        "latitude": 42.310870647949358,
-        "longitude": -71.051963567733765
-      },
-      {
-        "latitude": 42.310434275850547,
-        "longitude": -71.052532196044922
-      },
-      {
-        "latitude": 42.31028352842246,
-        "longitude": -71.053143739700317
-      },
-      {
-        "latitude": 42.309688469259953,
-        "longitude": -71.053776741027832
-      },
-      {
-        "latitude": 42.308355516322287,
-        "longitude": -71.054227352142334
-      },
-      {
-        "latitude": 42.308387253625035,
-        "longitude": -71.054248809814453
-      },
-      {
-        "latitude": 42.304300944306505,
-        "longitude": -71.055375337600708
-      },
-      {
-        "latitude": 42.303602674627051,
-        "longitude": -71.055546998977661
-      },
-      {
-        "latitude": 42.303086902277414,
-        "longitude": -71.055632829666138
-      },
-      {
-        "latitude": 42.302452099739028,
-        "longitude": -71.055665016174316
-      },
-      {
-        "latitude": 42.301904577408898,
-        "longitude": -71.055622100830078
-      },
-      {
-        "latitude": 42.301579235798179,
-        "longitude": -71.055525541305542
-      },
-      {
-        "latitude": 42.300579394960756,
-        "longitude": -71.055032014846802
-      },
-      {
-        "latitude": 42.300047727097265,
-        "longitude": -71.054613590240479
-      },
-      {
-        "latitude": 42.29963508625832,
-        "longitude": -71.054248809814453
-      },
-      {
-        "latitude": 42.297214734584919,
-        "longitude": -71.051641702651978
-      },
-      {
-        "latitude": 42.288040360479208,
-        "longitude": -71.041213274002075
-      },
-      {
-        "latitude": 42.286103730090069,
-        "longitude": -71.039110422134399
-      },
-      {
-        "latitude": 42.285833867031144,
-        "longitude": -71.038863658905029
-      },
-      {
-        "latitude": 42.282135039194287,
-        "longitude": -71.034572124481201
-      },
-      {
-        "latitude": 42.281714343304948,
-        "longitude": -71.034132242202759
-      },
-      {
-        "latitude": 42.281412710560978,
-        "longitude": -71.033810377120972
-      },
-      {
-        "latitude": 42.280976134295109,
-        "longitude": -71.033424139022827
-      },
-      {
-        "latitude": 42.28055543066786,
-        "longitude": -71.033134460449219
-      },
-      {
-        "latitude": 42.280063283237084,
-        "longitude": -71.032866239547729
-      },
-      {
-        "latitude": 42.279063100808187,
-        "longitude": -71.032469272613525
-      },
-      {
-        "latitude": 42.278348675067768,
-        "longitude": -71.032233238220215
-      },
-      {
-        "latitude": 42.277800943181376,
-        "longitude": -71.032018661499023
-      },
-      {
-        "latitude": 42.277221453539028,
-        "longitude": -71.031686067581177
-      },
-      {
-        "latitude": 42.276745156692385,
-        "longitude": -71.031289100646973
-      },
-      {
         "latitude": 42.274816117650168,
         "title": "North Quincy Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13524&lat=42.274957&lng=-71.029307",
@@ -510,10 +262,6 @@
         "longitude": -71.019401550292969
       },
       {
-        "latitude": 42.253592791173304,
-        "longitude": -71.006762981414795
-      },
-      {
         "latitude": 42.250878999999998,
         "title": "Quincy Center Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13981&lat=42.250879&lng=-71.004798",
@@ -522,60 +270,12 @@
         "longitude": -71.004797999999994
       },
       {
-        "latitude": 42.248931118906071,
-        "longitude": -71.003769636154175
-      },
-      {
-        "latitude": 42.247668357918691,
-        "longitude": -71.003533601760864
-      },
-      {
         "latitude": 42.232751570388167,
         "title": "Quincy Adams Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=13946&lat=42.232848&lng=-71.007034",
         "address": "Burgin Parkway at Centre Street, Quincy",
         "lines": "Red Line (Braintree)",
         "longitude": -71.007149219512939
-      },
-      {
-        "latitude": 42.22990760794319,
-        "longitude": -71.007052659988403
-      },
-      {
-        "latitude": 42.229542173310804,
-        "longitude": -71.006956100463867
-      },
-      {
-        "latitude": 42.229248235223437,
-        "longitude": -71.006816625595093
-      },
-      {
-        "latitude": 42.228755687251898,
-        "longitude": -71.006505489349365
-      },
-      {
-        "latitude": 42.227794413205778,
-        "longitude": -71.005593538284302
-      },
-      {
-        "latitude": 42.221827831218114,
-        "longitude": -71.001570224761963
-      },
-      {
-        "latitude": 42.221001522417517,
-        "longitude": -71.000915765762329
-      },
-      {
-        "latitude": 42.220508910103042,
-        "longitude": -71.000669002532959
-      },
-      {
-        "latitude": 42.218570204961011,
-        "longitude": -71.000068187713623
-      },
-      {
-        "latitude": 42.217290944792587,
-        "longitude": -70.999993085861206
       },
       {
         "latitude": 42.208780424092673,
@@ -1001,26 +701,6 @@
         "longitude": -71.104395389556885
       },
       {
-        "latitude": 42.344374986804546,
-        "longitude": -71.105951070785522
-      },
-      {
-        "latitude": 42.343304456570607,
-        "longitude": -71.107935905456543
-      },
-      {
-        "latitude": 42.342677989682805,
-        "longitude": -71.108794212341309
-      },
-      {
-        "latitude": 42.342067376709089,
-        "longitude": -71.109566688537598
-      },
-      {
-        "latitude": 42.341099899856253,
-        "longitude": -71.110543012619019
-      },
-      {
         "latitude": 42.340449620163383,
         "title": "Longwood Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15680&lat=42.341042&lng=-71.110215",
@@ -1029,60 +709,12 @@
         "longitude": -71.110897064208984
       },
       {
-        "latitude": 42.340219641589059,
-        "longitude": -71.111025810241699
-      },
-      {
-        "latitude": 42.338585976472359,
-        "longitude": -71.111454963684082
-      },
-      {
-        "latitude": 42.33653193922872,
-        "longitude": -71.11249566078186
-      },
-      {
-        "latitude": 42.334652317405244,
-        "longitude": -71.113675832748413
-      },
-      {
-        "latitude": 42.334358869265941,
-        "longitude": -71.113976240158081
-      },
-      {
-        "latitude": 42.333494378951293,
-        "longitude": -71.115102767944336
-      },
-      {
-        "latitude": 42.332955057873669,
-        "longitude": -71.116100549697876
-      },
-      {
         "latitude": 42.332042960232961,
         "title": "Brookline Village Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15614&lat=42.332002&lng=-71.118129",
         "address": "Station Street at Washington Street, Brookline",
         "lines": "Green Line (D)",
         "longitude": -71.118117570877075
-      },
-      {
-        "latitude": 42.331773294049277,
-        "longitude": -71.118814945220947
-      },
-      {
-        "latitude": 42.331614666342318,
-        "longitude": -71.119437217712402
-      },
-      {
-        "latitude": 42.331527420932943,
-        "longitude": -71.120338439941406
-      },
-      {
-        "latitude": 42.331463969650152,
-        "longitude": -71.122956275939941
-      },
-      {
-        "latitude": 42.331233958213367,
-        "longitude": -71.124608516693115
       },
       {
         "latitude": 42.331210163878808,
@@ -1097,48 +729,12 @@
         "longitude": -71.13024115562439
       },
       {
-        "latitude": 42.331749499918729,
-        "longitude": -71.131303310394287
-      },
-      {
-        "latitude": 42.33192399000032,
-        "longitude": -71.132429838180542
-      },
-      {
-        "latitude": 42.332209518180591,
-        "longitude": -71.133577823638916
-      },
-      {
-        "latitude": 42.332685395600592,
-        "longitude": -71.13471508026123
-      },
-      {
-        "latitude": 42.335358173537863,
-        "longitude": -71.139296293258667
-      },
-      {
-        "latitude": 42.335485068182237,
-        "longitude": -71.139575242996216
-      },
-      {
-        "latitude": 42.3357309258271,
-        "longitude": -71.140379905700684
-      },
-      {
         "latitude": 42.33596092081828,
         "title": "Beaconsfield Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15611&lat=42.335805&lng=-71.140849",
         "address": "Dean Road south of Beacon Street, Brookline",
         "lines": "Green Line (D)",
         "longitude": -71.141602993011475
-      },
-      {
-        "latitude": 42.33601643672462,
-        "longitude": -71.142343282699585
-      },
-      {
-        "latitude": 42.335976782510805,
-        "longitude": -71.143823862075806
       },
       {
         "latitude": 42.334937833199568,
@@ -1149,68 +745,12 @@
         "longitude": -71.149402856826782
       },
       {
-        "latitude": 42.334628524363893,
-        "longitude": -71.150250434875488
-      },
-      {
-        "latitude": 42.330282177809501,
-        "longitude": -71.15720272064209
-      },
-      {
-        "latitude": 42.330258383114874,
-        "longitude": -71.157352924346924
-      },
-      {
-        "latitude": 42.327696435003709,
-        "longitude": -71.161623001098633
-      },
-      {
-        "latitude": 42.327379158626762,
-        "longitude": -71.162245273590088
-      },
-      {
-        "latitude": 42.327053948679634,
-        "longitude": -71.163071393966675
-      },
-      {
-        "latitude": 42.326823921116542,
-        "longitude": -71.16395115852356
-      },
-      {
-        "latitude": 42.326712873026423,
-        "longitude": -71.16468071937561
-      },
-      {
         "latitude": 42.326673212946723,
         "title": "Chestnut Hill Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15607&lat=42.326601&lng=-71.16529",
         "address": "Hammond Street at Boylston Street (Route 9), Brookline",
         "lines": "Green Line (D)",
         "longitude": -71.165517568588257
-      },
-      {
-        "latitude": 42.326752533081113,
-        "longitude": -71.166912317276001
-      },
-      {
-        "latitude": 42.330274246245622,
-        "longitude": -71.185312271118164
-      },
-      {
-        "latitude": 42.330353561839345,
-        "longitude": -71.186074018478394
-      },
-      {
-        "latitude": 42.330282177809501,
-        "longitude": -71.188573837280273
-      },
-      {
-        "latitude": 42.33015527266749,
-        "longitude": -71.189754009246826
-      },
-      {
-        "latitude": 42.32987766677671,
-        "longitude": -71.190944910049438
       },
       {
         "latitude": 42.329354178049158,
@@ -1221,64 +761,12 @@
         "longitude": -71.192318201065063
       },
       {
-        "latitude": 42.328925865849818,
-        "longitude": -71.193369626998901
-      },
-      {
-        "latitude": 42.326982560905229,
-        "longitude": -71.197414398193359
-      },
-      {
-        "latitude": 42.325166111390921,
-        "longitude": -71.200933456420898
-      },
-      {
-        "latitude": 42.32391280996994,
-        "longitude": -71.203465461730957
-      },
-      {
-        "latitude": 42.323008513691867,
-        "longitude": -71.204860210418701
-      },
-      {
         "latitude": 42.321699640795401,
         "title": "Newton Highland Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15604&lat=42.321539&lng=-71.205966",
         "address": "Lincoln Street at Walnut Street, Newton",
         "lines": "Green Line (D)",
         "longitude": -71.206179857254028
-      },
-      {
-        "latitude": 42.319359466849725,
-        "longitude": -71.208647489547729
-      },
-      {
-        "latitude": 42.318685163289835,
-        "longitude": -71.209205389022827
-      },
-      {
-        "latitude": 42.318225046125029,
-        "longitude": -71.210074424743652
-      },
-      {
-        "latitude": 42.317915655105274,
-        "longitude": -71.21088981628418
-      },
-      {
-        "latitude": 42.317756992453788,
-        "longitude": -71.211544275283813
-      },
-      {
-        "latitude": 42.317693527281186,
-        "longitude": -71.212166547775269
-      },
-      {
-        "latitude": 42.317709393580323,
-        "longitude": -71.213164329528809
-      },
-      {
-        "latitude": 42.31796325382269,
-        "longitude": -71.2143874168396
       },
       {
         "latitude": 42.319192874877594,
@@ -1289,32 +777,12 @@
         "longitude": -71.216919422149658
       },
       {
-        "latitude": 42.320882573001825,
-        "longitude": -71.220706701278687
-      },
-      {
-        "latitude": 42.323785891978154,
-        "longitude": -71.226693391799927
-      },
-      {
-        "latitude": 42.325570652721908,
-        "longitude": -71.230180263519287
-      },
-      {
         "latitude": 42.326260746635725,
         "title": "Waban Station",
         "url": "http://mbta.com/schedules_and_maps/subway/lines/stations/?stopId=15601&lat=42.325981&lng=-71.230712",
         "address": "Beacon Street at Waban Square, Newton",
         "lines": "Green Line (D)",
         "longitude": -71.231178045272827
-      },
-      {
-        "latitude": 42.327514001282481,
-        "longitude": -71.232959032058716
-      },
-      {
-        "latitude": 42.328568936789203,
-        "longitude": -71.234729290008545
       },
       {
         "latitude": 42.333684726462756,

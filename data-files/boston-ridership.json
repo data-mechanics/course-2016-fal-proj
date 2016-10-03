@@ -1,82 +1,294 @@
 [
-	{
-		"line": "Red Line",
-    	"title": "Red Line (main)",
-    	"stations": [
-    		{
-    			"title": "Alewife Station",
-    			"entries": 11221
-      		},
-      		{
-    			"title": "Davis Station",
-    			"entries": 12875
-      		},
-      		{
-    			"title": "Porter Square Station",
-    			"entries": 8850
-      		},
-      		{
-		        "title": "Harvard Square Station",
-		        "entries": 23199
-		    },
-		    {
-		        "title": "Central Station",
-		        "entries": 16525
-      		},
-      		{
-		        "title": "Kendall/MIT Station",
-		        "entries": 15433
-	      	},
-      		{
-		        "title": "Charles/Massachusetts General Hospital Station",
-		        "entries": 12065
-      		},
-      		{
-		        "title": "Park Street Station",
-		        "entries": 19653
-      		},
-      		{
-		        "title": "Downtown Crossing Station",
-		        "entries": 23478
-      		},
-      		{
-		        "title": "South Station",
-		        "entries": 25037
-      		},
-      		{
-		        "title": "Broadway Station",
-		        "entries": 5264
-      		},
-      		{
-		        "title": "Andrew Station",
-		        "entries": 6425
-      		},
-      		{
-		        "title": "JFK / UMass Station",
-		        "entries": 8920
-		    }
-		]
-    },
-    {
-    	"line": "Red Line",
-    	"title": "Red Line (Ashmont)",
-   		"stations": [
-   			{
-        		"title": "Savin Hill Station",
-		        "entries": 2440
-		    },
-      		{
-		        "title": "Fields Corner Station",
-		        "entries": 5298
-      		},
-      		{
-		        "title": "Shawmut Station",
-		        "entries": 2411
-	      	},
-	      	{
-		        "title": "Ashmont Station",
-		        "entries": 9293
-	      	}
-	      ]
-   	}
+  {
+    "line": "Red Line",
+    "title": "Red Line (main)",
+    "stations": [
+      {
+        "title": "Alewife Station",
+    		"entries": 11221
+      },
+  		{
+  			"title": "Davis Station",
+  			"entries": 12875
+  		},
+  		{
+  			"title": "Porter Square Station",
+  			"entries": 8850
+  		},
+  		{
+        "title": "Harvard Square Station",
+        "entries": 23199
+	    },
+	    {
+        "title": "Central Station",
+        "entries": 16525
+  		},
+  		{
+        "title": "Kendall/MIT Station",
+        "entries": 15433
+    	},
+  		{
+        "title": "Charles/Massachusetts General Hospital Station",
+        "entries": 12065
+  		},
+  		{
+        "title": "Park Street Station",
+        "entries": 19653
+  		},
+  		{
+        "title": "Downtown Crossing Station",
+        "entries": 23478
+  		},
+  		{
+        "title": "South Station",
+        "entries": 25037
+  		},
+  		{
+        "title": "Broadway Station",
+        "entries": 5264
+  		},
+  		{
+        "title": "Andrew Station",
+        "entries": 6425
+  		},
+  		{
+        "title": "JFK / UMass Station",
+        "entries": 8920
+      }
+    ]
+  },
+  {
+    "line": "Red Line",
+    "title": "Red Line (Ashmont)",
+   	"stations": [
+      {
+        "title": "JFK / UMass Station",
+        "entries": 8920
+      },
+ 			{
+      		"title": "Savin Hill Station",
+	        "entries": 2440
+	    },
+  		{
+        "title": "Fields Corner Station",
+        "entries": 5298
+  		},
+  		{
+        "title": "Shawmut Station",
+        "entries": 2411
+    	},
+    	{
+        "title": "Ashmont Station",
+        "entries": 9293
+    	}
+    ]
+   },
+   {
+    "line": "Red Line",
+    "title": "Red Line (Mattapan)",
+    "stations": [
+      {
+          "title": "Ashmont Station",
+          "entries": 9293
+      },
+      {
+          "title": "Cedar Grove Station",
+          "entries": 91
+      },
+      {
+        "title": "Butler Station",
+        "entries": 143
+      },
+      {
+        "title": "Milton Station",
+        "entries": 240
+      },
+      {
+        "title": "Central Avenue Station",
+        "entries": 521
+      }
+      {
+        "title": "Valley Road Station",
+        "entries": 44
+      },
+      {
+        "title": "Capen Street Station",
+        "entries": 58
+      },
+      {
+        "title": "Mattapan Station",
+        "entries": 1504
+      }
+    ]
+  },
+  {
+    "line": "Red Line",
+    "title": "Red Line (Braintree)",
+    "stations": [
+      {
+          "title": "JFK / UMass Station",
+          "entries": 8920
+      },
+      {
+          "title": "North Quincy Station",
+          "entries": 6975
+      },
+      {
+        "title": "Wollaston Station",
+        "entries": 4624
+      },
+      {
+        "title": "Quincy Center Station",
+        "entries": 8655
+      },
+      {
+        "title": "Quincy Adams Station",
+        "entries": 4785
+      }
+      {
+        "title": "Braintree Station",
+        "entries": 5122 
+      }
+    ]
+  }
+  {
+    "line": "Blue Line",
+    "title": "Blue Line",
+    "stations": [
+      {
+        "title": "Bowdoin Station",
+        "entries": 1526
+      },
+      {
+        "title": "Government Center Station",
+        "entries": 10828
+      },
+      {
+        "title": "State Station",
+        "entries": 13258
+      },
+      {
+        "title": "Aquarium Station",
+        "entries": 4776
+      },
+      {
+        "title": "Maverick Station",
+        "entries": 10106
+      },
+      {
+        "title": "(Logan) Airport Station",
+        "entries": 7429
+      },
+      {
+        "title": "Wood Island Station",
+        "entries": 2507
+      },
+      {
+        "title": "Orient Heights Station",
+        "entries": 2833
+      },
+      {
+        "title": "Suffolk Downs Station",
+        "entries": 1125
+      },
+      {
+        "title": "Beachmont Station",
+        "entries": 3045
+      },
+      {
+        "title": "Revere Beach Station",
+        "entries": 3197
+      },
+      {
+        "title": "Wonderland Station",
+        "entries": 6105
+      }
+    ]
+  }
+  {
+    "line": "Orange Line",
+    "title": "Orange Line",
+    "stations": [
+      {
+        "title": "Oak Grove Station",
+        "entries": 6590
+      },
+      {
+        "title": "Malden Center Station",
+        "entries": 12686
+      },
+      {
+        "title": "Wellington Station",
+        "entries": 7609
+      },
+      {
+        "title": "Sullivan Square Station (Broadway Exit)",
+        "entries": 10125
+      },
+      {
+        "title": "Sullivan Square Station (Cambridge Street Exit)",
+        "entries": 10125
+      },
+      {
+        "title": "Community College Station",
+        "entries": 4956
+      },
+      {
+        "title": "North Station",
+        "entries": 17079
+      },
+      {
+        "title": "Haymarket Station",
+        "entries": 11469
+      },
+      {
+        "title": "State Station",
+        "entries": 13258
+      },
+      {
+        "title": "Downtown Crossing Station",
+        "entries": 23478
+      },
+      {
+        "title": "Chinatown Station",
+        "entries": 6498
+      },
+      {
+        "title": "Tufts (formerly New England) Medical Center Station",
+        "entries": 6106
+      },
+      {
+        "title": "Back Bay Station",
+        "entries": 18100
+      },
+      {
+        "title": "Massachusetts Avenue Station (Orange)",
+        "entries": 6417
+      },
+      {
+        "title": "Ruggles Station",
+        "entries": 10433
+      },
+      {
+        "title": "Roxbury Crossing Station",
+        "entries": 4727
+      },
+      {
+        "title": "Jackson Square Station",
+        "entries": 5828
+      },
+      {
+        "title": "Stony Brook Station",
+        "entries": 3652
+      },
+      {
+        "title": "Green Street Station",
+        "entries": 3618
+      },
+      {
+        "title": "Forest Hills Station",
+        "entries": 15150
+      }
+    ]
+  }
 ]
