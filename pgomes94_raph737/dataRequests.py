@@ -1,4 +1,11 @@
-import requests, json,pprint,csv,dml, prov.model
+import requests
+import json
+import pprint
+import csv
+import dml
+import prov.model
+import datetime
+import urllib.request
 
 class dataRequests(dml.Algorithm):
 	contributor = 'pgomes94_raph737'
@@ -48,15 +55,18 @@ class dataRequests(dml.Algorithm):
 			return -1
 
 	def get_police_station_locations():
-		police_station_data = requests.get("https://data.cityofboston.gov/resource/pyxn-r3i2.json")
-		if police_station_data.status_code == 200:
+		police_station_request = requests.get("https://data.cityofboston.gov/resource/pyxn-r3i2.json")
+		if police_station_request.status_code == 200:
 			print("Successfully requested police station locations")
 			police_station_locations = {}
-			for json_data in police_station_data.json():
+			for json_data in police_station_request.json():
 				police_station_locations[json_data['name']] = (json_data['location']['coordinates'][0],json_data['location']['coordinates'][0])
-		return police_station_locations
+			return police_station_locations
+		else:
+			print("Error: Police requests failed. Status code: {}".format(police_station_request.status_code))
+			return -1
 
-	def get_mbta_stops():
+	def get_mbta_stop_locations():
 		stops = {}
 		pp = pprint.PrettyPrinter(indent=4)
 
@@ -112,14 +122,48 @@ class dataRequests(dml.Algorithm):
 
 	@staticmethod
 	def execute(trial = False):
-		#hospital_locations = get_hospital_locations()
-		#traffic_locations = get_traffic_locations()
-		#crime_locations = get_crime_locations()
-		#return some_shit
-		pass
+		startTime = datetime.datetime.now()
+
+		client = dml.pymongo.MongoClient()
+		repo = client.repo
+		repo.authenticate('pgomes94_raph737', 'pgomes94_raph737')
+
+		hospital_locations = dataRequests.get_hospital_locations()
+		print(type(hospital_locations))
+		repo.dropPermanent("hospital_locations")
+		repo.createPermanent("hospital_locations")
+		repo['pgomes94_raph737.hospital_locations'].insert_many(hospital_locations)
+		'''
+		traffic_locations = dataRequests.get_traffic_locations()
+		repo.dropPermanent("traffic_locations")
+		repo.createPermanent("traffic_locations")
+		repo['pgomes94_raph737.traffic_locations'].insert_many(traffic_locations)
+
+		crime_locations = dataRequests.crime_locations()
+		repo.dropPermanent("crime_locations")
+		repo.createPermanent("crime_locations")
+		repo['pgomes94_raph737.crime_locations'].insert_many(crime_locations)
+
+		police_station_locations = dataRequests.get_police_station_locations()
+		repo.dropPermanent("police_station_locations")
+		repo.createPermanent("police_station_locations")
+		repo['pgomes94_raph737.police_station_locations'].insert_many(police_station_locations)
+
+		
+		mbta_stop_locations = get_mbta_stop_locations()
+		repo.dropPermanent("mbta_stop_locations")
+		repo.createPermanent("mbta_stop_locations")
+		repo['pgomes94_raph737.mbta_stop_locations'].insert_many(mbta_stop_locations)
+		'''
+		repo.logout()
+
+		endTime = datetime.datetime.now()
 
 	@staticmethod
 	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
 		pass
+
+dataRequests.execute()
+#cityofboston_api_key = 'KPQpbs4UiZMCXzxGYurpLOFwA'
 
 
