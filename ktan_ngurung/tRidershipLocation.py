@@ -22,9 +22,6 @@ class example(dml.Algorithm):
         repo = client.repo
         repo.authenticate('ktan_ngurung', 'ktan_ngurung')
 
-        repo.dropPermanent("tRidershipLocation")
-        repo.createPermanent("tRidershipLocation")
-
         # Get ridership and tstop location data
         ridership = repo.ktan_ngurung.ridership.find()
         tstops = repo.ktan_ngurung.tStops.find()
