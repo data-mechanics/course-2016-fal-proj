@@ -4,6 +4,10 @@ import dml
 import prov.model
 import datetime
 import uuid
+import pandas as pd
+from pandas import Series, DataFrame
+import csv
+
 
 class example(dml.Algorithm):
     contributor = 'emilyh23_yazhang'
@@ -21,6 +25,10 @@ class example(dml.Algorithm):
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
         
         # http://bostonopendata.boston.opendata.arcgis.com/datasets/1b0717d5b4654882ae36adc4a20fd64b_0.csv
+        #### TESTING CSV TO DATAFRAME ###
+        data = pd.read_csv('http://bostonopendata.boston.opendata.arcgis.com/datasets/1b0717d5b4654882ae36adc4a20fd64b_0.csv')
+        print(data)
+
         filen = '../data/fire_hydrant.json'
         res = open(filen, 'r')
         r1 = json.load(res)
@@ -126,7 +134,7 @@ class example(dml.Algorithm):
 
 example.execute()
 doc = example.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#print(doc.get_provn())
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
