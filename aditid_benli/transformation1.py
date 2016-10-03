@@ -8,7 +8,7 @@ from bson.code import Code
 
 class transformation1(dml.Algorithm):
     contributor = 'aditid_benli'
-    reads = ['aditid_benli.jam']
+    reads = ['aditid_benli.jam', 'aditid_benli.crime']
     writes = ['aditid_benli.jamMR']
 
     @staticmethod
@@ -21,28 +21,44 @@ class transformation1(dml.Algorithm):
         repo = client.repo
         repo.authenticate('aditid_benli', 'aditid_benli')
         
+        
+        #Find number of jams per street
         map_function = Code('''function() {
-            emit(this.street, {num:1});
+            emit(this.street, {jams:1});
             }''')
         
     
         reduce_function = Code('''function(k, vs) {
             var total = 0;
             for (var i = 0; i < vs.length; i++)
-            total += vs[i].num;
-            return {street:k, num:total};
+            total += vs[i].jams;
+            return {jams:total};
             }''')
 
+        #reset resulting directory
+        repo.dropPermanent('aditid_benli.jamMR')
+        repo.createPermanent('aditid_benli.jamMR')
         
         repo.aditid_benli.jam.map_reduce(map_function, reduce_function, 'aditid_benli.jamMR');
 
-#        repo.aditid_benli.jamMR.map_reduce(map_function, reduce_function, 'aditid_benli.jamMR')
+#
+#        #Find coordinates of each street
+#        map_function = Code('''function() {
+#            emit(this.street, {jams:1});
+#            }''')
+#        
+#        
+#        reduce_function = Code('''function(k, vs) {
+#            var total = 0;
+#            for (var i = 0; i < vs.length; i++)
+#            total += vs[i].jams;
+#            return {jams:total};
+#            }''')
+#        
+#        
+#        repo.aditid_benli.jam.map_reduce(map_function, reduce_function, 'aditid_benli.jamMR');
+#        
 
-#        repo.aditid_benli.jam.map_reduce('aditid_benli.jamMR')
-
-#        mapReduce()
-
-        
         repo.logout()
 
         endTime = datetime.datetime.now()
