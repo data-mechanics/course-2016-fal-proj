@@ -11,7 +11,7 @@ class getData(dml.Algorithm):
     writes = ['bsowens_ggelinas.stations',
               'bsowens_ggelinas.incidents',
               'bsowens_ggelinas.property',
-              'bsoquitwens_ggelinas.fio',
+              'bsowens_ggelinas.fio',
               'bsowens_ggelinas.hospitals']
 
     @staticmethod
