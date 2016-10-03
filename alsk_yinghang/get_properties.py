@@ -25,22 +25,30 @@ class  get_properties(dml.Algorithm):
 
         print("Using pandas")
         df = pd.read_json(url)
-        zip = df[['location_1', 'name', 'area']]
-        zip.columns = ['location', 'name', 'area']
+        df = df[df['latitude'] != "#N/A"]
+        df = df[df['gross_tax'] != 0]
+        zip = df[['longitude', 'latitude', 'gross_tax']]
         r = json.loads(zip.to_json(orient='records'))
+        new = []
+        for obj in r:
+            loc = {
+                "type": "Point",
+                "coordinates": [float(obj['longitude']), float(obj['latitude'])]
+            }
+            obj['location'] = loc
+            new.append(obj)
         # response = urllib.request.urlopen(url).read().decode("utf-8")
         # r1 = json.loads(response)
         # s = json.dumps(r, sort_keys=True, indent=2)
 
         # print(r1)
+        print("Print result")
         print(r)
         repo.dropPermanent("properties")
         repo.createPermanent("properties")
-        repo['alsk_yinghang.properties'].ensure_index([("location", dml.pymongo.GEOSPHERE)])
-        print("Dataframe")
-        print(df)
+        repo['alsk_yinghang.properties'].ensure_index([('location', dml.pymongo.GEOSPHERE)])
         print("Trying to add to DB")
-        repo['alsk_yinghang.properties'].insert_many(r)
+        repo['alsk_yinghang.properties'].insert_many(new)
 
         repo.logout()
 
