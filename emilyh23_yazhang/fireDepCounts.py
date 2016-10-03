@@ -55,9 +55,7 @@ class example(dml.Algorithm):
         # list of districts
         districts = ['1','12','11','3','4','6','7','8','9']
         
-        # fireDepByDis is a list of dictionaries for each district and the frequencies of fire department requests in each districT
-        # REDUCE
-        
+        # fireDepByDis is a list of dictionaries of fire department incidents requests grouped by district        
         fireDepByDis = [{d: []} for d in districts]
         for dic in fireDep:
             if (dic['District'] == '1'):
@@ -79,7 +77,7 @@ class example(dml.Algorithm):
             elif (dic['District'] == '9'):
                 fireDepByDis[8]['9'].append(dic) 
 
-        # number of fire department incidents per district
+        # REDUCE: number of fire department incident requests per district
         fireDepCounts = [{d: 0} for d in districts]
         for dic in fireDepByDis:
             for k, v in dic.items():
