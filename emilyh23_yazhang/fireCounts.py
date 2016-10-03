@@ -67,7 +67,6 @@ class example(dml.Algorithm):
         for dic in r5:
             if (dic['FIELD8'] == 'Fire Department'):
                 new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
-                #new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
                 fireDep.append(new_dic)
             elif (dic['FIELD8'] == 'Fire in Food Establishment'):
                 new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}

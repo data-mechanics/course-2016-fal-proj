@@ -67,7 +67,6 @@ class example(dml.Algorithm):
         for dic in r5:
             if (dic['FIELD8'] == 'Fire Department'):
                 new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
-                #new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
                 fireDep.append(new_dic)
             elif (dic['FIELD8'] == 'Fire in Food Establishment'):
                 new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
@@ -82,7 +81,7 @@ class example(dml.Algorithm):
         # list of districts
         districts = ['1','12','11','3','4','6','7','8','9']
         
-        # fireHydrantByDis is a list of dictionaries for each district and the frequencies of fire in each districT
+        # fireHydrantByDis is a list of dictionaries for each district and the frequencies of fire hydrant repair incidents in each district
         # REDUCE
         fireHydrantByDis = [{d: []} for d in districts]
         for dic in fireHydrant:
@@ -164,7 +163,7 @@ class example(dml.Algorithm):
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
-        doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/') # boston open data
+        #doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/') # boston open data
 
         this_script = doc.agent('alg:hydrantCounts', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         Fire_311_Service_Requests = doc.entity('dat:Fire_311_Service_Requests', {prov.model.PROV_LABEL:'Fire_311_Service_Requests', prov.model.PROV_TYPE:'ont:DataSet'})
