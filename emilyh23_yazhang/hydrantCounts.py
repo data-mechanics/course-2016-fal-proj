@@ -51,8 +51,7 @@ class example(dml.Algorithm):
         # list of districts
         districts = ['1','12','11','3','4','6','7','8','9']
         
-        # fireHydrantByDis is a list of dictionaries for each district and the frequencies of fire hydrant repair incidents in each district
-        # REDUCE
+        # fireHydrantByDis is a list of dictionaries of fire hydrant repair incidents grouped by district
         fireHydrantByDis = [{d: []} for d in districts]
         for dic in fireHydrant:
             if (dic['District'] == '1'):
@@ -76,8 +75,8 @@ class example(dml.Algorithm):
         
         #s = json.dumps(fireHydrantByDis, sort_keys=True, indent=2)
         #print(s)
-
-        #number of fire hydrant repairs by district
+        
+        # REDUCE: number of fire hydrant repairs by district
         fireHydrantCount = [{d: 0} for d in districts]
         for dic in fireHydrantByDis:
             for k, v in dic.items():
