@@ -106,7 +106,7 @@
       {
         "title": "Central Avenue Station",
         "entries": 521
-      }
+      },
       {
         "title": "Valley Road Station",
         "entries": 44
@@ -144,13 +144,13 @@
       {
         "title": "Quincy Adams Station",
         "entries": 4785
-      }
+      },
       {
         "title": "Braintree Station",
         "entries": 5122 
       }
     ]
-  }
+  },
   {
     "line": "Green Line",
     "title": "Green Line (main)",
@@ -470,7 +470,7 @@
         "entries": 820
       }
     ]
-  }
+  },
   {
     "line": "Blue Line",
     "title": "Blue Line",
@@ -524,7 +524,7 @@
         "entries": 6105
       }
     ]
-  }
+  },
   {
     "line": "Orange Line",
     "title": "Orange Line",
@@ -610,7 +610,7 @@
         "entries": 15150
       }
     ]
-  }
+  },
   {
     "line": "Silver Line",
     "title": "Silver Line (SL1, SL2)",
@@ -632,7 +632,7 @@
         "entries": 870
       }
     ]
-  }
+  },
   {
     "line": "Silver Line",
     "title": "Silver Line (SL1, SL2)",
@@ -646,7 +646,7 @@
         "entries": 2268
       }
     ]
-  }
+  },
   {
     "line": "Silver Line",
     "title": "Silver Line (SL4, SL5)",
@@ -696,7 +696,7 @@
         "entries": 3826
       }
     ]
-  }
+  },
   {
     "line": "Commuter Rail",
     "title": "Commuter Rail (Fairmount Line)",
@@ -1257,7 +1257,6 @@
         "entries": 207
       },
       {
-
         "title": "Prides Crossing",
         "entries": 20
       },
@@ -1270,7 +1269,7 @@
         "entries": 2058
       }
     ]
-  }
+  },
   {
     "line": "Commuter Rail",
     "title": "Commuter Rail (Newburyport)",
@@ -1300,7 +1299,7 @@
         "entries": 2058
       }
     ]
-  }
+  },
   {
     "line": "Commuter Rail",
     "title": "Commuter Rail (Providence, Stoughton)",
@@ -1318,7 +1317,7 @@
         "entries": 148
       }
     ]
-  }
+  },
   {
     "line": "Commuter Rail",
     "title": "Commuter Rail (Providence, Stoughton)",
@@ -1348,7 +1347,7 @@
         "entries": 1008
       }
     ]
-  }
+  },
   {
     "line": "Commuter Rail",
     "title": "Commuter Rail (Stoughton)",
@@ -1366,7 +1365,7 @@
         "entries": 1008
       }
     ]
-  }
+  },
   {
     "line": "Commuter Rail",
     "title": "Commuter Rail (Kingston/Plymouth)",
@@ -1404,7 +1403,7 @@
         "entries": 72
       }
     ]
-  }
+  },
   {
     "line": "Commuter Rail",
     "title": "Commuter Rail (Kingston/Plymouth, Middleborough/Lakeville)",
@@ -1418,7 +1417,7 @@
         "entries": 87
       }
     ]
-  }
+  },
   {
     "line": "Commuter Rail",
     "title": "Commuter Rail (Middleborough/Lakeville)",

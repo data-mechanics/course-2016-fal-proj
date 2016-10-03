@@ -4,7 +4,6 @@ import dml
 import prov.model
 import datetime
 import uuid
-import os
 
 class example(dml.Algorithm):
     contributor = 'ktan_ngurung'
@@ -61,6 +60,14 @@ class example(dml.Algorithm):
         repo.createPermanent("tStops")
         repo['ktan_ngurung.tStops'].insert_many(r4)
 
+        url = 'https://raw.githubusercontent.com/ktango/course-2016-fal-proj/master/data-files/boston-ridership.json'
+        response = urllib.request.urlopen(url).read().decode('utf-8')
+        r5 = json.loads(response)
+        s5 = json.dumps(r5, sort_keys=True, indent=2)
+        repo.dropPermanent("ridership")
+        repo.createPermanent("ridership")
+        repo['ktan_ngurung.ridership'].insert_many(r5)
+
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -87,25 +94,29 @@ class example(dml.Algorithm):
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
         doc.add_namespace('ods', 'https://boston.opendatasoft.com/api/records/1.0/search/?dataset=')
         doc.add_namespace('ede', 'http://erikdemaine.org/maps/')
+        doc.add_namespace('mbt', 'http://www.mbta.com/about_the_mbta/document_library/')
 
         this_script = doc.agent('alg:ktan_ngurung#landmarkLocations', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         bigBelly_resource = doc.entity('bdp:42qi-w8d7', {'prov:label':'Big Belly Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         colleges_resource = doc.entity('ods:colleges-and-universities', {'prov:label':'Colleges and Universities', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         hubways_resource = doc.entity('ods:hubway-stations-in-boston', {'prov:label':'Hubway Stations in Boston', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         busStops_resource = doc.entity('ods:mbta-bus-stops&facet=town', {'prov:label':'MBTA Bus Stops', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        tStops_resource = doc.entity('ede:mbta', {'prov:label':'T-Stop Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        tStops_resource = doc.entity('ede:mbta', {'prov:label':'T-Stop Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'yaml'})
+        ridership_resource = doc.entity('mbt:?search=blue+book&submit_document_search=Search+Library', {'prov:label':'Boston 2014 Bluebook', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'pdf'})
 
         get_bigBelly = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_colleges = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_hubways = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_busStops = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_tStops = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_ridership = doc.activity('log:uuid'+st(uuid.uuid4()), startTime, endTime)
        
         doc.wasAssociatedWith(get_bigBelly, this_script)
         doc.wasAssociatedWith(get_colleges, this_script)
         doc.wasAssociatedWith(get_hubways, this_script)
         doc.wasAssociatedWith(get_busStops, this_script)
         doc.wasAssociatedWith(get_tStops, this_script)
+        doc.wasAssociatedWith(get_ridership, this_script)
 
         doc.usage(get_bigBelly, bigBelly_resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
@@ -124,6 +135,10 @@ class example(dml.Algorithm):
             )
 
         doc.usage(get_tStops, tStops_resource, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval'}
+            )
+
+        doc.usage(get_ridership, ridership_resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
@@ -151,6 +166,11 @@ class example(dml.Algorithm):
         doc.wasAttributedTo(tStops, this_script)
         doc.wasGeneratedBy(tStops, get_tStops, endTime)
         doc.wasDerivedFrom(tStops, tStops_resource, get_tStops, get_tStops, get_tStops)
+
+        ridership = doc.entity('dat:ktan_ngurung#ridership', {prov.model.PROV_LABEL:'Boston T Ridership Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(ridership, this_script)
+        doc.wasGeneratedBy(ridership, get_ridership, endTime)
+        doc.wasDerivedFrom(ridership, ridership_resource, get_ridership, get_ridership, get_ridership)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
