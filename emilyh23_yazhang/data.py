@@ -42,11 +42,11 @@ class example(dml.Algorithm):
         f=open("../data/fire_hydrant_new.csv", 'r')
         csv_reader = csv.DictReader(f)
         
-        json_filename = "../data/fire_hydrant_new.json"
-        jsonWriter = open(json_filename,'w') 
+        json_filename_1 = "../data/fire_hydrant_new.json"
+        jsonWriter_1 = open(json_filename_1,'w') 
         dataJson = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader]) + "\n]"
-        jsonWriter.write(dataJson)
-        jsonWriter.close()
+        jsonWriter_1.write(dataJson)
+        jsonWriter_1.close()
         
         filen = '../data/fire_hydrant.json'
         res = open(filen, 'r')
@@ -63,19 +63,19 @@ class example(dml.Algorithm):
 
         # saving the csv to data folder
         lines = csvstr.split("\\n")
-        d = open("../data/fire_boxes_new.csv", "w")
+        d2 = open("../data/fire_boxes_new.csv", "w")
         for line in lines:
-            d.write(line + "\n")
+            d2.write(line + "\n")
                     
         # parsing the new csv to get json file
-        f=open("../data/fire_boxes_new.csv", 'r')
-        csv_reader = csv.DictReader(f)
+        f2=open("../data/fire_boxes_new.csv", 'r')
+        csv_reader = csv.DictReader(f2)
         
-        json_filename = "../data/fire_boxes_new.json"
-        jsonWriter = open(json_filename,'w') 
-        dataJson = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader]) + "\n]"
-        jsonWriter.write(dataJson)
-        jsonWriter.close()        
+        json_filename_2 = "../data/fire_boxes_new.json"
+        jsonWriter_2 = open(json_filename_2,'w') 
+        dataJson_2 = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader]) + "\n]"
+        jsonWriter_2.write(dataJson_2)
+        jsonWriter_2.close()        
         
         filen = '../data/fire_boxes.json'
         res = open(filen, 'r')
@@ -94,19 +94,19 @@ class example(dml.Algorithm):
 
         # saving the csv to data folder
         lines = csvstr.split("\\n")
-        d = open("../data/fire_departments_new.csv", "w")
+        d3 = open("../data/fire_departments_new.csv", "w")
         for line in lines:
-            d.write(line + "\n")
+            d3.write(line + "\n")
                     
         # parsing the new csv to get json file
-        f=open("../data/fire_departments_new.csv", 'r')
-        csv_reader = csv.DictReader(f)
+        f3=open("../data/fire_departments_new.csv", 'r')
+        csv_reader = csv.DictReader(f3)
         
-        json_filename = "../data/fire_departments_new.json"
-        jsonWriter = open(json_filename,'w') 
-        dataJson = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader]) + "\n]"
-        jsonWriter.write(dataJson)
-        jsonWriter.close()              
+        json_filename_3 = "../data/fire_departments_new.json"
+        jsonWriter_3 = open(json_filename_3,'w') 
+        dataJson_3 = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader]) + "\n]"
+        jsonWriter_3.write(dataJson_3)
+        jsonWriter_3.close()              
         
         filen = '../data/fire_departments.json'
         res = open(filen, 'r')
@@ -123,19 +123,19 @@ class example(dml.Algorithm):
 
         # saving the csv to data folder
         lines = csvstr.split("\\n")
-        d = open("../data/fire_districts_new.csv", "w")
+        d4 = open("../data/fire_districts_new.csv", "w")
         for line in lines:
-            d.write(line + "\n")
+            d4.write(line + "\n")
                     
         # parsing the new csv to get json file
-        f=open("../data/fire_districts_new.csv", 'r')
-        csv_reader = csv.DictReader(f)
+        f4=open("../data/fire_districts_new.csv", 'r')
+        csv_reader = csv.DictReader(f4)
         
-        json_filename = "../data/fire_districts_new.json"
-        jsonWriter = open(json_filename,'w') 
-        dataJson = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader]) + "\n]"
-        jsonWriter.write(dataJson)
-        jsonWriter.close()              
+        json_filename_4 = "../data/fire_districts_new.json"
+        jsonWriter_4 = open(json_filename_4,'w') 
+        dataJson_4 = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader]) + "\n]"
+        jsonWriter_4.write(dataJson_4)
+        jsonWriter_4.close()              
         
         filen = '../data/fire_districts.json'
         res = open(filen, 'r')
@@ -143,7 +143,29 @@ class example(dml.Algorithm):
         repo.dropPermanent("fireDistricts")
         repo.createPermanent("fireDistricts")
         repo['emilyh23_yazhang.fireDistricts'].insert_many(r4)         
-        #
+        
+        # fetching the csv 
+        response = request.urlopen('https://data.cityofboston.gov/api/views/m3cw-fv46/rows.csv?accessType=DOWNLOAD&bom=true')
+        data = response.read()
+        # Save the string to a file
+        csvstr = str(data).strip("b'")
+
+        # saving the csv to data folder
+        lines = csvstr.split("\\n")
+        d5 = open("../data/Fire_311_Requests_new.csv", "w")
+        for line in lines:
+            d5.write(line + "\n")
+                    
+        # parsing the new csv to get json file
+        f5=open("../data/Fire_311_Requests_new.csv", 'r')
+        csv_reader = csv.DictReader(f5)
+        
+        json_filename_5 = "../data/Fire_311_Requests_new.json"
+        jsonWriter_5 = open(json_filename_5,'w') 
+        dataJson_5 = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader]) + "\n]"
+        jsonWriter_5.write(dataJson_5)
+        jsonWriter_5.close()              
+        
         filen = '../data/Fire_311_Service_Requests.json'
         res = open(filen, 'r')
         r5 = json.load(res)
