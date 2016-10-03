@@ -6,13 +6,9 @@ import datetime
 import uuid
 
 class example(dml.Algorithm):
-    #contributor = 'alice_bob'
-    #reads = []
-    #writes = ['alice_bob.lost', 'alice_bob.found']
-    
     contributor = 'emilyh23_yazhang'
     reads = []
-    writes = ['emilyh23_yazhang.lost', 'emilyh23_yazhang.found']    
+    writes = ['emilyh23_yazhang.Fire_311_Service_Requests']    
     
     @staticmethod
     def execute(trial = False):
@@ -22,8 +18,8 @@ class example(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        #repo.authenticate('alice_bob', 'alice_bob')
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
+        
         '''
         filen = '../data/fire_hydrant.json'
         res = open(filen, 'r')
@@ -51,18 +47,18 @@ class example(dml.Algorithm):
         r4 = json.load(res)
         repo.dropPermanent("fireDistricts")
         repo.createPermanent("fireDistricts")
-        repo['emilyh23_yazhang.fireDistricts'].insert_many(r4)         
+        repo['emilyh23_yazhang.fireDistricts'].insert_many(r4)
         '''
-        
+    
         filen = '../data/Fire_311_Service_Requests.json'
         res = open(filen, 'r')
         r5 = json.load(res)
         repo.dropPermanent("Fire_311_Service_Requests")
         repo.createPermanent("Fire_311_Service_Requests")
-        repo['emilyh23_yazhang.Fire_311_Service_Requests'].insert_many(r5) 
+        repo['emilyh23_yazhang.Fire_311_Service_Requests'].insert_many(r5)
         
+
         # MAPPING: creates lists of dictionaries that contains fire incidents by category, their districts, and their ontime/delay status, and their lat/long
-    
         fireDep = []
         fire = []
         fireHydrant = []
@@ -71,6 +67,7 @@ class example(dml.Algorithm):
         for dic in r5:
             if (dic['FIELD8'] == 'Fire Department'):
                 new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
+                #new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
                 fireDep.append(new_dic)
             elif (dic['FIELD8'] == 'Fire in Food Establishment'):
                 new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
@@ -87,7 +84,6 @@ class example(dml.Algorithm):
         
         # fireByDis is a list of dictionaries for each district and the frequencies of fire in each districT
         # REDUCE
-        
         fireByDis = [{d: []} for d in districts]
         for dic in fire:
             if (dic['District'] == '1'):
@@ -111,7 +107,6 @@ class example(dml.Algorithm):
         
         #s = json.dumps(fireByDis, sort_keys=True, indent=2)
         #print(s)
-
         disFireCount = [{d: 0} for d in districts]
         for dic in fireByDis:
             for k, v in dic.items():
@@ -134,17 +129,19 @@ class example(dml.Algorithm):
                 if (k=='9'):
                     disFireCount[8]['9'] = {'count':len(dic[k]), 'Type': 'Fire'}
         
+        #s = json.dumps(r, sort_keys=True, indent=2)
+        #print(s)
+
         repo.dropPermanent("fireCounts")
         repo.createPermanent("fireCounts")
-        repo['emilyh23_yazhang.fireCounts'].insert_many(disFireCount) 
-                    
-        #s = json.dumps(x, sort_keys=True, indent=2)
-        #print(s)
+        repo['emilyh23_yazhang.fireCounts'].insert_many(disFireCount)
+    
         repo.logout()
 
         endTime = datetime.datetime.now()
 
         return {"start":startTime, "end":endTime}
+    
     
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -157,11 +154,8 @@ class example(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        #repo.authenticate('alice_bob', 'alice_bob')
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
         
-        #doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
-        #doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/emilyh23_yazhang') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/emilyh23_yazhang') # The data sets are in <user>#<collection> format.
         
@@ -176,36 +170,17 @@ class example(dml.Algorithm):
         this_run = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation', 'ont:Query':'?accessType=DOWNLOAD'})
         doc.wasAssociatedWith(this_run, this_script)
         doc.used(this_run, resource, startTime)
-        '''
-        fireDistricts = doc.entity('dat:fireDistricts', {prov.model.PROV_LABEL:'fireDistricts', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(fireDistricts, this_script)
-        doc.wasGeneratedBy(fireDistricts, this_run, endTime)
-        doc.wasDerivedFrom(fireDistricts, resource, this_run, this_run, this_run)
         
-        fireDepartments = doc.entity('dat:fireDepartments', {prov.model.PROV_LABEL:'fireDepartments', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(fireDepartments, this_script)
-        doc.wasGeneratedBy(fireDepartments, this_run, endTime)
-        doc.wasDerivedFrom(fireDepartments, resource, this_run, this_run, this_run)
-        
-        fireBoxes = doc.entity('dat:fireBoxes', {prov.model.PROV_LABEL:'fireBoxes', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(fireBoxes, this_script)
-        doc.wasGeneratedBy(fireBoxes, this_run, endTime)
-        doc.wasDerivedFrom(fireBoxes, resource, this_run, this_run, this_run)  
-        
-        fireHydrants = doc.entity('dat:fireHydrants', {prov.model.PROV_LABEL:'fireHydrants', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(fireHydrants, this_script)
-        doc.wasGeneratedBy(fireHydrants, this_run, endTime)
-        doc.wasDerivedFrom(fireHydrants, resource, this_run, this_run, this_run)   
-        '''
         fireRequest = doc.entity('dat:fireRequest', {prov.model.PROV_LABEL:'fireRequest', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(fireRequest, this_script)
         doc.wasGeneratedBy(fireRequest, this_run, endTime)
-        doc.wasDerivedFrom(fireRequest, resource, this_run, this_run, this_run)  
+        doc.wasDerivedFrom(fireRequest, resource, this_run, this_run, this_run)
         
+        #New map-reduced dataset
         fireCounts = doc.entity('dat:fireCounts', {prov.model.PROV_LABEL:'fireCounts', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(fireCounts, this_script)
         doc.wasGeneratedBy(fireCounts, this_run, endTime)
-        doc.wasDerivedFrom(fireCounts, resource, this_run, this_run, this_run)  
+        doc.wasDerivedFrom(fireCounts, resource, this_run, this_run, this_run)
         
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
