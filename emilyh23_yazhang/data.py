@@ -77,10 +77,8 @@ class example(dml.Algorithm):
         repo.dropPermanent("Fire_311_Service_Requests")
         repo.createPermanent("Fire_311_Service_Requests")
         repo['emilyh23_yazhang.Fire_311_Service_Requests'].insert_many(r5) 
-        
-        #r5, r2
     
-        # filtering: creates a new list of dictionaries that contain just fire incidents, their districts, and their ontime/delay status
+        # filtering: creates lists of dictionaries that contains fire incidents by category, their districts, and their ontime/delay status, and their lat/long
     
         fireDep = []
         fire = []
@@ -102,41 +100,70 @@ class example(dml.Algorithm):
                 new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'],'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
                 fireHydrant.append(new_dic)
         
+        # list of districts
+        districts = ['1','12','11','3','4','6','7','8','9']
         
-        s = json.dumps(fire, sort_keys=True, indent=2)
-        #print(s)
-        districts = ['999' ,'1','12','11','3','4','6','7','8','9']
-        
-        
+        # fireByDis is a list of dictionaries for each district and the frequencies of fire in each districT
+        # REDUCE
         fireByDis = [{d: []} for d in districts]
-        #fireByDis = {}
-        print(fireByDis)
-        #v = {'type': 'fire'}
         for dic in fire:
-            if (dic['District'] == '999'):
-                fireByDis[0]['999'].append(dic) 
-            elif (dic['District'] == '1'):
-                fireByDis[1]['1'].append(dic) 
+            if (dic['District'] == '1'):
+                fireByDis[0]['1'].append(dic) 
             elif (dic['District'] == '12'):
-                fireByDis[2]['12'].append(dic) 
+                fireByDis[1]['12'].append(dic) 
             elif (dic['District'] == '11'):
-                fireByDis[3]['11'].append(dic) 
+                fireByDis[2]['11'].append(dic) 
             elif (dic['District'] == '3'):
-                fireByDis[4]['3'].append(dic)
+                fireByDis[3]['3'].append(dic)
             elif (dic['District'] == '4'):
-                fireByDis[5]['4'].append(dic) 
+                fireByDis[4]['4'].append(dic) 
             elif (dic['District'] == '6'):
-                fireByDis[6]['6'].append(dic) 
+                fireByDis[5]['6'].append(dic) 
             elif (dic['District'] == '7'):
-                fireByDis[7]['7'].append(dic) 
+                fireByDis[6]['7'].append(dic) 
             elif (dic['District'] == '8'):
-                fireByDis[8]['8'].append(dic) 
+                fireByDis[7]['8'].append(dic) 
             elif (dic['District'] == '9'):
-                fireByDis[9]['9'].append(dic) 
-        s = json.dumps(fireByDis, sort_keys=True, indent=2)
-        print(s)
-        #fireByDis[0]['District empty'] = {'type Fire': 0, 'type dep': 0}
+                fireByDis[8]['9'].append(dic) 
         
+        #s = json.dumps(fireByDis, sort_keys=True, indent=2)
+        #print(s)
+        
+        # reducing the 
+        disFireCount = [{d: 0} for d in districts]
+        for dic in fireByDis:
+            for k, v in dic.items():
+                if (k=='1'):
+                    disFireCount[0]['1'] = len(dic['1'])
+                if (k=='12'):
+                    disFireCount[1]['12'] = len(dic['12'])
+                if (k=='11'):
+                    disFireCount[2]['11'] = len(dic['11'])
+                if (k=='3'):
+                    disFireCount[3]['3'] = len(dic['3'])
+                if (k=='4'):
+                    disFireCount[4]['4'] = len(dic['4'])
+                if (k=='6'):
+                    disFireCount[5]['6'] = len(dic['6'])
+                if (k=='7'):
+                    disFireCount[6]['7'] = len(dic['7'])
+                if (k=='8'):
+                    disFireCount[7]['8'] = len(dic['8'])
+                if (k=='9'):
+                    disFireCount[8]['9'] = len(dic['9'])
+                    
+        print(disFireCount)
+        #print(disFireCount)
+        #print(fireByDis)
+        #for dic in disFireCount:
+            
+            #for k,v in dic.items():
+             #   if fireByDis
+            
+             #   disFireCount[0]['1'] = (len(dic))
+        
+        #s = json.dumps(disFireCount, sort_keys=True, indent=2)
+        #print(s)
         repo.logout()
 
         endTime = datetime.datetime.now()
