@@ -42,7 +42,7 @@ class example(dml.Algorithm):
                 for station in docDict2['stations']:
                     if station['title'] in entries:
                         station['entries'] = entries[station['title']]
-                        res = repo.ktan_ngurung.tStops.insert_one(station)
+                        res = repo.ktan_ngurung.ridershipLocation.insert_one(station)
             # KeyError occurs when end of dataset is reached, so pass
             except KeyError:
                 pass

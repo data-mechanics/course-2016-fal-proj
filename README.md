@@ -1,76 +1,25 @@
-# course-2016-fal-proj
-Project repository for the course project in the Fall 2016 iteration of the Data Mechanics course at Boston University.
-
-In this project, you will implement platform components that can obtain a some data sets from web services of your choice, and platform components that combine these data sets into at least two additional derived data sets. These components will interct with the backend repository by inserting and retrieving data sets as necessary. They will also satisfy a standard interface by supporting specified capabilities (such as generation of dependency information and provenance records).
-
-**This project description will be updated as we continue work on the infrastructure.**
-
-## MongoDB infrastructure
-
-### Setting up
-
-We have committed setup scripts for a MongoDB database that will set up the database and collection management functions that ensure users sharing the project data repository can read everyone's collections but can only write to their own collections. Once you have installed your MongoDB instance, you can prepare it by first starting `mongod` _without authentication_:
-```
-mongod --dbpath "<your_db_path>"
-```
-If you're setting up after previously running `setup.js`, you may want to reset (i.e., delete) the repository as follows.
-```
-mongo reset.js
-```
-Next, make sure your user directories (e.g., `alice_bob` if Alice and Bob are working together on a team) are present in the same location as the `setup.js` script, open a separate terminal window, and run the script:
-```
-mongo setup.js
-```
-Your MongoDB instance should now be ready. Stop `mongod` and restart it, enabling authentication with the `--auth` option:
-```
-mongod --auth --dbpath "<your_db_path>"
-```
-
-### Working on data sets with authentication
-
-With authentication enabled, you can start `mongo` on the repository (called `repo` by default) with your user credentials:
-```
-mongo repo -u alice_bob -p alice_bob --authenticationDatabase "repo"
-```
-However, you should be unable to create new collections using `db.createCollection()` in the default `repo` database created for this project:
-```
-> db.createCollection("EXAMPLE");
-{
-  "ok" : 0,
-  "errmsg" : "not authorized on repo to execute command { create: \"EXAMPLE\" }",
-  "code" : 13
-}
-```
-Instead, load the server-side functions so that you can use the customized `createTemp()` or `createPerm()` functions, which will create collections that can be read by everyone but written only by you:
-```
-> db.loadServerScripts();
-> var EXAMPLE = createPerm("EXAMPLE");
-```
-Notice that this function also prefixes the user name to the name of the collection (unless the prefix is already present in the name supplied to the function).
-```
-> EXAMPLE
-alice_bob.EXAMPLE
-> db.alice_bob.EXAMPLE.insert({value:123})
-WriteResult({ "nInserted" : 1 })
-> db.alice_bob.EXAMPLE.find()
-{ "_id" : ObjectId("56b7adef3503ebd45080bd87"), "value" : 123 }
-```
-For temporary collections that are only necessary during intermediate steps of of a computation, use `createTemp()`; for permanent collections that represent data that is imported or derived, use `createPerm()`.
-
-If you do not want to run `db.loadServerScripts()` every time you open a new terminal, you can use a `.mongorc.js` file in your home directory to store any commands or calls you want issued whenever you run `mongo`.
-
-## Other required libraries and tools
-
-You will need the latest versions of the PROV and DML Python libraries. If you have `pip` installed, the following should install the latest versions automatically:
-```
-pip install prov --upgrade --no-cache-dir
-pip install dml --upgrade --no-cache-dir
-```
-If you are having trouble with `lxml`, you could try retrieving it [here](http://www.lfd.uci.edu/~gohlke/pythonlibs/).
-
 # Project #1 Narrative (Question 2a)
 ### *by Nisa Gurung and Kristel Tan* 
 
-Companies spend millions of dollars on advertisements every year; hence why it is important to place them in locations where the advertisements will have the most impact on consumers. Accomplishing this not only helps businesses, but also reaps benefits for any given city. Eliminating ineffective advertisements can minimize waste while increasing competition for the best ad placements can also help boost a city’s economy. With that said, five publicly available data sets that we will use to help determine the most effective ad placements in the city of Boston include MBTA Bus and T Stops, Year 2014 Bluebook 14th Edition, Big Belly Locations, College/University Locations, and Hubway Locations. 
+Companies spend millions of dollars on advertisements every year; hence why it is important to place them in locations where the advertisements will have the most impact on consumers. Accomplishing this not only helps businesses, but also reaps benefits for any given city. Eliminating ineffective advertisements can minimize waste while increasing competition for the best ad placements can also help boost a city’s economy. With that said, five publicly available data sets that we will use to help determine the most effective ad placements in the city of Boston include [MBTA Bus](https://boston.opendatasoft.com/explore/dataset/mbta-bus-stops/)and [T Stops](http://erikdemaine.org/maps/mbta/mbta.yaml), [Year 2014 Bluebook 14th Edition](http://www.mbta.com/uploadedfiles/documents/2014%20BLUEBOOK%2014th%20Edition.pdf), [Big Belly Locations](https://data.cityofboston.gov/City-Services/Big-Belly-Locations/42qi-w8d7), [College/University Locations](https://boston.opendatasoft.com/explore/dataset/colleges-and-universities/), and [Hubway Locations](https://boston.opendatasoft.com/explore/dataset/hubway-stations-in-boston/). 
 
 Each of these data sets support our main focus of research in some way by looking at existing physical forms of advertisements around Boston. MBTA Bus and T stops, Big Belly garbage cans, colleges, and hubway stations are all relevant and frequently encountered placements for these ads. We will first attempt to count the number of these landmarks within a given vicinity. Then, we will use information from the Bluebook to identify how densly populated and frequently visited those areas are based on T-stop ridership. 
+
+## Retrieval Script (Question 2b)
+
+The file titled `landmarkLocations.py` will retrieve our intial datasets mentioned above. To run the file:
+```
+>>> python landmarkLocations.py
+```
+
+## Transformation Scripts (Question 2c)
+
+We performed three transformations as follows on our datasets.
+
+1. Transformation 1
+
+...This transformation T-stop names, locations, and number of entries into a new collection called ridershipLocation. To run the file:
+```
+>>> python tRidershipLocation.py
+```
+
