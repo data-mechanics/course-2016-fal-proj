@@ -30,6 +30,12 @@ with no city, state, zipcode, or coordinates, and retrieves the coordinates from
 Google Geocoding API. Although this only uses one dataset, we considered it to be 
 non-trivial because it uses an external API.
 
+>Note: this API's free tier has a daily usage limit of 2,500 requests. We saw no way around this. The algorithm is 
+robust, but will only process 2,500/~175000 entries.
+https://piazza.com/class/isdz3gb33t34uh?cid=45
+
+>Note 2: it seemed futile to try and somehow encode an API key in an auth.json without knowing the format. You will need a valid Google Geocoding API key in order to run this. You can try ours ("AIzaSyA8VYW_KUzsrG_1d1ow7_fql6wxRNvq5O8") but we know this could be scraped from github and maxed out.
+
 ####alg1.py (geojson encoder!)
 
 >This method takes whatever location data is associated with the entries in all 5 datasets
