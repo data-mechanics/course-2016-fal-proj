@@ -58,7 +58,35 @@ class  get_properties(dml.Algorithm):
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-        return
+        client =  dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('alsk_yinghang', 'alsk_yinghang')
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:alsk_yinghang#get_properties', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource = doc.entity('bdp:g5b5-xrwi', {'prov:label':'Property Assessment', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_run = doc.activity(
+            'log:a'+str(uuid.uuid4()), startTime, endTime,
+            {prov.model.PROV_TYPE:'ont:Retrieval'}
+        )
+        doc.wasAssociatedWith(this_run, this_script)
+        doc.used(this_run, resource, startTime)
+
+        property_assessment = doc.entity('dat:alsk_yinghhang#property_assessment', {prov.model.PROV_LABEL:'Property Assessment', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(property_assessment, this_script)
+        doc.wasGeneratedBy(property_assessment, this_run, endTime)
+        doc.wasDerivedFrom(property_assessment, resource, this_run, this_run, this_run)
+
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
 
 get_properties.execute()
+doc = get_properties.provenance()
 print("DONE!!!!!!!!")

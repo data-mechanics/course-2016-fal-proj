@@ -50,7 +50,35 @@ class  get_lights(dml.Algorithm):
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-        return
+        client =  dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('alsk_yinghang', 'alsk_yinghang')
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:alsk_yinghang#get_lights', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource = doc.entity('bdp:fbdp-b7et', {'prov:label':'Streetlight Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_run = doc.activity(
+            'log:a'+str(uuid.uuid4()), startTime, endTime,
+            {prov.model.PROV_TYPE:'ont:Retrieval'}
+        )
+        doc.wasAssociatedWith(this_run, this_script)
+        doc.used(this_run, resource, startTime)
+
+        streetlight_locations = doc.entity('dat:alsk_yinghhang#streetlight_locations', {prov.model.PROV_LABEL:'Streetlight locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(streetlight_locations, this_script)
+        doc.wasGeneratedBy(streetlight_locations, this_run, endTime)
+        doc.wasDerivedFrom(streetlight_locations, resource, this_run, this_run, this_run)
+
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
 
 get_lights.execute()
+doc = get_properties.provenance()
 print("DONE!!!!!!!!")
