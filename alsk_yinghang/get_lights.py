@@ -60,8 +60,14 @@ class  get_lights(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:alsk_yinghang#get_lights', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:fbdp-b7et', {'prov:label':'Streetlight Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_script = doc.agent(
+            'alg:alsk_yinghang#get_lights', 
+            {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'}
+        )
+        resource = doc.entity(
+            'bdp:fbdp-b7et', 
+            {'prov:label':'Streetlight Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'}
+        )
         this_run = doc.activity(
             'log:a'+str(uuid.uuid4()), startTime, endTime,
             {prov.model.PROV_TYPE:'ont:Retrieval'}
@@ -80,5 +86,7 @@ class  get_lights(dml.Algorithm):
         return doc
 
 get_lights.execute()
-doc = get_properties.provenance()
+doc = get_lights.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 print("DONE!!!!!!!!")

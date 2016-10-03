@@ -89,4 +89,6 @@ class  get_properties(dml.Algorithm):
 
 get_properties.execute()
 doc = get_properties.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 print("DONE!!!!!!!!")

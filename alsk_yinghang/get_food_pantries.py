@@ -80,5 +80,7 @@ class  get_food_pantries(dml.Algorithm):
         return doc
 
 get_food_pantries.execute()
-doc = get_properties.provenance()
+doc = get_food_pantries.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 print("DONE!!!!!!!!")

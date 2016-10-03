@@ -79,5 +79,7 @@ class  get_police_stations(dml.Algorithm):
         return doc
 
 get_police_stations.execute()
-doc = get_properties.provenance()
+doc = get_police_stations.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 print("DONE!!!!!!!!")

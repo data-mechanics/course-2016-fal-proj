@@ -89,4 +89,7 @@ class crime_lights(dml.Algorithm):
         return doc
 
 crime_lights.execute()
+doc = crime_lights.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 print("DONE!!!!!!!!")

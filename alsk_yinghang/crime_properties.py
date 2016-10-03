@@ -58,7 +58,50 @@ class crime_properties(dml.Algorithm):
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-        return
+        client =  dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('alsk_yinghang', 'alsk_yinghang')
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+
+        this_script = doc.agent(
+            'alg:alsk_yinghang#crime_properties', 
+            {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'}
+        )
+        resourceCrime = doc.entity(
+            'dat:alsk_yinghang#crime', 
+            {'prov:label':'Crime', prov.model.PROV_TYPE:'ont:DataSet'}
+        )
+        resourceProperties = doc.entity(
+            'dat:alsk_yinghang#property_assessment', 
+            {'prov:label':'Property Assessment', prov.model.PROV_TYPE:'ont:DataSet'}
+        )
+        this_run = doc.activity(
+            'log:a'+str(uuid.uuid4()), startTime, endTime,
+            {prov.model.PROV_TYPE:'ont:Computation'}
+        )
+        doc.wasAssociatedWith(this_run, this_script)
+        doc.used(this_run, resourceCrime, startTime)
+        doc.used(this_run, resourceProperties, startTime)
+
+        crime_properties = doc.entity(
+            'dat:alsk_yinghhang#crime_properties', 
+            {prov.model.PROV_LABEL:'Crime Properties', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(crime_properties, this_script)
+        doc.wasGeneratedBy(crime_properties, this_run, endTime)
+        doc.wasDerivedFrom(crime_properties, resourceCrime, this_run, this_run, this_run)
+        doc.wasDerivedFrom(crime_properties, resourceProperties, this_run, this_run, this_run)
+
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
 
 crime_properties.execute()
+doc = crime_properties.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 print("DONE!!!!!!!!")
