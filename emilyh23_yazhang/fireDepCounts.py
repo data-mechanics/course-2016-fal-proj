@@ -6,10 +6,6 @@ import datetime
 import uuid
 
 class example(dml.Algorithm):
-    #contributor = 'alice_bob'
-    #reads = []
-    #writes = ['alice_bob.lost', 'alice_bob.found']
-    
     contributor = 'emilyh23_yazhang'
     reads = []
     writes = ['emilyh23_yazhang.fireDepCounts']    
@@ -24,18 +20,9 @@ class example(dml.Algorithm):
         repo = client.repo
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
 
-        '''        
-        filen = '../data/Fire_311_Service_Requests.json'
-        res = open(filen, 'r')
-        r5 = json.load(res)
-        repo.dropPermanent("Fire_311_Service_Requests")
-        repo.createPermanent("Fire_311_Service_Requests")
-        repo['emilyh23_yazhang.Fire_311_Service_Requests'].insert_many(r5)
-        '''
         r5 = repo.emilyh23_yazhang.Fire_311_Service_Requests.find() 
         
         # MAPPING: creates lists of dictionaries that contains fire incidents by category, their districts, and their ontime/delay status, and their lat/long
-    
         fireDep = []
         fire = []
         fireHydrant = []
@@ -106,9 +93,7 @@ class example(dml.Algorithm):
         repo.dropPermanent("fireDepCounts")
         repo.createPermanent("fireDepCounts")
         repo['emilyh23_yazhang.fireDepCounts'].insert_many(fireDepCounts) 
-                    
-        #s = json.dumps(fireDepCounts, sort_keys=True, indent=2)
-        #print(fireDepCounts)
+        
         repo.logout()
 
         endTime = datetime.datetime.now()
