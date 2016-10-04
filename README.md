@@ -31,4 +31,14 @@ This transformation combines colleges and bus stops based on the intersection of
 $ python collegeBusStops.py
 ```
 
+**3. Third Transformation**
+
+This transformation combines hubways and big belly based on the intersection of their zip codes into a new dataset called hubwayBigBellyCounts. It has some limitations due to the geocoder query limit, but the necessary responses from the library have been stored into a variable to help create the collection. This limitation caused us to only sample a subset of the hubway stations dataset. To run the file:
+
+```
+$ python hubwayBigBelly.py
+```
+
+
+
 
