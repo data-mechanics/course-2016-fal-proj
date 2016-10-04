@@ -12,6 +12,7 @@ class liquorLicense(dml.Algorithm):
 
     @staticmethod
     def execute(trial = False):
+        '''Retrieve Locations of Businesses that have Liquor Licenses'''
         startTime = datetime.datetime.now()
         
         client = dml.pymongo.MongoClient()
@@ -21,6 +22,8 @@ class liquorLicense(dml.Algorithm):
         url = 'https://data.cityofboston.gov/resource/g9d9-7sj6.json?$$app_token'    
         response = urllib.request.urlopen(url).read().decode("utf-8")           
         r = json.loads(response)
+
+        s = json.dumps(r, sort_keys=True, indent=2)
         repo.dropPermanent("liquor")
         repo.createPermanent("liquor")
         repo['cyung20_kwleung.liquor'].insert_many(r)
