@@ -6,8 +6,8 @@ For our project, we intend to compare and determine which T stops are the safest
 #Datasets Being Used
 **1. MBTA T Stop Locations**
 
-JS file containing every MBTA T stop with their station names, coordinates (longitude + latitude), URL to their MBTA information pages, which line they belong to, and addresses.<br>
-**URL : http://erikdemaine.org/maps/mbta/mbta.js**
+JSON file containing every MBTA T stop with their station names, coordinates (longitude + latitude), URL to their MBTA information pages, which line they belong to, and addresses. Data taken from http://erikdemaine.org/maps/mbta/, and stored on datamechanics.io for retrieval.<br>
+**URL : http://datamechanics.io/data/cyung20_kwleung/mbta-t-stops.json**
 
 **2. Crime Incident Reports (August 2015 - Date)**
 
