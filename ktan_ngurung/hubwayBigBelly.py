@@ -30,7 +30,7 @@ class hubwayBigBelly(dml.Algorithm):
         # Commented block below can only be a when query limit for geocoder library has not been used up
         
         for item in bigBelly:
-            print(dict(item))
+            print(item['data'][1])
         #     address = geocoder.google(coordinates, method='reverse')
         #     zipcode = str(address.postal)
 
