@@ -93,12 +93,10 @@ class tRidershipLocation(dml.Algorithm):
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
-        doc.add_namespace('ede', 'http://erikdemaine.org/maps/')
-        doc.add_namespace('mbt', 'http://www.mbta.com/about_the_mbta/document_library/')
 
         this_script = doc.agent('alg:ktan_ngurung#tRidershipLocation', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        tStops_resource = doc.entity('ede:mbta', {'prov:label':'T-Stop Locations', prov.model.PROV_TYPE:'ont:DataSet', 'ont:Extension':'yaml'})
-        ridership_resource = doc.entity('mbt:?search=blue+book&submit_document_search=Search+Library', {'prov:label':'Boston 2014 Bluebook', prov.model.PROV_TYPE:'ont:DataSet', 'ont:Extension':'pdf'})
+        tStops_resource = doc.entity('dat:data-files/t-stop-locations', {'prov:label':'T-Stop Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        ridership_resource = doc.entity('dat:data-files/boston-ridership', {'prov:label':'Boston Ridership', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
 
         doc.wasAssociatedWith(this_run, this_script)
