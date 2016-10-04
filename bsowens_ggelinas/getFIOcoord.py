@@ -85,10 +85,10 @@ class getFIOcoord(dml.Algorithm):
         repo = client.repo
         repo.authenticate('bsowens_ggelinas', 'bsowens_ggelinas')
 
-        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/')
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/bsowens_ggelinas')
         # The scripts are in <folder>#<filename> format.
 
-        doc.add_namespace('dat', 'http://datamechanics.io/data/')
+        doc.add_namespace('dat', 'http://datamechanics.io/data/bsowens_ggelinas')
         # The data sets are in <user>#<collection> format.
 
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#')
@@ -99,82 +99,28 @@ class getFIOcoord(dml.Algorithm):
 
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:bsowens_ggelinas#transformation1',
+        this_script = doc.agent('alg:bsowens_ggelinas#getFIOcoord',
                                 {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-        standarize = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
-                                  {'prov:label': 'Standarize geographical information'})
-        doc.wasAssociatedWith(standarize, this_script)
+        resource = doc.entity('dat:bsowens_ggelinas#fio',
+                              {'prov:label': 'Field Interrogation Observations',
+                               prov.model.PROV_TYPE: 'ont:DataSet'})
+        this_run = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
+                                  {'prov:label': 'Longitude and Latitude Coordinates'})
+        doc.wasAssociatedWith(this_run, this_script)
 
-        resource_stations = doc.entity('dat:bsowens_ggelinas#stations',
-                                       {'prov:label': 'Police Station Locations',
-                                        prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.usage(
-            standarize,
-            resource_stations,
+            this_run,
+            resource,
             startTime,
             None,
             {prov.model.PROV_TYPE: 'ont:Computation'}
         )
 
-        resource_incidents = doc.entity('dat:bsowens_ggelinas#incidents',
-                                        {'prov:label': 'Police Incident Reports',
-                                         prov.model.PROV_TYPE: 'ont:DataSet'})
-        doc.usage(
-            standarize,
-            resource_incidents,
-            startTime,
-            None,
-            {prov.model.PROV_TYPE: 'ont:Computation'}
-        )
+        fio = doc.entity('dat:bsowens_ggelinas#getFIOcoord', {prov.model.PROV_LABEL:'FIO with Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(resource, this_script)
+        doc.wasGeneratedBy(resource, this_run, endTime)
+        doc.wasDerivedFrom(resource, resource, this_run, this_run, this_run)
 
-        resource_property = doc.entity('dat:bsowens_ggelinas#property',
-                                       {'prov:label': 'Property Values', prov.model.PROV_TYPE: 'ont:DataSet'})
-        doc.usage(
-            standarize,
-            resource_property,
-            startTime,
-            None,
-            {prov.model.PROV_TYPE: 'ont:Computation'}
-        )
-
-        resource_fio = doc.entity('dat:bsowens_ggelinas#fio',
-                                  {'prov:label': 'Field Interrogation Observations',
-                                   prov.model.PROV_TYPE: 'ont:DataSet'})
-        doc.usage(
-            standarize,
-            resource_fio,
-            startTime,
-            None,
-            {prov.model.PROV_TYPE: 'ont:Computation'}
-        )
-
-        resource_hospitals = doc.entity('dat:bsowens_ggelinas#hospitals',
-                                        {'prov:label': 'Hospital Locations', prov.model.PROV_TYPE: 'ont:DataSet'})
-        doc.usage(
-            standarize,
-            resource_hospitals,
-            startTime,
-            None,
-            {prov.model.PROV_TYPE: 'ont:Computation'}
-        )
-
-        doc.wasAttributedTo(resource_stations, this_script)
-        doc.wasAttributedTo(resource_incidents, this_script)
-        doc.wasAttributedTo(resource_property, this_script)
-        doc.wasAttributedTo(resource_fio, this_script)
-        doc.wasAttributedTo(resource_hospitals, this_script)
-
-        doc.wasGeneratedBy(resource_stations, standarize, endTime)
-        doc.wasGeneratedBy(resource_incidents, standarize, endTime)
-        doc.wasGeneratedBy(resource_property, standarize, endTime)
-        doc.wasGeneratedBy(resource_fio, standarize, endTime)
-        doc.wasGeneratedBy(resource_hospitals, standarize, endTime)
-
-        doc.wasDerivedFrom(resource_stations, resource_stations, standarize, standarize, standarize)
-        doc.wasDerivedFrom(resource_incidents, resource_incidents, standarize, standarize, standarize)
-        doc.wasDerivedFrom(resource_property, resource_property, standarize, standarize, standarize)
-        doc.wasDerivedFrom(resource_fio, resource_fio, standarize, standarize, standarize)
-        doc.wasDerivedFrom(resource_hospitals, resource_hospitals, standarize, standarize, standarize)
 
         repo.record(doc.serialize())  # Record the provenance document.
         repo.logout()
@@ -183,3 +129,5 @@ class getFIOcoord(dml.Algorithm):
 
 getFIOcoord.execute()
 doc = getFIOcoord.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize(), indent=4)))

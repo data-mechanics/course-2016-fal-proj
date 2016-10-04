@@ -171,14 +171,15 @@ class getGeoJSON(dml.Algorithm):
 
         this_script = doc.agent('alg:bsowens_ggelinas#alg1',
                                 {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-        standarize = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
+        this_run = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
                                   {'prov:label': 'Standarize geographical information'})
-        doc.wasAssociatedWith(standarize, this_script)
+
+        doc.wasAssociatedWith(this_run, this_script)
 
         resource_stations = doc.entity('dat:bsowens_ggelinas#stations',
                                     {'prov:label': 'Police Station Locations', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.usage(
-            standarize,
+            this_run,
             resource_stations,
             startTime,
             None,
@@ -188,7 +189,7 @@ class getGeoJSON(dml.Algorithm):
         resource_incidents = doc.entity('dat:bsowens_ggelinas#incidents',
                                     {'prov:label': 'Police Incident Reports', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.usage(
-            standarize,
+            this_run,
             resource_incidents,
             startTime,
             None,
@@ -198,7 +199,7 @@ class getGeoJSON(dml.Algorithm):
         resource_property = doc.entity('dat:bsowens_ggelinas#property',
                                         {'prov:label': 'Property Values', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.usage(
-            standarize,
+            this_run,
             resource_property,
             startTime,
             None,
@@ -209,7 +210,7 @@ class getGeoJSON(dml.Algorithm):
                                    {'prov:label': 'Field Interrogation Observations',
                                                              prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.usage(
-            standarize,
+            this_run,
             resource_fio,
             startTime,
             None,
@@ -219,7 +220,7 @@ class getGeoJSON(dml.Algorithm):
         resource_hospitals = doc.entity('dat:bsowens_ggelinas#hospitals',
                                       {'prov:label': 'Hospital Locations', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.usage(
-            standarize,
+            this_run,
             resource_hospitals,
             startTime,
             None,
@@ -232,17 +233,17 @@ class getGeoJSON(dml.Algorithm):
         doc.wasAttributedTo(resource_fio, this_script)
         doc.wasAttributedTo(resource_hospitals, this_script)
 
-        doc.wasGeneratedBy(resource_stations, standarize, endTime)
-        doc.wasGeneratedBy(resource_incidents, standarize, endTime)
-        doc.wasGeneratedBy(resource_property, standarize, endTime)
-        doc.wasGeneratedBy(resource_fio, standarize, endTime)
-        doc.wasGeneratedBy(resource_hospitals, standarize, endTime)
+        doc.wasGeneratedBy(resource_stations, this_run, endTime)
+        doc.wasGeneratedBy(resource_incidents, this_run, endTime)
+        doc.wasGeneratedBy(resource_property, this_run, endTime)
+        doc.wasGeneratedBy(resource_fio, this_run, endTime)
+        doc.wasGeneratedBy(resource_hospitals, this_run, endTime)
 
-        doc.wasDerivedFrom(resource_stations, resource_stations, standarize, standarize, standarize)
-        doc.wasDerivedFrom(resource_incidents, resource_incidents, standarize, standarize, standarize)
-        doc.wasDerivedFrom(resource_property, resource_property, standarize, standarize, standarize)
-        doc.wasDerivedFrom(resource_fio, resource_fio, standarize, standarize, standarize)
-        doc.wasDerivedFrom(resource_hospitals, resource_hospitals, standarize, standarize, standarize)
+        doc.wasDerivedFrom(resource_stations, resource_stations, this_run, this_run, this_run)
+        doc.wasDerivedFrom(resource_incidents, resource_incidents, this_run, this_run, this_run)
+        doc.wasDerivedFrom(resource_property, resource_property, this_run, this_run, this_run)
+        doc.wasDerivedFrom(resource_fio, resource_fio, this_run, this_run, this_run)
+        doc.wasDerivedFrom(resource_hospitals, resource_hospitals, this_run, this_run, this_run)
 
         repo.record(doc.serialize())
         repo.logout()
