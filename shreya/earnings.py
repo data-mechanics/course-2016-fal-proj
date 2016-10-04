@@ -6,10 +6,9 @@ exec(open('kmeans.py').read())
 def earnings():
 	#Converts zipcode to latitude, longitude coordinates.
 	def json_from_url(url):
-			response = urllib.request.urlopen(url).read().decode('utf-8')
-			r = json.loads(response)
-			#TAKE THIS OUT. JUST FOR TESTING
-			return r[0:50]
+		response = urllib.request.urlopen(url).read().decode('utf-8')
+		r = json.loads(response)
+		return r
 
 	def group_by_zip(earningsList):
 		zip_groups = {}

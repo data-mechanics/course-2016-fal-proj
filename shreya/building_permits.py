@@ -7,9 +7,10 @@ def building_permits():
 	#Approved building permits.
 	#Has location in the form of coordinate points in the json object.
 	def json_from_url(url):
-			response = urllib.request.urlopen(url).read().decode('utf-8')
-			r = json.loads(response)
-			return r
+		response = urllib.request.urlopen(url).read().decode('utf-8')
+		r = json.loads(response)
+		return r
+	
 	buildingPermits = json_from_url('https://data.cityofboston.gov/resource/hfgw-p5wb.json')
 	#Variation on the map function given in class.
 	#Ensures that dates are between July 2012 and August 2015, to match the Crime Incident Reports.

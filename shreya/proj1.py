@@ -19,24 +19,23 @@ class proj1(dml.Algorithm):
 		#Database connection
 		client = dml.pymongo.MongoClient()
 		repo = client.repo
-		repo.authenticate('admin','example')
-	
+		repo.authenticate('shreya','shreya')
+		
 		building_permits_kmeans = building_permits.building_permits()
 		repo.dropPermanent("building_permits_kmeans")
 		repo.createPermanent("building_permits_kmeans")
-		repo['shreya.building_permits_kmeans'].insert_many(building_permits_kmeans)
-	
+		repo['shreya.building_permits_kmeans'].insert_many([{'a':123}])
+		
 		crime_reports_kmeans = crime_reports.crime_reports()
-
 		repo.dropPermanent('crime_reports_kmeans')
 		repo.createPermanent('crime_reports_kmeans')
 		repo['shreya.crime_reports_kmeans'].insert_many(crime_reports_kmeans)
-		
+
 		all_earnings_kmeans = earnings.earnings()
 		repo.dropPermanent('earnings_kmeans')
 		repo.createPermanent('earnings_kmeans')
 		repo['shreya.earnings_kmeans'].insert_many(all_earnings_kmeans)
-		
+
 		repo.logout()
 		endTime = datetime.datetime.now()
 
@@ -47,7 +46,7 @@ class proj1(dml.Algorithm):
          # Set up the database connection.
 		client = dml.pymongo.MongoClient()
 		repo = client.repo
-		repo.authenticate('admin', 'example')
+		repo.authenticate('shreya', 'shreya')
 		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
 		doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
 		doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.

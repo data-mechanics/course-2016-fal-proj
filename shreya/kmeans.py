@@ -26,9 +26,18 @@ def kmeans(points_with_weights):
 		keys = {r[0] for r in R}
 		return [(key, f([v for (k,v) in R if k == key])) for key in keys]
 
-	count = 0
-	#In the future gonna check to make sure the distance is under a certain amount.
-	while count < 10:
+	def kmeans_done(M,old):
+		if old == []: return False
+		for p in M:
+			for q in old:
+				if dist(p,q) > 0.1:
+					return False
+		return True
+
+	old = []
+	#Check to make sure the distance between all the points is under a certain threshold.
+	while not kmeans_done(M, old):
+		old = M
 		MPD = [(m, p, dist(m,p)) for (m,p) in product(M,P)]
 		PDs = [(p, d) for (m,p,d) in MPD]
 		PD = aggregate(PDs, min) 
@@ -40,5 +49,4 @@ def kmeans(points_with_weights):
 
 		M = [scale(t,c) for ((m,t), (m2,c)) in product(MT, MC) if m==m2]
 		M = sorted(M)
-		count+=1
 	return M
