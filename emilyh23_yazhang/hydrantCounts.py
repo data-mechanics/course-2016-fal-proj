@@ -36,17 +36,17 @@ class example(dml.Algorithm):
         fireEstab = []
         
         for dic in r5:
-            if (dic['FIELD8'] == 'Fire Department'):
-                new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
+            if (dic['CASE_TITLE'] == 'Fire Department'):
+                new_dic = {dic['CASE_TITLE']:dic['OnTime_Status'], 'District': dic['fire_district'], 'Latitude': dic['LATITUDE'], 'Longitude': dic['LONGITUDE']}
                 fireDep.append(new_dic)
-            elif (dic['FIELD8'] == 'Fire in Food Establishment'):
-                new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'], 'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
+            elif (dic['CASE_TITLE'] == 'Fire in Food Establishment'):
+                new_dic = {dic['CASE_TITLE']:dic['OnTime_Status'], 'District': dic['fire_district'], 'Latitude': dic['LATITUDE'], 'Longitude': dic['LONGITUDE']}
                 fireEstab.append(new_dic)
-            elif (dic['FIELD8'] == 'Fire'):
-                new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'],'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
+            elif (dic['CASE_TITLE'] == 'Fire'):
+                new_dic = {dic['CASE_TITLE']:dic['OnTime_Status'], 'District': dic['fire_district'],'Latitude': dic['LATITUDE'], 'Longitude': dic['LONGITUDE']}
                 fire.append(new_dic)
-            elif (dic['FIELD8'] == 'Fire Hydrant'):
-                new_dic = {dic['FIELD8']:dic['FIELD5'], 'District': dic['FIELD17'],'Latitude': dic['FIELD30'], 'Longitude': dic['FIELD31']}
+            elif (dic['CASE_TITLE'] == 'Fire Hydrant'):
+                new_dic = {dic['CASE_TITLE']:dic['OnTime_Status'], 'District': dic['fire_district'],'Latitude': dic['LATITUDE'], 'Longitude': dic['LONGITUDE']}
                 fireHydrant.append(new_dic)
         
         # list of districts
@@ -133,20 +133,19 @@ class example(dml.Algorithm):
         
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
-        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
-        #doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/') # boston open data
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/api/views/')
 
-        this_script = doc.agent('alg:hydrantCounts', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        Fire_311_Service_Requests = doc.entity('dat:Fire_311_Service_Requests', {prov.model.PROV_LABEL:'Fire_311_Service_Requests', prov.model.PROV_TYPE:'ont:DataSet'})
+        this_script = doc.agent('alg:emilyh23_yazhang#hydrantCounts', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource_hydrantCounts = doc.entity('dat:emilyh23_yazhang#Fire_311_Service_Requests', {'prov:label':'Fire_311_Service_Requests', prov.model.PROV_TYPE:'ont:DataSet'})
         this_run = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
         doc.wasAssociatedWith(this_run, this_script)
-        doc.used(this_run, Fire_311_Service_Requests, startTime)
+        doc.used(this_run, resource_hydrantCounts, startTime)
                 
         #New map-reduced dataset
-        hydrantCounts = doc.entity('dat:hydrantCounts', {prov.model.PROV_LABEL:'hydrantCounts', prov.model.PROV_TYPE:'ont:DataSet'})
+        hydrantCounts = doc.entity('dat:emilyh23_yazhang#hydrantCounts', {prov.model.PROV_LABEL:'hydrantCounts', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(hydrantCounts, this_script)
         doc.wasGeneratedBy(hydrantCounts, this_run, endTime)
-        doc.wasDerivedFrom(hydrantCounts, Fire_311_Service_Requests, this_run, this_run, this_run)
+        doc.wasDerivedFrom(hydrantCounts, resource_hydrantCounts, this_run, this_run, this_run)
         
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
