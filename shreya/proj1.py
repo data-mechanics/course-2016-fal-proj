@@ -22,20 +22,20 @@ class proj1(dml.Algorithm):
 		repo.authenticate('admin','example')
 	
 		building_permits_kmeans = building_permits.building_permits()
-		#repo.dropPermanent("building_permits_kmeans")
-		#repo.createPermanent("building_permits_kmeans")
-		#repo['shreya.building_permits_kmeans'].insert_many(building_permits_kmeans)
+		repo.dropPermanent("building_permits_kmeans")
+		repo.createPermanent("building_permits_kmeans")
+		repo['shreya.building_permits_kmeans'].insert_many(building_permits_kmeans)
 	
 		crime_reports_kmeans = crime_reports.crime_reports()
 
-		#repo.dropPermanent('crime_reports_kmeans')
-		#repo.createPermanent('crime_reports_kmeans')
-		#repo['shreya.crime_reports_kmeans'].insert_many(crime_reports_kmeans)
+		repo.dropPermanent('crime_reports_kmeans')
+		repo.createPermanent('crime_reports_kmeans')
+		repo['shreya.crime_reports_kmeans'].insert_many(crime_reports_kmeans)
 		
 		all_earnings_kmeans = earnings.earnings()
-		#repo.dropPermanent('earnings_kmeans')
-		#repo.createPermanent('earnings_kmeans')
-		#repo['shreya.earnings_kmeans'].insert_many(all_earnings_kmeans)
+		repo.dropPermanent('earnings_kmeans')
+		repo.createPermanent('earnings_kmeans')
+		repo['shreya.earnings_kmeans'].insert_many(all_earnings_kmeans)
 		
 		repo.logout()
 		endTime = datetime.datetime.now()
@@ -109,9 +109,3 @@ class proj1(dml.Algorithm):
 		repo.logout()
 
 		return doc
-
-proj1.execute()
-#Same issue as with inserting into db.
-#doc = proj1.provenance()
-#print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
