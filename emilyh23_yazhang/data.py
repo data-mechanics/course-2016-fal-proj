@@ -50,7 +50,7 @@ class example(dml.Algorithm):
         
         json_filename_1 = "../data/fire_hydrant_new.json"
         jsonWriter_1 = open(json_filename_1,'w') 
-        dataJson = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader1]) + "\n]"
+        dataJson = "[\n\t" + ",\n\t".join([json.dumps(row, sort_keys=True,indent=6, separators=(',', ': ')) for row in csv_reader1]) + "\n]"
         jsonWriter_1.write(dataJson)
         jsonWriter_1.close()        
         
@@ -90,7 +90,7 @@ class example(dml.Algorithm):
         
         json_filename_2 = "../data/fire_boxes_new.json"
         jsonWriter_2 = open(json_filename_2,'w') 
-        dataJson_2 = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader2]) + "\n]"
+        dataJson_2 = "[\n\t" + ",\n\t".join([json.dumps(row, sort_keys=True,indent=6, separators=(',', ': ')) for row in csv_reader2]) + "\n]"
         jsonWriter_2.write(dataJson_2)
         jsonWriter_2.close()        
         
@@ -138,7 +138,7 @@ class example(dml.Algorithm):
         
         json_filename_5 = "../data/Fire_311_Requests_new.json"
         jsonWriter_5 = open(json_filename_5,'w') 
-        dataJson_5 = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader5]) + "\n]"
+        dataJson_5 = "[\n\t" + ",\n\t".join([json.dumps(row, sort_keys=True,indent=6, separators=(',', ': ')) for row in csv_reader5]) + "\n]"
         jsonWriter_5.write(dataJson_5)
         jsonWriter_5.close()   
         
