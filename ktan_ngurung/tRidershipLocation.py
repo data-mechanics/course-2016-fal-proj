@@ -29,7 +29,7 @@ class example(dml.Algorithm):
 
         gmaps = googlemaps.Client(key='AIzaSyCnbPRMgv_MDYaPqiq2mVYIpWUy-m_k3Jc')
 
-        # Commented block below can only be a when 2500 quota limit for Google Maps API has not been used up
+        # Commented block below can only be executed when 2500 quota limit for Google Maps API has not been used up
         '''
         for doc in tstops:
             docDict1 = dict(doc)
