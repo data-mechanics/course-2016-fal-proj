@@ -1,69 +1,73 @@
-# course-2016-fal-proj
-Project repository for the course project in the Fall 2016 iteration of the Data Mechanics course at Boston University.
+#CS591 Project Proposal 
 
-In this project, you will implement platform components that can obtain a some data sets from web services of your choice, and platform components that combine these data sets into at least two additional derived data sets. These components will interct with the backend repository by inserting and retrieving data sets as necessary. They will also satisfy a standard interface by supporting specified capabilities (such as generation of dependency information and provenance records).
+Our goal is to gather information on the sanitation-related trends of Boston neighborhoods. Essentially, we want to be able to analyze this data to propose possible solutions/alternatives to help reduce sanitary code violations, improve overall cleanliness, optimize trash collection schedules, and prevent trash overfill. The types of data we use in this project primarily deal with health code violations pertaining to excessive waste and presence of rodents. We also use data pertaining to the locations and collection statistics of Boston's "Big Belly" trash compactors. 
 
-**This project description will be updated as we continue work on the infrastructure.**
+##Our Data Sets
 
-## MongoDB infrastructure
+Big Belly Alerts 2014: 
+https://data.cityofboston.gov/resource/nybq-xu5r.json
 
-### Setting up
+Master Address List: 
+https://data.cityofboston.gov/resource/je5q-tbjf.json
 
-We have committed setup scripts for a MongoDB database that will set up the database and collection management functions that ensure users sharing the project data repository can read everyone's collections but can only write to their own collections. Once you have installed your MongoDB instance, you can prepare it by first starting `mongod` _without authentication_:
-```
-mongod --dbpath "<your_db_path>"
-```
-If you're setting up after previously running `setup.js`, you may want to reset (i.e., delete) the repository as follows.
-```
-mongo reset.js
-```
-Next, make sure your user directories (e.g., `alice_bob` if Alice and Bob are working together on a team) are present in the same location as the `setup.js` script, open a separate terminal window, and run the script:
-```
-mongo setup.js
-```
-Your MongoDB instance should now be ready. Stop `mongod` and restart it, enabling authentication with the `--auth` option:
-```
-mongod --auth --dbpath "<your_db_path>"
-```
+Code Enforcement - Building and Property Violations: 
+https://data.cityofboston.gov/resource/w39n-pvs8.json
 
-### Working on data sets with authentication
+Food Establishments Inspections:
+'https://data.cityofboston.gov/resource/427a-3cn5.json'
 
-With authentication enabled, you can start `mongo` on the repository (called `repo` by default) with your user credentials:
-```
-mongo repo -u alice_bob -p alice_bob --authenticationDatabase "repo"
-```
-However, you should be unable to create new collections using `db.createCollection()` in the default `repo` database created for this project:
-```
-> db.createCollection("EXAMPLE");
-{
-  "ok" : 0,
-  "errmsg" : "not authorized on repo to execute command { create: \"EXAMPLE\" }",
-  "code" : 13
-}
-```
-Instead, load the server-side functions so that you can use the customized `createTemp()` or `createPerm()` functions, which will create collections that can be read by everyone but written only by you:
-```
-> db.loadServerScripts();
-> var EXAMPLE = createPerm("EXAMPLE");
-```
-Notice that this function also prefixes the user name to the name of the collection (unless the prefix is already present in the name supplied to the function).
-```
-> EXAMPLE
-alice_bob.EXAMPLE
-> db.alice_bob.EXAMPLE.insert({value:123})
-WriteResult({ "nInserted" : 1 })
-> db.alice_bob.EXAMPLE.find()
-{ "_id" : ObjectId("56b7adef3503ebd45080bd87"), "value" : 123 }
-```
-For temporary collections that are only necessary during intermediate steps of of a computation, use `createTemp()`; for permanent collections that represent data that is imported or derived, use `createPerm()`.
+Mayors 24 Hour Hotline (Cases created last 90 days):
+https://data.cityofboston.gov/resource/jbcd-dknd.json
 
-If you do not want to run `db.loadServerScripts()` every time you open a new terminal, you can use a `.mongorc.js` file in your home directory to store any commands or calls you want issued whenever you run `mongo`.
 
-## Other required libraries and tools
+##Running Scripts
 
-You will need the latest versions of the PROV and DML Python libraries. If you have `pip` installed, the following should install the latest versions automatically:
-```
-pip install prov --upgrade --no-cache-dir
-pip install dml --upgrade --no-cache-dir
-```
-If you are having trouble with `lxml`, you could try retrieving it [here](http://www.lfd.uci.edu/~gohlke/pythonlibs/).
+1. Run gatherDataSets.py in order to retrieve and store all required raw data
+
+2. Run the other transformation scripts (order doesn't matter):
+    
+    bigBelly.py:
+    Uses "Big Belly Alerts 2014" dataset and performs transformations to find the amount of big belly compactors and the overall average fullness of Boston geolocations.
+
+    How to run:
+    ```
+    $ python3 bigBelly.py
+    ```
+
+    codeViolations.py:
+    Uses "Code Enforcement" and "Food Establishments Inspections" datasets and performs transformations to find health/sanitation related violations and the number of times they occured within each Boston zipcode.
+
+    How to run:
+    ```
+    $ python3 codeViolations.py
+    ```
+
+    serviceRequests.py:
+    Uses "Mayors 24 Hour Hotline" dataset and performs transformations to find the types of santiation-related requests and the number of times it was request for each Boston zipcode.
+
+    How to run:
+    ```
+    $ python3 serviceRequests.py
+    ```
+
+    trashSchedules.py:
+    Uses "Master Address List" dataset and performs transformations to find the trash collection days for each Boston zipcode. 
+
+    How to run:
+    ```
+    $ python3 trashSchedules.py
+    ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
