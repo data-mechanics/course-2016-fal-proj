@@ -69,50 +69,42 @@ class numOfCrimeInDistricts(dml.Algorithm):
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
         this_script = doc.agent('alg:bsowens_ggelinas#numOfCrimeInDistricts', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        stations_resource = doc.entity('dat:bsowens_ggelinas#stations', {'prov:label': 'Boston Police Stations District', prov.model.PROV_TYPE: 'ont:DataSet'})
+        this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime,
+                                {'prov:label': 'Get Boston Police Stations District'})
+        doc.wasAssociatedWith(this_run, this_script)
 
-        stations_info = doc.entity('bdp:pyxn-r3i2', {'prov:label':'District Police Stations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        stations_getInfo = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get District Police Stations Data'})
-        doc.wasAssociatedWith(stations_getInfo, this_script)
         doc.usage(
-            stations_getInfo,
-            stations_info,
-            startTime,
-            None,
-            {prov.model.PROV_TYPE:'ont:Retrieval'}
-        )
-
-        incidents_info = doc.entity('bdp:29yf-ye7n',
-                                   {'prov:label': 'Crime Incidents Report', prov.model.PROV_TYPE: 'ont:DataResource',
-                                    'ont:Extension': 'json'})
-        incidents_getInfo = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
-                                        {'prov:label': 'Get Crime Incidents Report Data'})
-        doc.wasAssociatedWith(incidents_getInfo, this_script)
-        doc.usage(
-            incidents_getInfo,
-            incidents_info,
+            this_run,
+            stations_resource,
             startTime,
             None,
             {prov.model.PROV_TYPE: 'ont:Retrieval'}
         )
 
+        incidents_resource = doc.entity('dat:bsowens_ggelinas#incidents', {'prov:label': 'Crime Incidents Report', prov.model.PROV_TYPE: 'ont:DataResource', 'ont:Extension': 'json'})
+        this_run2 = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
+                                         {'prov:label': 'Get Crime Incidents District Report Data'})
+        doc.wasAssociatedWith(this_run2, this_script)
+        doc.usage(
+            this_run2,
+            incidents_resource,
+            startTime,
+            None,
+            {prov.model.PROV_TYPE: 'ont:Computation'}
+        )
+
+        stations = doc.entity('dat:bsowens_ggelinas#stations',
+                         {prov.model.PROV_LABEL: 'Districts incident count', prov.model.PROV_TYPE: 'ont:DataSet'})
+        doc.wasAttributedTo(stations, this_script)
+        doc.wasGeneratedBy(stations, this_run, endTime)
+        doc.wasDerivedFrom(stations, stations_resource, this_run, this_run, this_run)
+
         incidents = doc.entity('dat:bsowens_ggelinas#incidents',
-                              {prov.model.PROV_LABEL: 'Crime Incidents Report', prov.model.PROV_TYPE: 'ont:DataSet'})
+                              {prov.model.PROV_LABEL: 'Counted incidents', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(incidents, this_script)
-        doc.wasGeneratedBy(incidents, incidents_getInfo, endTime)
-
-        property = doc.entity('dat:bsowens_ggelinas#property',
-                         {prov.model.PROV_LABEL: 'Property Assessment 2016', prov.model.PROV_TYPE: 'ont:DataSet'})
-        doc.wasAttributedTo(property, this_script)
-        doc.wasGeneratedBy(property, property_getInfo, endTime)
-
-        fio = doc.entity('dat:bsowens_ggelinas#fio',
-                               {prov.model.PROV_LABEL: 'Boston Police Department FIO', prov.model.PROV_TYPE: 'ont:DataSet'})
-        doc.wasAttributedTo(fio, this_script)
-        doc.wasGeneratedBy(fio, fio_getInfo, endTime)
-
-        hospitals = doc.entity('dat:bsowens_ggelinas#hospitals', {prov.model.PROV_LABEL:'Hospital Locations', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(hospitals, this_script)
-        doc.wasGeneratedBy(hospitals, hospitals_getInfo, endTime)
+        doc.wasGeneratedBy(incidents, this_run2, endTime)
+        doc.wasDerivedFrom(incidents, incidents_resource, this_run2, this_run2, this_run2)
 
         repo.record(doc.serialize())
         repo.logout()
@@ -122,4 +114,6 @@ class numOfCrimeInDistricts(dml.Algorithm):
 numOfCrimeInDistricts.execute()
 doc = numOfCrimeInDistricts.provenance()
 print(json.dumps(json.loads(doc.serialize()),indent=4))
+
+##eof
 

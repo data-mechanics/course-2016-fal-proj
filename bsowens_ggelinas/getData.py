@@ -140,7 +140,7 @@ class getData(dml.Algorithm):
         )
 
         stations = doc.entity('dat:bsowens_ggelinas#stations',
-                               {prov.model.PROV_LABEL: 'Crime Incidents Report', prov.model.PROV_TYPE: 'ont:DataSet'})
+                               {prov.model.PROV_LABEL: 'Boston Police Stations District', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(stations, this_script)
         doc.wasGeneratedBy(stations, incidents_getInfo, endTime)
         doc.wasDerivedFrom(stations, incidents_info, incidents_getInfo, incidents_getInfo, incidents_getInfo)

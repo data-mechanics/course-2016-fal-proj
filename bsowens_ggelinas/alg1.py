@@ -226,11 +226,11 @@ class getGeoJSON(dml.Algorithm):
             None,
             {prov.model.PROV_TYPE: 'ont:Computation'}
         )
-        stations = doc.entity('dat:bsowens_ggelinas#stations', {prov.model.PROV_LABEL:'FIO with Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
-        incidents = doc.entity('dat:bsowens_ggelinas#get_fio_with_coords', {prov.model.PROV_LABEL:'FIO with Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
-        property = doc.entity('dat:bsowens_ggelinas#get_fio_with_coords', {prov.model.PROV_LABEL:'FIO with Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
-        fio = doc.entity('dat:bsowens_ggelinas#get_fio_with_coords', {prov.model.PROV_LABEL:'FIO with Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
-        hospitals = doc.entity('dat:bsowens_ggelinas#get_fio_with_coords', {prov.model.PROV_LABEL:'FIO with Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        stations = doc.entity('dat:bsowens_ggelinas#stations', {prov.model.PROV_LABEL:'Stations with GeoJSON', prov.model.PROV_TYPE:'ont:DataSet'})
+        incidents = doc.entity('dat:bsowens_ggelinas#incidents', {prov.model.PROV_LABEL:'Incidents with GeoJSON', prov.model.PROV_TYPE:'ont:DataSet'})
+        property = doc.entity('dat:bsowens_ggelinas#property', {prov.model.PROV_LABEL:'Property with GeoJSON', prov.model.PROV_TYPE:'ont:DataSet'})
+        fio = doc.entity('dat:bsowens_ggelinas#fio', {prov.model.PROV_LABEL:'FIO with GeoJSON', prov.model.PROV_TYPE:'ont:DataSet'})
+        hospitals = doc.entity('dat:bsowens_ggelinas#hospitals', {prov.model.PROV_LABEL:'Hospitals with GeoJSON', prov.model.PROV_TYPE:'ont:DataSet'})
 
         doc.wasAttributedTo(stations, this_script)
         doc.wasAttributedTo(incidents, this_script)
