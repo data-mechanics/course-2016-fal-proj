@@ -163,6 +163,46 @@ db.alaw_tyroneh.HubwayStations.mapReduce(
 	{out:{merge:"alaw_tyroneh.StationsGeoJSONs"}}
 );
 
-
+db.alaw_tyroneh.TCStops.mapReduce(
+    //map location data (lat,long) to geoJSON format
+    function() {
+        var route_name = this.route.name
+        var directions = this.route.path.direction
+        var mode = this.route.mode
+        
+        directions.forEach(function(dir) {
+            dir.stop.forEach(function(s) {
+                var lat = parseFloat(s.stop_lat);
+                var lon = parseFloat(s.stop_lon);
+                emit(s.stop_name, {
+                	"type":"Feature",
+                    "geometry":{
+                        "type":"Point",
+                        "coordinates": [lat, lon]},
+                    "properties":{
+                        "type": mode,
+                        "line": [route_name]}});
+            });
+        });
+    },
+    function(k, vs){
+    	var routeList = Set()
+    	var lat = vs[0].geometry.coordinates[0];
+    	var lon = vs[0].geometry.coordinates[1];
+    	var mode = vs[0].properties.type;
+    	vs.forEach(function(v){
+    		routeList.add(v.properties.line[0]);
+    	});
+    	routeList = [r for (r of routeList)];
+    	return {"type":"Feature",
+                    "geometry":{
+                        "type":"Point",
+                        "coordinates": [lat, lon]},
+                    "properties":{
+                        "type": mode,
+                        "line": routeList}};
+    },
+    {out:{merge:"alaw_tyroneh.StationsGeoJSONs"}}
+);
 
 
