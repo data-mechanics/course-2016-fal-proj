@@ -67,3 +67,25 @@ pip install prov --upgrade --no-cache-dir
 pip install dml --upgrade --no-cache-dir
 ```
 If you are having trouble with `lxml`, you could try retrieving it [here](http://www.lfd.uci.edu/~gohlke/pythonlibs/).
+
+## Formatting the `auth.json` file
+
+The `auth.json` file should remain empty and should not be submitted. When you are running your algorithms, you should use the file to store your credentials for any third-party data resources, APIs, services, or repositories that you use. An example of the contents you might store in your `auth.json` file is as follows:
+```
+{
+    "services": {
+        "cityofbostondataportal": {
+            "service": "https://data.cityofboston.gov/",
+            "username": "alice_bob@example.org",
+            "token": "XxXXXXxXxXxXxxXXXXxxXxXxX",
+            "key": "xxXxXXXXXXxxXXXxXXXXXXxxXxxxxXXxXxxX"
+        },
+        "mbtadeveloperportal": {
+            "service": "http://realtime.mbta.com/",
+            "username": "alice_bob",
+            "token": "XxXX-XXxxXXxXxXXxXxX_x",
+            "key": "XxXX-XXxxXXxXxXXxXxx_x"
+        }
+    }
+}
+```
