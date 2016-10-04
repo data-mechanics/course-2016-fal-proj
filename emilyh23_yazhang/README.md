@@ -16,9 +16,9 @@ After obtaining this information, we'll analyze how well fire incidents are bein
 
 Getting data from all of the datasets and importing them into the repo database by running data.py. 
 
-'''
+```
 python data.py
-'''
+```
 
 # Transforming Data
 Transformation #1: Run fireCounts.py to create a new dataset by mapping and reducing the 311 requests by district, which returns the number of incidents in each fire district for "Fire".
