@@ -47,7 +47,7 @@ class numOfCrimeInDistricts(dml.Algorithm):
         repo.logout()
 
         endTime = datetime.datetime.now()
-        return {"start": startTime, "end": endTime}\
+        return {"start": startTime, "end": endTime}
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
