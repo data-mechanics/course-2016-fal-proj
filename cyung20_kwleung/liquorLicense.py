@@ -15,6 +15,7 @@ class liquorLicense(dml.Algorithm):
         '''Retrieve Locations of Businesses that have Liquor Licenses'''
         startTime = datetime.datetime.now()
         
+        # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo 
         repo.authenticate("cyung20_kwleung", "cyung20_kwleung")
@@ -37,6 +38,12 @@ class liquorLicense(dml.Algorithm):
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
+        '''
+        Create the provenance document describing everything happening
+        in this script. Each run of the script will generate a new
+        document describing that invocation event.
+        '''
+
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
@@ -52,6 +59,9 @@ class liquorLicense(dml.Algorithm):
         resource = doc.entity('bdp:g9d9-7sj6', {'prov:label':'Liquor Licenses', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         get_liquor = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(get_liquor, this_script)
+        doc.usage(get_liquor, resource, startTime, None,
+                 {prov.model.PROV_TYPE:'ont:Retrieval'}
+             )
             
         liquor = doc.entity('dat:cyung20_kwleung#liquor', {prov.model.PROV_LABEL:'Liquor Licenses', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(liquor, this_script)
