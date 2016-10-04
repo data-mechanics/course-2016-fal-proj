@@ -45,7 +45,7 @@ class example(dml.Algorithm):
         # list of districts
         districts = ['1','12','11','3','4','6','7','8','9']
         
-        # fireDepByDis is a list of dictionaries of fire Department incident requests sorted by district
+        # fireDepByDis is a list of dictionaries for fire Department incident requests sorted by district
         fireDepByDis = [{d: []} for d in districts]
         for dic in fireDep:
             if (dic['District'] == '1'):
