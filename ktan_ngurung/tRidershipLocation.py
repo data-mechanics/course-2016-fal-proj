@@ -7,7 +7,7 @@ import uuid
 import googlemaps
 import re
 
-class example(dml.Algorithm):
+class tRidershipLocation(dml.Algorithm):
     contributor = 'ktan_ngurung'
     reads = ['ktan_ngurung.ridership', 'ktan_ngurung.tstops']
     writes = ['ktan_ngurung.tRidershipLocation']
@@ -120,9 +120,9 @@ class example(dml.Algorithm):
         repo.logout()
 
         return doc 
-
-example.execute()
-doc = example.provenance()
+        
+tRidershipLocation.execute()
+doc = tRidershipLocation.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 

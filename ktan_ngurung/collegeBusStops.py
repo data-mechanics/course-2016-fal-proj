@@ -7,7 +7,7 @@ import uuid
 import geocoder
 from collections import Counter
 
-class example(dml.Algorithm):
+class collegeBusStops(dml.Algorithm):
     contributor = 'ktan_ngurung'
     reads = ['ktan_ngurung.colleges', 'ktan_ngurung.busStops']
     writes = ['ktan_ngurung.collegeBusStopCounts']
@@ -142,8 +142,8 @@ class example(dml.Algorithm):
 
         return doc
 
-example.execute() 
-doc = example.provenance()
+collegeBusStops.execute() 
+doc = collegeBusStops.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 
