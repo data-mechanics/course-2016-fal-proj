@@ -110,7 +110,8 @@ class proj1(dml.Algorithm):
 
 		return doc
 
+proj1.execute()
 #Same issue as with inserting into db.
-doc = proj1.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#doc = proj1.provenance()
+#print(doc.get_provn())
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
