@@ -28,36 +28,48 @@ class hubwayBigBelly(dml.Algorithm):
         hbbDict = {}
 
         # Commented block below can only be a when query limit for geocoder library has not been used up
-        
-        for item in bigBelly:
-            print(item['data'][1])
-        #     address = geocoder.google(coordinates, method='reverse')
-        #     zipcode = str(address.postal)
+        '''
+        for doc in bigBelly: 
+            docDict = dict(doc)
+            for i in range(len(docDict['data'])): 
+                lastIndex = docDict['data'][i][-1]
+                coordinates = [lastIndex[1], lastIndex[2]]
 
-        #     if zipcode != 'None' and zipcode not in collegeAndStopCountsDict:
-        #         collegeAndStopCountsDict[zipcode] = {'busStopCount' : 1, 'collegeCount' : 0}
+                address = geocoder.google(coordinates, method='reverse')
+                zipcode = str(address.postal)
 
-        #     elif zipcode != 'None' and zipcode in collegeAndStopCountsDict:
-        #         collegeAndStopCountsDict[zipcode]['busStopCount'] += 1
+                if zipcode != 'None' and zipcode not in hbbDict:
+                    hbbDict[zipcode] = {'bigBellyCount' : 1, 'hubwayCount' : 0}
 
-        #     else:
-        #         pass
+                elif zipcode != 'None' and zipcode in hbbDict:
+                    hbbDict[zipcode]['bigBellyCount'] += 1
 
-        # for college in colleges:
+                else:
+                     pass
+        '''
 
-        #     coordinates = college['fields']['geo_point_2d']
-        #     address = geocoder.google(coordinates, method='reverse')
-        #     zipcode = str(address.postal)
+        b = {'02124': {'bigBellyCount': 1, 'hubwayCount': 0}, '02111': {'bigBellyCount': 27, 'hubwayCount': 0}, '02114': {'bigBellyCount': 27, 'hubwayCount': 0}, '02446': {'bigBellyCount': 4, 'hubwayCount': 0}, '02215': {'bigBellyCount': 25, 'hubwayCount': 0}, '02110': {'bigBellyCount': 23, 'hubwayCount': 0}, '02119': {'bigBellyCount': 1, 'hubwayCount': 0}, '02135': {'bigBellyCount': 14, 'hubwayCount': 0}, '02445': {'bigBellyCount': 1, 'hubwayCount': 0}, '02134': {'bigBellyCount': 15, 'hubwayCount': 0}, '02120': {'bigBellyCount': 8, 'hubwayCount': 0}, '02113': {'bigBellyCount': 14, 'hubwayCount': 0}, '02122': {'bigBellyCount': 2, 'hubwayCount': 0}, '02467': {'bigBellyCount': 1, 'hubwayCount': 0}, '02109': {'bigBellyCount': 14, 'hubwayCount': 0}, '02130': {'bigBellyCount': 3, 'hubwayCount': 0}, '02115': {'bigBellyCount': 24, 'hubwayCount': 0}, '02118': {'bigBellyCount': 26, 'hubwayCount': 0}, '02128': {'bigBellyCount': 7, 'hubwayCount': 0}, '02108': {'bigBellyCount': 22, 'hubwayCount': 0}, '02199': {'bigBellyCount': 3, 'hubwayCount': 0}, '02116': {'bigBellyCount': 38, 'hubwayCount': 0}, '02125': {'bigBellyCount': 5, 'hubwayCount': 0}, '02210': {'bigBellyCount': 12, 'hubwayCount': 0}, '02127': {'bigBellyCount': 1, 'hubwayCount': 0}}
 
-        #     if zipcode != 'None' and zipcode in collegeAndStopCountsDict:
-        #         collegeAndStopCountsDict[zipcode]['collegeCount'] += 1
+        for station in hubway:
+            print("hi")
 
-        #     elif zipcode != 'None' and zipcode not in collegeAndStopCountsDict:
-        #         collegeAndStopCountsDict[zipcode] = {'busStopCount' : 0, 'collegeCount': 1}
+            coordinates = station['fields']['coordinates']
+            address = geocoder.google(coordinates, method='reverse')
+            zipcode = str(address.postal)
 
-        #     else:
-        #         pass
-        
+            print(address)
+
+            if zipcode != 'None' and zipcode in hbbDict:
+                print("why")
+                hbbDict[zipcode]['hubwayCount'] += 1
+
+            elif zipcode != 'None' and zipcode not in hbbDict:
+                hbbDict[zipcode] = {'bigBellyCount' : 0, 'hubwayCount': 1}
+
+            else:
+                pass
+
+        print(hbbDict)
   
         # Convert dictionary into JSON object 
         # data = json.dumps(collegeAndStopCountsDict, sort_keys=True, indent=2)

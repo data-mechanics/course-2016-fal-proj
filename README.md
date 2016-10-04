@@ -9,7 +9,7 @@ Each of these data sets support our main focus of research in some way by lookin
 
 The file titled `landmarkLocations.py` will retrieve our intial datasets mentioned above. To run the file:
 ```
->>> python landmarkLocations.py
+$ python landmarkLocations.py
 ```
 
 ## Transformation Scripts (Question 2c)
@@ -21,14 +21,14 @@ We performed three transformations as follows on our datasets.
 This transformation combines T-stop names, locations, and number of entries based on the intersection of stations into a new dataset called tRidershipLocation. It has some limitations due to the Google Maps API quota, but the necessary responses from the API have been stored into a variable to help create the collection. To run the file:
 
 ```
->>> python tRidershipLocation.py
+$ python tRidershipLocation.py
 ```
 **2. Second Transformation**
 
 This transformation combines colleges and bus stops based on the intersection of their zip codes into a new dataset called collegeBusStopCounts. It has some limitations due to the geocoder query limit, but the necessary responses from the library have been stored into a variable to help create the collection. To run the file:
 
 ```
->>> python collegeBusStops.py
+$ python collegeBusStops.py
 ```
 
 
