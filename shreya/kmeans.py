@@ -27,6 +27,7 @@ def kmeans(points_with_weights):
 		return [(key, f([v for (k,v) in R if k == key])) for key in keys]
 
 	count = 0
+	#In the future gonna check to make sure the distance is under a certain amount.
 	while count < 10:
 		MPD = [(m, p, dist(m,p)) for (m,p) in product(M,P)]
 		PDs = [(p, d) for (m,p,d) in MPD]
