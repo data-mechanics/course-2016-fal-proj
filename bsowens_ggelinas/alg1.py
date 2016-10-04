@@ -226,32 +226,37 @@ class getGeoJSON(dml.Algorithm):
             None,
             {prov.model.PROV_TYPE: 'ont:Computation'}
         )
+        stations = doc.entity('dat:bsowens_ggelinas#stations', {prov.model.PROV_LABEL:'FIO with Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        incidents = doc.entity('dat:bsowens_ggelinas#get_fio_with_coords', {prov.model.PROV_LABEL:'FIO with Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        property = doc.entity('dat:bsowens_ggelinas#get_fio_with_coords', {prov.model.PROV_LABEL:'FIO with Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        fio = doc.entity('dat:bsowens_ggelinas#get_fio_with_coords', {prov.model.PROV_LABEL:'FIO with Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        hospitals = doc.entity('dat:bsowens_ggelinas#get_fio_with_coords', {prov.model.PROV_LABEL:'FIO with Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
 
-        doc.wasAttributedTo(resource_stations, this_script)
-        doc.wasAttributedTo(resource_incidents, this_script)
-        doc.wasAttributedTo(resource_property, this_script)
-        doc.wasAttributedTo(resource_fio, this_script)
-        doc.wasAttributedTo(resource_hospitals, this_script)
+        doc.wasAttributedTo(stations, this_script)
+        doc.wasAttributedTo(incidents, this_script)
+        doc.wasAttributedTo(property, this_script)
+        doc.wasAttributedTo(fio, this_script)
+        doc.wasAttributedTo(hospitals, this_script)
 
-        doc.wasGeneratedBy(resource_stations, this_run, endTime)
-        doc.wasGeneratedBy(resource_incidents, this_run, endTime)
-        doc.wasGeneratedBy(resource_property, this_run, endTime)
-        doc.wasGeneratedBy(resource_fio, this_run, endTime)
-        doc.wasGeneratedBy(resource_hospitals, this_run, endTime)
+        doc.wasGeneratedBy(stations, this_run, endTime)
+        doc.wasGeneratedBy(incidents, this_run, endTime)
+        doc.wasGeneratedBy(property, this_run, endTime)
+        doc.wasGeneratedBy(fio, this_run, endTime)
+        doc.wasGeneratedBy(hospitals, this_run, endTime)
 
-        doc.wasDerivedFrom(resource_stations, resource_stations, this_run, this_run, this_run)
-        doc.wasDerivedFrom(resource_incidents, resource_incidents, this_run, this_run, this_run)
-        doc.wasDerivedFrom(resource_property, resource_property, this_run, this_run, this_run)
-        doc.wasDerivedFrom(resource_fio, resource_fio, this_run, this_run, this_run)
-        doc.wasDerivedFrom(resource_hospitals, resource_hospitals, this_run, this_run, this_run)
+        doc.wasDerivedFrom(stations, resource_stations, this_run, this_run, this_run)
+        doc.wasDerivedFrom(incidents, resource_incidents, this_run, this_run, this_run)
+        doc.wasDerivedFrom(property, resource_property, this_run, this_run, this_run)
+        doc.wasDerivedFrom(fio, resource_fio, this_run, this_run, this_run)
+        doc.wasDerivedFrom(hospitals, resource_hospitals, this_run, this_run, this_run)
 
         repo.record(doc.serialize())
         repo.logout()
 
         return doc
 
-alg1.execute()
-doc = alg1.provenance()
+getGeoJSON.execute()
+doc = getGeoJSON.provenance()
 print (doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 

@@ -28,7 +28,7 @@ class getFIOcoord(dml.Algorithm):
             #returns a tuple of (lat,long)
 
             address_str = item["location"]
-            google_key = AIzaSyA8VYW_KUzsrG_1d1ow7_fql6wxRNvq5O8
+            google_key = "AIzaSyA8VYW_KUzsrG_1d1ow7_fql6wxRNvq5O8"
             url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address_str + "+MA&key=" + google_key
             url = url.replace(" ", "+")
             try:
@@ -116,10 +116,10 @@ class getFIOcoord(dml.Algorithm):
             {prov.model.PROV_TYPE: 'ont:Computation'}
         )
 
-        fio = doc.entity('dat:bsowens_ggelinas#getFIOcoord', {prov.model.PROV_LABEL:'FIO with Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(resource, this_script)
-        doc.wasGeneratedBy(resource, this_run, endTime)
-        doc.wasDerivedFrom(resource, resource, this_run, this_run, this_run)
+        fio = doc.entity('dat:bsowens_ggelinas#get_fio_with_coords', {prov.model.PROV_LABEL:'FIO with Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(fio, this_script)
+        doc.wasGeneratedBy(fio, this_run, endTime)
+        doc.wasDerivedFrom(fio, resource, this_run, this_run, this_run)
 
 
         repo.record(doc.serialize())  # Record the provenance document.
