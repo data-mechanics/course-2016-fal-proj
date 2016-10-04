@@ -50,7 +50,7 @@ class example(dml.Algorithm):
         
         json_filename_1 = "../data/fire_hydrant_new.json"
         jsonWriter_1 = open(json_filename_1,'w') 
-        dataJson = "[\n\t" + ",\n\t".join([json.dumps(row, sort_keys=True,indent=6, separators=(',', ': ')) for row in csv_reader1]) + "\n]"
+        dataJson = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader1]) + "\n]"
         jsonWriter_1.write(dataJson)
         jsonWriter_1.close()        
         
@@ -90,7 +90,7 @@ class example(dml.Algorithm):
         
         json_filename_2 = "../data/fire_boxes_new.json"
         jsonWriter_2 = open(json_filename_2,'w') 
-        dataJson_2 = "[\n\t" + ",\n\t".join([json.dumps(row, sort_keys=True,indent=6, separators=(',', ': ')) for row in csv_reader2]) + "\n]"
+        dataJson_2 = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader2]) + "\n]"
         jsonWriter_2.write(dataJson_2)
         jsonWriter_2.close()        
         
@@ -138,7 +138,7 @@ class example(dml.Algorithm):
         
         json_filename_5 = "../data/Fire_311_Requests_new.json"
         jsonWriter_5 = open(json_filename_5,'w') 
-        dataJson_5 = "[\n\t" + ",\n\t".join([json.dumps(row, sort_keys=True,indent=6, separators=(',', ': ')) for row in csv_reader5]) + "\n]"
+        dataJson_5 = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader5]) + "\n]"
         jsonWriter_5.write(dataJson_5)
         jsonWriter_5.close()   
         
@@ -180,52 +180,60 @@ class example(dml.Algorithm):
 
         this_script = doc.agent('alg:emilyh23_yazhang#data', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
 
-        this_run = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Retrieval'})
-
+        #get fireDistricts dataset
+        get_fireDistricts = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'get_fireDistricts', prov.model.PROV_TYPE:'ont:Retrieval'})
         datasets_fireDistricts = doc.entity('bod:bffebec4fa844e84917e0f13937ec0d7_3', {'prov:label':'fireDistricts', prov.model.PROV_TYPE:'ont:DataResource', 'bod:Extension:':'geojson'})
-        doc.wasAssociatedWith(this_run, this_script)
-        doc.used(this_run, datasets_fireDistricts, startTime)
+        doc.wasAssociatedWith(get_fireDistricts, this_script)
+        doc.used(get_fireDistricts, datasets_fireDistricts, startTime)
 
-        datasets_fireDepartments = doc.entity('bod:092857c15cbb49e8b214ca5e228317a1_2', {'prov:label':'fireDepartments', prov.model.PROV_TYPE:'ont:DataResource', 'bod:Extension:':'geojson'})
-        doc.wasAssociatedWith(this_run, this_script)
-        doc.used(this_run, datasets_fireDepartments, startTime)
-
-        datasets_fireBoxes = doc.entity('bod:3a0f4db1e63a4a98a456fdb71dc37a81_4', {'prov:label':'fireBoxes', prov.model.PROV_TYPE:'ont:DataResource', 'bod:Extension:':'csv'})
-        doc.wasAssociatedWith(this_run, this_script)
-        doc.used(this_run, datasets_fireBoxes, startTime)
-
-        datasets_fireHydrants = doc.entity('bod:1b0717d5b4654882ae36adc4a20fd64b_0', {'prov:label':'fireHydrants', prov.model.PROV_TYPE:'ont:DataResource', 'bod:Extension:':'csv'})
-        doc.wasAssociatedWith(this_run, this_script)
-        doc.used(this_run, datasets_fireHydrants, startTime)
-
-        resource = doc.entity('bdp:m3cw-fv46/rows', {'prov:label':'Fire_311_Service_Requests', prov.model.PROV_TYPE:'ont:DataResource', 'bdp:Extension:':'csv', 'ont:Query': '?accessType=DOWNLOAD&bom=true'})
-        doc.wasAssociatedWith(this_run, this_script)
-        doc.used(this_run, resource, startTime)
-        
         fireDistricts = doc.entity('dat:emilyh23_yazhang#fireDistricts', {prov.model.PROV_LABEL:'fireDistricts', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(fireDistricts, this_script)
-        doc.wasGeneratedBy(fireDistricts, this_run, endTime)
-        doc.wasDerivedFrom(fireDistricts, datasets_fireDistricts, this_run, this_run, this_run)
-        
+        doc.wasGeneratedBy(fireDistricts, get_fireDistricts, endTime)
+        doc.wasDerivedFrom(fireDistricts, datasets_fireDistricts, get_fireDistricts, get_fireDistricts, get_fireDistricts)
+
+        #get fireDepartments dataset
+        get_fireDepartments = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'get_fireDepartments', prov.model.PROV_TYPE:'ont:Retrieval'})
+        datasets_fireDepartments = doc.entity('bod:092857c15cbb49e8b214ca5e228317a1_2', {'prov:label':'fireDepartments', prov.model.PROV_TYPE:'ont:DataResource', 'bod:Extension:':'geojson'})
+        doc.wasAssociatedWith(get_fireDepartments, this_script)
+        doc.used(get_fireDepartments, datasets_fireDepartments, startTime)
+
         fireDepartments = doc.entity('dat:emilyh23_yazhang#fireDepartments', {prov.model.PROV_LABEL:'fireDepartments', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(fireDepartments, this_script)
-        doc.wasGeneratedBy(fireDepartments, this_run, endTime)
-        doc.wasDerivedFrom(fireDepartments, datasets_fireDepartments, this_run, this_run, this_run)
-        
+        doc.wasGeneratedBy(fireDepartments, get_fireDepartments, endTime)
+        doc.wasDerivedFrom(fireDepartments, datasets_fireDepartments, get_fireDepartments, get_fireDepartments, get_fireDepartments)
+
+        #get fireBoxes dataset
+        get_fireBoxes = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'get_fireBoxes', prov.model.PROV_TYPE:'ont:Retrieval'})
+        datasets_fireBoxes = doc.entity('bod:3a0f4db1e63a4a98a456fdb71dc37a81_4', {'prov:label':'fireBoxes', prov.model.PROV_TYPE:'ont:DataResource', 'bod:Extension:':'csv'})
+        doc.wasAssociatedWith(get_fireBoxes, this_script)
+        doc.used(get_fireBoxes, datasets_fireBoxes, startTime)
+
         fireBoxes = doc.entity('dat:emilyh23_yazhang#fireBoxes', {prov.model.PROV_LABEL:'fireBoxes', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(fireBoxes, this_script)
-        doc.wasGeneratedBy(fireBoxes, this_run, endTime)
-        doc.wasDerivedFrom(fireBoxes, datasets_fireBoxes, this_run, this_run, this_run)  
-        
+        doc.wasGeneratedBy(fireBoxes, get_fireBoxes, endTime)
+        doc.wasDerivedFrom(fireBoxes, datasets_fireBoxes, get_fireBoxes, get_fireBoxes, get_fireBoxes)  
+
+        #get fireHydrants dataset
+        get_fireHydrants = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'get_fireHyrdrants', prov.model.PROV_TYPE:'ont:Retrieval'})
+        datasets_fireHydrants = doc.entity('bod:1b0717d5b4654882ae36adc4a20fd64b_0', {'prov:label':'fireHydrants', prov.model.PROV_TYPE:'ont:DataResource', 'bod:Extension:':'csv'})
+        doc.wasAssociatedWith(get_fireHydrants, this_script)
+        doc.used(get_fireHydrants, datasets_fireHydrants, startTime)
+
         fireHydrants = doc.entity('dat:emilyh23_yazhang#fireHydrants', {prov.model.PROV_LABEL:'fireHydrants', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(fireHydrants, this_script)
-        doc.wasGeneratedBy(fireHydrants, this_run, endTime)
-        doc.wasDerivedFrom(fireHydrants, datasets_fireHydrants, this_run, this_run, this_run)   
+        doc.wasGeneratedBy(fireHydrants, get_fireHydrants, endTime)
+        doc.wasDerivedFrom(fireHydrants, datasets_fireHydrants, get_fireHydrants, get_fireHydrants, get_fireHydrants)   
+
+        #get 311 Service Requests dataset
+        get_311 = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'get_311', prov.model.PROV_TYPE:'ont:Retrieval'})
+        resource = doc.entity('bdp:m3cw-fv46/rows', {'prov:label':'Fire_311_Service_Requests', prov.model.PROV_TYPE:'ont:DataResource', 'bdp:Extension:':'csv', 'ont:Query': '?accessType=DOWNLOAD&bom=true'})
+        doc.wasAssociatedWith(get_311, this_script)
+        doc.used(get_311, resource, startTime)
         
         Fire_311_Service_Requests = doc.entity('dat:emilyh23_yazhang#Fire_311_Service_Requests', {prov.model.PROV_LABEL:'Fire_311_Service_Requests', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(Fire_311_Service_Requests, this_script)
-        doc.wasGeneratedBy(Fire_311_Service_Requests, this_run, endTime)
-        doc.wasDerivedFrom(Fire_311_Service_Requests, resource, this_run, this_run, this_run)  
+        doc.wasGeneratedBy(Fire_311_Service_Requests, get_311, endTime)
+        doc.wasDerivedFrom(Fire_311_Service_Requests, resource, get_311, get_311, get_311)  
         
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
