@@ -19,14 +19,7 @@ class example(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
-        '''
-        filen = '../data/Fire_311_Service_Requests.json'
-        res = open(filen, 'r')
-        r5 = json.load(res)
-        repo.dropPermanent("Fire_311_Service_Requests")
-        repo.createPermanent("Fire_311_Service_Requests")
-        repo['emilyh23_yazhang.Fire_311_Service_Requests'].insert_many(r5)
-        '''
+        
         r5 = repo.emilyh23_yazhang.Fire_311_Service_Requests.find() 
 
         # MAPPING: creates lists of dictionaries that contains fire incidents by category, their districts, and their ontime/delay status, and their lat/long
@@ -74,9 +67,6 @@ class example(dml.Algorithm):
                 fireHydrantByDis[7]['8'].append(dic) 
             elif (dic['District'] == '9'):
                 fireHydrantByDis[8]['9'].append(dic) 
-        
-        #s = json.dumps(fireHydrantByDis, sort_keys=True, indent=2)
-        #print(s)
 
         #number of fire hydrant repairs by district
         fireHydrantCount = [{d: 0} for d in districts]
@@ -100,9 +90,6 @@ class example(dml.Algorithm):
                     fireHydrantCount[7]['8'] = {'count':len(dic[k]), 'Type': 'Fire Hydrant'}
                 if (k=='9'):
                     fireHydrantCount[8]['9'] = {'count':len(dic[k]), 'Type': 'Fire Hydrant'}
-        
-        #s = json.dumps(fireHydrantCount, sort_keys=True, indent=2)
-        #print(s)
 
         repo.dropPermanent("hydrantCounts")
         repo.createPermanent("hydrantCounts")
