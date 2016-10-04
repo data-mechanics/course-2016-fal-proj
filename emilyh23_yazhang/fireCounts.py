@@ -45,7 +45,7 @@ class fireCounts(dml.Algorithm):
         # list of districts
         districts = ['1','12','11','3','4','6','7','8','9']
         
-        # fireByDis is a list of dictionaries of fire incidents sorted by district
+        # fireByDis is a list of dictionaries for fire incidents sorted by district
         # REDUCE
         fireByDis = [{d: []} for d in districts]
         for dic in fire:
