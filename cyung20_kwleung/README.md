@@ -1,7 +1,7 @@
 #Project Proposal
 
 Whether it's commuting to work/school, going home, or going out with friends, the T is used by a myriad of people who rely on it as their main source of transportation.
-For our project, we intend to compare and determine which T stops are the safest at night. We will be looking at Crime Incident Reports (made between August 2015 to now) around each T stop, as well as other datasets/variables that might have an influence on the frequency of crimes in particular areas. 
+For our project, we intend to compare and determine which T stops are the safest while in consideration of various factors that may have an influence on the frequency of crimes near said T stops. In particular, we will be looking at the following datasets: Crime Incident Reports (made between August 2015 to now); businesses that have a liquor license; locations of streetlights; and the locations of all Boston Police District Stations.
 
 #Datasets Being Used
 **1. MBTA T Stop Locations**
