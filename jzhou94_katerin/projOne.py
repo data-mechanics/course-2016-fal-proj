@@ -16,7 +16,6 @@ class example(dml.Algorithm):
         print("starting data retrieval")
         '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
         startTime = datetime.datetime.now()
-        # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
         print("repo: ", repo)
@@ -27,7 +26,6 @@ class example(dml.Algorithm):
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
-        # s print everything in the databse
         repo.dropPermanent("employee_earnings")
         repo.createPermanent("employee_earnings")
         repo['jzhou94_katerin.employee_earnings'].insert_many(r)
@@ -38,7 +36,6 @@ class example(dml.Algorithm):
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
-        # s print everything in the databse
         repo.dropPermanent("public_schools")
         repo.createPermanent("public_schools")
         repo['jzhou94_katerin.public_schools'].insert_many(r)
@@ -51,7 +48,7 @@ class example(dml.Algorithm):
         reduce_function_school = Code('''function(k, vs) {
             var total = 0;
             for (var i = 0; i < vs.length; i++)
-            total += vs[i].schools;
+                total += vs[i].schools;
             return {schools:total};
             }''')
         
@@ -66,34 +63,51 @@ class example(dml.Algorithm):
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
-        # s print everything in the databse
         repo.dropPermanent("crime_incident")
         repo.createPermanent("crime_incident")
         repo['jzhou94_katerin.crime_incident'].insert_many(r)
         print("crime incidents loaded")
+
+        map_function_crime = Code('''
+            function() {
+            district = this.reptdistrict
+            if(district == 'A1' || district == 'A15')
+                emit('02120', {crime:1});
+            else if(district == 'A7')
+                emit('02128', {crime:1});
+            else if(district == 'B2')
+                emit('02119', {crime:1});
+            else if(district == 'B3')
+                emit('02124', {crime:1});
+            else if(district == 'C6')
+                emit('02127', {crime:1});
+            else if(district == 'C11')
+                emit('02122', {crime:1});
+            else if(district == 'D4')
+                emit('02116', {crime:1});
+            else if(district == 'D14')
+                emit('02135', {crime:1});
+            else if(district == 'E5')
+                emit('02132', {crime:1});
+            else if(district == 'E13')
+                emit('02130', {crime:1});
+            else if(district == 'E18')
+                emit('02136', {crime:1});
+            }''')
         
-        ''' POLICE STATIONS '''
-        url = 'https://data.cityofboston.gov/resource/pyxn-r3i2.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        # s print everything in the databse
-        repo.dropPermanent("police_station")
-        repo.createPermanent("police_station")
-        repo['jzhou94_katerin.police_station'].insert_many(r)
-        print("police stations loaded")
-                
-        ''' EDUCATION
-        url = 'https://odn.data.socrata.com/resource/7mfb-7yvj.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        # s print everything in the databse
-        repo.dropPermanent("education")
-        repo.createPermanent("education")
-        repo['jzhou94_katerin.education'].insert_many(r)
-        print("education loaded")
-        '''
+        reduce_function_crime = Code('''function(k, vs) {
+            var total = 0;
+            for (var i = 0; i < vs.length; i++)
+               total += vs[i].crime;
+            return {crime:total};
+            }''')
+
+        repo.dropPermanent('jzhou94_katerin.crime')
+        repo.createPermanent('jzhou94_katerin.crime')
+        repo.jzhou94_katerin.crime_incident.map_reduce(map_function_crime, reduce_function_crime, 'jzhou94_katerin.crime');
+        print("crime created")
+        
+        
         repo.logout()
 
         endTime = datetime.datetime.now()
