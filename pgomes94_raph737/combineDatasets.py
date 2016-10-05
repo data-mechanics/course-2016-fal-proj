@@ -50,6 +50,8 @@ class combineDatasets(dml.Algorithm):
 		repo.authenticate('pgomes94_raph737', 'pgomes94_raph737')
 
 		to_insert = []
+
+		print("Reading in previous datasets.")
 		
 		# far from traffic spots, ambulances to move easier as they enter/leave hospital
 		for vals in repo['pgomes94_raph737.traffic_locations'].find():
@@ -87,6 +89,9 @@ class combineDatasets(dml.Algorithm):
 		repo.createPermanent("proximity_locations")
 		repo['pgomes94_raph737.proximity_locations'].insert_many(to_insert)
 
+		print("Database proximity_locations created!")
+		print("Starting KMeans algorithm.")
+
 		c_locations = [x['location'] for x in repo['pgomes94_raph737.proximity_locations'].find({'proximity': 'C'})]
 		f_locations = [x['location'] for x in repo['pgomes94_raph737.proximity_locations'].find({'proximity': 'F'})]
 		
@@ -100,6 +105,8 @@ class combineDatasets(dml.Algorithm):
 		f_kmeans = KMeans(init='k-means++', n_clusters=23, max_iter=1000)
 		c_kmeans_centers = c_kmeans.fit(c_locations).cluster_centers_
 		f_kmeans_centers = f_kmeans.fit(f_locations).cluster_centers_
+
+		print("Kmeans centers calculated successfully!")
 
 		to_insert = []
 		for location in c_kmeans_centers:
@@ -117,6 +124,10 @@ class combineDatasets(dml.Algorithm):
 		repo.dropPermanent("proximity_cluster_centers")
 		repo.createPermanent("proximity_cluster_centers")
 		repo['pgomes94_raph737.proximity_cluster_centers'].insert_many(to_insert)
+
+		print("Database proximity_cluster_centers created!")
+
+		repo.logout()
 
 		end_time = datetime.datetime.now()
 

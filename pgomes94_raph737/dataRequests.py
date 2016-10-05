@@ -20,7 +20,6 @@ class dataRequests(dml.Algorithm):
 	def get_hospital_locations():
 		hospital_data_request = requests.get("https://data.cityofboston.gov/resource/u6fv-m8v4.json?$$app_token=" + dml.auth['city_of_boston'])
 		if hospital_data_request.status_code == 200:
-			print("Successfully requested hopsital data.")
 			hospital_locations = []
 			for json_data in hospital_data_request.json():
 				hospital_locations.append({
@@ -36,7 +35,6 @@ class dataRequests(dml.Algorithm):
 		traffic_data_request = requests.get("https://data.cityofboston.gov/resource/dih6-az4h.json?$$app_token=" + dml.auth['city_of_boston'])
 		traffic_location_request = requests.get("https://data.cityofboston.gov/resource/3mu3-67d4.json?$$app_token=" + dml.auth['city_of_boston'])
 		if traffic_data_request.status_code == 200 and traffic_location_request.status_code == 200:
-			print("Successfully requested traffic location data.")
 			id_to_location = {}
 			traffic_locations = []
 
@@ -59,7 +57,6 @@ class dataRequests(dml.Algorithm):
 	def get_crime_locations():
 		crime_data_request = requests.get("https://data.cityofboston.gov/resource/29yf-ye7n.json?$$app_token=" + dml.auth['city_of_boston'])
 		if crime_data_request.status_code == 200:
-			print("Successfully requested crime location data.")
 			crime_locations = []
 			for json_data in crime_data_request.json():
 				try:
@@ -77,7 +74,6 @@ class dataRequests(dml.Algorithm):
 	def get_police_station_locations():
 		police_station_request = requests.get("https://data.cityofboston.gov/resource/pyxn-r3i2.json?$$app_token=" + dml.auth['city_of_boston'])
 		if police_station_request.status_code == 200:
-			print("Successfully requested police station locations")
 			police_station_locations = []
 			for json_data in police_station_request.json():
 				police_station_locations.append({
@@ -110,7 +106,6 @@ class dataRequests(dml.Algorithm):
 							})
 					except:
 						print("Error: Failed to parse line: {}".format(line))
-			print("Successfully parsed MBTA stops csv.")
 			return mbta_stops
 		else:
 			print("Error: Parsing MBTA stops csv failed with status code: {}.".format(mbta_stop_request.status_code))
@@ -125,30 +120,50 @@ class dataRequests(dml.Algorithm):
 		repo.authenticate('pgomes94_raph737', 'pgomes94_raph737')
 		
 		hospital_locations = dataRequests.get_hospital_locations()
-		repo.dropPermanent("hospital_locations")
-		repo.createPermanent("hospital_locations")
-		repo['pgomes94_raph737.hospital_locations'].insert_many(hospital_locations)
-		
+		if hospital_locations == -1:
+			return -1
+		else:
+			repo.dropPermanent("hospital_locations")
+			repo.createPermanent("hospital_locations")
+			repo['pgomes94_raph737.hospital_locations'].insert_many(hospital_locations)
+			print("Database hospital_locations created!")
+			
 		traffic_locations = dataRequests.get_traffic_locations()
-		repo.dropPermanent("traffic_locations")
-		repo.createPermanent("traffic_locations")
-		repo['pgomes94_raph737.traffic_locations'].insert_many(traffic_locations)
+		if traffic_locations == -1:
+			return -1
+		else:
+			repo.dropPermanent("traffic_locations")
+			repo.createPermanent("traffic_locations")
+			repo['pgomes94_raph737.traffic_locations'].insert_many(traffic_locations)
+			print("Database traffic_locations created!")
 
 		crime_locations = dataRequests.get_crime_locations()
-		repo.dropPermanent("crime_locations")
-		repo.createPermanent("crime_locations")
-		repo['pgomes94_raph737.crime_locations'].insert_many(crime_locations)
+		if crime_locations == -1:
+			return -1
+		else:
+			repo.dropPermanent("crime_locations")
+			repo.createPermanent("crime_locations")
+			repo['pgomes94_raph737.crime_locations'].insert_many(crime_locations)
+			print("Database crime_locations created!")
 
 		police_station_locations = dataRequests.get_police_station_locations()
-		repo.dropPermanent("police_station_locations")
-		repo.createPermanent("police_station_locations")
-		repo['pgomes94_raph737.police_station_locations'].insert_many(police_station_locations)
-		
+		if police_station_locations == -1:
+			return -1
+		else:
+			repo.dropPermanent("police_station_locations")
+			repo.createPermanent("police_station_locations")
+			repo['pgomes94_raph737.police_station_locations'].insert_many(police_station_locations)
+			print("Database police_station_locations created!")
+
 		mbta_stop_locations = dataRequests.get_mbta_stop_locations_csv()
-		repo.dropPermanent("mbta_stop_locations")
-		repo.createPermanent("mbta_stop_locations")
-		repo['pgomes94_raph737.mbta_stop_locations'].insert_many(mbta_stop_locations)
-		
+		if mbta_stop_locations == -1:
+			return -1
+		else:
+			repo.dropPermanent("mbta_stop_locations")
+			repo.createPermanent("mbta_stop_locations")
+			repo['pgomes94_raph737.mbta_stop_locations'].insert_many(mbta_stop_locations)
+			print("Database mbta_stop_locations created!")
+
 		repo.logout()
 
 		end_time = datetime.datetime.now()
