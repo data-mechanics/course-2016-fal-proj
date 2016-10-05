@@ -50,7 +50,7 @@ class combineDatasets(dml.Algorithm):
 		repo.authenticate('pgomes94_raph737', 'pgomes94_raph737')
 
 		to_insert = []
-		'''
+		
 		# far from traffic spots, ambulances to move easier as they enter/leave hospital
 		for vals in repo['pgomes94_raph737.traffic_locations'].find():
 			to_insert.append({
@@ -86,7 +86,6 @@ class combineDatasets(dml.Algorithm):
 		repo.dropPermanent("proximity_locations")
 		repo.createPermanent("proximity_locations")
 		repo['pgomes94_raph737.proximity_locations'].insert_many(to_insert)
-		'''
 
 		c_locations = [x['location'] for x in repo['pgomes94_raph737.proximity_locations'].find({'proximity': 'C'})]
 		f_locations = [x['location'] for x in repo['pgomes94_raph737.proximity_locations'].find({'proximity': 'F'})]
