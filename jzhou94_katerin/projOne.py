@@ -45,10 +45,9 @@ class example(dml.Algorithm):
         print("public schools loaded")
 
         map_function_school = Code('''function() {
-            emit(this.zipcode, {schools:1});
+            emit('0'+this.zipcode, {schools:1});
             }''')
         
-    
         reduce_function_school = Code('''function(k, vs) {
             var total = 0;
             for (var i = 0; i < vs.length; i++)
