@@ -6,7 +6,8 @@ In this project, you will implement platform components that can obtain a some d
 **This project description will be updated as we continue work on the infrastructure.**
 
 ## MongoDB infrastructure
-
+af
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ### Setting up
 
 We have committed setup scripts for a MongoDB database that will set up the database and collection management functions that ensure users sharing the project data repository can read everyone's collections but can only write to their own collections. Once you have installed your MongoDB instance, you can prepare it by first starting `mongod` _without authentication_:
