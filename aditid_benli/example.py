@@ -9,7 +9,7 @@ from geopy.distance import vincenty
 class example(dml.Algorithm):
     contributor = 'aditid_benli'
     reads = []
-    writes = ['aditid_benli.jam', 'aditid_benli.comparking', 'aditid_benli.inters', 'aditid_benli.metparking', 'aditid_benli.partickets']
+    writes = ['aditid_benli.jam', 'aditid_benli.comparking', 'aditid_benli.inters', 'aditid_benli.metparking', 'aditid_benli.partickets','aditid_benli.crime']
 
     @staticmethod
     def execute(trial = False):
