@@ -17,7 +17,51 @@ Crime: https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-August
 Police Stations: https://data.cityofboston.gov/resource/pyxn-r3i2.json
 
 ---
+Setting up auth.json
+---
+
+Only 1 key is required, you can get a key at: https://dev.socrata.com/register
+
+auth.json was formatted:
+{'city_of_boston': app_token}
+
+---
 Getting the data
 ___
 
-Run the dataRequests.py to download all the data into the database with its appropriate transformations
+Run dataRequests.py to download all the data into the database.
+
+---
+First 2 transformations
+---
+
+combineDatasets.py will create 2 more tables in our database, proximity_locations and proximity_cluster_centers.
+	proximity_locations: merges 4 of the datasets from before into one table with 2 labels depending on the table it came from.
+	proximity_cluster_centers: The kmeans cluster centers for the 2 labels made above. 
+
+---
+Last transformation
+--- 
+
+This transformation uses pyspark to perform a map function. Installation guidelines for pyspark will be shown below.
+
+The last table created, hospital_scores, is a list of hospital names with their raw rank scores. The higher the score the better the location of the hospital. From here analysis could be done to see how the results fare.
+
+---
+pyspark installations
+---
+
+I followed this guide, except the last step of setting it up with Jupyter notebook: https://www.dataquest.io/blog/pyspark-installation-guide/
+
+Quickly highlighting the main steps:
+1. Make sure any Java version 7+ is installed, otherwise install that.
+2. Click the link in step 4 to download spark: http://spark.apache.org/downloads.html
+3. Download the scala build tool (assumes brew in installed on mac, linux guide in the guide provided above)
+4. Add to ~/.bash_profile
+	a. export SPARK_HOME="/usr/local/bin/spark-x.x.x" (location where spark was installed)
+	b. export PYSPARK_SUBMIT_ARGS="--master local[2] pyspark-shell" (where to start spark)
+	c. export PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH (adds pyspark to pythonpath for imports)
+	d. export PYTHONPATH=$SPARK_HOME/python/lib/py4j-0.10.1-src.zip:$PYTHONPATH (needed because pyspark is built off of spark for Java)
+	e. export PYSPARK_PYTHON="/LOCATION/OF/PYTHON/VERSION/3.4/bin/python3" (needed if more than one version of python is installed, point to python3)
+
+Once the .bash_profile is updated, completely close the terminal app and reopen to apply these updates to the local environment.
