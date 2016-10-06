@@ -8,7 +8,7 @@ Data Sets
 
 Hospitals: https://data.cityofboston.gov/Public-Health/Hospital-Locations/46f7-2snz
 
-MBTA/Train: http://realtime.mbta.com/developer/api/v2/stopsbylocation?api_key="+api_key+"&lat="+lat+"&lon="+lon+"&format=json
+MBTA Stops: http://datamechanics.io/data/pgomes94_raph737/stops.csv
 
 Traffic: https://data.cityofboston.gov/dataset/Waze-Point-Data/b38s-xmkq and https://data.cityofboston.gov/Transportation/Waze-Jam-Data/yqgx-2ktq
 
