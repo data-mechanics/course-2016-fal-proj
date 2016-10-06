@@ -33,10 +33,10 @@ class bicycle_collisions(dml.Algorithm):
 		weather_df = pd.DataFrame.from_csv('weather.csv')
 		repo['anuragp1_jl101995.weather'].insert_many(weather_df.to_dict('records'))
 		os.remove('weather.csv')
-		
-		url ='http://datamechanics.io/data/aliyevaa_jgtsui/Final Bike Collision Database.xlsx' 
-		urllib.request.urlretrieve(url, "bc.xls")
 		'''
+		url ='http://datamechanics.io/data/aliyevaa_jgtsui/fbcd.xlsx'
+		urllib.request.urlretrieve(url, "fbcd.xlsx")
+	
 		wb = xlrd.open_workbook('fbcd.xlsx')
 		sheet = wb.sheet_by_index(0)
 		accidents_list=[]
