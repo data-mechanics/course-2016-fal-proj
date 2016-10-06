@@ -6,8 +6,8 @@ import uuid
 import datetime
 from bs4 import BeautifulSoup
 import requests
-from collections import OrderedDict
-from pymongo import MongoClient
+
+
 
 
 class zip_codes_mapping(dml.Algorithm):
@@ -18,12 +18,9 @@ class zip_codes_mapping(dml.Algorithm):
 	@staticmethod
 	def execute(trial = False):
 		startTime = datetime.datetime.now()
-		client = MongoClient()
-		mrepo = client.repo
-		mrepo.authenticate('aliyevaa_jgtsui', 'aliyevaa_jgtsui')
-		
-		mrepo.dropPermanent("zip_codes_mapping")
-		mrepo.createPermanent("zip_codes_mapping")
+		client = dml.pymongo.MongoClient()
+		repo = client.repo
+		repo.authenticate('aliyevaa_jgtsui', 'aliyevaa_jgtsui')	
 
 		url='http://boston.areaconnect.com/zip2.htm?city=Boston'
 		source_code=requests.get(url)
@@ -32,8 +29,8 @@ class zip_codes_mapping(dml.Algorithm):
 		rows=soup.findAll( 'div', {'class' : 'row'} )
 
 		zipcodes_list=[]
+		zip_s={}
 		for zipcode in rows:
-			zip_s = OrderedDict()
 			zip_n_tag=str(zipcode.find('div', {'class':'block zip1'}))
 			zip_s['zipcode']=zip_n_tag[27:32]
 			zip_lat=str(zipcode.find('div', {'class':'block zip6'}))
@@ -42,15 +39,24 @@ class zip_codes_mapping(dml.Algorithm):
 			zip_s['longitude']=zip_lon[24:31]
 			zipcodes_list.append(zip_s)
 
-		s=json.dumps(zipcodes_list, sort_keys=True, indent=2)
-		mrepo['aliyevaa_jgtsui.zip_codes_mapping'].insert_many(zipcodes_list)
-		mrepo.logout()
+		str_zip_codes=', '.join(json.dumps(d) for d in zipcodes_list)
+		prep='['+str_zip_codes+']'
+		#print(type(prep))	
+		r=json.loads(prep)
+		print(r)
+		s=json.dumps(r, sort_keys=True, indent=2)
+		repo.dropPermanent("zip_codes_mapping")
+		repo.createPermanent("zip_codes_mapping")
+
+		repo['aliyevaa_jgtsui.zip_codes_mapping'].insert(r)
+
+		repo.logout()
 		endTime = datetime.datetime.now()
 		return {"start":startTime, "end":endTime}
 	
 	@staticmethod
 	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-		client = MongoClient()
+		client =  dml.pymongo.MongoClient()
 		repo = client.repo
 		repo.authenticate('aliyevaa_jgtsui', 'aliyevaa_jgtsui')
 		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/aliyevaa_jgtsui')

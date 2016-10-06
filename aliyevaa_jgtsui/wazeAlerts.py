@@ -35,8 +35,8 @@ class wazeAlerts(dml.Algorithm):
 
         url = 'https://data.cityofboston.gov/resource/pvhv-55ac.json?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']
         
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
+        response = urllib.request.urlopen(url).read().decode("utf-8");print(type(response))
+        r = json.loads(response);print(r)
         s = json.dumps(r, sort_keys=True, indent=2)   
         repo.dropPermanent("wazeAlertsData")   
         repo.createPermanent("wazeAlertsData")
