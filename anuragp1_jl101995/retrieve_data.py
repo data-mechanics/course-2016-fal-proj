@@ -207,7 +207,7 @@ class retrieve_data(dml.Algorithm):
 
 retrieve_data.execute()
 doc = retrieve_data.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+# print(doc.get_provn())
+# print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
