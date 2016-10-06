@@ -23,7 +23,15 @@ Setting up auth.json
 Only 1 key is required, you can get a key at: https://dev.socrata.com/register
 
 auth.json was formatted:
-{'city_of_boston': app_token}
+{
+    "services": {
+        "cityofbostondataportal": {
+            "service": "https://data.cityofboston.gov/",
+            "username": "pgomes94_raph737",
+            "token": "KPQpbs4UiZMCXzxGYurpLOFwA",
+        }
+    }
+}
 
 ---
 Getting the data
