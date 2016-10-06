@@ -30,6 +30,28 @@ class example(dml.Algorithm):
         repo.createPermanent("employee_earnings")
         repo['jzhou94_katerin.employee_earnings'].insert_many(r)
         print("employee earnings loaded")
+
+        map_function_avg_earnings = Code('''function() {
+            if (this.postal*1 > 2100 && this.postal*1 < 2300)
+            emit(this.postal, {tot:this.total_earnings, n: 1, avg: this.total_earnings});
+            }''')
+        
+        reduce_function_avg_earnings = Code('''function(k, vs) {            
+            var total = 0;
+            var counts = 0;
+            for (var i = 0; i < vs.length; i++)
+            total += (vs[i].tot*1);
+            for (var i = 0; i < vs.length; i++)
+            counts += vs[i].n;
+            
+            return {tot:total.toFixed(2), n: counts, avg: (total/counts).toFixed(2)};
+            }''')
+        
+        repo.dropPermanent('jzhou94_katerin.avg_earnings')
+        repo.createPermanent('jzhou94_katerin.avg_earnings')
+        repo.jzhou94_katerin.employee_earnings.map_reduce(map_function_avg_earnings, reduce_function_avg_earnings, 'jzhou94_katerin.avg_earnings');
+        
+        print("average earnings data created")
         
         ''' PUBLIC SCHOOLS '''
         url = 'https://data.cityofboston.gov/resource/492y-i77g.json'
@@ -56,7 +78,7 @@ class example(dml.Algorithm):
         repo.createPermanent('jzhou94_katerin.schools')
         repo.jzhou94_katerin.public_schools.map_reduce(map_function_school, reduce_function_school, 'jzhou94_katerin.schools');
 
-        print("repo created")
+        print("school data created")
         
         ''' CRIME INCIDENTS '''
         url = 'https://data.cityofboston.gov/resource/ufcx-3fdn.json'
