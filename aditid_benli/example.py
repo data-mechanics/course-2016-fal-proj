@@ -4,18 +4,16 @@ import dml
 import prov.model
 import datetime
 import uuid
-from bson.code import Code
 from geopy.distance import vincenty
 
-
-class transformation0(dml.Algorithm):
+class example(dml.Algorithm):
     contributor = 'aditid_benli'
-    reads = ['aditid_benli.comparking', 'aditid_benli.partickets']
-    writes = ['aditid_benli.ComParkTick']
+    reads = []
+    writes = ['aditid_benli.jam', 'aditid_benli.comparking', 'aditid_benli.inters', 'aditid_benli.metparking', 'aditid_benli.partickets']
 
     @staticmethod
     def execute(trial = False):
-
+        '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
         startTime = datetime.datetime.now()
         
         # Set up the database connection.
@@ -23,58 +21,60 @@ class transformation0(dml.Algorithm):
         repo = client.repo
         repo.authenticate('aditid_benli', 'aditid_benli')
         
-        comParkRepo = repo.aditid_benli.comparking
-        ticketsRepo = repo.aditid_benli.partickets
-        #for o in comParkRepo.find():
-            #print (o)
+        url = 'https://data.cityofboston.gov/resource/dih6-az4h.json'
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("jam")
+        repo.createPermanent("jam")
+        repo['aditid_benli.jam'].insert_many(r)
         
+        url = 'https://data.cambridgema.gov/resource/vr3p-e9ke.json'
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("comparking")
+        repo.createPermanent("comparking")
+        repo['aditid_benli.comparking'].insert_many(r)
 
-        lots = comParkRepo.find()
-        Lots = []
-        for l in lots:
-            l['nearbyIllegalParking'] = []
-            Lots.append(l)
-         
-        tickets = ticketsRepo.find()
-
-
-        relavent_tickets = []
-        relavent_tickets.append(tickets[5])
-        # for t in tickets:
-        #     if t['violation_description'] == "RESIDENT PERMIT ONLY" or t['violation_description'] == " NO PARKING" or t['violation_description'] == " NO STOPPING":
-        #         relavent_tickets.append(t)
-
+        url = 'https://data.cambridgema.gov/resource/impv-6fac.json'
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("inters")
+        repo.createPermanent("inters")
+        repo['aditid_benli.inters'].insert_many(r)
         
-
-        closest = relavent_tickets[0]
-
-        for rt in relavent_tickets:
-            closestDistance = vincenty(rt['location']['coordinates'],Lots[0]['the_geom']['coordinates'])
-            closestLot = lots[0]
-            for i in range(len(Lots)):
-                candidateDist = vincenty(rt['location']['coordinates'],Lots[i]['the_geom']['coordinates'])  
-                if (candidateDist < closestDistance):
-                    closestDistance = candidateDist
-                    closestLot = i
-            Lots[i]['nearbyIllegalParking'] = Lots[i]['nearbyIllegalParking'].append(rt)
-
-
-        print (lots[3]['nearbyIllegalParking'][0])
-
-
-        repo.dropPermanent("LotsWithAdjacentTickets")
-        repo.createPermanent("crimLotsWithAdjacentTicketse")
-        repo['aditid_benli.LotsWithAdjacentTickets'].insert_many(Lots)
-
-
+        url = 'https://data.cambridgema.gov/resource/up94-ihbw.json'
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("metparking")
+        repo.createPermanent("metparking")
+        repo['aditid_benli.metparking'].insert_many(r)
         
-        #repo.aditid_benli.jam.map_reduce(map_function, reduce_function, 'aditid_benli.ComParkTick');
+        url = 'https://data.cambridgema.gov/resource/m4i2-83v6.json'
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("partickets")
+        repo.createPermanent("partickets")
+        repo['aditid_benli.partickets'].insert_many(r)
         
+        url = 'https://data.cityofboston.gov/resource/29yf-ye7n.json'
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("crime")
+        repo.createPermanent("crime")
+        repo['aditid_benli.crime'].insert_many(r)
+
         repo.logout()
 
         endTime = datetime.datetime.now()
 
         return {"start":startTime, "end":endTime}
+
 
 
     @staticmethod
@@ -128,9 +128,9 @@ class transformation0(dml.Algorithm):
 
         return doc
 
-transformation0.execute()
-doc = transformation0.provenance()
-#print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+example.execute()
+doc = example.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
