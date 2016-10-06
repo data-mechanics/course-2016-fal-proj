@@ -26,12 +26,13 @@ class zip_codes_mapping(dml.Algorithm):
 		source_code=requests.get(url)
 		plain_text=source_code.text
 		soup=BeautifulSoup(plain_text)
-		rows=soup.findAll( 'div', {'class' : 'row'} )
-
+		rows=[]
+		for row in (soup.findAll( 'div', {'class' : 'row'} )):
+			rows.append(row)
 		zipcodes_list=[]
-		zip_s={}
 		for zipcode in rows:
-			zip_n_tag=str(zipcode.find('div', {'class':'block zip1'}))
+			zip_s={}
+			zip_n_tag=str(zipcode.find('div', {'class':'block zip1'}))	
 			zip_s['zipcode']=zip_n_tag[27:32]
 			zip_lat=str(zipcode.find('div', {'class':'block zip6'}))
 			zip_s['latitude']=zip_lat[24:30]
