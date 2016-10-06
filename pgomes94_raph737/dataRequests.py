@@ -18,7 +18,7 @@ class dataRequests(dml.Algorithm):
 	]
 
 	def get_hospital_locations():
-		hospital_data_request = requests.get("https://data.cityofboston.gov/resource/u6fv-m8v4.json?$$app_token=" + dml.auth['city_of_boston'])
+		hospital_data_request = requests.get("https://data.cityofboston.gov/resource/u6fv-m8v4.json?$$app_token=" + dml.auth['services']['cityofbostondataportal']['token'])
 		if hospital_data_request.status_code == 200:
 			hospital_locations = []
 			for json_data in hospital_data_request.json():
@@ -32,8 +32,8 @@ class dataRequests(dml.Algorithm):
 			return -1
 
 	def get_traffic_locations():
-		traffic_data_request = requests.get("https://data.cityofboston.gov/resource/dih6-az4h.json?$$app_token=" + dml.auth['city_of_boston'])
-		traffic_location_request = requests.get("https://data.cityofboston.gov/resource/3mu3-67d4.json?$$app_token=" + dml.auth['city_of_boston'])
+		traffic_data_request = requests.get("https://data.cityofboston.gov/resource/dih6-az4h.json?$$app_token=" + dml.auth['services']['cityofbostondataportal']['token'])
+		traffic_location_request = requests.get("https://data.cityofboston.gov/resource/3mu3-67d4.json?$$app_token=" + dml.auth['services']['cityofbostondataportal']['token'])
 		if traffic_data_request.status_code == 200 and traffic_location_request.status_code == 200:
 			id_to_location = {}
 			traffic_locations = []
@@ -55,7 +55,7 @@ class dataRequests(dml.Algorithm):
 			return -1
 
 	def get_crime_locations():
-		crime_data_request = requests.get("https://data.cityofboston.gov/resource/29yf-ye7n.json?$$app_token=" + dml.auth['city_of_boston'])
+		crime_data_request = requests.get("https://data.cityofboston.gov/resource/29yf-ye7n.json?$$app_token=" + dml.auth['services']['cityofbostondataportal']['token'])
 		if crime_data_request.status_code == 200:
 			crime_locations = []
 			for json_data in crime_data_request.json():
@@ -72,7 +72,7 @@ class dataRequests(dml.Algorithm):
 			return -1
 
 	def get_police_station_locations():
-		police_station_request = requests.get("https://data.cityofboston.gov/resource/pyxn-r3i2.json?$$app_token=" + dml.auth['city_of_boston'])
+		police_station_request = requests.get("https://data.cityofboston.gov/resource/pyxn-r3i2.json?$$app_token=" + dml.auth['services']['cityofbostondataportal']['token'])
 		if police_station_request.status_code == 200:
 			police_station_locations = []
 			for json_data in police_station_request.json():
