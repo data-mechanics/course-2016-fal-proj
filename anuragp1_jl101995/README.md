@@ -23,7 +23,6 @@ important.
 * python3.5+
 * [dml](https://pypi.python.org/pypi/dml)
 * [prov](https://pypi.python.org/pypi/prov)
-* [pandas](http://pandas.pydata.org/pandas-docs/stable/install.html)
 
 ## Retrieve Data
 1. Install project dependencies sand make sure you have ```retrievedata.py```, ```citizip_urls.txt```, and the three ```transformation[#].py``` (```[#]``` being 1, 2, 3) files in your working directory

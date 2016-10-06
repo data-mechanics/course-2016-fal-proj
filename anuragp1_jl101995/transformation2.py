@@ -4,7 +4,6 @@ import dml
 import prov.model
 import datetime
 import uuid
-import pandas as pd
 
 class transformation2(dml.Algorithm):
     contributor = 'anuragp1_jl101995'

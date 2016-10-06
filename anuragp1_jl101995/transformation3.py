@@ -4,7 +4,6 @@ import dml
 import prov.model
 import datetime
 import uuid
-import pandas as pd
 import statistics
 
 class transformation3(dml.Algorithm):
