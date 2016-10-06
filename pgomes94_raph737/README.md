@@ -65,7 +65,7 @@ Quickly highlighting the main steps:
 
 1. Make sure any Java version 7+ is installed, otherwise install that.
 
-2.  Go to http://spark.apache.org/downloads.html and Click the link in step 4 to download spark.
+2.  Go to http://spark.apache.org/downloads.html and click the link in step 4 to download spark.
 
 3. Download the scala build tool (assumes brew in installed on mac, linux guide in the guide provided above).
 
