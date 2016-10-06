@@ -76,7 +76,7 @@ class wazeAlerts(dml.Algorithm):
 
         doc.usage(get_wazeAlerts_data, resource, startTime, None)
 
-        wazeAlertsData = doc.entity('dat:aliyevaa_jgtsui#crimeData', 
+        wazeAlertsData = doc.entity('dat:aliyevaa_jgtsui#wazeAlertsData', 
             {prov.model.PROV_LABEL:'Waze Alert Data', 
             prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(wazeAlertsData, this_script)

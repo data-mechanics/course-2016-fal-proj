@@ -13,11 +13,11 @@ from geopy.geocoders import Nominatim
 from pymongo import MongoClient
 
 
-class liquor_stores(dml.Algorithm):
+class example(dml.Algorithm):
 	contributor = 'aliyevaa_jgtsui'
 	reads = []
-	writes = ['aliyevaa_jgtsui.liquor_set']
-
+	writes = ['aliyevaa_jgtsui.lost', 'aliyevaa_jgtsui.found']
+	
 	@staticmethod
 	def execute(trial = False):
 		startTime = datetime.datetime.now()
@@ -27,17 +27,18 @@ class liquor_stores(dml.Algorithm):
 		
 		mrepo.dropPermanent("liquor_data")
 		mrepo.createPermanent("liquor_data")
-				
-		url = 'https://data.cityofboston.gov/resource/g9d9-7sj6.json?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']	
+		
+		url = "https://data.cityofboston.gov/resource/hda6-fnsh.json?$limit=50000"
 		data = urllib.request.urlopen(url).read().decode('utf8')
 		djson = json.loads(data)
 		s=json.dumps(djson, sort_keys=True, indent=2)
 		geolocator = Nominatim()
-		'''
+
+
 		for entry in djson:
 			location=entry['location']
 			if location['latitude']=='0.0':
-				djson.remove(entry)		
+				djson.remove(entry)
 			else:
 				a=[]
 				strLoc=location['latitude']+' , '+ location['longitude']
@@ -55,7 +56,7 @@ class liquor_stores(dml.Algorithm):
 				except:		
 						pass
 	
-		'''	
+			
 		mrepo['aliyevaa_jgtsui.liquor_data'].insert_many(djson)
 		mrepo.logout()
 		endTime = datetime.datetime.now()
@@ -66,30 +67,34 @@ class liquor_stores(dml.Algorithm):
 		client = MongoClient()
 		repo = client.repo
 		repo.authenticate('aliyevaa_jgtsui', 'aliyevaa_jgtsui')
-		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/aliyevaa_jgtsui')
-		doc.add_namespace('dat', 'http://datamechanics.io/data/aliyevaa_jgtsui') 
+		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/')
+		doc.add_namespace('dat', 'http://datamechanics.io/data/') 
 		doc.add_namespace('ont', 'http://datamechanics.io/ontology#')
 		doc.add_namespace('log', 'http://datamechanics.io/log/') 
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
-
-		this_script = doc.agent('alg:aliyevaa_jgtsui#liquor_set',{prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-		resource =doc.entity('bdp:g9d9-7sj6', {'prov:label':'Liquor Licenses', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-		get_liquor_data = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)	
-		doc.wasAssociatedWith(get_liquor_data, this_script)
-	
-		doc.usage(get_liquor_data , resource, startTime, None)	
-		found = doc.entity('dat:aliyevaa_jgtsui#liquor_set', {prov.model.PROV_LABEL:'Liquor Stores', prov.model.PROV_TYPE:'ont:DataSet'})
+		this_script = doc.agent('alg:alice_bob#example', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+		resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+		get_found = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+		get_lost = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+		doc.wasAssociatedWith(get_found, this_script)
+		doc.wasAssociatedWith(get_lost, this_script)
+		doc.usage(get_found, resource, startTime, None,{prov.model.PROV_TYPE:'ont:Retrieval','ont:Query':'?type=Animal+Found&$select=type,latitude,longitude,OPEN_DT'})
+		doc.usage(get_lost, resource, startTime, None,{prov.model.PROV_TYPE:'ont:Retrieval','ont:Query':'?type=Animal+Lost&$select=type,latitude,longitude,OPEN_DT'})
+		lost = doc.entity('dat:alice_bob#lost', {prov.model.PROV_LABEL:'Animals Lost', prov.model.PROV_TYPE:'ont:DataSet'})
+		doc.wasAttributedTo(lost, this_script)
+		doc.wasGeneratedBy(lost, get_lost, endTime)
+		doc.wasDerivedFrom(lost, resource, get_lost, get_lost, get_lost)
+		found = doc.entity('dat:alice_bob#found', {prov.model.PROV_LABEL:'Animals Found', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(found, this_script)
-		doc.wasGeneratedBy(found, get_liquor_data, endTime)
-		doc.wasDerivedFrom(found, resource, get_liquor_data, get_liquor_data, get_liquor_data)
+		doc.wasGeneratedBy(found, get_found, endTime)
+		doc.wasDerivedFrom(found, resource, get_found, get_found, get_found)
 		repo.record(doc.serialize()) # Record the provenance document.
 		repo.logout()
 		return doc
 
 
 
-liquor_stores.execute()
-doc = liquor_stores.provenance()
+example.execute()
+doc = example.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
-
