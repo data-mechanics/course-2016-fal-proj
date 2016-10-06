@@ -28,7 +28,7 @@ auth.json was formatted:
         "cityofbostondataportal": {
             "service": "https://data.cityofboston.gov/",
             "username": "pgomes94_raph737",
-            "token": "KPQpbs4UiZMCXzxGYurpLOFwA",
+            "token": "KPQpbs4UiZMCXzxGYurpLOFwA"
         }
     }
 }
