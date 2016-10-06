@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# boman@bu.edu xiaol.bu.edu
 import urllib.request
 import json
 import dml
@@ -131,7 +131,7 @@ repo.dropPermanent("sat")
 repo.createPermanent("sat")
 repo['boman_xiaol.sat'].insert_many(r)
 sat1 = getlist('sat')
-#marging the second date
+#mapping the second date
 sat_att= []
 for i in attendance1:
     for k in sat1:
@@ -139,7 +139,7 @@ for i in attendance1:
             sat_att.append({'district': i['district'][9:], 'dbn':k['dbn'], \
                             'attendance': i['ytd_attendance_avg_'], 'sat_math': k['sat_math_avg_score'],\
                             'school_name':k['school_name']})
-#maeging the third data
+#mapping the third data
 mathavg_att=[]
 for i in attendance1:
     for k in allmath3:
@@ -238,12 +238,6 @@ doc = example.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 '''
-# Create the provenance document describing everything happening
-# in this script. Each run of the script will generate a new
-# document describing that invocation event. This information
-# can then be used on subsequent runs to determine dependencies
-# and "replay" everything. The old documents will also act as a
-# log.
 doc = prov.model.ProvDocument()
 doc.add_namespace('alg', 'http://datamechanics.io/algorithm/boman_xiaol/') # The scripts in <folder>/<filename> format.
 doc.add_namespace('dat', 'http://datamechanics.io/data/boman_xiaol/') # The data sets in <user>/<collection> format.
