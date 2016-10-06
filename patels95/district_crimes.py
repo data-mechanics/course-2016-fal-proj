@@ -23,12 +23,13 @@ class district_crimes(dml.Algorithm):
         with open('../auth.json') as jsonFile:
             auth = json.load(jsonFile)
 
-        socrataAppToken = auth["socrata"]["app"]
+        socrataAppToken = auth["services"]["cityofbostondataportal"]["token"]
 
         # Police Departments
         url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/e5a0066d38ac4e2abbc7918197a4f6af_6.geojson'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
+
 
         districts = ['A1', 'A15', 'A7', 'B2', 'B3', 'C6', 'C11', 'D4', 'D14', 'E5', 'E13', 'E18']
         data = []
@@ -43,6 +44,7 @@ class district_crimes(dml.Algorithm):
 
         for d in data:
             for dept in r['features']:
+                # name is the district code taken from the full name of the department
                 name = dept['properties']['NAME'][8:13].replace('-','')
                 if d['district'] in name:
                     d['bpd_id'] = dept['properties']['BPD_ID']

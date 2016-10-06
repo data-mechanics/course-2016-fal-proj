@@ -20,13 +20,14 @@ class crimes(dml.Algorithm):
         else:
             return False
 
-    # return true if the crime date is in the time period
+    # return true if the crime date is between 8/20/14 and 7/27/15
     def date_check(crime):
         startDate = datetime.datetime.strptime('2014-08-20', '%Y-%m-%d')
         endDate = datetime.datetime.strptime('2015-07-27', '%Y-%m-%d')
         crimeDate = datetime.datetime.strptime(crime['fromdate'][:10], '%Y-%m-%d')
 
         if crimeDate >= startDate and crimeDate <= endDate:
+            crime['fromdate'] = crime['fromdate'][:10]
             return True
         else:
             return False
@@ -45,7 +46,7 @@ class crimes(dml.Algorithm):
         with open('../auth.json') as jsonFile:
             auth = json.load(jsonFile)
 
-        socrataAppToken = auth["socrata"]["app"]
+        socrataAppToken = auth["services"]["cityofbostondataportal"]["token"]
 
         # Crime Incident Reports (July 2012 - August 2015)
         url = 'https://data.cityofboston.gov/resource/ufcx-3fdn.json?$$app_token=' + socrataAppToken
@@ -53,7 +54,6 @@ class crimes(dml.Algorithm):
         r = json.loads(response)
 
         data = crimes.select(r, crimes.firearm_only)
-
         data = crimes.select(data, crimes.date_check)
 
         repo.dropPermanent("crimes")
