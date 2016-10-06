@@ -65,11 +65,11 @@ Quickly highlighting the main steps:
 
 1. Make sure any Java version 7+ is installed, otherwise install that.
 
-2. Click the link in step 4 to download spark: http://spark.apache.org/downloads.html
+2.  Go to http://spark.apache.org/downloads.html and Click the link in step 4 to download spark.
 
-3. Download the scala build tool (assumes brew in installed on mac, linux guide in the guide provided above)
+3. Download the scala build tool (assumes brew in installed on mac, linux guide in the guide provided above).
 
-4. Add to ~/.bash_profile
+4. Add to ~/.bash_profile:
 	
 	a. export SPARK_HOME="/usr/local/bin/spark-x.x.x" (location where spark was installed)
 	
