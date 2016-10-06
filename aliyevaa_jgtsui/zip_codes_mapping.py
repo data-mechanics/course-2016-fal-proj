@@ -41,14 +41,14 @@ class zip_codes_mapping(dml.Algorithm):
 
 		str_zip_codes=', '.join(json.dumps(d) for d in zipcodes_list)
 		prep='['+str_zip_codes+']'
-		#print(type(prep))	
+
 		r=json.loads(prep)
-		print(r)
+
 		s=json.dumps(r, sort_keys=True, indent=2)
 		repo.dropPermanent("zip_codes_mapping")
 		repo.createPermanent("zip_codes_mapping")
 
-		repo['aliyevaa_jgtsui.zip_codes_mapping'].insert(r)
+		repo['aliyevaa_jgtsui.zip_codes_mapping'].insert_many(r)
 
 		repo.logout()
 		endTime = datetime.datetime.now()
