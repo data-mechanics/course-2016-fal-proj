@@ -13,7 +13,7 @@ class transformation2(dml.Algorithm):
 
     @staticmethod
     def execute(Trial = False):
-    '''Retrieve some datasets'''
+        '''Retrieve some datasets'''
 
         startTime = datetime.datetime.now()
 
@@ -65,11 +65,11 @@ class transformation2(dml.Algorithm):
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-    '''
-    Create the provenance document describing everything happening
-    in this script. Each run of the script will generate a new
-    document describing that invocation event.
-    '''
+        '''
+        Create the provenance document describing everything happening
+        in this script. Each run of the script will generate a new
+        document describing that invocation event.
+        '''
 
          # Set up the database connection.
         client = dml.pymongo.MongoClient()
@@ -80,37 +80,49 @@ class transformation2(dml.Algorithm):
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
-        doc.add_namespace('cny', 'https://data.cityofnewyork.us/resource/') # NYC Open Data 
-        doc.add_namespace('mta', 'http://web.mta.info/developers/data/nyct/') # NYC MTA Data 
+        doc.add_namespace('cny', 'https://data.cityofnewyork.us/resource/') # NYC Open Data  
+        doc.add_namespace('cbd', 'https://www.citibikenyc.com/system-data/') # CitiBike System Data 
 
-        # Transform associating itiBike stations with their pedestrian count regions
         this_script = doc.agent('alg:anuragp1_jl101995#transform2', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        citibike_regions_resource = doc.entity('dat:citibike_regions',{'prov:label':'CitiBike Station Region Data', prov.model.PROV_TYPE:'ont:DataSet'})
-        get_citibikeregions = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        doc.wasAssociatedWith(get_citibikeregions, this_script)
-        doc.usage(get_citibikeregions, citibike_regions_resource, startTime, None,
-                  {prov.model.PROV_TYPE:'ont:DataSet'} )
-        citibike_regions = doc.entity('dat:anuragp1_jl101995#citibike_regions', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(citibike_regions, this_script)
-        doc.wasGeneratedBy(citibike_regions, get_citibikeregions, endTime)
-        doc.wasDerivedFrom(citibike_regions, citibike_regions_resource, get_citibikeregions, get_citibikeregions, get_citibikeregions) 
+
+        # Initial transformation to get CitiBike station coordinates in proper form
+        citibikecoordinates_resource = doc.entity('dat:citibikecoordinates',{'prov:label':'CitiBike Coordinates Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        get_citibikecoordinates = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        doc.wasAssociatedWith(get_citibikecoordinates, this_script)
+        doc.usage(get_citibikecoordinates, citibikecoordinates_resource, startTime, None,
+                  {prov.model.PROV_TYPE:'ont:Computation'} )
+        citibikecoordinates = doc.entity('dat:anuragp1_jl101995#citibikecoordinates', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(citibikecoordinates, this_script)
+        doc.wasGeneratedBy(citibikecoordinates, get_citibikecoordinates, endTime)
+        doc.wasDerivedFrom(citibikecoordinates_resource, citibikecoordinates_resource, get_citibikecoordinates, get_citibikecoordinates, get_citibikecoordinates) 
+
+        # Main transformation associating CitiBike stations with their pedestrian count regions
+        citibike_by_region_resource = doc.entity('dat:citibike_by_region',{'prov:label':'CitiBike Station Region Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        get_citibike_by_region = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        doc.wasAssociatedWith(get_citibike_by_region, this_script)
+        doc.usage(get_citibike_by_region, citibike_by_region_resource, startTime, None,
+                  {prov.model.PROV_TYPE:'ont:Computation'} )
+        citibike_by_region = doc.entity('dat:anuragp1_jl101995#citibike_by_region', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(citibike_by_region, this_script)
+        doc.wasGeneratedBy(citibike_by_region, get_citibike_by_region, endTime)
+        doc.wasDerivedFrom(citibike_by_region, citibike_by_region_resource, get_citibike_by_region, get_citibike_by_region, get_citibike_by_region) 
 
         # CitiBike Data
         citibike_resource = doc.entity('cbd:tripdata', {'prov:label':'CitiBike Trip Data', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'csv'})
         get_citibike = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        doc.wasAssociatedWith(get_citbike, this_citibike)
+        doc.wasAssociatedWith(get_citibike, this_script)
         doc.usage(get_citibike, citibike_resource, startTime, None,
-                  {prov.model.PROV_TYPE:'ont:Retrieval'} )
+                  {prov.model.PROV_TYPE:'ont:DataSet'} )
         citibike = doc.entity('dat:anuragp1_jl101995#citibike', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(citibike, this_script)
         doc.wasGeneratedBy(citibike, get_citibike, endTime)
-        doc.wasDerivedFrom(citibike, citibike_resource, get_citibike, get_citbike, get_citibike)
+        doc.wasDerivedFrom(citibike, citibike_resource, get_citibike, get_citibike, get_citibike)
 
         # Pedestrians Count Data 
-        pedestrian_resource = doc.entity('dat:pedestriancounts',{'prov:label':'Pedestrians Count Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        pedestrian_resource = doc.entity('cny:pedestriancounts',{'prov:label':'Pedestrians Count Data', prov.model.PROV_TYPE:'ont:DataSet'})
         get_pedestrian = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(get_pedestrian, this_script)
-        doc.usage(get_pedstrian, pedstrian_resource, startTime, None,
+        doc.usage(get_pedestrian, pedestrian_resource, startTime, None,
                   {prov.model.PROV_TYPE:'ont:DataSet'} )
         pedestrian = doc.entity('dat:anuragp1_jl101995#pedestriancounts', {prov.model.PROV_LABEL:'NYC Bi-Annual Pedestrian Counts', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(pedestrian, this_script)

@@ -21,7 +21,7 @@ class retrieve_data(dml.Algorithm):
 
     @staticmethod
     def execute(Trial = False):
-    '''Retrieve some datasets'''
+        '''Retrieve some datasets'''
 
         startTime = datetime.datetime.now()
         
@@ -61,58 +61,58 @@ class retrieve_data(dml.Algorithm):
         os.remove('weather.csv')
 
         # Retrieve Subway Turnstile Data from 2015 to mid-2016
-        # repo.dropPermanent("turnstile")
-        # repo.createPermanent("turnstile")
+        repo.dropPermanent("turnstile")
+        repo.createPermanent("turnstile")
 
-        # base_url = 'http://web.mta.info/developers/data/nyct/turnstile/'
-        # all_extensions = ["turnstile_161001", "turnstile_160924", "turnstile_160917" , "turnstile_160910", "turnstile_160903", "turnstile_160827", \
-        #  "turnstile_160820", "turnstile_160813", "turnstile_160806", "turnstile_160730", "turnstile_160723", "turnstile_160716", "turnstile_160709", \
-        #  "turnstile_160702", "turnstile_160625", "turnstile_160618", "turnstile_160611", "turnstile_160604", "turnstile_160528", "turnstile_160521", \
-        #  "turnstile_160514", "turnstile_160507", "turnstile_160430", "turnstile_160423", "turnstile_160416", "turnstile_160409", "turnstile_160402", \
-        #  "turnstile_160326", "turnstile_160319", "turnstile_160312", "turnstile_160305", "turnstile_160227", "turnstile_160220", "turnstile_160213", \
-        #  "turnstile_160206", "turnstile_160130", "turnstile_160123", "turnstile_160116", "turnstile_160109", "turnstile_160102", "turnstile_151226", \
-        #  "turnstile_151219", "turnstile_151212", "turnstile_151205", "turnstile_151128", "turnstile_151121", "turnstile_151114", "turnstile_151107", \
-        #  "turnstile_151031", "turnstile_151024", "turnstile_151017", "turnstile_151010", "turnstile_151003", "turnstile_150926", "turnstile_150919", \
-        #  "turnstile_150912", "turnstile_150905", "turnstile_150829", "turnstile_150822", "turnstile_150815", "turnstile_150808", "turnstile_150801", \
-        #  "turnstile_150725", "turnstile_150718", "turnstile_150711", "turnstile_150704", "turnstile_150627", "turnstile_150620", "turnstile_150613", \
-        #  "turnstile_150606", "turnstile_150530", "turnstile_150523", "turnstile_150516", "turnstile_150509", "turnstile_150502", "turnstile_150425", \
-        #  "turnstile_150418", "turnstile_150411", "turnstile_150404", "turnstile_150328", "turnstile_150321", "turnstile_150314", "turnstile_150307", \
-        #  "turnstile_150228", "turnstile_150221", "turnstile_150214", "turnstile_150207", "turnstile_150131", "turnstile_150124", "turnstile_150117", \
-        #   "turnstile_150110", "turnstile_150103"]
+        base_url = 'http://web.mta.info/developers/data/nyct/turnstile/'
+        all_extensions = ["turnstile_161001", "turnstile_160924", "turnstile_160917" , "turnstile_160910", "turnstile_160903", "turnstile_160827", \
+         "turnstile_160820", "turnstile_160813", "turnstile_160806", "turnstile_160730", "turnstile_160723", "turnstile_160716", "turnstile_160709", \
+         "turnstile_160702", "turnstile_160625", "turnstile_160618", "turnstile_160611", "turnstile_160604", "turnstile_160528", "turnstile_160521", \
+         "turnstile_160514", "turnstile_160507", "turnstile_160430", "turnstile_160423", "turnstile_160416", "turnstile_160409", "turnstile_160402", \
+         "turnstile_160326", "turnstile_160319", "turnstile_160312", "turnstile_160305", "turnstile_160227", "turnstile_160220", "turnstile_160213", \
+         "turnstile_160206", "turnstile_160130", "turnstile_160123", "turnstile_160116", "turnstile_160109", "turnstile_160102", "turnstile_151226", \
+         "turnstile_151219", "turnstile_151212", "turnstile_151205", "turnstile_151128", "turnstile_151121", "turnstile_151114", "turnstile_151107", \
+         "turnstile_151031", "turnstile_151024", "turnstile_151017", "turnstile_151010", "turnstile_151003", "turnstile_150926", "turnstile_150919", \
+         "turnstile_150912", "turnstile_150905", "turnstile_150829", "turnstile_150822", "turnstile_150815", "turnstile_150808", "turnstile_150801", \
+         "turnstile_150725", "turnstile_150718", "turnstile_150711", "turnstile_150704", "turnstile_150627", "turnstile_150620", "turnstile_150613", \
+         "turnstile_150606", "turnstile_150530", "turnstile_150523", "turnstile_150516", "turnstile_150509", "turnstile_150502", "turnstile_150425", \
+         "turnstile_150418", "turnstile_150411", "turnstile_150404", "turnstile_150328", "turnstile_150321", "turnstile_150314", "turnstile_150307", \
+         "turnstile_150228", "turnstile_150221", "turnstile_150214", "turnstile_150207", "turnstile_150131", "turnstile_150124", "turnstile_150117", \
+          "turnstile_150110", "turnstile_150103"]
 
-        # for x in range(0, len(all_extensions)):
-        #     extension = all_extensions[x]
-        #     urllib.request.urlretrieve(base_url+extension+".txt", extension + ".csv")
+        for x in range(0, len(all_extensions)):
+            extension = all_extensions[x]
+            urllib.request.urlretrieve(base_url+extension+".txt", extension + ".csv")
 
-        #     csvfile = open(extension + ".csv", 'r')
+            csvfile = open(extension + ".csv", 'r')
 
-        #     turnstile_df = pd.DataFrame.from_csv(csvfile) 
-        #     repo['anuragp1_jl101995.turnstile'].insert_many(turnstile_df.to_dict('records'))
+            turnstile_df = pd.DataFrame.from_csv(csvfile) 
+            repo['anuragp1_jl101995.turnstile'].insert_many(turnstile_df.to_dict('records'))
             
-        #     os.remove(extension + ".csv")
+            os.remove(extension + ".csv")
 
         # Retrieve CitiBike Trip Histories
-        # def listUrls(file):
-        #     with open(file) as f:
-        #         return [url.split('\n')[0] for url in f]
+        def listUrls(file):
+            with open(file) as f:
+                return [url.split('\n')[0] for url in f]
 
-        # repo.dropPermanent('citibike')
-        # repo.createPermanent('citibike')
+        repo.dropPermanent('citibike')
+        repo.createPermanent('citibike')
 
-        # # iterate through list of citibike trip data .zip urls
-        # for url in listUrls('citizip_urls.txt'):    
+        # iterate through list of citibike trip data .zip urls
+        for url in listUrls('citizip_urls.txt'):    
 
-        #     urllib.request.urlretrieve(url, 'tripdata.zip')
+            urllib.request.urlretrieve(url, 'tripdata.zip')
 
-        #     with zipfile.ZipFile('tripdata.zip', 'r') as zip_ref:
-        #         for fn in zip_ref.namelist():
-        #             zip_ref.extractall()
-        #             csv = pd.read_csv(fn)
-        #             tripdata_df = pd.DataFrame(csv)
-        #             repo['anuragp1_jl101995.citibike'].insert_many(tripdata_df.to_dict('records'))
-        #             os.remove(fn)
+            with zipfile.ZipFile('tripdata.zip', 'r') as zip_ref:
+                for fn in zip_ref.namelist():
+                    zip_ref.extractall()
+                    csv = pd.read_csv(fn)
+                    tripdata_df = pd.DataFrame(csv)
+                    repo['anuragp1_jl101995.citibike'].insert_many(tripdata_df.to_dict('records'))
+                    os.remove(fn)
 
-        # os.remove('tripdata.zip')
+            os.remove('tripdata.zip')
       
         # end database connection
         repo.logout()
@@ -123,11 +123,11 @@ class retrieve_data(dml.Algorithm):
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-    '''
-    Create the provenance document describing everything happening
-    in this script. Each run of the script will generate a new
-    document describing that invocation event.
-    '''
+        '''
+        Create the provenance document describing everything happening
+        in this script. Each run of the script will generate a new
+        document describing that invocation event.
+        '''
 
          # Set up the database connection.
         client = dml.pymongo.MongoClient()
@@ -184,17 +184,17 @@ class retrieve_data(dml.Algorithm):
         doc.wasGeneratedBy(pedestrian, get_pedestrian, endTime)
         doc.wasDerivedFrom(pedestrian, pedestrian_resource, get_pedestrian, get_pedestrian, get_pedestrian)
 
-        weather = doc.entity('dat:anuragp1_jl101995#weather', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
+        weather = doc.entity('dat:anuragp1_jl101995#weather', {prov.model.PROV_LABEL:'NYC Weather Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(weather, this_script)
         doc.wasGeneratedBy(weather, get_weather, endTime)
         doc.wasDerivedFrom(weather, weather_resource, get_weather, get_weather, get_weather)
  
-        turnstile = doc.entity('dat:anuragp1_jl101995#turnstile', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
+        turnstile = doc.entity('dat:anuragp1_jl101995#turnstile', {prov.model.PROV_LABEL:'Turnstile Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(turnstile, this_script)
         doc.wasGeneratedBy(turnstile, get_turnstile, endTime)
         doc.wasDerivedFrom(turnstile, turnstile_resource, get_turnstile, get_turnstile, get_turnstile)
 
-        citibike = doc.entity('dat:anuragp1_jl101995#citibike', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
+        citibike = doc.entity('dat:anuragp1_jl101995#citibike', {prov.model.PROV_LABEL:'CitiBike Trip Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(citibike, this_script)
         doc.wasGeneratedBy(citibike, get_citibike, endTime)
         doc.wasDerivedFrom(citibike, citibike_resource, get_citibike, get_citbike, get_citibike)
@@ -203,7 +203,7 @@ class retrieve_data(dml.Algorithm):
         repo.logout()
         
         return doc
-        
+
 
 retrieve_data.execute()
 doc = retrieve_data.provenance()

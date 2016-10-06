@@ -14,7 +14,7 @@ class transformation3(dml.Algorithm):
 
     @staticmethod
     def execute(Trial = False):
-    '''Retrieve some datasets'''
+        '''Retrieve some datasets'''
 
         startTime = datetime.datetime.now()
 
@@ -52,7 +52,7 @@ class transformation3(dml.Algorithm):
 
                 if t['DATE'] == d['Date']: 
                     tw_fields = {'Date':d['Date'], 'Station':t['STATION'], 'Entries':t['ENTRIES'], \
-                                 'Exits':t['EXITS                                                               '], 'LineName':t['LINENAME'] \
+                                 'Exits':t['EXITS                                                               '], 'LineName':t['LINENAME'], \
                                  'Time':t['TIME'], 'AvgTemp':d['AvgTemp'], 'Precip':d['Precip']} 
                     # insert this dictionary into the database
                     repo.anuragp1_jl101995.turnstiles_and_weather.insert_one(tw_fields)
@@ -66,11 +66,11 @@ class transformation3(dml.Algorithm):
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-    '''
-    Create the provenance document describing everything happening
-    in this script. Each run of the script will generate a new
-    document describing that invocation event.
-    '''
+        '''
+        Create the provenance document describing everything happening
+        in this script. Each run of the script will generate a new
+        document describing that invocation event.
+        '''
 
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
@@ -99,11 +99,11 @@ class transformation3(dml.Algorithm):
         doc.wasAssociatedWith(get_turnstile_weather, this_script)
 
         doc.usage(get_weather, weather_resource, startTime, None,
-                  {prov.model.PROV_TYPE:'ont:Retrieval'} )
+                  {prov.model.PROV_TYPE:'ont:DataSet'} )
         doc.usage(get_turnstile, turnstile_resource, startTime, None,
-                  {prov.model.PROV_TYPE:'ont:Retrieval'} )
+                  {prov.model.PROV_TYPE:'ont:DataSet'} )
         doc.usage(get_turnstile_weather, turnstile_weather_resource, startTime, None,
-                  {prov.model.PROV_TYPE:'ont:Retrieval'} )
+                  {prov.model.PROV_TYPE:'ont:Computation'} )
 
         weather = doc.entity('dat:anuragp1_jl101995#weather', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(weather, this_script)
