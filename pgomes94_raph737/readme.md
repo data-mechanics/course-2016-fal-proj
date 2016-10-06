@@ -54,14 +54,23 @@ pyspark installations
 I followed this guide, except the last step of setting it up with Jupyter notebook: https://www.dataquest.io/blog/pyspark-installation-guide/
 
 Quickly highlighting the main steps:
+
 1. Make sure any Java version 7+ is installed, otherwise install that.
+
 2. Click the link in step 4 to download spark: http://spark.apache.org/downloads.html
+
 3. Download the scala build tool (assumes brew in installed on mac, linux guide in the guide provided above)
+
 4. Add to ~/.bash_profile
+	
 	a. export SPARK_HOME="/usr/local/bin/spark-x.x.x" (location where spark was installed)
+	
 	b. export PYSPARK_SUBMIT_ARGS="--master local[2] pyspark-shell" (where to start spark)
+	
 	c. export PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH (adds pyspark to pythonpath for imports)
+	
 	d. export PYTHONPATH=$SPARK_HOME/python/lib/py4j-0.10.1-src.zip:$PYTHONPATH (needed because pyspark is built off of spark for Java)
+	
 	e. export PYSPARK_PYTHON="/LOCATION/OF/PYTHON/VERSION/3.4/bin/python3" (needed if more than one version of python is installed, point to python3)
 
 Once the .bash_profile is updated, completely close the terminal app and reopen to apply these updates to the local environment.
