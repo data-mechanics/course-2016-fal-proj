@@ -1,4 +1,4 @@
-Project proposal 
+##Project proposal 
 
 We decide to combine the following data:
 
@@ -17,6 +17,19 @@ We will use the combination datasets to answer the question of whether the peopl
 In order to retrieve the data, we need to run five python file which are earning.py,entertainment.py, hospital.py, restaurant.py and school.py. These files can help us retrieve the data and store the information into the mongodb so that we can use them for the later analysis.
 
 
+##Instruction For Running
+#Authentication:
+The `auth.json` file contains the following information
 
-
+{
+   "db_username": "alice_bob",
+   "db_password": "alice_bob"
+}
+ 
+##Run the program:
+Run earning.py,entertainment.py, hospital.py, restaurant.py and school.py. to retrieve.
+After that:
+Run hospital_school_merge.py, it will transform the hospital and school date.(merge them).
+Run hospital_school_aggregate.py, it will aggregate the data, and list the number of school and hospital in each zipcode.
+Run hospital_school_select.py, it will create a new data that that only have school and hospital with zipcode: 02215 and it print their information.
 
