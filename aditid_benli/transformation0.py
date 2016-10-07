@@ -23,6 +23,7 @@ class transformation0(dml.Algorithm):
         repo = client.repo
         repo.authenticate('aditid_benli', 'aditid_benli')
         
+        #start
         comParkRepo = repo.aditid_benli.comparking
         ticketsRepo = repo.aditid_benli.partickets
 
@@ -43,7 +44,7 @@ class transformation0(dml.Algorithm):
             #     break
             if 'location' in t and (t['violation_description'] == "RESIDENT PERMIT ONLY" or t['violation_description'] == " NO PARKING" or t['violation_description'] == " NO STOPPING"):
                 relavent_tickets.append(t)
-        print (len(relavent_tickets))
+        #print (len(relavent_tickets))
         # for r in relavent_tickets:
         #     print (r)
         
@@ -73,12 +74,12 @@ class transformation0(dml.Algorithm):
             #print (Lots[closestLot])
 
 
-        print ('Violations per Area')
-        for l in Lots:
-            print (len(l['nearbyIllegalParking']))
-
-        # print (Lots[13]['nearbyIllegalParking'])
-        print ('my only regret bonitis')
+#        print ('Violations per Area')
+#        for l in Lots:
+#            print (len(l['nearbyIllegalParking']))
+#
+#        # print (Lots[13]['nearbyIllegalParking'])
+#        print ('my only regret bonitis')
 
         repo.dropPermanent("LotsWithAdjacentTickets")
         repo.createPermanent("LotsWithAdjacentTickets")
