@@ -8,12 +8,14 @@ https://data.cityofboston.gov/resource/bejm-5s9g.json employee earnings
 https://data.cityofboston.gov/resource/492y-i77g.json public schools
 https://data.cityofboston.gov/resource/ufcx-3fdn.json crime incident
 https://www.opendatanetwork.com/dataset/data.cityofboston.gov/vb7h-wnyg firearms
+https://www.opendatanetwork.com/dataset/data.cityofboston.gov/4vcu-nshu corner stores
 
 
 https://dev.socrata.com/foundry/data.cityofboston.gov/bejm-5s9g employee earnings
 https://dev.socrata.com/foundry/data.cityofboston.gov/492y-i77g public schools
 https://dev.socrata.com/foundry/data.cityofboston.gov/ufcx-3fdn crime incident
 https://data.cityofboston.gov/api/views/vb7h-wnyg/rows.json?accessType=DOWNLOAD firearms
+https://data.cityofboston.gov/resource/vwsn-4yhi.json corner stores
 
 Functions:
 Mapreduce Employee Earnings: Uses mapreduce to calculate average city of Boston Employee earnings for each zip code
