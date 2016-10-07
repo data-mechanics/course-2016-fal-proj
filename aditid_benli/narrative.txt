@@ -1,0 +1,8 @@
+Say for instance every morning at rush hour there's a huge series of traffic jams created by people all trying to access commercial parking locations, and you're a municipal worker who wants to fix this problem.  We've created two new data sets from working with previous found data sets online that might be helpful for this task.  
+
+
+
+Thee first is that we agregated crime occurences to metered parking spaces.  This is useful as analysis for people potentially parking in public spaces, if they're aware that there is perhaps a high incidence grand theft auto in a location, they might not choose to park there.  It also pushes together jame data and metered parking data, the point of this is that perhaps the additional lanes allotted to metered parking might be repurposed back to traffic flow.  This would hypothetically reduce traffic jams.  
+
+
+One transformation we did was high parking related traffic tickets to nearbest commercial parking lot.  THis information would be useful for finding out which parking lot is closest to the area with largest demand on parking.  This could be helpful in finding out which parking lot to demolish or potentially expand.
