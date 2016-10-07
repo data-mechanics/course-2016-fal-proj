@@ -9,11 +9,10 @@ from bson.code import Code
 class transformation1(dml.Algorithm):
     contributor = 'aditid_benli'
     reads = ['aditid_benli.jam', 'aditid_benli.crime']
-    writes = ['aditid_benli.jamMR']
+    writes = ['aditid_benli.jamMR','aditid_benli.crimeLocations']
 
     @staticmethod
     def execute(trial = False):
-        '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
         startTime = datetime.datetime.now()
         
         # Set up the database connection.
@@ -41,23 +40,63 @@ class transformation1(dml.Algorithm):
         
         repo.aditid_benli.jam.map_reduce(map_function, reduce_function, 'aditid_benli.jamMR');
 
-#
-#        #Find coordinates of each street
-#        map_function = Code('''function() {
-#            emit(this.street, {jams:1});
-#            }''')
-#        
-#        
-#        reduce_function = Code('''function(k, vs) {
-#            var total = 0;
-#            for (var i = 0; i < vs.length; i++)
-#            total += vs[i].jams;
-#            return {jams:total};
-#            }''')
-#        
-#        
-#        repo.aditid_benli.jam.map_reduce(map_function, reduce_function, 'aditid_benli.jamMR');
-#        
+        map_function = Code('''function() {
+            if (this.street != undefined)
+                {
+                if (this.lat != undefined)
+                    {
+                    id = {
+                        street:this.street,
+                    }
+                    emit(id,{lat:this.lat,long:this.long,crime:1});
+                    }
+                }
+            }''')
+        
+        
+        reduce_function = Code('''function(k, vs) {
+            var total = 0;
+            var sum = 0;
+            var tlat = 0;
+            var tlong = 0;
+
+            for (var i = 0; i < vs.length; i++)
+                {
+                total += vs[i].crime
+                tlat += parseFloat(vs[i].lat)
+                tlong += parseFloat(vs[i].long)
+                sum = sum + 1
+                }
+            mlat = parseFloat(tlat) / sum
+            mlong = parseFloat(tlong) / sum
+            return {lat:mlat,long:mlong,crime:total, sum:sum};
+            }''')
+        
+        #reset resulting directory
+        repo.dropPermanent('aditid_benli.crimeLocations')
+        repo.createPermanent('aditid_benli.crimeLocations')
+        
+        repo.aditid_benli.crime.map_reduce(map_function, reduce_function, 'aditid_benli.crimeLocations');
+        
+
+        def join(collection1, collection2, result):
+            for document1 in repo[collection1].find():
+                doc1 = str(document1['_id'])
+                for document2 in repo[collection2].find():
+                    doc2 = str(document2['_id']['street'])
+                    if doc1.lower() == doc2.lower():
+                        document1['value']['long'] = document2['value']['long']
+                        document1['value']['lat'] = document2['value']['lat']
+                        document1['value']['crime'] = document2['value']['crime']
+                        repo[result].insert(document1)
+
+
+
+        #reset resulting directory
+        repo.dropPermanent('aditid_benli.jamCrime')
+        repo.createPermanent('aditid_benli.jamCrime')
+        
+        join('aditid_benli.jamMR', 'aditid_benli.crimeLocations', 'aditid_benli.jamCrime');
 
         repo.logout()
 

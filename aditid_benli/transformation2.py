@@ -8,8 +8,8 @@ from bson.code import Code
 
 class transformation2(dml.Algorithm):
     contributor = 'aditid_benli'
-    reads = ['aditid_benli.jam', 'aditid_benli.crime']
-    writes = ['aditid_benli.crimeLocations','aditid_benli.jamMR']
+    reads = ['aditid_benli.jamMR', 'aditid_benli.inters']
+    writes = ['aditid_benli.intersDivided','aditid_benli.jamInters']
 
     @staticmethod
     def execute(trial = False):
@@ -21,81 +21,63 @@ class transformation2(dml.Algorithm):
         repo = client.repo
         repo.authenticate('aditid_benli', 'aditid_benli')
         
+        
+        #Divide intersection into repsective intersecting roads
+        def divide(collection,result):
+            for document in repo[collection].find():
+                inter_num = (document['intersec_1'])
+                inter = document['intersecti']
+                rd_list = inter.split(' & ')
+                for i in range(0,len(rd_list)):
+                    document["_id"] = str(document["_id"]) + str(i)
+                    document["road"] = rd_list[i]
+                    repo[result].insert(document)
 
-        #Put Crime and locations together
+
+        #reset resulting directory
+        repo.dropPermanent('aditid_benli.intersDivided')
+        repo.createPermanent('aditid_benli.intersDivided')
+        
+        divide('aditid_benli.inters','aditid_benli.intersDivided')
+
+
+        #Combine number of intersections with number of jams per street
         map_function = Code('''function() {
-            if (this.street != undefined)
-                {
-                if (this.lat != undefined)
-                    {
-                    id = {
-                        street:this.street,
-                        lat:this.lat,
-                        long:this.long
-                        }
-                    emit(id,num:1);
-                    }
-                }
+            emit(this.road, {num:1});
             }''')
-
-
+        
+        
         reduce_function = Code('''function(k, vs) {
             var total = 0;
             for (var i = 0; i < vs.length; i++)
             total += vs[i].num;
-            return {num:total};
+            return {sum:total};
             }''')
         
         #reset resulting directory
-        repo.dropPermanent('aditid_benli.crimeLocations')
-        repo.createPermanent('aditid_benli.crimeLocations')
-
-        repo.aditid_benli.crime.map_reduce(map_function, reduce_function, 'aditid_benli.crimeLocations');
-
-
-        #union
-        def union(collection1, collection2, result):
-            for document in repo[collection1].find():
-                repo[result].insert(document)
-                
-            for document in repo[collection2].find():
-                repo[result].insert(document)
+        repo.dropPermanent('aditid_benli.intersAdded')
+        repo.createPermanent('aditid_benli.intersAdded')
         
+        repo.aditid_benli.intersDivided.map_reduce(map_function, reduce_function, 'aditid_benli.intersAdded');
+        
+        
+        def join(collection1, collection2, result):
+            for document1 in repo[collection1].find():
+                doc1 = str(document1['_id'])
+                for document2 in repo[collection2].find():
+                    doc2 = str(document2['_id'])
+                    if doc1.lower() == doc2.lower():
+                        document1['value']['intersections'] = document2['value']['sum']
+                        repo[result].insert(document1)
+    
+    
         #reset resulting directory
-        repo.dropPermanent('aditid_benli.jamCrime')
-        repo.createPermanent('aditid_benli.jamCrime')
+        repo.dropPermanent('aditid_benli.jamInters')
+        repo.createPermanent('aditid_benli.jamInters')
         
-        
-#        union('aditid_benli.jam', 'aditid_benli.crime','aditid_benli.jamCrime')
-#
-#        #Find coordinates of each street
-#        map_function = Code('''function() {
-#            if (this._id == this.street){
-#                emit(this._id, {
-#            
-#            emit(this.street, {num:1});
-#            }''')
-#        
-#        
-#        +            id = this._id.zip_code;
-#            +            if (this._id.type == 'sr311') {
-#                +                emit(id, {crime: 0, sr311: this.value});
-#                    +            } else {
-#                        +                emit(id, {crime: this.value, sr311: 0});
-#                            +            }
-#                                +        }''')
-#
-#        
-#        reduce_function = Code('''function(k, vs) {
-#            var total = 0;
-#            for (var i = 0; i < vs.length; i++)
-#            total += vs[i].num;
-#            return {jams:total};
-#            }''')
-#        
+        join('aditid_benli.jamMR', 'aditid_benli.intersAdded', 'aditid_benli.jamInters');
 
-        repo.aditid_benli.jamCrime.map_reduce(map_function, reduce_function, 'aditid_benli.jamMR');
-        
+
 
         repo.logout()
 
