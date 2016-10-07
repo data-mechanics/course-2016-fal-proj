@@ -22,7 +22,7 @@ class example(dml.Algorithm):
 
 #DATA TRANSFORMATION 1 START
         #food pantry dataset 
-        url = "https://data.cityofboston.gov/resource/4tie-bhxw.json?area=Boston&$limit=3"
+        url = "https://data.cityofboston.gov/resource/4tie-bhxw.json?area=Boston"
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
@@ -31,7 +31,7 @@ class example(dml.Algorithm):
         repo['manda094.foodbanks'].insert_many(r)
 
        #children feeding program 
-        url = "https://data.cityofboston.gov/resource/6s7x-jq48.json?location_1_city=BOSTON&$limit=5"
+        url = "https://data.cityofboston.gov/resource/6s7x-jq48.json?location_1_city=BOSTON"
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
@@ -50,7 +50,7 @@ class example(dml.Algorithm):
 #DATA TRANSFORMATION 2 START 
 
         #311 service calls dataset
-        url = "https://data.cityofboston.gov/resource/rtbk-4hc4.json?case_title=Unsatisfactory%20Living%20Conditions&$limit=5"
+        url = "https://data.cityofboston.gov/resource/rtbk-4hc4.json?case_title=Unsatisfactory%20Living%20Conditions"
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
@@ -59,7 +59,7 @@ class example(dml.Algorithm):
         repo['manda094.servicecalls'].insert_many(r)
 
         #Code Enforcement dataset
-        url = "https://data.cityofboston.gov/resource/w39n-pvs8.json?description=Unsafe%20Structure&$limit=5"
+        url = "https://data.cityofboston.gov/resource/w39n-pvs8.json?description=Unsafe%20Structure"
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
@@ -81,7 +81,7 @@ class example(dml.Algorithm):
 #DATA TRANSFORMATION 3 START
 
         #Crime Incident Reports - East Boston 
-        url = "https://data.cityofboston.gov/resource/ufcx-3fdn.json?reptdistrict=A7&$limit=5"
+        url = "https://data.cityofboston.gov/resource/ufcx-3fdn.json?reptdistrict=A7"
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
