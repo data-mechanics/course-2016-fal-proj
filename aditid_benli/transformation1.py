@@ -131,9 +131,7 @@ class transformation1(dml.Algorithm):
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
         this_script = doc.agent('alg:aditid_benli#transformation1', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        this_script = doc.agent('alg:aditid_benli#transformation0', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-        jamMR = doc.entity('dat:aditid_benli#jamMR', {prov.model.PROV_LABEL:'Collide metered parking with jams', prov.model.PROV_TYPE:'ont:DataSet'})        
+        jamMR = doc.entity('dat:aditid_benli#jamMR', {prov.model.PROV_LABEL:'Collide metered parking with jams', prov.model.PROV_TYPE:'ont:DataSet'})
         getjamMR = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Collide metered parking with map reduce'})        
         doc.wasAssociatedWith(getjamMR, this_script)
         doc.used(getjamMR, jamMR, startTime)
@@ -142,8 +140,6 @@ class transformation1(dml.Algorithm):
 
 
         this_script = doc.agent('alg:aditid_benli#transformation1', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        this_script = doc.agent('alg:aditid_benli#transformation0', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
         crimeLocations = doc.entity('dat:aditid_benli#crimeLocations', {prov.model.PROV_LABEL:'Commercial Parking Ticketing', prov.model.PROV_TYPE:'ont:DataSet'})        
         getcrimeLocations = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Maps crime amounts to traffic jams'})        
         doc.wasAssociatedWith(getcrimeLocations, this_script)

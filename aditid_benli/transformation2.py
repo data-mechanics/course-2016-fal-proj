@@ -49,14 +49,14 @@ class transformation2(dml.Algorithm):
         #this represents the number of intersections on each street
         #put into intersAdded
         map_function = Code('''function() {
-            emit(this.road, {num:1});
+            emit(this.road, {sum:1});
             }''')
         
         
         reduce_function = Code('''function(k, vs) {
             var total = 0;
             for (var i = 0; i < vs.length; i++)
-            total += vs[i].num;
+            total += vs[i].sum;
             return {sum:total};
             }''')
         
@@ -113,9 +113,7 @@ class transformation2(dml.Algorithm):
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
         this_script = doc.agent('alg:aditid_benli#transformation2', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        this_script = doc.agent('alg:aditid_benli#transformation2', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-        intersDivided = doc.entity('dat:aditid_benli#intersDivided', {prov.model.PROV_LABEL:'All intersections divided', prov.model.PROV_TYPE:'ont:DataSet'})        
+        intersDivided = doc.entity('dat:aditid_benli#intersDivided', {prov.model.PROV_LABEL:'All intersections divided', prov.model.PROV_TYPE:'ont:DataSet'})
         getintersDivided = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'All interesections divided up'})        
         doc.wasAssociatedWith(getintersDivided, this_script)
         doc.used(getintersDivided, intersDivided, startTime)
@@ -124,9 +122,7 @@ class transformation2(dml.Algorithm):
 
 
         this_script = doc.agent('alg:aditid_benli#transformation2', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        this_script = doc.agent('alg:aditid_benli#transformation2', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-        jamInters = doc.entity('dat:aditid_benli#jamInters', {prov.model.PROV_LABEL:'Sums interesections for jams', prov.model.PROV_TYPE:'ont:DataSet'})        
+        jamInters = doc.entity('dat:aditid_benli#jamInters', {prov.model.PROV_LABEL:'Sums interesections for jams', prov.model.PROV_TYPE:'ont:DataSet'})
         getjamInters = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Sums the total intersections for each traffic jam'})        
         doc.wasAssociatedWith(getjamInters, this_script)
         doc.used(getjamInters, jamInters, startTime)

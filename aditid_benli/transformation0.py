@@ -116,7 +116,6 @@ class transformation0(dml.Algorithm):
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
         this_script = doc.agent('alg:aditid_benli#transformation0', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         this_script = doc.agent('alg:aditid_benli#transformation0', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
         ComParkTick = doc.entity('dat:aditid_benli#ComParkTick', {prov.model.PROV_LABEL:'Commercial Parking Ticketing', prov.model.PROV_TYPE:'ont:DataSet'})        
         getComParkTick = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Vincenty distance to cluster tickets to parking'})        
@@ -133,7 +132,7 @@ class transformation0(dml.Algorithm):
 
 transformation0.execute()
 doc = transformation0.provenance()
-#print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof

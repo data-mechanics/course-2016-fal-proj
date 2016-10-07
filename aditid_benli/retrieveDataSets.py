@@ -90,16 +90,15 @@ class example(dml.Algorithm):
         repo = client.repo
         repo.authenticate('aditid_benli', 'aditid_benli')
 
+
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:aditid_benli#retrieveDataSets', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        
 
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_script = doc.agent('alg:aditid_benli#retrieveDataSets', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
 
         jamResource = doc.entity('bdp:dih6-az4h', {'prov:label':'Waze Jame Data', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
@@ -110,7 +109,6 @@ class example(dml.Algorithm):
                 }
             )
  
-
         comparkingResource = doc.entity('bdp:vr3p-e9ke', {'prov:label':'Commerical Parking Map', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         getComparking = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(getComparking, this_script)
@@ -118,7 +116,6 @@ class example(dml.Algorithm):
                 {prov.model.PROV_TYPE:'ont:Retrieval'
                 }
             )
- 
 
         intersResource = doc.entity('bdp:impv-6fac', {'prov:label':'Intersections of Cambridge', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         getInters = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
@@ -128,7 +125,6 @@ class example(dml.Algorithm):
                 }
             )
  
-
         metparkingResource = doc.entity('bdp:up94-ihbw', {'prov:label':'Metered Parking Lots', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         getMetparking = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(getMetparking, this_script)
@@ -137,7 +133,6 @@ class example(dml.Algorithm):
                 }
             )
  
-
         particketsResource = doc.entity('bdp:m4i2-83v6', {'prov:label':'Cambridge Parking Tickets', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         getPartickets = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(getPartickets, this_script)
@@ -145,26 +140,12 @@ class example(dml.Algorithm):
                 {prov.model.PROV_TYPE:'ont:Retrieval'
                 }
             )
- 
 
         crimeResource = doc.entity('bdp:29yf-ye7n', {'prov:label':'Crime in Cambridge', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         getCrime = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(getCrime, this_script)
         doc.usage( getCrime, crimeResource, resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval'
-                }
-            )
-
-        doc.wasAssociatedWith(get_found, this_script)
-        doc.wasAssociatedWith(get_lost, this_script)
-        doc.usage(get_found, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=Animal+Found&$select=type,latitude,longitude,OPEN_DT'
-                }
-            )
-        doc.usage(get_lost, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=Animal+Lost&$select=type,latitude,longitude,OPEN_DT'
                 }
             )
 
