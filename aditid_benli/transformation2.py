@@ -23,14 +23,18 @@ class transformation2(dml.Algorithm):
         
         
         #Divide intersection into repsective intersecting roads
+        #put into interDivided
         def divide(collection,result):
             for document in repo[collection].find():
                 inter_num = (document['intersec_1'])
                 inter = document['intersecti']
                 rd_list = inter.split(' & ')
+                #intersections have 2 to 4 roads contributing to them
                 for i in range(0,len(rd_list)):
+                    #change id to accomodate repeat data
                     document["_id"] = str(document["_id"]) + str(i)
                     document["road"] = rd_list[i]
+                    #saving each road as new document to allow for map reduc later
                     repo[result].insert(document)
 
 
@@ -41,7 +45,9 @@ class transformation2(dml.Algorithm):
         divide('aditid_benli.inters','aditid_benli.intersDivided')
 
 
-        #Combine number of intersections with number of jams per street
+        #add up the number of times each street is mentioned
+        #this represents the number of intersections on each street
+        #put into intersAdded
         map_function = Code('''function() {
             emit(this.road, {num:1});
             }''')
@@ -60,7 +66,8 @@ class transformation2(dml.Algorithm):
         
         repo.aditid_benli.intersDivided.map_reduce(map_function, reduce_function, 'aditid_benli.intersAdded');
         
-        
+        #combine number of intersections with number of jams per street
+        #put into intersAdded
         def join(collection1, collection2, result):
             for document1 in repo[collection1].find():
                 doc1 = str(document1['_id'])
@@ -78,7 +85,7 @@ class transformation2(dml.Algorithm):
         join('aditid_benli.jamMR', 'aditid_benli.intersAdded', 'aditid_benli.jamInters');
 
 
-
+        #end
         repo.logout()
 
         endTime = datetime.datetime.now()

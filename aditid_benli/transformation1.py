@@ -21,7 +21,7 @@ class transformation1(dml.Algorithm):
         repo.authenticate('aditid_benli', 'aditid_benli')
         
         
-        #Find number of jams per street
+        #Find number of jams per street and put in jamMR
         map_function = Code('''function() {
             emit(this.street, {jams:1});
             }''')
@@ -40,6 +40,10 @@ class transformation1(dml.Algorithm):
         
         repo.aditid_benli.jam.map_reduce(map_function, reduce_function, 'aditid_benli.jamMR');
 
+
+        #get the number of crimes per street
+        #also average latitute and longitude of the street
+        #put in crimeLocations
         map_function = Code('''function() {
             if (this.street != undefined)
                 {
@@ -78,7 +82,8 @@ class transformation1(dml.Algorithm):
         
         repo.aditid_benli.crime.map_reduce(map_function, reduce_function, 'aditid_benli.crimeLocations');
         
-
+        #join jamMR and crimeLocations and put in jamCrim
+        #jamCrime contains number of jams and number of crimes per street
         def join(collection1, collection2, result):
             for document1 in repo[collection1].find():
                 doc1 = str(document1['_id'])
@@ -98,6 +103,7 @@ class transformation1(dml.Algorithm):
         
         join('aditid_benli.jamMR', 'aditid_benli.crimeLocations', 'aditid_benli.jamCrime');
 
+        #end
         repo.logout()
 
         endTime = datetime.datetime.now()
