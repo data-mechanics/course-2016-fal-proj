@@ -44,21 +44,12 @@ for entry in transit:
 			busStops[coords] += 1
 		else:
 			busStops[coords] = 1
-	elif entry["TYPE"] == "T":
-		if coords in tStops:
-			tStops[coords] += 1
-		else:
-			tStops[coords] = 1
-	elif entry["TYPE"] == "CHARGING_STATION":
-		if coords in chargeStops:
-			chargeStops[coords] += 1
-		else:
-			chargeStops[coords] = 1
-	else:
+	elif entry["TYPE"] == "HUBWAY":
 		if coords in hubStops:
 			hubStops[coords] += 1
 		else:
 			hubStops[coords] = 1
+
 
 
 
@@ -86,27 +77,15 @@ for entry in address:
 			temp["BUSES"] = busStops[coords]
 		else:
 			temp["BUSES"] = 0
-
-		if coords in tStops:
-			temp["TSTOPS"] = tStops[coords]
-		else:
-			temp["TSTOPS"] = 0
-
 		if coords in hubStops:
-			temp["HUBWAYS"] = hubStops[coords]
-		else:
-			temp["HUBWAYS"] = 0
-
-		if coords in chargeStops:
 			temp["HUBWAYS"] = hubStops[coords]
 		else:
 			temp["HUBWAYS"] = 0
 	else:
 		temp["BUSES"] = "NO COORDS"
-		temp["TS"] = "NO COORDS"
 		temp["HUBWAYS"] = "NO COORDS"
 
-	res = repo.asanentz_sinichol.combineHubwayAddress.insert_one(temp)
+	res = repo.asanentz_sinichol.addressValue.insert_one(temp)
 
 endTime = datetime.datetime.now()
 
