@@ -8,7 +8,7 @@ import prov.model
 import datetime
 import uuid
 import csv
-
+from geopy.geocoders import Nominatim
 
 from pymongo import MongoClient
 
@@ -27,19 +27,14 @@ class bicycle_collisions(dml.Algorithm):
 		
 		mrepo.dropPermanent("bicycle_collisions")
 		mrepo.createPermanent("bicycle_collisions")
-		'''
-		url = "http://datamechanics.io/data/anuragp1_jl101995/weather.csv"
-		urllib.request.urlretrieve(url, 'weather.csv')
-		weather_df = pd.DataFrame.from_csv('weather.csv')
-		repo['anuragp1_jl101995.weather'].insert_many(weather_df.to_dict('records'))
-		os.remove('weather.csv')
-		'''
+
 		url ='http://datamechanics.io/data/aliyevaa_jgtsui/fbcd.xlsx'
 		urllib.request.urlretrieve(url, "fbcd.xlsx")
 	
 		wb = xlrd.open_workbook('fbcd.xlsx')
 		sheet = wb.sheet_by_index(0)
 		accidents_list=[]
+		geolocator = Nominatim()
 		for rownum in range(1, sheet.nrows):
 			#print(rownum)
 			attr = OrderedDict()
@@ -48,7 +43,14 @@ class bicycle_collisions(dml.Algorithm):
 			attr['year'] = row_values[1]
 			attr['date'] = row_values[2]
 			attr['day_week'] = row_values[3]
-			attr['address'] = row_values[11]
+			attr['address'] = row_values[11]	
+			try:
+				location=geolocator.geocode(row_values[11])
+				strl=location.raw['display_name']
+				if 'United States of America' in strl:
+					attr['zipcode']=strl[-31:-26]
+			except:
+				attr['zipcode']='00000'
 			attr['nhood']=row_values[18]
 			attr['lighting']=row_values[25]
 			accidents_list.append(attr)
