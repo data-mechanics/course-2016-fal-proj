@@ -1,3 +1,9 @@
+'''
+CS 591 Project One
+projOne.py
+jzhou94@bu.edu
+katerin@bu.edu
+'''
 import urllib.request
 import json
 import dml
