@@ -25,9 +25,7 @@ class transformation0(dml.Algorithm):
         
         comParkRepo = repo.aditid_benli.comparking
         ticketsRepo = repo.aditid_benli.partickets
-        #for o in comParkRepo.find():
-            #print (o)
-        
+
 
         lots = comParkRepo.find()
         Lots = []
@@ -39,31 +37,51 @@ class transformation0(dml.Algorithm):
 
 
         relavent_tickets = []
-        relavent_tickets.append(tickets[5])
-        # for t in tickets:
-        #     if t['violation_description'] == "RESIDENT PERMIT ONLY" or t['violation_description'] == " NO PARKING" or t['violation_description'] == " NO STOPPING":
-        #         relavent_tickets.append(t)
-
+        #relavent_tickets.append(tickets[5])
+        for t in tickets:
+            # if len(relavent_tickets) > 1:
+            #     break
+            if 'location' in t and (t['violation_description'] == "RESIDENT PERMIT ONLY" or t['violation_description'] == " NO PARKING" or t['violation_description'] == " NO STOPPING"):
+                relavent_tickets.append(t)
+        print (len(relavent_tickets))
+        # for r in relavent_tickets:
+        #     print (r)
         
 
-        closest = relavent_tickets[0]
-
+        #print (relavent_tickets[0])
         for rt in relavent_tickets:
-            closestDistance = vincenty(rt['location']['coordinates'],Lots[0]['the_geom']['coordinates'])
-            closestLot = lots[0]
+            #print (rt)
+            #print (rt['location'])
+            closestDistance = vincenty(rt['location']['coordinates'],Lots[0]['the_geom']['coordinates']).miles
+            closestLot = 0
             for i in range(len(Lots)):
-                candidateDist = vincenty(rt['location']['coordinates'],Lots[i]['the_geom']['coordinates'])  
+                candidateDist = vincenty(rt['location']['coordinates'],Lots[i]['the_geom']['coordinates']).miles
+                # print (type(candidateDist))
+                # print (type(closestDistance))  
                 if (candidateDist < closestDistance):
+                    #print (i)
                     closestDistance = candidateDist
                     closestLot = i
-            Lots[i]['nearbyIllegalParking'] = Lots[i]['nearbyIllegalParking'].append(rt)
+            #print ("sha")
+            # print (closestLot)
+            #print (rt)
+
+            #print ('gra')
+            #print closestLot
+            Lots[closestLot]['nearbyIllegalParking'].append(rt)
+
+            #print (Lots[closestLot])
 
 
-        print (lots[3]['nearbyIllegalParking'][0])
+        print ('Violations per Area')
+        for l in Lots:
+            print (len(l['nearbyIllegalParking']))
 
+        # print (Lots[13]['nearbyIllegalParking'])
+        print ('my only regret bonitis')
 
         repo.dropPermanent("LotsWithAdjacentTickets")
-        repo.createPermanent("crimLotsWithAdjacentTicketse")
+        repo.createPermanent("LotsWithAdjacentTickets")
         repo['aditid_benli.LotsWithAdjacentTickets'].insert_many(Lots)
 
 
