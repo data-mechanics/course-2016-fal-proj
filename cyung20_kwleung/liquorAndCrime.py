@@ -72,10 +72,10 @@ def dis(t):
     #If the distance is less or equal to 25 meters, keep it. 
     return dist <= 25
 
-#Number of alcohol places at least 50 meters from crime.
+#Number of alcohol places at least 25 meters from crime.
 #print(len(select(product(liquorDetails,crimeDetails),dis)))
 
-#Alcohol places at least 50 meters from crime.
+#Alcohol places at least 25 meters from crime.
 selected = select(product(liquorDetails,crimeDetails),dis)
 
 instances = {}
