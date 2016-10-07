@@ -103,6 +103,9 @@ doc.wasGeneratedBy(liquorAndBPDS, this_final, endTime)
 doc.wasDerivedFrom(liquorAndBPDS, BPDS, this_final, this_final, this_final)
 doc.wasDerivedFrom(liquorAndBPDS, liquorLicense, this_final, this_final, this_final)
 
+repo.record(doc.serialize())
+repo.logout()
+
 print(doc.get_provn())
 
 # Print results from new data from liquorAndBPS
