@@ -14,8 +14,8 @@ from pymongo import MongoClient
 
 class transformations(dml.Algorithm):
 	contributor = 'aliyevaa_jgtsui'
-	reads = []
-	writes = ['aliyevaa_jgtsui.liquor_set']
+	reads = ['aliyevaa_jgtsui.liquor_set','aliyevaa_jgtsui.bicycle_collisions','aliyevaa_jgtsui.crimeData', 'aliyevaa_jgtsui.liquor_data','aliyevaa_jgtsui.properties2016Data','aliyevaa_jgtsui.wazeAlertsData', 'aliyevaa_jgtsui.zip_codes_mapping']
+	writes = ['aliyevaa_jgtsui.final']
 
 	@staticmethod
 	def execute(trial = False):
@@ -24,12 +24,52 @@ class transformations(dml.Algorithm):
 		mrepo = client.repo
 		mrepo.authenticate('aliyevaa_jgtsui', 'aliyevaa_jgtsui')
 		
-		mrepo.dropPermanent("liquor_data")
-		mrepo.createPermanent("liquor_data")
-				
+		mrepo.dropPermanent("final")
+		mrepo.createPermanent("final")
+		data_list=[]
+		zipcodes=[]
 		
-	
-		djson = json.loads(data)
+		for x in mrepo.aliyevaa_jgtsui.zip_codes_mapping.find():
+			y=dict(x)
+			if (y['zipcode'])!='':
+				n=int(y['zipcode'])
+				zipcodes.append(n)
+		count=0	
+		flag=0
+		for zipcode in zipcodes:
+			for x in mrepo.aliyevaa_jgtsui.liquor_data.find():
+				y=dict(x)	
+				d={}
+				if int(y['zip'])==zipcode:
+					flag=1
+					count=count+1
+					
+			if flag==1:
+				d['number_of_liquor_stores']=count
+				count=0
+				d['zipcode']=zipcode
+				data_list.append(d)
+			flag=0
+		prop_list=[]
+		flag1=0
+		for zipcode in zipcodes:
+			for x in mrepo.aliyevaa_jgtsui.properties2016Data.find():
+				y=dict(x)
+				d={}
+				try:
+					k=int(y['zipcode'])
+					if k==zipcode:
+						d['prop_av_total']=float(y['av_total'])
+						d['zipcode']=zipcode
+						flag1=1
+				except:
+					pass
+			if flag1==1:
+				prop_list.append(d)
+			flag1=0
+		print(prop_list)							
+		#print(data_list)	
+		djson = json.loads(data_list)
 		s=json.dumps(djson, sort_keys=True, indent=2)
 		geolocator = Nominatim()
 

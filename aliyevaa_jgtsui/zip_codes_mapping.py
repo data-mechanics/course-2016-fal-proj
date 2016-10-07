@@ -30,6 +30,7 @@ class zip_codes_mapping(dml.Algorithm):
 		for row in (soup.findAll( 'div', {'class' : 'row'} )):
 			rows.append(row)
 		zipcodes_list=[]
+
 		for zipcode in rows:
 			zip_s={}
 			zip_n_tag=str(zipcode.find('div', {'class':'block zip1'}))	
@@ -38,8 +39,12 @@ class zip_codes_mapping(dml.Algorithm):
 			zip_s['latitude']=zip_lat[24:30]
 			zip_lon=str(zipcode.find('div', {'class':'block zip7'}))
 			zip_s['longitude']=zip_lon[24:31]
+			if zip_lat[24:30]!='' and zip_lon[24:31]!='':
+				lat=lat+float(zip_lat[24:30])
+				long=long+float(zip_lon[24:31])
+				count=count+1
 			zipcodes_list.append(zip_s)
-
+	
 		str_zip_codes=', '.join(json.dumps(d) for d in zipcodes_list)
 		prep='['+str_zip_codes+']'
 
