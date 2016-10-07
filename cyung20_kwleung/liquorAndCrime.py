@@ -19,10 +19,10 @@ repo.createPermanent("liquorAndCrime")
 
 data = repo.cyung20_kwleung.crime.find()
 
-
+#Consists of crime data we want before we use product()
 crimeDetails = []
-# counter and total makes sure only 10,000 crimes are 
-# run through, so that our computer doesn't crash!
+#counter and total makes sure only 10,000 crimes are 
+#run through, so that our computer doesn't crash!
 counter = 0
 total = 10000
 for d in data:
@@ -42,6 +42,7 @@ for d in data:
 
 data = repo.cyung20_kwleung.liquor.find() 
 
+#Consists of liquor store data we want before we use product()
 liquorDetails = []
 
 for d in data:
@@ -57,8 +58,8 @@ def product(R, S):
 def select(R, s):
     return [t for t in R if s(t)]
 
-# Function used for select in order to "select" liquor stores within
-# 25 meters of a crime scene.
+#Function used for select in order to "select" liquor stores within
+#25 meters of a crime scene.
 def dis(t):
     lon1 = t[0][2][0]
     lat1 = t[0][2][1]
@@ -71,9 +72,10 @@ def dis(t):
     #If the distance is less or equal to 25 meters, keep it. 
     return dist <= 25
 
-# Number of alcohol places at least 50 meters from crime.
+#Number of alcohol places at least 50 meters from crime.
 #print(len(select(product(liquorDetails,crimeDetails),dis)))
 
+#Alcohol places at least 50 meters from crime.
 selected = select(product(liquorDetails,crimeDetails),dis)
 
 instances = {}
