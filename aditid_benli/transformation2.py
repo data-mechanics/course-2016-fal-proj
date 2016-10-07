@@ -8,7 +8,7 @@ from bson.code import Code
 
 class transformation2(dml.Algorithm):
     contributor = 'aditid_benli'
-    reads = ['aditid_benli.jam', 'aditid_benli.crime']
+    reads = ['aditid_benli.jam', 'aditid_benli.crime', 'aditid_benli.inters']
     writes = ['aditid_benli.crimeLocations','aditid_benli.jamMR']
 
     @staticmethod
@@ -22,7 +22,7 @@ class transformation2(dml.Algorithm):
         repo.authenticate('aditid_benli', 'aditid_benli')
         
 
-        #Put Crime and locations together
+        #Put intersections and streets+jam together
         map_function = Code('''function() {
             if (this.street != undefined)
                 {
