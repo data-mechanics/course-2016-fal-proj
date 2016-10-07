@@ -6,11 +6,6 @@ import datetime
 import uuid
 from bson.code import Code
 
-#street lights
-#https://data.cityofboston.gov/api/views/fbdp-b7et/rows.json
-#dropout rates
-#http://www.bostonpublicschools.org/cms/lib07/MA01906464/Centricity/Domain/238/Final%20Drop1213%20complete.pdf
-
 class example(dml.Algorithm):
     contributor = 'jzhou94_katerin'
     reads = []
@@ -211,37 +206,37 @@ class example(dml.Algorithm):
         doc.wasAssociatedWith(get_crime_incident, this_script)
         doc.wasAssociatedWith(get_merge, this_script)
         
-        doc.usage(get_firearms, resource, startTime, None,
+        doc.usage(get_firearms, resource_firearms, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
                  'ont:Query':'?crimegunsrecovered,gunssurrenderedsafeguarded,gunssurrenderedsafeguarded,collectiondate,buybackgunsrecovered'
                 }
             )        
-        doc.usage(get_employee_earnings, resource, startTime, None,
+        doc.usage(get_employee_earnings, resource_employee_earnings, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
                  'ont:Query':'?title,retro,injured,postal,details,other,quinn_education_incentive,regular,department_name,name,total_earnings,overtime'
                 }
             )
-        doc.usage(get_avg_earnings, resource, startTime, None,
+        doc.usage(get_avg_earnings, resource_avg_earnings, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Computation',
                  'ont:Query':'?value'
                 }
             )
-        doc.usage(get_public_schools, resource, startTime, None,
+        doc.usage(get_public_schools, resource_public_schools, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
                  'ont:Query':'?sch_name,location_location,sch_type,location,type,zipcode,location_state,:@computed_region_aywg_kpfh,bldg_name,location_city,location_zip'
                 }
             )
-        doc.usage(get_schools, resource, startTime, None,
+        doc.usage(get_schools, resource_schools, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Computation',
                  'ont:Query':'?value'
                 }
             )
-        doc.usage(get_crime_incident, resource, startTime, None,
+        doc.usage(get_crime_incident, resource_crime_incident, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
                  'ont:Query':'?compnos,naturecode,x,reptdistrict,reportingarea,location,type,weapontype,:@computed_region_aywg_kpfh,ucrpart,year,main_crimecode,streetname,fromdate,domestic,shift,day_week,shooting,y,month,incident_type_description'
                 }
             )
-        doc.usage(get_merge, resource, startTime, None,
+        doc.usage(get_merge, resource_merge, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Computation',
                  'ont:Query':'?value'
                 }
