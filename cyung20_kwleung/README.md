@@ -40,13 +40,13 @@ To retrieve information from each dataset, run mbtaLocations.py, crimeReports.py
 
 This transformation. takes the product of 1) a set containing the name of the liquor store and its location in longitude and latitude and 2) a set containing the location of a crime. Selection is used to make sure that the essential data from liquor stores (location, name) that are located 25 meters or less from a location in which a crime was reported committed are included in the new data set. There is a double count. 
 
-liquorLicenses.py and crimeReports.py must be run in order to retrieve information to run liquorAndCrime.py.
+Run liquorLicenses.py and crimeReports.py before running liquorAndCrime.py.
 
 **2. liquorAndBPDS.py**
 
 This transformation looks for liquor stores that do not have a Boston Police District Station within 1 mile (around 1609 meters). This transformation may be useful in trying to determine if there is a correlation between crimes reported/committed and proximity of Boston Police District Stations.
 
-liquorLicenses.py and BPDSs.py must be run in order to retrieve information to run liquorAndCrime.py.
+Run liquorLicenses.py and BPDSs.py before running liquorAndCrime.py.
 
 **3. crimesNearBPDS.py**
 
