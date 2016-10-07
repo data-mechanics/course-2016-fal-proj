@@ -9,7 +9,7 @@ from bson.code import Code
 class example(dml.Algorithm):
     contributor = 'jzhou94_katerin'
     reads = []
-    writes = ['jzhou94_katerin.employee_earnings', 'jzhou94_katerin.public_schools', 'jzhou94_katerin.crime_incident', 'jzhou94_katerin.police_station', 'jzhou94_katerin.education']
+    writes = ['jzhou94_katerin.firearms', 'jzhou94_katerin.employee_earnings', 'jzhou94_katerin.public_schools', 'jzhou94_katerin.crime_incident', 'jzhou94_katerin.police_station', 'jzhou94_katerin.education']
 
     @staticmethod
     def execute(trial = False):
@@ -20,25 +20,38 @@ class example(dml.Algorithm):
         repo = client.repo
         print("repo: ", repo)
         repo.authenticate('jzhou94_katerin', 'jzhou94_katerin')
-        
+
+        '''
+        FIREARMS RECOVERY
+        '''
+        url = 'https://data.cityofboston.gov/resource/ffz3-2uqv.json'
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r0 = json.loads(response)
+        s = json.dumps(r0, sort_keys=True, indent=2)
+        repo.dropPermanent("firearms")
+        repo.createPermanent("firearms")
+        repo['jzhou94_katerin.firearms'].insert_many(r0)
+        print("firearms loaded")
+
+
         ''' EMPLOYEE EARNINGS '''
         url = 'https://data.cityofboston.gov/resource/bejm-5s9g.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
+        r1 = json.loads(response)
+        s = json.dumps(r1, sort_keys=True, indent=2)
         repo.dropPermanent("employee_earnings")
         repo.createPermanent("employee_earnings")
-        repo['jzhou94_katerin.employee_earnings'].insert_many(r)
+        repo['jzhou94_katerin.employee_earnings'].insert_many(r1)
         print("employee earnings loaded")
         
         ''' PUBLIC SCHOOLS '''
         url = 'https://data.cityofboston.gov/resource/492y-i77g.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
+        r2 = json.loads(response)
+        s = json.dumps(r2, sort_keys=True, indent=2)
         repo.dropPermanent("public_schools")
         repo.createPermanent("public_schools")
-        repo['jzhou94_katerin.public_schools'].insert_many(r)
+        repo['jzhou94_katerin.public_schools'].insert_many(r2)
         print("public schools loaded")
 
         map_function_school = Code('''function() {
@@ -55,18 +68,21 @@ class example(dml.Algorithm):
         repo.dropPermanent('jzhou94_katerin.schools')
         repo.createPermanent('jzhou94_katerin.schools')
         repo.jzhou94_katerin.public_schools.map_reduce(map_function_school, reduce_function_school, 'jzhou94_katerin.schools');
+        i = 0
+        S = [doc for doc in repo.jzhou94_katerin.schools.find()]
+        #print(S)
 
-        print("repo created")
+        print("schools created")
         
         ''' CRIME INCIDENTS '''
         url = 'https://data.cityofboston.gov/resource/ufcx-3fdn.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
+        r3 = json.loads(response)
+        s = json.dumps(r3, sort_keys=True, indent=2)
         repo.dropPermanent("crime_incident")
         repo.createPermanent("crime_incident")
-        repo['jzhou94_katerin.crime_incident'].insert_many(r)
-        print("crime incidents loaded")
+        repo['jzhou94_katerin.crime_incident'].insert_many(r3)
+        #print("crime incidents loaded")
 
         map_function_crime = Code('''
             function() {
@@ -106,7 +122,21 @@ class example(dml.Algorithm):
         repo.createPermanent('jzhou94_katerin.crime')
         repo.jzhou94_katerin.crime_incident.map_reduce(map_function_crime, reduce_function_crime, 'jzhou94_katerin.crime');
         print("crime created")
+        C = [doc for doc in repo.jzhou94_katerin.crime.find()]
+        #print(C)
         
+        """
+        MERGE
+        """
+        repo.dropPermanent("merge")
+        repo.createPermanent("merge")
+        def product(R, S):
+            return [(t, u) for t in R for u in S if(t['_id'] == u['_id'])]
+        P = product(S, C)
+        j = 0
+        for i in P:
+            repo['jzhou94_katerin.merge'].insert({'Name': P[j]})
+            j = j+1
         
         repo.logout()
 
