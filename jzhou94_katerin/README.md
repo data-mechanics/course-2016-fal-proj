@@ -15,4 +15,8 @@ https://dev.socrata.com/foundry/data.cityofboston.gov/492y-i77g public schools
 https://dev.socrata.com/foundry/data.cityofboston.gov/ufcx-3fdn crime incident
 https://data.cityofboston.gov/api/views/vb7h-wnyg/rows.json?accessType=DOWNLOAD firearms
 
-
+Functions:
+Mapreduce Employee Earnings: Uses mapreduce to calculate average city of Boston Employee earnings for each zip code
+Mapreduce Schools: Uses mapreduce to calculate the number of schools located in a zip code
+Mapreduce Crime: Uses mapreduce to project police districts into zip codes and calculate number of crimes per zipcode
+Merge:
