@@ -16,9 +16,7 @@ class school(dml.Algorithm):
         startTime = datetime.datetime.now()
         
         # Set up the database connection.
-        client = dml.pymongo.MongoClient()
-        repo = client.repo
-        repo.authenticate('emilygao_zzzbu', 'emilygao_zzzbu')
+        repo = openDb(getAuth("db_username"), getAuth("db_password"))
 
         url = 'https://data.cityofboston.gov/resource/492y-i77g.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
