@@ -59,7 +59,7 @@ This file combines all hubway and bus stop data together into a single database.
 
 auth.json was formatted: 
 
-{"addresses": "xxxxxxxxxxxxxxxxx"}
+{"cityofboston": "XxXXXXXxXxXxXXXXxxxxXxXX"}
 
 
 
