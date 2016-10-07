@@ -27,9 +27,15 @@ The `auth.json` file contains the following information
 }
  
 ##Run the program:
+
 Run earning.py,entertainment.py, hospital.py, restaurant.py and school.py. to retrieve.
+
 #After that:
+
 1.Run hospital_school_merge.py, it will transform the hospital and school date.(merge them).
+
 2.Run hospital_school_aggregate.py, it will aggregate the data, and list the number of school and hospital in each zipcode.
-3.Run hospital_school_select.py, it will create a new data that that only have school and hospital with zipcode: 02215 and it print their information.
+
+3.Run hospital_school_select.py, it will create a new data that that only have school and hospital with zipcode: 02215 and it
+print their information.
 
