@@ -124,32 +124,27 @@ class transformation1(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:alice_bob#example', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:aditid_benli#transformation1', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_found = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        get_lost = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        doc.wasAssociatedWith(get_found, this_script)
-        doc.wasAssociatedWith(get_lost, this_script)
-        doc.usage(get_found, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=Animal+Found&$select=type,latitude,longitude,OPEN_DT'
-                }
-            )
-        doc.usage(get_lost, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=Animal+Lost&$select=type,latitude,longitude,OPEN_DT'
-                }
-            )
+        this_script = doc.agent('alg:aditid_benli#transformation0', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
+        jamMR = doc.entity('dat:aditid_benli#jamMR', {prov.model.PROV_LABEL:'Collide metered parking with jams', prov.model.PROV_TYPE:'ont:DataSet'})        
+        getjamMR = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Collide metered parking with map reduce'})        
+        doc.wasAssociatedWith(getjamMR, this_script)
+        doc.used(getjamMR, jamMR, startTime)
+        doc.wasAttributedTo(jamMR, this_script)
+        doc.wasGeneratedBy(jamMR, getjamMR, endTime)
 
-        lost = doc.entity('dat:alice_bob#lost', {prov.model.PROV_LABEL:'Animals Lost', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(lost, this_script)
-        doc.wasGeneratedBy(lost, get_lost, endTime)
-        doc.wasDerivedFrom(lost, resource, get_lost, get_lost, get_lost)
 
-        found = doc.entity('dat:alice_bob#found', {prov.model.PROV_LABEL:'Animals Found', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(found, this_script)
-        doc.wasGeneratedBy(found, get_found, endTime)
-        doc.wasDerivedFrom(found, resource, get_found, get_found, get_found)
+        this_script = doc.agent('alg:aditid_benli#transformation1', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_script = doc.agent('alg:aditid_benli#transformation0', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
+        crimeLocations = doc.entity('dat:aditid_benli#crimeLocations', {prov.model.PROV_LABEL:'Commercial Parking Ticketing', prov.model.PROV_TYPE:'ont:DataSet'})        
+        getcrimeLocations = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Maps crime amounts to traffic jams'})        
+        doc.wasAssociatedWith(getcrimeLocations, this_script)
+        doc.used(getcrimeLocations, crimeLocations, startTime)
+        doc.wasAttributedTo(crimeLocations, this_script)
+        doc.wasGeneratedBy(crimeLocations, getcrimeLocations, endTime)
+
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()

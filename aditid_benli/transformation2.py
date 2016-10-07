@@ -97,7 +97,7 @@ class transformation2(dml.Algorithm):
          # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('alice_bob', 'alice_bob')
+        repo.authenticate('aditid_benli', 'aditid_benli')
 
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
@@ -105,32 +105,27 @@ class transformation2(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:alice_bob#example', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:aditid_benli#transformation2', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_found = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        get_lost = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        doc.wasAssociatedWith(get_found, this_script)
-        doc.wasAssociatedWith(get_lost, this_script)
-        doc.usage(get_found, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=Animal+Found&$select=type,latitude,longitude,OPEN_DT'
-                }
-            )
-        doc.usage(get_lost, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=Animal+Lost&$select=type,latitude,longitude,OPEN_DT'
-                }
-            )
+        this_script = doc.agent('alg:aditid_benli#transformation2', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
+        intersDivided = doc.entity('dat:aditid_benli#intersDivided', {prov.model.PROV_LABEL:'All intersections divided', prov.model.PROV_TYPE:'ont:DataSet'})        
+        getintersDivided = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'All interesections divided up'})        
+        doc.wasAssociatedWith(getintersDivided, this_script)
+        doc.used(getintersDivided, intersDivided, startTime)
+        doc.wasAttributedTo(intersDivided, this_script)
+        doc.wasGeneratedBy(intersDivided, getintersDivided, endTime)  
 
-        lost = doc.entity('dat:alice_bob#lost', {prov.model.PROV_LABEL:'Animals Lost', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(lost, this_script)
-        doc.wasGeneratedBy(lost, get_lost, endTime)
-        doc.wasDerivedFrom(lost, resource, get_lost, get_lost, get_lost)
 
-        found = doc.entity('dat:alice_bob#found', {prov.model.PROV_LABEL:'Animals Found', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(found, this_script)
-        doc.wasGeneratedBy(found, get_found, endTime)
-        doc.wasDerivedFrom(found, resource, get_found, get_found, get_found)
+        this_script = doc.agent('alg:aditid_benli#transformation2', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_script = doc.agent('alg:aditid_benli#transformation2', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
+        jamInters = doc.entity('dat:aditid_benli#jamInters', {prov.model.PROV_LABEL:'Sums interesections for jams', prov.model.PROV_TYPE:'ont:DataSet'})        
+        getjamInters = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Sums the total intersections for each traffic jam'})        
+        doc.wasAssociatedWith(getjamInters, this_script)
+        doc.used(getjamInters, jamInters, startTime)
+        doc.wasAttributedTo(jamInters, this_script)
+        doc.wasGeneratedBy(jamInters, getjamInters, endTime) 
+
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
