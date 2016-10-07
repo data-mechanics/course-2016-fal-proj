@@ -48,4 +48,6 @@ This transformation looks for liquor stores that do not have a Boston Police Dis
 
 liquorLicenses.py and BPDSs.py must be run in order to retrieve information to run liquorAndCrime.py.
 
-3.
+**3. crimesNearBPDS.py**
+
+This algorithm retrieves the districts in which crime incidents have been reported (as recorded by the Crime Incident Report dataset), counts how many crimes transpired in each individual district, then adds the counts to the pre-existing BPDS database with their corresponding districts.
