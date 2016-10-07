@@ -188,6 +188,7 @@ class example(dml.Algorithm):
         resource_public_schools = doc.entity('bdp:492y-i77g', {'prov:label':'Boston Public Schools (School Year 2012-2013)', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         resource_schools = doc.entity('dat:schools', {'prov:label':'Number of Schools in Location', prov.model.PROV_TYPE:'ont:DataSet', 'ont:Extension':'json'})
         resource_crime_incident = doc.entity('bdp:ufcx-3fdn', {'prov:label':'Crime Incident Reports (July 2012 - August 2015)', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        resource_crime = doc.entity('dat:crime', {'prov:label':'Crimes per Location', prov.model.PROV_TYPE:'ont:DataSet', 'ont:Extension':'json'})
         resource_merge = doc.entity('dat:merge', {'prov:label':'Crimes to Schools', prov.model.PROV_TYPE:'ont:DataSet', 'ont:Extension':'json'})
 
         get_firearms = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime) 
@@ -196,6 +197,7 @@ class example(dml.Algorithm):
         get_public_schools = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_schools = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_crime_incident = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_crime = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_merge = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
 
         doc.wasAssociatedWith(get_firearms, this_script)
@@ -204,6 +206,7 @@ class example(dml.Algorithm):
         doc.wasAssociatedWith(get_public_schools, this_script)
         doc.wasAssociatedWith(get_schools, this_script)
         doc.wasAssociatedWith(get_crime_incident, this_script)
+        doc.wasAssociatedWith(get_crime, this_script)
         doc.wasAssociatedWith(get_merge, this_script)
         
         doc.usage(get_firearms, resource_firearms, startTime, None,
@@ -234,6 +237,11 @@ class example(dml.Algorithm):
         doc.usage(get_crime_incident, resource_crime_incident, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
                  'ont:Query':'?compnos,naturecode,x,reptdistrict,reportingarea,location,type,weapontype,:@computed_region_aywg_kpfh,ucrpart,year,main_crimecode,streetname,fromdate,domestic,shift,day_week,shooting,y,month,incident_type_description'
+                }
+            )
+        doc.usage(get_crime, resource_crime, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Computation',
+                 'ont:Query':'?value'
                 }
             )
         doc.usage(get_merge, resource_merge, startTime, None,
@@ -271,6 +279,11 @@ class example(dml.Algorithm):
         doc.wasAttributedTo(crime_incident, this_script)
         doc.wasGeneratedBy(crime_incident, get_crime_incident, endTime)
         doc.wasDerivedFrom(crime_incident, resource_crime_incident, get_crime_incident, get_crime_incident, get_crime_incident)
+
+        crime = doc.entity('dat:jzhou94_katerin#crime', {prov.model.PROV_LABEL:'Crimes per Location', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(crime, this_script)
+        doc.wasGeneratedBy(crime, get_crime, endTime)
+        doc.wasDerivedFrom(crime, resource_crime, get_crime, get_crime, get_crime)
 
         merge = doc.entity('dat:jzhou94_katerin#merge', {prov.model.PROV_LABEL:'Crimes to Schools', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(merge, this_script)
