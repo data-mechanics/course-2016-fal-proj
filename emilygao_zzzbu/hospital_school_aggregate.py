@@ -18,10 +18,8 @@ class school_hospital_a(dml.Algorithm):
         startTime = datetime.datetime.now()
 
         # Set up the database connection.
-        client = dml.pymongo.MongoClient()
-        repo = client.repo
-        repo.authenticate('emilygao_zzzbu', 'emilygao_zzzbu')
-        
+        repo = openDb(getAuth("db_username"), getAuth("db_password"))
+
         schools = repo['emilygao_zzzbu.school']
         hospitals = repo['emilygao_zzzbu.hospital']
         
