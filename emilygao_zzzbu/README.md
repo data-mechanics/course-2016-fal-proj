@@ -1,6 +1,5 @@
 Project proposal 
 
-#2.a)
 We decide to combine the following data:
 
   Boston Public Schools:<https://data.cityofboston.gov/dataset/Boston-Public-Schools-School-Year-2012-2013-/e29s-ympv>
