@@ -50,6 +50,12 @@ class transformations(dml.Algorithm):
 				d['zipcode']=zipcode
 				data_list.append(d)
 			flag=0
+		str_data=', '.join(json.dumps(d) for d in data_list)
+		prep='['+str_data+']'
+		r=json.loads(prep)
+		mrepo['aliyevaa_jgtsui.final'].insert_many(r)
+		mrepo.logout()
+		'''
 		prop_list=[]
 		flag1=0
 		for zipcode in zipcodes:
@@ -75,6 +81,7 @@ class transformations(dml.Algorithm):
 
 		mrepo['aliyevaa_jgtsui.liquor_data'].insert_many(djson)
 		mrepo.logout()
+		'''
 		endTime = datetime.datetime.now()
 		return {"start":startTime, "end":endTime}	
 	
@@ -87,18 +94,15 @@ class transformations(dml.Algorithm):
 		doc.add_namespace('dat', 'http://datamechanics.io/data/aliyevaa_jgtsui') 
 		doc.add_namespace('ont', 'http://datamechanics.io/ontology#')
 		doc.add_namespace('log', 'http://datamechanics.io/log/') 
-		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-		this_script = doc.agent('alg:aliyevaa_jgtsui#liquor_set',{prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-		resource =doc.entity('bdp:g9d9-7sj6', {'prov:label':'Liquor Licenses', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+		this_script = doc.agent('alg:aliyevaa_jgtsui#trans',{prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+	
 		get_liquor_data = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)	
 		doc.wasAssociatedWith(get_liquor_data, this_script)
+
 	
-		doc.usage(get_liquor_data , resource, startTime, None)	
-		found = doc.entity('dat:aliyevaa_jgtsui#liquor_set', {prov.model.PROV_LABEL:'Liquor Stores', prov.model.PROV_TYPE:'ont:DataSet'})
-		doc.wasAttributedTo(found, this_script)
-		doc.wasGeneratedBy(found, get_liquor_data, endTime)
-		doc.wasDerivedFrom(found, resource, get_liquor_data, get_liquor_data, get_liquor_data)
+
+	
 		repo.record(doc.serialize()) # Record the provenance document.
 		repo.logout()
 		return doc
