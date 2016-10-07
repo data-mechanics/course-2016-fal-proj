@@ -20,20 +20,20 @@ Project#1
 ##Files Submitted and Instructions
 
 ####readme.md
-..* hello
+* hello
 
 ####retrieveDataSets.py
-..* produces publicly available datasets
+* produces publicly available datasets
 
 ####narrative.txt
-..* narrative and justification explaining how these data sets can be combined to answer an interesting question or solve a problem
+* narrative and justification explaining how these data sets can be combined to answer an interesting question or solve a problem
 
 ####transformation0.py
-..* produces LotsWithAdjacentTickets
+* produces LotsWithAdjacentTickets
 
 ####transformation0.py
-..* produces jamCrime
+* produces jamCrime
 
 ####transformation0.py
-..* produces jamInters
+* produces jamInters
 
