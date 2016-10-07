@@ -14,5 +14,9 @@ We decide to combine the following data:
 
 We will use the combination datasets to answer the question of whether the people with higher earnings would like to live in the place with more public services or not. Hospital, public school, entertainment place and the active food establishment are all public service which can show whether that area is busy or not. Also, we will sort the data of earning report to see where are the people with higher earning live by recording the zipcode of these address. Moreover, the rest four dataset will show the common public building in each area by checking the zipcode of each place. 
 
+In order to retrieve the data, we need to run five python file which are earning.py,entertainment.py, hospital.py, restaurant.py and school.py. These files can help us retrieve the data and store the information into the mongodb so that we can use them for the later analysis.
+
+
+
 
 
