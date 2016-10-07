@@ -117,6 +117,9 @@ doc.wasGeneratedBy(crimeLiq, this_final, endTime)
 doc.wasDerivedFrom(crimeLiq, crimeReports, this_final, this_final, this_final)
 doc.wasDerivedFrom(crimeLiq, liquorLicense, this_final, this_final, this_final)
 
+repo.record(doc.serialize())
+repo.logout()
+
 #print(repo.record(doc.serialize()))
 print(doc.get_provn())
 
