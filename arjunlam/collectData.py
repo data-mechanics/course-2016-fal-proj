@@ -22,7 +22,7 @@ class collectData(dml.Algorithm):
         repo.authenticate('arjunlam', 'arjunlam')
 
         #Crime incident report
-        url = 'https://data.cityofboston.gov/resource/29yf-ye7n.json?$limit=2000'
+        url = 'https://data.cityofboston.gov/resource/29yf-ye7n.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
@@ -31,7 +31,7 @@ class collectData(dml.Algorithm):
         repo['arjunlam.crime'].insert_many(r)
 
         #311 Service requests
-        url = 'https://data.cityofboston.gov/resource/wc8w-nujj.json?$limit=2000'
+        url = 'https://data.cityofboston.gov/resource/wc8w-nujj.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
@@ -40,7 +40,7 @@ class collectData(dml.Algorithm):
         repo['arjunlam.closed311'].insert_many(r)
 
         #Department of development developed property
-        url = 'https://data.cityofboston.gov/resource/k26b-7bmj.json?$limit=2000'
+        url = 'https://data.cityofboston.gov/resource/k26b-7bmj.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
@@ -49,7 +49,7 @@ class collectData(dml.Algorithm):
         repo['arjunlam.develop'].insert_many(r)
         
         #mayor hotline city services
-        url = 'https://data.cityofboston.gov/resource/jbcd-dknd.json?$limit=2000'
+        url = 'https://data.cityofboston.gov/resource/jbcd-dknd.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
@@ -58,7 +58,7 @@ class collectData(dml.Algorithm):
         repo['arjunlam.hotline'].insert_many(r)
         
         #Closed potholes cases
-        url = 'https://data.cityofboston.gov/resource/wivc-syw7.json?$limit=2000'
+        url = 'https://data.cityofboston.gov/resource/wivc-syw7.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
