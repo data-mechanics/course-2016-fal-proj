@@ -4,4 +4,4 @@ Say for instance, every morning at rush hour there's a huge series of traffic ja
 
 The very first data set is a dataset that agregates all the high parking demadn related traffic tickets to the nearest commercial parking lot.  Based on the amount of illegal parking in an area of each commercial parking lot, you can infer what parking areas are overutiized or under utilized.  Using this information you could expand parking facilities in certain areas or shut down some in others to create a more balanced distribution of traffic. 
 
-The second dataset is one that maps the total numebr of intersections to a particular road, given that this
+The second dataset is one that maps the total number of intersections to a particular road, given that intersections greatly increase the degree of traffic on a road.  Using this information, municipal workers can attempt to plot parking locations in such a way that common routes to them do not pass through a great deal of intersections heavy roads.
