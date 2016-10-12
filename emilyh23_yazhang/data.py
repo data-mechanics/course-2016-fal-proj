@@ -6,7 +6,6 @@ import datetime
 import uuid
 import csv
 
-
 class example(dml.Algorithm):
     contributor = 'emilyh23_yazhang'
     reads = []
