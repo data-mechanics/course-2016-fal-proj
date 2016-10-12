@@ -21,16 +21,16 @@ class example(dml.Algorithm):
         repo = client.repo
         repo.authenticate('emilyh23_yazhang', 'emilyh23_yazhang')
 
-        '''
-        url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/1b0717d5b4654882ae36adc4a20fd64b_0.geojson'
+        #fireHydrants dataset
+        url = 'http://datamechanics.io/data/emilyh23_yazhang/fire_hydrant_new.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r1 = json.loads(response)
         s = json.dumps(r1, sort_keys=True, indent=2)
         repo.dropPermanent("fireHydrants")
         repo.createPermanent("fireHydrants")
-        repo['emilyh23_yazhang.fireHydrants'].insert_one(r1)
+        repo['emilyh23_yazhang.fireHydrants'].insert_many(r1)
+
         '''
-        
         ### fireHydrant data from CSV converted to a cleaner version than the normal geojson file ###
         # fetching the csv 
         response = urllib.request.urlopen('http://bostonopendata.boston.opendata.arcgis.com/datasets/1b0717d5b4654882ae36adc4a20fd64b_0.csv')
@@ -50,7 +50,7 @@ class example(dml.Algorithm):
         
         json_filename_1 = "../data/fire_hydrant_new.json"
         jsonWriter_1 = open(json_filename_1,'w') 
-        dataJson = "[\n\t" + ",\n\t".join([json.dumps(row, sort_keys=True,indent=6, separators=(',', ': ')) for row in csv_reader1]) + "\n]"
+        dataJson = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader1]) + "\n]"
         jsonWriter_1.write(dataJson)
         jsonWriter_1.close()        
         
@@ -60,15 +60,16 @@ class example(dml.Algorithm):
         repo.dropPermanent("fireHydrants")
         repo.createPermanent("fireHydrants")
         repo['emilyh23_yazhang.fireHydrants'].insert_many(r1)
-
         '''
-        url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/3a0f4db1e63a4a98a456fdb71dc37a81_4.geojson'
+
+        #fireBoxes dataset
+        url = 'http://datamechanics.io/data/emilyh23_yazhang/fire_boxes_new.json'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r2 = json.loads(response)
         s = json.dumps(r2, sort_keys=True, indent=2)
         repo.dropPermanent("fireBoxes")
         repo.createPermanent("fireBoxes")
-        repo['emilyh23_yazhang.fireBoxes'].insert_one(r2)
+        repo['emilyh23_yazhang.fireBoxes'].insert_many(r2)
         '''
         
         ### fireBoxess data from CSV converted to a cleaner version than the normal geojson file ###
@@ -90,7 +91,7 @@ class example(dml.Algorithm):
         
         json_filename_2 = "../data/fire_boxes_new.json"
         jsonWriter_2 = open(json_filename_2,'w') 
-        dataJson_2 = "[\n\t" + ",\n\t".join([json.dumps(row, sort_keys=True,indent=6, separators=(',', ': ')) for row in csv_reader2]) + "\n]"
+        dataJson_2 = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader2]) + "\n]"
         jsonWriter_2.write(dataJson_2)
         jsonWriter_2.close()        
         
@@ -100,6 +101,7 @@ class example(dml.Algorithm):
         repo.dropPermanent("fireBoxes")
         repo.createPermanent("fireBoxes")
         repo['emilyh23_yazhang.fireBoxes'].insert_many(r2)
+        '''
 
         #fireDepartments dataset
         url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/092857c15cbb49e8b214ca5e228317a1_2.geojson'
@@ -113,12 +115,22 @@ class example(dml.Algorithm):
         #fireDistricts dataset
         url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/bffebec4fa844e84917e0f13937ec0d7_3.geojson'
         response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
+        r4 = json.loads(response)
+        s = json.dumps(r4, sort_keys=True, indent=2)
         repo.dropPermanent("fireDistricts")
         repo.createPermanent("fireDistricts")
-        repo['emilyh23_yazhang.fireDistricts'].insert_one(r)
+        repo['emilyh23_yazhang.fireDistricts'].insert_one(r4)
 
+        #311 Service Requests dataset
+        url = 'http://datamechanics.io/data/emilyh23_yazhang/Fire_311_Requests_new.json'
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r5 = json.loads(response)
+        s = json.dumps(r5, sort_keys=True, indent=2)
+        repo.dropPermanent("fireDistricts")
+        repo.createPermanent("fireDistricts")
+        repo['emilyh23_yazhang.fireDistricts'].insert_many(r5)
+
+        '''
         ### 311 Service Requests data from CSV converted to a cleaner version than the normal geojson file ###
         # fetching the csv 
         response = urllib.request.urlopen('https://data.cityofboston.gov/api/views/m3cw-fv46/rows.csv?accessType=DOWNLOAD&bom=true')
@@ -138,7 +150,7 @@ class example(dml.Algorithm):
         
         json_filename_5 = "../data/Fire_311_Requests_new.json"
         jsonWriter_5 = open(json_filename_5,'w') 
-        dataJson_5 = "[\n\t" + ",\n\t".join([json.dumps(row, sort_keys=True,indent=6, separators=(',', ': ')) for row in csv_reader5]) + "\n]"
+        dataJson_5 = "[\n\t" + ",\n\t".join([json.dumps(row) for row in csv_reader5]) + "\n]"
         jsonWriter_5.write(dataJson_5)
         jsonWriter_5.close()   
         
@@ -147,7 +159,8 @@ class example(dml.Algorithm):
         r5 = json.load(res)
         repo.dropPermanent("Fire_311_Service_Requests")
         repo.createPermanent("Fire_311_Service_Requests")
-        repo['emilyh23_yazhang.Fire_311_Service_Requests'].insert_many(r5)  
+        repo['emilyh23_yazhang.Fire_311_Service_Requests'].insert_many(r5)
+        '''
     
         repo.logout()
 
