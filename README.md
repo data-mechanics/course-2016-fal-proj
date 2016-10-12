@@ -1,55 +1,91 @@
-# course-2016-fal-proj (dwangus)
+# course-2016-fal-proj
 Project repository for the course project in the Fall 2016 iteration of the Data Mechanics course at Boston University.
 
-## Justification
+In this project, you will implement platform components that can obtain a some data sets from web services of your choice, and platform components that combine these data sets into at least two additional derived data sets. These components will interct with the backend repository by inserting and retrieving data sets as necessary. They will also satisfy a standard interface by supporting specified capabilities (such as generation of dependency information and provenance records).
 
-The data sets I've chosen are the Crime Incident Reports (from July 2012 - August 2015), Public Access Fishing Locations, Issued Moving Truck Permits, 
-Active Food Establishment Licenses, Entertainment Licenses, Community Supported Agriculture Pickups, and Year-Round Swimming Pools. The three new data sets
-I've created as a result of these 7 data sets (all of them pulled from https://data.cityofboston.gov/ using the Socrata Open Data API endpoint .json URL)
-are (informally) called Crime Instances v. Community Indicators, Crime Instances v. Anti-Community Indicators, and Crime Instances v. Moving Truck Permits
-(all instances of crime are looked at within a one-mile, or 1600-meter radius of the indicators mentioned in the title).
+**This project description will be updated as we continue work on the infrastructure.**
 
-The interesting question I'm trying to solve is this: if, given different "types" of city establishments/infrastructure that can either be categorized as 
-indicators of "stronger community" or "weaker community", can we find other correlations with other indicators of inequality or "instability" in Boston and 
-address common problems in terms of this social aspect? Stated in another, more concrete way -- if we were to add a new "community hotspot" or take away an
-existing "tourist establishment" in order to maximize the benefits to Bostonians across a variety of metrics -- economic, social, infrastructural, etc. --
-where would we do so?
+## MongoDB infrastructure
 
-These data sets were combined as a preliminary test to this question, using crime statistics, and seeing if there was a correlation in the location where a
-crime occurred and the frequency of "anti-community" and "community" indicators within a 1-mile radius. The public fishing locations and community supported
-agriculture pickups were grouped and taken to be "community indicators", while entertainment and active food establishment licenses were taken to be "anti-
-community indicators" -- with the rationale that entertainment is a form of escapism from where one currently is, and that food establishments similarly 
-exist to give people a break from eating around their community (and often being tourist spots as well). The moving truck permits data set was offered as a 
-frame of reference to the proposed groupings of community and anti-community indicators -- as it's unclear whether all moving truck permits issued are for
-people leaving or entering Boston.
+### Setting up
 
-The year-round swimming pools data set was excluded from the methods used for now (they would be community indicators), as I could not figure out what GPS/
-location coordinate formats were being used in the data set.
+We have committed setup scripts for a MongoDB database that will set up the database and collection management functions that ensure users sharing the project data repository can read everyone's collections but can only write to their own collections. Once you have installed your MongoDB instance, you can prepare it by first starting `mongod` _without authentication_:
+```
+mongod --dbpath "<your_db_path>"
+```
+If you're setting up after previously running `setup.js`, you may want to reset (i.e., delete) the repository as follows.
+```
+mongo reset.js
+```
+Next, make sure your user directories (e.g., `alice_bob` if Alice and Bob are working together on a team) are present in the same location as the `setup.js` script, open a separate terminal window, and run the script:
+```
+mongo setup.js
+```
+Your MongoDB instance should now be ready. Stop `mongod` and restart it, enabling authentication with the `--auth` option:
+```
+mongod --auth --dbpath "<your_db_path>"
+```
 
-## Algorithms, Tools, and Methods
+### Working on data sets with authentication
 
-The following data sets were retrieved from https://data.cityofboston.gov/ and store and transformed in some specific way, all in order to facilitate the
-creation of 2D-Sphere indexing in MongoDB (and for reference, 2D-Sphere indexing in MongoDB is a useful tool in comparing formatted geolocation data en-masse 
-in MongoDB's databases (see https://docs.mongodb.com/manual/core/2dsphere/ for reference)):
-- Public Access Fishing Locations: 
-	- The existing 'location' field was renamed to 'location_addess'
-	- The existing 'map_location' field, in correct GeoJSON format to create the 2D-Sphere indexes, was renamed to 'location'
-- Community Supported Agriculture Pickups:
-	- Ditto from Public Access Fishing Locations
-- Active Food Establishment Licenses:
-	- The 'location' field was already in correct GeoJSON format, so the 2D-Sphere index was simply created for it in MongoDB
-- Entertainment Licenses:
-	- The 'location' field was, as a string, in '(latitude, longitude)' format -- so it was parsed and turned into a correct GeoJSON object
-		(which, for reference, is in {'type': 'Point', 'coordinates': [longitude,latitude]} format); otherwise, that data-entry was deleted,
-		as had to occur for a few rows that had malformed data
-- Issued Moving Truck Permits:
-	- The existing 'location' field was renamed to 'location_details'
-	- The 'location' field was added and, from the existing (now) 'location_details' field, we parsed their location_details.latitude and
-		location_details.longitude sub-fields (both strings) and added the geolocation data in correct GeoJSON format
-		
-The transformations/algorithms used to create the three new data sets occurred in the following manner, applied in a near-identical manner for each:
-- Copy the existing crime data set (whose geolocation data was already correctly formatted) as the new data set to be created, that will be soon edited in-place
-- For each crime/entry in this new data set, update as follows:
-	- Create a new field called '<>_indicators_1600m_radius', with value = 
-		- Find the size of the filtered set of all entries in the corresponding data sets based on category (community, anti-community, moving permits), based on 
-			whether their location exists within 1600 meters of the given crime's location
+With authentication enabled, you can start `mongo` on the repository (called `repo` by default) with your user credentials:
+```
+mongo repo -u alice_bob -p alice_bob --authenticationDatabase "repo"
+```
+However, you should be unable to create new collections using `db.createCollection()` in the default `repo` database created for this project:
+```
+> db.createCollection("EXAMPLE");
+{
+  "ok" : 0,
+  "errmsg" : "not authorized on repo to execute command { create: \"EXAMPLE\" }",
+  "code" : 13
+}
+```
+Instead, load the server-side functions so that you can use the customized `createTemp()` or `createPerm()` functions, which will create collections that can be read by everyone but written only by you:
+```
+> db.loadServerScripts();
+> var EXAMPLE = createPerm("EXAMPLE");
+```
+Notice that this function also prefixes the user name to the name of the collection (unless the prefix is already present in the name supplied to the function).
+```
+> EXAMPLE
+alice_bob.EXAMPLE
+> db.alice_bob.EXAMPLE.insert({value:123})
+WriteResult({ "nInserted" : 1 })
+> db.alice_bob.EXAMPLE.find()
+{ "_id" : ObjectId("56b7adef3503ebd45080bd87"), "value" : 123 }
+```
+For temporary collections that are only necessary during intermediate steps of of a computation, use `createTemp()`; for permanent collections that represent data that is imported or derived, use `createPerm()`.
+
+If you do not want to run `db.loadServerScripts()` every time you open a new terminal, you can use a `.mongorc.js` file in your home directory to store any commands or calls you want issued whenever you run `mongo`.
+
+## Other required libraries and tools
+
+You will need the latest versions of the PROV and DML Python libraries. If you have `pip` installed, the following should install the latest versions automatically:
+```
+pip install prov --upgrade --no-cache-dir
+pip install dml --upgrade --no-cache-dir
+```
+If you are having trouble with `lxml`, you could try retrieving it [here](http://www.lfd.uci.edu/~gohlke/pythonlibs/).
+
+## Formatting the `auth.json` file
+
+The `auth.json` file should remain empty and should not be submitted. When you are running your algorithms, you should use the file to store your credentials for any third-party data resources, APIs, services, or repositories that you use. An example of the contents you might store in your `auth.json` file is as follows:
+```
+{
+    "services": {
+        "cityofbostondataportal": {
+            "service": "https://data.cityofboston.gov/",
+            "username": "alice_bob@example.org",
+            "token": "XxXXXXxXxXxXxxXXXXxxXxXxX",
+            "key": "xxXxXXXXXXxxXXXxXXXXXXxxXxxxxXXxXxxX"
+        },
+        "mbtadeveloperportal": {
+            "service": "http://realtime.mbta.com/",
+            "username": "alice_bob",
+            "token": "XxXX-XXxxXXxXxXXxXxX_x",
+            "key": "XxXX-XXxxXXxXxXXxXxx_x"
+        }
+    }
+}
+```
