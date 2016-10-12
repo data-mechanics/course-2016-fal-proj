@@ -34,7 +34,7 @@ class example(dml.Algorithm):
         s = json.dumps(r, sort_keys=True, indent=2)
         repo.dropPermanent("found")
         repo.createPermanent("found")
-        repo['alice_bob.found'].insert_many(r)
+        repo['alice_bob.found'].insert_m5any(r)
 
         repo.logout()
 
