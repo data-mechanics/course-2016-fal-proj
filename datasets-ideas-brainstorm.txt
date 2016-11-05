@@ -1,0 +1,134 @@
+Think of it as a cell/living organism?
+
+What matters to people?
+Beauty/Cleanliness
+Entertainment
+Safety
+Access to infrastructural resources - time and location
+Economic advantages
+Carbon Footprint...?
+Social Climate
+
+___ that has the most/least ___
+e.g. "Areas that require the most maintenance"
+
+...Locations that are most likely to have people notice something wrong...? -- or rather, not wrong, but wrong relative to their perceived norm...
+Areas that are the most hurried...?
+	- Hmm, correlation between areas of leisure/entertainment and crime
+Hmm, dispersal of government buildings and associated crime around such areas
+Dispersal of government buildings and places in need of service requests
+Planned areas for contractors and crime rates
+(wow, all having to do with crime)
+...Areas that have the strongest sense of "community"...?
+	- Contrasting indicators of "community" with areas of "entertainment"
+		- Even more interesting metrics one can do with that -- economic correlation with such areas? 
+		- Crime correlation with such areas? 
+		- Service request rate with such areas?
+		- Building/Property Violations? 
+		- Food Establishment Inspections?
+		- Dispersal of government buildings in relation?
+		- What are the rates of crime/conflict along lines between two distinct "areas" with strong "community"?
+		- Carbon footprint/waste produced? (and combined with the notion of "trash" -- how well-lit areas are, for a total sense of "cleanliness")
+
+
+
+What are indicators of community?
+	- Community Supported Agriculture (CSA) Pickup Locations
+	- Public Access Fishing Locations
+	- Local Food Distribution (but does this go to retail stores or to local businesses?)
+	- Urban Orchards/Fruit Trees (in and around city of Boston)
+	- Community Gardens (throughout Boston)
+	- Food Pantries (food banks/pantries in Boston, accurate up to 2012)
+	- Year-Round Swimming Pools/Seasonal Swimming Pools
+	Now which of these are pretty STRONG indicators of community? (i.e. less touristy and more maintained by those who live close by)
+		- Community Supported Agriculture (CSA) Pickup Locations
+		- Year-Round Swimming Pools/Seasonal Swimming Pools
+		- Public Access Fishing Locations (kind of)
+	
+What are indicators of entertainment/anti-sense-of-culture?
+	- Liquor Licenses + All Section 12 Alcohol Licenses -- but what about bars...
+	- Nail Salon Permits
+	- Boston Taxi Data
+	- Active Food Establishment Licenses
+	- Issued Moving Truck Permits
+	- Entertainment Licenses
+	Now which are pretty STRONG indicators of a lack of community?
+		- Issued Moving Truck Permits
+			*- Boston Taxi Data (this is in a weird format)
+		- Density of one of the following:
+			- Active Food Establishment Licenses
+			- Entertainment Licenses
+	
+(Public Works Active Work Zones? -- where would that go?)
+
+(get later: Issued Moving Truck Permits)
+So my datasets (for now):
+- Issued Moving Truck Permits
+- Active Food Establishment Licenses
+- Entertainment Licenses
+- CSA Pickup Locations
+- Swimming Pools
+- Public Access Fishing Locations
+
+Three new datasets:
+- Crime locations based on a set circle-radius of how close it occurred to a number of locations (with anti-community indicators)
+- Ditto (with community indicators)
+- Crime locations across moving truck permits
+OR 
+- Find neighborhood zones and group neighborhoods with the number of community indicators, 
+- anti-community indicators,
+- and crime
+
+
+
+####Project 1####
+a)	Choose at least five publicly available data sets, data streams, services, or documents (note that some of your data sets 
+may have similar schemas and may contain similar information, but all five data sets cannot have very similar schemas 
+or very similar information). Write a short narrative and justification (5-10 sentences) explaining how these data sets 
+can be combined to answer an interesting question or solve a problem. You do not need to solve the actual problem in this project, 
+and it is acceptable to merely combine data sets in a way that is likely to support one or more solutions involving the particular data 
+you choose. Include this narrative in a README.md file within your directory (along with any documentation you may write in that file).
+
+b)	Implement algorithms that perform at least three non-trivial transformations that merge, combine, or otherwise process some 
+of the five data sets into three new data sets. These new data sets should be inserted into the repository. You can choose one of 
+the existing algorithms or tools we have considered so far, or something else (assuming you thoroughly document in your README.md file 
+how to obtain and run those tools).
+
+c) 	Commit and submit a pull request.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

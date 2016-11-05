@@ -1,4 +1,4 @@
-# course-2016-fal-proj (dwangus)
+# course-2016-fal-proj (aliyevaa, bsowens, dwangus, jgtsui)
 Project repository for the course project in the Fall 2016 iteration of the Data Mechanics course at Boston University.
 
 ## Justification
