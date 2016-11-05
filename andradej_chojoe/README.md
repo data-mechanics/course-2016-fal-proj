@@ -22,11 +22,11 @@ https://data.cityofboston.gov/resource/jbcd-dknd.json
 
 ##Running Scripts
 
-1. Run gatherDataSets.py in order to retrieve and store all required raw data
+1. Run `gatherDataSets.py` in order to retrieve and store all required raw data
 
 2. Run the other transformation scripts (order doesn't matter):
     
-    bigBelly.py:
+    `bigBelly.py`:
     Uses "Big Belly Alerts 2014" dataset and performs transformations to find the amount of big belly compactors and the overall average fullness of Boston geolocations.
 
     How to run:
@@ -34,7 +34,7 @@ https://data.cityofboston.gov/resource/jbcd-dknd.json
     $ python3 bigBelly.py
     ```
 
-    codeViolations.py:
+    `codeViolations.py`:
     Uses "Code Enforcement" and "Food Establishments Inspections" datasets and performs transformations to find health/sanitation related violations and the number of times they occured within each Boston zipcode.
 
     How to run:
@@ -42,7 +42,7 @@ https://data.cityofboston.gov/resource/jbcd-dknd.json
     $ python3 codeViolations.py
     ```
 
-    serviceRequests.py:
+    `serviceRequests.py`:
     Uses "Mayors 24 Hour Hotline" dataset and performs transformations to find the types of santiation-related requests and the number of times it was request for each Boston zipcode.
 
     How to run:
@@ -50,7 +50,7 @@ https://data.cityofboston.gov/resource/jbcd-dknd.json
     $ python3 serviceRequests.py
     ```
 
-    trashSchedules.py:
+    `trashSchedules.py`:
     Uses "Master Address List" dataset and performs transformations to find the trash collection days for each Boston zipcode. 
 
     How to run:
