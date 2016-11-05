@@ -49,6 +49,14 @@ reasonable modularity and encapsulation practices, and should perform logically 
 			across Boston, we then produce our heatmap of "how much community" each point in the map of Boston has
 		- (another potentially interesting aspect would be to add the dimension of time for our heatmaps -- i.e., see 
 			trends of how our definition of community has changed the heatmap over time)
+		- (another implementation note -- weighting individual "pro-community" locations/points against each other --
+			i.e. determining how "strong" a particular community-location is, relative to all others... maybe based
+			somehow on frequency of traffic... or web traffic... or surrounding population density, etc.)
+		- We should take care to not include data sets of fixed locations (at least with regards to pro-community)
+			that are heavily regulated by the government, as the government might have different incentives for putting
+			____ (like bus stops or building a new public school, etc.) at location (x,y), to minimize/maximize other
+			economic/transportation/population metrics, independent of our study of how community affects certain
+			metrics and how those same metrics affect community back vicer-versa (in other words, if a correlation exists)
 	2. Create an individual heatmap for all other proposed 'aggregate effects' metrics (i.e. crime, income, maybe 
 		population density?, traffic accidents, etc. -- each, of course, processed accordingly as well (like perhaps 
 		per capita, geographic density, etc.)), and attempt to visually correlate our "community" heatmap with that 
