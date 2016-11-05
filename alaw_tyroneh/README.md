@@ -15,22 +15,22 @@ getData.py and transformData.py has execute() and provenance() methods, which ar
 ##Bus Data Sources 
 
 For current bus data
-*	Bus stops (MBTA API)  -- Currently Scraping --
-*	Bus routes (MBTA API) -- Currently Scraping --
-*	Number of buses + mbta ridership data (MBTA Bluebook) TBD
-*	Real time next-bus api (NextBus/MBTA API scraping / google drive) -- Currently Scraping --
-	*	Mbta bus location data (for a few weeks)
+* Bus stops (MBTA API)  -- Currently Scraping --
+* Bus routes (MBTA API) -- Currently Scraping --
+* Number of buses + mbta ridership data (MBTA Bluebook) TBD
+* Real time next-bus api (NextBus/MBTA API scraping / google drive) -- Currently Scraping --
+* Mbta bus location data (for a few weeks)
 
 For modeling 
-*	T-stops (MBTA API) 
-*	Commuter rail stops (MBTA API)
-*	Hubway locations (Hubway Data Challenge)
-*	Residential properties (Boston, Cambridge, Somerville, Brookline Data Portal)
+* T-stops (MBTA API) 
+* Commuter rail stops (MBTA API)
+* Hubway locations (Hubway Data Challenge)
+* Residential properties (Boston, Cambridge, Somerville, Brookline Data Portal)
 
 ##Data Transformations
 
-1) Standardize all property data to the GeoJSON format
-	1.5) convert Brookline polygon coordinates to point data
-2) Reformat T and Commuter Rail routes to list of stops with ownerships of routes using the GeoJSON format
-3) Combine T-stops, Commuter Rail Stops, and Hubway station locations as points for "connections" using the GeoJSON format
-4) Define bus routes & bus stops with corresponding average time between each bus stop, # of buses and ridership (TO DO)
+1. Standardize all property data to the GeoJSON format
+ * convert Brookline polygon coordinates to point data
+2. Reformat T and Commuter Rail routes to list of stops with ownerships of routes using the GeoJSON format
+3. Combine T-stops, Commuter Rail Stops, and Hubway station locations as points for "connections" using the GeoJSON format
+4. Define bus routes & bus stops with corresponding average time between each bus stop, # of buses and ridership (TO DO)
