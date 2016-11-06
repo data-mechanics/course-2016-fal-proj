@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[2]:
+# In[12]:
 
 import urllib.request
 import json
@@ -21,29 +21,30 @@ def aggregate(R, f):
     results = []
     
     #keys are all possible unique zip codes
-    keys_zipcodes = {r[0] for r in R}
+    keys_locs = {r[0] for r in R}
     keys_types = {r[1] for r in R}
     
     total_requests = []
     
-    for key_zip in keys_zipcodes:
+    for key_loc in keys_locs:
         for key_type in keys_types:
             total_requests = []
             for value in R:
-                if key_zip == value[0]:
+                if key_loc == value[0]:
                     if key_type == value[1]:
                         total_requests.append(1)
-            results.append((key_zip, key_type, f(total_requests)))          
+            results.append((key_loc, key_type, f(total_requests)))          
     return results 
 
 def processData(row):
     try:
-        if row['location_zipcode'] and row['type']:
+        if row['geocoded_location'] and row['type']:
             
             #need to convert zip code from int to zip format
-            zipcode = "0" + str(row['location_zipcode'])
+            #zipcode = "0" + str(row['location_zipcode'])
+            loc = (row['geocoded_location']['coordinates'][1], row['geocoded_location']['coordinates'][0])
             desc = row['type']
-            return(zipcode, desc)
+            return(loc, desc)
     except:
         return None
     return None
@@ -74,7 +75,7 @@ def removeZeroOccurences(row):
 def dictionarify(R):
     result = []
     for r in R:
-        result.append((('zipcode', r[0]), ('type', r[1]), ('count', r[2])))
+        result.append((('location', r[0]), ('type', r[1])))
     return result
 
 
@@ -100,10 +101,11 @@ class serviceRequests(dml.Algorithm):
         #SAMPLES THE DATA
         #hotlineInfo = hotlineInfo[:500]
 
-        hotlineInfo_filtered = project(hotlineInfo, processData)   
+        hotlineInfo_filtered = project(hotlineInfo, processData) 
         hotlineInfo_filtered = select(hotlineInfo_filtered, sanitaryFilter)
         hotlineInfo_filtered = aggregate(hotlineInfo_filtered, sum)
         hotlineInfo_filtered = select(hotlineInfo_filtered, removeZeroOccurences)
+        
         
         hotlineInfo_filtered = dictionarify(hotlineInfo_filtered)
 

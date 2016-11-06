@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[6]:
+# In[1]:
 
 import urllib.request
 import json
@@ -44,6 +44,7 @@ def aggregate(R, f):
     
     return results #:D
 
+# --------------------------------USED THIS ONE --------------------------------
 # Processes and projects the current data in the dataset to produce key, value pair
 # Key: Zipcode
 # Value: percentage full, count
@@ -55,7 +56,7 @@ def processData(row):
 
     #we append the newly contructed tuple format while appending a 1 to each tuple for 
     #summation purposes later
-    return (((lat, lon), percentage, 1))
+    return (((lat, lon), percentage))
 
 # Takes in a string representation of color and returns the associated fullness percentage              
 # @color: String of color (ex: Red, Yellow, Green)
@@ -74,7 +75,7 @@ def dictionarify(R):
     result = []
     for r in R:
         #result.update('zipcode': r[0], 'days': r[1]})
-        result.append((('coordinates', r[0]), ('percentage', r[1]), ('count', r[2])))
+        result.append((('coordinates', r[0]), ('percentage', r[1])))
     return result
 
 # -----------------------Geolocation functions (START - fix)----------------------------------------
@@ -187,7 +188,7 @@ class bigbelly(dml.Algorithm):
         bigbellyinfo = repo['andradej_chojoe.bigbelly'].find()
     
         #samples data
-        #bigbellyinfo = bigbellyinfo[:100]
+        bigbellyinfo = bigbellyinfo[:100]
     
         # transformations
         bigbelly_filtered = project(bigbellyinfo, processData)

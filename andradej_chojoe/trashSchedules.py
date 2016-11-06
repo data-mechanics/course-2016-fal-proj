@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[8]:
+# In[2]:
 
 import urllib.request
 import json
@@ -39,9 +39,10 @@ def aggregate(R, f):
 
 def processData(row):
     try:
-        if row['trash_day'] and row['p_zipcode']:
+        if row['trash_day'] and row['geocoded_location']:
             trashDay = row['trash_day']
-            trashLoc = row['p_zipcode']
+            #trashLoc = row['p_zipcode']
+            trashLoc = row['geocoded_location']['coordinates']
             return (trashLoc, trashDay)
     except:
         return None
@@ -67,7 +68,7 @@ def dictionarify(R):
 class trashSchedules(dml.Algorithm):
     contributor = 'andradej_chojoe'
     reads = []
-    writes = ['andrade_chojoe.bigbelly']
+    writes = ['andrade_chojoe.trashSchedules']
     
     @staticmethod
     def execute(trial = False):
@@ -94,7 +95,7 @@ class trashSchedules(dml.Algorithm):
         for t in processed_trashSchedules:
             t = dict(t)
             repo['andradej_chojoe.trashSch_transf'].insert_one(t)
-        
+                    
         endTime = datetime.datetime.now()
         return{'start':startTime, "end":endTime}
         
