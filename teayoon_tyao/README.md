@@ -2,13 +2,13 @@
 We are interested in determining whether or not children dedicated establishments in Boston have less drug crime incidents. We plan on analyzing the proximity of the drug crime incidents to all Boston schools, food pantries, children feeding programs, and day camps. Some other attributes that we plan to track are whether or not the school is public and the day of the week that the drug crime incident occurs on. 
 
 #Data Sets
-Legacy Crimes: https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-July-2012-August-2015-Sourc/7cdf-6fgx
-Current Crimes: https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-August-2015-To-Date-Source-/fqn4-4qap
-Public Schools: http://bostonopendata.boston.opendata.arcgis.com/datasets/1d9509a8b2fd485d9ad471ba2fdb1f90_0
-Private Schools: http://bostonopendata.boston.opendata.arcgis.com/datasets/0046426a3e4340a6b025ad52b41be70a_1
-Food Pantries: https://data.cityofboston.gov/Health/Food-Pantries/vjvb-2kg6
-Children Feeding Programs: https://data.cityofboston.gov/Human-Services/Children-s-Feeding-Program/p9yd-36dn
-Day Camps: https://data.cityofboston.gov/dataset/Day-Camps/sgf2-btru
+* Legacy Crimes: https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-July-2012-August-2015-Sourc/7cdf-6fgx
+* Current Crimes: https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-August-2015-To-Date-Source-/fqn4-4qap
+* Public Schools: http://bostonopendata.boston.opendata.arcgis.com/datasets/1d9509a8b2fd485d9ad471ba2fdb1f90_0
+* Private Schools: http://bostonopendata.boston.opendata.arcgis.com/datasets/0046426a3e4340a6b025ad52b41be70a_1
+* Food Pantries: https://data.cityofboston.gov/Health/Food-Pantries/vjvb-2kg6
+* Children Feeding Programs: https://data.cityofboston.gov/Human-Services/Children-s-Feeding-Program/p9yd-36dn
+* Day Camps: https://data.cityofboston.gov/dataset/Day-Camps/sgf2-btru
 
 To get these datasets: $ python3 getData.py
 
