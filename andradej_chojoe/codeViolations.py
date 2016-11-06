@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[12]:
+# In[1]:
 
 import urllib.request
 import json
@@ -26,27 +26,27 @@ def aggregate(R, f):
     results = []
     
     #keys are all possible unique zip codes
-    keys_zipcodes = {r[0] for r in R}
+    keys_coordinates = {r[0] for r in R}
     keys_types = {r[1] for r in R}
     
     total_violations = []
     
-    for key_zip in keys_zipcodes:
+    for key_coor in keys_coordinates:
         for key_type in keys_types:
             total_violations = []
             for value in R:
-                if key_zip == value[0]:
+                if key_coor == value[0]:
                     if key_type == value[1]:
                         total_violations.append(1)
-            results.append((key_zip, key_type, f(total_violations)))
+            results.append((key_coor, key_type, f(total_violations)))
             
     return results 
     
 # Helper method for Code Enforcement
 def projectCodeViol(row):
     try:
-        if row['zip'] and row['description']:
-            zipcode = row['zip']
+        if row['latitude'] and row['longitude'] and row['description']:
+            coordinates = [row['latitiude'], row['longitude']]
             description = row['description']
         else:
             return None
@@ -54,7 +54,7 @@ def projectCodeViol(row):
         return None
 
     #we append the newly contructed tuple format
-    return (zipcode, description)
+    return (coordinates, description)
 
 # Helper method for Code Enforcement
 def compareCodeTypes(row):
@@ -73,8 +73,6 @@ def compareCodeTypes(row):
 def removeNoneValues(row):
     if not row:
         return False
-    elif row[0] == "00000":
-        return False
     else:
         return True
 
@@ -90,21 +88,18 @@ def removeZeroOccurences(row):
 # Helper method for Food Violations
 def projectFoodViol(row):
     try: 
-        if row['zip'] and row['violstatus'] and row['violdesc']:
+        if row['location'] and row['violstatus'] and row['violdesc']:
             
             # takes into account error for zip codes with 4 length
-            if len(row['zip']) < 5:
-                zipcode = "0" + str(row['zip'])
-            else:
-                zipcode = row['zip']
-                
+            coordinates = row['location']['coordinates']
+            
             # only considers failed inspections
             if row['violstatus'] != "Fail":
                 return None
 
             description = row['violdesc']
             
-            return (zipcode, description)
+            return (coordinates, description)
         else:
             return None
     except:
@@ -129,14 +124,14 @@ def merge(R, f):
     
     total_violations = []
     
-    for key_zip in keys_zipcodes:
+    for key_coor in keys_coordinates:
         for key_type in keys_types:
             total_violations = []
             for value in R:
-                if key_zip == value[0]:
+                if key_coor == value[0]:
                     if key_type == value[1]:
                         total_violations.append(value[2])
-            results.append((key_zip, key_type, f(total_violations)))
+            results.append((key_coor, key_type, f(total_violations)))
             
     return results 
 
@@ -145,7 +140,7 @@ def dictionarify(R):
     result = []
     for r in R:
         #result.update('zipcode': r[0], 'days': r[1]})
-        result.append((('zipcode', r[0]), ('type', r[1]), ('count', r[2])))
+        result.append((('coordinates', r[0]), ('type', r[1]), ('count', r[2])))
         #print(result)
     return result
 
@@ -294,6 +289,7 @@ codeViolations.execute()
 doc = codeViolations.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
+
 
 
 # In[ ]:
