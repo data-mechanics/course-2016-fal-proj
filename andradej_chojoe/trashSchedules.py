@@ -58,7 +58,7 @@ def removeNoneValues(row):
 def dictionarify(R):
     result = []
     for r in R:
-        result.append((('zipcode', r[0]), ('days', r[1])))
+        result.append((('location', r[0]), ('days', r[1])))
     return result
 
 

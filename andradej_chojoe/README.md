@@ -58,6 +58,10 @@ https://data.cityofboston.gov/resource/jbcd-dknd.json
     $ python3 trashSchedules.py
     ```
 
+---Possible ideas for Optimizations---
+
+1. We follow the example of finding the optimal placement of a hospital to be shared among n neighborhoods. We will look at the geolocations of sanitary violations, the weights of those locations (the amount of violations corresponding to that location), and we will also look at the locations of Big Belly's and their average fullness (which we found via bigBelly.py) and based upon these two datasets we will find the optimal placement of trash collection sites to reduce the overall amount of violations associated with excess waste. 
+
 
 
 
