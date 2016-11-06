@@ -48,7 +48,7 @@ class crimes(dml.Algorithm):
         socrataAppToken = auth["services"]["cityofbostondataportal"]["token"]
 
         # Crime Incident Reports (July 2012 - August 2015)
-        url = 'https://data.cityofboston.gov/resource/ufcx-3fdn.json?$$app_token=' + socrataAppToken
+        url = 'https://data.cityofboston.gov/resource/ufcx-3fdn.json?$limit=300000&$$app_token=' + socrataAppToken
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
 
