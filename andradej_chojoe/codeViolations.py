@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[8]:
 
 import urllib.request
 import json
@@ -46,7 +46,7 @@ def aggregate(R, f):
 def projectCodeViol(row):
     try:
         if row['latitude'] and row['longitude'] and row['description']:
-            coordinates = [row['latitiude'], row['longitude']]
+            coordinates = (row['latitiude'], row['longitude'])
             description = row['description']
         else:
             return None
@@ -91,7 +91,7 @@ def projectFoodViol(row):
         if row['location'] and row['violstatus'] and row['violdesc']:
             
             # takes into account error for zip codes with 4 length
-            coordinates = row['location']['coordinates']
+            coordinates = (row['location']['coordinates'][1], row['location']['coordinates'][0])
             
             # only considers failed inspections
             if row['violstatus'] != "Fail":
@@ -119,7 +119,7 @@ def merge(R, f):
     results = []
     
     #keys are all possible unique zip codes
-    keys_zipcodes = {r[0] for r in R}
+    keys_coordinates = {r[0] for r in R}
     keys_types = {r[1] for r in R}
     
     total_violations = []
@@ -168,10 +168,12 @@ class codeViolations(dml.Algorithm):
         #codeEnfInfo = codeEnfInfo[:50]
 
         codeEnfInfo_filtered = project(codeEnfInfo, projectCodeViol)
+        print(codeEnfInfo_filtered)
         codeEnfInfo_filtered = project(codeEnfInfo_filtered, compareCodeTypes)
         codeEnfInfo_filtered = select(codeEnfInfo_filtered, removeNoneValues)
         codeEnfInfo_filtered = aggregate(codeEnfInfo_filtered, sum)
         codeEnfInfo_filtered = select(codeEnfInfo_filtered, removeZeroOccurences)
+        print(codeEnfInfo_filtered)
         
 #--------------------------------------------------------------------------------
 
@@ -179,13 +181,13 @@ class codeViolations(dml.Algorithm):
 
         foodInsInfo = repo['andradej_chojoe.foodEst'].find()
         #sample data
-        #foodInsInfo = foodInsInfo[:50]
+        foodInsInfo = foodInsInfo[:50]
 
         # perform transformations 
         foodIns_filtered = project(foodInsInfo, projectFoodViol) #gets the appropriate columns
         foodIns_filtered = select(foodIns_filtered, removeValues) #removes rows with Null values
         foodIns_filtered = aggregate(foodIns_filtered, sum)
-    #     print(foodIns_filtered)
+        print(foodIns_filtered)
 # ---------------Food Establishment processing------------------------------------
 
         # merge datasets together
@@ -194,7 +196,7 @@ class codeViolations(dml.Algorithm):
         sanitationViolations = select(sanitationViolations, removeZeroOccurences)
         
         sanitationViolations = dictionarify(sanitationViolations)
-        #print(sanitationViolations) # done 
+        print(sanitationViolations) # done 
         
         for t in sanitationViolations:
             t = dict(t)
