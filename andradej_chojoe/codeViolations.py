@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[8]:
+# In[9]:
 
 import urllib.request
 import json
@@ -26,19 +26,19 @@ def aggregate(R, f):
     results = []
     
     #keys are all possible unique zip codes
-    keys_coordinates = {r[0] for r in R}
+    keys_zipcodes = {r[0] for r in R}
     keys_types = {r[1] for r in R}
     
     total_violations = []
     
-    for key_coor in keys_coordinates:
+    for key_zip in keys_zipcodes:
         for key_type in keys_types:
             total_violations = []
             for value in R:
-                if key_coor == value[0]:
+                if key_zip == value[0]:
                     if key_type == value[1]:
                         total_violations.append(1)
-            results.append((key_coor, key_type, f(total_violations)))
+            results.append((key_zip, key_type, f(total_violations)))
             
     return results 
     
@@ -46,7 +46,7 @@ def aggregate(R, f):
 def projectCodeViol(row):
     try:
         if row['latitude'] and row['longitude'] and row['description']:
-            coordinates = (row['latitiude'], row['longitude'])
+            coordinates = (row['latitude'], row['longitude'])
             description = row['description']
         else:
             return None
@@ -73,6 +73,8 @@ def compareCodeTypes(row):
 def removeNoneValues(row):
     if not row:
         return False
+    elif row[0] == "00000":
+        return False
     else:
         return True
 
@@ -91,8 +93,8 @@ def projectFoodViol(row):
         if row['location'] and row['violstatus'] and row['violdesc']:
             
             # takes into account error for zip codes with 4 length
-            coordinates = (row['location']['coordinates'][1], row['location']['coordinates'][0])
-            
+            coordinates = (row['location']['coordinates'][1],row['location']['coordinates'][0])
+                
             # only considers failed inspections
             if row['violstatus'] != "Fail":
                 return None
@@ -119,19 +121,19 @@ def merge(R, f):
     results = []
     
     #keys are all possible unique zip codes
-    keys_coordinates = {r[0] for r in R}
+    keys_zipcodes = {r[0] for r in R}
     keys_types = {r[1] for r in R}
     
     total_violations = []
     
-    for key_coor in keys_coordinates:
+    for key_zip in keys_zipcodes:
         for key_type in keys_types:
             total_violations = []
             for value in R:
-                if key_coor == value[0]:
+                if key_zip == value[0]:
                     if key_type == value[1]:
                         total_violations.append(value[2])
-            results.append((key_coor, key_type, f(total_violations)))
+            results.append((key_zip, key_type, f(total_violations)))
             
     return results 
 
@@ -168,12 +170,10 @@ class codeViolations(dml.Algorithm):
         #codeEnfInfo = codeEnfInfo[:50]
 
         codeEnfInfo_filtered = project(codeEnfInfo, projectCodeViol)
-        print(codeEnfInfo_filtered)
         codeEnfInfo_filtered = project(codeEnfInfo_filtered, compareCodeTypes)
         codeEnfInfo_filtered = select(codeEnfInfo_filtered, removeNoneValues)
         codeEnfInfo_filtered = aggregate(codeEnfInfo_filtered, sum)
         codeEnfInfo_filtered = select(codeEnfInfo_filtered, removeZeroOccurences)
-        print(codeEnfInfo_filtered)
         
 #--------------------------------------------------------------------------------
 
@@ -181,13 +181,13 @@ class codeViolations(dml.Algorithm):
 
         foodInsInfo = repo['andradej_chojoe.foodEst'].find()
         #sample data
-        foodInsInfo = foodInsInfo[:50]
+        #foodInsInfo = foodInsInfo[:50]
 
         # perform transformations 
         foodIns_filtered = project(foodInsInfo, projectFoodViol) #gets the appropriate columns
         foodIns_filtered = select(foodIns_filtered, removeValues) #removes rows with Null values
         foodIns_filtered = aggregate(foodIns_filtered, sum)
-        print(foodIns_filtered)
+    #     print(foodIns_filtered)
 # ---------------Food Establishment processing------------------------------------
 
         # merge datasets together
@@ -196,7 +196,7 @@ class codeViolations(dml.Algorithm):
         sanitationViolations = select(sanitationViolations, removeZeroOccurences)
         
         sanitationViolations = dictionarify(sanitationViolations)
-        print(sanitationViolations) # done 
+        #print(sanitationViolations) # done 
         
         for t in sanitationViolations:
             t = dict(t)
@@ -291,7 +291,6 @@ codeViolations.execute()
 doc = codeViolations.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
-
 
 
 # In[ ]:
