@@ -6,9 +6,9 @@ import datetime
 import uuid
 
 class crimes(dml.Algorithm):
-    contributor = 'patels95'
+    contributor = 'manda094_nwg_patels95'
     reads = []
-    writes = ['patels95.crimes']
+    writes = ['manda094_nwg_patels95.crimes']
 
     def select(R, s):
         return [t for t in R if s(t)]
@@ -40,7 +40,7 @@ class crimes(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('patels95', 'patels95')
+        repo.authenticate('manda094_nwg_patels95', 'manda094_nwg_patels95')
 
         with open('../auth.json') as jsonFile:
             auth = json.load(jsonFile)
@@ -57,7 +57,7 @@ class crimes(dml.Algorithm):
 
         repo.dropPermanent("crimes")
         repo.createPermanent("crimes")
-        repo['patels95.crimes'].insert_many(data)
+        repo['manda094_nwg_patels95.crimes'].insert_many(data)
 
         repo.logout()
 
@@ -69,7 +69,7 @@ class crimes(dml.Algorithm):
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('patels95', 'patels95')
+        repo.authenticate('manda094_nwg_patels95', 'manda094_nwg_patels95')
 
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
@@ -77,13 +77,13 @@ class crimes(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:patels95#crimes', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:manda094_nwg_patels95#crimes', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         resource = doc.entity('bdp:ufcx-3fdn', {'prov:label':'Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         this_run = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(this_run, this_script)
         doc.usage(this_run, resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
 
-        crime_reports = doc.entity('dat:patels95#crimes', {prov.model.PROV_LABEL:'Crimes', prov.model.PROV_TYPE:'ont:DataSet'})
+        crime_reports = doc.entity('dat:manda094_nwg_patels95#crimes', {prov.model.PROV_LABEL:'Crimes', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(crime_reports, this_script)
         doc.wasGeneratedBy(crime_reports, this_run, endTime)
         doc.wasDerivedFrom(crime_reports, resource, this_run, this_run, this_run)

@@ -6,9 +6,9 @@ import datetime
 import uuid
 
 class firearm_recovery(dml.Algorithm):
-    contributor = 'patels95'
-    reads = ['patels95.crimes']
-    writes = ['patels95.firearm_recovery']
+    contributor = 'manda094_nwg_patels95'
+    reads = ['manda094_nwg_patels95.crimes']
+    writes = ['manda094_nwg_patels95.firearm_recovery']
 
     # I use set(R) so the keys are a list of unique dates
     def aggregate(R, f):
@@ -22,7 +22,7 @@ class firearm_recovery(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('patels95', 'patels95')
+        repo.authenticate('manda094_nwg_patels95', 'manda094_nwg_patels95')
 
         with open('../auth.json') as jsonFile:
             auth = json.load(jsonFile)
@@ -35,7 +35,7 @@ class firearm_recovery(dml.Algorithm):
         r = json.loads(response)
 
         crimeData = []
-        for crime in repo['patels95.crimes'].find():
+        for crime in repo['manda094_nwg_patels95.crimes'].find():
             crimeData.append(crime)
 
         # crimeTuples will be used in the aggregate function
@@ -60,7 +60,7 @@ class firearm_recovery(dml.Algorithm):
 
         repo.dropPermanent("firearm_recovery")
         repo.createPermanent("firearm_recovery")
-        repo['patels95.firearm_recovery'].insert_many(r)
+        repo['manda094_nwg_patels95.firearm_recovery'].insert_many(r)
 
         repo.logout()
 
@@ -72,7 +72,7 @@ class firearm_recovery(dml.Algorithm):
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
        client = dml.pymongo.MongoClient()
        repo = client.repo
-       repo.authenticate('patels95', 'patels95')
+       repo.authenticate('manda094_nwg_patels95', 'manda094_nwg_patels95')
 
        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
@@ -80,15 +80,15 @@ class firearm_recovery(dml.Algorithm):
        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-       this_script = doc.agent('alg:patels95#firearm_recovery', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+       this_script = doc.agent('alg:manda094_nwg_patels95#firearm_recovery', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
        resource1 = doc.entity('bdp:ffz3-2uqv', {'prov:label':'BPD Firearm Recovery', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-       resource2 = doc.entity('dat:patels95#crimes', {'prov:label':'Crimes', prov.model.PROV_TYPE:'ont:DataResource'})
+       resource2 = doc.entity('dat:manda094_nwg_patels95#crimes', {'prov:label':'Crimes', prov.model.PROV_TYPE:'ont:DataResource'})
        this_run = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
        doc.wasAssociatedWith(this_run, this_script)
        doc.usage(this_run, resource1, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
        doc.usage(this_run, resource2, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
 
-       firearm_recovery_counts = doc.entity('dat:patels95#firearm_recovery', {prov.model.PROV_LABEL:'Firearm Recovery', prov.model.PROV_TYPE:'ont:DataSet'})
+       firearm_recovery_counts = doc.entity('dat:manda094_nwg_patels95#firearm_recovery', {prov.model.PROV_LABEL:'Firearm Recovery', prov.model.PROV_TYPE:'ont:DataSet'})
        doc.wasAttributedTo(firearm_recovery_counts, this_script)
        doc.wasGeneratedBy(firearm_recovery_counts, this_run, endTime)
        doc.wasDerivedFrom(firearm_recovery_counts, resource1, this_run, this_run, this_run)
