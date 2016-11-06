@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 import urllib.request
 import json
@@ -121,20 +121,20 @@ class serviceRequests(dml.Algorithm):
         repo.authenticate('andradej_chojoe', 'andradej_chojoe')
 
         doc = prov.model.ProvDocument()
-        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/andradej_chojoe/') # The scripts in / format.
-        doc.add_namespace('dat', 'http://datamechanics.io/data/andradej_chojoe/') # The data sets in / format.
-        doc.add_namespace('ont', 'http://datamechanics.io/ontology#')
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/andradej_chojoe') # The scripts in / format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/andradej_chojoe') # The data sets in / format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log#') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
         
-        this_script = doc.agent('alg:andradej_chojoe#serviceRequests', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:#serviceRequests', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         service_resource = doc.entity('bdp:jbcd-dknd', {'prov:label':'24 Hour Mayor Hotline',                                                 prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         get_service = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(get_service, this_script)
         
         doc.usage(get_service, service_resource, startTime, None,                   {prov.model.PROV_TYPE:'ont:Retrieval'})
         
-        service = doc.entity('dat:andradej_chojoe#bigbelly', {prov.model.PROV_LABEL:'Service Requests', prov.model.PROV_TYPE:'ont:DataSet'})
+        service = doc.entity('dat:#hotlineInfo', {prov.model.PROV_LABEL:'Service Requests', prov.model.PROV_TYPE:'ont:DataSet'})
         
         doc.wasAttributedTo(service, this_script)
         doc.wasGeneratedBy(service, get_service, endTime)

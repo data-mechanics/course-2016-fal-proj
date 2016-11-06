@@ -112,7 +112,7 @@ class trashSchedules(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
         
-        this_script = doc.agent('alg:andradej_chojoe#trashSchedules', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:#trashSchedules', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
         trashSch_rsc = doc.entity('bdp:je5q-tbjf', {'prov:label':'Trash Schedules by Address', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         get_trashSch = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Trash Schedules by Address '})
@@ -125,7 +125,7 @@ class trashSchedules(dml.Algorithm):
             {prov.model.PROV_TYPE:'ont:Retrieval'}
         )
         
-        trashSch = doc.entity('dat:andradej_chojoe#trashSch', {prov.model.PROV_LABEL:'Trash Schedules by Address', prov.model.PROV_TYPE:'ont:DataSet'})
+        trashSch = doc.entity('dat:#trashSch', {prov.model.PROV_LABEL:'Trash Schedules by Address', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(trashSch, this_script)
         doc.wasGeneratedBy(trashSch, get_trashSch, endTime)
         doc.wasDerivedFrom(trashSch, trashSch_rsc, get_trashSch, get_trashSch, get_trashSch)
