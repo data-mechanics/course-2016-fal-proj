@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[2]:
+# In[3]:
 
 import urllib.request
 import json
@@ -42,7 +42,7 @@ def processData(row):
         if row['trash_day'] and row['geocoded_location']:
             trashDay = row['trash_day']
             #trashLoc = row['p_zipcode']
-            trashLoc = row['geocoded_location']['coordinates']
+            trashLoc = (row['geocoded_location']['coordinates'][1], row['geocoded_location']['coordinates'][0])
             return (trashLoc, trashDay)
     except:
         return None
