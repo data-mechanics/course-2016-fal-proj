@@ -13,7 +13,7 @@ from helpers import *
 class countHostipals(dml.Algorithm):
     contributor = 'aydenbu_huangyh'
     reads = ['aydenbu_huangyh.hospitalLocation']
-    writes = ['aydenbu_huangyh.zip_hospitals_count_XY']
+    writes = ['aydenbu_huangyh."zip_hospitals_XY"']
 
     @staticmethod
     def execute(trial = False):
@@ -29,17 +29,7 @@ class countHostipals(dml.Algorithm):
         repo = openDb(getAuth("db_username"), getAuth("db_password"))
         hospitals = repo['aydenbu_huangyh.hospitalLocation']
 
-        # MapReduce function
-        mapper = Code("""
-                       function() {
-                            emit(this.zipcode, {lat: this.location.coordinates[1], long: this.location.coordinates[0]});
-                        }
-                      """)
 
-        reducer = Code("""
-                        function(k, vs) {
-                        }
-                        """)
         count_hospital_zip_XY = []
         for document in hospitals.find():
             if document is not None:
@@ -53,18 +43,9 @@ class countHostipals(dml.Algorithm):
 
 
 
-        repo.dropPermanent("zip_hospitals_count_XY")
-        repo.createPermanent("zip_hospitals_count_XY")
-        repo['aydenbu_huangyh.zip_hospitals_count_XY'].insert_many(count_hospital_zip_XY)
-        # repo.createPermanent("zip_hospitals_count")
-        #result = hospitals.map_reduce(mapper, reducer, "aydenbu_huangyh.zip_hospitals_count_XY")
-
-        '''
-        # Save the result to the db
-        # repo.dropPermanent("zip_hospitals_count")
-        #repo.createPermanent("zip_hospitals_count")
-        '''
-        #repo['aydenbu_huangyh.zip_hospitals_count'].insert_many(result)
+        repo.dropPermanent("zip_hospitals_XY")
+        repo.createPermanent("zip_hospitals_XY")
+        repo['aydenbu_huangyh.zip_hospitals_XY'].insert_many(count_hospital_zip_XY)
 
         repo.logout()
         endTime = datetime.datetime.now()
@@ -96,16 +77,16 @@ class countHostipals(dml.Algorithm):
                               {'prov:label': 'Hospital Location', prov.model.PROV_TYPE: 'ont:DataResource',
                                'ont:Extension': 'json'})
 
-        get_zip_hospitals_count = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_LABEL: "Count the number of hospital in each zip"})
-        doc.wasAssociatedWith(get_zip_hospitals_count, this_script)
-        doc.usage(get_zip_hospitals_count, resource, startTime, None,
+        get_zip_hospitals_XY = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_LABEL: "Get the  XY coordinates of each hospital"})
+        doc.wasAssociatedWith(get_zip_hospitals_XY, this_script)
+        doc.usage(get_zip_hospitals_XY, resource, startTime, None,
                   {prov.model.PROV_TYPE: 'ont:Computation'})
 
-        zip_hospitals_count = doc.entity('dat:aydenbu_huangyh#zip_hospitals_count',
-                          {prov.model.PROV_LABEL: 'Hospitals Count', prov.model.PROV_TYPE: 'ont:DataSet'})
-        doc.wasAttributedTo(zip_hospitals_count, this_script)
-        doc.wasGeneratedBy(zip_hospitals_count, get_zip_hospitals_count, endTime)
-        doc.wasDerivedFrom(zip_hospitals_count, resource, get_zip_hospitals_count, get_zip_hospitals_count, get_zip_hospitals_count)
+        zip_hospitals_XY = doc.entity('dat:aydenbu_huangyh#zip_hospitals_XY',
+                          {prov.model.PROV_LABEL: 'Hospitals XY coordinates', prov.model.PROV_TYPE: 'ont:DataSet'})
+        doc.wasAttributedTo(zip_hospitals_XY, this_script)
+        doc.wasGeneratedBy(zip_hospitals_XY, gget_zip_hospitals_XY, endTime)
+        doc.wasDerivedFrom(zip_hospitals_XY, resource, get_zip_hospitals_XY, get_zip_hospitals_XY, get_zip_hospitals_XY)
 
         repo.record(doc.serialize())  # Record the provenance document.
         repo.logout()
