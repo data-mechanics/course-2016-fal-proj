@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[12]:
+# In[1]:
 
 import urllib.request
 import json
@@ -75,7 +75,7 @@ def removeZeroOccurences(row):
 def dictionarify(R):
     result = []
     for r in R:
-        result.append((('location', r[0]), ('type', r[1])))
+        result.append((('location', r[0]), ('type', r[1]), ('count', r[2])))
     return result
 
 

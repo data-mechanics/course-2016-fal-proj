@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[9]:
+# In[2]:
 
 import urllib.request
 import json
@@ -142,7 +142,7 @@ def dictionarify(R):
     result = []
     for r in R:
         #result.update('zipcode': r[0], 'days': r[1]})
-        result.append((('coordinates', r[0]), ('type', r[1]), ('count', r[2])))
+        result.append((('location', r[0]), ('type', r[1]), ('count', r[2])))
         #print(result)
     return result
 
