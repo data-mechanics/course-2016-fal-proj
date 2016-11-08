@@ -38,7 +38,7 @@ class countCommunityGardens(dml.Algorithm):
                 if "coordinates" in document:
                     coordinates = document["coordinates"].split(",")
                 else:
-                    coordinates = document['map_location']["coordinates"]
+                    coordinates = [document['map_location']["coordinates"][1],document['map_location']["coordinates"][0]]
                 record = {'_id': document['_id'],
                           'zipCode': "0" + document['zip_code'],
                           'location': coordinates
