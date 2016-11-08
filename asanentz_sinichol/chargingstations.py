@@ -5,36 +5,28 @@ import prov.model
 import datetime
 import uuid
 
-class example(dml.Algorithm):
-    contributor = 'alice_bob'
+class chargingstations(dml.Algorithm):
+    contributor = "asanentz_sinichol"
     reads = []
-    writes = ['alice_bob.lost', 'alice_bob.found']
+    writes = ["asanentz_sinichol.chargingstations"]
 
     @staticmethod
     def execute(trial = False):
         '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
         startTime = datetime.datetime.now()
-
+        
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('alice_bob', 'alice_bob')
+        repo.authenticate('asanentz_sinichol', 'asanentz_sinichol')
 
-        url = 'http://cs-people.bu.edu/lapets/591/examples/lost.json'
+        url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/465e00f9632145a1ad645a27d27069b4_2.geojson' 
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("lost")
-        repo.createPermanent("lost")
-        repo['alice_bob.lost'].insert_many(r)
-
-        url = 'http://cs-people.bu.edu/lapets/591/examples/found.json'
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        repo.dropPermanent("found")
-        repo.createPermanent("found")
-        repo['alice_bob.found'].insert_many(r)
+        repo.dropPermanent("")
+        repo.createPermanent("chargingstations")
+        repo['asanentz_sinichol.chargingstations'].insert_many(r["features"])
 
         repo.logout()
 
@@ -50,49 +42,42 @@ class example(dml.Algorithm):
         document describing that invocation event.
         '''
 
-        # Set up the database connection.
+         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('alice_bob', 'alice_bob')
+        repo.authenticate('asanentz_sinichol', 'asanentz_sinichol')
+
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
-        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+        doc.add_namespace('bdp', 'http://bostonopendata.boston.opendata.arcgis.com/')
 
-        this_script = doc.agent('alg:alice_bob#example', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'311, Service Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_script = doc.agent('alg:asanentz_sinichol#chargingstations', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'List of Charging Stations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         get_found = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_lost = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(get_found, this_script)
         doc.wasAssociatedWith(get_lost, this_script)
         doc.usage(get_found, resource, startTime, None,
-                  {prov.model.PROV_TYPE:'ont:Retrieval',
-                  'ont:Query':'?type=Animal+Found&$select=type,latitude,longitude,OPEN_DT'
-                  })
+                {prov.model.PROV_TYPE:'ont:Retrieval'}
+            )
         doc.usage(get_lost, resource, startTime, None,
-                  {prov.model.PROV_TYPE:'ont:Retrieval',
-                  'ont:Query':'?type=Animal+Lost&$select=type,latitude,longitude,OPEN_DT'
-                  })
+                {prov.model.PROV_TYPE:'ont:Retrieval'}
+            )
 
-        lost = doc.entity('dat:alice_bob#lost', {prov.model.PROV_LABEL:'Animals Lost', prov.model.PROV_TYPE:'ont:DataSet'})
+        lost = doc.entity('dat:asanentz_sinichol#chargingstations', {prov.model.PROV_LABEL:'List of Charging Stations', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(lost, this_script)
         doc.wasGeneratedBy(lost, get_lost, endTime)
         doc.wasDerivedFrom(lost, resource, get_lost, get_lost, get_lost)
-
-        found = doc.entity('dat:alice_bob#found', {prov.model.PROV_LABEL:'Animals Found', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(found, this_script)
-        doc.wasGeneratedBy(found, get_found, endTime)
-        doc.wasDerivedFrom(found, resource, get_found, get_found, get_found)
+        doc.wasDerivedFrom(lost, resource, get_lost, get_lost, get_lost)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
         return doc
 
-example.execute()
-doc = example.provenance()
+chargingstations.execute()
+doc = chargingstations.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
-
-## eof
