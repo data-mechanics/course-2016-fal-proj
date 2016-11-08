@@ -7,9 +7,9 @@
 How does traffic relate to alternate means of transportation and wealth?
 
 To break it down:
-- Do poorer areas have the alternate transportation options that they need?
+- Do poorer areas have the alternative transportation options that they need?
 - Do wealthier areas have more vehicular traffic? 
-- Do alternate means of transport assuage traffic?
+- Do alternative means of transport assuage traffic?
 
 To do so, we are comparing bus stop locations, hubway stop locations, and car charging stations with traffic and address data. We are looking at how many alternate transportation stops are available relative to an address, and comparing the information with vehicular traffic for the same address/area.
 
