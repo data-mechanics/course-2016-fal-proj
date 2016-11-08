@@ -20,10 +20,13 @@
  *	
 */
 
+db.loadServerScripts();
 
 //store transformed property data in collection "ResidentialGeoJSON"
-db.alaw_tyroneh.ResidentialGeoJSONs.remove({});
-db.createCollection("alaw_tyroneh.ResidentialGeoJSONs");
+
+dropPerm("alaw_tyroneh.ResidentialGeoJSONs");
+createPerm("alaw_tyroneh.ResidentialGeoJSONs");
+
 
 function flatten(X) {
 	//reduces id:{id,values} to id: {values}
@@ -139,8 +142,9 @@ db.alaw_tyroneh.BrooklineProperty.mapReduce(
 // flatten("alaw_tyroneh.ResidentialGeoJSONs")
 
 //store transformed station data in collection "ResidentialGeoJSON"
-db.alaw_tyroneh.StationsGeoJSONs.remove({});
-db.createCollection("alaw_tyroneh.StationsGeoJSONs");
+
+dropPerm("alaw_tyroneh.StationsGeoJSONs");
+createPerm("alaw_tyroneh.StationsGeoJSONs");
 
 db.alaw_tyroneh.HubwayStations.mapReduce(
 	//map location data (long,lat) and type to geoJSON format
