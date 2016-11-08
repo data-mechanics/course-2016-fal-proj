@@ -51,28 +51,39 @@ class transformation4(dml.Algorithm):
         print('[OUT] done with schools')
 
         map_function = Code('''function() {
+
             id = {
                 zip_code: this.geo_info.properties.zip_code,
-                property_id : this.property_id
+                property_id : this.property_id,
+                businessname: this.businessname
             }
             data = {
                 result: this.result,
                 resultdttm: new Date(this.resultdttm)
             }
-            emit(id, data);
+
+            if (this.property_id) {
+                emit(id, data);
+            }
         }''')
 
         reduce_function = Code('''function(k,vs){
-            max_date = vs[0].resultdttm;
-            max_index = 0;
+
+            //max_date = vs[0].resultdttm;
+            max_date = new Date(-8640000000000000)
+            max_index = -1;
             vs.forEach(function(v, i) {
-                if (v.resultdttm > max_date) {
-                    max_date = v;
-                    max_index = i;
+                if (v) {
+                    if (v.resultdttm > max_date) {
+                        max_date = v;
+                        max_index = i;
+                    }
                 }
             });
 
-            return vs[max_index].result
+            if (max_index >= 0) {
+                return vs[max_index].result
+            }
         }''')
 
         repo.dropPermanent('jas91_smaf91.inspection_per_restaurant')
@@ -87,12 +98,28 @@ class transformation4(dml.Algorithm):
         }''')
 
         reduce_function = Code('''function(k,vs){
-            return vs.length
+            var total = 0;
+            var pass = 0;
+            vs.forEach(function(v, i) {
+                total++;
+                if (v == "HE_Pass") {
+                    pass++;
+                }
+            });
+            return pass/total;
         }''')
 
+        finalize_function = Code('''function(k,v) {
+            if (v == "HE_Fail") {
+                return 0;
+            } else if (v == "HE_Pass") {
+                return 1;    
+            }
+            return v;
+        }''')
         repo.dropPermanent('jas91_smaf91.inspection_per_zip_code')
-        repo.jas91_smaf91.inspection_per_restaurant.map_reduce(map_function, reduce_function, 'jas91_smaf91.inspection_per_zip_code')
-        # repo.dropPermanent('jas91_smaf91.inspection_per_restaurant')
+        repo.jas91_smaf91.inspection_per_restaurant.map_reduce(map_function, reduce_function, 'jas91_smaf91.inspection_per_zip_code', finalize=finalize_function)
+        repo.dropPermanent('jas91_smaf91.inspection_per_restaurant')
 
         print('[OUT] done with inspections')
 

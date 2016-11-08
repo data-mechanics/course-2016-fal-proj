@@ -78,9 +78,9 @@ class transformation1(dml.Algorithm):
 
         def get_geo_info_sr311(entry):
             zip_code = entry['location_zipcode'] if 'location_zipcode' in entry else None
-            latitude = entry['geocoded_location']['latitude'] if 'geocoded_location' in entry else None
+            latitude = entry['geocoded_location']['coordinates'][1] if 'geocoded_location' in entry else None
             latitude = to_float(latitude)
-            longitude = entry['geocoded_location']['longitude'] if 'geocoded_location' in entry else None
+            longitude = entry['geocoded_location']['coordinates'][0] if 'geocoded_location' in entry else None
             longitude = to_float(longitude)
             return zip_code, latitude, longitude
 
@@ -225,8 +225,6 @@ class transformation1(dml.Algorithm):
 
         return doc
 
-'''
 transformation1.execute()
-doc = transformation1.provenance()
-print(json.dumps(json.loads(doc.serialize()), indent=4))
-'''
+#doc = transformation1.provenance()
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
