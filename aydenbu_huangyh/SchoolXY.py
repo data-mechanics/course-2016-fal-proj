@@ -30,12 +30,13 @@ class countPublicSchool(dml.Algorithm):
             if document is not None:
                 record = {'_id': document['_id'],
                           'zipCode': document['location_zip'],
-                          'location': [document['location']['coordinates'][0],
-                                       document['location']['coordinates'][1]]
+                          'location': [document['location']['coordinates'][1],
+                                       document['location']['coordinates'][0]]
                           }
                 school_zip_XY.append(record)
 
-        repo.dropPermanent('aydenbu_huangyh.zip_PublicSchool_XY')
+        repo.dropPermanent('zip_PublicSchool_XY')
+        repo.createPermanent('zip_PublicSchool_XY')
         repo['aydenbu_huangyh.zip_PublicSchool_XY'].insert_many(school_zip_XY)
 
         repo.logout()

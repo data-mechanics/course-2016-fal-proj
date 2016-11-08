@@ -35,8 +35,8 @@ class countHostipals(dml.Algorithm):
             if document is not None:
                 record = {'_id': document['_id'],
                           'zipCode': document['location_zip'],
-                          'location': [document['location']['coordinates'][0],
-                                       document['location']['coordinates'][1]]
+                          'location': [document['location']['coordinates'][1],
+                                       document['location']['coordinates'][0]]
                           }
                 count_hospital_zip_XY.append(record)
 

@@ -34,13 +34,14 @@ class countHealthyCornerStores(dml.Algorithm):
             if document is not None:
                 record = {'_id': document['_id'],
                           'zipCode':  '0' +document['zip'],
-                          'location': [document['location']['coordinates'][0],
-                                       document['location']['coordinates'][1]]
+                          'location': [document['location']['coordinates'][1],
+                                       document['location']['coordinates'][0]]
                           }
                 count_stores_zip_XY.append(record)
 
 
-        repo.dropPermanent('aydenbu_huangyh.zip_Healthycornerstores_XY')
+        repo.dropPermanent('zip_Healthycornerstores_XY')
+        repo.createPermanent('zip_Healthycornerstores_XY')
         repo['aydenbu_huangyh.zip_Healthycornerstores_XY'].insert_many(count_stores_zip_XY)
 
         repo.logout()
