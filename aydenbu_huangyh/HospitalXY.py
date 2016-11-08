@@ -85,7 +85,7 @@ class countHostipals(dml.Algorithm):
         zip_hospitals_XY = doc.entity('dat:aydenbu_huangyh#zip_hospitals_XY',
                           {prov.model.PROV_LABEL: 'Hospitals XY coordinates', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(zip_hospitals_XY, this_script)
-        doc.wasGeneratedBy(zip_hospitals_XY, gget_zip_hospitals_XY, endTime)
+        doc.wasGeneratedBy(zip_hospitals_XY, get_zip_hospitals_XY, endTime)
         doc.wasDerivedFrom(zip_hospitals_XY, resource, get_zip_hospitals_XY, get_zip_hospitals_XY, get_zip_hospitals_XY)
 
         repo.record(doc.serialize())  # Record the provenance document.
