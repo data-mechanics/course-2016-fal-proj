@@ -94,6 +94,7 @@ class k_means(dml.Algorithm):
 
         M = [(41, -70), (40, -70)]
         P = stores_xy + gardens_xy + hospitals_xy + schools_xy
+        print(P)
 
         OLD = []
         while OLD != M:
@@ -110,6 +111,8 @@ class k_means(dml.Algorithm):
 
             M = [scale(t, c) for ((m, t), (m2, c)) in product(MT, MC) if m == m2]
             print(sorted(M))
+
+            # first it only returned one point, second the point it returned is in the sea
 
 
 
