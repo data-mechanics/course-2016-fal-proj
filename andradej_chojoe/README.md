@@ -62,7 +62,7 @@ https://data.cityofboston.gov/resource/jbcd-dknd.json
 
 1. We follow the example of finding the optimal placement of a hospital to be shared among n neighborhoods. We will look at the geolocations of sanitary violations & requests (which we found via serviceRequests.py and codeViolations.py), the weights of those locations (the amount of violations corresponding to that location), and we will also look at the locations of Big Belly's and their average fullness (which we found via bigBelly.py) and based upon these two datasets we will find the optimal placement of trash collection sites to reduce the overall amount of violations associated with excess waste. We will find these placements using the K-means algorithm.
 
-To limit to the K-means algorithm we initially set to an abritray value 
+* To limit to the K-means algorithm we initially set to an abritray value 
 
 (one bigbelly = $$$, to ensure a budget of <= $$$ we set limit arbitrarily at X)
 
