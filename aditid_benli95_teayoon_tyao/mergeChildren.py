@@ -5,35 +5,39 @@ import prov.model
 import datetime
 import uuid
 import pprint
+from geopy.geocoders import Nominatim
 
 class mergeChildren(dml.Algorithm):
     contributor = 'teayoon_tyao'
-    reads = ['teayoon_tyao.foodPantries', 'teayoon_tyao.childFeedingPrograms', 'teayoon_tyao.dayCamps']
-    writes = ['teayoon_tyao.childrenMaster']
+    # reads = ['teayoon_tyao.foodPantries', 'teayoon_tyao.childFeedingPrograms', 'teayoon_tyao.dayCamps']
+    reads = ['teayoon_tyao.childFeedingPrograms', 'teayoon_tyao.dayCamps', 'teayoon_tyao.publicDaycares', 'teayoon_tyao.privateDaycares']
+    writes = ['teayoon_tyao.childFeedingProgramsTrimmed', 'teayoon_tyao.dayCampdayCaresMaster']
 
     @staticmethod
     def execute(trial = False):
         startTime = datetime.datetime.now()
 
+        geolocator = Nominatim()
+
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('teayoon_tyao', 'teayoon_tyao')
 
-        repo.dropPermanent('teayoon_tyao.childrenMaster')
-        repo.createPermanent('teayoon_tyao.childrenMaster')
+        repo.dropPermanent('teayoon_tyao.childFeedingProgramsTrimmed')
+        repo.createPermanent('teayoon_tyao.childFeedingProgramsTrimmed')
 
-        data = repo.teayoon_tyao.foodPantries.find()
-        for document in data:
+        # data = repo.teayoon_tyao.foodPantries.find()
+        # for document in data:
             
-            try:
-                latitude = document['location_1']['coordinates'][0]
-                longitude = document['location_1']['coordinates'][1]
-            except:
-                latitude = None
-                longitude = None
+        #     try:
+        #         latitude = document['location_1']['coordinates'][0]
+        #         longitude = document['location_1']['coordinates'][1]
+        #     except:
+        #         latitude = None
+        #         longitude = None
 
-            entry = {'name':document['name'], 'latitude':latitude, 'longitude':longitude, 'type': 'food pantry'}
-            res = repo.teayoon_tyao.childrenMaster.insert_one(entry)
+        #     entry = {'name':document['name'], 'latitude':latitude, 'longitude':longitude, 'type': 'food pantry'}
+        #     res = repo.teayoon_tyao.childrenMaster.insert_one(entry)
 
         data = repo.teayoon_tyao.childFeedingPrograms.find()
         for document in data:
@@ -46,7 +50,7 @@ class mergeChildren(dml.Algorithm):
                 longitude = None
 
             entry = {'name':document['businessname'], 'latitude':latitude, 'longitude':longitude, 'type':'child feeding program'}
-            res = repo.teayoon_tyao.childrenMaster.insert_one(entry)
+            res = repo.teayoon_tyao.childFeedingProgramsTrimmed.insert_one(entry)
 
         data = repo.teayoon_tyao.dayCamps.find()
         for document in data:
@@ -57,8 +61,34 @@ class mergeChildren(dml.Algorithm):
                 latitude = None
                 longitude = None
 
-            entry = {'name':document['business_name'], 'latitude':latitude, 'longitude':longitude, 'type':'day camp'}
-            res = repo.teayoon_tyao.childrenMaster.insert_one(entry)
+            entry = {'name':document['business_name'], 'latitude': latitude, 'longitude':longitude, 'type':'day camp'}
+            res = repo.teayoon_tyao.dayCampdayCaresMaster.insert_one(entry)
+
+        data = repo.teayoon_tyao.publicDaycares.find()
+        for document in data:
+            try:
+                address = document['st_no'] + " " + document['st_name'] + "Boston, MA"
+                location = geolocator.geocode(address)
+                latitude = location.latitude
+                longitude = location.longitude
+            except:
+                latitude = None
+                longitude = None
+            entry = {'name': document['business_name'], 'latitude': latitude, 'longitude': longitude, 'type': 'public daycare'}
+            res = repo.teayoon_tyao.dayCampdayCaresMaster.insert_one(entry)
+
+        data = repo.teayoon_tyao.privateDaycares.find()
+        for document in data:
+            for doc in document:
+                name = doc
+                try:
+                    latitude = document[doc]['latitude']
+                    longitude = document[doc]['longitude']
+                except:
+                    latitude = None
+                    longitude = None
+                entry = {'name': name, 'latitude': latitude, 'longitude': longitude, 'type': 'private daycare'}
+                res = repo.teayoon_tyao.dayCampdayCaresMaster.insert_one(entry)
 
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}

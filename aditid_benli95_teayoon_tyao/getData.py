@@ -4,6 +4,7 @@ import dml
 import prov.model
 import datetime
 import uuid
+import scrapePrivateDaycares
 
 class getData(dml.Algorithm):
     contributor = 'teayoon_tyao'
@@ -50,13 +51,13 @@ class getData(dml.Algorithm):
         repo['teayoon_tyao.privateSchools'].insert_one(r)
         print('Load privateSchools')
 
-        response = urllib.request.urlopen('https://data.cityofboston.gov/resource/4tie-bhxw.json').read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys = True, indent = 2)
-        repo.dropPermanent("foodPantries")
-        repo.createPermanent("foodPantries")
-        repo['teayoon_tyao.foodPantries'].insert_many(r)
-        print('Load foodPantries')
+        # response = urllib.request.urlopen('https://data.cityofboston.gov/resource/4tie-bhxw.json').read().decode("utf-8")
+        # r = json.loads(response)
+        # s = json.dumps(r, sort_keys = True, indent = 2)
+        # repo.dropPermanent("foodPantries")
+        # repo.createPermanent("foodPantries")
+        # repo['teayoon_tyao.foodPantries'].insert_many(r)
+        # print('Load foodPantries')
 
         response = urllib.request.urlopen('https://data.cityofboston.gov/resource/6s7x-jq48.json').read().decode("utf-8")
         r = json.loads(response)
@@ -74,13 +75,26 @@ class getData(dml.Algorithm):
         repo['teayoon_tyao.dayCamps'].insert_many(r)
         print('Load dayCamps')        
 
+        response = urllib.request.urlopen('https://data.cityofboston.gov/resource/q6h3-7rpz.json').read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys = True, indent = 2)
+        repo.dropPermanent("publicDaycares")
+        repo.createPermanent("publicDaycares")
+        repo['teayoon_tyao.publicDaycares'].insert_many(r)
+        print('Load publicDaycares') 
+
+        privateDaycares = scrapePrivateDaycares.getData()
+        repo.dropPermanent("privateDaycares")
+        repo.createPermanent("privateDaycares")
+        repo['teayoon_tyao.privateDaycares'].insert_one(privateDaycares)
+        print('Load privateDaycares')
+
         repo.logout()
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-          # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('teayoon_tyao', 'teayoon_tyao')
