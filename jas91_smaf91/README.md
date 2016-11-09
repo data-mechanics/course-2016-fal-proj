@@ -69,9 +69,44 @@ for all *i* in {*1, ..., n*}, a<sub>i</sub> ≥ b<sub>i</sub> and exists *j* in 
 
 Then, the skyline set is defined by all the elements in the datsets that are not dominated by any other element.
 
+To solve this optimization problem, first run the `tranformation4.py`:
+```
+>>> 3 transformation4.py
+```
+and then:
+```
+>>> python3 skyline.py
+```
+
+Make sure to uncomment the last lines in the file:
+```
+# transformation4.execute()
+```
+and
+```
+# skyline.execute()
+```
+
 ### Problem 2
 
 Given the crimes dataset, another interesting problem would be to find the minimum number of police patrols and where should these patrols be located in order to maximize the coverage area of zones with high-crime rate. User input can be used to define what types of crimes should have priority and the minimum distance between these new added patrols and the high-crime-rated zones. This can be solved using **k-means++**.
+
+To customize the results just edit the `settings.py` file. It should look something like this:
+```
+MIN_PATROLS = 15
+MAX_PATROLS = 30
+MIN_DISTANCE = 4
+CODES = ['18xx', '14xx']
+```
+
+After that in order to solve this optimization problem run:
+```
+>>> python3 kmeans.py
+```
+Make sure to uncomment the last lines in the file:
+```
+# kmeans.execute()
+```
 
 ## References
 
