@@ -9,7 +9,11 @@ from bson.code import Code
 class transformation3(dml.Algorithm):
     contributor = 'jas91_smaf91'
     reads = ['jas91_smaf91.crime', 'jas91_smaf91.sr311']
-    writes = ['jas91_smaf91.sr311_crime_per_zip_code']
+    writes = [
+        'jas91_smaf91.crime_per_zip_code', 
+        'jas91_smaf91.sr311_per_zip_code', 
+        'jas91_smaf91.sr311_crime_per_zip_code'
+    ]
 
     @staticmethod
     def execute(trial = False):
@@ -141,8 +145,8 @@ class transformation3(dml.Algorithm):
 
         return doc
 
-'''
 transformation3.execute()
+'''
 doc = transformation3.provenance()
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 '''

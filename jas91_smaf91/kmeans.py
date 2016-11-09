@@ -55,9 +55,19 @@ def run_kmeans(data, k):
     kmeans = cluster.KMeans(n_clusters=k)
     kmeans.fit(data)
 
-    print('[OUT] done running kmeans++')
+    print('[OUT] done running kmeans++ with', k, 'clusters')
 
     return kmeans.cluster_centers_, kmeans.labels_
+
+def find_minimum_patrols(data, min_p, max_p, min_distance):
+
+    unfeasable = False
+    for patrols in range(min_p, max_p):
+        unfeasable, max_distance, centers = is_feasible(data, patrols, min_distance)
+        if not unfeasable:
+            return patrols, None, centers
+
+    return None, max_distance, None
 
 def is_feasible(data, k, min_distance):
 
@@ -77,11 +87,31 @@ def is_feasible(data, k, min_distance):
             unfeasable = True
             break
 
-    return unfeasable
+    return unfeasable, max_distance, centers
+
+def store_patrols_coordinates(repo, centers):
+    repo.dropPermanent('jas91_smaf91.patrols_coordinates')
+    repo.createPermanent('jas91_smaf91.patrols_coordinates')
+    records = []
+    for i in range(len(centers)):
+        records.append({
+            '_id': i,
+            'geo_info': {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [centers[i][0], centers[i][1]]
+                }
+            }
+        })
+
+    repo.jas91_smaf91.patrols_coordinates.insert_many(records)
+
+    print('[OUT] done storing patrol coordinates')
 
 class kmeans(dml.Algorithm):
     contributor = 'jas91_smaf91'
-    reads = []
+    reads = ['jas91_smaf91.crime']
     writes = []
 
     @staticmethod
@@ -99,13 +129,17 @@ class kmeans(dml.Algorithm):
 
         data = load_data(repo)
 
-        unfeasable = is_feasible(data, MIN_PATROLS, MIN_DISTANCE)
+        patrols, max_distance, centers = find_minimum_patrols(data, MIN_PATROLS, MAX_PATROLS, MIN_DISTANCE)
 
-        if unfeasable:
-            print('It is not feasible to locate patrols with a range less than', min_distance, 'miles.')
-            print('At least one zone is left with a distance of', max_distance, '.', 'consider increasing the number of patrols or the minimum distance.')
+        if patrols:
+            print('Placing', patrols, 'patrols at a minimum distance of', MIN_DISTANCE, 'miles from high crime rate zones is feasable.')
+            print('Patrols should be placed in the following areas:')
+            for center in centers:
+                print ('\t', center[0], center[1])
+            store_patrols_coordinates(repo, centers)
         else:
-            print('Placing', k, 'patrols at a minimum distance of', min_distance, 'miles from high crime rate zones is feasable.')
+            print('It is not feasible to locate patrols with a range less than', MIN_DISTANCE, 'miles.')
+            print('At least one zone is left with a distance of', max_distance, '.', 'consider increasing the number of patrols or the minimum distance.')
 
         endTime = datetime.datetime.now()
 

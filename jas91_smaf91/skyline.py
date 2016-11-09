@@ -96,8 +96,8 @@ def store_skyline_database(repo):
 
 class skyline(dml.Algorithm):
     contributor = 'jas91_smaf91'
-    reads = []
-    writes = []
+    reads = ['jas91_smaf91.attributes_per_zip_code']
+    writes = ['jas91_smaf91.zip_code_skyline']
 
     @staticmethod
     def execute(trial = False):
