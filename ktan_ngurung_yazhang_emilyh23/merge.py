@@ -29,13 +29,26 @@ class merge(dml.Algorithm):
         tRideCounts = repo.ktan_ngurung_yazhang_emilyh23.tRidershipLocation.find_one()
 
         hbbCbsDict = {} 
-        tRideTransformed = []
-        #NISA CODE  
+        tRideTransformed = [] 
 
+        hbbCounts.pop('_id')
+        cbsCounts.pop('_id')
 
+        hbb = [] 
+        for row in hbbCounts: 
+            d = {'zc': row, 'bigBellyCount': hbbCounts[row]['bigBellyCount'], 'hubwayCount': hbbCounts[row]['hubwayCount']}
+            hbb.append(d)
+        
+        hbb_df = pd.DataFrame(hbb)
 
+        cbs = [] 
+        for row in cbsCounts: 
+            d = {'zc': row, 'busStopCount': cbsCounts[row]['busStopCount'], 'collegeCount': cbsCounts[row]['collegeCount']}
+            cbs.append(d)
 
-        #KRISTEL_YAO CODE ew
+        cbs_df = pd.DataFrame(cbs)
+
+        merged_df = pd.merge(cbs_df, hbb_df, on='zc') 
 
         # Transformed tRideCounts to dataframe
         for s in tRideCounts:
@@ -44,9 +57,13 @@ class merge(dml.Algorithm):
                 tRideTransformed.append(temp)
             except TypeError:
                 pass
-        #print(tRideTransformed)
-        df = pd.DataFrame(tRideTransformed)
-        print(df)
+
+        rider_df = pd.DataFrame(tRideTransformed)
+
+        all_merged = pd.merge(merged_df, rider_df, on='zc')
+        print(all_merged)
+
+
        
         # Convert dictionary into JSON object 
         # data = json.dumps(collegeAndStopCountsDict, sort_keys=True, indent=2)
