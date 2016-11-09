@@ -183,8 +183,8 @@ def drop_temporary_datasets(repo):
 
 class transformation4(dml.Algorithm):
     contributor = 'jas91_smaf91'
-    reads = ['jas91_smaf91.crime', 'jas91_smaf91.sr311']
-    writes = ['jas91_smaf91.sr311_crime_per_zip_code']
+    reads = []
+    writes = []
 
     @staticmethod
     def execute(trial = False):
