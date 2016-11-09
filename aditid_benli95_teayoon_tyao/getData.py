@@ -4,12 +4,11 @@ import dml
 import prov.model
 import datetime
 import uuid
-import scrapePrivateDaycares
 
 class getData(dml.Algorithm):
-    contributor = 'teayoon_tyao'
+    contributor = 'aditid_benli_teayoon_tyao'
     reads = []
-    writes = ['teayoon_tyao.crimesLegacy', 'teayoon_tyao.crimesCurrent', 'teayoon_tyao.publicSchools', 'teayoon_tyao.privateSchools', 'teayoon_tyao.foodPantries', 'teayoon_tyao.childFeedingPrograms', 'teayoon_tyao.dayCamps']
+    writes = ['aditid_benli_teayoon_tyao.crimesLegacy', 'aditid_benli_teayoon_tyao.crimesCurrent', 'aditid_benli_teayoon_tyao.publicSchools', 'aditid_benli_teayoon_tyao.privateSchools', 'aditid_benli_teayoon_tyao.childFeedingPrograms', 'aditid_benli_teayoon_tyao.dayCamps', 'aditid_benli_teayoon_tyao.publicDaycares', 'aditid_benli_teayoon_tyao.privateDaycares']
 
     @staticmethod
     def execute(trial = False):
@@ -17,14 +16,14 @@ class getData(dml.Algorithm):
 
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('teayoon_tyao', 'teayoon_tyao')
+        repo.authenticate('aditid_benli_teayoon_tyao', 'aditid_benli_teayoon_tyao')
 
         response = urllib.request.urlopen('https://data.cityofboston.gov/resource/ufcx-3fdn.json').read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("crimesLegacy")
         repo.createPermanent("crimesLegacy")
-        repo['teayoon_tyao.crimesLegacy'].insert_many(r)
+        repo['aditid_benli_teayoon_tyao.crimesLegacy'].insert_many(r)
         print('Load crimesLegacy')
 
         response = urllib.request.urlopen('https://data.cityofboston.gov/resource/29yf-ye7n.json').read().decode("utf-8")
@@ -32,7 +31,7 @@ class getData(dml.Algorithm):
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("crimesCurrent")
         repo.createPermanent("crimesCurrent")
-        repo['teayoon_tyao.crimesCurrent'].insert_many(r)
+        repo['aditid_benli_teayoon_tyao.crimesCurrent'].insert_many(r)
         print('Load crimesCurrent')   
 
         response = urllib.request.urlopen('http://bostonopendata.boston.opendata.arcgis.com/datasets/1d9509a8b2fd485d9ad471ba2fdb1f90_0.geojson').read().decode("utf-8")
@@ -40,7 +39,7 @@ class getData(dml.Algorithm):
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("publicSchools")
         repo.createPermanent("publicSchools")
-        repo['teayoon_tyao.publicSchools'].insert_one(r)
+        repo['aditid_benli_teayoon_tyao.publicSchools'].insert_one(r)
         print('Load publicSchools')   
 
         response = urllib.request.urlopen('http://bostonopendata.boston.opendata.arcgis.com/datasets/0046426a3e4340a6b025ad52b41be70a_1.geojson').read().decode("utf-8")
@@ -48,23 +47,15 @@ class getData(dml.Algorithm):
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("privateSchools")
         repo.createPermanent("privateSchools")
-        repo['teayoon_tyao.privateSchools'].insert_one(r)
+        repo['aditid_benli_teayoon_tyao.privateSchools'].insert_one(r)
         print('Load privateSchools')
-
-        # response = urllib.request.urlopen('https://data.cityofboston.gov/resource/4tie-bhxw.json').read().decode("utf-8")
-        # r = json.loads(response)
-        # s = json.dumps(r, sort_keys = True, indent = 2)
-        # repo.dropPermanent("foodPantries")
-        # repo.createPermanent("foodPantries")
-        # repo['teayoon_tyao.foodPantries'].insert_many(r)
-        # print('Load foodPantries')
 
         response = urllib.request.urlopen('https://data.cityofboston.gov/resource/6s7x-jq48.json').read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("childFeedingPrograms")
         repo.createPermanent("childFeedingPrograms")
-        repo['teayoon_tyao.childFeedingPrograms'].insert_many(r)
+        repo['aditid_benli_teayoon_tyao.childFeedingPrograms'].insert_many(r)
         print('Load childFeedingPrograms')  
 
         response = urllib.request.urlopen('https://data.cityofboston.gov/resource/jcht-q2ng.json').read().decode("utf-8")
@@ -72,7 +63,7 @@ class getData(dml.Algorithm):
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("dayCamps")
         repo.createPermanent("dayCamps")
-        repo['teayoon_tyao.dayCamps'].insert_many(r)
+        repo['aditid_benli_teayoon_tyao.dayCamps'].insert_many(r)
         print('Load dayCamps')        
 
         response = urllib.request.urlopen('https://data.cityofboston.gov/resource/q6h3-7rpz.json').read().decode("utf-8")
@@ -80,13 +71,13 @@ class getData(dml.Algorithm):
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("publicDaycares")
         repo.createPermanent("publicDaycares")
-        repo['teayoon_tyao.publicDaycares'].insert_many(r)
+        repo['aditid_benli_teayoon_tyao.publicDaycares'].insert_many(r)
         print('Load publicDaycares') 
 
         privateDaycares = scrapePrivateDaycares.getData()
         repo.dropPermanent("privateDaycares")
         repo.createPermanent("privateDaycares")
-        repo['teayoon_tyao.privateDaycares'].insert_one(privateDaycares)
+        repo['aditid_benli_teayoon_tyao.privateDaycares'].insert_one(privateDaycares)
         print('Load privateDaycares')
 
         repo.logout()
@@ -95,9 +86,10 @@ class getData(dml.Algorithm):
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
+          # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('teayoon_tyao', 'teayoon_tyao')
+        repo.authenticate('aditid_benli_teayoon_tyao', 'aditid_benli_teayoon_tyao')
 
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
