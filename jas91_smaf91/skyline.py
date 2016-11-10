@@ -123,6 +123,49 @@ class skyline(dml.Algorithm):
         in this script. Each run of the script will generate a new
         document describing that invocation event.
         '''
-        pass
 
-skyline.execute()
+        client = dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('jas91_smaf91', 'jas91_smaf91')
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:jas91_smaf91#skyline', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        run = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Computing Best zipcodes based on skyline techniques'})
+        
+        doc.wasAssociatedWith(run, this_script)
+
+        resource_hospitals_per_zip_code = doc.entity('dat:jas91_smaf91#hospitals_per_zip_code', {'prov:label':'Hospitals per zip code', prov.model.PROV_TYPE:'ont:DataSet'})
+        resource_schools_per_zip_code = doc.entity('dat:jas91_smaf91#schools_per_zip_code', {'prov:label':'Schools per zip code', prov.model.PROV_TYPE:'ont:DataSet'})
+        resource_inspections_per_zip_code = doc.entity('dat:jas91_smaf91#inspections_per_zip_code', {'prov:label':'Food Inspections per zip code', prov.model.PROV_TYPE:'ont:DataSet'})
+        resource_crime_per_zip_code = doc.entity('dat:jas91_smaf91#crime_per_zip_code', {'prov:label':'Crime per zip code', prov.model.PROV_TYPE:'ont:DataSet'})
+        resource_sr311_per_zip_code = doc.entity('dat:jas91_smaf91#sr311_per_zip_code', {'prov:label':'311 requests per zip code', prov.model.PROV_TYPE:'ont:DataSet'})
+        resource_skyline = doc.entity('dat:jas91_smaf91#skyline', {'prov:label':'Skyline set', prov.model.PROV_TYPE:'ont:DataSet'})
+
+        doc.usage(run, resource_hospitals_per_zip_code, startTime, None, {})
+        doc.usage(run, resource_schools_per_zip_code, startTime, None, {})
+        doc.usage(run, resource_inspections_per_zip_code, startTime, None, {})
+        doc.usage(run, resource_crime_per_zip_code, startTime, None, {})
+        doc.usage(run, resource_sr311_per_zip_code, startTime, None, {})
+
+        doc.wasGeneratedBy(resource_skyline, run, endTime)
+        doc.wasAttributedTo(resource_skyline, this_script)
+        
+        doc.wasDerivedFrom(resource_skyline, resource_hospitals_per_zip_code, run, run, run) 
+        doc.wasDerivedFrom(resource_skyline, resource_schools_per_zip_code, run, run, run) 
+        doc.wasDerivedFrom(resource_skyline, resource_inspections_per_zip_code, run, run, run) 
+        doc.wasDerivedFrom(resource_skyline, resource_crime_per_zip_code, run, run, run) 
+        doc.wasDerivedFrom(resource_skyline, resource_sr311_per_zip_code, run, run, run) 
+        
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
+
+#skyline.execute()
+doc = skyline.provenance()
+print(json.dumps(json.loads(doc.serialize()), indent=4))

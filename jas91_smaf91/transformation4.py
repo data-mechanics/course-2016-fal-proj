@@ -226,10 +226,52 @@ class transformation4(dml.Algorithm):
         in this script. Each run of the script will generate a new
         document describing that invocation event.
         '''
-        pass
 
-transformation4.execute()
-'''
+        client = dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('jas91_smaf91', 'jas91_smaf91')
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:jas91_smaf91#transformation4', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        run = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Compute per Zipcode information'})
+        
+        doc.wasAssociatedWith(run, this_script)
+
+        resource_hospitals = doc.entity('dat:jas91_smaf91#hospitals', {'prov:label':'Hospital Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        resource_food = doc.entity('dat:jas91_smaf91#food', {'prov:label':'Food Establishment Inspections', prov.model.PROV_TYPE:'ont:DataSet'})
+        resource_schools = doc.entity('dat:jas91_smaf91#schools', {'prov:label':'Schools', prov.model.PROV_TYPE:'ont:DataSet'})
+
+        resource_hospitals_per_zip_code = doc.entity('dat:jas91_smaf91#hospitals_per_zip_code', {'prov:label':'Hospitals per zip code', prov.model.PROV_TYPE:'ont:DataSet'})
+        resource_schools_per_zip_code = doc.entity('dat:jas91_smaf91#schools_per_zip_code', {'prov:label':'Schools per zip code', prov.model.PROV_TYPE:'ont:DataSet'})
+        resource_inspections_per_zip_code = doc.entity('dat:jas91_smaf91#inspections_per_zip_code', {'prov:label':'Food Inspections per zip code', prov.model.PROV_TYPE:'ont:DataSet'})
+        
+        doc.usage(run, resource_hospitals, startTime, None, {})
+        doc.usage(run, resource_food, startTime, None, {})
+        doc.usage(run, resource_schools, startTime, None, {})
+
+        doc.wasGeneratedBy(resource_hospitals_per_zip_code, run, endTime)
+        doc.wasGeneratedBy(resource_schools_per_zip_code, run, endTime)
+        doc.wasGeneratedBy(resource_inspections_per_zip_code, run, endTime)
+        
+        doc.wasAttributedTo(resource_hospitals_per_zip_code, this_script)
+        doc.wasAttributedTo(resource_schools_per_zip_code, this_script)
+        doc.wasAttributedTo(resource_inspections_per_zip_code, this_script)
+        
+        doc.wasDerivedFrom(resource_hospitals_per_zip_code, resource_hospitals, run, run, run) 
+        doc.wasDerivedFrom(resource_schools_per_zip_code, resource_schools, run, run, run) 
+        doc.wasDerivedFrom(resource_inspections_per_zip_code, resource_food, run, run, run) 
+        
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
+
+
+#transformation4.execute()
 doc = transformation4.provenance()
 print(json.dumps(json.loads(doc.serialize()), indent=4))
-'''
