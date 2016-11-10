@@ -46,7 +46,7 @@ class getData(dml.Algorithm):
                 repo['alaw_tyroneh.'+key].insert_many(r)
         
         #GeoJSON urls with queries, read list of features
-        geojsonURLs = {"BrooklineProperty":"http://data.brooklinema.gov/datasets/a725742a993f425ea463c2c509d91ca3_1.geojson?where=FEATURECODE%20like%20'%25Building%20General%25'"}
+        geojsonURLs = {"BrooklineProperty":"http://data.brooklinema.gov/datasets/a725742a993f425ea463c2c509d91ca3_1.geojson"}
         
         for key in geojsonURLs:  
             url = geojsonURLs[key]

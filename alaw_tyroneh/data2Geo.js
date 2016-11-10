@@ -46,7 +46,7 @@ db.alaw_tyroneh.BostonProperty.mapReduce(
 				"type":"Point",
 				"coordinates": [lat,long]},
 			"properties":{
-				"type":"Property",
+				"type":"Residential",
 				"area": name
 			}
 		})
@@ -68,7 +68,7 @@ db.alaw_tyroneh.CambridgeProperty.mapReduce(
 				"type":"Point",
 				"coordinates": [lat,long]},
 			"properties":{
-				"type":"Property",
+				"type":this.land_use_category,
 				"area": name
 			}
 		})
@@ -85,13 +85,20 @@ db.alaw_tyroneh.SomervilleProperty.mapReduce(
 			var lat = parseFloat(this.location_1.coordinates[1]);
 			var long = parseFloat(this.location_1.coordinates[0]);
 			var name = "Somerville";
+			var property;
+			if(this.building_type != 'Commercial'){
+				property = 'Residential';
+			}
+			else{
+				property = 'Commercial';
+			}
 			emit(this._id, {
 				"type":"Feature",
 				"geometry":{
 					"type":"Point",
 					"coordinates": [lat,long]},
 				"properties":{
-					"type":"Property",
+					"type":property,
 					"area": name
 				}
 			})
@@ -107,9 +114,15 @@ db.alaw_tyroneh.BrooklineProperty.mapReduce(
 	function() {
 		var coors = this.geometry.coordinates[0];
 		var name = "Brookline";
-
+		var property;
+		if(this.FEATURECODE == 'Building General'){
+				property = 'Residential';
+			}
+			else{
+				property = 'Commercial';
+			}
 		for (var i = coors.length - 1; i >= 0; i--) {
-			emit(this._id,{"coor":coors[i]})
+			emit(this._id,{"coor":coors[i],"property":property})
 		}
 	},
 	//reduce by averaging all coordinates per property and store as geoJSON
@@ -118,10 +131,12 @@ db.alaw_tyroneh.BrooklineProperty.mapReduce(
 		var lat = 0;
 		var long = 0;
 		var name = "Brookline";
+		var property;
 		vs.forEach(function(v){
 			c++;
 			lat += v.coor[1];
 			long += v.coor[0];
+			property = v.property
 		});
 		lat = lat / c;
 		long = long / c;
@@ -131,7 +146,7 @@ db.alaw_tyroneh.BrooklineProperty.mapReduce(
 				"type":"Point",
 				"coordinates": [lat,long]},
 				"properties":{
-					"type":"Property",
+					"type": property,
 					"area": name
 				}
 			};

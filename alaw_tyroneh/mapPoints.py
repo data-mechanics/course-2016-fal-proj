@@ -17,7 +17,7 @@ class mapPoints():
 		#pull Property and stations data
 		data = (repo['alaw_tyroneh.PropertyGeoJSONs'].find(),repo['alaw_tyroneh.StationsGeoJSONs'].find())
 
-		repo.logout()
+		#repo.logout()
 
 		return data
 
@@ -30,11 +30,10 @@ class mapPoints():
 		ry = []
 
 		for json in res_data:
-			if(json['value']['properties']['area'] != 'Somerville'):
-				y = json['value']['geometry']['coordinates'][0]
-				x = json['value']['geometry']['coordinates'][1]
-				rx.append(x)
-				ry.append(y)
+			y = json['value']['geometry']['coordinates'][0]
+			x = json['value']['geometry']['coordinates'][1]
+			rx.append(x)
+			ry.append(y)
 
 		sx = []
 		sy = []
@@ -51,8 +50,8 @@ class mapPoints():
 		plt.figure(figsize=(10,10))
 		plt.scatter(rx, ry)
 		plt.scatter(sx, sy, color='red')
-		plt.ylim(42.23,42.43)
-		plt.xlim(-71.2,-71.0)
+		plt.ylim(42.21,42.45)
+		plt.xlim(-71.22,-70.98)
 		plt.show()
 
 if __name__ == '__main__':
