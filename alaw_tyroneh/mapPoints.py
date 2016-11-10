@@ -17,6 +17,8 @@ class mapPoints():
 		#pull Property and stations data
 		data = (repo['alaw_tyroneh.PropertyGeoJSONs'].find(),repo['alaw_tyroneh.StationsGeoJSONs'].find())
 
+		repo.logout()
+
 		return data
 
 	def visualize():
