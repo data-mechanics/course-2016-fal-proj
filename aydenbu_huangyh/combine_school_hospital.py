@@ -65,7 +65,7 @@ class SchoolandHospital(dml.Algorithm):
 
 
                         values.forEach(function(value) {
-                        if(value.numofHospital !== 0) {result.numofHospital = value.numofHospital;}
+                        if(value.numofHospital !== 0) {result.numofHospital += value.numofHospital;}
                         if(value.numofSchool !== 0) {result.numofSchool += value.numofSchool;}
 
                          });
@@ -134,9 +134,9 @@ class SchoolandHospital(dml.Algorithm):
 
 
 SchoolandHospital.execute()
-doc = SchoolandHospital.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+# doc = SchoolandHospital.provenance()
+# print(doc.get_provn())
+# print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## add provenance
 ## eof
