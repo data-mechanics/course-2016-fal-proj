@@ -22,7 +22,7 @@ class get_data(dml.Algorithm):
         repo.authenticate('jas91_smaf91', 'jas91_smaf91')
 
         # Load credentials
-        with open('auth.json') as json_data:
+        with open('../auth.json') as json_data:
             credentials = json.load(json_data)
 
 
