@@ -152,7 +152,41 @@ class kmeans(dml.Algorithm):
         in this script. Each run of the script will generate a new
         document describing that invocation event.
         '''
-        pass
+        
+        client = dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('jas91_smaf91', 'jas91_smaf91')
 
-kmeans.execute()
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:jas91_smaf91#kmeans', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        min_patrols = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Minimun number of patrols to be allocated to minimize the distance between the patrols and crime areas'})
+        doc.wasAssociatedWith(min_patrols, this_script)
+        
+        resource_crime = doc.entity('dat:jas91_smaf91#crime', {'prov:label':'Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.usage(
+            min_patrols, 
+            resource_crime, 
+            startTime, 
+            None,
+            {}
+        )
+        
+        resource_patrol_coordinates = doc.entity('dat:jas91_smaf91#patrol_coordinates', {'prov:label':'Patrol Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+
+        doc.wasAttributedTo(resource_patrol_coordinates, this_script)
+        doc.wasGeneratedBy(resource_patrol_coordinates, min_patrols, endTime)
+        doc.wasDerivedFrom(resource_patrol_coordinates, resource_crime, min_patrols, min_patrols, min_patrols) 
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
+
+#kmeans.execute()
+doc = kmeans.provenance()
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
