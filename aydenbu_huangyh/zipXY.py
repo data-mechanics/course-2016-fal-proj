@@ -8,6 +8,11 @@ from bson.code import Code
 from bson.json_util import dumps
 from helpers import *
 
+'''
+TO get the approximated coordinate in center of a zipcode area
+By using the approved_building_permits
+'''
+
 
 class zipXY(dml.Algorithm):
 
@@ -118,7 +123,42 @@ class zipXY(dml.Algorithm):
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-        return None
+        # Set up the database connection
+        repo = openDb(getAuth("db_username"), getAuth("db_password"))
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/')  # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/')  # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont',
+                          'http://datamechanics.io/ontology#')  # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/')  # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:aydenbu_huangyh#zipXY',
+                                {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
+        resource = doc.entity('dat:approved_building_permit',
+                              {'prov:label': 'Approved Building Permit', prov.model.PROV_TYPE: 'ont:DataResource',
+                               'ont:Extension': 'json'})
+
+        get_zip_XY = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
+                                                         {
+                                                             prov.model.PROV_LABEL: "Count the number of CornerStores in each zip"})
+        doc.wasAssociatedWith(get_zip_XY, this_script)
+        doc.usage(get_zip_XY, resource, startTime, None,
+                  {prov.model.PROV_TYPE: 'ont:Computation'})
+
+        zip_XY = doc.entity('dat:aydenbu_huangyh#zip_Healthycornerstores_count',
+                                                   {prov.model.PROV_LABEL: 'Healthy Corner Stores Count',
+                                                    prov.model.PROV_TYPE: 'ont:DataSet'})
+        doc.wasAttributedTo(zip_XY, this_script)
+        doc.wasGeneratedBy(zip_XY, get_zip_XY, endTime)
+        doc.wasDerivedFrom(zip_XY, resource, get_zip_XY,
+                           get_zip_XY,
+                           get_zip_XY)
+
+        repo.record(doc.serialize())  # Record the provenance document.
+        repo.logout()
+
+        return doc
 
 zipXY.execute()
 
