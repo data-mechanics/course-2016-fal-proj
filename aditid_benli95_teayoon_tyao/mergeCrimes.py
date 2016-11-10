@@ -6,9 +6,9 @@ import datetime
 import uuid
 
 class mergeCrimes(dml.Algorithm):
-    contributor = 'teayoon_tyao'
-    reads = ['teayoon_tyao.crimesLegacy', 'teayoon_tyao.crimesCurrent']
-    writes = ['teayoon_tyao.crimesMaster']
+    contributor = 'aditid_benli95_teayoon_tyao'
+    reads = ['aditid_benli95_teayoon_tyao.crimesLegacy', 'aditid_benli95_teayoon_tyao.crimesCurrent']
+    writes = ['aditid_benli95_teayoon_tyao.crimesMaster']
 
     @staticmethod
     def execute(trial = False):
@@ -16,12 +16,12 @@ class mergeCrimes(dml.Algorithm):
 
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('teayoon_tyao', 'teayoon_tyao')
+        repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
 
-        repo.dropPermanent('teayoon_tyao.crimesMaster')
-        repo.createPermanent('teayoon_tyao.crimesMaster')
+        repo.dropPermanent('aditid_benli95_teayoon_tyao.crimesMaster')
+        repo.createPermanent('aditid_benli95_teayoon_tyao.crimesMaster')
 
-        data = repo.teayoon_tyao.crimesLegacy.find()
+        data = repo.aditid_benli95_teayoon_tyao.crimesLegacy.find()
         for document in data:
             legacyDict = dict(document)
             if legacyDict['incident_type_description'] == 'Drug Violation' or legacyDict['incident_type_description'] == 'DRUG CHARGES' and legacyDict['location']['coordinates'] and legacyDict['fromdate'] and legacyDict['day_week']:
@@ -35,9 +35,9 @@ class mergeCrimes(dml.Algorithm):
 
                 entry = {'date':dateAndTime,'day':legacyDict['day_week'], 'latitude':legacyDict['location']['coordinates'][0], 'longitude':legacyDict['location']['coordinates'][1]}
                 
-                res = repo.teayoon_tyao.crimesMaster.insert_one(entry)
+                res = repo.aditid_benli95_teayoon_tyao.crimesMaster.insert_one(entry)
 
-        data = repo.teayoon_tyao.crimesCurrent.find()
+        data = repo.aditid_benli95_teayoon_tyao.crimesCurrent.find()
         for document in data:
             currentDict = dict(document)
             if currentDict['offense_code_group'] == 'Drug Violation' and currentDict['occurred_on_date'] and currentDict['day_of_week']:
@@ -59,7 +59,7 @@ class mergeCrimes(dml.Algorithm):
 
                 entry = {'date':dateAndTime, 'day':currentDict['day_of_week'], 'latitude':latitude, 'longitude':longitude}
 
-                res = repo.teayoon_tyao.crimesMaster.insert_one(entry)
+                res = repo.aditid_benli95_teayoon_tyao.crimesMaster.insert_one(entry)
                 
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}
@@ -69,7 +69,7 @@ class mergeCrimes(dml.Algorithm):
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('teayoon_tyao', 'teayoon_tyao')
+        repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
 
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
@@ -78,17 +78,17 @@ class mergeCrimes(dml.Algorithm):
         doc.add_namespace('cob', 'https://data.cityofboston.gov/resource/')
         doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/datasets/')
 
-        this_script = doc.agent('alg:teayoon_tyao#mergeCrimes', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#mergeCrimes', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         mergeCRI = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Merge Crime Data', prov.model.PROV_TYPE:'ont:Computation'})
         doc.wasAssociatedWith(mergeCRI, this_script)
         
-        resource_crimesLegacy = doc.entity('dat:teayoon_tyao#crimesLegacy', {'prov:label':'Past Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
+        resource_crimesLegacy = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesLegacy', {'prov:label':'Past Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.usage(mergeCRI, resource_crimesLegacy, startTime)
 
-        resource_crimesCurrent = doc.entity('dat:teayoon_tyao#crimesCurrent', {'prov:label':'Current Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
+        resource_crimesCurrent = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesCurrent', {'prov:label':'Current Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.usage(mergeCRI, resource_crimesCurrent, startTime)
 
-        resource_crimesMaster = doc.entity('dat:teayoon_tyao#crimesMaster', {'prov:label':'All Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
+        resource_crimesMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesMaster', {'prov:label':'All Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
 
         doc.wasAttributedTo(resource_crimesMaster, this_script)
         doc.wasGeneratedBy(resource_crimesMaster, mergeCRI, endTime)

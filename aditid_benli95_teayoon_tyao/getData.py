@@ -6,9 +6,9 @@ import datetime
 import uuid
 
 class getData(dml.Algorithm):
-    contributor = 'aditid_benli_teayoon_tyao'
+    contributor = 'aditid_benli95_teayoon_tyao'
     reads = []
-    writes = ['aditid_benli_teayoon_tyao.crimesLegacy', 'aditid_benli_teayoon_tyao.crimesCurrent', 'aditid_benli_teayoon_tyao.publicSchools', 'aditid_benli_teayoon_tyao.privateSchools', 'aditid_benli_teayoon_tyao.childFeedingPrograms', 'aditid_benli_teayoon_tyao.dayCamps', 'aditid_benli_teayoon_tyao.publicDaycares', 'aditid_benli_teayoon_tyao.privateDaycares']
+    writes = ['aditid_benli95_teayoon_tyao.crimesLegacy', 'aditid_benli95_teayoon_tyao.crimesCurrent', 'aditid_benli95_teayoon_tyao.publicSchools', 'aditid_benli95_teayoon_tyao.privateSchools', 'aditid_benli95_teayoon_tyao.childFeedingPrograms', 'aditid_benli95_teayoon_tyao.dayCamps', 'aditid_benli95_teayoon_tyao.publicDaycares', 'aditid_benli95_teayoon_tyao.privateDaycares']
 
     @staticmethod
     def execute(trial = False):
@@ -16,14 +16,14 @@ class getData(dml.Algorithm):
 
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('aditid_benli_teayoon_tyao', 'aditid_benli_teayoon_tyao')
+        repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
 
         response = urllib.request.urlopen('https://data.cityofboston.gov/resource/ufcx-3fdn.json').read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("crimesLegacy")
         repo.createPermanent("crimesLegacy")
-        repo['aditid_benli_teayoon_tyao.crimesLegacy'].insert_many(r)
+        repo['aditid_benli95_teayoon_tyao.crimesLegacy'].insert_many(r)
         print('Load crimesLegacy')
 
         response = urllib.request.urlopen('https://data.cityofboston.gov/resource/29yf-ye7n.json').read().decode("utf-8")
@@ -31,7 +31,7 @@ class getData(dml.Algorithm):
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("crimesCurrent")
         repo.createPermanent("crimesCurrent")
-        repo['aditid_benli_teayoon_tyao.crimesCurrent'].insert_many(r)
+        repo['aditid_benli95_teayoon_tyao.crimesCurrent'].insert_many(r)
         print('Load crimesCurrent')   
 
         response = urllib.request.urlopen('http://bostonopendata.boston.opendata.arcgis.com/datasets/1d9509a8b2fd485d9ad471ba2fdb1f90_0.geojson').read().decode("utf-8")
@@ -39,7 +39,7 @@ class getData(dml.Algorithm):
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("publicSchools")
         repo.createPermanent("publicSchools")
-        repo['aditid_benli_teayoon_tyao.publicSchools'].insert_one(r)
+        repo['aditid_benli95_teayoon_tyao.publicSchools'].insert_one(r)
         print('Load publicSchools')   
 
         response = urllib.request.urlopen('http://bostonopendata.boston.opendata.arcgis.com/datasets/0046426a3e4340a6b025ad52b41be70a_1.geojson').read().decode("utf-8")
@@ -47,7 +47,7 @@ class getData(dml.Algorithm):
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("privateSchools")
         repo.createPermanent("privateSchools")
-        repo['aditid_benli_teayoon_tyao.privateSchools'].insert_one(r)
+        repo['aditid_benli95_teayoon_tyao.privateSchools'].insert_one(r)
         print('Load privateSchools')
 
         response = urllib.request.urlopen('https://data.cityofboston.gov/resource/6s7x-jq48.json').read().decode("utf-8")
@@ -55,7 +55,7 @@ class getData(dml.Algorithm):
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("childFeedingPrograms")
         repo.createPermanent("childFeedingPrograms")
-        repo['aditid_benli_teayoon_tyao.childFeedingPrograms'].insert_many(r)
+        repo['aditid_benli95_teayoon_tyao.childFeedingPrograms'].insert_many(r)
         print('Load childFeedingPrograms')  
 
         response = urllib.request.urlopen('https://data.cityofboston.gov/resource/jcht-q2ng.json').read().decode("utf-8")
@@ -63,7 +63,7 @@ class getData(dml.Algorithm):
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("dayCamps")
         repo.createPermanent("dayCamps")
-        repo['aditid_benli_teayoon_tyao.dayCamps'].insert_many(r)
+        repo['aditid_benli95_teayoon_tyao.dayCamps'].insert_many(r)
         print('Load dayCamps')        
 
         response = urllib.request.urlopen('https://data.cityofboston.gov/resource/q6h3-7rpz.json').read().decode("utf-8")
@@ -71,13 +71,13 @@ class getData(dml.Algorithm):
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("publicDaycares")
         repo.createPermanent("publicDaycares")
-        repo['aditid_benli_teayoon_tyao.publicDaycares'].insert_many(r)
+        repo['aditid_benli95_teayoon_tyao.publicDaycares'].insert_many(r)
         print('Load publicDaycares') 
 
         privateDaycares = scrapePrivateDaycares.getData()
         repo.dropPermanent("privateDaycares")
         repo.createPermanent("privateDaycares")
-        repo['aditid_benli_teayoon_tyao.privateDaycares'].insert_one(privateDaycares)
+        repo['aditid_benli95_teayoon_tyao.privateDaycares'].insert_one(privateDaycares)
         print('Load privateDaycares')
 
         repo.logout()
@@ -89,7 +89,7 @@ class getData(dml.Algorithm):
           # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('aditid_benli_teayoon_tyao', 'aditid_benli_teayoon_tyao')
+        repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
 
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
@@ -98,7 +98,7 @@ class getData(dml.Algorithm):
         doc.add_namespace('cob', 'https://data.cityofboston.gov/resource/')
         doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/datasets/')
 
-        this_script = doc.agent('alg:teayoon_tyao#getData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#getData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
         resource_crimesLegacy = doc.entity('cob:ufcx-3fdn', {'prov:label':'Past Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         get_crimesLegacy = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Past Crime Incident Reports', prov.model.PROV_TYPE:'ont:Retrieval'})
@@ -136,37 +136,37 @@ class getData(dml.Algorithm):
         doc.usage(get_dayCamps, resource_dayCamps, startTime)
 
         
-        crimesLegacy = doc.entity('dat:teayoon_tyao#crimesLegacy', {prov.model.PROV_LABEL:'Past Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataSet'})
+        crimesLegacy = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesLegacy', {prov.model.PROV_LABEL:'Past Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(crimesLegacy, this_script)
         doc.wasGeneratedBy(crimesLegacy, get_crimesLegacy, endTime)
         doc.wasDerivedFrom(crimesLegacy, resource_crimesLegacy, get_crimesLegacy, get_crimesLegacy, get_crimesLegacy)
 
-        crimesCurrent = doc.entity('dat:teayoon_tyao#crimesCurrent', {prov.model.PROV_LABEL:'Current Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataSet'})
+        crimesCurrent = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesCurrent', {prov.model.PROV_LABEL:'Current Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(crimesCurrent, this_script)
         doc.wasGeneratedBy(crimesCurrent, get_crimesCurrent, endTime)
         doc.wasDerivedFrom(crimesCurrent, resource_crimesCurrent, get_crimesCurrent, get_crimesCurrent, get_crimesCurrent)
 
-        publicSchools = doc.entity('dat:teayoon_tyao#publicSchools', {prov.model.PROV_LABEL:'Public Schools', prov.model.PROV_TYPE:'ont:DataSet'})
+        publicSchools = doc.entity('dat:aditid_benli95_teayoon_tyao#publicSchools', {prov.model.PROV_LABEL:'Public Schools', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(publicSchools, this_script)
         doc.wasGeneratedBy(publicSchools, get_publicSchools, endTime)
         doc.wasDerivedFrom(publicSchools, datasets_publicSchools, get_publicSchools, get_publicSchools, get_publicSchools)
 
-        privateSchools = doc.entity('dat:teayoon_tyao#privateSchools', {prov.model.PROV_LABEL:'Private Schools', prov.model.PROV_TYPE:'ont:DataSet'})
+        privateSchools = doc.entity('dat:aditid_benli95_teayoon_tyao#privateSchools', {prov.model.PROV_LABEL:'Private Schools', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(privateSchools, this_script)
         doc.wasGeneratedBy(privateSchools, get_privateSchools, endTime)
         doc.wasDerivedFrom(privateSchools, datasets_privateSchools, get_privateSchools, get_privateSchools, get_privateSchools)
 
-        foodPantries = doc.entity('dat:teayoon_tyao#foodPantries', {prov.model.PROV_LABEL:'Food Pantries', prov.model.PROV_TYPE:'ont:DataSet'})
+        foodPantries = doc.entity('dat:aditid_benli95_teayoon_tyao#foodPantries', {prov.model.PROV_LABEL:'Food Pantries', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(foodPantries, this_script)
         doc.wasGeneratedBy(foodPantries, get_foodPantries, endTime)
         doc.wasDerivedFrom(foodPantries, resource_foodPantries, get_foodPantries, get_foodPantries, get_foodPantries)
 
-        childFeedingPrograms = doc.entity('dat:teayoon_tyao#childFeedingPrograms', {prov.model.PROV_LABEL:'Children Feeding Program', prov.model.PROV_TYPE:'ont:DataSet'})
+        childFeedingPrograms = doc.entity('dat:aditid_benli95_teayoon_tyao#childFeedingPrograms', {prov.model.PROV_LABEL:'Children Feeding Program', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(childFeedingPrograms, this_script)
         doc.wasGeneratedBy(childFeedingPrograms, get_childFeedingPrograms, endTime)
         doc.wasDerivedFrom(childFeedingPrograms, resource_childFeedingPrograms, get_childFeedingPrograms, get_childFeedingPrograms, get_childFeedingPrograms)
 
-        dayCamps = doc.entity('dat:teayoon_tyao#dayCamps', {prov.model.PROV_LABEL:'Day Camps', prov.model.PROV_TYPE:'ont:DataSet'})
+        dayCamps = doc.entity('dat:aditid_benli95_teayoon_tyao#dayCamps', {prov.model.PROV_LABEL:'Day Camps', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(dayCamps, this_script)
         doc.wasGeneratedBy(dayCamps, get_dayCamps, endTime)
         doc.wasDerivedFrom(dayCamps, resource_dayCamps, get_dayCamps, get_dayCamps, get_dayCamps)
