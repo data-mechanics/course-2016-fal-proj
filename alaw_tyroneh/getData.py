@@ -24,9 +24,9 @@ class getData(dml.Algorithm):
         
         
         #JSON urls with SoQL queries
-        jsonURLs = {"BostonProperty": 'https://data.cityofboston.gov/resource/jsri-cpsq.json?$select=location',
-                    "CambridgeProperty": 'https://data.cambridgema.gov/resource/ufnx-m9uc.json?$query=SELECT%20location_1%20WHERE%20land_use_category%20=%20%22Residential%22%20OR%20land_use_category%20=%20%22Vacant%20Residential%22',
-                    "SomervilleProperty":'https://data.somervillema.gov/resource/dhs3-5kuu.json?$query=SELECT%20location_1%20WHERE%20building_type%20=%20%27Residential%27%20OR%20building_type%20=%20%27Condominium%27'}
+        jsonURLs = {"BostonProperty": 'https://data.cityofboston.gov/resource/jsri-cpsq.json?$select=location&$limit=11000000',
+                    "CambridgeProperty": 'https://data.cambridgema.gov/resource/ufnx-m9uc.json?$limit=11000000',
+                    "SomervilleProperty":'https://data.somervillema.gov/resource/dhs3-5kuu.json?$limit=11000000'}
         
         for key in jsonURLs:  
             url = jsonURLs[key]
@@ -171,39 +171,39 @@ class getData(dml.Algorithm):
 
         this_script = doc.agent('alg:alaw_tyroneh#getData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
-        resource_BostonProperty = doc.entity('bdp:jsri-cpsq', {'prov:label':'Boston Residential Property Coordinates', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_BostonProperty = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Boston Residential Property Coordinates'})
+        resource_BostonProperty = doc.entity('bdp:jsri-cpsq', {'prov:label':'Boston Properties Property Coordinates', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        get_BostonProperty = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Boston Properties Property Coordinates'})
         doc.wasAssociatedWith(get_BostonProperty, this_script)
         doc.usage(get_BostonProperty, resource_BostonProperty, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?$select=location'
+                 'ont:Query':'?$select=location&$limit=11000000'
                 }
             )
         
-        resource_CambridgeProperty = doc.entity('cdp:ufnx-m9uc', {'prov:label':'Cambridge Residential Property Coordinates', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_CambridgeProperty = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Cambridge Residential Property Coordinates'})
+        resource_CambridgeProperty = doc.entity('cdp:ufnx-m9uc', {'prov:label':'Cambridge Properties Property Coordinates', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        get_CambridgeProperty = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Cambridge Properties Property Coordinates'})
         doc.wasAssociatedWith(get_CambridgeProperty, this_script)
         doc.usage(get_CambridgeProperty, resource_CambridgeProperty, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?$query=SELECT%20location_1%20WHERE%20land_use_category%20=%20%22Residential%22%20OR%20land_use_category%20=%20%22Vacant%20Residential%22'
+                 'ont:Query':'$limit=11000000'
                 }
             )
             
-        resource_SomervilleProperty = doc.entity('sdp:dhs3-5kuu', {'prov:label':'Somerville Residential Property Coordinates', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_SomervilleProperty = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Somerville Residential Property Coordinates'})
+        resource_SomervilleProperty = doc.entity('sdp:dhs3-5kuu', {'prov:label':'Somerville Properties Property Coordinates', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        get_SomervilleProperty = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Somerville Properties Property Coordinates'})
         doc.wasAssociatedWith(get_SomervilleProperty, this_script)
         doc.usage(get_SomervilleProperty, resource_SomervilleProperty, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?$query=SELECT%20location_1%20WHERE%20building_type%20=%20%27Residential%27%20OR%20building_type%20=%20%27Condominium%27'
+                 'ont:Query':'$limit=11000000'
                 }
             )
         
-        resource_BrooklineProperty = doc.entity('brdp:a725742a993f425ea463c2c509d91ca3_1', {'prov:label':'Brookline Residential Property Coordinates', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'geojson'})
-        get_BrooklineProperty = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Brookline Residential Property Coordinates'})
+        resource_BrooklineProperty = doc.entity('brdp:a725742a993f425ea463c2c509d91ca3_1', {'prov:label':'Brookline Properties Property Coordinates', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'geojson'})
+        get_BrooklineProperty = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Brookline Properties Property Coordinates'})
         doc.wasAssociatedWith(get_BrooklineProperty, this_script)
         doc.usage(get_BrooklineProperty, resource_BrooklineProperty, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':"?where=FEATURECODE%20like%20'%25Building%20General%25"
+                 'ont:Query':"$limit=11000000"
                 }
             )  
         
@@ -225,7 +225,7 @@ class getData(dml.Algorithm):
                 }
             )
 
-        BostonProperty = doc.entity('dat:alaw_tyroneh#BostonProperty', {prov.model.PROV_LABEL:'Boston Residential Property Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        BostonProperty = doc.entity('dat:alaw_tyroneh#BostonProperty', {prov.model.PROV_LABEL:'Boston Properties Property Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(BostonProperty, this_script)
         doc.wasGeneratedBy(BostonProperty, get_BostonProperty, endTime)
         

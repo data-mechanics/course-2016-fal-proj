@@ -24,8 +24,8 @@ db.loadServerScripts();
 
 //store transformed property data in collection "ResidentialGeoJSON"
 
-dropPerm("alaw_tyroneh.ResidentialGeoJSONs");
-createPerm("alaw_tyroneh.ResidentialGeoJSONs");
+dropPerm("alaw_tyroneh.PropertyGeoJSONs");
+createPerm("alaw_tyroneh.PropertyGeoJSONs");
 
 
 function flatten(X) {
@@ -46,14 +46,14 @@ db.alaw_tyroneh.BostonProperty.mapReduce(
 				"type":"Point",
 				"coordinates": [lat,long]},
 			"properties":{
-				"type":"Residence",
+				"type":"Property",
 				"area": name
 			}
 		})
 	},
 	//no reduce step, all ids are unique
 	function(){},
-	{out:{merge:"alaw_tyroneh.ResidentialGeoJSONs"}}
+	{out:{merge:"alaw_tyroneh.PropertyGeoJSONs"}}
 );
 
 db.alaw_tyroneh.CambridgeProperty.mapReduce(
@@ -68,14 +68,14 @@ db.alaw_tyroneh.CambridgeProperty.mapReduce(
 				"type":"Point",
 				"coordinates": [lat,long]},
 			"properties":{
-				"type":"Residence",
+				"type":"Property",
 				"area": name
 			}
 		})
 	},
 	//no reduce step, all ids are unique
 	function(){},
-	{out:{merge:"alaw_tyroneh.ResidentialGeoJSONs"}}
+	{out:{merge:"alaw_tyroneh.PropertyGeoJSONs"}}
 );
 
 db.alaw_tyroneh.SomervilleProperty.mapReduce(
@@ -91,7 +91,7 @@ db.alaw_tyroneh.SomervilleProperty.mapReduce(
 					"type":"Point",
 					"coordinates": [lat,long]},
 				"properties":{
-					"type":"Residence",
+					"type":"Property",
 					"area": name
 				}
 			})
@@ -99,7 +99,7 @@ db.alaw_tyroneh.SomervilleProperty.mapReduce(
 	},
 	//no reduce step, all ids are unique
 	function(){},
-	{out:{merge:"alaw_tyroneh.ResidentialGeoJSONs"}}
+	{out:{merge:"alaw_tyroneh.PropertyGeoJSONs"}}
 );
 
 db.alaw_tyroneh.BrooklineProperty.mapReduce(
@@ -131,15 +131,15 @@ db.alaw_tyroneh.BrooklineProperty.mapReduce(
 				"type":"Point",
 				"coordinates": [lat,long]},
 				"properties":{
-					"type":"Residence",
+					"type":"Property",
 					"area": name
 				}
 			};
 		},
-	{out:{merge:"alaw_tyroneh.ResidentialGeoJSONs"}}
+	{out:{merge:"alaw_tyroneh.PropertyGeoJSONs"}}
 );
 
-// flatten("alaw_tyroneh.ResidentialGeoJSONs")
+// flatten("alaw_tyroneh.PropertyGeoJSONs")
 
 //store transformed station data in collection "ResidentialGeoJSON"
 
