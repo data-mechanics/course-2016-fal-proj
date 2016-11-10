@@ -61,9 +61,12 @@ class merge(dml.Algorithm):
         rider_df = pd.DataFrame(tRideTransformed)
 
         all_merged = pd.merge(merged_df, rider_df, on='zc')
-        print(all_merged)
 
-
+        zc = set(all_merged['zc'])
+        for z in zc: 
+            this_df = all_merged.loc[all_merged['zc'] == '02446'] 
+            num_stations = len(this_df['entry'])
+            entry_sum = sum(this_df['entry'])
        
         # Convert dictionary into JSON object 
         # data = json.dumps(collegeAndStopCountsDict, sort_keys=True, indent=2)
