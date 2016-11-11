@@ -39,7 +39,7 @@ This transformation combines hubways and big belly based on the intersection of 
 $ python hubwayBigBelly.py
 ```
 
-# Project #2 Narrative
+# Project #2 Narrative (2a)
 ### *by Nisa Gurung, Kristel Tan, Yao Zhang, Emily Hou*
 
 To address the ultimate goal of finding the optimal zip code(s) for physical advertisements based on a rating system, which is from the landmarks outlined in the 5 datasets: MBTA T-stops, MBTA bus stops, Big Belly garbage cans, colleges, and hubway stations. The zip codes will be rated on a 3-star scale: 1-star being the least desirable advertising area and 3-star being the most desirable. To get these final ratings for each zip code in Boston, we merged all datasets (which was taken from the 3 transformation files) on zip code into a dictionary list. For each zip code, we calculated the standard deviation to set the range for each numeric rating (1-3). The same process was applied to generate the overall rating of each zip code into a single numeric value. Potential users will either query ratings for each landmark or query the overall zip code rating, which represents the constraints that will feed into our objective function for later optimization. Our algorithm will generate the optimal result given the user's constraints by focusing on maximizing the viewing population, which we hope would be the most relevant to our analysis. 
