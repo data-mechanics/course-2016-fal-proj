@@ -27,6 +27,10 @@ class retrieveData(dml.Algorithm):
             'https://data.cityofboston.gov/resource/cqit-55tt.json', \
             'https://data.cityofboston.gov/resource/5jxx-wfpr.json']
 
+    authenticate_stuff = '?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']
+
+
+
     dataSetDict = {}
     for i in range(len(setExtensions)):
         dataSetDict[setExtensions[i]] = (urls[i], writes[i], titles[i], urls[i][39:48])
@@ -69,7 +73,7 @@ class retrieveData(dml.Algorithm):
             print("Starting retrieval and storage of {} dataset".format(key))
             repo.dropPermanent(key)
             repo.createPermanent(key)
-            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0]).read().decode("utf-8") # why didn't you append the secret key here "via json file"
+            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0]+retrieveData.authenticate_stuff).read().decode("utf-8") # why didn't you append the secret key here "via json file"
             r = json.loads(response)
             s = json.dumps(r, sort_keys=True, indent=2)
             repo[retrieveData.dataSetDict[key][1]].insert_many(r)
