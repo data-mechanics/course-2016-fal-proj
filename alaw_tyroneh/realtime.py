@@ -1,4 +1,5 @@
 import urllib.request
+import urllib.error
 import os
 import json
 import dml
@@ -17,136 +18,30 @@ class getData(dml.Algorithm):
     def execute(trial = False):
         
         '''Retrieve datasets for mongoDB storage and later transformations'''
-        
         startTime = datetime.datetime.now()
             
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('alaw_tyroneh', 'alaw_tyroneh')
-        ''' 
-        
-        #JSON urls with SoQL queries
-        jsonURLs = {"BostonProperty": 'https://data.cityofboston.gov/resource/jsri-cpsq.json?$select=location',
-                    "CambridgeProperty": 'https://data.cambridgema.gov/resource/ufnx-m9uc.json?$query=SELECT%20location_1%20WHERE%20land_use_category%20=%20%22Residential%22%20OR%20land_use_category%20=%20%22Vacant%20Residential%22',
-                    "SomervilleProperty":'https://data.somervillema.gov/resource/dhs3-5kuu.json?$query=SELECT%20location_1%20WHERE%20building_type%20=%20%27Residential%27%20OR%20building_type%20=%20%27Condominium%27'}
-        
-        for key in jsonURLs:  
-            url = jsonURLs[key]
-            response = urllib.request.urlopen(url).read().decode("utf-8")
-            r = json.loads(response)
-            
-            if(trial == True):
-                s = json.dumps(r, sort_keys=True, indent=2)
-                print(key)
-                print(s)
-                print('-----------------')
-            
-            else:
-                # Set up the database connection
-                repo.dropPermanent(key)
-                repo.createPermanent(key)
-                repo['alaw_tyroneh.'+key].insert_many(r)
-        
-        #GeoJSON urls with queries, read list of features
-        geojsonURLs = {"BrooklineProperty":"http://data.brooklinema.gov/datasets/a725742a993f425ea463c2c509d91ca3_1.geojson?where=FEATURECODE%20like%20'%25Building%20General%25'"}
-        
-        for key in geojsonURLs:  
-            url = geojsonURLs[key]
-            response = urllib.request.urlopen(url).read().decode("utf-8")
-            r = json.loads(response)['features']
-            
-            if(trial == True):
-                s = json.dumps(r, sort_keys=True, indent=2)
-                print(key)
-                print(s)
-                print('-----------------')
-            
-            else:
-                # Set up the database connection
-                repo.dropPermanent(key)
-                repo.createPermanent(key)
-                repo['alaw_tyroneh.'+key].insert_many(r) 
-                
-        
-        #CSV urls, converts them to python dictionaries 
-        csvURLs = {"HubwayStations":'https://s3.amazonaws.com/hubway-data/2016_0429_Hubway_Stations.csv'}
-        csvFields = {"HubwayStations":['Station','Station ID','Latitude','Longitude','Municipality','# of Docks']}        
-        
-        for key in csvURLs:
-            url = csvURLs[key]
-            fieldnames = csvFields[key]
-            
-            response = urllib.request.urlopen(url)
-            csvfile = csv.DictReader(response.read().decode('utf-8').splitlines()[1:],fieldnames)
-            
-            if(trial == True):
-                print(key)
-                print(csvfile)
-                print('-----------------')
-            
-            else:
-                # Set up the database connection
-                repo.dropPermanent(key)
-                repo.createPermanent(key)
-                repo['alaw_tyroneh.'+key].insert_many(csvfile) 
-        
-        
-        #MBTA API, gets xml files of every T and Commuter rail stop
-        route_url = "http://realtime.mbta.com/developer/api/v2/routes?api_key=wX9NwuHnZU2ToO7GmGR9uw&format=json"
 
-        response = urllib.request.urlopen(route_url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-
-        routesA = [mode for mode in r["mode"] if mode["mode_name"] == "Subway" or mode["mode_name"] == "Commuter Rail"]
-        routesB = []
-        for mode in routesA:
-            for route in mode['route']:
-                route["mode_name"] = mode["mode_name"]
-                routesB.append(route) 
-        routesB = [(mode["mode_name"], route["route_id"]) for mode in routesA for route in mode['route']]
-
-        stop_base = "http://realtime.mbta.com/developer/api/v2/stopsbyroute?api_key=wX9NwuHnZU2ToO7GmGR9uw"
-        stop_urls = {route:"{}&route={}&format=json".format(stop_base, route[1]) for route in routesB}
-        responses = {route:urllib.request.urlopen(stop_urls[route]).read().decode("utf-8") for route in stop_urls}
-
-        json_stops = []
-        for route, response in responses.items():
-            stops_by_route = {}
-
-            mode, route_id = route
-    
-            stops_by_route['name'] = route_id 
-            stops_by_route['mode'] = mode
-            stops_by_route['path'] = json.loads(response)
-
-            json_stops.append(stops_by_route)
-
-        #json_stops = {oute':route, 'path':json.loads(responses[route]) for route in responses}
-        #stops_dumps = {route:json.dumps(json_stops[route], sort_keys=True, indent=2) for route in json_stops}
-        stops_dumps = json.dumps(json_stops, sort_keys=True, indent=2)
-
-        result = []
-        for route in json_stops:
-            result.append({'route':route})
-
-        if(trial == True):
-                print(result)
-                print('-----------------')
-        else:
-            # Set up the database connection
-            repo.dropPermanent('TCStops')
-            repo.createPermanent('TCStops')
-            repo['alaw_tyroneh.TCStops'].insert_many(result)''' 
-
-        root, dirs, files = next(os.walk('../../busdata'))
+        # START
+        url_base = "http://datamechanics.io/data/alaw_tyroneh/busdata/mbtabuses-"
+        bus_time = 1477674001
         all_buses = []
-        for f in files:
-            fname = os.path.join(root, f)
-            with open(fname, 'r') as buses_file:
-                buses_json = json.load(buses_file)
-            all_buses.append(buses_json)
-
+ 
+        for i in range(623):
+            url = url_base + str(bus_time)
+            try:
+                response = urllib.request.urlopen(url)
+                print(url)
+                response = response.read().decode("utf-8")
+                r = json.loads(response)
+                all_buses.append(r)
+            except urllib.error.HTTPError as e:
+               print('HTTP Error code:', e.code)
+    
+            bus_time += 1800 # increment by 30 minutes
+ 
         if(trial == True):
             print('timestamp', buses_json["timestamp"])
             print('-----------------')
@@ -154,7 +49,7 @@ class getData(dml.Algorithm):
             repo.dropPermanent('TimedBuses')
             repo.createPermanent('TimedBuses')
             repo['alaw_tyroneh.TimedBuses'].insert_many(all_buses) 
-
+        #END
         repo.logout()
         endTime = datetime.datetime.now()
         
