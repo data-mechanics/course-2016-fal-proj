@@ -141,12 +141,14 @@ class getData(dml.Algorithm):
             url = url_base + str(bus_time)
             try:
                 response = urllib.request.urlopen(url)
-                print(url)
+                if(trial == True):
+                    print(url)
                 response = response.read().decode("utf-8")
                 r = json.loads(response)
                 all_buses.append(r)
             except urllib.error.HTTPError as e:
-               print('HTTP Error code:', e.code)
+               if(trial == True):
+                print('HTTP Error code:', e.code)
     
             bus_time += 1800 # increment by 30 minutes
  

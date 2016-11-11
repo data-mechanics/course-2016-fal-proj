@@ -24,7 +24,7 @@ First run getData.py and then transformData.py to properly retrieve and transfor
 For current bus data
 *	Bus Routes and Stations (MassGIS) **-- To Do --**
 *	Bus Route Mileage for In/Outbound (MBTA BlueBook) **-- To Do --**
-*	Real time next-bus api (NextBus API scraping) -- Currently Scraping --
+*	Real time next-bus api (NextBus API scraping) 
 	*	Mbta bus location data (for a few weeks)
   
 For modeling 
