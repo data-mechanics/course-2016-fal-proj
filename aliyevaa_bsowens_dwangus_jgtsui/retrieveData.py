@@ -17,7 +17,7 @@ class retrieveData(dml.Algorithm):
     setExtensions = ['crime2012-2015', 'public-fishing-access-locations', 'moving-truck-permits', \
                      'food-licenses', 'entertainment-licenses', 'csa-pickups', 'year-round-pools']
 
-    writes = ['dwangus.' + dataSet for dataSet in setExtensions]
+    writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]
 
     urls = ['https://data.cityofboston.gov/resource/ufcx-3fdn.json', \
             'https://data.cityofboston.gov/resource/jaz3-9yrd.json', \
@@ -45,7 +45,7 @@ class retrieveData(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate(retrieveData.contributor, retrieveData.contributor)
-        myrepo = repo.dwangus # must change repo
+        myrepo = repo.aliyevaa_bsowens_dwangus_jgtsui # must change repo
 
         '''
         ###Notes for each of the datasets' geo-location data and format###
@@ -73,7 +73,7 @@ class retrieveData(dml.Algorithm):
             print("Starting retrieval and storage of {} dataset".format(key))
             repo.dropPermanent(key)
             repo.createPermanent(key)
-            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0]+retrieveData.authenticate_stuff).read().decode("utf-8") # why didn't you append the secret key here "via json file"
+            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0]+ retrieveData.authenticate_stuff).read().decode("utf-8") # why didn't you append the secret key here "via json file"
             r = json.loads(response)
             s = json.dumps(r, sort_keys=True, indent=2)
             repo[retrieveData.dataSetDict[key][1]].insert_many(r)
