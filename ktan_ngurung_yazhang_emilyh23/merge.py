@@ -12,8 +12,8 @@ import numpy as np
 
 class merge(dml.Algorithm):
     contributor = 'ktan_ngurung_yazhang_emilyh23'
-    reads = ['ktan_ngurung_yazhang_emilyh23.colleges', 'ktan_ngurung_yazhang_emilyh23.busStops']
-    writes = ['ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts']
+    reads = ['ktan_ngurung_yazhang_emilyh23.tRidershipLocation', 'ktan_ngurung_yazhang_emilyh23.hubwayBigBellyCounts', 'ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts']
+    writes = ['ktan_ngurung_yazhang_emilyh23.zipcodeRatings']
 
     @staticmethod
     def get_rating(l, ct, z, star):
@@ -206,22 +206,24 @@ class merge(dml.Algorithm):
         overall_dict = [] 
         i = 0 
         for z in zc: 
-            rating = merge.get_overall(overall_l, z, overall_values[i], 'star') 
-            print(rating)
+            rating = merge.get_overall(overall_l, z, overall_values[i], 'overall_star') 
             overall_dict.append(rating)
             i += 1 
 
         overall_dict = pd.DataFrame(overall_dict)
         star_df_final = pd.merge(star_df, overall_dict, on='zc')
+        star_df_final.set_index('zc', drop=True, inplace=True)
+        star_dict_final = star_df_final.to_dict(orient='index')
 
         # Convert dictionary into JSON object 
-        # data = json.dumps(collegeAndStopCountsDict, sort_keys=True, indent=2)
-        # r = json.loads(data)
+        # data = json.dumps(star_dict_final, sort_keys=True, indent=2)
+        # r = json.load(data)
+
 
         # # Create new dataset called tRidershipLocation
-        # repo.dropPermanent("collegeBusStopCounts")
-        # repo.createPermanent("collegeBusStopCounts")
-        # repo['ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts'].insert_one(r)
+        # repo.dropPermanent("zipcodeRatings")
+        # repo.createPermanent("zipcodeRatings")
+        # repo['ktan_ngurung_yazhang_emilyh23.zipcodeRatings'].insert_one(r)
 
     @staticmethod           
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
