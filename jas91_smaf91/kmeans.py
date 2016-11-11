@@ -15,11 +15,13 @@ MIN_DISTANCE = config.MIN_DISTANCE
 MIN_PATROLS = config.MIN_PATROLS
 MAX_PATROLS = config.MAX_PATROLS
 
+TRIAL_LIMIT = 5000
+
 def build_query():
     query = {'main_crimecode': {'$in': CODES}}
     return query
 
-def extract_coordinates_from_crimes(repo, query):
+def extract_coordinates_from_crimes(repo, query, trial):
     repo.dropPermanent('jas91_smaf91.crime_coordinates')
     repo.createPermanent('jas91_smaf91.crime_coordinates')
     
@@ -38,7 +40,10 @@ def extract_coordinates_from_crimes(repo, query):
         return Array.sum(vs);        
     }''')
 
-    repo.jas91_smaf91.crime.map_reduce(map_function, reduce_function, 'jas91_smaf91.crime_coordinates', query=query)
+    if trial:
+        repo.jas91_smaf91.crime.map_reduce(map_function, reduce_function, 'jas91_smaf91.crime_coordinates', query=query, limit=TRIAL_LIMIT)
+    else:
+        repo.jas91_smaf91.crime.map_reduce(map_function, reduce_function, 'jas91_smaf91.crime_coordinates', query=query)
         
     print('[OUT] done extracting the coordinates')
 
@@ -118,6 +123,9 @@ class kmeans(dml.Algorithm):
     def execute(trial = False):
         startTime = datetime.datetime.now()
 
+        if trial:
+            print("[OUT] Running in Trial Mode")
+
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
@@ -125,7 +133,7 @@ class kmeans(dml.Algorithm):
 
         query = build_query()
 
-        extract_coordinates_from_crimes(repo, query)
+        extract_coordinates_from_crimes(repo, query, trial)
 
         data = load_data(repo)
 
@@ -186,7 +194,7 @@ class kmeans(dml.Algorithm):
 
         return doc
 
-#kmeans.execute()
-doc = kmeans.provenance()
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+kmeans.execute(True)
+#doc = kmeans.provenance()
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
 

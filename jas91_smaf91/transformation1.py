@@ -5,6 +5,8 @@ import prov.model
 import datetime
 import uuid
 
+TRIAL_LIMIT = 5000
+
 class transformation1(dml.Algorithm):
     contributor = 'jas91_smaf91'
     reads = ['jas91_smaf91.crime', 'jas91_smaf91.311', 'jas91_smaf91.hospitals', 'jas91_smaf91.food', 'jas91_smaf91.schools']
@@ -13,6 +15,9 @@ class transformation1(dml.Algorithm):
     @staticmethod
     def execute(trial = False):
         startTime = datetime.datetime.now()
+        
+        if trial:
+            print("[OUT] Running in Trial Mode")
 
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
@@ -112,9 +117,14 @@ class transformation1(dml.Algorithm):
             }
         }
 
+        if trial:
+            limit = TRIAL_LIMIT
+        else:
+            limit = ""
+
         for collection_id in collections:
             collection = collections[collection_id]
-            for document in repo[collection['name']].find():
+            for document in repo[collection['name']].find().limit(limit):
                 if 'geo_info' in document:
                     continue
 
@@ -225,6 +235,6 @@ class transformation1(dml.Algorithm):
 
         return doc
 
-transformation1.execute()
+transformation1.execute(True)
 #doc = transformation1.provenance()
 #print(json.dumps(json.loads(doc.serialize()), indent=4))

@@ -4,6 +4,8 @@ import prov.model
 import datetime
 import uuid
 
+TRIAL_LIMIT = 5000
+
 class transformation2(dml.Algorithm):
     contributor = 'jas91_smaf91'
     reads = ['jas91_smaf91.311', 'jas91_smaf91.hospitals', 'jas91_smaf91.food', 'jas91_smaf91.schools']
@@ -12,6 +14,9 @@ class transformation2(dml.Algorithm):
     @staticmethod
     def execute(trial = False):
         startTime = datetime.datetime.now()
+        
+        if trial:
+            print("[OUT] Running in Trial Mode")
 
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
@@ -21,14 +26,20 @@ class transformation2(dml.Algorithm):
         def project(document):
             return {'geo_info': document['geo_info']}
 
+        if trial:
+            limit = TRIAL_LIMIT
+        else:
+            limit = ""
+
         def union(collection1, collection2, result, f):
-            for document in repo[collection1].find():
+
+            for document in repo[collection1].find().limit(limit):
                 document = f(document) 
                 coordinates = document['geo_info']['geometry']['coordinates']
                 if coordinates[0] and coordinates[1]:
                     repo[result].insert(f(document))
 
-            for document in repo[collection2].find():
+            for document in repo[collection2].find().limit(limit):
                 document = f(document)
                 coordinates = document['geo_info']['geometry']['coordinates']
                 if coordinates[0] and coordinates[1]:
@@ -46,7 +57,7 @@ class transformation2(dml.Algorithm):
         print('[OUT] done')
 
         print('[OUT] filling crime zip codes')
-        for document in repo.jas91_smaf91.crime.find():
+        for document in repo.jas91_smaf91.crime.find().limit(limit):
             latitude = document['geo_info']['geometry']['coordinates'][0]
             longitude = document['geo_info']['geometry']['coordinates'][1]
             neighbor = repo.jas91_smaf91.union_temp.find_one({ 
@@ -164,8 +175,8 @@ class transformation2(dml.Algorithm):
 
         return doc
 
+transformation2.execute(True)
 '''
-transformation2.execute()
 doc = transformation2.provenance()
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 '''

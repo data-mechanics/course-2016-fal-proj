@@ -166,6 +166,6 @@ class skyline(dml.Algorithm):
 
         return doc
 
-#skyline.execute()
-doc = skyline.provenance()
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+skyline.execute()
+#doc = skyline.provenance()
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
