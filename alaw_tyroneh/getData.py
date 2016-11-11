@@ -22,7 +22,6 @@ class getData(dml.Algorithm):
         repo = client.repo
         repo.authenticate('alaw_tyroneh', 'alaw_tyroneh')
         
-        
         #JSON urls with SoQL queries
         jsonURLs = {"BostonProperty": 'https://data.cityofboston.gov/resource/jsri-cpsq.json?$limit=11000000',
                     "CambridgeProperty": 'https://data.cambridgema.gov/resource/ufnx-m9uc.json?$limit=11000000',
@@ -97,13 +96,7 @@ class getData(dml.Algorithm):
         s = json.dumps(r, sort_keys=True, indent=2)
 
         routesA = [mode for mode in r["mode"] if mode["mode_name"] == "Subway" or mode["mode_name"] == "Commuter Rail"]
-        '''
-        routesB = []
-        for mode in routesA:
-            for route in mode['route']:
-                route["mode_name"] = mode["mode_name"]
-                routesB.append(route) 
-        '''
+
         routesB = [(mode["mode_name"], route["route_id"]) for mode in routesA for route in mode['route']]
 
         stop_base = "http://realtime.mbta.com/developer/api/v2/stopsbyroute?api_key=wX9NwuHnZU2ToO7GmGR9uw"
@@ -138,6 +131,32 @@ class getData(dml.Algorithm):
             repo.dropPermanent('TCStops')
             repo.createPermanent('TCStops')
             repo['alaw_tyroneh.TCStops'].insert_many(result) 
+
+        # Retrieve scraped real time bus location data hosted on datamechanics.io website
+        url_base = "http://datamechanics.io/data/alaw_tyroneh/busdata/mbtabuses-"
+        bus_time = 1477674001
+        all_buses = []
+ 
+        for i in range(623):
+            url = url_base + str(bus_time)
+            try:
+                response = urllib.request.urlopen(url)
+                print(url)
+                response = response.read().decode("utf-8")
+                r = json.loads(response)
+                all_buses.append(r)
+            except urllib.error.HTTPError as e:
+               print('HTTP Error code:', e.code)
+    
+            bus_time += 1800 # increment by 30 minutes
+ 
+        if(trial == True):
+            print('timestamp', buses_json["timestamp"])
+            print('-----------------')
+        else: 
+            repo.dropPermanent('TimedBuses')
+            repo.createPermanent('TimedBuses')
+            repo['alaw_tyroneh.TimedBuses'].insert_many(all_buses)  
 
         repo.logout()
         endTime = datetime.datetime.now()
@@ -225,6 +244,16 @@ class getData(dml.Algorithm):
                 }
             )
 
+
+        resource_TimedBuses = doc.entity('dat:alaw_tyroneh#busdata', {'prov:label':'Boston Bus Coordinates', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'geojson'})
+        get_TimedBuses = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Boston Bus Coordinates'})
+        doc.wasAssociatedWith(get_TimedBuses, this_script);
+        doc.usage(get_TimedBuses, resource_TimedBuses, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval',
+                 'ont:Query':""
+                }
+            )
+
         BostonProperty = doc.entity('dat:alaw_tyroneh#BostonProperty', {prov.model.PROV_LABEL:'Boston Properties Property Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(BostonProperty, this_script)
         doc.wasGeneratedBy(BostonProperty, get_BostonProperty, endTime)
@@ -249,6 +278,10 @@ class getData(dml.Algorithm):
         doc.wasAttributedTo(TCStops, this_script)
         doc.wasGeneratedBy(TCStops, get_TCStops, endTime)
 
+        TimedBuses = doc.entity('dat:alaw_tyrone#TimedBuses', {prov.model.PROV_LABEL:'Boston Bus Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(TimedBuses, this_script);
+        doc.wasGeneratedBy(TimedBuses, get_TimedBuses, endTime);
+        
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 

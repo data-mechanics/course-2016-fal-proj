@@ -79,7 +79,7 @@ class getData(dml.Algorithm):
         doc.add_namespace('brdp', 'http://data.brooklinema.gov/datasets/') # Brookline Data Portal
         doc.add_namespace('hub', 'https://s3.amazonaws.com/hubway-data/') # Hubway Data 
         doc.add_namespace('mbta', 'http://realtime.mbta.com/developer/api/v2/routes') # MBTA API
-
+        
         this_script = doc.agent('alg:alaw_tyroneh#getData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
         resource_BostonProperty = doc.entity('bdp:jsri-cpsq', {'prov:label':'Boston Residential Property Coordinates', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
@@ -136,6 +136,7 @@ class getData(dml.Algorithm):
                 }
             )
 
+        resource_TimedBuses = doc.entity('dat:alaw
         BostonProperty = doc.entity('dat:alaw_tyroneh#BostonProperty', {prov.model.PROV_LABEL:'Boston Residential Property Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(BostonProperty, this_script)
         doc.wasGeneratedBy(BostonProperty, get_BostonProperty, endTime)
