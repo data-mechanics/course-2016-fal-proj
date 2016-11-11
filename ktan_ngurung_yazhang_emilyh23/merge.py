@@ -9,7 +9,6 @@ from collections import Counter
 import pandas as pd
 import numpy as np 
 
-
 class merge(dml.Algorithm):
     contributor = 'ktan_ngurung_yazhang_emilyh23'
     reads = ['ktan_ngurung_yazhang_emilyh23.tRidershipLocation', 'ktan_ngurung_yazhang_emilyh23.hubwayBigBellyCounts', 'ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts']
@@ -215,15 +214,22 @@ class merge(dml.Algorithm):
         star_df_final.set_index('zc', drop=True, inplace=True)
         star_dict_final = star_df_final.to_dict(orient='index')
 
+        for k, v in star_dict_final.items():
+            star_dict_final[k]['hubway_star'] = int(star_dict_final[k]['hubway_star'])
+            star_dict_final[k]['college_star'] = int(star_dict_final[k]['college_star'])
+            star_dict_final[k]['bus_star'] = int(star_dict_final[k]['bus_star'])
+            star_dict_final[k]['station_star'] = int(star_dict_final[k]['station_star'])
+            star_dict_final[k]['bigBelly_star'] = int(star_dict_final[k]['bigBelly_star'])
+            star_dict_final[k]['overall_star'] = int(star_dict_final[k]['overall_star'])
+
         # Convert dictionary into JSON object 
-        # data = json.dumps(star_dict_final, sort_keys=True, indent=2)
-        # r = json.load(data)
+        data = json.dumps(star_dict_final, sort_keys=True, indent=2)
+        r = json.loads(data)
 
-
-        # # Create new dataset called tRidershipLocation
-        # repo.dropPermanent("zipcodeRatings")
-        # repo.createPermanent("zipcodeRatings")
-        # repo['ktan_ngurung_yazhang_emilyh23.zipcodeRatings'].insert_one(r)
+        # Create new dataset called tRidershipLocation
+        repo.dropPermanent("zipcodeRatings")
+        repo.createPermanent("zipcodeRatings")
+        repo['ktan_ngurung_yazhang_emilyh23.zipcodeRatings'].insert_one(r)
 
     @staticmethod           
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
