@@ -32,11 +32,12 @@ class get_data(dml.Algorithm):
 
 
         city_of_boston_datasets = {
-                'crime': 'https://data.cityofboston.gov/resource/ufcx-3fdn.json',
-                'sr311': 'https://data.cityofboston.gov/resource/wc8w-nujj.json',
-                'hospitals': 'https://data.cityofboston.gov/resource/u6fv-m8v4.json',
-                'food': 'https://data.cityofboston.gov/resource/427a-3cn5.json',
-                'schools': 'https://data.cityofboston.gov/resource/pzcy-jpz4.json'
+                #'crime': 'https://data.cityofboston.gov/resource/ufcx-3fdn.json',
+                #'sr311': 'https://data.cityofboston.gov/resource/wc8w-nujj.json',
+                #'hospitals': 'https://data.cityofboston.gov/resource/u6fv-m8v4.json',
+                #'food': 'https://data.cityofboston.gov/resource/427a-3cn5.json',
+                #'schools': 'https://data.cityofboston.gov/resource/pzcy-jpz4.json',
+                'address_list': 'https://data.cityofboston.gov/resource/je5q-tbjf.json'
                 }
 
 
