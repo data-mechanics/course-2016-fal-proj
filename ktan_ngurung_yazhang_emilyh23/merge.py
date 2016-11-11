@@ -7,11 +7,43 @@ import uuid
 import geocoder
 from collections import Counter
 import pandas as pd
+import numpy as np 
+
 
 class merge(dml.Algorithm):
     contributor = 'ktan_ngurung_yazhang_emilyh23'
     reads = ['ktan_ngurung_yazhang_emilyh23.colleges', 'ktan_ngurung_yazhang_emilyh23.busStops']
     writes = ['ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts']
+
+    @staticmethod
+    def get_rating(l, ct, z, star):
+        mean = np.mean(l, axis=None)
+        std = np.std(l, axis=0)
+        high = mean + std/1.5
+        low = mean - std/1.5 
+        temp = {} 
+        if ct > high: 
+            temp = {'zc': z, star: 3}
+        elif ct < low: 
+            temp = {'zc': z, star: 1}
+        else: 
+            temp = {'zc': z, star: 2}
+        return temp 
+
+    @staticmethod
+    def get_overall(l, z, ct, star):
+        mean = np.mean(l, axis=None)
+        std = np.std(l, axis=0)
+        high = mean + std/1.5
+        low = mean - std/1.5
+        temp = {} 
+        if ct > high: 
+            temp = {'zc': z, star: 3}
+        elif ct < low: 
+            temp = {'zc': z, star: 1}
+        else: 
+            temp = {'zc': z, star: 2}
+        return temp
 
     @staticmethod
     def execute(trial = False):
@@ -62,12 +94,126 @@ class merge(dml.Algorithm):
 
         all_merged = pd.merge(merged_df, rider_df, on='zc')
 
-        zc = set(all_merged['zc'])
+        zc = set(all_merged['zc']) 
+        #list for individual dictionary per zip code 
+        bs_list = []  
+        c_list = []  
+        bb_list = []  
+        h_list = []  
+        ws_list = [] 
+
+        #dictionary of each zipcode for the five factors 
+        bs_d = {}   
+        c_d = {} 
+        bb_d = {} 
+        h_d = {} 
+        ws_d = {}
+
+        #values for std later 
+        bs = []
+        c = []
+        bb = []
+        h = []
+        ws = []
+
+        #For each zipcode, get a list of the values of the criteria and build a dictionary to associate each value 
+        #with the corresponding zipcode 
         for z in zc: 
-            this_df = all_merged.loc[all_merged['zc'] == '02446'] 
-            num_stations = len(this_df['entry'])
-            entry_sum = sum(this_df['entry'])
-       
+            z_df = all_merged.loc[all_merged['zc'] == z] 
+
+            num_stations = len(z_df['entry'])
+            entry_sum = sum(z_df['entry'])
+            ws.append(num_stations * entry_sum)
+            ws_d[z] = num_stations * entry_sum
+
+            bs.append(z_df['busStopCount'].iloc[0])
+            bs_d[z] = z_df['busStopCount'].iloc[0]
+
+            c.append(z_df['collegeCount'].iloc[0])
+            c_d[z] = z_df['collegeCount'].iloc[0]
+
+            bb.append(z_df['bigBellyCount'].iloc[0])
+            bb_d[z] = z_df['bigBellyCount'].iloc[0]
+
+
+            h.append(z_df['hubwayCount'].iloc[0])
+            h_d[z] = z_df['hubwayCount'].iloc[0]
+
+
+        bs = sorted(bs)
+        c = sorted(c)
+        bb = sorted(bb)
+        h = sorted(h)
+        ws = sorted(ws)
+
+        #For each zipcode, take the value of each criteria and pass to get_rating which calculates the standard deviation 
+        #and assigns the appropriate rating based on the criteria's value
+        for z in zc: 
+            bs_ct = bs_d[z]
+            bus_star = merge.get_rating(bs, bs_ct, z, 'bus_star')
+            bs_list.append(bus_star)
+
+            h_ct = h_d[z]
+            hubway_star = merge.get_rating(h, h_ct, z, 'hubway_star')
+            h_list.append(hubway_star)
+
+            c_ct = c_d[z]
+            college_star = merge.get_rating(c, c_ct, z, 'college_star')
+            c_list.append(college_star)
+
+            bb_ct = bb_d[z]
+            bigBelly_star = merge.get_rating(bb, bb_ct, z, 'bigBelly_star')
+            bb_list.append(bigBelly_star)
+
+            ws_ct = ws_d[z] 
+            ws_star = merge.get_rating(ws, ws_ct, z, 'station_star')
+            ws_list.append(ws_star)
+
+        bs_df = pd.DataFrame(bs_list)
+        h_df = pd.DataFrame(h_list)
+        c_df = pd.DataFrame(c_list) 
+        bb_df = pd.DataFrame(bb_list)
+        ws_df = pd.DataFrame(ws_list) 
+
+
+        merge1_df = pd.merge(bs_df, h_df, on='zc')
+        merge2_df = pd.merge(c_df, bb_df,on='zc') 
+        merge3_df = pd.merge(merge1_df, merge2_df, on='zc')
+        star_df = pd.merge(merge3_df, ws_df, on='zc') 
+
+        overall_l = [] 
+        overall_values = [] 
+        #For each zipcode, find the weighted rating based on the criterias' rating and the criterias' counts 
+        for z in zc: 
+            z_df = star_df.loc[star_df['zc'] == z]
+            bs_star = z_df['bus_star']
+            h_star = z_df ['hubway_star']
+            c_star = z_df['college_star']
+            bb_star = z_df['bigBelly_star']
+            ws_star = z_df['station_star']
+
+            bs_weight = bs_star * bs_d[z]
+            h_weight = h_star * h_d[z]
+            c_weight = c_star * c_d[z]
+            bb_weight = bb_star * bb_d[z]
+            ws_weight = ws_star * ws_d[z]
+
+            overall = int((bs_weight + h_weight + c_weight + bb_weight + ws_weight) / 5) 
+            overall_values.append(overall)
+            overall_l.append(overall)
+
+        #Take each of the weighted ratings and pass to get_overall to get the final scaled rating 
+        overall_dict = [] 
+        i = 0 
+        for z in zc: 
+            rating = merge.get_overall(overall_l, z, overall_values[i], 'star') 
+            print(rating)
+            overall_dict.append(rating)
+            i += 1 
+
+        overall_dict = pd.DataFrame(overall_dict)
+        star_df_final = pd.merge(star_df, overall_dict, on='zc')
+
         # Convert dictionary into JSON object 
         # data = json.dumps(collegeAndStopCountsDict, sort_keys=True, indent=2)
         # r = json.loads(data)
