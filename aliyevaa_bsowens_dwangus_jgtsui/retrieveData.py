@@ -8,7 +8,7 @@ import time
 import ast
 
 class retrieveData(dml.Algorithm):
-    contributor = 'dwangus'
+    contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
     reads = []
     
     titles = ['Crime Incident Reports (July 2012 - August 2015) (Source: Legacy System)', \
@@ -41,7 +41,7 @@ class retrieveData(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate(retrieveData.contributor, retrieveData.contributor)
-        myrepo = repo.dwangus
+        myrepo = repo.dwangus # must change repo
 
         '''
         ###Notes for each of the datasets' geo-location data and format###
@@ -69,7 +69,7 @@ class retrieveData(dml.Algorithm):
             print("Starting retrieval and storage of {} dataset".format(key))
             repo.dropPermanent(key)
             repo.createPermanent(key)
-            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0]).read().decode("utf-8")
+            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0]).read().decode("utf-8") # why didn't you append the secret key here "via json file"
             r = json.loads(response)
             s = json.dumps(r, sort_keys=True, indent=2)
             repo[retrieveData.dataSetDict[key][1]].insert_many(r)
