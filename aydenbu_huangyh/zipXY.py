@@ -63,7 +63,7 @@ class zipXY(dml.Algorithm):
         def aggregate(R, f):
             keys = {r['zip'] for r in R}
             return [{'zip': key, 'latitude': f([r for r in R if r['zip'] == key])[0],
-                     'longtitude': f([r for r in R if r['zip'] == key])[1]} for key in keys]
+                     'longitude': f([r for r in R if r['zip'] == key])[1]} for key in keys]
 
         def plus(args):
             p = [0, 0]
