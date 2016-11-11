@@ -1,7 +1,7 @@
 import dml
 import matplotlib.pyplot as plt
 
-class mapPoints():
+class mapData():
 	contributor = 'alaw_tyroneh'
 	reads = ['alaw_tyroneh.PropertyGeoJSONs','alaw_tyroneh.StationsGeoJSONs']
 	writes = []
@@ -65,5 +65,5 @@ class mapPoints():
 		plt.show()
 
 if __name__ == '__main__':
-	mapPoints.visualize()
+	mapData.visualize()
 ## eof
