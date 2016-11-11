@@ -8,7 +8,7 @@ import uuid
 class mergeCrimes(dml.Algorithm):
     contributor = 'aditid_benli95_teayoon_tyao'
     reads = ['aditid_benli95_teayoon_tyao.crimesLegacy', 'aditid_benli95_teayoon_tyao.crimesCurrent']
-    writes = ['aditid_benli95_teayoon_tyao.crimesMaster']
+    writes = ['aditid_benli95_teayoon_tyao.allDrugCrimesMaster']
 
     @staticmethod
     def execute(trial = False):
@@ -35,7 +35,7 @@ class mergeCrimes(dml.Algorithm):
 
                 entry = {'date':dateAndTime,'day':legacyDict['day_week'], 'latitude':legacyDict['location']['coordinates'][0], 'longitude':legacyDict['location']['coordinates'][1]}
                 
-                res = repo.aditid_benli95_teayoon_tyao.crimesMaster.insert_one(entry)
+                res = repo.aditid_benli95_teayoon_tyao.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.insert_one(entry)
 
         data = repo.aditid_benli95_teayoon_tyao.crimesCurrent.find()
         for document in data:
@@ -59,7 +59,7 @@ class mergeCrimes(dml.Algorithm):
 
                 entry = {'date':dateAndTime, 'day':currentDict['day_of_week'], 'latitude':latitude, 'longitude':longitude}
 
-                res = repo.aditid_benli95_teayoon_tyao.crimesMaster.insert_one(entry)
+                res = repo.aditid_benli95_teayoon_tyao.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.insert_one(entry)
                 
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}
