@@ -26,11 +26,15 @@ For modeling
 *	Commuter rail stops (MBTA API)
 *	Hubway locations (Hubway Data Challenge)
 *	Residential properties (Boston, Cambridge, Somerville, Brookline Data Portal)
+*	2010 Population Census of relevant cities (MassGIS)
 
 ##Data Transformations
 
 1) Standardize all property data to the GeoJSON format
-	1.5) convert Brookline polygon coordinates to point data
+	1.1) convert Brookline polygon coordinates to point data
+	1.2) include type of property (residential or commercial)
+	1.3) include # of bedrooms (max(numbedrooms,1) or max(# stories * 2, 1) for Brookline
 2) Reformat T and Commuter Rail routes to list of stops with ownerships of routes using the GeoJSON format
 3) Combine T-stops, Commuter Rail Stops, and Hubway station locations as points for "connections" using the GeoJSON format
-4) Define bus routes & bus stops with corresponding average time between each bus stop, # of buses and ridership (TO DO)
+4) Define bus routes & bus stops with corresponding average completion time of a route + deviation (TO DO)
+5) Estimate population per property using Census data and averaging people per living unit (TO DO)

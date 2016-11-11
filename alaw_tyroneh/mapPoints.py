@@ -24,21 +24,30 @@ class mapPoints():
 	def visualize():
 		'''Outputs matplotlib scatterplot'''
 
-		res_data,stat_data = mapPoints.data()
+		prop_data,stat_data = mapPoints.data()
 
 		rx = []
 		ry = []
 
-		for json in res_data:
+		cx = []
+		cy = []
+
+		for json in prop_data:
 			y = json['value']['geometry']['coordinates'][0]
 			x = json['value']['geometry']['coordinates'][1]
-			rx.append(x)
-			ry.append(y)
+
+			if(json['value']['properties']['type'] == 'Residential'):
+				rx.append(x)
+				ry.append(y)
+			else:
+				cx.append(x)
+				cy.append(y)
 
 		sx = []
 		sy = []
 
 		print(len(rx))
+		print(len(cx))
 
 		for json in stat_data:
 			y = json['value']['geometry']['coordinates'][0]
@@ -48,10 +57,11 @@ class mapPoints():
 
 		print(len(sx))
 		plt.figure(figsize=(10,10))
-		plt.scatter(rx, ry)
+		plt.scatter(rx, ry, color='blue')
+		plt.scatter(cx, cy, color='green')
 		plt.scatter(sx, sy, color='red')
-		plt.ylim(42.21,42.45)
-		plt.xlim(-71.22,-70.98)
+		#plt.ylim(42.23,42.41)
+		#plt.xlim(-71.18,-70.993)
 		plt.show()
 
 if __name__ == '__main__':

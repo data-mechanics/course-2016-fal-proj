@@ -22,7 +22,7 @@
 
 db.loadServerScripts();
 
-//store transformed property data in collection "ResidentialGeoJSON"
+//store transformed property data in collection "PropertyGeoJSONs"
 
 dropPerm("alaw_tyroneh.PropertyGeoJSONs");
 createPerm("alaw_tyroneh.PropertyGeoJSONs");
@@ -40,16 +40,29 @@ db.alaw_tyroneh.BostonProperty.mapReduce(
 		var lat = parseFloat(location.split(",")[0]);
 		var long = parseFloat(location.split(",")[1]);
 		var name = "Boston";
-		emit(this._id, {
-			"type":"Feature",
-			"geometry":{
-				"type":"Point",
-				"coordinates": [lat,long]},
-			"properties":{
-				"type":"Residential",
-				"area": name
-			}
-		})
+		var property;
+		var rooms;
+		if(parseInt(this.living_area) <= 0.0){
+			property = 'Commercial';
+			rooms = 0;
+		}
+		else{
+			property = 'Residential';
+			rooms = Math.max(parseInt(this.r_bdrms),1);
+		}
+		if((lat >= 42.23) && (lat <= 42.41) && (long >= -71.18) && (long <= -70.993)){
+			emit(this._id, {
+				"type":"Feature",
+				"geometry":{
+					"type":"Point",
+					"coordinates": [lat,long]},
+				"properties":{
+					"type": property,
+					"rooms": rooms,
+					"area": name
+				}
+			})
+		}
 	},
 	//no reduce step, all ids are unique
 	function(){},
@@ -62,16 +75,29 @@ db.alaw_tyroneh.CambridgeProperty.mapReduce(
 		var lat = parseFloat(this.location_1.coordinates[1]);
 		var long = parseFloat(this.location_1.coordinates[0]);
 		var name = "Cambridge";
-		emit(this._id, {
-			"type":"Feature",
-			"geometry":{
-				"type":"Point",
-				"coordinates": [lat,long]},
-			"properties":{
-				"type":this.land_use_category,
-				"area": name
-			}
-		})
+		var property;
+		var rooms;
+		if(this.land_use_category.includes('Residential')){
+			property = 'Residential';
+			rooms = Math.max(parseInt(this.existing_units),1.0);
+		}
+		else{
+			property = 'Commercial';
+			rooms = 0;
+		}
+		if((lat >= 42.23) && (lat <= 42.41) && (long >= -71.18) && (long <= -70.993)){
+			emit(this._id, {
+				"type":"Feature",
+				"geometry":{
+					"type":"Point",
+					"coordinates": [lat,long]},
+				"properties":{
+					"type":property,
+					"rooms": rooms,
+					"area": name
+				}
+			})
+		}
 	},
 	//no reduce step, all ids are unique
 	function(){},
@@ -86,22 +112,28 @@ db.alaw_tyroneh.SomervilleProperty.mapReduce(
 			var long = parseFloat(this.location_1.coordinates[0]);
 			var name = "Somerville";
 			var property;
+			var rooms;
 			if(this.building_type != 'Commercial'){
 				property = 'Residential';
+				rooms = Math.max(this.num_bedrms,1.0);
 			}
 			else{
 				property = 'Commercial';
+				rooms = 0;
 			}
-			emit(this._id, {
-				"type":"Feature",
-				"geometry":{
-					"type":"Point",
-					"coordinates": [lat,long]},
-				"properties":{
-					"type":property,
-					"area": name
-				}
-			})
+			if((lat >= 42.23) && (lat <= 42.41) && (long >= -71.18) && (long <= -70.993)){
+				emit(this._id, {
+					"type":"Feature",
+					"geometry":{
+						"type":"Point",
+						"coordinates": [lat,long]},
+					"properties":{
+						"type":property,
+						"rooms": rooms,
+						"area": name
+					}
+				})
+			}
 		}
 	},
 	//no reduce step, all ids are unique
@@ -115,14 +147,17 @@ db.alaw_tyroneh.BrooklineProperty.mapReduce(
 		var coors = this.geometry.coordinates[0];
 		var name = "Brookline";
 		var property;
-		if(this.FEATURECODE == 'Building General'){
-				property = 'Residential';
-			}
-			else{
-				property = 'Commercial';
-			}
+		var rooms;
+		if(this.properties.FEATURECODE == 'Building General'){
+			property = 'Residential';
+			rooms = Math.max(parseFloat(this.properties.NUMSTORIES) * 2.0, 1.0);
+		}
+		else{
+			property = 'Commercial';
+			rooms = 0;
+		}
 		for (var i = coors.length - 1; i >= 0; i--) {
-			emit(this._id,{"coor":coors[i],"property":property})
+			emit(this._id,{"coor":coors[i],"property":property,"rooms":rooms})
 		}
 	},
 	//reduce by averaging all coordinates per property and store as geoJSON
@@ -132,31 +167,36 @@ db.alaw_tyroneh.BrooklineProperty.mapReduce(
 		var long = 0;
 		var name = "Brookline";
 		var property;
+		var rooms;
 		vs.forEach(function(v){
 			c++;
 			lat += v.coor[1];
 			long += v.coor[0];
-			property = v.property
+			property = v.property;
+			rooms = v.rooms;
 		});
 		lat = lat / c;
 		long = long / c;
-		return {
-				"type":"Feature",
-				"geometry":{
-				"type":"Point",
-				"coordinates": [lat,long]},
-				"properties":{
-					"type": property,
-					"area": name
-				}
-			};
+		if((lat >= 42.23) && (lat <= 42.41) && (long >= -71.18) && (long <= -70.993)){
+			return {
+					"type":"Feature",
+					"geometry":{
+					"type":"Point",
+					"coordinates": [lat,long]},
+					"properties":{
+						"type": property,
+						"rooms": rooms,
+						"area": name
+					}
+				};
+			}
 		},
 	{out:{merge:"alaw_tyroneh.PropertyGeoJSONs"}}
 );
 
 // flatten("alaw_tyroneh.PropertyGeoJSONs")
 
-//store transformed station data in collection "ResidentialGeoJSON"
+//store transformed station data in collection "StationsGeoJSONs"
 
 dropPerm("alaw_tyroneh.StationsGeoJSONs");
 createPerm("alaw_tyroneh.StationsGeoJSONs");
@@ -164,18 +204,20 @@ createPerm("alaw_tyroneh.StationsGeoJSONs");
 db.alaw_tyroneh.HubwayStations.mapReduce(
 	//map location data (long,lat) and type to geoJSON format
 	function() {
-		emit(this._id, {
-			"type":"Feature",
-			"geometry":{
-				"type":"Point",
-				"coordinates": [parseFloat(this.Latitude),parseFloat(this.Longitude)]},
-			"properties":{
-				"type":"Hubway",
-				"capacity": parseInt(this["# of Docks"]),
-				"StationID": this["Station ID"],
-				"Station": this.Station
-			}
-		})
+		if((this.Latitude >= 42.23) && (this.Latitude <= 42.41) && (this.Longitude >= -71.18) && (this.Longitude <= -70.993)){
+			emit(this._id, {
+				"type":"Feature",
+				"geometry":{
+					"type":"Point",
+					"coordinates": [parseFloat(this.Latitude),parseFloat(this.Longitude)]},
+				"properties":{
+					"type":"Hubway",
+					"capacity": parseInt(this["# of Docks"]),
+					"StationID": this["Station ID"],
+					"Station": this.Station
+				}
+			})
+		}
 	},
 	//no reduce step, all ids are unique
 	function(){},
@@ -192,22 +234,26 @@ db.alaw_tyroneh.TCStops.mapReduce(
         directions.forEach(function(dir) {
             dir.stop.forEach(function(s) {
                 var lat = parseFloat(s.stop_lat);
-                var lon = parseFloat(s.stop_lon);
-                emit(s.stop_name, {
-                	"type":"Feature",
-                    "geometry":{
-                        "type":"Point",
-                        "coordinates": [lat, lon]},
-                    "properties":{
-                        "type": mode,
-                        "line": [route_name]}});
+                var long = parseFloat(s.stop_lon);
+                if((lat >= 42.23) && (lat <= 42.41) && (long >= -71.18) && (long <= -70.993)){
+	                emit(s.stop_name, {
+	                	"type":"Feature",
+	                    "geometry":{
+	                        "type":"Point",
+	                        "coordinates": [lat, long]},
+	                    "properties":{
+	                        "type": mode,
+	                        "line": [route_name]
+	                    }
+	                });
+            	}
             });
         });
     },
     function(k, vs){
     	var routeList = Set()
     	var lat = vs[0].geometry.coordinates[0];
-    	var lon = vs[0].geometry.coordinates[1];
+    	var long = vs[0].geometry.coordinates[1];
     	var mode = vs[0].properties.type;
     	vs.forEach(function(v){
     		routeList.add(v.properties.line[0]);
@@ -216,7 +262,7 @@ db.alaw_tyroneh.TCStops.mapReduce(
     	return {"type":"Feature",
                     "geometry":{
                         "type":"Point",
-                        "coordinates": [lat, lon]},
+                        "coordinates": [lat, long]},
                     "properties":{
                         "type": mode,
                         "line": routeList}};

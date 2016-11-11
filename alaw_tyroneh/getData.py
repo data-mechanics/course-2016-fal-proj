@@ -24,7 +24,7 @@ class getData(dml.Algorithm):
         
         
         #JSON urls with SoQL queries
-        jsonURLs = {"BostonProperty": 'https://data.cityofboston.gov/resource/jsri-cpsq.json?$select=location&$limit=11000000',
+        jsonURLs = {"BostonProperty": 'https://data.cityofboston.gov/resource/jsri-cpsq.json?$limit=11000000',
                     "CambridgeProperty": 'https://data.cambridgema.gov/resource/ufnx-m9uc.json?$limit=11000000',
                     "SomervilleProperty":'https://data.somervillema.gov/resource/dhs3-5kuu.json?$limit=11000000'}
         
