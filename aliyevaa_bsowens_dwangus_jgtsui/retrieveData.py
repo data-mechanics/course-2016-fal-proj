@@ -106,9 +106,9 @@ class retrieveData(dml.Algorithm):
                         ent.delete_one({'_id': e['_id']})
                 ent.create_index([('location', '2dsphere')])
             elif key == 'year-round-pools':
-                #Transform year-round-pools geolocation field format
-                #Putting this off for now... still don't know what its current format is...
-                continue
+                print("Transforming year-round-pools dataset...")
+                pools = myrepo['year-round-pools']
+                pools.update_many({})
             elif key == 'moving-truck-permits':
                 print("Transforming moving-truck-permits dataset...")
                 truck = myrepo['moving-truck-permits']
