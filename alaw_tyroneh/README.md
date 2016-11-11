@@ -42,17 +42,12 @@ For modeling
 	- [x] convert Brookline polygon coordinates to point data
 	- [x] include type of property (residential or commercial)
 	- [x] include # of bedrooms (max(numbedrooms,1) or max(# stories * 2, 1) for Brookline
-  
 - [] Estimate population per property using Census data and averaging people per living unit -- To Do --
-  
 - [x] Reformat T and Commuter Rail routes to list of stops with ownerships of routes using the GeoJSON format
 	- [] include capacities/estimates of riderhship -- To Do --
-  
 - [x] Combine T-stops, Commuter Rail Stops, and Hubway station locations as points for "connections" using the GeoJSON format
-  
-- [x] Standardize Bus routes & Bus stops using GeoJSON polyline and points formats -- To Do --
+- [] Standardize Bus routes & Bus stops using GeoJSON polyline and points formats -- To Do --
  	- [] Using Bus coordinate data & distance estimates (using coordinate distance/Route completion difference/Google Maps API), calcuate average speed + deviation and record corresponding average completion time of a route + deviation -- To Do --
-  
 - [] \*Note: Drop datapoints outside of current purview\* -- To Do --
   
 ###Optimization Algorithms  
