@@ -164,8 +164,8 @@ class transformation2(dml.Algorithm):
 
         return doc
 
-'''
 transformation2.execute()
+'''
 doc = transformation2.provenance()
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 '''
