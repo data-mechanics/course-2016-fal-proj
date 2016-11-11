@@ -104,9 +104,6 @@ class mergeChildren(dml.Algorithm):
         this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#mergeChildren', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         mergeCHI = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Merge Children Establishment Data', prov.model.PROV_TYPE:'ont:Computation'})
         doc.wasAssociatedWith(mergeCHI, this_script)
-        
-        resource_foodPantries = doc.entity('dat:aditid_benli95_teayoon_tyao#foodPantries', {'prov:label':'Food Pantries', prov.model.PROV_TYPE:'ont:Dataset'})
-        doc.usage(mergeCHI, resource_foodPantries, startTime)
 
         resource_childFeedingPrograms = doc.entity('dat:aditid_benli95_teayoon_tyao#childFeedingPrograms', {'prov:label':'Child Feeding Programs', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.usage(mergeCHI, resource_childFeedingPrograms, startTime)
@@ -114,13 +111,21 @@ class mergeChildren(dml.Algorithm):
         resource_dayCamps = doc.entity('dat:aditid_benli95_teayoon_tyao#dayCamps', {'prov:label':'Day Camps', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.usage(mergeCHI, resource_dayCamps, startTime)
 
+        resource_publicDaycares = doc.entity('dat:aditid_benli95_teayoon_tyao#publicDaycares', {'prov:label':'Public Daycares', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.usage(mergeCHI, resource_publicDaycares, startTime)
+
+        resource_privateDaycares = doc.entity('dat:aditid_benli95_teayoon_tyao#privateDaycares', {'prov:label':'Private Daycares', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.usage(mergeCHI, resource_privateDaycares, startTime)
+
         resource_childrenMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#childrenMaster', {'prov:label':'All Children Establishments', prov.model.PROV_TYPE:'ont:Dataset'})
 
         doc.wasAttributedTo(resource_childrenMaster, this_script)
         doc.wasGeneratedBy(resource_childrenMaster, mergeCHI, endTime)
-        doc.wasDerivedFrom(resource_childrenMaster, resource_foodPantries, mergeCHI, mergeCHI, mergeCHI)
         doc.wasDerivedFrom(resource_childrenMaster, resource_childFeedingPrograms, mergeCHI, mergeCHI, mergeCHI)
         doc.wasDerivedFrom(resource_childrenMaster, resource_dayCamps, mergeCHI, mergeCHI, mergeCHI)
+        doc.wasDerivedFrom(resource_childrenMaster, resource_publicDaycares, mergeCHI, mergeCHI, mergeCHI)
+        doc.wasDerivedFrom(resource_childrenMaster, resource_privateDaycares, mergeCHI, mergeCHI, mergeCHI)
+
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
