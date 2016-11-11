@@ -145,12 +145,12 @@ class retrieveData(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:dwangus#retrieveData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:aliyevaa_bsowens_dwangus_jgtsui#retrieveData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         for key in retrieveData.dataSetDict.keys():
             resource = doc.entity('bdp:' + retrieveData.dataSetDict[key][3], {'prov:label':retrieveData.dataSetDict[key][2], prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
             get_something = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
             doc.wasAssociatedWith(get_something, this_script)
-            something = doc.entity('dat:dwangus#' + key, {prov.model.PROV_LABEL:retrieveData.dataSetDict[key][2], prov.model.PROV_TYPE:'ont:DataSet'})
+            something = doc.entity('dat:aliyevaa_bsowens_dwangus_jgtsui#' + key, {prov.model.PROV_LABEL:retrieveData.dataSetDict[key][2], prov.model.PROV_TYPE:'ont:DataSet'})
             doc.wasAttributedTo(something, this_script)
             doc.wasGeneratedBy(something, get_something, endTime)
             doc.wasDerivedFrom(something, resource, get_something, get_something, get_something)
