@@ -4,6 +4,7 @@ import dml
 import prov.model
 import datetime
 import uuid
+import scrapePrivateDaycares
 
 class getData(dml.Algorithm):
     contributor = 'aditid_benli95_teayoon_tyao'
