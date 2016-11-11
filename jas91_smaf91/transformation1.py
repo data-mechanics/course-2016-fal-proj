@@ -97,7 +97,7 @@ class transformation1(dml.Algorithm):
             longitude = to_float(longitude)
             return zip_code, latitude, longitude
 
-            '''
+        collections = {
             'food': {
                 'name': 'jas91_smaf91.food',
                 'unset': {'location':'', 'zip':''},
@@ -123,8 +123,6 @@ class transformation1(dml.Algorithm):
                 'unset': {'location_zipcode':'', 'geocoded_location':'', 'location_x':'', 'location_y':''},
                 'get_geo_info': get_geo_info_sr311
             },
-        '''
-        collections = {
             'address_list': {
                 'name': 'jas91_smaf91.address_list',
                 'unset': {'geocoded_location':'', 'latitude':'', 'longitude':''},
