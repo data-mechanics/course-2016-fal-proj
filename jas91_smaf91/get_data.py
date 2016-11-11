@@ -6,6 +6,8 @@ import prov.model
 import datetime
 import uuid
 
+TRIAL_LIMIT = 5000
+
 class get_data(dml.Algorithm):
     contributor = 'jas91_smaf91'
     reads = []
@@ -15,6 +17,9 @@ class get_data(dml.Algorithm):
     def execute(trial = False):
         '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
         startTime = datetime.datetime.now()
+        
+        if trial:
+            print("[OUT] Running in Trial Mode")
 
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
@@ -44,14 +49,20 @@ class get_data(dml.Algorithm):
 
             # Count records for pagination 
             url = city_of_boston_datasets[dataset]+token+"&$select=count(*)"
-            print(url)
             response = urllib.request.urlopen(url).read().decode("utf-8")
             r = json.loads(response)
             count = int(r[0]["count"])
+            if trial:
+                count = min(count, TRIAL_LIMIT)
+
             print("[OUT] Retreiving dataset ", dataset, "total number of records:", count)
 
             # Calculate pages
             pages = count//limit + 1
+
+            if trial:
+                pages = 1
+                limit = TRIAL_LIMIT
 
             for i in range(pages):
                 print('[OUT] page', i, 'of', pages)
@@ -171,6 +182,6 @@ class get_data(dml.Algorithm):
         return doc
 
 # REMEMBER TO COMMENT THIS BEFORE SUBMITTING
-get_data.execute()
+get_data.execute(True)
 #doc = get_data.provenance()
 #print(json.dumps(json.loads(doc.serialize()), indent=4))
