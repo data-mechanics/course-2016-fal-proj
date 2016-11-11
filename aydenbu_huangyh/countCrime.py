@@ -25,6 +25,16 @@ class countPublicSchool(dml.Algorithm):
         repo = openDb(getAuth("db_username"), getAuth("db_password"))
         crimes = repo['aydenbu_huangyh.crime_zip']
 
+        crimes_array = []
+        for document in crimes.find():
+            crimes_array.append({"zip": document['zip'][1:], 'num': document['num']})
+
+        repo.dropPermanent("test")
+        repo.createPermanent("test")
+        repo['aydenbu_huangyh.test'].insert_many(crimes_array)
+
+        test = repo['aydenbu_huangyh.test']
+
         # MapReduce function
         mapper = Code("""
                         function() {
@@ -41,7 +51,7 @@ class countPublicSchool(dml.Algorithm):
                         }"""
                       )
         repo.dropPermanent("zip_crime_count")
-        result = crimes.map_reduce(mapper, reducer, "aydenbu_huangyh.zip_crime_count")
+        result = test.map_reduce(mapper, reducer, "aydenbu_huangyh.zip_crime_count")
 
         repo.logout()
         endTime = datetime.datetime.now()
