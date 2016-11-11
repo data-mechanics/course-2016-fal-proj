@@ -9,7 +9,6 @@ from geopy.geocoders import Nominatim
 
 class mergeChildren(dml.Algorithm):
     contributor = 'aditid_benli95_teayoon_tyao'
-    # reads = ['aditid_benli95_teayoon_tyao.foodPantries', 'aditid_benli95_teayoon_tyao.childFeedingPrograms', 'aditid_benli95_teayoon_tyao.dayCamps']
     reads = ['aditid_benli95_teayoon_tyao.childFeedingPrograms', 'aditid_benli95_teayoon_tyao.dayCamps', 'aditid_benli95_teayoon_tyao.publicDaycares', 'aditid_benli95_teayoon_tyao.privateDaycares']
     writes = ['aditid_benli95_teayoon_tyao.childFeedingProgramsTrimmed', 'aditid_benli95_teayoon_tyao.dayCampdayCaresMaster']
 
@@ -26,25 +25,17 @@ class mergeChildren(dml.Algorithm):
         repo.dropPermanent('aditid_benli95_teayoon_tyao.childFeedingProgramsTrimmed')
         repo.createPermanent('aditid_benli95_teayoon_tyao.childFeedingProgramsTrimmed')
 
-        # data = repo.aditid_benli95_teayoon_tyao.foodPantries.find()
-        # for document in data:
-            
-        #     try:
-        #         latitude = document['location_1']['coordinates'][0]
-        #         longitude = document['location_1']['coordinates'][1]
-        #     except:
-        #         latitude = None
-        #         longitude = None
-
-        #     entry = {'name':document['name'], 'latitude':latitude, 'longitude':longitude, 'type': 'food pantry'}
-        #     res = repo.aditid_benli95_teayoon_tyao.childrenMaster.insert_one(entry)
+        repo.dropPermanent('aditid_benli95_teayoon_tyao.dayCampdayCaresMaster')
+        repo.createPermanent('aditid_benli95_teayoon_tyao.dayCampdayCaresMaster')
 
         data = repo.aditid_benli95_teayoon_tyao.childFeedingPrograms.find()
         for document in data:
 
             try:
-                latitude = document['location_1']['coordinates'][0]
-                longitude = document['location_1']['coordinates'][1]
+                address = document['stno'] + " " + document['stname'] + " " + document['suffix'] + " " + document['location_1_city']
+                location = geolocator.geocode(address)
+                latitude = location.latitude
+                longitude = location.longitude
             except:
                 latitude = None
                 longitude = None
@@ -55,8 +46,11 @@ class mergeChildren(dml.Algorithm):
         data = repo.aditid_benli95_teayoon_tyao.dayCamps.find()
         for document in data:
             try:
-                latitude = document['location_1']['coordinates'][0]
-                longitude = document['location_1']['coordinates'][1]
+                address = document['st_no'] + " " + document['st_name'] + " " +  document['suffix'] + " " + document['location_1_location']
+                location = geolocator.geocode(address)
+                latitude = location.latitude
+                longitude = location.longitude
+
             except:
                 latitude = None
                 longitude = None
@@ -67,7 +61,7 @@ class mergeChildren(dml.Algorithm):
         data = repo.aditid_benli95_teayoon_tyao.publicDaycares.find()
         for document in data:
             try:
-                address = document['st_no'] + " " + document['st_name'] + "Boston, MA"
+                address = document['st_no'] + " " + document['st_name'] + " " + document['suffix'] + "Boston, MA"
                 location = geolocator.geocode(address)
                 latitude = location.latitude
                 longitude = location.longitude

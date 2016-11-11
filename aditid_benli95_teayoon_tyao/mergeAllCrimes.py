@@ -39,10 +39,10 @@ class mergeAllCrimes(dml.Algorithm):
                 dateAndTime = date + " " + time
                 
                 if legacyDict['incident_type_description'] == 'Drug Violation' or legacyDict['incident_type_description'] == 'DRUG CHARGES':
-                    entry = {'date':dateAndTime,'day':legacyDict['day_week'],'isDrugCrime':"1", 'latitude':legacyDict['location']['coordinates'][0], 'longitude':legacyDict['location']['coordinates'][1]}
+                    entry = {'date':dateAndTime,'day':legacyDict['day_week'],'isDrugCrime':"1", 'latitude':legacyDict['location']['coordinates'][1], 'longitude':legacyDict['location']['coordinates'][0]}
                 
                 else:
-                    entry = {'date':dateAndTime,'day':legacyDict['day_week'],'isDrugCrime':"0", 'latitude':legacyDict['location']['coordinates'][0], 'longitude':legacyDict['location']['coordinates'][1]}
+                    entry = {'date':dateAndTime,'day':legacyDict['day_week'],'isDrugCrime':"0", 'latitude':legacyDict['location']['coordinates'][1], 'longitude':legacyDict['location']['coordinates'][0]}
                 
                 res = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.insert_one(entry)
 
@@ -67,10 +67,8 @@ class mergeAllCrimes(dml.Algorithm):
 
                 if currentDict['offense_code_group'] == 'Drug Violation':
                     entry = {'date':dateAndTime, 'day':currentDict['day_of_week'], 'isDrugCrime':"1", 'latitude':latitude, 'longitude':longitude}
-                
                 else:
                     entry = {'date':dateAndTime, 'day':currentDict['day_of_week'], 'isDrugCrime':"0", 'latitude':latitude, 'longitude':longitude}
-                
 
                 res = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.insert_one(entry)
                 

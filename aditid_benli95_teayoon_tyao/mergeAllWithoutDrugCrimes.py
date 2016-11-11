@@ -40,7 +40,7 @@ class mergeAllWithoutDrugCrimes(dml.Algorithm):
                     time = time[0] + ":" + time[1]
                     dateAndTime = date + " " + time
                     
-                    entry = {'date':dateAndTime,'day':legacyDict['day_week'], 'latitude':legacyDict['location']['coordinates'][0], 'longitude':legacyDict['location']['coordinates'][1]}
+                    entry = {'date':dateAndTime,'day':legacyDict['day_week'], 'latitude':legacyDict['location']['coordinates'][1], 'longitude':legacyDict['location']['coordinates'][0]}
 
                     res = repo.aditid_benli95_teayoon_tyao.noDrugCrimesMaster.insert_one(entry)
 

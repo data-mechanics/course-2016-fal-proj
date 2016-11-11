@@ -28,7 +28,7 @@ class mergeSchools(dml.Algorithm):
             publicDict = dict(document)
             for item in publicDict['features']:
                 if item['properties']['BLDG_NAME'] and item['geometry']['coordinates']:
-                    entry = {'schoolName':item['properties']['BLDG_NAME'], 'latitude':item['geometry']['coordinates'][0], 'longitude':item['geometry']['coordinates'][1], 'type':"public"}
+                    entry = {'schoolName':item['properties']['BLDG_NAME'], 'latitude':item['geometry']['coordinates'][1], 'longitude':item['geometry']['coordinates'][0], 'type':"public"}
                     res = repo.aditid_benli95_teayoon_tyao.schoolsMaster.insert_one(entry)
 
         data = repo.aditid_benli95_teayoon_tyao.privateSchools.find()
@@ -37,7 +37,7 @@ class mergeSchools(dml.Algorithm):
             privateSchools = dict(document)
             for item in privateSchools['features']:
                 if item['properties']['NAME'] and item['geometry']['coordinates']:
-                    entry = {'schoolName':item['properties']['NAME'], 'latitude':item['geometry']['coordinates'][0], 'longitude':item['geometry']['coordinates'][1], 'type':'private'}
+                    entry = {'schoolName':item['properties']['NAME'], 'latitude':item['geometry']['coordinates'][1], 'longitude':item['geometry']['coordinates'][0], 'type':'private'}
                     res = repo.aditid_benli95_teayoon_tyao.schoolsMaster.insert_one(entry)
 
         endTime = datetime.datetime.now()
