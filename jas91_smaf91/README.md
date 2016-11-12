@@ -112,6 +112,8 @@ Make sure to uncomment the last lines in the file:
 
 This problem involves some statistical analysis between inspections and social media data. Given the [Food Establishment Inspections] dataset and the [Yelp Academic Dataset] we want to define if a correlation between the average ratings and the penalty score from the inspections exists.
 
+The files from the [Yelp Academic Dataset] used to solve this problem is: ```yelp_academic_dataset_business.json``` and ```yelp_academic_dataset_review.json```. These two files should be placed on a directory named ```/yelp``` outside the ```jas91_smaf91``` folder.
+
 To store the Yelp dataset execute ```load_yelp_data.py```. To run it:
 ```
 >>> python3 load_yelp_data.py
@@ -139,7 +141,7 @@ To find if the average rating and the penalty score are truly correlated the *Pe
 | penalty score |  -0.012                 |  0.33               |
 |  # violations |  -0.01                  |  0.40               |
 
-![alt text][scatter-plot.png]
+![alt text](scatter-plot.png)
 
 The results indicate that there is a negative correlation between the average ratings and the penalty score. That is, if the penalty score is high, one can expect that the average rating is low and vice versa. Also it is evident that the *minor* violations are not as correlated as the *major* and *severe* violations are. This can be interpreted as the users usually notice major and severe violations rather than minor violations and, this is reflected into their review ratings.
 
