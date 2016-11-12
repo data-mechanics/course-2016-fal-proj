@@ -10,7 +10,7 @@ from helpers import *
 
 
 
-class countPublicSchool(dml.Algorithm):
+class countCrime(dml.Algorithm):
     contributor = 'aydenbu_huangyh'
     reads = ['aydenbu_huangyh.crime_zip']
     writes = ['aydenbu_huangyh.zip_crime_count']
@@ -98,8 +98,8 @@ class countPublicSchool(dml.Algorithm):
         return doc
 
 
-countPublicSchool.execute()
-doc = countPublicSchool.provenance()
+countCrime.execute()
+doc = countCrime.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 
