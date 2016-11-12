@@ -95,4 +95,5 @@ ENV/
 .ropeproject
 
 # Files specific to this project.
-auth.json
+#auth.json
+.idea/workspace.xml
