@@ -18,8 +18,8 @@ class mergeCrimes(dml.Algorithm):
         repo = client.repo
         repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
 
-        repo.dropPermanent('aditid_benli95_teayoon_tyao.crimesMaster')
-        repo.createPermanent('aditid_benli95_teayoon_tyao.crimesMaster')
+        repo.dropPermanent('aditid_benli95_teayoon_tyao.allDrugCrimesMaster')
+        repo.createPermanent('aditid_benli95_teayoon_tyao.allDrugCrimesMaster')
 
         data = repo.aditid_benli95_teayoon_tyao.crimesLegacy.find()
         for document in data:
@@ -35,7 +35,7 @@ class mergeCrimes(dml.Algorithm):
 
                 entry = {'date':dateAndTime,'day':legacyDict['day_week'], 'latitude':legacyDict['location']['coordinates'][0], 'longitude':legacyDict['location']['coordinates'][1]}
                 
-                res = repo.aditid_benli95_teayoon_tyao.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.insert_one(entry)
+                res = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.insert_one(entry)
 
         data = repo.aditid_benli95_teayoon_tyao.crimesCurrent.find()
         for document in data:
@@ -59,7 +59,7 @@ class mergeCrimes(dml.Algorithm):
 
                 entry = {'date':dateAndTime, 'day':currentDict['day_of_week'], 'latitude':latitude, 'longitude':longitude}
 
-                res = repo.aditid_benli95_teayoon_tyao.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.insert_one(entry)
+                res = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.insert_one(entry)
                 
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}
@@ -88,12 +88,12 @@ class mergeCrimes(dml.Algorithm):
         resource_crimesCurrent = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesCurrent', {'prov:label':'Current Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.usage(mergeCRI, resource_crimesCurrent, startTime)
 
-        resource_crimesMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesMaster', {'prov:label':'All Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
+        resource_allDrugCrimesMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesMaster', {'prov:label':'All Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
 
-        doc.wasAttributedTo(resource_crimesMaster, this_script)
-        doc.wasGeneratedBy(resource_crimesMaster, mergeCRI, endTime)
-        doc.wasDerivedFrom(resource_crimesMaster, resource_crimesLegacy, mergeCRI, mergeCRI, mergeCRI)
-        doc.wasDerivedFrom(resource_crimesMaster, resource_crimesCurrent, mergeCRI, mergeCRI, mergeCRI)
+        doc.wasAttributedTo(resource_allDrugCrimesMaster, this_script)
+        doc.wasGeneratedBy(resource_allDrugCrimesMaster, mergeCRI, endTime)
+        doc.wasDerivedFrom(resource_allDrugCrimesMaster, resource_crimesLegacy, mergeCRI, mergeCRI, mergeCRI)
+        doc.wasDerivedFrom(resource_allDrugCrimesMaster, resource_crimesCurrent, mergeCRI, mergeCRI, mergeCRI)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()

@@ -4,15 +4,16 @@ import dml
 import prov.model
 import datetime
 import uuid
+from bson.code import Code
 from geopy.distance import great_circle   
 
 class prepData1(dml.Algorithm):
     contributor = 'aditid_benli95_teayoon_tyao'
-    reads = ['aditid_benli95_teayoon_tyao.allCrimesMaster', 'aditid_benli95_teayoon_tyao.allDrugCrimes' , 'aditid_benli95_teayoon_tyao.childFeedingProgramsTrimmed', 'aditid_benli95_teayoon_tyao.dayCampsdayCaresmaster', 'aditid_benli95_teayoon_tyao.schoolsMaster']
+    reads = ['aditid_benli95_teayoon_tyao.allCrimesMaster', 'aditid_benli95_teayoon_tyao.allDrugCrimesMaster' , 'aditid_benli95_teayoon_tyao.childFeedingProgramsTrimmed', 'aditid_benli95_teayoon_tyao.dayCampsdayCaresmaster', 'aditid_benli95_teayoon_tyao.schoolsMaster']
     writes = ['aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius', 'aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug']
 
     @staticmethod
-    def execute(trial = False, r):
+    def execute(r):
         startTime = datetime.datetime.now()
 
         client = dml.pymongo.MongoClient()
@@ -24,6 +25,7 @@ class prepData1(dml.Algorithm):
 
         repo.dropPermanent('aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug')
         repo.createPermanent('aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug')
+
 
         # radius = r
         radius = 5 #miles
@@ -87,9 +89,9 @@ class prepData1(dml.Algorithm):
 
                 thisCrime = {"location": crimeLatLong, "schoolsInRadius": countSchools, "privateSchoolsInRadius": countPrivateSchools, "publicSchoolsInRadius": countPublicSchool, "dayCaresInRadius": countDayCares, "privateDayCaresInRadius": countPrivateDayCares, "publicDayCaresInRaidus": countPublicDayCares, "dayCampsInRadius": countDayCamps , "childFeedingProgramsInRadius": countChildFeedingPrograms, "total": countSchools + countDayCamps + countDayCares + countChildFeedingPrograms}
                     
-                print(thisCrime)
                 res = repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius.insert_one(thisCrime)
-        
+    
+    
         crimes = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.find()
         for crime in crimes:
             crimeDict = dict(crime)
@@ -148,8 +150,10 @@ class prepData1(dml.Algorithm):
 
                 thisCrime = {"location": crimeLatLong, "schoolsInRadius": countSchools, "privateSchoolsInRadius": countPrivateSchools, "publicSchoolsInRadius": countPublicSchool, "dayCaresInRadius": countDayCares, "privateDayCaresInRadius": countPrivateDayCares, "publicDayCaresInRaidus": countPublicDayCares, "dayCampsInRadius": countDayCamps , "childFeedingProgramsInRadius": countChildFeedingPrograms, "total": countSchools + countDayCamps + countDayCares + countChildFeedingPrograms}
                     
-                print(thisCrime)
                 res = repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug.insert_one(thisCrime)
+                
+
+
 
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}
@@ -161,7 +165,7 @@ class prepData1(dml.Algorithm):
         repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
         pass
 
-prepData1.execute()
+prepData1.execute(5)
 doc = prepData1.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#print(doc.get_provn())
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
