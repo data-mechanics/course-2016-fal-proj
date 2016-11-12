@@ -18,11 +18,10 @@ writes = ["asanentz_ldebeasi_mshop_sinichol.addressValue"]
 client = dml.pymongo.MongoClient()
 repo = client.repo
 repo.authenticate("asanentz_ldebeasi_mshop_sinichol", "asanentz_ldebeasi_mshop_sinichol")
-
 startTime = datetime.datetime.now()
 
 repo.dropPermanent("addressValue")
-repo.dropPermanent("addressValue")
+repo.createPermanent("addressValue")
 
 transit = repo.asanentz_ldebeasi_mshop_sinichol.transit.find()
 
