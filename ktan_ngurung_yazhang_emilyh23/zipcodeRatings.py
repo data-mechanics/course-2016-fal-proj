@@ -124,7 +124,7 @@ class zipcodeRatings(dml.Algorithm):
         h_list = []  
         ws_list = [] 
 
-        # Dictionaries of each zipcode for the five criteria 
+        # Dictionaries of each zipcode for the five criteria
         bs_d = {}   
         c_d = {} 
         bb_d = {} 
@@ -148,16 +148,16 @@ class zipcodeRatings(dml.Algorithm):
             ws.append(num_stations * entry_sum)
             ws_d[z] = num_stations * entry_sum
 
-            bs.append(z_df['busStopCount'].iloc[0])
+            bs.append(z_df['busStopCount'].iloc[0] / zc_land_area[z])
             bs_d[z] = z_df['busStopCount'].iloc[0] / zc_land_area[z]
 
-            c.append(z_df['collegeCount'].iloc[0])
+            c.append(z_df['collegeCount'].iloc[0] / zc_land_area[z])
             c_d[z] = z_df['collegeCount'].iloc[0] / zc_land_area[z]
 
-            bb.append(z_df['bigBellyCount'].iloc[0])
+            bb.append(z_df['bigBellyCount'].iloc[0] / zc_land_area[z])
             bb_d[z] = z_df['bigBellyCount'].iloc[0] / zc_land_area[z]
 
-            h.append(z_df['hubwayCount'].iloc[0])
+            h.append(z_df['hubwayCount'].iloc[0] / zc_land_area[z])
             h_d[z] = z_df['hubwayCount'].iloc[0] / zc_land_area[z]
 
         bs = sorted(bs)
