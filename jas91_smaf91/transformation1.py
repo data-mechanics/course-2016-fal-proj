@@ -130,14 +130,16 @@ class transformation1(dml.Algorithm):
             }
         }
 
-        if trial:
-            limit = TRIAL_LIMIT
-        else:
-            limit = ""
 
         for collection_id in collections:
             collection = collections[collection_id]
-            for document in repo[collection['name']].find().limit(limit):
+
+            if trial:
+                records = repo[collection['name']].find().limit(TRIAL_LIMIT)
+            else:
+                records = repo[collection['name']].find()
+
+            for document in records: 
                 if 'geo_info' in document:
                     continue
 
@@ -248,6 +250,8 @@ class transformation1(dml.Algorithm):
 
         return doc
 
-transformation1.execute(True)
-#doc = transformation1.provenance()
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+'''
+transformation1.execute()
+doc = transformation1.provenance()
+print(json.dumps(json.loads(doc.serialize()), indent=4))
+'''

@@ -26,20 +26,25 @@ class transformation2(dml.Algorithm):
         def project(document):
             return {'geo_info': document['geo_info']}
 
-        if trial:
-            limit = TRIAL_LIMIT
-        else:
-            limit = ""
 
         def union(collection1, collection2, result, f):
-
-            for document in repo[collection1].find().limit(limit):
+            if trial:
+                records = repo[collection1].find().limit(TRIAL_LIMIT)
+            else:
+                records = repo[collection1].find()
+            
+            for document in records:
                 document = f(document) 
                 coordinates = document['geo_info']['geometry']['coordinates']
                 if coordinates[0] and coordinates[1]:
                     repo[result].insert(f(document))
+            
+            if trial:
+                records = repo[collection2].find().limit(TRIAL_LIMIT)
+            else:
+                records = repo[collection2].find()
 
-            for document in repo[collection2].find().limit(limit):
+            for document in records:
                 document = f(document)
                 coordinates = document['geo_info']['geometry']['coordinates']
                 if coordinates[0] and coordinates[1]:
@@ -57,7 +62,13 @@ class transformation2(dml.Algorithm):
         print('[OUT] done')
 
         print('[OUT] filling crime zip codes')
-        for document in repo.jas91_smaf91.crime.find().limit(limit):
+
+        if trial:
+            records = repo.jas91_smaf91.crime.find().limit(TRIAL_LIMIT)
+        else:
+            records = repo.jas91_smaf91.crime.find()
+
+        for document in records:
             latitude = document['geo_info']['geometry']['coordinates'][0]
             longitude = document['geo_info']['geometry']['coordinates'][1]
             neighbor = repo.jas91_smaf91.union_temp.find_one({ 
@@ -169,14 +180,18 @@ class transformation2(dml.Algorithm):
 
         doc.wasAttributedTo(crime, this_script)
         doc.wasGeneratedBy(crime, populate, endTime)
+        doc.wasDerivedFrom(crime, resource_sr311, populate, populate, populate) 
+        doc.wasDerivedFrom(crime, resource_food, populate, populate, populate) 
+        doc.wasDerivedFrom(crime, resource_schools, populate, populate, populate) 
+        doc.wasDerivedFrom(crime, resource_hospitals, populate, populate, populate) 
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
         return doc
 
-transformation2.execute(True)
 '''
+transformation2.execute()
 doc = transformation2.provenance()
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 '''

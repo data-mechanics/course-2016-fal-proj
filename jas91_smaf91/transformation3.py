@@ -151,14 +151,16 @@ class transformation3(dml.Algorithm):
 
         doc.wasAttributedTo(sr311_crime_per_zip_code, this_script)
         doc.wasGeneratedBy(sr311_crime_per_zip_code, reports, endTime)
+        doc.wasDerivedFrom(sr311_crime_per_zip_code, resource_sr311, reports, reports, reports) 
+        doc.wasDerivedFrom(sr311_crime_per_zip_code, resource_crime, reports, reports, reports) 
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
         return doc
 
-transformation3.execute(True)
 '''
+transformation3.execute()
 doc = transformation3.provenance()
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 '''
