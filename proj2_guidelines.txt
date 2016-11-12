@@ -1,0 +1,115 @@
+#####Project 2 Description#####
+
+	Choose a problem or family of problems that you wish to solve using some collection of relevant data sets. 
+These data sets could already be available in the repository (thanks to a Project #1 submission by your 
+team or another team), or they may be additional data sets you plan to obtain with new retrieval scripts as 
+you did in Project #1. The problem itself could involve solving a graph problem, performing a statistical 
+analysis or analyses, solving a constraint satisfaction or optimization problem, developing a scoring mechanism, 
+or achieving some other quantifiable goal for which at least some of the techniques we have learned so far 
+might be useful. It could be the original problem you intended to solve in Project #1, or something new.
+
+	-- Problem Statement --
+	If you had to put a new "community" building somewhere, where, geographically, is the most optimal place to
+	put it to minimize the negative effects and maximize the positive social effects on its surroundings?
+	OR
+	Is there a correlation between "community" and ____? 
+	(crime, traffic accidents, population density, income, carbon footprint, service-request rate, 
+	building/property violations, food establishment inspections, dispersal/spread of government buildings, etc.)
+
+	Write a short narrative and justification (at least 7-10 sentences) explaining how the data sets and 
+techniques you hope to employ can address the problem you chose. Depending on what techniques you are 
+using and what problem you are trying to solve, you may need to provide a justification or evaluation 
+methodology for the techniques you are using (i.e., why you believe the chosen techniques will solve 
+the problem you are trying to address). Include this narrative in the README.md file within your directory 
+(you may only need to update your existing file).
+	Implement at least two additional non-trivial constraint satisfaction, optimization, statistical analysis, 
+inference, or other algorithms that use the data sets and address the problem or problems described in part (a). 
+You can choose one of the existing algorithms or tools we have considered so far, or something else (assuming 
+you thoroughly document in your README.md file how to obtain and run those tools). As in Project #1, your 
+algorithms should be implemented within scripts that extend the dml.Algorithm base class, should follow 
+reasonable modularity and encapsulation practices, and should perform logically related operations.
+
+	-- Proposed Implementation --
+	1. Create a well-defined heatmap of Boston, where each geographic location has an indicator of how "strong" or
+	"weak" community at that location is. 
+		- Scour different data-sets as to how they might indicate "pro" or "anti" community indicators;
+			the key, here, is to find fixed addresses/buildings/locations well-known for a specific purpose
+			that are static over time/space (i.e., fixed points in the map of Boston)
+		- Once we've processed/grouped the data-sets accordingly to unique location points, we then determine
+			whether a single location is pro or anti-community
+		- Once we have a dataset of all "pro" or "anti-community" locations/points in the map of Boston,
+			we then figure out how to scale, appropriately, the pro vs. anti-community datasets against
+			each other (since it's anticipated that there are plentifully more anti-community points than
+			pro-community)
+			- (the key here is to be as isolated/objective as possible from whatever our perceived
+				ultimate effects we're cross-referencing -- i.e., we shouldn't be changing how we scale or changing
+				our definition of "community" after we know, for example, the crime heatmap or that an area has a high 
+				incidence of crime)
+		- Once we've figured out our precise scale of weighting anti-community vs pro-community locations/points
+			across Boston, we then produce our heatmap of "how much community" each point in the map of Boston has
+		- (another potentially interesting aspect would be to add the dimension of time for our heatmaps -- i.e., see 
+			trends of how our definition of community has changed the heatmap over time)
+		- (another implementation note -- weighting individual "pro-community" locations/points against each other --
+			i.e. determining how "strong" a particular community-location is, relative to all others... maybe based
+			somehow on frequency of traffic... or web traffic... or surrounding population density, etc.)
+		- We should take care to not include data sets of fixed locations (at least with regards to pro-community)
+			that are heavily regulated by the government, as the government might have different incentives for putting
+			____ (like bus stops or building a new public school, etc.) at location (x,y), to minimize/maximize other
+			economic/transportation/population metrics, independent of our study of how community affects certain
+			metrics and how those same metrics affect community back vicer-versa (in other words, if a correlation exists)
+	2. Create an individual heatmap for all other proposed 'aggregate effects' metrics (i.e. crime, income, maybe 
+		population density?, traffic accidents, etc. -- each, of course, processed accordingly as well (like perhaps 
+		per capita, geographic density, etc.)), and attempt to visually correlate our "community" heatmap with that 
+		of each metric's heatmap. The benefit here is that, for each heatmap created of each different data set, we 
+		are able to achieve (visually) an individual conclusion about the possible correlation -- i.e., community has 
+		no visible correlation, community has a positive correlation, or community has a negative correlation with 
+		this heatmap/metrics.
+	3. (reaching this step completely depends on the previous two steps discovering some correlations)
+		Answer the problem statement by grouping aggregate-effects with clear positive/negative correlation into
+		positive/negative benefits, and then create an overall/general heatmap of community as it wholly affects multiple
+		metrics.
+
+Data-sets to consider and/or gather:
+	###Pro###
+	- Community Supported Agriculture (CSA) Pickup Locations
+	- Public Access Fishing Locations
+	- Community Gardens (throughout Boston)
+	- Libraries throughout Boston
+	- Designated 'Community Centers'
+	? Year-Round Swimming Pools/Seasonal Swimming Pools
+	? Local Food Distribution
+	? Urban Orchards/Fruit Trees
+	? Food Pantries (food banks/pantries in Boston, accurate up to 2012)
+	? Public Works Active Work Zones
+	###Anti###
+	- Liquor Licenses + All Section 12 Alcohol Licenses (but what about bars...? Are bars considered 'pro'?)
+	- Nail Salon Permits
+	- Active Food Establishment Licenses
+	- Entertainment Licenses
+	###Not Considered###
+	- Issued Moving Truck Permits (although this could be an "aggregate-effect metric")
+	- Boston Taxi Data
+Any others?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
