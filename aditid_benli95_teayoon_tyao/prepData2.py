@@ -10,11 +10,11 @@ class prepData2(dml.Algorithm):
 
     contributor = 'aditid_benli95_teayoon_tyao'
     reads = ['aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius', 'aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug']
-    writes = ['aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment', 'aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment']
+    writes = ['aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment', 'aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment', 'aditid_benli95_teayoon_tyao.averageAll', 'aditid_benli95_teayoon_tyao.averageDrug']
 
 
     @staticmethod
-    def execute():
+    def execute(trial = False):
         startTime = datetime.datetime.now()
 
         client = dml.pymongo.MongoClient()
@@ -75,16 +75,16 @@ class prepData2(dml.Algorithm):
             }''')
 
         #reset resulting directory
-        repo.dropPermanent('aditid_benli95_teayoon_tyao.crimesPerEstablishment')
-        repo.createPermanent('aditid_benli95_teayoon_tyao.crimesPerEstablishment')
+        repo.dropPermanent('aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment')
+        repo.createPermanent('aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment')
 
-        repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.crimesPerEstablishment');
+        repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment');
 
         #reset resulting directory
-        repo.dropPermanent('aditid_benli95_teayoon_tyao.drugCrimesPerEstablishment')
-        repo.createPermanent('aditid_benli95_teayoon_tyao.drugCrimesPerEstablishment')
+        repo.dropPermanent('aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment')
+        repo.createPermanent('aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment')
 
-        repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.drugCrimesPerEstablishment');
+        repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment');
 
 
         ''' This takes the previous map reduced repositories and returns the total sum of establishments around crimes and the number of crimes. Using these values the average number of establishments around each crime can be calculated.'''
@@ -114,13 +114,13 @@ class prepData2(dml.Algorithm):
         repo.dropPermanent('aditid_benli95_teayoon_tyao.averageAll')
         repo.createPermanent('aditid_benli95_teayoon_tyao.averageAll')
 
-        repo.aditid_benli95_teayoon_tyao.crimesPerEstablishment.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.averageAll');
+        repo.aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.averageAll');
 
         #reset resulting directory
         repo.dropPermanent('aditid_benli95_teayoon_tyao.averageDrug')
         repo.createPermanent('aditid_benli95_teayoon_tyao.averageDrug')
 
-        repo.aditid_benli95_teayoon_tyao.drugCrimesPerEstablishment.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.averageDrug');
+        repo.aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.averageDrug');
 
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}
