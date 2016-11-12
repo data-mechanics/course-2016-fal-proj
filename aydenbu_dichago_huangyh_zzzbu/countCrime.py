@@ -72,10 +72,10 @@ class countCrime(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/')  # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:aydenbu_huangyh#countSchool',
+        this_script = doc.agent('alg:aydenbu_huangyh#countCrime',
                                 {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-        resource = doc.entity('dat:school_location',
-                              {'prov:label': 'publicSchool Location', prov.model.PROV_TYPE: 'ont:DataResource',
+        resource = doc.entity('dat:crime_zip',
+                              {'prov:label': 'crime Zipcode', prov.model.PROV_TYPE: 'ont:DataResource',
                                'ont:Extension': 'json'})
 
         get_zip_crime_count = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
@@ -84,7 +84,7 @@ class countCrime(dml.Algorithm):
         doc.usage(get_zip_crime_count, resource, startTime, None,
                   {prov.model.PROV_TYPE: 'ont:Computation'})
 
-        zip_crime_count = doc.entity('dat:aydenbu_huangyh#zip_publicSchool_count',
+        zip_crime_count = doc.entity('dat:aydenbu_huangyh#zip_crime_count',
                                          {prov.model.PROV_LABEL: 'Crimes Count',
                                           prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(zip_crime_count, this_script)
