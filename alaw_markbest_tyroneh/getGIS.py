@@ -14,19 +14,19 @@ for key in gisURLs:
         # Get the data from the server.
         response = urllib.request.urlopen(url)
 
-	# Unzip the file into the working directory.
+        # Unzip the file into the working directory.
         zip_ref = zipfile.ZipFile(io.BytesIO(response.read()))
         zip_ref.extractall("./")
         zip_ref.close()
 
-	# Read the file into the Python shapefile library.
+        # Read the file into the Python shapefile library.
         sf = shapefile.Reader("CENSUS2010TOWNS_POLY")
 
         # Pull out the specific records for the four areas of interest, listed in gisTowns above.
         # NOTE: The attribute at index 1 of any record is the uppercase town name.
-	boston_area = [x for x in sf.iterRecords() if x[1] in gisTowns]
+        boston_area = [x for x in sf.iterRecords() if x[1] in gisTowns]
 
-	gis_result = {key:boston_area}
+        gis_result = {key:boston_area}
 
         if(trial == True):
                 print(key)
