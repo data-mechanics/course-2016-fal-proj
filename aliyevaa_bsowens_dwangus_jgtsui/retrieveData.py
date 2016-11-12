@@ -15,7 +15,7 @@ class retrieveData(dml.Algorithm):
               'Public Access Fishing Locations', 'Issued Moving Truck Permits', 'Active Food Establishment Licenses', \
               'Entertainment Licenses', 'Community Supported Agriculture (CSA) Pickups ', 'Year-Round Swimming Pools']
     setExtensions = ['crime2012-2015', 'public-fishing-access-locations', 'moving-truck-permits', \
-                     'food-licenses', 'entertainment-licenses', 'csa-pickups', 'year-round-pools']
+                     'food-licenses', 'entertainment-licenses', 'csaPickups', 'year-round-pools']
 
     writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]
 
@@ -73,7 +73,7 @@ class retrieveData(dml.Algorithm):
             print("Starting retrieval and storage of {} dataset".format(key))
             repo.dropPermanent(key)
             repo.createPermanent(key)
-            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0]+ retrieveData.authenticate_stuff).read().decode("utf-8") # why didn't you append the secret key here "via json file"
+            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0]+ retrieveData.authenticate_stuff).read().decode("utf-8")
             r = json.loads(response)
             s = json.dumps(r, sort_keys=True, indent=2)
             repo[retrieveData.dataSetDict[key][1]].insert_many(r)
@@ -84,9 +84,9 @@ class retrieveData(dml.Algorithm):
                 fishing.update_many({}, {"$rename": {'location': 'location_address'}})
                 fishing.update_many({}, {"$rename": {'map_location': 'location'}})
                 fishing.create_index([('location', '2dsphere')])
-            elif key == 'csa-pickups':
-                print("Transforming csa-pickups dataset...")
-                csa = myrepo['csa-pickups']
+            elif key == 'csaPickups':
+                print("Transforming csaPickups dataset...")
+                csa = myrepo['csaPickups']
                 csa.update_many({}, {"$rename": {'location': 'location_address'}})
                 csa.update_many({}, {"$rename": {'map_location': 'location'}})
                 csa.create_index([('location', '2dsphere')])
@@ -106,9 +106,10 @@ class retrieveData(dml.Algorithm):
                         ent.delete_one({'_id': e['_id']})
                 ent.create_index([('location', '2dsphere')])
             elif key == 'year-round-pools':
-                print("Transforming year-round-pools dataset...")
-                pools = myrepo['year-round-pools']
-                pools.update_many({})
+                #print("Transforming year-round-pools dataset...")
+                #pools = myrepo['year-round-pools']
+                #pools.update_many({})
+                continue
             elif key == 'moving-truck-permits':
                 print("Transforming moving-truck-permits dataset...")
                 truck = myrepo['moving-truck-permits']

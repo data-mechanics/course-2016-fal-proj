@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96807095-cf5f-4879-a376-bc1906494305" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/aliyevaa_bsowens_dwangus_jgtsui/retrieveData.py" afterPath="$PROJECT_DIR$/aliyevaa_bsowens_dwangus_jgtsui/retrieveData.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/aliyevaa_bsowens_dwangus_jgtsui/transformOldAggregateNew.py" afterPath="$PROJECT_DIR$/aliyevaa_bsowens_dwangus_jgtsui/transformOldAggregateNew.py" />
     </list>
     <ignored path="course-2016-fal-proj.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,11 +24,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="retrieveData.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="retrieveData.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/aliyevaa_bsowens_dwangus_jgtsui/retrieveData.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="51" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="51" />
+            <state relative-caret-position="442">
+              <caret line="111" column="24" selection-start-line="111" selection-start-column="24" selection-end-line="111" selection-end-column="24" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -36,11 +36,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="transformOldAggregateNew.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="transformOldAggregateNew.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/aliyevaa_bsowens_dwangus_jgtsui/transformOldAggregateNew.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2280">
-              <caret line="168" column="54" selection-start-line="168" selection-start-column="54" selection-end-line="168" selection-end-column="54" />
+            <state relative-caret-position="-1125">
+              <caret line="73" column="39" selection-start-line="73" selection-start-column="39" selection-end-line="73" selection-end-column="39" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -56,8 +56,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/aliyevaa_bsowens_dwangus_jgtsui/retrieveData.py" />
         <option value="$PROJECT_DIR$/aliyevaa_bsowens_dwangus_jgtsui/transformOldAggregateNew.py" />
+        <option value="$PROJECT_DIR$/aliyevaa_bsowens_dwangus_jgtsui/retrieveData.py" />
       </list>
     </option>
   </component>
@@ -397,22 +397,22 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/aliyevaa_bsowens_dwangus_jgtsui/retrieveData.py">
+    <entry file="file://$PROJECT_DIR$/aliyevaa_bsowens_dwangus_jgtsui/transformOldAggregateNew.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="51" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="51" />
+        <state relative-caret-position="-1125">
+          <caret line="73" column="39" selection-start-line="73" selection-start-column="39" selection-end-line="73" selection-end-column="39" />
           <folding>
-            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/aliyevaa_bsowens_dwangus_jgtsui/transformOldAggregateNew.py">
+    <entry file="file://$PROJECT_DIR$/aliyevaa_bsowens_dwangus_jgtsui/retrieveData.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2280">
-          <caret line="168" column="54" selection-start-line="168" selection-start-column="54" selection-end-line="168" selection-end-column="54" />
+        <state relative-caret-position="442">
+          <caret line="111" column="24" selection-start-line="111" selection-start-column="24" selection-end-line="111" selection-end-column="24" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
