@@ -6,6 +6,26 @@ import datetime
 import uuid
 import time
 import ast
+from geopy.geocoders import Nominatim
+geolocator = Nominatim()
+
+
+# HELPER METHODS #
+
+
+def get_coords(number,street,suffix,zip):
+    address_str = number + " " + street + " " + suffix + " " + zip
+    location = geolocator.geocode(address_str)
+    return [location.latitude, location.longitude]
+
+
+
+
+
+
+
+
+
 
 class retrieveData(dml.Algorithm):
     contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
@@ -18,6 +38,8 @@ class retrieveData(dml.Algorithm):
 
     setExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
                      'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools']
+
+    authentication_stuff = '?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']
 
 
     writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]
@@ -75,15 +97,15 @@ class retrieveData(dml.Algorithm):
             repo.createPermanent(key)
 
 
-            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0]).read().decode("utf-8") # why didn't you append the secret key here "via json file"
+            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0] + retrieveData.authentication_stuff).read().decode("utf-8") # why didn't you append the secret key here "via json file"
 
             r = json.loads(response)
             s = json.dumps(r, sort_keys=True, indent=2)
             repo[retrieveData.dataSetDict[key][1]].insert_many(r)
             ###TRANSFORMATION###
-            if key == 'public-fishing-access-locations':
-                print("Transforming public-fishing-access-locations dataset...")
-                fishing = myrepo['public-fishing-access-locations']
+            if key == 'public_fishing_access_locations':
+                print("Transforming public_fishing_access_locations dataset...")
+                fishing = myrepo['public_fishing_access_locations']
                 fishing.update_many({}, {"$rename": {'location': 'location_address'}})
                 fishing.update_many({}, {"$rename": {'map_location': 'location'}})
                 fishing.create_index([('location', '2dsphere')])
@@ -93,13 +115,13 @@ class retrieveData(dml.Algorithm):
                 csa.update_many({}, {"$rename": {'location': 'location_address'}})
                 csa.update_many({}, {"$rename": {'map_location': 'location'}})
                 csa.create_index([('location', '2dsphere')])
-            elif key == 'food-licenses':
-                print("Transforming food-licenses dataset...")
-                food = myrepo['food-licenses']
+            elif key == 'food_licenses':
+                print("Transforming food_licenses dataset...")
+                food = myrepo['food_licenses']
                 food.create_index([('location', '2dsphere')])
-            elif key == 'entertainment-licenses':
-                print("Transforming entertainment-licenses dataset...")
-                ent = myrepo['entertainment-licenses']
+            elif key == 'entertainment_licenses':
+                print("Transforming entertainment_licenses dataset...")
+                ent = myrepo['entertainment_licenses']
                 for e in ent.find(modifiers={"$snapshot": True}):
                     if 'location' in e.keys() and type(e['location']) == str and e['location'].startswith('('):
                         prevCoords = ast.literal_eval(e['location'])
@@ -108,14 +130,25 @@ class retrieveData(dml.Algorithm):
                     else:
                         ent.delete_one({'_id': e['_id']})
                 ent.create_index([('location', '2dsphere')])
-            elif key == 'year-round-pools':
-                #print("Transforming year-round-pools dataset...")
-                #pools = myrepo['year-round-pools']
-                #pools.update_many({})
+            elif key == 'year_round_pools':
+                print("Transforming year_round_pools dataset...")
+                pools = myrepo['year_round_pools']
+                pools.update_many({}, {"$rename": {'location_1': 'location'}})
+                for pool in pools.find(modifiers={"$snapshot": True}):
+                    number = pool['st_no']
+                    street = pool['st_name']
+                    suffix = pool['suffix']
+                    zip_code = pool['location_1_zip']
+                    coords = get_coords(number,street,suffix,zip_code)
+                    pool.update({'_id': pool['_id']}, \
+                                {'$set': {'location': {'type': 'Point', 'coordinates': coords}}})
+                pools.create_index([('location', '2dsphere')])
+
+
                 continue
-            elif key == 'moving-truck-permits':
-                print("Transforming moving-truck-permits dataset...")
-                truck = myrepo['moving-truck-permits']
+            elif key == 'moving_truck_permits':
+                print("Transforming moving_truck_permits dataset...")
+                truck = myrepo['moving_truck_permits']
                 truck.update_many({}, {"$rename": {'location': 'location_details'}})
                 for t in truck.find(modifiers={"$snapshot": True}):
                     if 'location_details' in t.keys():
