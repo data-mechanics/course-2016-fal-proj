@@ -163,7 +163,53 @@ class prepData1(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
-        pass
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('cob', 'https://data.cityofboston.gov/resource/')
+        doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/datasets/')
+
+        this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#prepData1', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        prepD1 = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Prep Data 1', prov.model.PROV_TYPE:'ont:Computation'})
+        doc.wasAssociatedWith(prepD1, this_script)
+
+        allCrimesMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#allCrimesMaster', {'prov:label':'All Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.usage(prepD1, allCrimesMaster, startTime)
+
+        allDrugCrimesMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#allDrugCrimesMaster', {'prov:label':'All Drug Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.usage(prepD1, allDrugCrimesMaster, startTime)
+
+        childFeedingProgramsTrimmed = doc.entity('dat:aditid_benli95_teayoon_tyao#childFeedingProgramsTrimmed', {'prov:label':'Child Feeding Programs', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.usage(prepD1, childFeedingProgramsTrimmed, startTime)
+
+        dayCampdayCaresMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#dayCampdayCaresMaster', {'prov:label':'Day Camps and Daycares', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.usage(prepD1, dayCampdayCaresMaster, startTime)
+
+        schoolsMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#schoolsMaster', {'prov:label':'All Schools', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.usage(prepD1, schoolsMaster, startTime)
+
+        numberOfEstablishmentsinRadius = doc.entity('dat:aditid_benli95_teayoon_tyao#numberOfEstablishmentsinRadius', {'prov:label':'Number Of Establishments near All Crimes', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.wasAttributedTo(numberOfEstablishmentsinRadius, this_script)
+        doc.wasGeneratedBy(numberOfEstablishmentsinRadius, prepD1, endTime)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadius, allCrimesMaster, prepD1, prepD1, prepD1)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadius, childFeedingProgramsTrimmed, prepD1, prepD1, prepD1)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadius, dayCampdayCaresMaster, prepD1, prepD1, prepD1)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadius, schoolsMaster, prepD1, prepD1, prepD1)
+        
+        numberOfEstablishmentsinRadiusDrug = doc.entity('dat:aditid_benli95_teayoon_tyao#numberOfEstablishmentsinRadiusDrug', {'prov:label':'Number Of Establishments near Drug Crimes', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.wasAttributedTo(numberOfEstablishmentsinRadiusDrug, this_script)
+        doc.wasGeneratedBy(numberOfEstablishmentsinRadiusDrug, prepD1, endTime)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadiusDrug, allDrugCrimesMaster, prepD1, prepD1, prepD1)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadiusDrug, childFeedingProgramsTrimmed, prepD1, prepD1, prepD1)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadiusDrug, dayCampdayCaresMaster, prepD1, prepD1, prepD1)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadiusDrug, schoolsMaster, prepD1, prepD1, prepD1)
+
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
 
 prepData1.execute(5)
 doc = prepData1.provenance()

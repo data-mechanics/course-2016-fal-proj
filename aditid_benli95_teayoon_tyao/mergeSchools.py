@@ -67,12 +67,12 @@ class mergeSchools(dml.Algorithm):
         datasets_privateSchools = doc.entity('dat:aditid_benli95_teayoon_tyao#privateSchools', {'prov:label':'Private Schools', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.usage(mergeSCH, datasets_privateSchools, startTime)
 
-        datasets_schoolsMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#schoolsMaster', {'prov:label':'All Schools', prov.model.PROV_TYPE:'ont:Dataset'})
+        schoolsMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#schoolsMaster', {'prov:label':'All Schools', prov.model.PROV_TYPE:'ont:Dataset'})
 
-        doc.wasAttributedTo(datasets_schoolsMaster, this_script)
-        doc.wasGeneratedBy(datasets_schoolsMaster, mergeSCH, endTime)
-        doc.wasDerivedFrom(datasets_schoolsMaster, datasets_publicSchools, mergeSCH, mergeSCH, mergeSCH)
-        doc.wasDerivedFrom(datasets_schoolsMaster, datasets_privateSchools, mergeSCH, mergeSCH, mergeSCH)
+        doc.wasAttributedTo(schoolsMaster, this_script)
+        doc.wasGeneratedBy(schoolsMaster, mergeSCH, endTime)
+        doc.wasDerivedFrom(schoolsMaster, datasets_publicSchools, mergeSCH, mergeSCH, mergeSCH)
+        doc.wasDerivedFrom(schoolsMaster, datasets_privateSchools, mergeSCH, mergeSCH, mergeSCH)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()

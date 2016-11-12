@@ -102,11 +102,15 @@ class mergeChildren(dml.Algorithm):
         doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/datasets/')
 
         this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#mergeChildren', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        
         mergeCHI = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Merge Children Establishment Data', prov.model.PROV_TYPE:'ont:Computation'})
         doc.wasAssociatedWith(mergeCHI, this_script)
 
+        trimCFP = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Trim Child Feeding Programs Data', prov.model.PROV_TYPE:'ont:Computation'})
+        doc.wasAssociatedWith(trimCFP, this_script)
+
         resource_childFeedingPrograms = doc.entity('dat:aditid_benli95_teayoon_tyao#childFeedingPrograms', {'prov:label':'Child Feeding Programs', prov.model.PROV_TYPE:'ont:Dataset'})
-        doc.usage(mergeCHI, resource_childFeedingPrograms, startTime)
+        doc.usage(trimCFP, resource_childFeedingPrograms, startTime)
 
         resource_dayCamps = doc.entity('dat:aditid_benli95_teayoon_tyao#dayCamps', {'prov:label':'Day Camps', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.usage(mergeCHI, resource_dayCamps, startTime)
@@ -117,15 +121,17 @@ class mergeChildren(dml.Algorithm):
         resource_privateDaycares = doc.entity('dat:aditid_benli95_teayoon_tyao#privateDaycares', {'prov:label':'Private Daycares', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.usage(mergeCHI, resource_privateDaycares, startTime)
 
-        resource_childrenMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#childrenMaster', {'prov:label':'All Children Establishments', prov.model.PROV_TYPE:'ont:Dataset'})
+        childFeedingProgramsTrimmed = doc.entity('dat:aditid_benli95_teayoon_tyao#childFeedingProgramsTrimmed', {'prov:label':'Child Feeding Programs', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.wasAttributedTo(childFeedingProgramsTrimmed, this_script)
+        doc.wasGeneratedBy(childFeedingProgramsTrimmed, trimCFP, endTime)
+        doc.wasDerivedFrom(childFeedingProgramsTrimmed, resource_childFeedingPrograms, trimCFP, trimCFP, trimCFP)
 
-        doc.wasAttributedTo(resource_childrenMaster, this_script)
-        doc.wasGeneratedBy(resource_childrenMaster, mergeCHI, endTime)
-        doc.wasDerivedFrom(resource_childrenMaster, resource_childFeedingPrograms, mergeCHI, mergeCHI, mergeCHI)
-        doc.wasDerivedFrom(resource_childrenMaster, resource_dayCamps, mergeCHI, mergeCHI, mergeCHI)
-        doc.wasDerivedFrom(resource_childrenMaster, resource_publicDaycares, mergeCHI, mergeCHI, mergeCHI)
-        doc.wasDerivedFrom(resource_childrenMaster, resource_privateDaycares, mergeCHI, mergeCHI, mergeCHI)
-
+        dayCampdayCaresMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#dayCampdayCaresMaster', {'prov:label':'Day Camps and Daycares', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.wasAttributedTo(dayCampdayCaresMaster, this_script)
+        doc.wasGeneratedBy(dayCampdayCaresMaster, mergeCHI, endTime)
+        doc.wasDerivedFrom(dayCampdayCaresMaster, resource_dayCamps, mergeCHI, mergeCHI, mergeCHI)
+        doc.wasDerivedFrom(dayCampdayCaresMaster, resource_publicDaycares, mergeCHI, mergeCHI, mergeCHI)
+        doc.wasDerivedFrom(dayCampdayCaresMaster, resource_privateDaycares, mergeCHI, mergeCHI, mergeCHI)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
