@@ -98,12 +98,12 @@ class mergeAllWithoutDrugCrimes(dml.Algorithm):
         resource_crimesCurrent = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesCurrent', {'prov:label':'Current Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.usage(mergeCRI, resource_crimesCurrent, startTime)
 
-        resource_crimesMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesMaster', {'prov:label':'All Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
+        noDrugCrimesMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#noDrugCrimesMaster', {'prov:label':'All Non-Drug Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
 
-        doc.wasAttributedTo(resource_crimesMaster, this_script)
-        doc.wasGeneratedBy(resource_crimesMaster, mergeCRI, endTime)
-        doc.wasDerivedFrom(resource_crimesMaster, resource_crimesLegacy, mergeCRI, mergeCRI, mergeCRI)
-        doc.wasDerivedFrom(resource_crimesMaster, resource_crimesCurrent, mergeCRI, mergeCRI, mergeCRI)
+        doc.wasAttributedTo(noDrugCrimesMaster, this_script)
+        doc.wasGeneratedBy(noDrugCrimesMaster, mergeCRI, endTime)
+        doc.wasDerivedFrom(noDrugCrimesMaster, resource_crimesLegacy, mergeCRI, mergeCRI, mergeCRI)
+        doc.wasDerivedFrom(noDrugCrimesMaster, resource_crimesCurrent, mergeCRI, mergeCRI, mergeCRI)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
