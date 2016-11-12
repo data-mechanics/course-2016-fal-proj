@@ -69,9 +69,9 @@ for all *i* in {*1, ..., n*}, a<sub>i</sub> ≥ b<sub>i</sub> and exists *j* in 
 
 Then, the skyline set is defined by all the elements in the datsets that are not dominated by any other element.
 
-To solve this optimization problem, first run the `tranformation4.py`:
+To solve this optimization problem, first run the `transformation4.py`:
 ```
->>> 3 transformation4.py
+>>> python3 transformation4.py
 ```
 and then:
 ```
