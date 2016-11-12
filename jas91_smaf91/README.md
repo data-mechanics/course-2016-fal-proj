@@ -58,10 +58,10 @@ Finally, in the third transformation, the amount od crimes and 311 service repor
 Following the same idea as **Project 1** the goal is to rank the zipcodes according to the information we have so far. That is, [Crime], [Schools], [Hospitals], [Food Establishment Inspections], [311] reports. Having these data we can derive a new dataset with the following structure:
 
 ```
-(zipcode, #crimes, #311 reports, #passed food inspectios, #schools, #hospitals)
+(zipcode, #crimes, #311 reports, #passed food inspections, #schools, #hospitals)
 ```
 
-A user might want to query this dataset in order to know which zipcode to choose to live in, based on the attributes mentioned above. The objective in this case, would be to minimize the ```#crimes``` and ```#311 reports```, while maximizing the quelity of the surrounding restaurants, that is, the ```#passed food inspections```, ```#schools``` and ```#hospitals```. Given equally importance to all five attributes.
+A user might want to query this dataset in order to know which zipcode to choose to live in, based on the attributes mentioned above. To be able to perform this analysis a multi-objective query must be defined. In this case the multi-objective query could be defined as follows: minimize the ```#crimes``` and ```#311 reports```, while maximizing the quelity of the surrounding restaurants, that is, the ```#passed food inspections```, ```#schools``` and ```#hospitals```. Given equally importance to all five attributes.
 
 This can be computed optimally using **skyline queries**. Where the result of the query will be formed of all non-dominated tuples following the *pareto optimality* definition [1]. Where an element *a = (a<sub>1</sub>, ..., a<sub>n</sub>)* dominates an element *b = (b<sub>1</sub>, ..., b<sub>n</sub>)* if:
 
@@ -108,6 +108,52 @@ Make sure to uncomment the last lines in the file:
 # kmeans.execute()
 ```
 
+### Problem 3
+
+This problem involves some statistical analysis between inspections and social media data. Given the [Food Establishment Inspections] dataset and the [Yelp Academic Dataset] we want to define if a correlation between the average ratings and the penalty score from the inspections exists.
+
+The files from the [Yelp Academic Dataset] used to solve this problem is: ```yelp_academic_dataset_business.json``` and ```yelp_academic_dataset_review.json```. These two files should be placed on a directory named ```/yelp``` outside the ```jas91_smaf91``` folder.
+
+To store the Yelp dataset execute ```load_yelp_data.py```. To run it:
+```
+>>> python3 load_yelp_data.py
+```
+Make sure to uncomment the last lines in the file:
+```
+# load_yelp_data.execute()
+```
+
+Let *b*, be a business in the Food Establishment Inspections dataset, inspected at a time *t*, then the penalty score of *b* is defined as follows:
+
+penalty<sub>b</sub> = minor<sub>b</sub> + major<sub>b</sub> + severe<sub>b</sub>
+
+where minor<sub>b</sub>, major<sub>b</sub> and severe<sub>b</sub> are minor, major and severe violations (which in the dataset are represented as strings '\*', '\*\*', '\*\*\*').
+
+The datasets were joined by ```name``` and ```(latitude, longitude)``` using an index in both those attributes. The correlation analysis was partitioned by date, we define a window of time between two inspections *i* and *i+1* and the average rating was calculated depending on which interval of time that review was performed. We decided to do it this way since we assumed that, if the ratings are correlated with the inspection, they would reflect the results based on the inmediate performed inspection, not having an important effect on subsequent or previous inspections.
+
+To find if the average rating and the penalty score are truly correlated the *Pearson Correlation Coefficient* (from the ```scipy.stats``` python package) was used. The results are shown below:
+
+|               | correlation coefficient |       p value       |
+|:-------------:|:-----------------------:|:-------------------:|
+|     minor     |  -0.0073                |  0.55               |
+|     major     |  -0.014                 |  0.25               |
+|     severe    |  -0.011                 |  0.37               |
+| penalty score |  -0.012                 |  0.33               |
+|  # violations |  -0.01                  |  0.40               |
+
+![alt text](scatter-plot.png)
+
+The results indicate that there is a negative correlation between the average ratings and the penalty score. That is, if the penalty score is high, one can expect that the average rating is low and vice versa. Also it is evident that the *minor* violations are not as correlated as the *major* and *severe* violations are. This can be interpreted as the users usually notice major and severe violations rather than minor violations and, this is reflected into their review ratings.
+
+The algorithm to performed this can be found in ```rating_inspection_correlation.py```. To run it:
+```
+>>> python3 rating_inspection_correlation.py
+```
+Make sure to uncomment the last lines in the file:
+```
+# rating_inspection_correlation.execute()
+```
+
 ## References
 
 [1] U. Guntzer W.T. Balke. *Multi-objective query processing for database systems*. 2004
@@ -116,3 +162,4 @@ Make sure to uncomment the last lines in the file:
 [Hospitals]: <https://data.cityofboston.gov/Public-Health/Hospital-Locations/46f7-2snz>
 [Food Establishment Inspections]: <https://data.cityofboston.gov/Health/Food-Establishment-Inspections/qndu-wx8w>
 [311]: <https://data.cityofboston.gov/City-Services/311-Open-Service-Requests/rtbk-4hc4>
+[Yelp Academic Dataset]: <https://www.yelp.com/dataset_challenge/drivendata>
