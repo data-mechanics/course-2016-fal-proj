@@ -229,6 +229,8 @@ class getData(dml.Algorithm):
         doc.add_namespace('brdp', 'http://data.brooklinema.gov/datasets/') # Brookline Data Portal
         doc.add_namespace('hub', 'https://s3.amazonaws.com/hubway-data/') # Hubway Data 
         doc.add_namespace('mbta', 'http://realtime.mbta.com/developer/api/v2/routes') # MBTA API
+        doc.add_namespace('datm', 'http://datamechanics.io/data') # datamechanics.io
+        doc.add_namespace('cen', 'http://wsgw.mass.gov/data/gispub/shape/census2010/') # Mass census data
 
         this_script = doc.agent('alg:alaw_markbest_tyroneh#getData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
@@ -287,10 +289,19 @@ class getData(dml.Algorithm):
             )
 
 
-        resource_TimedBuses = doc.entity('dat:alaw_markbest_tyroneh#busdata', {'prov:label':'Boston Bus Coordinates', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'geojson'})
+        resource_TimedBuses = doc.entity('datm:alaw_markbest_tyroneh#busdata', {'prov:label':'Boston Bus Coordinates', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'geojson'})
         get_TimedBuses = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Boston Bus Coordinates'})
         doc.wasAssociatedWith(get_TimedBuses, this_script);
         doc.usage(get_TimedBuses, resource_TimedBuses, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval',
+                 'ont:Query':""
+                }
+            )
+
+        resource_CensusPopulation = doc.entity('cen:CENSUS2010TOWNS_SHP', {'prov:label':'Mass Census Data', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'zip'})
+        get_MassCensus = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Mass Census Data'})
+        doc.wasAssociatedWith(get_MassCensus, this_script);
+        doc.usage(get_MassCensus, resource_CensusPopulation, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
                  'ont:Query':""
                 }
@@ -323,6 +334,10 @@ class getData(dml.Algorithm):
         TimedBuses = doc.entity('dat:alaw_markbest_tyroneh#TimedBuses', {prov.model.PROV_LABEL:'Boston Bus Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(TimedBuses, this_script);
         doc.wasGeneratedBy(TimedBuses, get_TimedBuses, endTime);
+
+        MassCensus = doc.entity('dat:alaw_markbest_tyroneh#CENSUS2010TOWNS_SHP', {prov.model.PROV_LABEL:'Mass Census Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(MassCensus, this_script);
+        doc.wasGeneratedBy(MassCensus, get_MassCensus, endTime);
         
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
