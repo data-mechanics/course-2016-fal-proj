@@ -14,8 +14,11 @@ class retrieveData(dml.Algorithm):
     titles = ['Crime Incident Reports (July 2012 - August 2015) (Source: Legacy System)', \
               'Public Access Fishing Locations', 'Issued Moving Truck Permits', 'Active Food Establishment Licenses', \
               'Entertainment Licenses', 'Community Supported Agriculture (CSA) Pickups ', 'Year-Round Swimming Pools']
-    setExtensions = ['crime2012-2015', 'public-fishing-access-locations', 'moving-truck-permits', \
-                     'food-licenses', 'entertainment-licenses', 'csaPickups', 'year-round-pools']
+
+
+    setExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
+                     'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools']
+
 
     writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]
 
@@ -26,9 +29,6 @@ class retrieveData(dml.Algorithm):
             'https://data.cityofboston.gov/resource/cz6t-w69j.json', \
             'https://data.cityofboston.gov/resource/cqit-55tt.json', \
             'https://data.cityofboston.gov/resource/5jxx-wfpr.json']
-
-    authenticate_stuff = '?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']
-
 
 
     dataSetDict = {}
@@ -73,7 +73,10 @@ class retrieveData(dml.Algorithm):
             print("Starting retrieval and storage of {} dataset".format(key))
             repo.dropPermanent(key)
             repo.createPermanent(key)
-            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0]+ retrieveData.authenticate_stuff).read().decode("utf-8")
+
+
+            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0]).read().decode("utf-8") # why didn't you append the secret key here "via json file"
+
             r = json.loads(response)
             s = json.dumps(r, sort_keys=True, indent=2)
             repo[retrieveData.dataSetDict[key][1]].insert_many(r)
