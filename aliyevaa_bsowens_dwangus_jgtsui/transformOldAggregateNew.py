@@ -42,12 +42,12 @@ class transformOldAggregateNew(dml.Algorithm):
         repo.authenticate(transformOldAggregateNew.contributor, transformOldAggregateNew.contributor)
         myrepo = repo.aliyevaa_bsowens_dwangus_jgtsui
 
-        '''
+        #'''
         for key in transformOldAggregateNew.oldSetExtensions:
             print(key)
             print(myrepo[key].find_one())
             print("\n")
-        '''
+        #'''
         #'''
         #Wow, that's really interesting... no crimes occurred where, in the vicinity of 1 mile, there were 23 "community centers" nearby
         #In contrast, no crimes only began to stop occurring where, in the same radius, there were 2918 "entertainment/food" licensees nearby

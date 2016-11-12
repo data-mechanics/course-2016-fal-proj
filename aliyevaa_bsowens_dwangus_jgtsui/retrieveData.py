@@ -6,6 +6,26 @@ import datetime
 import uuid
 import time
 import ast
+from geopy.geocoders import Nominatim
+geolocator = Nominatim()
+
+
+# HELPER METHODS #
+
+
+def get_coords(number,street,suffix,zip):
+    address_str = number + " " + street + " " + suffix + " " + zip
+    location = geolocator.geocode(address_str)
+    return [location.latitude, location.longitude]
+
+
+
+
+
+
+
+
+
 
 class retrieveData(dml.Algorithm):
     contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
@@ -111,9 +131,20 @@ class retrieveData(dml.Algorithm):
                         ent.delete_one({'_id': e['_id']})
                 ent.create_index([('location', '2dsphere')])
             elif key == 'year_round_pools':
-                #print("Transforming year_round_pools dataset...")
-                #pools = myrepo['year_round_pools']
-                #pools.update_many({})
+                print("Transforming year_round_pools dataset...")
+                pools = myrepo['year_round_pools']
+                pools.update_many({}, {"$rename": {'location_1': 'location'}})
+                for pool in pools.find(modifiers={"$snapshot": True}):
+                    number = pool['st_no']
+                    street = pool['st_name']
+                    suffix = pool['suffix']
+                    zip_code = pool['location_1_zip']
+                    coords = get_coords(number,street,suffix,zip_code)
+                    pool.update({'_id': pool['_id']}, \
+                                {'$set': {'location': {'type': 'Point', 'coordinates': coords}}})
+                pools.create_index([('location', '2dsphere')])
+
+
                 continue
             elif key == 'moving_truck_permits':
                 print("Transforming moving_truck_permits dataset...")
