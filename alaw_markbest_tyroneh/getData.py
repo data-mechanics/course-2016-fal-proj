@@ -8,9 +8,9 @@ import uuid
 import xmltodict
 
 class getData(dml.Algorithm):
-    contributor = 'alaw_tyroneh'
+    contributor = 'alaw_markbest_tyroneh'
     reads = []
-    writes = ['alaw_tyroneh.BostonProperty','alaw_tyroneh.CambridgeProperty','alaw_tyroneh.SomervilleProperty','alaw_tyroneh.BrooklineProperty', 'alaw_tyroneh.HubwayStations', 'alaw_tyroneh.TCStops']
+    writes = ['alaw_markbest_tyroneh.BostonProperty','alaw_markbest_tyroneh.CambridgeProperty','alaw_markbest_tyroneh.SomervilleProperty','alaw_markbest_tyroneh.BrooklineProperty', 'alaw_markbest_tyroneh.HubwayStations', 'alaw_markbest_tyroneh.TCStops']
 
     @staticmethod
     def execute(trial = False):
@@ -20,7 +20,7 @@ class getData(dml.Algorithm):
             
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('alaw_tyroneh', 'alaw_tyroneh')
+        repo.authenticate('alaw_markbest_tyroneh', 'alaw_markbest_tyroneh')
         
         #JSON urls with SoQL queries
         jsonURLs = {"BostonProperty": 'https://data.cityofboston.gov/resource/jsri-cpsq.json?$limit=11000000',
@@ -42,7 +42,7 @@ class getData(dml.Algorithm):
                 # Set up the database connection
                 repo.dropPermanent(key)
                 repo.createPermanent(key)
-                repo['alaw_tyroneh.'+key].insert_many(r)
+                repo['alaw_markbest_tyroneh.'+key].insert_many(r)
         
         #GeoJSON urls with queries, read list of features
         geojsonURLs = {"BrooklineProperty":"http://data.brooklinema.gov/datasets/a725742a993f425ea463c2c509d91ca3_1.geojson"}
@@ -62,7 +62,7 @@ class getData(dml.Algorithm):
                 # Set up the database connection
                 repo.dropPermanent(key)
                 repo.createPermanent(key)
-                repo['alaw_tyroneh.'+key].insert_many(r) 
+                repo['alaw_markbest_tyroneh.'+key].insert_many(r) 
                 
         
         #CSV urls, converts them to python dictionaries 
@@ -85,7 +85,7 @@ class getData(dml.Algorithm):
                 # Set up the database connection
                 repo.dropPermanent(key)
                 repo.createPermanent(key)
-                repo['alaw_tyroneh.'+key].insert_many(csvfile) 
+                repo['alaw_markbest_tyroneh.'+key].insert_many(csvfile) 
         
         
         #MBTA API, gets xml files of every T and Commuter rail stop
@@ -130,7 +130,7 @@ class getData(dml.Algorithm):
             # Set up the database connection
             repo.dropPermanent('TCStops')
             repo.createPermanent('TCStops')
-            repo['alaw_tyroneh.TCStops'].insert_many(result) 
+            repo['alaw_markbest_tyroneh.TCStops'].insert_many(result) 
 
         # Retrieve scraped real time bus location data hosted on datamechanics.io website
         url_base = "http://datamechanics.io/data/alaw_tyroneh/busdata/mbtabuses-"
@@ -158,7 +158,7 @@ class getData(dml.Algorithm):
         else: 
             repo.dropPermanent('TimedBuses')
             repo.createPermanent('TimedBuses')
-            repo['alaw_tyroneh.TimedBuses'].insert_many(all_buses)  
+            repo['alaw_markbest_tyroneh.TimedBuses'].insert_many(all_buses)  
 
         repo.logout()
         endTime = datetime.datetime.now()
@@ -176,7 +176,7 @@ class getData(dml.Algorithm):
          # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('alaw_tyroneh', 'alaw_tyroneh')
+        repo.authenticate('alaw_markbest_tyroneh', 'alaw_markbest_tyroneh')
 
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
@@ -190,7 +190,7 @@ class getData(dml.Algorithm):
         doc.add_namespace('hub', 'https://s3.amazonaws.com/hubway-data/') # Hubway Data 
         doc.add_namespace('mbta', 'http://realtime.mbta.com/developer/api/v2/routes') # MBTA API
 
-        this_script = doc.agent('alg:alaw_tyroneh#getData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:alaw_markbest_tyroneh#getData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
         resource_BostonProperty = doc.entity('bdp:jsri-cpsq', {'prov:label':'Boston Properties Property Coordinates', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         get_BostonProperty = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Boston Properties Property Coordinates'})
@@ -247,7 +247,7 @@ class getData(dml.Algorithm):
             )
 
 
-        resource_TimedBuses = doc.entity('dat:alaw_tyroneh#busdata', {'prov:label':'Boston Bus Coordinates', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'geojson'})
+        resource_TimedBuses = doc.entity('dat:alaw_markbest_tyroneh#busdata', {'prov:label':'Boston Bus Coordinates', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'geojson'})
         get_TimedBuses = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Boston Bus Coordinates'})
         doc.wasAssociatedWith(get_TimedBuses, this_script);
         doc.usage(get_TimedBuses, resource_TimedBuses, startTime, None,
@@ -256,31 +256,31 @@ class getData(dml.Algorithm):
                 }
             )
 
-        BostonProperty = doc.entity('dat:alaw_tyroneh#BostonProperty', {prov.model.PROV_LABEL:'Boston Properties Property Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        BostonProperty = doc.entity('dat:alaw_markbest_tyroneh#BostonProperty', {prov.model.PROV_LABEL:'Boston Properties Property Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(BostonProperty, this_script)
         doc.wasGeneratedBy(BostonProperty, get_BostonProperty, endTime)
         
-        CambridgeProperty = doc.entity('dat:alaw_tyroneh#CambridgeProperty', {prov.model.PROV_LABEL:'Cambridge Property Property Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        CambridgeProperty = doc.entity('dat:alaw_markbest_tyroneh#CambridgeProperty', {prov.model.PROV_LABEL:'Cambridge Property Property Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(CambridgeProperty, this_script)
         doc.wasGeneratedBy(CambridgeProperty, get_CambridgeProperty, endTime)
         
-        SomervilleProperty = doc.entity('dat:alaw_tyroneh#SomervilleProperty', {prov.model.PROV_LABEL:'Somerville Property Property Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        SomervilleProperty = doc.entity('dat:alaw_markbest_tyroneh#SomervilleProperty', {prov.model.PROV_LABEL:'Somerville Property Property Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(SomervilleProperty, this_script)
         doc.wasGeneratedBy(SomervilleProperty, get_SomervilleProperty, endTime)
         
-        BrooklineProperty = doc.entity('dat:alaw_tyroneh#BrooklineProperty', {prov.model.PROV_LABEL:'Brookline Property Property Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        BrooklineProperty = doc.entity('dat:alaw_markbest_tyroneh#BrooklineProperty', {prov.model.PROV_LABEL:'Brookline Property Property Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(BrooklineProperty, this_script)
         doc.wasGeneratedBy(BrooklineProperty, get_BrooklineProperty, endTime)
         
-        HubwayStations = doc.entity('dat:alaw_tyroneh#HubwayStations', {prov.model.PROV_LABEL:'Hubway Stations Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        HubwayStations = doc.entity('dat:alaw_markbest_tyroneh#HubwayStations', {prov.model.PROV_LABEL:'Hubway Stations Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(HubwayStations, this_script)
         doc.wasGeneratedBy(HubwayStations, get_HubwayStations, endTime)
 
-        TCStops = doc.entity('dat:alaw_tyroneh#TCStops', {prov.model.PROV_LABEL:'T and Commuter Stations', prov.model.PROV_TYPE:'ont:DataSet'})
+        TCStops = doc.entity('dat:alaw_markbest_tyroneh#TCStops', {prov.model.PROV_LABEL:'T and Commuter Stations', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(TCStops, this_script)
         doc.wasGeneratedBy(TCStops, get_TCStops, endTime)
 
-        TimedBuses = doc.entity('dat:alaw_tyrone#TimedBuses', {prov.model.PROV_LABEL:'Boston Bus Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        TimedBuses = doc.entity('dat:alaw_markbest_tyroneh#TimedBuses', {prov.model.PROV_LABEL:'Boston Bus Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(TimedBuses, this_script);
         doc.wasGeneratedBy(TimedBuses, get_TimedBuses, endTime);
         

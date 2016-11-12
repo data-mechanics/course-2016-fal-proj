@@ -2,8 +2,8 @@ import dml
 import matplotlib.pyplot as plt
 
 class mapData():
-	contributor = 'alaw_tyroneh'
-	reads = ['alaw_tyroneh.PropertyGeoJSONs','alaw_tyroneh.StationsGeoJSONs']
+	contributor = 'alaw_markbest_tyroneh'
+	reads = ['alaw_markbest_tyroneh.PropertyGeoJSONs','alaw_markbest_tyroneh.StationsGeoJSONs']
 	writes = []
 
 	@staticmethod
@@ -12,10 +12,10 @@ class mapData():
 
 		client = dml.pymongo.MongoClient()
 		repo = client.repo
-		repo.authenticate('alaw_tyroneh', 'alaw_tyroneh')
+		repo.authenticate('alaw_markbest_tyroneh', 'alaw_markbest_tyroneh')
 		
 		#pull Property and stations data
-		data = (repo['alaw_tyroneh.PropertyGeoJSONs'].find(),repo['alaw_tyroneh.StationsGeoJSONs'].find())
+		data = (repo['alaw_markbest_tyroneh.PropertyGeoJSONs'].find(),repo['alaw_markbest_tyroneh.StationsGeoJSONs'].find())
 
 		#repo.logout()
 

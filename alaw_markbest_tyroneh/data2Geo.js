@@ -24,8 +24,8 @@ db.loadServerScripts();
 
 //store transformed property data in collection "PropertyGeoJSONs"
 
-dropPerm("alaw_tyroneh.PropertyGeoJSONs");
-createPerm("alaw_tyroneh.PropertyGeoJSONs");
+dropPerm("alaw_markbest_tyroneh.PropertyGeoJSONs");
+createPerm("alaw_markbest_tyroneh.PropertyGeoJSONs");
 
 
 function flatten(X) {
@@ -33,7 +33,7 @@ function flatten(X) {
     db[X].find().forEach(function(x) { db[X].update({_id: x._id}, x.value); });
 }
 
-db.alaw_tyroneh.BostonProperty.mapReduce(
+db.alaw_markbest_tyroneh.BostonProperty.mapReduce(
 	//map location data (lat,long) to geoJSON format
 	function() {
 		var location = String(this.location).replace("(","").replace(")","");
@@ -66,10 +66,10 @@ db.alaw_tyroneh.BostonProperty.mapReduce(
 	},
 	//no reduce step, all ids are unique
 	function(){},
-	{out:{merge:"alaw_tyroneh.PropertyGeoJSONs"}}
+	{out:{merge:"alaw_markbest_tyroneh.PropertyGeoJSONs"}}
 );
 
-db.alaw_tyroneh.CambridgeProperty.mapReduce(
+db.alaw_markbest_tyroneh.CambridgeProperty.mapReduce(
 	//map location data (long,lat) to geoJSON format
 	function() {
 		var lat = parseFloat(this.location_1.coordinates[1]);
@@ -101,10 +101,10 @@ db.alaw_tyroneh.CambridgeProperty.mapReduce(
 	},
 	//no reduce step, all ids are unique
 	function(){},
-	{out:{merge:"alaw_tyroneh.PropertyGeoJSONs"}}
+	{out:{merge:"alaw_markbest_tyroneh.PropertyGeoJSONs"}}
 );
 
-db.alaw_tyroneh.SomervilleProperty.mapReduce(
+db.alaw_markbest_tyroneh.SomervilleProperty.mapReduce(
 	//map location data (long,lat) to geoJSON format
 	function() {
 		if(this.location_1 != undefined){
@@ -138,10 +138,10 @@ db.alaw_tyroneh.SomervilleProperty.mapReduce(
 	},
 	//no reduce step, all ids are unique
 	function(){},
-	{out:{merge:"alaw_tyroneh.PropertyGeoJSONs"}}
+	{out:{merge:"alaw_markbest_tyroneh.PropertyGeoJSONs"}}
 );
 
-db.alaw_tyroneh.BrooklineProperty.mapReduce(
+db.alaw_markbest_tyroneh.BrooklineProperty.mapReduce(
 	//map rich geoJSON polygon to multiple singular coordinates of the polygon
 	function() {
 		var coors = this.geometry.coordinates[0];
@@ -191,17 +191,17 @@ db.alaw_tyroneh.BrooklineProperty.mapReduce(
 				};
 			}
 		},
-	{out:{merge:"alaw_tyroneh.PropertyGeoJSONs"}}
+	{out:{merge:"alaw_markbest_tyroneh.PropertyGeoJSONs"}}
 );
 
-// flatten("alaw_tyroneh.PropertyGeoJSONs")
+// flatten("alaw_markbest_tyroneh.PropertyGeoJSONs")
 
 //store transformed station data in collection "StationsGeoJSONs"
 
-dropPerm("alaw_tyroneh.StationsGeoJSONs");
-createPerm("alaw_tyroneh.StationsGeoJSONs");
+dropPerm("alaw_markbest_tyroneh.StationsGeoJSONs");
+createPerm("alaw_markbest_tyroneh.StationsGeoJSONs");
 
-db.alaw_tyroneh.HubwayStations.mapReduce(
+db.alaw_markbest_tyroneh.HubwayStations.mapReduce(
 	//map location data (long,lat) and type to geoJSON format
 	function() {
 		if((this.Latitude >= 42.23) && (this.Latitude <= 42.41) && (this.Longitude >= -71.18) && (this.Longitude <= -70.993)){
@@ -221,10 +221,10 @@ db.alaw_tyroneh.HubwayStations.mapReduce(
 	},
 	//no reduce step, all ids are unique
 	function(){},
-	{out:{merge:"alaw_tyroneh.StationsGeoJSONs"}}
+	{out:{merge:"alaw_markbest_tyroneh.StationsGeoJSONs"}}
 );
 
-db.alaw_tyroneh.TCStops.mapReduce(
+db.alaw_markbest_tyroneh.TCStops.mapReduce(
     //map location data (lat,long) to geoJSON format
     function() {
         var route_name = this.route.name
@@ -267,7 +267,7 @@ db.alaw_tyroneh.TCStops.mapReduce(
                         "type": mode,
                         "line": routeList}};
     },
-    {out:{merge:"alaw_tyroneh.StationsGeoJSONs"}}
+    {out:{merge:"alaw_markbest_tyroneh.StationsGeoJSONs"}}
 );
 
 
