@@ -39,36 +39,36 @@ class statCorrelation(dml.Algorithm):
 
         master_dict = {'bigBelly_star':bigBelly_star, 'bus_star':bus_star, 'college_star':college_star, 'hubway_star':hubway_star}
         bigBelly_cc, bus_cc, college_cc, hubway_cc = {}, {}, {}, {}
-
+        print(master_dict)
         # Calculate the Pearson product-moment correlation coefficient for each category to every other category 
 
-        bigBelly_cc['bus_cc'] = pearsonr(master_dict['bigBelly_star'], master_dict['bigBelly_star'])
-        bigBelly_cc['college_cc'] = pearsonr(master_dict['college_star'], master_dict['bigBelly_star'])
-        bigBelly_cc['hubway_cc'] = pearsonr(master_dict['hubway_star'], master_dict['bigBelly_star'])
-        print('bigBelly_cc', bigBelly_cc)
+        # bigBelly_cc['bus_cc'] = pearsonr(master_dict['bigBelly_star'], master_dict['bigBelly_star'])
+        # bigBelly_cc['college_cc'] = pearsonr(master_dict['college_star'], master_dict['bigBelly_star'])
+        # bigBelly_cc['hubway_cc'] = pearsonr(master_dict['hubway_star'], master_dict['bigBelly_star'])
+        # print('bigBelly_cc', bigBelly_cc)
 
-        bus_cc['college_cc'] = pearsonr(master_dict['college_star'], master_dict['bus_star'])
-        bus_cc['hubway_cc'] = pearsonr(master_dict['hubway_star'], master_dict['bus_star'])
-        print('bus_cc', bus_cc)
+        # bus_cc['college_cc'] = pearsonr(master_dict['college_star'], master_dict['bus_star'])
+        # bus_cc['hubway_cc'] = pearsonr(master_dict['hubway_star'], master_dict['bus_star'])
+        # print('bus_cc', bus_cc)
 
-        college_cc['hubway_cc'] = pearsonr(master_dict['hubway_star'], master_dict['college_star'])
-        print('college_cc', college_cc)
+        # college_cc['hubway_cc'] = pearsonr(master_dict['hubway_star'], master_dict['college_star'])
+        # print('college_cc', college_cc)
 
-        bigBelly_star_dict = OrderedDict(zipcode_ratings_df['bigBelly_star'])
-        bus_star_dict = OrderedDict(zipcode_ratings_df['bus_star'])
+        # bigBelly_star_dict = OrderedDict(zipcode_ratings_df['bigBelly_star'])
+        # bus_star_dict = OrderedDict(zipcode_ratings_df['bus_star'])
 
-        colors = np.random.rand(22)
+        # colors = np.random.rand(22)
 
-        plt.figure(1)
-        plt.subplot(211)
-        plt.scatter(range(len(bigBelly_star_dict.keys())), [int(v) for v in bigBelly_star_dict.values()], c=colors)
-        plt.xticks(range(len(bigBelly_star_dict.keys())))
+        # plt.figure(1)
+        # plt.subplot(211)
+        # plt.scatter(range(len(bigBelly_star_dict.keys())), [int(v) for v in bigBelly_star_dict.values()], c=colors)
+        # plt.xticks(range(len(bigBelly_star_dict.keys())))
 
-        plt.subplot(212)
-        plt.scatter(range(len(bus_star_dict.keys())), [int(v) for v in bus_star_dict.values()], c=colors)
-        plt.xticks(range(len(bus_star_dict.keys())))
+        # plt.subplot(212)
+        # plt.scatter(range(len(bus_star_dict.keys())), [int(v) for v in bus_star_dict.values()], c=colors)
+        # plt.xticks(range(len(bus_star_dict.keys())))
 
-        plt.show()
+        # plt.show()
 
         # Convert dictionary into JSON object 
         # data = json.dumps(star_dict_final, sort_keys=True, indent=2)

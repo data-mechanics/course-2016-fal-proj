@@ -1,4 +1,3 @@
-import urllib.request
 import json
 import dml
 import prov.model
@@ -8,6 +7,9 @@ import geocoder
 from collections import Counter
 import pandas as pd
 import numpy as np 
+from bs4 import BeautifulSoup
+import urllib.request
+import re
 
 class zipcodeRatings(dml.Algorithm):
     contributor = 'ktan_ngurung_yazhang_emilyh23'
@@ -18,8 +20,8 @@ class zipcodeRatings(dml.Algorithm):
     def get_rating(l, ct, z, star):
         mean = np.mean(l, axis=None)
         std = np.std(l, axis=0)
-        high = mean + std/1.5
-        low = mean - std/1.5 
+        high = mean + std/2
+        low = mean - std/2
         temp = {} 
         if ct > high: 
             temp = {'zc': z, star: 3}
@@ -43,6 +45,22 @@ class zipcodeRatings(dml.Algorithm):
         else: 
             temp = {'zc': z, star: 2}
         return temp
+
+    @staticmethod
+    def scrapeData(soup, zc_list):
+        zc_land_area = {}
+        for zc in zc_list:
+            # 02446 is missing
+            try: 
+                zc_data_block = soup.find('div', {'id': zc})
+                b_text = zc_data_block.findAll(text=True)
+                land_area_index = b_text.index('Land area:')
+                land_area = float(b_text[land_area_index+1])
+                zc_land_area[zc] = land_area * 100
+            except AttributeError:
+                if zc == '02446':
+                    zc_land_area[zc] = 129
+        return zc_land_area
 
     @staticmethod
     def execute(trial = False):
@@ -93,7 +111,12 @@ class zipcodeRatings(dml.Algorithm):
 
         all_merged = pd.merge(merged_df, rider_df, on='zc')
 
-        zc = set(all_merged['zc']) 
+        zc = set(all_merged['zc'])
+        url = 'http://www.city-data.com/zipmaps/Boston-Massachusetts.html'
+        r = urllib.request.urlopen(url)
+        soup = BeautifulSoup(r, 'html.parser')
+        zc_land_area = zipcodeRatings.scrapeData(soup, zc)
+
         # Lists for individual dictionary per zip code 
         bs_list = []  
         c_list = []  
@@ -126,17 +149,16 @@ class zipcodeRatings(dml.Algorithm):
             ws_d[z] = num_stations * entry_sum
 
             bs.append(z_df['busStopCount'].iloc[0])
-            bs_d[z] = z_df['busStopCount'].iloc[0]
+            bs_d[z] = z_df['busStopCount'].iloc[0] / zc_land_area[z]
 
             c.append(z_df['collegeCount'].iloc[0])
-            c_d[z] = z_df['collegeCount'].iloc[0]
+            c_d[z] = z_df['collegeCount'].iloc[0] / zc_land_area[z]
 
             bb.append(z_df['bigBellyCount'].iloc[0])
-            bb_d[z] = z_df['bigBellyCount'].iloc[0]
-
+            bb_d[z] = z_df['bigBellyCount'].iloc[0] / zc_land_area[z]
 
             h.append(z_df['hubwayCount'].iloc[0])
-            h_d[z] = z_df['hubwayCount'].iloc[0]
+            h_d[z] = z_df['hubwayCount'].iloc[0] / zc_land_area[z]
 
         bs = sorted(bs)
         c = sorted(c)
@@ -148,7 +170,7 @@ class zipcodeRatings(dml.Algorithm):
         # deviation and assigns the appropriate rating based on the criteria's value
         for z in zc: 
             bs_ct = bs_d[z]
-            bus_star = zipcodeRatings.(bs, bs_ct, z, 'bus_star')
+            bus_star = zipcodeRatings.get_rating(bs, bs_ct, z, 'bus_star')
             bs_list.append(bus_star)
 
             h_ct = h_d[z]
@@ -212,6 +234,7 @@ class zipcodeRatings(dml.Algorithm):
         star_df_final = pd.merge(star_df, overall_dict, on='zc')
         star_df_final.set_index('zc', drop=True, inplace=True)
         star_dict_final = star_df_final.to_dict(orient='index')
+        print(star_df_final)
 
         for k, v in star_dict_final.items():
             star_dict_final[k]['hubway_star'] = int(star_dict_final[k]['hubway_star'])
@@ -279,8 +302,8 @@ class zipcodeRatings(dml.Algorithm):
         return doc
 
 zipcodeRatings.execute() 
-doc = zipcodeRatings.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+# doc = zipcodeRatings.provenance()
+# print(doc.get_provn())
+# print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
