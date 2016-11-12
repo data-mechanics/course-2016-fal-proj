@@ -6,6 +6,11 @@ import prov.model
 import datetime
 import uuid
 import xmltodict
+import zipfile
+import shapefile
+import io
+import sys
+import os
 
 class getData(dml.Algorithm):
     contributor = 'alaw_markbest_tyroneh'
@@ -160,35 +165,40 @@ class getData(dml.Algorithm):
             repo.createPermanent('TimedBuses')
             repo['alaw_markbest_tyroneh.TimedBuses'].insert_many(all_buses)  
 
+    	#GIS data/shapefiles urls, converts them to python dictionaries
+        gisURLs = {"CensusPopulation":'http://wsgw.mass.gov/data/gispub/shape/census2010/CENSUS2010TOWNS_SHP.zip'}
+        gisTowns = ['BOSTON','BROOKLINE','CAMBRIDGE','SOMERVILLE']
 
-	#GIS data/shapefiles urls, converts them to python dictionaries
-	gisURLs = {"CensusPopulation":'http://wsgw.mass.gov/data/gispub/shape/census2010/CENSUS2010TOWNS_SHP.zip'}
-	gisTowns = ['BOSTON','BROOKLINE','CAMBRIDGE','SOMERVILLE']
+        for key in gisURLs:
+            url = gisURLs[key]
 
-	for key in gisURLs:
-        	url = gisURLs[key]
+            # Get the data from the server.
+            response = urllib.request.urlopen(url)
 
-	        # Get the data from the server.
-        	response = urllib.request.urlopen(url)
+            # Unzip the file into the working directory.
+            zip_ref = zipfile.ZipFile(io.BytesIO(response.read()))
+            zip_ref.extractall("./")
+            zip_ref.close()
 
-	        # Unzip the file into the working directory.
-        	zip_ref = zipfile.ZipFile(io.BytesIO(response.read()))
-	        zip_ref.extractall("./")
-        	zip_ref.close()
+            # Read the file into the Python shapefile library.
+            sf = shapefile.Reader("CENSUS2010TOWNS_POLY")
 
-	        # Read the file into the Python shapefile library.
-        	sf = shapefile.Reader("CENSUS2010TOWNS_POLY")
+            # Pull out the specific records for the four areas of interest, listed in gisTowns above.
+            # NOTE: The attribute at index 1 of any record is the uppercase town name.
+            # stores dictionary with town name as key and 2010 population as data
 
-	        # Pull out the specific records for the four areas of interest, listed in gisTowns above.
-        	# NOTE: The attribute at index 1 of any record is the uppercase town name.
-	        # stores dictionary with town name as key and 2010 population as data
+            boston_area = [{x[1]:x[9]} for x in sf.iterRecords() if x[1] in gisTowns]
 
-        	boston_area = {x[1]:x[9] for x in sf.iterRecords() if x[1] in gisTowns}
+            # Set up the database connection
+            repo.dropPermanent(key)
+            repo.createPermanent(key)
+            repo['alaw_markbest_tyroneh.'+key].insert_many(boston_area)
 
-	        # Set up the database connection
-        	repo.dropPermanent(key)
-	        repo.createPermanent(key)
-        	repo['alaw_markbest_tyroneh.'+key].insert_many(boston_area)
+            # remove files after unzipping
+            for path in ['CENSUS2010TOWNS_ARC.dbf','CENSUS2010TOWNS_ARC.prj','CENSUS2010TOWNS_ARC.sbn','CENSUS2010TOWNS_ARC.sbx','CENSUS2010TOWNS_ARC.shp','CENSUS2010TOWNS_ARC.shp.xml',
+                'CENSUS2010TOWNS_ARC.shx','CENSUS2010TOWNS_POLY.cpg','CENSUS2010TOWNS_POLY.dbf','CENSUS2010TOWNS_POLY.prj','CENSUS2010TOWNS_POLY.sbn','CENSUS2010TOWNS_POLY.sbx',
+                'CENSUS2010TOWNS_POLY.shp','CENSUS2010TOWNS_POLY.shp.xml','CENSUS2010TOWNS_POLY.shx']:
+                os.remove(path)
 
         repo.logout()
         endTime = datetime.datetime.now()
