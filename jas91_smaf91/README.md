@@ -89,7 +89,7 @@ and
 
 ### Problem 2
 
-Given the crimes dataset, another interesting problem would be to find the minimum number of police patrols and where should these patrols be located in order to maximize the coverage area of zones with high-crime rate. User input can be used to define what types of crimes should have priority and the minimum distance between these new added patrols and the high-crime-rated zones. This can be solved using **k-means++**.
+Given the crimes dataset, another interesting problem would be to find the minimum number of police patrols and where should these patrols be located in order to minimize the distance between the patrols and the historic crime locations. User input can be used to define what types of crimes should have priority and the minimum distance between these new added patrols and the crime locations. This can be solved using **k-means**.
 
 To customize the results just edit the `settings.py` file. It should look something like this:
 ```
@@ -110,11 +110,11 @@ Make sure to uncomment the last lines in the file:
 
 ### Problem 3
 
-This problem involves some statistical analysis between inspections and social media data. Given the [Food Establishment Inspections] dataset and the [Yelp Academic Dataset] we want to define if a correlation between the average ratings and the penalty score from the inspections exists.
+This problem involves some statistical analysis between inspections and social media data. Given the [Food Establishment Inspections] dataset and the [Yelp Academic Dataset] we want to determine if a correlation between the average ratings and the penalty score from the inspections exists.
 
-The files from the [Yelp Academic Dataset] used to solve this problem is: ```yelp_academic_dataset_business.json``` and ```yelp_academic_dataset_review.json```. These two files should be placed on a directory named ```/yelp``` outside the ```jas91_smaf91``` folder.
+The files from the [Yelp Academic Dataset] used to solve this problem are: ```yelp_academic_dataset_business.json``` and ```yelp_academic_dataset_review.json```. These two files should be placed on a directory ```/yelp``` outside the ```jas91_smaf91``` folder.
 
-To store the Yelp dataset execute ```load_yelp_data.py```. To run it:
+To store the Yelp datasets execute ```load_yelp_data.py```. To run it:
 ```
 >>> python3 load_yelp_data.py
 ```
@@ -123,15 +123,15 @@ Make sure to uncomment the last lines in the file:
 # load_yelp_data.execute()
 ```
 
-Let *b*, be a business in the Food Establishment Inspections dataset, inspected at a time *t*, then the penalty score of *b* is defined as follows:
+Let *b* be a business in the Food Establishment Inspections dataset, inspected at a time *t*, then the penalty score of *b* is defined as follows:
 
 penalty<sub>b</sub> = minor<sub>b</sub> + major<sub>b</sub> + severe<sub>b</sub>
 
 where minor<sub>b</sub>, major<sub>b</sub> and severe<sub>b</sub> are minor, major and severe violations (which in the dataset are represented as strings '\*', '\*\*', '\*\*\*').
 
-The datasets were joined by ```name``` and ```(latitude, longitude)``` using an index in both those attributes. The correlation analysis was partitioned by date, we define a window of time between two inspections *i* and *i+1* and the average rating was calculated depending on which interval of time that review was performed. We decided to do it this way since we assumed that, if the ratings are correlated with the inspection, they would reflect the results based on the inmediate performed inspection, not having an important effect on subsequent or previous inspections.
+The datasets were joined by ```name``` and ```(latitude, longitude)``` using an index in both those attributes, allowing an error of 50 meters in the coordinates. To perform the correlation analysis, the data was partitioned by date, we defined a window of time between two inspections *i* and *i+1* and the average rating was calculated depending on which interval of time that review was performed. We decided to do it this way since we assumed that, if the ratings are correlated with the inspection, they would reflect the results based on the inmediate performed inspection, not having an important effect on subsequent or previous inspections.
 
-To find if the average rating and the penalty score are truly correlated the *Pearson Correlation Coefficient* (from the ```scipy.stats``` python package) was used. The results are shown below:
+To determine if the average rating and the penalty score are truly correlated the *Pearson Correlation Coefficient* (from the ```scipy.stats``` python package) was used. The results are shown below:
 
 |               | correlation coefficient |       p value       |
 |:-------------:|:-----------------------:|:-------------------:|
