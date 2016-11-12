@@ -9,7 +9,7 @@ from collections import Counter
 import pandas as pd
 import numpy as np 
 
-class merge(dml.Algorithm):
+class zipcodeRatings(dml.Algorithm):
     contributor = 'ktan_ngurung_yazhang_emilyh23'
     reads = ['ktan_ngurung_yazhang_emilyh23.tRidershipLocation', 'ktan_ngurung_yazhang_emilyh23.hubwayBigBellyCounts', 'ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts']
     writes = ['ktan_ngurung_yazhang_emilyh23.zipcodeRatings']
@@ -94,29 +94,29 @@ class merge(dml.Algorithm):
         all_merged = pd.merge(merged_df, rider_df, on='zc')
 
         zc = set(all_merged['zc']) 
-        #list for individual dictionary per zip code 
+        # Lists for individual dictionary per zip code 
         bs_list = []  
         c_list = []  
         bb_list = []  
         h_list = []  
         ws_list = [] 
 
-        #dictionary of each zipcode for the five factors 
+        # Dictionaries of each zipcode for the five criteria 
         bs_d = {}   
         c_d = {} 
         bb_d = {} 
         h_d = {} 
         ws_d = {}
 
-        #values for std later 
+        # Values for standard deviation later 
         bs = []
         c = []
         bb = []
         h = []
         ws = []
 
-        #For each zipcode, get a list of the values of the criteria and build a dictionary to associate each value 
-        #with the corresponding zipcode 
+        # For each zipcode, get a list of the values of the criteria and build a 
+        # dictionary to associate each value with the corresponding zipcode 
         for z in zc: 
             z_df = all_merged.loc[all_merged['zc'] == z] 
 
@@ -138,34 +138,33 @@ class merge(dml.Algorithm):
             h.append(z_df['hubwayCount'].iloc[0])
             h_d[z] = z_df['hubwayCount'].iloc[0]
 
-
         bs = sorted(bs)
         c = sorted(c)
         bb = sorted(bb)
         h = sorted(h)
         ws = sorted(ws)
 
-        #For each zipcode, take the value of each criteria and pass to get_rating which calculates the standard deviation 
-        #and assigns the appropriate rating based on the criteria's value
+        # For each zipcode, take the value of each criteria and pass to get_rating which calculates the standard 
+        # deviation and assigns the appropriate rating based on the criteria's value
         for z in zc: 
             bs_ct = bs_d[z]
-            bus_star = merge.get_rating(bs, bs_ct, z, 'bus_star')
+            bus_star = zipcodeRatings.get_rating(bs, bs_ct, z, 'bus_star')
             bs_list.append(bus_star)
 
             h_ct = h_d[z]
-            hubway_star = merge.get_rating(h, h_ct, z, 'hubway_star')
+            hubway_star = zipcodeRatings.get_rating(h, h_ct, z, 'hubway_star')
             h_list.append(hubway_star)
 
             c_ct = c_d[z]
-            college_star = merge.get_rating(c, c_ct, z, 'college_star')
+            college_star = zipcodeRatings.get_rating(c, c_ct, z, 'college_star')
             c_list.append(college_star)
 
             bb_ct = bb_d[z]
-            bigBelly_star = merge.get_rating(bb, bb_ct, z, 'bigBelly_star')
+            bigBelly_star = zipcodeRatings.get_rating(bb, bb_ct, z, 'bigBelly_star')
             bb_list.append(bigBelly_star)
 
             ws_ct = ws_d[z] 
-            ws_star = merge.get_rating(ws, ws_ct, z, 'station_star')
+            ws_star = zipcodeRatings.get_rating(ws, ws_ct, z, 'station_star')
             ws_list.append(ws_star)
 
         bs_df = pd.DataFrame(bs_list)
@@ -174,7 +173,6 @@ class merge(dml.Algorithm):
         bb_df = pd.DataFrame(bb_list)
         ws_df = pd.DataFrame(ws_list) 
 
-
         merge1_df = pd.merge(bs_df, h_df, on='zc')
         merge2_df = pd.merge(c_df, bb_df,on='zc') 
         merge3_df = pd.merge(merge1_df, merge2_df, on='zc')
@@ -182,7 +180,8 @@ class merge(dml.Algorithm):
 
         overall_l = [] 
         overall_values = [] 
-        #For each zipcode, find the weighted rating based on the criterias' rating and the criterias' counts 
+
+        # For each zipcode, find the weighted rating based on the criterias' rating and the criterias' counts 
         for z in zc: 
             z_df = star_df.loc[star_df['zc'] == z]
             bs_star = z_df['bus_star']
@@ -201,11 +200,11 @@ class merge(dml.Algorithm):
             overall_values.append(overall)
             overall_l.append(overall)
 
-        #Take each of the weighted ratings and pass to get_overall to get the final scaled rating 
+        # Take each of the weighted ratings and pass to get_overall to get the final scaled rating 
         overall_dict = [] 
         i = 0 
         for z in zc: 
-            rating = merge.get_overall(overall_l, z, overall_values[i], 'overall_star') 
+            rating = zipcodeRatings.get_overall(overall_l, z, overall_values[i], 'overall_star') 
             overall_dict.append(rating)
             i += 1 
 
@@ -249,34 +248,39 @@ class merge(dml.Algorithm):
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 
-        this_script = doc.agent('alg:ktan_ngurung_yazhang_emilyh23#collegeBusStops', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        colleges_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/colleges-and-universities', {'prov:label':'Colleges and Universities', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        busStops_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/mbta-bus-stops', {'prov:label':'MBTA Bus Stops', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_script = doc.agent('alg:ktan_ngurung_yazhang_emilyh23#merge', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        collegeBusStops_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/collegeBusStopCounts', {'prov:label':'Number of Colleges And Bus Stops for Each Zip code', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        tRidershipLocation_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/tRidershipLocation', {'prov:label':'Number of Entries for Each Train Location', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        hubwayBigBelly_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/hubwayBigBelly', {'prov:label':'Number of Hubways and Big Belly for Each Zip code', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
 
         doc.wasAssociatedWith(this_run, this_script)
 
-        doc.usage(this_run, colleges_resource, startTime, None,
+        doc.usage(this_run, collegeBusStops_resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
-        doc.usage(this_run, busStops_resource, startTime, None,
+        doc.usage(this_run, tRidershipLocation_resource, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval'}
+            )
+        doc.usage(this_run, hubwayBigBelly_resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        collegeBusStops = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#collegeBusStops', {prov.model.PROV_LABEL:'Number of Colleges And Bus Stops for Each Zip code', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(collegeBusStops, this_script)
-        doc.wasGeneratedBy(collegeBusStops, this_run, endTime)
-        doc.wasDerivedFrom(collegeBusStops, colleges_resource, this_run, this_run, this_run)
-        doc.wasDerivedFrom(collegeBusStops, busStops_resource, this_run, this_run, this_run)
+        zipcode_ratings = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#zipcode-ratings', {prov.model.PROV_LABEL:'Critera Rating and Overall Rating for Zipcodes', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(zipcode_ratings, this_script)
+        doc.wasGeneratedBy(zipcode_ratings, this_run, endTime)
+        doc.wasDerivedFrom(zipcode_ratings, collegeBusStops_resource, this_run, this_run, this_run)
+        doc.wasDerivedFrom(zipcode_ratings, tRidershipLocation_resource, this_run, this_run, this_run)
+        doc.wasDerivedFrom(zipcode_ratings, hubwayBigBelly_resource, this_run, this_run, this_run)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
         return doc
 
-merge.execute() 
-#doc = collegeBusStops.provenance()
-#print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+zipcodeRatings.execute() 
+doc = zipcodeRatings.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
