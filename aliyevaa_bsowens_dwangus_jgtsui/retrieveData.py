@@ -19,6 +19,8 @@ class retrieveData(dml.Algorithm):
     setExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
                      'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools']
 
+    authentication_stuff = '?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']
+
 
     writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]
 
@@ -75,7 +77,7 @@ class retrieveData(dml.Algorithm):
             repo.createPermanent(key)
 
 
-            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0]).read().decode("utf-8") # why didn't you append the secret key here "via json file"
+            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0] + retrieveData.authentication_stuff).read().decode("utf-8") # why didn't you append the secret key here "via json file"
 
             r = json.loads(response)
             s = json.dumps(r, sort_keys=True, indent=2)
