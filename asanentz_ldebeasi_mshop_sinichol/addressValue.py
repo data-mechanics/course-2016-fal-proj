@@ -11,20 +11,20 @@ def is_number(s):
     except ValueError:
         return False
 
-contributor = "asanentz_sinichol"
+contributor = "asanentz_ldebeasi_mshop_sinichol"
 reads = []
-writes = ["asanentz_sinichol.addressValue"]
+writes = ["asanentz_ldebeasi_mshop_sinichol.addressValue"]
 
 client = dml.pymongo.MongoClient()
 repo = client.repo
-repo.authenticate("asanentz_sinichol", "asanentz_sinichol")
+repo.authenticate("asanentz_ldebeasi_mshop_sinichol", "asanentz_ldebeasi_mshop_sinichol")
 
 startTime = datetime.datetime.now()
 
 repo.dropPermanent("addressValue")
 repo.dropPermanent("addressValue")
 
-transit = repo.asanentz_sinichol.transit.find()
+transit = repo.asanentz_ldebeasi_mshop_sinichol.transit.find()
 
 busStops = {} 
 tStops   = {}
@@ -56,7 +56,7 @@ for entry in transit:
 
 
 
-address = repo.asanentz_sinichol.addresses.find()
+address = repo.asanentz_ldebeasi_mshop_sinichol.addresses.find()
 
 count = 0
 for entry in address:
@@ -85,24 +85,24 @@ for entry in address:
 		temp["BUSES"] = "NO COORDS"
 		temp["HUBWAYS"] = "NO COORDS"
 
-	res = repo.asanentz_sinichol.addressValue.insert_one(temp)
+	res = repo.asanentz_ldebeasi_mshop_sinichol.addressValue.insert_one(temp)
 
 endTime = datetime.datetime.now()
 
 
 # Provenance Data
 doc = prov.model.ProvDocument()
-doc.add_namespace('alg', 'http://datamechanics.io/algorithm/asanentz_sinichol') # The scripts are in <folder>#<filename> format.
-doc.add_namespace('dat', 'http://datamechanics.io/data/asanentz_sinichol') # The data sets are in <user>#<collection> format.
+doc.add_namespace('alg', 'http://datamechanics.io/algorithm/asanentz_ldebeasi_mshop_sinichol') # The scripts are in <folder>#<filename> format.
+doc.add_namespace('dat', 'http://datamechanics.io/data/asanentz_ldebeasi_mshop_sinichol') # The data sets are in <user>#<collection> format.
 doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
 doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/')
 
 this_script = doc.agent('alg:addressValue', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-addresses = doc.entity('dat:asanentz_sinichol#addresses', {prov.model.PROV_LABEL:'List of Addresses', prov.model.PROV_TYPE:'ont:DataSet'})
-busStops = doc.entity('dat:asanentz_sinichol#busStops', {prov.model.PROV_LABEL:'List of Bus Stops', prov.model.PROV_TYPE:'ont:DataSet'})
-hubway = doc.entity('dat:asanentz_sinichol#hubway', {prov.model.PROV_LABEL:'List of Hubway Stops', prov.model.PROV_TYPE:'ont:DataSet'})
+addresses = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#addresses', {prov.model.PROV_LABEL:'List of Addresses', prov.model.PROV_TYPE:'ont:DataSet'})
+busStops = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#busStops', {prov.model.PROV_LABEL:'List of Bus Stops', prov.model.PROV_TYPE:'ont:DataSet'})
+hubway = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#hubway', {prov.model.PROV_LABEL:'List of Hubway Stops', prov.model.PROV_TYPE:'ont:DataSet'})
 
 this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
 

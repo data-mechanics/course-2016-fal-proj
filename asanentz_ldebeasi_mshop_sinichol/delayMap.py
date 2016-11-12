@@ -11,13 +11,13 @@ def is_number(s):
     except ValueError:
         return False
 
-contributor = "asanentz_sinichol"
+contributor = "asanentz_ldebeasi_mshop_sinichol"
 reads = []
-writes = ["asanentz_sinichol.delayMap"]
+writes = ["asanentz_ldebeasi_mshop_sinichol.delayMap"]
 
 client = dml.pymongo.MongoClient()
 repo = client.repo
-repo.authenticate("asanentz_sinichol", "asanentz_sinichol")
+repo.authenticate("asanentz_ldebeasi_mshop_sinichol", "asanentz_ldebeasi_mshop_sinichol")
 
 startTime = datetime.datetime.now()
 
@@ -25,7 +25,7 @@ repo.dropPermanent("delayMap")
 repo.createPermanent("delayMap")
 
 
-delays = repo.asanentz_sinichol.traffic.find()
+delays = repo.asanentz_ldebeasi_mshop_sinichol.traffic.find()
 
 delayDict = {}
 
@@ -43,7 +43,7 @@ for entry in delays:
 			else:
 				delayDict[addressKey] = float(entry["delay"])
 #print(delayDict)
-addresses = repo.asanentz_sinichol.addresses.find()
+addresses = repo.asanentz_ldebeasi_mshop_sinichol.addresses.find()
 
 count = 0
 for entry in addresses:
@@ -76,7 +76,7 @@ for entry in addresses:
 		temp["DELAY"] = "NO DELAY FOUND"
 
 
-	res = repo.asanentz_sinichol.delayMap.insert_one(temp)
+	res = repo.asanentz_ldebeasi_mshop_sinichol.delayMap.insert_one(temp)
 
 
 
@@ -85,15 +85,15 @@ endTime = datetime.datetime.now()
 
 # Provenance Data
 doc = prov.model.ProvDocument()
-doc.add_namespace('alg', 'http://datamechanics.io/algorithm/asanentz_sinichol') # The scripts are in <folder>#<filename> format.
-doc.add_namespace('dat', 'http://datamechanics.io/data/asanentz_sinichol') # The data sets are in <user>#<collection> format.
+doc.add_namespace('alg', 'http://datamechanics.io/algorithm/asanentz_ldebeasi_mshop_sinichol') # The scripts are in <folder>#<filename> format.
+doc.add_namespace('dat', 'http://datamechanics.io/data/asanentz_ldebeasi_mshop_sinichol') # The data sets are in <user>#<collection> format.
 doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
 doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
 this_script = doc.agent('alg:delayMap', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-addresses = doc.entity('dat:asanentz_sinichol#addresses', {prov.model.PROV_LABEL:'List of Addresses', prov.model.PROV_TYPE:'ont:DataSet'})
-traffic = doc.entity('dat:asanentz_sinichol#traffic', {prov.model.PROV_LABEL:'List of Delays by Streets', prov.model.PROV_TYPE:'ont:DataSet'})
+addresses = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#addresses', {prov.model.PROV_LABEL:'List of Addresses', prov.model.PROV_TYPE:'ont:DataSet'})
+traffic = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#traffic', {prov.model.PROV_LABEL:'List of Delays by Streets', prov.model.PROV_TYPE:'ont:DataSet'})
 
 this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
 
