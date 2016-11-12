@@ -139,6 +139,8 @@ To find if the average rating and the penalty score are truly correlated the *Pe
 | penalty score |  -0.012                 |  0.33               |
 |  # violations |  -0.01                  |  0.40               |
 
+![alt text][scatter-plot.png]
+
 The results indicate that there is a negative correlation between the average ratings and the penalty score. That is, if the penalty score is high, one can expect that the average rating is low and vice versa. Also it is evident that the *minor* violations are not as correlated as the *major* and *severe* violations are. This can be interpreted as the users usually notice major and severe violations rather than minor violations and, this is reflected into their review ratings.
 
 The algorithm to performed this can be found in ```rating_inspection_correlation.py```. To run it:
