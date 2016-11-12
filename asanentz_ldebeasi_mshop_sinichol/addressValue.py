@@ -117,3 +117,5 @@ doc.wasDerivedFrom(maintenance, addresses, this_run, this_run, this_run)
 doc.wasDerivedFrom(maintenance, busStops, this_run, this_run, this_run)
 doc.wasDerivedFrom(maintenance, hubway, this_run, this_run, this_run)
 
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
