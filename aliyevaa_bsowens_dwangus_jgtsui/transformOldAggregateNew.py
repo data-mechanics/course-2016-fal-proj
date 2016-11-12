@@ -11,8 +11,8 @@ from bson.code import Code
 class transformOldAggregateNew(dml.Algorithm):
     contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
     
-    oldSetExtensions = ['crime2012-2015', 'public-fishing-access-locations', 'moving-truck-permits', \
-                     'food-licenses', 'entertainment-licenses', 'csa-pickups', 'year-round-pools']
+    oldSetExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
+                     'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools']
     
     '''oldTitles = ['Crime Incident Reports (July 2012 - August 2015) (Source: Legacy System)', \
               'Public Access Fishing Locations', 'Issued Moving Truck Permits', 'Active Food Establishment Licenses', \
@@ -20,7 +20,7 @@ class transformOldAggregateNew(dml.Algorithm):
     titles = ['Crime in 1-Mile Radius of Community Indicators', \
               'Crime in 1-Mile Radius of Anti-Community Indicators', \
               'Crime in 1-Mile Radius of Moving Truck Permits']
-    setExtensions = ['crimeVanti-community-indicators', 'crimeVcommunity-indicators', 'crimeVmoving-truck-permits']
+    setExtensions = ['crimeVanti_community_indicators', 'crimeVcommunity_indicators', 'crimeVmoving_truck_permits']
 
     reads = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in oldSetExtensions]
     writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]
@@ -47,15 +47,15 @@ class transformOldAggregateNew(dml.Algorithm):
             print(key)
             print(myrepo[key].find_one())
             print("\n")
-        #'''
         '''
+        #'''
         #Wow, that's really interesting... no crimes occurred where, in the vicinity of 1 mile, there were 23 "community centers" nearby
         #In contrast, no crimes only began to stop occurring where, in the same radius, there were 2918 "entertainment/food" licensees nearby
         #And no crimes happen where, in the same radius of 1 mile, there were 557 moving truck permits issued
         #...Hmm... I didn't cross-reference these with time though...
-        print(myrepo['crimeVcommunity-indicators'].find({'community_indicators_1600m_radius': {'$gt': 23}}).count())
-        print(myrepo['crimeVanti-community-indicators'].find({'anti_community_indicators_1600m_radius': {'$gt': 2917}}).count())
-        print(myrepo['crimeVmoving-truck-permits'].find({'moving_indicators_1600m_radius': {'$gt': 557}}).count())
+        print(myrepo['crimeVcommunity_indicators'].find({'community_indicators_1600m_radius': {'$gt': 23}}).count())
+        print(myrepo['crimeVanti_community_indicators'].find({'anti_community_indicators_1600m_radius': {'$gt': 2917}}).count())
+        print(myrepo['crimeVmoving_truck_permits'].find({'moving_indicators_1600m_radius': {'$gt': 557}}).count())
         return
         #'''
         #'''
@@ -64,18 +64,18 @@ class transformOldAggregateNew(dml.Algorithm):
             
             repo.dropPermanent(key)
             repo.createPermanent(key)
-            print("Now copying {} entries from crime2012-2015 to create new dataset {}.\n".format(myrepo['crime2012-2015'].count(), key))
-            #"Now copying 268056 entries from crime2012-2015 to create new dataset crimeVcommunity-indicators."
-            myrepo[key].insert_many(myrepo['crime2012-2015'].find())
+            print("Now copying {} entries from crime2012_2015 to create new dataset {}.\n".format(myrepo['crime2012_2015'].count(), key))
+            #"Now copying 268056 entries from crime2012_2015 to create new dataset crimeVcommunity_indicators."
+            myrepo[key].insert_many(myrepo['crime2012_2015'].find())
             #Or:
-            #repo[transformOldAggregateNew.dataSetDict[key][0]].insert(myrepo['crime2012-2015'].find())
+            #repo[transformOldAggregateNew.dataSetDict[key][0]].insert(myrepo['crime2012_2015'].find())
             
             newSet = myrepo[key]
             newSet.create_index([('location', '2dsphere')])
             
             print("Generating new {} dataset...".format(key))
-            if key == 'crimeVcommunity-indicators':
-                #"Creating crimeVcommunity-indicators took 512.1758079528809 seconds."
+            if key == 'crimeVcommunity_indicators':
+                #"Creating crimeVcommunity_indicators took 512.1758079528809 seconds."
                 #i = 0
                 for doc in newSet.find(modifiers={"$snapshot": True}):
                     #if (i%1000 == 0):
@@ -84,14 +84,14 @@ class transformOldAggregateNew(dml.Algorithm):
                         newSet.update({'_id': doc['_id']}, \
                                       {'$set': \
                                        {'community_indicators_1600m_radius': \
-                                        myrepo['public-fishing-access-locations'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count() + \
-                                        myrepo['csa-pickups'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count()\
+                                        myrepo['public_fishing_access_locations'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count() + \
+                                        myrepo['csa_pickups'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count()\
                                         }\
                                        }\
                                       )
                     #i += 1
-            elif key == 'crimeVanti-community-indicators':
-                #Creating crimeVanti-community-indicators took 2504.4606323242188 seconds.
+            elif key == 'crimeVanti_community_indicators':
+                #Creating crimeVanti_community_indicators took 2504.4606323242188 seconds.
                 #i = 0
                 for doc in newSet.find(modifiers={"$snapshot": True}):
                     #if (i%1000 == 0):
@@ -100,14 +100,14 @@ class transformOldAggregateNew(dml.Algorithm):
                         newSet.update({'_id': doc['_id']}, \
                                       {'$set': \
                                        {'anti_community_indicators_1600m_radius': \
-                                        myrepo['food-licenses'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count() + \
-                                        myrepo['entertainment-licenses'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count()\
+                                        myrepo['food_licenses'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count() + \
+                                        myrepo['entertainment_licenses'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count()\
                                         }\
                                        }\
                                       )
                     #i += 1
             else:
-                #"Creating crimeVmoving-truck-permits took 658.3249619007111 seconds."
+                #"Creating crimeVmoving_truck_permits took 658.3249619007111 seconds."
                 #i = 0
                 for doc in newSet.find(modifiers={"$snapshot": True}):
                     #if (i%1000 == 0):
@@ -116,7 +116,7 @@ class transformOldAggregateNew(dml.Algorithm):
                         newSet.update({'_id': doc['_id']}, \
                                       {'$set': \
                                        {'moving_indicators_1600m_radius': \
-                                        myrepo['moving-truck-permits'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count()\
+                                        myrepo['moving_truck_permits'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count()\
                                         }\
                                        }\
                                       )

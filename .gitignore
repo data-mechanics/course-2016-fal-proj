@@ -97,3 +97,7 @@ ENV/
 # Files specific to this project.
 #auth.json
 .idea/workspace.xml
+
+.idea/misc.xml
+
+auth.json
