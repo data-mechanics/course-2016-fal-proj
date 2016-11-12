@@ -148,7 +148,7 @@ class zipcodeRatings(dml.Algorithm):
         # deviation and assigns the appropriate rating based on the criteria's value
         for z in zc: 
             bs_ct = bs_d[z]
-            bus_star = zipcodeRatings.get_rating(bs, bs_ct, z, 'bus_star')
+            bus_star = zipcodeRatings.(bs, bs_ct, z, 'bus_star')
             bs_list.append(bus_star)
 
             h_ct = h_d[z]
