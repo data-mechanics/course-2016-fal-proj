@@ -131,7 +131,7 @@ class retrieveData(dml.Algorithm):
                         ent.delete_one({'_id': e['_id']})
                 ent.create_index([('location', '2dsphere')])
             elif key == 'year_round_pools':
-                continue
+                #continue
                 print("Transforming year_round_pools dataset...")
                 pools = myrepo['year_round_pools']
                 pools.update_many({}, {"$rename": {'location_1': 'location_details'}})
@@ -147,7 +147,7 @@ class retrieveData(dml.Algorithm):
                         coords = get_coords(number,street,suffix,city,zip_code)
                         #pool.update({'_id': pool['_id']}, {'$unset':{'location_1'}})
                         pool.update({'_id': pool['_id']},
-                                    {'$set': {'location_details': {'coordinates': coords}}})
+                                    {'$set': {'location_details': {'type': 'Point', 'coordinates': coords}}})
                         print(pool)
                 try:
                     pools.create_index([('location_details', '2dsphere')])
