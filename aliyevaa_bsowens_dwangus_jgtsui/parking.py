@@ -1,3 +1,5 @@
+
+#to install googlemaps: pip3 install -U googlemaps
 import googlemaps
 import urllib.request
 import json
