@@ -20,15 +20,16 @@ class prepData1(dml.Algorithm):
         repo = client.repo
         repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
 
+        print("hello from prepData1")
+
         repo.dropPermanent('aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius')
         repo.createPermanent('aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius')
 
         repo.dropPermanent('aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug')
         repo.createPermanent('aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug')
 
-
-        # radius = r
-        radius = 5 #miles
+        radius = r
+        #radius = 5 #miles
 
         crimes = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.find()
         for crime in crimes:
@@ -211,7 +212,7 @@ class prepData1(dml.Algorithm):
 
         return doc
 
-prepData1.execute(5)
-doc = prepData1.provenance()
+#prepData1.execute(3)
+#doc = prepData1.provenance()
 #print(doc.get_provn())
 #print(json.dumps(json.loads(doc.serialize()), indent=4))

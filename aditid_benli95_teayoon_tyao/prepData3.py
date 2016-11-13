@@ -25,27 +25,33 @@ repo.createPermanent('aditid_benli95_teayoon_tyao.listOfAverages')
 
 arr_of_diff = []
 
-for d in range(1,3):
-    #prepData1.execute(d)
+for d in range(5,100,5):
+    d = d / 10
 
-    #prepData2.execute()
+    print("value of d: " + str(d))
+    prepData1.prepData1.execute(d)
 
-    repo = repo.aditid_benli95_teayoon_tyao.averageAll.find()
-    for a in repo:
-        avgDict = dict(a)
+    print("starting prepData2 now")
+    prepData2.prepData2.execute()
 
-        numer = avgDict["value"]["crimes"]
-        denom = avgDict["value"]["product"]
-        avg_all = numer / denom
-    
-
-    repo = repo.aditid_benli95_teayoon_tyao.averageDrugs.find()
-    for a in repo:
+    repo_all = repo.aditid_benli95_teayoon_tyao.averageAll.find()
+    for a in repo_all:
         avgDict = dict(a)
         
-        numer = avgDict["value"]["crimes"]
-        denom = avgDict["value"]["product"]
+        numer = avgDict["value"]["product"]
+        denom = avgDict["value"]["crimes"]
+        avg_all = numer / denom
+        print("avg_all: " + str(avg_all) )
+    
+
+    repo_drug = repo.aditid_benli95_teayoon_tyao.averageDrug.find()
+    for a in repo_drug:
+        avgDict = dict(a)
+        
+        numer = avgDict["value"]["product"]
+        denom = avgDict["value"]["crimes"]
         avg_drug = numer / denom
+        print("avg_drug: " + str(avg_drug) )
 
 
     thisEntry = {"avg_all": avg_all, "avg_drug": avg_drug, "difference": avg_all - avg_drug, "distance": d}
@@ -54,14 +60,11 @@ for d in range(1,3):
     res = repo.aditid_benli95_teayoon_tyao.listOfAverages.insert_one(thisEntry)
     arr_of_diff.append(avg_all - avg_drug)
 
+print(arr_of_diff)
+
 
 
 #find max
-#either through above array
-#or through the dictionary
-
-
-
 
 
 

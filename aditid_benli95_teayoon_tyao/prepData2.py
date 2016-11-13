@@ -21,6 +21,7 @@ class prepData2(dml.Algorithm):
         repo = client.repo
         repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
 
+        print("hello from prepData2")
 
         ''' This commented out portion will be important for data visualisation later on '''
 
