@@ -52,4 +52,4 @@ python3 execute.py
 ```
 
 ###Project 2 Updates:
-Firstly we extract two new data sets [crimeIncidentReport](https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-July-2012-August-2015-Sourc/7cdf-6fgx/data)
+Firstly we extract two new data sets [CrimeIncidentReport](https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-July-2012-August-2015-Sourc/7cdf-6fgx/data) and [ApprovedBuildingPermit](https://data.cityofboston.gov/Permitting/Approved-Building-Permits/msk6-43c6/data)
