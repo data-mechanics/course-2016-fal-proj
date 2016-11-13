@@ -25,14 +25,11 @@ def start():
     zc_ratings = repo.ktan_ngurung_yazhang_emilyh23.zipcodeRatings.find_one() 
     zc_ratings.pop('_id', None)
     
-    # list of zipcodes
-    zc_list = list(zc_ratings.keys())[1:]
+    zc_list = list(zc_ratings.keys())[1:] # list of zipcodes
     # list of incomes for calculating low, med, and high
     income_list = []
     zc_income_dict = {}
-    
-    # for sorting zipcodes by population
-    zc_pop_dict = {}
+    zc_pop_dict = {} # for sorting zipcodes by population
     
     # make url request for boston zipcode data retrieval 
     url = 'http://www.city-data.com/zipmaps/Boston-Massachusetts.html'
@@ -95,9 +92,9 @@ def find_sim_zipcode(u_bus, u_station, u_college, u_bigbelly, u_hubway, n):
     sim_zc_pop contains all zipcodes that have met similiarity threshold    
     '''
     sim_zc_pop = []
-    
     sim_zc_data = {}
-    for zc in zc_list: 
+
+    for zc in zc_list:        
         sim_c = 0 # keeps track of the number of times zipcode ranking for a category matches user input for that category
         
         # category ratings for zipcode
@@ -132,7 +129,7 @@ def find_sim_zipcode(u_bus, u_station, u_college, u_bigbelly, u_hubway, n):
             sim_zc_pop.append((zc, zc_pop_dict[zc]))
             sim_zc_data[zc] = {'overall_rating': ratings['overall_star'], 'income_star': zc_income_dict[zc]['income_star']}
     return optimize(sim_zc_data, sim_zc_pop, n)
-        
+    
 def optimize(sim_zc_data, sim_zc_pop, n):
     top_zc_data = {}
     # zipcodes sorted by population density in descending order
