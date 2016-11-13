@@ -50,7 +50,7 @@ $ python zipcodeRatings.py
 ```
 
 ## Trial Mode (Question 3b)
-To test on trial mode, set the trial parameter within `zipcodeRatings.py` of the `execute()` method to `True`. It will activate the capability defined within the if-else statements when data is first pulled from the database to be created as dictionaries. 
+To test on trial mode, set the `trial` parameter within `zipcodeRatings.py` of the `execute()` method to `True`. It will activate the capability defined within the if-else statements when data is first pulled from the database to be created as dictionaries. 
 
 
 ## Statistical Analysis (Question 2b)
