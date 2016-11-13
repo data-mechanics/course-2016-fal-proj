@@ -106,10 +106,9 @@ class retrieveData(dml.Algorithm):
                 fishing.update_many({}, {"$rename": {'location': 'location_address'}})
                 fishing.update_many({}, {"$rename": {'map_location': 'location'}})
                 fishing.create_index([('location', '2dsphere')])
-            elif key == 'csaPickups':
-                #continue
-                print("Transforming csaPickups dataset...")
-                csa = myrepo['csaPickups']
+            elif key == 'csa_pickups':
+                print("Transforming csa_pickups dataset...")
+                csa = myrepo['csa_pickups']
                 csa.update_many({}, {"$rename": {'location': 'location_address'}})
                 csa.update_many({}, {"$rename": {'map_location': 'location'}})
                 csa.create_index([('location', '2dsphere')])
@@ -165,6 +164,7 @@ class retrieveData(dml.Algorithm):
                         truck.update({'_id': t['_id']}, \
                                    {'$set': {'location': {'type': 'Point', 'coordinates': prevCoords}}})
                 truck.create_index([('location', '2dsphere')])
+                print(truck)
 
         repo.logout()
 
