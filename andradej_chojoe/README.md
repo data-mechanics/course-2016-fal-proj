@@ -76,8 +76,8 @@ We will look at the geolocations of sanitary violations & requests (which we fou
 ###Our weight metrics are as follows:
 
 For code violations, overfilling or heavy amounts of trash were weighted higher. Incidents indirectly associated with excessive trash were weighted lower, such as 'insects/animals'. For each location we calculate the weight using count * the scale given below.
-		* improper storage trash - 0.75
-		* illegal dumping - 0.75
+* improper storage trash - 0.75
+* illegal dumping - 0.75
 		* overfilling of barrel/ dumpster - 1
 		* storage of garbage & rubbish - 0.75 
 		* insects rodents animals - 0.3
