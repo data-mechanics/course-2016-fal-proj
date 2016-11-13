@@ -186,11 +186,11 @@ db.alaw_markbest_tyroneh.BrooklineProperty.mapReduce(
 	{out:{merge:"alaw_markbest_tyroneh.PropertyGeoJSONs"}}
 );
 
-// flatten("alaw_markbest_tyroneh.PropertyGeoJSONs")
+flatten("alaw_markbest_tyroneh.PropertyGeoJSONs")
 
 
-dropPerm("alaw_markbest_tyroneh.roomAverages");
-createPerm("alaw_markbest_tyroneh.roomAverages");
+dropPerm("alaw_markbest_tyroneh.temp");
+createPerm("alaw_markbest_tyroneh.temp");
 
 db.alaw_markbest_tyroneh.PropertyGeoJSONs.mapReduce(
 	//map room counts to each area
@@ -201,22 +201,86 @@ db.alaw_markbest_tyroneh.PropertyGeoJSONs.mapReduce(
 	function(k,vs){
 		return Array.sum(vs);
 	},
-	{out:{merge:"alaw_markbest_tyroneh.CensusPopulation"}}
+	{out:{merge:"alaw_markbest_tyroneh.temp"}}
 );
 
-// db.alaw_markbest_tyroneh.CensusPopulation.mapReduce(
-// 	//recalculate Census data to average population per room
-// 	function() {
-// 		var name = this.area.toLowerCase();
-// 		name = name.charAt(0).toUpperCase() + name.slice(1);
-// 		var population = db.alaw_markbest_tyroneh.PropertyGeoJSONs.find({'_id': name});
-// 		print(name);
-// 		emit(this._id,{'average':population});
-// 	},
-// 	//no reduce step, all ids are unique
-// 	function(){},
-// 	{out:"alaw_markbest_tyroneh.roomAverages"}
-// );
+var Boston_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Boston'}).map(function(u) { return u.value; });
+var Cambridge_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Cambridge'}).map(function(u) { return u.value; });
+var Somerville_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Somerville'}).map(function(u) { return u.value; });
+var Brookline_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Brookline'}).map(function(u) { return u.value; });
+
+db.alaw_markbest_tyroneh.CensusPopulation.mapReduce(
+	//recalculate Census data to average population per room
+	function() {
+		var name = this.area.toLowerCase();
+		print(name);
+		name = name.charAt(0).toUpperCase() + name.slice(1);
+		if(name == 'Boston'){
+			emit(name,this.population/a);	
+		}
+		if(name == 'Cambridge'){
+			emit(name,this.population/b);
+		}
+		if(name == 'Somerville'){
+			emit(name,this.population/c);
+		}
+		if(name == 'Brookline'){
+			emit(name,this.population/d);
+		}
+		
+	},
+	//no reduce step, all ids are unique
+	function(){},
+	{scope:{a:Boston_rooms,b:Cambridge_rooms,c:Somerville_rooms,d:Brookline_rooms},
+	out:"alaw_markbest_tyroneh.roomAverages"}
+);
+
+dropPerm("alaw_markbest_tyroneh.temp");
+
+var Boston_avg = db.alaw_markbest_tyroneh.roomAverages.find({'_id': 'Boston'}).map(function(u) { return u.value; });
+var Cambridge_avg = db.alaw_markbest_tyroneh.roomAverages.find({'_id': 'Cambridge'}).map(function(u) { return u.value; });
+var Somerville_avg = db.alaw_markbest_tyroneh.roomAverages.find({'_id': 'Somerville'}).map(function(u) { return u.value; });
+var Brookline_avg = db.alaw_markbest_tyroneh.roomAverages.find({'_id': 'Brookline'}).map(function(u) { return u.value; });
+
+
+db.alaw_markbest_tyroneh.PropertyGeoJSONs.mapReduce(
+	//average population per room
+	function() {
+		var coor = this.value.geometry.coordinates;
+		var type = this.value.properties.type;
+		var rooms = this.value.properties.rooms;
+		var area = this.value.properties.area;
+		var pop = 0;
+		if(area == 'Boston'){
+			pop = rooms*a;	
+		}
+		if(area == 'Cambridge'){
+			pop = rooms*b;	
+		}
+		if(area == 'Somerville'){
+			pop = rooms*c;	
+		}
+		if(area == 'Brookline'){
+			pop = rooms*d;	
+		}
+		emit(this._id,{
+					"type":"Feature",
+					"geometry":{
+					"type":"Point",
+					"coordinates": coor},
+					"properties":{
+						"type": type,
+						"rooms": rooms,
+						"area": area,
+						"population": pop
+					}
+			});
+	},
+	//no reduce step, all ids are unique
+	function(k,vs){},
+	{scope:{a:Boston_avg,b:Cambridge_avg,c:Somerville_avg,d:Brookline_avg},
+	out:"alaw_markbest_tyroneh.PropertyGeoJSONs"}
+);
 
 //store transformed station data in collection "StationsGeoJSONs"
 
