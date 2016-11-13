@@ -10,6 +10,8 @@ import numpy as np
 from bs4 import BeautifulSoup
 import urllib.request
 import re
+import itertools
+import collections
 
 class zipcodeRatings(dml.Algorithm):
     contributor = 'ktan_ngurung_yazhang_emilyh23'
@@ -72,10 +74,17 @@ class zipcodeRatings(dml.Algorithm):
         repo = client.repo
         repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
 
-        # Get bus stop and college location data
-        hbbCounts = repo.ktan_ngurung_yazhang_emilyh23.hubwayBigBellyCounts.find_one() 
-        cbsCounts = repo.ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts.find_one()
-        tRideCounts = repo.ktan_ngurung_yazhang_emilyh23.tRidershipLocation.find_one()
+        #3b. Capability to run algorithm in trial mode
+        if (trial == True):
+            #When Trial Mode == True, this is the sample data
+            hbbCounts = dict(list(itertools.islice(hbbCounts.items(), 0, 20)))
+            cbsCounts = dict(list(itertools.islice(cbsCounts.items(), 0, 20)))
+            tRideCounts = dict(list(itertools.islice(tRideCounts.items(), 0, 20)))
+        else:
+            #Get bus stop and college location complete data
+            hbbCounts = repo.ktan_ngurung_yazhang_emilyh23.hubwayBigBellyCounts.find_one()
+            cbsCounts = repo.ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts.find_one()
+            tRideCounts = repo.ktan_ngurung_yazhang_emilyh23.tRidershipLocation.find_one()
 
         hbbCbsDict = {} 
         tRideTransformed = [] 
@@ -234,7 +243,7 @@ class zipcodeRatings(dml.Algorithm):
         star_df_final = pd.merge(star_df, overall_dict, on='zc')
         star_df_final.set_index('zc', drop=True, inplace=True)
         star_dict_final = star_df_final.to_dict(orient='index')
-        print(star_df_final)
+        # print(star_df_final)
 
         for k, v in star_dict_final.items():
             star_dict_final[k]['hubway_star'] = int(star_dict_final[k]['hubway_star'])
@@ -249,9 +258,9 @@ class zipcodeRatings(dml.Algorithm):
         r = json.loads(data)
 
         # Create new dataset called tRidershipLocation
-        repo.dropPermanent("zipcodeRatings")
-        repo.createPermanent("zipcodeRatings")
-        repo['ktan_ngurung_yazhang_emilyh23.zipcodeRatings'].insert_one(r)
+        # repo.dropPermanent("zipcodeRatings")
+        # repo.createPermanent("zipcodeRatings")
+        # repo['ktan_ngurung_yazhang_emilyh23.zipcodeRatings'].insert_one(r)
 
     @staticmethod           
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -302,8 +311,8 @@ class zipcodeRatings(dml.Algorithm):
         return doc
 
 zipcodeRatings.execute() 
-doc = zipcodeRatings.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+# doc = zipcodeRatings.provenance()
+# print(doc.get_provn())
+# print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
