@@ -88,7 +88,7 @@ class PublicandEarning(dml.Algorithm):
                         if(value.numofSchool !== 0) {result.numofSchool = value.numofSchool;}
                         if(value.numofGarden !== 0) {result.numofGarden = value.numofGarden;}
                         if(value.numofStore !== 0) {result.numofStore = value.numofStore;}
-                        if(value.numofStore !== 0) {result.numofCrime = value.numofCrime;}
+                        if(value.numofCrime !== 0) {result.numofCrime = value.numofCrime;}
 
 
 
