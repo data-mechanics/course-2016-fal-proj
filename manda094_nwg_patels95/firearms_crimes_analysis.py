@@ -54,7 +54,7 @@ class firearms_crimes_analysis(dml.Algorithm):
         crimes = []
         firearmsRecovered = []
         count = 0
-        for data in repo['manda094_nwg_patels95.firearm_recovery'].find():
+        for data in repo['manda094_nwg_patels95.firearm_recovery'].find().sort("collectiondate", 1):
             if trial:
                 # if trial mode -> only use 200 data values
                 count += 1

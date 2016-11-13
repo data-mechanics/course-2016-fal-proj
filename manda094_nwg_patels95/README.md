@@ -37,3 +37,9 @@ I used the default format for my auth.json file:
 	}
 }
 ```
+
+#### Firearm Recovery and Crime Analysis
+
+Before performing this analysis we believed there should be a negative correlation between the number of firearms recovered and the number of firearm-related crimes. We predicted that as the number of firearms recovered increases, the number of crimes should decrease. We found a correlation coefficient of 0.068 and a p-value of 0.29. This correlation coefficient indicates a very weak positive correlation between the data sets. However, the p-value is high so we cannot reject the null hypothesis.
+
+A limitation of our analysis is the limited amount of available data to test this correlation. We could more accurately perform this analysis if we had firearm recovery data for a longer time period.
