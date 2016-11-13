@@ -15,7 +15,8 @@ The five datasets we used:
 <li>'health_corner_stores':'https://data.cityofboston.gov/resource/ybm6-m5qd.json'</li>
 <li>'community_gardens':'https://data.cityofboston.gov/resource/rdqf-ter7.json'</li>
 <li>'public_schools':'https://data.cityofboston.gov/resource/492y-i77g.json'</li>
-<li>https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-July-2012-August-2015-Sourc/7cdf-6fgx/data</li>
+<li>'crime_incident_reports':https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-July-2012-August-2015-Sourc/7cdf-6fgx/data</li>
+<li>'approved_building_permit':https://data.cityofboston.gov/Permitting/Approved-Building-Permits/msk6-43c6/data</li>
 </ol>
 
 ##Porcess
