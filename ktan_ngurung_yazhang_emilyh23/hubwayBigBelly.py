@@ -90,7 +90,7 @@ class hubwayBigBelly(dml.Algorithm):
         data = json.dumps(hbbDict, sort_keys=True, indent=2)
         r = json.loads(data)
 
-        # Create new dataset called tRidershipLocation
+        # Create new dataset called hubwayBigBellyCounts
         repo.dropPermanent("hubwayBigBellyCounts")
         repo.createPermanent("hubwayBigBellyCounts")
         repo['ktan_ngurung_yazhang_emilyh23.hubwayBigBellyCounts'].insert_one(r)

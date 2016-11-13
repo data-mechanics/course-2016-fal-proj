@@ -267,7 +267,7 @@ class zipcodeRatings(dml.Algorithm):
         data = json.dumps(star_dict_final, sort_keys=True, indent=2)
         r = json.loads(data)
 
-        # Create new dataset called tRidershipLocation
+        # Create new dataset called zipcodeRatings
         repo.dropPermanent("zipcodeRatings")
         repo.createPermanent("zipcodeRatings")
         repo['ktan_ngurung_yazhang_emilyh23.zipcodeRatings'].insert_one(r)
@@ -308,7 +308,7 @@ class zipcodeRatings(dml.Algorithm):
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        zipcode_ratings = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#zipcode-ratings', {prov.model.PROV_LABEL:'Critera Rating and Overall Rating for Zipcodes', prov.model.PROV_TYPE:'ont:DataSet'})
+        zipcode_ratings = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#zipcode_ratings', {prov.model.PROV_LABEL:'Critera Rating and Overall Rating for Zipcodes', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(zipcode_ratings, this_script)
         doc.wasGeneratedBy(zipcode_ratings, this_run, endTime)
         doc.wasDerivedFrom(zipcode_ratings, collegeBusStops_resource, this_run, this_run, this_run)

@@ -92,7 +92,7 @@ class collegeBusStops(dml.Algorithm):
         data = json.dumps(collegeAndStopCountsDict, sort_keys=True, indent=2)
         r = json.loads(data)
 
-        # Create new dataset called tRidershipLocation
+        # Create new dataset called collegeBusStopCounts
         repo.dropPermanent("collegeBusStopCounts")
         repo.createPermanent("collegeBusStopCounts")
         repo['ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts'].insert_one(r)

@@ -97,6 +97,7 @@ class tRidershipLocation(dml.Algorithm):
         this_script = doc.agent('alg:ktan_ngurung_yazhang_emilyh23#tRidershipLocation', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         tStops_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/t-stop-locations', {'prov:label':'T-Stop Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         ridership_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/boston-ridership', {'prov:label':'Boston Ridership', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        gmaps_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/boston-ridership', {'prov:label':'Google Maps Geocoder API', prov.model.PROV_TYPE:'ont:DataResource'})
         this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
 
         doc.wasAssociatedWith(this_run, this_script)
@@ -113,6 +114,7 @@ class tRidershipLocation(dml.Algorithm):
         doc.wasGeneratedBy(tRidershipLocation, this_run, endTime)
         doc.wasDerivedFrom(tRidershipLocation, tStops_resource, this_run, this_run, this_run)
         doc.wasDerivedFrom(tRidershipLocation, ridership_resource, this_run, this_run, this_run)
+        doc.wasDerivedFrom(tRidershipLocation, gmaps_resource, this_run, this_run, this_run)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
