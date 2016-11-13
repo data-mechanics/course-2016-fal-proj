@@ -12,10 +12,22 @@ The four datasets are employee earnings in Boston, location of public schools in
 * https://www.opendatanetwork.com/dataset/data.cityofboston.gov/vb7h-wnyg firearms
  * https://data.cityofboston.gov/api/views/vb7h-wnyg/rows.json?accessType=DOWNLOAD firearms
 
-Functions
+Transformations
 ---------
 
 * Mapreduce Employee Earnings: Uses mapreduce to calculate average city of Boston Employee earnings for each zip code
 * Mapreduce Schools: Uses mapreduce to calculate the number of schools located in a zip code
 * Mapreduce Crime: Uses mapreduce to project police districts into zip codes and calculate number of crimes per zipcode
 * Merge:
+
+Statictical Analyses
+---------
+* p-value:
+
+    Null Hypothehis: average earnings of police officers HAS NO effect on the number of crimes. Therefore, the average           number of crimes should be the same in every district.
+
+    Alternative Hypothehis: average earnings of police officers HAS an effect on the number of crimes. Therefore, the           average number of crimes should be negatevily correlated with the average earnings of police officers.
+
+    After executeing the p-value algorithm, we got a p-value equal to 1. Therefore, we cannot conclude that a significant       difference exists between null and alternative hypotheses. 
+
+* k-means:
