@@ -21,7 +21,7 @@ zc_ratings.pop('_id', None)
 
 # list of zipcodes
 zc_list = list(zc_ratings.keys())[1:]
-# list of incomes for calculating low, med, and, high
+# list of incomes for calculating low, med, and high
 income_list = []
 zc_income_dict = {}
 
