@@ -58,14 +58,24 @@ https://data.cityofboston.gov/resource/jbcd-dknd.json
     $ python3 trashSchedules.py
     ```
 
-##Our optimization proposals
+##Our optimization proposal
 
-1. We follow the example of finding the optimal placement of a hospital to be shared among n neighborhoods. We will look at the geolocations of sanitary violations & requests (which we found via serviceRequests.py and codeViolations.py), the weights of those locations (the amount of violations corresponding to that location), and we will also look at the locations of Big Belly's and their average fullness (which we found via bigBelly.py) and based upon these two datasets we will find the optimal placement of trash collection sites to reduce the overall amount of violations associated with excess waste. We will find these placements using a weight metric and KD trees. The user will be able to change the number of trashcans and the radius that each trashcan can cover as parameters to our 'findOptimalLocation' function.
+In our optimization function, we will find the optimal placements of trash collection units. When running the algorithm, the user has the option to specify the number of trash cans they are willing to install as well as the radius they expect a single collection unit to cover. The algorithm returns a list of location coordinates that fit these criteria.
 
-Our weight metric is as follows:
-For code violations we weighted violations specific to overfilling or heavy amounts of trash higher. 
-	-weighted by count x scale category of request 
-	-scale:
+###How to run:
+```
+$ python3 optimization.py
+```
+
+Note: By default the algorithm chooses 5 trash cans with a 200 meter radius. Trial mode is also on. These parameters can be changed in the code. In addition, if our algorithm is run using the Jupyter Notebook, it will also output a graph of service requests, code violations, big belly locations, and the proposed placement of new trash collection units. (This code has been commented out so that the algorithm can run in a normal Python 3 shell)
+
+## Algorithm Explanation
+
+We will look at the geolocations of sanitary violations & requests (which we found via serviceRequests.py and codeViolations.py), the weights of those locations (the amount of violations corresponding to that location), and we will also look at the locations of Big Belly's and their average fullness (which we found via bigBelly.py). In addition, the algorithm will look at the geolocation of pre-existing trash collection units (found via trashSch.py) and will focus more on areas where trash is collected less regularly. Based upon these datasets we will find the optimal placement of trash collection units to reduce the overall amount of violations associated with excess waste. We will find these placements using a weight metrics and KD trees. The user will be able to change the number of trashcans and the radius that each trashcan can cover as parameters to our 'findOptimalLocation' function.
+
+###Our weight metrics are as follows:
+
+For code violations, overfilling or heavy amounts of trash were weighted higher. Incidents indirectly associated with excessive trash were weighted lower, such as 'insects/animals'. For each location we calculate the weight using count * the scale given below.
 		-Improper storage trash - 0.75
 		-illegal dumping - 0.75
 		-overfilling of barrel/ dumpster - 1
@@ -73,9 +83,7 @@ For code violations we weighted violations specific to overfilling or heavy amou
 		-insects rodents animals - 0.3
 		-trash illegally dump container - 0.75
 
-For service requests we weighted trash specific requests higher.
-	-weighted by count x scale category of request
-	-scale:
+For service requests, trash specific requests were weighted higher. Incidents indirectly associated with excessive trash were weighted lower, such as 'pest infestation'. For each location we calculate the weight using count * the scale given below.
 		-illegal dumping - 0.75
 		-improper storage of trash (barrels) - 0.75
 		-mice infestation - residential -> 0.3
@@ -85,27 +93,24 @@ For service requests we weighted trash specific requests higher.
 		-rodent activity - 0.5
 		-unsanitary conditions - establishment -> 0.3
 
-For Big Belly's we weighted units with high average fullness higher, but we also weighted Big Belly's lower in general because they appear to be concentrated in specific areas to begin with and we did not want the Big Belly's alone to skew our data one way or another.
+For Big Belly's, units with high average fullness were weighted higher, but we also weighted Big Belly's lower in general because they appear to be concentrated in specific areas and we did not want the this dataset alone to skew our data one way or another. For each location we calculate the weight using count * the scale given below.
+	range of avg fullness -> weighted value
+		-0.9 - 1.0 -> 0.3 
+		-0.7 - 0.89 -> 0.25
+		-0.5 - 0.69 -> 0.2
+		-0.3 - 4.9 -> 0.15
+		-0.0 - 0.29 -> 0.1
 
-	-weighted by range of average fullness 
+For Trash Schedules, we add a negative weight to areas that have multiple collection days. Our reasoning is these areas already have focused effort in terms of time and resources devoted to collecting trash. We want the areas that are not receiving as much attention to be weighted higher. For each location we calculate the weight using count * the scale given below.
+	- -1 * number of times trash was collected at this location.
 
-	floor - ceiling -> weighted value
-		0.9 - 1.0 -> 0.3 
-		0.7 - 0.89 -> 0.25
-		0.5 - 0.69 -> 0.2
-		0.3 - 4.9 -> 0.15
-		0.0 - 0.29 -> 0.1
+## K-D trees
 
-For Trash Schedules, we add a negative weight to areas that have multiple collection days. Our reasoning is these areas already have focused effort in terms of time and resources devoted to collecting trash. We want to weight higher the areas that are not receiving as much attention.
+For each trash collection unit the user wants to install, we choose x random coordinates (x is specified from the iterations parameter when the optimized function is called) from a master dataset that contains all entries from the datasets mentioned before. 
+We then use python's K-D tree library to find all points within a certain radius of these random points. Using the points within these radii we calculate the total weight of the region associated with that coordinate. The algorithm will find the location coordinates of the regions that have maximal weight out of all randomly selected coordinates. 
 
-	-weighted using the geolocation coordinates as a key and the collection day as a value
-	-metric: -1 * number of times trash was collected at this location.
-	-by making these weights negative, our algorithm will know to focus less on areas that already have high trash collection activity.
+To ensure the algorithm does not return the same regions for every iteration, if the algorithm is searching for multiple trash collection units to install it will 'ignore' regions that have already been selected by previous iterations.
 
-
-(one bigbelly = $$$, to ensure a budget of <= $$$ we set limit arbitrarily at X)
-
-2. We will perform a statistical analysis on the dataset produced by trashSch.py to see if locations with multiple collection days correspond with or are nearby locations that our optimization in part 1 found. We could then propose that our optimization would indeed positively affect locations with heavy trash output/ violations by adding additional trash collection sites there. In addition, this could possibily expose the need to reevaluate current trash collection schedules.
 
 
 
