@@ -39,7 +39,7 @@
     "Aggregate Income":977169912,
     "Per Capita Income":58566
   },
-  "E Boston": {
+  "East Boston": {
     "Total Population":41128,
     "Aggregate Income":921373121,
     "Per Capita Income":22403
@@ -84,7 +84,7 @@
     "Aggregate Income":1185205100,
     "Per Capita Income":18767
   },
-  "S Boston": {
+  "South Boston": {
     "Total Population":33499,
     "Aggregate Income":1431961235,
     "Per Capita Income":42746
@@ -103,5 +103,23 @@
     "Total Population":30293,
     "Aggregate Income":1200476162,
     "Per Capita Income":39629
+  },
+  "Roxbury Crossing": {
+      "Per Capita Income": 18405
+  },
+  "Cambridge": {
+      "Per Capita Income": 48446
+  },
+  "Watertown": {
+      "Per Capita Income": 33262
+  },
+  "Dorchester": {
+      "Per Capita Income": 17098
+  },
+  "Chestnut Hill": {
+      "Per Capita Income": 53382
+  },
+  "Quincy": {
+      "Per Capita Income": 33128
   }
 }]
