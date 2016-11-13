@@ -76,22 +76,22 @@ We will look at the geolocations of sanitary violations & requests (which we fou
 ###Our weight metrics are as follows:
 
 For code violations, overfilling or heavy amounts of trash were weighted higher. Incidents indirectly associated with excessive trash were weighted lower, such as 'insects/animals'. For each location we calculate the weight using count * the scale given below.
-		-Improper storage trash - 0.75
-		-illegal dumping - 0.75
-		-overfilling of barrel/ dumpster - 1
-		-storage of garbage & rubbish - 0.75 
-		-insects rodents animals - 0.3
-		-trash illegally dump container - 0.75
+		* improper storage trash - 0.75
+		* illegal dumping - 0.75
+		* overfilling of barrel/ dumpster - 1
+		* storage of garbage & rubbish - 0.75 
+		* insects rodents animals - 0.3
+		* trash illegally dump container - 0.75
 
 For service requests, trash specific requests were weighted higher. Incidents indirectly associated with excessive trash were weighted lower, such as 'pest infestation'. For each location we calculate the weight using count * the scale given below.
-		-illegal dumping - 0.75
-		-improper storage of trash (barrels) - 0.75
-		-mice infestation - residential -> 0.3
-		-missed trash/recycling/yard waste/bulk item - 0.5
-		-overflowing or un-kept dumpster - 1
-		-pest infestation - residential -> 0.3
-		-rodent activity - 0.5
-		-unsanitary conditions - establishment -> 0.3
+		* illegal dumping - 0.75
+		* improper storage of trash (barrels) - 0.75
+		* mice infestation - residential -> 0.3
+		* missed trash/recycling/yard waste/bulk item - 0.5
+		* overflowing or un-kept dumpster - 1
+		* pest infestation - residential -> 0.3
+		* rodent activity - 0.5
+		* unsanitary conditions - establishment -> 0.3
 
 For Big Belly's, units with high average fullness were weighted higher, but we also weighted Big Belly's lower in general because they appear to be concentrated in specific areas and we did not want the this dataset alone to skew our data one way or another. For each location we calculate the weight using count * the scale given below.
 	range of avg fullness -> weighted value
