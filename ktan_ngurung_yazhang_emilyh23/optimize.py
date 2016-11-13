@@ -187,8 +187,7 @@ class optimize(dml.Algorithm):
         try:
             n = int(user_in)
         except ValueError:
-            raise AssertionError('Not an integer, try again.')
-            
+            raise AssertionError('Not an integer, try again.')  
         if (n <= 0):
                 raise AssertionError('Integer must be greater than 0.')
             
