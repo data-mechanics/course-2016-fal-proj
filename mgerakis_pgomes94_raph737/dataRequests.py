@@ -8,14 +8,14 @@ import prov.model
 import datetime
 
 class dataRequests(dml.Algorithm):
-	contributor = 'pgomes94_raph737'
+	contributor = 'mgerakis_pgomes94_raph737'
 	reads = []
 	writes = [
-		'pgomes94_raph737.hospital_locations',
-		'pgomes94_raph737.traffic_locations',
-		'pgomes94_raph737.crime_locations',
-		'pgomes94_raph737.police_station_locations',
-		'pgomes94_raph737.mbta_stop_locations'
+		'mgerakis_pgomes94_raph737.hospital_locations',
+		'mgerakis_pgomes94_raph737.traffic_locations',
+		'mgerakis_pgomes94_raph737.crime_locations',
+		'mgerakis_pgomes94_raph737.police_station_locations',
+		'mgerakis_pgomes94_raph737.mbta_stop_locations'
 	]
 
 	def get_hospital_locations():
@@ -118,7 +118,7 @@ class dataRequests(dml.Algorithm):
 
 		client = dml.pymongo.MongoClient()
 		repo = client.repo
-		repo.authenticate('pgomes94_raph737', 'pgomes94_raph737')
+		repo.authenticate('mgerakis_pgomes94_raph737', 'mgerakis_pgomes94_raph737')
 		
 		hospital_locations = dataRequests.get_hospital_locations()
 		if hospital_locations == -1:
@@ -126,7 +126,7 @@ class dataRequests(dml.Algorithm):
 		else:
 			repo.dropPermanent("hospital_locations")
 			repo.createPermanent("hospital_locations")
-			repo['pgomes94_raph737.hospital_locations'].insert_many(hospital_locations)
+			repo['mgerakis_pgomes94_raph737.hospital_locations'].insert_many(hospital_locations)
 			print("Database hospital_locations created!")
 			
 		traffic_locations = dataRequests.get_traffic_locations()
@@ -135,7 +135,7 @@ class dataRequests(dml.Algorithm):
 		else:
 			repo.dropPermanent("traffic_locations")
 			repo.createPermanent("traffic_locations")
-			repo['pgomes94_raph737.traffic_locations'].insert_many(traffic_locations)
+			repo['mgerakis_pgomes94_raph737.traffic_locations'].insert_many(traffic_locations)
 			print("Database traffic_locations created!")
 
 		crime_locations = dataRequests.get_crime_locations()
@@ -144,7 +144,7 @@ class dataRequests(dml.Algorithm):
 		else:
 			repo.dropPermanent("crime_locations")
 			repo.createPermanent("crime_locations")
-			repo['pgomes94_raph737.crime_locations'].insert_many(crime_locations)
+			repo['mgerakis_pgomes94_raph737.crime_locations'].insert_many(crime_locations)
 			print("Database crime_locations created!")
 
 		police_station_locations = dataRequests.get_police_station_locations()
@@ -153,7 +153,7 @@ class dataRequests(dml.Algorithm):
 		else:
 			repo.dropPermanent("police_station_locations")
 			repo.createPermanent("police_station_locations")
-			repo['pgomes94_raph737.police_station_locations'].insert_many(police_station_locations)
+			repo['mgerakis_pgomes94_raph737.police_station_locations'].insert_many(police_station_locations)
 			print("Database police_station_locations created!")
 
 		mbta_stop_locations = dataRequests.get_mbta_stop_locations_csv()
@@ -162,7 +162,7 @@ class dataRequests(dml.Algorithm):
 		else:
 			repo.dropPermanent("mbta_stop_locations")
 			repo.createPermanent("mbta_stop_locations")
-			repo['pgomes94_raph737.mbta_stop_locations'].insert_many(mbta_stop_locations)
+			repo['mgerakis_pgomes94_raph737.mbta_stop_locations'].insert_many(mbta_stop_locations)
 			print("Database mbta_stop_locations created!")
 
 		repo.logout()
@@ -175,7 +175,7 @@ class dataRequests(dml.Algorithm):
 		# Set up the database connection.
 		client = dml.pymongo.MongoClient()
 		repo = client.repo
-		repo.authenticate('pgomes94_raph737', 'pgomes94_raph737')
+		repo.authenticate('mgerakis_pgomes94_raph737', 'mgerakis_pgomes94_raph737')
 
 		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
 		doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
@@ -183,12 +183,12 @@ class dataRequests(dml.Algorithm):
 		doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-		this_script = doc.agent('alg:pgomes94_raph737#dataRequests', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+		this_script = doc.agent('alg:mgerakis_pgomes94_raph737#dataRequests', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
 
 		hospital_locations_resource = doc.entity('bdp:u6fv-m8v4', {'prov:label':'Hospital Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
 		traffic_locations_resource = doc.entity('bdp:dih6-az4h',{'prov:label':'Traffic Locations',prov.model.PROV_TYPE:'ont:DataResource','ont:Extension':'json'})
 		crime_locations_resource = doc.entity('bdp:29yf-ye7n',{'prov:label':'Crime Locations',prov.model.PROV_TYPE:'ont:DataResource','ont:Extension':'json'})
-		mbta_stops_resource = doc.entity('dat:pgomes94_raph737#stops',{'prov:label':'MBTA Stops',prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'csv'})
+		mbta_stops_resource = doc.entity('dat:mgerakis_pgomes94_raph737#stops',{'prov:label':'MBTA Stops',prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'csv'})
 		police_stations_resource = doc.entity('bdp:pyxn-r3i2',{'prov:label':'Police Locations',prov.model.PROV_TYPE:'ont:DataResource','ont:Extension':'json'})
 
 		get_hospital_locations = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
@@ -209,30 +209,30 @@ class dataRequests(dml.Algorithm):
 		doc.usage(get_mbta_stops,mbta_stops_resource,startTime,None,{prov.model.PROV_TYPE:'ont:Retrieval'})
 		doc.usage(get_police_stations,police_stations_resource,startTime,None,{prov.model.PROV_TYPE:'ont:Retrieval'})
 
-		hospitals = doc.entity('dat:pgomes94_raph737#hospital_locations', {prov.model.PROV_LABEL:'Hospital Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+		hospitals = doc.entity('dat:mgerakis_pgomes94_raph737#hospital_locations', {prov.model.PROV_LABEL:'Hospital Locations', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(hospitals, this_script)
 		doc.wasGeneratedBy(hospitals, get_hospital_locations, endTime)
-		doc.wasDerivedFrom(hospitals, hospital_locations_resource, get_hospital_locations)
+		doc.wasDerivedFrom(hospitals, hospital_locations_resource)
 
-		traffic = doc.entity('dat:pgomes94_raph737#traffic_locations', {prov.model.PROV_LABEL:'Traffic Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+		traffic = doc.entity('dat:mgerakis_pgomes94_raph737#traffic_locations', {prov.model.PROV_LABEL:'Traffic Locations', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(traffic, this_script)
 		doc.wasGeneratedBy(traffic, get_traffic_locations, endTime)
-		doc.wasDerivedFrom(traffic, traffic_locations_resource, get_traffic_locations)
+		doc.wasDerivedFrom(traffic, traffic_locations_resource)
 
-		crimes = doc.entity('dat:pgomes94_raph737#crime_locations', {prov.model.PROV_LABEL:'Crime Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+		crimes = doc.entity('dat:mgerakis_pgomes94_raph737#crime_locations', {prov.model.PROV_LABEL:'Crime Locations', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(crimes, this_script)
 		doc.wasGeneratedBy(crimes, get_crime_locations, endTime)
-		doc.wasDerivedFrom(crimes, crime_locations_resource, get_crime_locations)
+		doc.wasDerivedFrom(crimes, crime_locations_resource)
 
-		police_stations = doc.entity('dat:pgomes94_raph737#police_station_locations', {prov.model.PROV_LABEL:'Police Station Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+		police_stations = doc.entity('dat:mgerakis_pgomes94_raph737#police_station_locations', {prov.model.PROV_LABEL:'Police Station Locations', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(police_stations, this_script)
 		doc.wasGeneratedBy(police_stations, get_police_stations, endTime)
-		doc.wasDerivedFrom(police_stations, police_stations_resource, get_police_stations)
+		doc.wasDerivedFrom(police_stations, police_stations_resource)
 
-		mbta_stops = doc.entity('dat:pgomes94_raph737#mbta_stop_locations', {prov.model.PROV_LABEL:'MBTA Stop Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+		mbta_stops = doc.entity('dat:mgerakis_pgomes94_raph737#mbta_stop_locations', {prov.model.PROV_LABEL:'MBTA Stop Locations', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(mbta_stops, this_script)
 		doc.wasGeneratedBy(mbta_stops, get_mbta_stops, endTime)
-		doc.wasDerivedFrom(mbta_stops, mbta_stops_resource, get_mbta_stops)
+		doc.wasDerivedFrom(mbta_stops, mbta_stops_resource)
 
 		repo.record(doc.serialize())
 		repo.logout()

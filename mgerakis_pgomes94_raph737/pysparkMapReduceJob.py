@@ -22,12 +22,12 @@ def euclidean_distance(x, y):
 	return sqrt(pow(x[0] - y[0],2) + pow(x[1] - y[1],2))
 
 class pysparkMapReduceJob(dml.Algorithm):
-	contributor = 'pgomes94_raph737'
+	contributor = 'mgerakis_pgomes94_raph737'
 	reads = [
-		'pgomes94_raph737.hospital_locations',
-		'pgomes94_raph737.proximity_clusters'
+		'mgerakis_pgomes94_raph737.hospital_locations',
+		'mgerakis_pgomes94_raph737.proximity_clusters'
 	]
-	writes = ['pgomes94_raph737.hospital_scores']
+	writes = ['mgerakis_pgomes94_raph737.hospital_scores']
 
 	@staticmethod
 	def execute(trial = False):
@@ -37,13 +37,13 @@ class pysparkMapReduceJob(dml.Algorithm):
 
 			client = dml.pymongo.MongoClient()
 			repo = client.repo
-			repo.authenticate('pgomes94_raph737', 'pgomes94_raph737')
+			repo.authenticate('mgerakis_pgomes94_raph737', 'mgerakis_pgomes94_raph737')
 			print('\n\n\n\n\n')
 			print ("Starting MapReduce job.")
-			close_clusters = [x['location'] for x in repo['pgomes94_raph737.proximity_cluster_centers'].find({'proximity': 'C'})]
-			far_clusters = [x['location'] for x in repo['pgomes94_raph737.proximity_cluster_centers'].find({'proximity': 'F'})]
+			close_clusters = [x['location'] for x in repo['mgerakis_pgomes94_raph737.proximity_cluster_centers'].find({'proximity': 'C'})]
+			far_clusters = [x['location'] for x in repo['mgerakis_pgomes94_raph737.proximity_cluster_centers'].find({'proximity': 'F'})]
 
-			hospital_locations_rdd = sc.parallelize([x for x in repo['pgomes94_raph737.hospital_locations'].find()])
+			hospital_locations_rdd = sc.parallelize([x for x in repo['mgerakis_pgomes94_raph737.hospital_locations'].find()])
 			hospital_scores = hospital_locations_rdd.map(lambda x: {
 							'identifier': x['identifier'],
 							'score': calculate_score(x['location'], close_clusters, far_clusters)
@@ -52,7 +52,7 @@ class pysparkMapReduceJob(dml.Algorithm):
 
 			repo.dropPermanent("hospital_scores")
 			repo.createPermanent("hospital_scores")
-			repo['pgomes94_raph737.hospital_scores'].insert_many(hospital_scores.collect())
+			repo['mgerakis_pgomes94_raph737.hospital_scores'].insert_many(hospital_scores.collect())
 
 			print("Database hospital_scores created.")
 		except:
@@ -68,7 +68,7 @@ class pysparkMapReduceJob(dml.Algorithm):
 		# Set up the database connection.
 		client = dml.pymongo.MongoClient()
 		repo = client.repo
-		repo.authenticate('pgomes94_raph737', 'pgomes94_raph737')
+		repo.authenticate('mgerakis_pgomes94_raph737', 'mgerakis_pgomes94_raph737')
 
 		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
 		doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
@@ -76,10 +76,10 @@ class pysparkMapReduceJob(dml.Algorithm):
 		doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-		this_script = doc.agent('alg:pgomes94_raph737#pysparkMapReduceJob', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+		this_script = doc.agent('alg:mgerakis_pgomes94_raph737#pysparkMapReduceJob', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
 
-		hospitals_resource = doc.entity('dat:pgomes94_raph737#hospital_locations', {prov.model.PROV_LABEL:'Hospital Locations', prov.model.PROV_TYPE:'ont:DataSet'})
-		proximity_clusters_resources = doc.entity('dat:pgomes94_raph737#proximity_clusters', {prov.model.PROV_LABEL:'Proximity Clusters', prov.model.PROV_TYPE:'ont:DataSet'})
+		hospitals_resource = doc.entity('dat:mgerakis_pgomes94_raph737#hospital_locations', {prov.model.PROV_LABEL:'Hospital Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+		proximity_clusters_resources = doc.entity('dat:mgerakis_pgomes94_raph737#proximity_clusters', {prov.model.PROV_LABEL:'Proximity Clusters', prov.model.PROV_TYPE:'ont:DataSet'})
 
 		get_hospital_locations = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
 		get_proximity_clusters = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
@@ -90,10 +90,10 @@ class pysparkMapReduceJob(dml.Algorithm):
 		doc.usage(get_hospital_locations,hospitals_resource,startTime,None,{prov.model.PROV_TYPE:'ont:Retrieval'})
 		doc.usage(get_proximity_clusters,proximity_clusters_resources,startTime,None,{prov.model.PROV_TYPE:'ont:Retrieval'})
 
-		hospital_scores = doc.entity('dat:pgomes94_raph737#hospital_scores', {prov.model.PROV_LABEL:'Crime Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+		hospital_scores = doc.entity('dat:mgerakis_pgomes94_raph737#hospital_scores', {prov.model.PROV_LABEL:'Crime Locations', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(hospital_scores,this_script)
 		doc.wasGeneratedBy(hospital_scores,get_hospital_scores,endTime)
-		doc.wasDerivedFrom(hospital_scores,hospitals_resource,proximity_clusters_resources,get_hospital_locations,get_proximity_clusters)
+		doc.wasDerivedFrom(hospital_scores,hospitals_resource,proximity_clusters_resources)
 
 		repo.record(doc.serialize())
 		repo.logout()
