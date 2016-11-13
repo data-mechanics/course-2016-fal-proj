@@ -84,11 +84,11 @@ class optimize(dml.Algorithm):
             zc_income = zc_income_dict[zc]['med_house_income']
         
             if zc_income < low:
-                zc_income_dict[zc]['income_star'] = 1
+                zc_income_dict[zc]['income_star'] = 'low'
             elif zc_income > high:
-                zc_income_dict[zc]['income_star'] = 3
+                zc_income_dict[zc]['income_star'] = 'high'
             else:
-                zc_income_dict[zc]['income_star'] = 2
+                zc_income_dict[zc]['income_star'] = 'med'
         optimize.user_input()
     
     @staticmethod     
