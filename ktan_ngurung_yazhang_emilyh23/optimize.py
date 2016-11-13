@@ -24,8 +24,8 @@ def start():
     # dictionary of zipcode ratings
     zc_ratings = repo.ktan_ngurung_yazhang_emilyh23.zipcodeRatings.find_one() 
     zc_ratings.pop('_id', None)
-    
-    zc_list = list(zc_ratings.keys())[1:] # list of zipcodes
+
+    zc_list = list(zc_ratings.keys()) # list of zipcodes
     # list of incomes for calculating low, med, and high
     income_list = []
     zc_income_dict = {}
