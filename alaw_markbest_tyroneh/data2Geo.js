@@ -186,7 +186,7 @@ db.alaw_markbest_tyroneh.BrooklineProperty.mapReduce(
 	{out:{merge:"alaw_markbest_tyroneh.PropertyGeoJSONs"}}
 );
 
-flatten("alaw_markbest_tyroneh.PropertyGeoJSONs")
+//flatten("alaw_markbest_tyroneh.PropertyGeoJSONs")
 
 
 dropPerm("alaw_markbest_tyroneh.temp");

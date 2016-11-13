@@ -11,8 +11,9 @@ function flatten(X) {
 }
 
 db.alaw_markbest_tyroneh.TimedBuses.mapReduce(
-	//map location data (lat,long) to geoJSON format
+	//calculate times, coordinate data for each bus route 
 	function() {
+        //map to routes and times with coordinate data
         var routes = this.route;
         var timestamp = this.timestamp;
         routes.forEach(function(r) {
@@ -36,6 +37,7 @@ db.alaw_markbest_tyroneh.TimedBuses.mapReduce(
     },
 
 	function(k, vs){
+        //reduce to routes and lists of times and coorinates
         var times = [];
         vs.forEach(function(v_times) {
             v_times["times"].forEach(function(v) {
@@ -59,21 +61,35 @@ dropPerm("alaw_markbest_tyroneh.AvgRouteVelocity");
 createPerm("alaw_markbest_tyroneh.AvgRouteVelocity");
 
 db.alaw_markbest_tyroneh.BusesJSON.mapReduce(
+    //calculate km per millisecond using coordinate data
     function() {
+        //User haversine formula to calculate distance
         var routeTag = this._id.route;
         var vid = this._id.id;
         var times = this.times;
         var vel = 0.000001;
 
+        var R = 6371; // metres radius of Earth
+
         for(var i = 1; i < times.length; i++) {
-            var bus0 = times[i-1]; var bus1 = times[i];
+            var bus0 = times[i-1]; 
+            var bus1 = times[i];
 
-            var t = bus1.timestamp - bus0.timestamp;
+            var lat1 = (bus0.lat) * (Math.PI / 180);
+            var lat2 = (bus1.lat) * (Math.PI / 180);
 
-            var lat_diff = Math.pow(bus1.lat - bus0.lat, 2);
-            var lon_diff = Math.pow(bus1.lon - bus0.lon, 2);
-            var d = Math.pow(lat_diff + lon_diff, 0.5);
+            var deltalat = (bus1.lat - bus0.lat) * (Math.PI / 180);
+            var deltalong = (bus1.lon - bus0.lon) * (Math.PI / 180);
+
+            //haversine formula
+            var a = Math.sin(deltalat/2) * Math.sin(deltalat/2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltalong/2) * Math.sin(deltalong/2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            var d = R * c;
+
+            //convert seconds to hours
+            var t = (bus1.timestamp - bus0.timestamp) / 3600.0;
             
+            //kmph
             var vel = d/t;
         }
 
@@ -99,3 +115,47 @@ db.alaw_markbest_tyroneh.BusesJSON.mapReduce(
     },
     {out:{merge:"alaw_markbest_tyroneh.AvgRouteVelocity"}}
 );
+
+dropPerm("alaw_markbest_tyroneh.BusesJSON");
+
+// b.alaw_markbest_tyroneh.BusesJSON.mapReduce(
+//     function() {
+//         var routeTag = this._id.route;
+//         var vid = this._id.id;
+//         var times = this.times;
+//         var vel = 0.000001;
+
+//         for(var i = 1; i < times.length; i++) {
+//             var bus0 = times[i-1]; var bus1 = times[i];
+
+//             var t = bus1.timestamp - bus0.timestamp;
+
+//             var lat_diff = Math.pow(bus1.lat - bus0.lat, 2);
+//             var lon_diff = Math.pow(bus1.lon - bus0.lon, 2);
+//             var d = Math.pow(lat_diff + lon_diff, 0.5);
+            
+//             var vel = d/t;
+//         }
+
+//         emit(routeTag, {
+//             "total_vel": vel,
+//             "vel": [vel],
+//             "count": 1
+//         });
+//     },
+//     function(k, vs) {
+//         var total_vel = 0;
+//         var vel = [];
+//         var count = 0;
+
+//         vs.forEach(function(bus) {
+//             total_vel += bus.total_vel;
+//             bus.vel.forEach(function(v) {
+//                 vel.push(v);
+//             });
+//             count += bus.count;
+//         });
+//         return {"total_vel": total_vel, "vel": vel, "count": count};
+//     },
+//     {out:{merge:"alaw_markbest_tyroneh.AvgRouteVelocity"}}
+// );
