@@ -2,6 +2,18 @@
 
 ## Project 1
 
+In order to run this project the ```auth.json``` file should be structured this way:
+```json
+{
+    "services": {
+        "cityofbostondataportal": {
+            "service": "https://data.cityofboston.gov/",
+            "token": "XXXXXXXXXXXXXXXXXXXXXXXXX"
+         }
+     }
+}
+```
+
 ### 2.a
 
 We chose to combine datasets holding the following data: [Crime], [Schools], [Hospitals], [Food Establishment Inspections], [311] reports. An interesting project would be to rate a given zipcode based on the quality of it’s surroundings. 
