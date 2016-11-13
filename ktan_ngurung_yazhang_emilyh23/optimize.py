@@ -155,10 +155,10 @@ def user_query(bus_r, station_r, college_r, bigBelly_r, hubway_r, n):
     print('Found {} zipcode(s) that most satisfy your search, here are the top {}:'.format(zc_len, n))
     
     for zc, data in results.items():
+        print()
         print('zipcode: {}'.format(zc))
         print('{}\'s overall ranking: {}'.format(zc,data['overall_rating']))
         print('neighborhood income: {}'.format(data['income_star']))
-
 # checks user input and raises errors if incorrect
 def check_rating(user_in):
     try:
@@ -178,19 +178,19 @@ def user_term(user_in):
     if user_in != 'y' and user_in != 'n':
         raise AssertionError('Enter y or n.') 
  
-def get_fields(r_name):
+def get_fields(cat_name):
     while True:
         try:    
-            r_rating = input('enter rating for {} (1,2,3): '.format(r_name))
-            check_rating(r_rating)
-            return(int(r_rating))
+            cat_rating = input('enter rating for {} (1,2,3): '.format(cat_name))
+            check_rating(cat_rating)
+            return(int(cat_rating))
         except AssertionError as e:
             print(str(e))
 
 '''      
 ask for user input, check for formatting errors, user_query will return the zipcodes 
 that most satisfy the user's category rankings and maximizes population density.
-will keep asking user for input unless specified to quit.
+will keep asking input unless specified to quit.
 '''
 while True:
     another = ''
@@ -221,4 +221,5 @@ while True:
     except AssertionError as e:
         print(str(e))
     if (another == 'n'):
+        print('Goodbye.')
         break
