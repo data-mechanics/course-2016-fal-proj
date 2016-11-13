@@ -19,7 +19,7 @@ class getData(dml.Algorithm):
         repo = client.repo
         repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
 
-        response = urllib.request.urlopen('https://data.cityofboston.gov/resource/ufcx-3fdn.json').read().decode("utf-8")
+        response = urllib.request.urlopen('https://data.cityofboston.gov/resource/ufcx-3fdn.json?$limit=300000').read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("crimesLegacy")
@@ -27,7 +27,7 @@ class getData(dml.Algorithm):
         repo['aditid_benli95_teayoon_tyao.crimesLegacy'].insert_many(r)
         print('Load crimesLegacy')
 
-        response = urllib.request.urlopen('https://data.cityofboston.gov/resource/29yf-ye7n.json').read().decode("utf-8")
+        response = urllib.request.urlopen('https://data.cityofboston.gov/resource/29yf-ye7n.json?$limit=300000').read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("crimesCurrent")
@@ -121,11 +121,6 @@ class getData(dml.Algorithm):
         doc.wasAssociatedWith(get_privateSchools, this_script)
         doc.usage(get_privateSchools, datasets_privateSchools, startTime)
 
-        resource_foodPantries = doc.entity('cob:4tie-bhxw', {'prov:label':'Food Pantries', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_foodPantries = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Food Pantries', prov.model.PROV_TYPE:'ont:Retrieval'})
-        doc.wasAssociatedWith(get_foodPantries, this_script)
-        doc.usage(get_foodPantries, resource_foodPantries, startTime)
-
         resource_childFeedingPrograms = doc.entity('cob:6s7x-jq48', {'prov:label':'Children Feeding Program', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         get_childFeedingPrograms = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Children Feeding Program', prov.model.PROV_TYPE:'ont:Retrieval'})
         doc.wasAssociatedWith(get_childFeedingPrograms, this_script)
@@ -135,6 +130,16 @@ class getData(dml.Algorithm):
         get_dayCamps = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Day Camps', prov.model.PROV_TYPE:'ont:Retrieval'})
         doc.wasAssociatedWith(get_dayCamps, this_script)
         doc.usage(get_dayCamps, resource_dayCamps, startTime)
+
+        resource_publicDaycares = doc.entity('cob:q6h3-7rpz', {'prov:label':'Public Daycares', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        get_publicDaycares = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Public Daycares', prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.wasAssociatedWith(get_publicDaycares, this_script)
+        doc.usage(get_publicDaycares, resource_publicDaycares, startTime)
+
+        resource_privateDaycares = doc.entity('https://www.care.com/day-care/boston-ma-page', {'prov:label':'Private Daycares', prov.model.PROV_TYPE:'ont:DataResource'})
+        get_privateDaycares = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Private Daycares', prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.wasAssociatedWith(get_privateDaycares, this_script)
+        doc.usage(get_privateDaycares, resource_privateDaycares, startTime)
 
         
         crimesLegacy = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesLegacy', {prov.model.PROV_LABEL:'Past Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataSet'})
@@ -157,11 +162,6 @@ class getData(dml.Algorithm):
         doc.wasGeneratedBy(privateSchools, get_privateSchools, endTime)
         doc.wasDerivedFrom(privateSchools, datasets_privateSchools, get_privateSchools, get_privateSchools, get_privateSchools)
 
-        foodPantries = doc.entity('dat:aditid_benli95_teayoon_tyao#foodPantries', {prov.model.PROV_LABEL:'Food Pantries', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(foodPantries, this_script)
-        doc.wasGeneratedBy(foodPantries, get_foodPantries, endTime)
-        doc.wasDerivedFrom(foodPantries, resource_foodPantries, get_foodPantries, get_foodPantries, get_foodPantries)
-
         childFeedingPrograms = doc.entity('dat:aditid_benli95_teayoon_tyao#childFeedingPrograms', {prov.model.PROV_LABEL:'Children Feeding Program', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(childFeedingPrograms, this_script)
         doc.wasGeneratedBy(childFeedingPrograms, get_childFeedingPrograms, endTime)
@@ -171,6 +171,16 @@ class getData(dml.Algorithm):
         doc.wasAttributedTo(dayCamps, this_script)
         doc.wasGeneratedBy(dayCamps, get_dayCamps, endTime)
         doc.wasDerivedFrom(dayCamps, resource_dayCamps, get_dayCamps, get_dayCamps, get_dayCamps)
+
+        publicDaycares = doc.entity('dat:aditid_benli95_teayoon_tyao#publicDaycares', {prov.model.PROV_LABEL:'Public Daycares', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(publicDaycares, this_script)
+        doc.wasGeneratedBy(publicDaycares, get_publicDaycares, endTime)
+        doc.wasDerivedFrom(publicDaycares, resource_publicDaycares, get_publicDaycares, get_publicDaycares, get_publicDaycares)
+
+        privateDaycares = doc.entity('dat:aditid_benli95_teayoon_tyao#privateDaycares', {prov.model.PROV_LABEL:'Private Daycares', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(privateDaycares, this_script)
+        doc.wasGeneratedBy(privateDaycares, get_privateDaycares, endTime)
+        doc.wasDerivedFrom(privateDaycares, resource_privateDaycares, get_privateDaycares, get_privateDaycares, get_privateDaycares)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
