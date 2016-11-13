@@ -71,7 +71,7 @@ std = np.std(income_list, axis=0)
 high = mean + std/1.5  
 low = mean - std/1.5 
 
-# assigning income ranking to zipcode 
+# assigning income ranking to zip code 
 for zc in zc_list:
     zc_income = zc_income_dict[zc]['med_house_income']
 
@@ -87,7 +87,7 @@ def find_sim_zipcode(u_bus, u_station, u_college, u_bigbelly, u_hubway, n):
     '''
     threshold for similarity: 3 out of 5
     similarity score is penalized by -0.5 if a zipcode category rating = 1 
-    but user imputs 2 or 3 (1 being the worst score possible)
+    but user inputs 2 or 3 (1 being the worst score possible)
     '''
     sim_zc_pop = []
     
@@ -193,9 +193,9 @@ def user_term(user_in):
 def get_fields(r_name):
     while True:
         try:    
-            bus_r = input('enter rating for {} (1,2,3): '.format(r_name))
-            check_rating(bus_r)
-            return(int(bus_r))
+            r_rating = input('enter rating for {} (1,2,3): '.format(r_name))
+            check_rating(r_rating)
+            return(int(r_rating))
         except AssertionError as e:
             print(str(e))
 
@@ -224,7 +224,7 @@ while True:
         
         while True:
             try:
-                another = input('Find another? (y,n) ')
+                another = input('Find another? (y,n): ')
                 user_term(another)
             except AssertionError as e:
                 print(str(e))
