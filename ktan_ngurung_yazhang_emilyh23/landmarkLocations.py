@@ -20,7 +20,7 @@ class landmarkLocations(dml.Algorithm):
         repo = client.repo
         repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
 
-        url = 'http://datamechanics.io/data/ktan_ngurung/big-belly-locations.json'
+        url = 'http://datamechanics.io/data/ktan_ngurung_yazhang_emilyh23/big-belly-locations.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r0 = json.loads(response)
         s0 = json.dumps(r0, sort_keys=True, indent=2)
@@ -28,7 +28,7 @@ class landmarkLocations(dml.Algorithm):
         repo.createPermanent("bigBelly")
         repo['ktan_ngurung_yazhang_emilyh23.bigBelly'].insert_one(r0)
 
-        url = 'http://datamechanics.io/data/ktan_ngurung/colleges-and-universities.json'
+        url = 'http://datamechanics.io/data/ktan_ngurung_yazhang_emilyh23/colleges-and-universities.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r1 = json.loads(response)
         s1 = json.dumps(r1, sort_keys=True, indent=2)
@@ -36,7 +36,7 @@ class landmarkLocations(dml.Algorithm):
         repo.createPermanent("colleges")
         repo['ktan_ngurung_yazhang_emilyh23.colleges'].insert_many(r1)
 
-        url = 'http://datamechanics.io/data/ktan_ngurung/hubway-stations-in-boston.json'
+        url = 'http://datamechanics.io/data/ktan_ngurung_yazhang_emilyh23/hubway-stations-in-boston.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r2 = json.loads(response)
         s2 = json.dumps(r2, sort_keys=True, indent=2)
@@ -44,7 +44,7 @@ class landmarkLocations(dml.Algorithm):
         repo.createPermanent("hubways")
         repo['ktan_ngurung_yazhang_emilyh23.hubways'].insert_many(r2)
 
-        url = 'http://datamechanics.io/data/ktan_ngurung/mbta-bus-stops.json'
+        url = 'http://datamechanics.io/data/ktan_ngurung_yazhang_emilyh23/mbta-bus-stops.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r3 = json.loads(response)
         s3 = json.dumps(r3, sort_keys=True, indent=2)
@@ -52,7 +52,7 @@ class landmarkLocations(dml.Algorithm):
         repo.createPermanent("busStops")
         repo['ktan_ngurung_yazhang_emilyh23.busStops'].insert_many(r3)
 
-        url = 'http://datamechanics.io/data/ktan_ngurung/t-stop-locations.json'
+        url = 'http://datamechanics.io/data/ktan_ngurung_yazhang_emilyh23/t-stop-locations.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r4 = json.loads(response)
         s4 = json.dumps(r4, sort_keys=True, indent=2)
@@ -60,7 +60,7 @@ class landmarkLocations(dml.Algorithm):
         repo.createPermanent("tStops")
         repo['ktan_ngurung_yazhang_emilyh23.tStops'].insert_many(r4)
 
-        url = 'http://datamechanics.io/data/ktan_ngurung/boston-ridership.json'
+        url = 'http://datamechanics.io/data/ktan_ngurung_yazhang_emilyh23/boston-ridership.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r5 = json.loads(response)
         s5 = json.dumps(r5, sort_keys=True, indent=2)
