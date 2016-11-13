@@ -68,7 +68,7 @@ Finally, the bulk of our project is based on our optimization algorithm. In our 
 
 (3) - the user can query by a specific number of optimal zip codes that follow the same logic as in (2). 
 
-Additionally, we scraped the median household income for each zip code to give the user a better idea of their target audience. In the same way, we also determined the corresponding ratings for these income values, which our tool will display in accordance to the resulting zip code. 
+Additionally, we scraped the median household income for each zip code to give the user a better idea of their target audience. In the same way, we also determined the corresponding level (High, Medium, Low) for these income values based off of "ratings" calculated from standard deviation, which our tool will display in accordance to the resulting zip code. 
 
 ```
 $ python optimize.py
