@@ -81,13 +81,11 @@ for zc in zc_list:
         zc_income_dict[zc]['income_star'] = 3
     else:
         zc_income_dict[zc]['income_star'] = 2
-
-
+        
 def find_sim_zipcode(u_bus, u_station, u_college, u_bigbelly, u_hubway, n):
     '''
-    threshold for similarity: 3 out of 5
-    similarity score is penalized by -0.5 if a zipcode category rating = 1 
-    but user inputs 2 or 3 (1 being the worst score possible)
+    similarity threshold: 3 out of 5   
+    sim_zc_pop contains all zipcodes that have met similiarity threshold    
     '''
     sim_zc_pop = []
     
@@ -109,24 +107,14 @@ def find_sim_zipcode(u_bus, u_station, u_college, u_bigbelly, u_hubway, n):
         
         if (u_bus == zc_bus):
             sim_c+=1
-        if (u_bus != 1 and zc_bus == 1):
-            sim_c-=0.5
         if (u_station == zc_station):
             sim_c+=1
-        if (u_bus != 1 and zc_station == 1):
-            sim_c-=0.5
         if (u_college == zc_college):
             sim_c+=1
-        if (u_college != 1 and zc_college == 1):
-            sim_c-=0.5
         if (u_bigbelly == zc_bigBell):
             sim_c+=1
-        if (u_college != 1 and zc_college == 1):
-            sim_c-=0.5
         if (u_hubway == zc_hubway):
             sim_c+=1
-        if (u_college != 1 and zc_college == 1):
-            sim_c-=0.5
 
         # for testing        
         print('zc: {}, similarity rating: {}'.format(zc,sim_c))
@@ -204,7 +192,6 @@ ask for user input, check for formatting errors, user_query will return the zipc
 that most satisfy the user's category rankings and maximizes population density.
 will keep asking user for input unless specified to quit.
 '''
-
 while True:
     another = ''
     try:
