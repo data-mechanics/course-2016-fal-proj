@@ -32,11 +32,8 @@ def start():
     zc_pop_dict = {} # for sorting zipcodes by population
     
     # make url request for boston zipcode data retrieval 
-    url = 'http://www.city-data.com/zipmaps/Boston-Massachusetts.html'
-    user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36"
-    
-    headers = { 'User-Agent' : user_agent }
-    response = requests.get(url, headers=headers)
+    url = 'http://www.city-data.com/zipmaps/Boston-Massachusetts.html'    
+    response = requests.get(url)
     html = response.text
     soup = BeautifulSoup(html)
     
