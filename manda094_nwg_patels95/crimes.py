@@ -51,6 +51,7 @@ class crimes(dml.Algorithm):
         url = 'https://data.cityofboston.gov/resource/ufcx-3fdn.json?$limit=300000&$$app_token=' + socrataAppToken
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
+ 
 
         data = crimes.select(r, crimes.firearm_only)
         data = crimes.select(data, crimes.date_check)
