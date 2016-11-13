@@ -50,14 +50,14 @@ $ python zipcodeRatings.py
 ```
 
 ## Trial Mode (Question 3b)
-To test on trial mode, set the trial parameter within 'zipcodeRatings.py' of the 'execute()' method to 'True'. It will activate the capability defined within the if-else statements when data is first pulled from the database to be created as dictionaries. 
+To test on trial mode, set the trial parameter within `zipcodeRatings.py` of the `execute()` method to `True`. It will activate the capability defined within the if-else statements when data is first pulled from the database to be created as dictionaries. 
 
 
 ## Statistical Analysis (Question 2b)
 In our implementation of algorithms, we plan on performing statistical analysis on potential trends that may exist in the correlation between any two landmark ratings. By interpreting the similarities, if a majority of the comparisons yield a direct/positive correlation, we may choose to either combine the similar datasets or potentially choose one over the other. If such correlations exist, we can analyze whether combinig or eliminating landmarks to query would benefit or be detrimental to designing our final optimization tool. 
 Results: We plotted the ratings for all the landmarks to see if there was any correlations. The correlation coefficients are printed out to show that there are no strong position or negative correlations among any of two landmark ratings. 
 
-``
+```
 $ python statCorrelation.py
 
 statCorrelation.png
