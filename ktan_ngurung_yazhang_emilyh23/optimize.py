@@ -7,81 +7,88 @@ import numpy as np
 import warnings
 warnings.filterwarnings("ignore")
 
-'''Retrieve some data sets (not using the API here for the sake of simplicity).'''
-startTime = datetime.datetime.now()
-
-# Set up the database connection.
-client = dml.pymongo.MongoClient()
-repo = client.repo
-repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
-
-# dictionary of zipcode ratings
-zc_ratings = repo.ktan_ngurung_yazhang_emilyh23.zipcodeRatings.find_one() 
-zc_ratings.pop('_id', None)
-
-# list of zipcodes
-zc_list = list(zc_ratings.keys())[1:]
-# list of incomes for calculating low, med, and high
-income_list = []
-zc_income_dict = {}
-
-# for sorting zipcodes by population
-zc_pop_dict = {}
-
-# make url request for boston zipcode data retrieval 
-url = 'http://www.city-data.com/zipmaps/Boston-Massachusetts.html'
-user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36"
-
-headers = { 'User-Agent' : user_agent }
-response = requests.get(url, headers=headers)
-html = response.text
-soup = BeautifulSoup(html)
-
-# parsing html
-for zc in zc_list:
-    zc_data_block = soup.find('div', {'id': zc})
+def start():
+    '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
+    startTime = datetime.datetime.now()
     
-    try:
-        # getting the median household income for zipcode
-        b_text = zc_data_block.findAll(text=True)
-        income_index = b_text.index('Estimated median household income in 2013:')
-        med_house_income_str = b_text[income_index+1] 
-        med_house_income = re.sub("[^0-9]", "", med_house_income_str)
-      
-        income_list.append(int(med_house_income))                
+    # Set up the database connection.
+    client = dml.pymongo.MongoClient()
+    repo = client.repo
+    repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+    
+    global zc_ratings
+    global zc_list 
+    global zc_income_dict
+    global zc_pop_dict
+    
+    # dictionary of zipcode ratings
+    zc_ratings = repo.ktan_ngurung_yazhang_emilyh23.zipcodeRatings.find_one() 
+    zc_ratings.pop('_id', None)
+    
+    # list of zipcodes
+    zc_list = list(zc_ratings.keys())[1:]
+    # list of incomes for calculating low, med, and high
+    income_list = []
+    zc_income_dict = {}
+    
+    # for sorting zipcodes by population
+    zc_pop_dict = {}
+    
+    # make url request for boston zipcode data retrieval 
+    url = 'http://www.city-data.com/zipmaps/Boston-Massachusetts.html'
+    user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36"
+    
+    headers = { 'User-Agent' : user_agent }
+    response = requests.get(url, headers=headers)
+    html = response.text
+    soup = BeautifulSoup(html)
+    
+    # parsing html
+    for zc in zc_list:
+        zc_data_block = soup.find('div', {'id': zc})
         
-        # getting the population density for zipcode
-        pop_str = zc_data_block.find('table').get_text()
-        pop_numbers = re.findall('\d+', pop_str)
-        pop_density = pop_numbers[0]+ pop_numbers[1]
-        
-        # storing scraped data
-        zc_income_dict[zc] = {'med_house_income': int(med_house_income)}
-        zc_pop_dict[zc] = int(pop_density)
-        
-    except AttributeError:
-        if zc == '02446':
-            income_list.append(79289)
-            zc_income_dict[zc] = {'med_house_income': 79289}
-            zc_pop_dict[zc] = 22035
-
-# calculating high and low for income ranking
-mean = np.mean(income_list, axis=None)
-std = np.std(income_list, axis=0)
-high = mean + std/1.5  
-low = mean - std/1.5 
-
-# assigning income ranking to zip code 
-for zc in zc_list:
-    zc_income = zc_income_dict[zc]['med_house_income']
-
-    if zc_income < low:
-        zc_income_dict[zc]['income_star'] = 1
-    elif zc_income > high:
-        zc_income_dict[zc]['income_star'] = 3
-    else:
-        zc_income_dict[zc]['income_star'] = 2
-        
+        try:
+            # getting the median household income for zipcode
+            b_text = zc_data_block.findAll(text=True)
+            income_index = b_text.index('Estimated median household income in 2013:')
+            med_house_income_str = b_text[income_index+1] 
+            med_house_income = re.sub("[^0-9]", "", med_house_income_str)
+          
+            income_list.append(int(med_house_income))                
+            
+            # getting the population density for zipcode
+            pop_str = zc_data_block.find('table').get_text()
+            pop_numbers = re.findall('\d+', pop_str)
+            pop_density = pop_numbers[0]+ pop_numbers[1]
+            
+            # storing scraped data
+            zc_income_dict[zc] = {'med_house_income': int(med_house_income)}
+            zc_pop_dict[zc] = int(pop_density)
+            
+        except AttributeError:
+            if zc == '02446':
+                income_list.append(79289)
+                zc_income_dict[zc] = {'med_house_income': 79289}
+                zc_pop_dict[zc] = 22035
+    
+    # calculating high and low for income ranking
+    mean = np.mean(income_list, axis=None)
+    std = np.std(income_list, axis=0)
+    high = mean + std/1.5  
+    low = mean - std/1.5 
+    
+    # assigning income ranking to zip code 
+    for zc in zc_list:
+        zc_income = zc_income_dict[zc]['med_house_income']
+    
+        if zc_income < low:
+            zc_income_dict[zc]['income_star'] = 1
+        elif zc_income > high:
+            zc_income_dict[zc]['income_star'] = 3
+        else:
+            zc_income_dict[zc]['income_star'] = 2
+    user_input()
+     
 def find_sim_zipcode(u_bus, u_station, u_college, u_bigbelly, u_hubway, n):
     '''
     similarity threshold: 3 out of 5   
@@ -159,6 +166,7 @@ def user_query(bus_r, station_r, college_r, bigBelly_r, hubway_r, n):
         print('zipcode: {}'.format(zc))
         print('{}\'s overall ranking: {}'.format(zc,data['overall_rating']))
         print('neighborhood income: {}'.format(data['income_star']))
+        
 # checks user input and raises errors if incorrect
 def check_rating(user_in):
     try:
@@ -187,39 +195,42 @@ def get_fields(cat_name):
         except AssertionError as e:
             print(str(e))
 
-'''      
-ask for user input, check for formatting errors, user_query will return the zipcodes 
-that most satisfy the user's category rankings and maximizes population density.
-will keep asking input unless specified to quit.
-'''
-while True:
-    another = ''
-    try:
-        n = input('enter number of areas you seek to advertise in: ')
-        check_int(n)
-        n = int(n)
-        
-        bus_r = get_fields('bus stops')
-        station_r = get_fields('Tstops')
-        college_r = get_fields('colleges')
-        bigBelly_r = get_fields('Bigbelly')
-        hubway_r = get_fields('Hubways')
-        
-        print()
-        user_query(bus_r, station_r, college_r, bigBelly_r, hubway_r,n)
-        print()
-        
-        while True:
-            try:
-                another = input('Find another? (y,n): ')
-                user_term(another)
-            except AssertionError as e:
-                print(str(e))
-            if (another == 'y' or another == 'n'):
-                break
-        
-    except AssertionError as e:
-        print(str(e))
-    if (another == 'n'):
-        print('Goodbye.')
-        break
+def user_input():
+    '''      
+    ask for user input, check for formatting errors, user_query will return the zipcodes 
+    that most satisfy the user's category rankings and maximizes population density.
+    will keep asking input unless specified to quit.
+    '''
+    while True:
+        another = ''
+        try:
+            n = input('enter number of areas you seek to advertise in: ')
+            check_int(n)
+            n = int(n)
+            
+            bus_r = get_fields('bus stops')
+            station_r = get_fields('Tstops')
+            college_r = get_fields('colleges')
+            bigBelly_r = get_fields('Bigbelly')
+            hubway_r = get_fields('Hubways')
+            
+            print()
+            user_query(bus_r, station_r, college_r, bigBelly_r, hubway_r,n)
+            print()
+            
+            while True:
+                try:
+                    another = input('Find another? (y,n): ')
+                    user_term(another)
+                except AssertionError as e:
+                    print(str(e))
+                if (another == 'y' or another == 'n'):
+                    break
+            
+        except AssertionError as e:
+            print(str(e))
+        if (another == 'n'):
+            print('Goodbye.')
+            return
+    
+start()
