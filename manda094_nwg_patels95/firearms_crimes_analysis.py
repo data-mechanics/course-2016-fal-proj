@@ -5,7 +5,6 @@ import prov.model
 import datetime
 import uuid
 from math import sqrt
-import matplotlib.pyplot
 from random import shuffle
 
 class firearms_crimes_analysis(dml.Algorithm):
@@ -32,10 +31,13 @@ class firearms_crimes_analysis(dml.Algorithm):
         if firearms_crimes_analysis.stddev(x) * firearms_crimes_analysis.stddev(y) != 0:
             return firearms_crimes_analysis.cov(x, y) / (firearms_crimes_analysis.stddev(x) * firearms_crimes_analysis.stddev(y))
 
-    def p(x, y):
+    def p(x, y, trial):
         c0 = firearms_crimes_analysis.corr(x, y)
         corrs = []
-        for k in range(0, 2000):
+        num = 2000
+        if trial:
+            num = 500
+        for k in range(0, num):
             y_permuted = firearms_crimes_analysis.permute(y)
             corrs.append(firearms_crimes_analysis.corr(x, y_permuted))
         return len([c for c in corrs if abs(c) > c0])/len(corrs)
@@ -50,43 +52,43 @@ class firearms_crimes_analysis(dml.Algorithm):
         repo.authenticate('manda094_nwg_patels95', 'manda094_nwg_patels95')
 
         crimes = []
-        dates = []
         firearmsRecovered = []
+        count = 0
         for data in repo['manda094_nwg_patels95.firearm_recovery'].find():
-            dates.append(data["collectiondate"])
-            try:
-                crimes.append(data["totalcrimes"])
-            except KeyError:
-                # add 0 to array if "totalcrimes" key does not exist
-                crimes.append(0)
-            firearmsRecovered.append(data["totalgunsrecovered"])
-
-        # print(dates)
-
-        print("Crimes")
-        print(crimes)
-        print("Guns Recovered")
-        print(firearmsRecovered)
+            if trial:
+                # if trial mode -> only use 200 data values
+                count += 1
+                if count <= 200:
+                    try:
+                        crimes.append(data["totalcrimes"])
+                    except KeyError:
+                        # add 0 to array if "totalcrimes" key does not exist
+                        crimes.append(0)
+                    firearmsRecovered.append(data["totalgunsrecovered"])
+            else:
+                try:
+                    crimes.append(data["totalcrimes"])
+                except KeyError:
+                    # add 0 to array if "totalcrimes" key does not exist
+                    crimes.append(0)
+                firearmsRecovered.append(data["totalgunsrecovered"])
 
         # average crimes and firearms recovered per day
-        # print(firearms_crimes_analysis.avg(crimes))
-        # print(firearms_crimes_analysis.avg(firearmsRecovered))
+        print("Average crimes per day: " + str(firearms_crimes_analysis.avg(crimes)))
+        print("Average firearms recovered per day: " + str(firearms_crimes_analysis.avg(firearmsRecovered)))
 
         days = list(range(1, 240))
 
         # correlation coefficient
-        print(firearms_crimes_analysis.corr(firearmsRecovered, crimes))
+        print("Correlation Coefficient: " + str(firearms_crimes_analysis.corr(firearmsRecovered, crimes)))
 
         # p-value
-        # print(firearms_crimes_analysis.p(firearmsRecovered, crimes))
-
-        matplotlib.pyplot.scatter(days, crimes)
-        matplotlib.pyplot.show()
+        print("P-value: " + str(firearms_crimes_analysis.p(firearmsRecovered, crimes, trial)))
+        # p-value is too high to reject the null hypothesis
 
         repo.logout()
 
         endTime = datetime.datetime.now()
-
         return {"start":startTime, "end":endTime}
 
     @staticmethod
@@ -95,14 +97,26 @@ class firearms_crimes_analysis(dml.Algorithm):
         repo = client.repo
         repo.authenticate('manda094_nwg_patels95', 'manda094_nwg_patels95')
 
-        # repo.record(doc.serialize())
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:manda094_nwg_patels95#firearms_crimes_analysis', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource = doc.entity('dat:manda094_nwg_patels95#firearm_recovery', {'prov:label':'Firearm Recovery', prov.model.PROV_TYPE:'ont:DataResource'})
+        this_run = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        doc.wasAssociatedWith(this_run, this_script)
+        doc.usage(this_run, resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+
+        repo.record(doc.serialize())
         repo.logout()
 
         return doc
 
 firearms_crimes_analysis.execute()
-# doc = crimes.provenance()
-# print(doc.get_provn())
-# print(json.dumps(json.loads(doc.serialize()), indent=4))
+doc = firearms_crimes_analysis.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
