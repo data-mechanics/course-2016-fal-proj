@@ -13,7 +13,7 @@ from helpers import *
 class correlation(dml.Algorithm):
     contributor = 'aydenbu_huangyh'
     reads = ['aydenbu_huangyh.public_earning_crime_boston']
-    writes = ['']
+    writes = ['aydenbu_huangyh.statistic_data']
 
     @staticmethod
     def execute(trial=False):
@@ -42,13 +42,13 @@ class correlation(dml.Algorithm):
             garden = tuple((document['_id'], document['value']['numofGarden']))
             crime = tuple((document['_id'], document['value']['numofCrime']))
 
-            temp_avg = document['value']['avg']
+            # temp_avg = document['value']['avg']
             # temp_crime = document['value']['numofGarden']
 
             avg[1] = float(avg[1])
             avg = tuple(avg)
 
-            temp_avg = float(temp_avg)
+            # temp_avg = float(temp_avg)
 
             # x.append(temp_avg)
             # y.append(temp_crime)
@@ -61,7 +61,7 @@ class correlation(dml.Algorithm):
             gardens.append(garden)
             crimes.append(crime)
 
-        print(avgs)
+        # print(avgs)
         # print(stores)
         # print(hospitals)
         # print(schools)
@@ -119,7 +119,7 @@ class correlation(dml.Algorithm):
         '''
         Statistic methods end Here
         '''
-        print(clean(avgs))
+        # print(clean(avgs))
         # print(clean(stores))
         # print(stores)
         # print(clean(hospitals))
@@ -129,21 +129,35 @@ class correlation(dml.Algorithm):
 
         x = clean(avgs)
         y = [clean(stores), clean(hospitals), clean(schools), clean(gardens), clean(crimes)]
-        corrolations =[]
+        correlations =[]
         leastSquares = []
         Rsquares = []
         for i in range(len(y)):
-            corrolations += [cor(x, y[i])]
+            correlations += [cor(x, y[i])]
             leastSquares += [least_square(x, y[i])]
             Rsquares += [r_square(x, y[i], leastSquares[i][0], leastSquares[i][1])]
 
-        print('data for [stores, hospitals, schools, gardens, crimes]')
-        print('corrolations: ', corrolations)
-        print('leastSquares: ', leastSquares)
-        print('Rsquare: ' , Rsquares)
+        index = ['stores and Avg', 'hospital and Avg', 'school and Avg', 'garden and Avg', 'crimes and Avg']
+        # print('data for [stores, hospitals, schools, gardens, crimes]')
+        # print('correlations: ', correlations)
+        # print('leastSquares: ', leastSquares)
+        # print('R square: ' , Rsquares)
+
+        results = []
+        for i in range(len(index)):
+            result = {
+                        '_id': index[i],
+                        'Correlation': correlations[i],
+                        'LeastSquare': leastSquares[i],
+                        'R Square': Rsquares[i]
+                      }
+            results.append(result)
 
 
 
+        repo.dropPermanent("statistic_data")
+        repo.createPermanent("statistic_data")
+        repo['aydenbu_huangyh.statistic_data'].insert_many(results)
 
 
 
@@ -159,7 +173,45 @@ class correlation(dml.Algorithm):
         in this script. Each run of the script will generate a new
         document describing that invocation event.
         '''
-        return None
+
+        # Set up the database connection
+        repo = openDb(getAuth("db_username"), getAuth("db_password"))
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/')  # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/')  # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont',
+                          'http://datamechanics.io/ontology#')  # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/')  # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:aydenbu_huangyh#correlation',
+                                {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
+        resource = doc.entity('dat:public_earning_crime_boston',
+                              {'prov:label': 'Public Earning Crime Boston', prov.model.PROV_TYPE: 'ont:DataResource',
+                               'ont:Extension': 'json'})
+
+        get_statistic_reaults = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
+                                           {prov.model.PROV_LABEL: "Get the correlation and leastSquare for each entry related to evg earnings"})
+        doc.wasAssociatedWith(get_statistic_reaults, this_script)
+        doc.usage(get_statistic_reaults, resource, startTime, None,
+                  {prov.model.PROV_TYPE: 'ont:Computation'})
+
+        statistic_data = doc.entity('dat:aydenbu_huangyh#statistic_data',
+                                     {prov.model.PROV_LABEL: 'Statistic Results',
+                                      prov.model.PROV_TYPE: 'ont:DataSet'})
+        doc.wasAttributedTo(statistic_data, this_script)
+        doc.wasGeneratedBy(statistic_data, statistic_data, endTime)
+        doc.wasDerivedFrom(statistic_data, resource, statistic_data, statistic_data,
+                           statistic_data)
+
+        repo.record(doc.serialize())  # Record the provenance document.
+        repo.logout()
+
+        return doc
+
 
 
 correlation.execute()
+doc = correlation.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
