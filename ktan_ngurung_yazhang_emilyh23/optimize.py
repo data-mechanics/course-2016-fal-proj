@@ -111,10 +111,6 @@ class optimize(dml.Algorithm):
             zc_bigBell = ratings['bigBelly_star']
             zc_hubway = ratings['hubway_star']
             
-            # for testing
-            # print('zc   {}  {}  {}  {}  {}'.format(zc_bus,zc_station,zc_college,zc_bigBell,zc_hubway))
-            # print('user {}  {}  {}  {}  {}'.format(u_bus, u_station, u_college, u_bigbelly, u_hubway,))
-            
             if (u_bus == zc_bus):
                 sim_c+=1
             if (u_station == zc_station):
@@ -125,10 +121,6 @@ class optimize(dml.Algorithm):
                 sim_c+=1
             if (u_hubway == zc_hubway):
                 sim_c+=1
-    
-            # for testing        
-            # print('zc: {}, similarity rating: {}'.format(zc,sim_c))
-            # print()
             
             # zipcodes being considered for optimization
             if sim_c >= 3:
@@ -141,10 +133,7 @@ class optimize(dml.Algorithm):
         top_zc_data = {}
         # zipcodes sorted by population density in descending order
         sorted_sim_zc = sorted(sim_zc_pop, key=lambda x: x[1], reverse=True)
-    
-        # for testing
-        # print(sorted_sim_zc)
-        
+
         # just zipcodes
         sorted_zc = [zc_pop[0] for zc_pop in sorted_sim_zc]
         zc_len = len(sorted_sim_zc)
@@ -158,13 +147,17 @@ class optimize(dml.Algorithm):
         for zc in top_zc:
             top_zc_data[zc] = {'overall_rating': sim_zc_data[zc]['overall_rating'], 'income_star': sim_zc_data[zc]['income_star']}
         
+        print('Found {} zipcode(s) that most satisfy your search: '.format(zc_len))
+        print(sorted_zc)
+        print()
+        
         return(top_zc_data, zc_len)
     
     @staticmethod
     # finds n zipcodes with similar cateogory ratings as user's specified ratings
     def user_query(bus_r, station_r, college_r, bigBelly_r, hubway_r, n):    
         results, zc_len = optimize.find_sim_zipcode(bus_r, station_r, college_r, bigBelly_r, hubway_r,n)
-        print('Found {} zipcode(s) that most satisfy your search:'.format(zc_len))
+        print('Here are the top {}:'.format(n))
         
         for zc, data in results.items():
             print()
