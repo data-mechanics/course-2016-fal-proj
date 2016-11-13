@@ -3,12 +3,19 @@ We are interested in determining whether or not children dedicated establishment
 
 #Data Sets
 Legacy Crimes: https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-July-2012-August-2015-Sourc/7cdf-6fgx
+
 Current Crimes: https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-August-2015-To-Date-Source-/fqn4-4qap
+
 Public Schools: http://bostonopendata.boston.opendata.arcgis.com/datasets/1d9509a8b2fd485d9ad471ba2fdb1f90_0
+
 Private Schools: http://bostonopendata.boston.opendata.arcgis.com/datasets/0046426a3e4340a6b025ad52b41be70a_1
+
 Public Daycares: https://data.cityofboston.gov/dataset/City-Day-Care/q6h3-7rpz/alt
+
 Private Daycares: https://www.care.com/day-care/boston-ma
+
 Day Camps: https://data.cityofboston.gov/dataset/Day-Camps/sgf2-btru
+
 Children Feeding Programs: https://data.cityofboston.gov/Human-Services/Children-s-Feeding-Program/p9yd-36dn
 
 To get these datasets: $ python3 getData.py
