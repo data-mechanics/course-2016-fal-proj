@@ -152,49 +152,71 @@ db.alaw_markbest_tyroneh.BrooklineProperty.mapReduce(
 			property = 'Residential';
 			rooms = Math.max(parseFloat(this.properties.NUMSTORIES) * 2.0, 1.0);
 		}
+
 		else{
 			property = 'Commercial';
 			rooms = 0;
 		}
-		for (var i = coors.length - 1; i >= 0; i--) {
-			emit(this._id,{"coor":coors[i],"property":property,"rooms":rooms})
-		}
-	},
-	//reduce by averaging all coordinates per property and store as geoJSON
-	function(k,vs){
-		var c = 0;
-		var lat = 0;
-		var long = 0;
-		var name = "Brookline";
-		var property;
-		var rooms;
-		vs.forEach(function(v){
-			c++;
-			lat += v.coor[1];
-			long += v.coor[0];
-			property = v.property;
-			rooms = v.rooms;
+
+		var lat = new Array();
+		var long = new Array();
+		coors.forEach(function(c){
+			lat.push(c[1]);
+			long.push(c[0]);
 		});
-		lat = lat / c;
-		long = long / c;
-		if((lat >= 42.23) && (lat <= 42.41) && (long >= -71.18) && (long <= -70.993)){
-			return {
+
+		if(isNaN(rooms)){
+			rooms = 1;
+		}
+
+		emit(this._id,{
 					"type":"Feature",
 					"geometry":{
 					"type":"Point",
-					"coordinates": [lat,long]},
+					"coordinates": [(Array.sum(lat)/lat.length),(Array.sum(long)/long.length)]},
 					"properties":{
 						"type": property,
 						"rooms": rooms,
 						"area": name
 					}
-				};
-			}
-		},
+			});
+	},
+	//no reduce step, all ids are unique
+	function(){},
 	{out:{merge:"alaw_markbest_tyroneh.PropertyGeoJSONs"}}
 );
 
 // flatten("alaw_markbest_tyroneh.PropertyGeoJSONs")
+
+
+dropPerm("alaw_markbest_tyroneh.roomAverages");
+createPerm("alaw_markbest_tyroneh.roomAverages");
+
+db.alaw_markbest_tyroneh.PropertyGeoJSONs.mapReduce(
+	//map room counts to each area
+	function() {
+		emit(this.value.properties.area,this.value.properties.rooms);
+	},
+	//reduce by summing all room counts per area
+	function(k,vs){
+		return Array.sum(vs);
+	},
+	{out:{merge:"alaw_markbest_tyroneh.CensusPopulation"}}
+);
+
+// db.alaw_markbest_tyroneh.CensusPopulation.mapReduce(
+// 	//recalculate Census data to average population per room
+// 	function() {
+// 		var name = this.area.toLowerCase();
+// 		name = name.charAt(0).toUpperCase() + name.slice(1);
+// 		var population = db.alaw_markbest_tyroneh.PropertyGeoJSONs.find({'_id': name});
+// 		print(name);
+// 		emit(this._id,{'average':population});
+// 	},
+// 	//no reduce step, all ids are unique
+// 	function(){},
+// 	{out:"alaw_markbest_tyroneh.roomAverages"}
+// );
 
 //store transformed station data in collection "StationsGeoJSONs"
 

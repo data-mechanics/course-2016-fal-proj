@@ -187,7 +187,7 @@ class getData(dml.Algorithm):
             # NOTE: The attribute at index 1 of any record is the uppercase town name.
             # stores dictionary with town name as key and 2010 population as data
 
-            boston_area = [{x[1]:x[9]} for x in sf.iterRecords() if x[1] in gisTowns]
+            boston_area = [{'area':x[1],'population':x[9]} for x in sf.iterRecords() if x[1] in gisTowns]
 
             # Set up the database connection
             repo.dropPermanent(key)
