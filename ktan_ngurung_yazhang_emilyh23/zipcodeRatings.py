@@ -253,8 +253,7 @@ class zipcodeRatings(dml.Algorithm):
         star_df_final = pd.merge(star_df, overall_dict, on='zc')
         star_df_final.set_index('zc', drop=True, inplace=True)
         star_dict_final = star_df_final.to_dict(orient='index')
-        print(star_df_final)
-        print(len(star_df_final))
+
 
         for k, v in star_dict_final.items():
             star_dict_final[k]['hubway_star'] = int(star_dict_final[k]['hubway_star'])
@@ -269,9 +268,9 @@ class zipcodeRatings(dml.Algorithm):
         r = json.loads(data)
 
         # Create new dataset called tRidershipLocation
-        # repo.dropPermanent("zipcodeRatings")
-        # repo.createPermanent("zipcodeRatings")
-        # repo['ktan_ngurung_yazhang_emilyh23.zipcodeRatings'].insert_one(r)
+        repo.dropPermanent("zipcodeRatings")
+        repo.createPermanent("zipcodeRatings")
+        repo['ktan_ngurung_yazhang_emilyh23.zipcodeRatings'].insert_one(r)
 
     @staticmethod           
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -322,8 +321,8 @@ class zipcodeRatings(dml.Algorithm):
         return doc
 
 zipcodeRatings.execute() 
-# doc = zipcodeRatings.provenance()
-# print(doc.get_provn())
-# print(json.dumps(json.loads(doc.serialize()), indent=4))
+doc = zipcodeRatings.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
