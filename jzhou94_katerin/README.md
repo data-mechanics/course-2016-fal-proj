@@ -24,8 +24,10 @@ Statictical Analyses
 ---------
 * p-value:
 
-    Null Hypothehis: average earnings of police officers HAS NO effect on the number of crimes. Therefore, the average number     of crimes should be the same in every district.
+    Null Hypothehis: average earnings of police officers HAS NO effect on the number of crimes. Therefore, the average           number of crimes should be the same in every district.
 
-    Alternative Hypothehis: average earnings of police officers HAS an effect on the number of crimes. Therefore, the average     number of crimes should be negatevily correlated with the average earnings of police officers.
+    Alternative Hypothehis: average earnings of police officers HAS an effect on the number of crimes. Therefore, the           average number of crimes should be negatevily correlated with the average earnings of police officers.
 
-    After executeing the p-value algorithm, we got a p-value equal to 1. Therefore, we cannot conclude that a significant         difference exists between null and alternative hypotheses. 
+    After executeing the p-value algorithm, we got a p-value equal to 1. Therefore, we cannot conclude that a significant       difference exists between null and alternative hypotheses. 
+
+* k-means:
