@@ -138,11 +138,11 @@ class getData(dml.Algorithm):
             repo['alaw_markbest_tyroneh.TCStops'].insert_many(result) 
 
         # Retrieve scraped real time bus location data hosted on datamechanics.io website
-        url_base = "http://datamechanics.io/data/alaw_tyroneh/busdata/mbtabuses-"
-        bus_time = 1477674001
+        url_base = "http://datamechanics.io/data/alaw_markbest_tyroneh/busdata/mbtabuses-"
+        bus_time = 1478798401
         all_buses = []
  
-        for i in range(623):
+        for i in range(560):
             url = url_base + str(bus_time)
             try:
                 response = urllib.request.urlopen(url)
@@ -150,15 +150,16 @@ class getData(dml.Algorithm):
                     print(url)
                 response = response.read().decode("utf-8")
                 r = json.loads(response)
+                r['timestamp'] = bus_time # change timestamp to time of scraping
                 all_buses.append(r)
             except urllib.error.HTTPError as e:
-               if(trial == True):
-                print('HTTP Error code:', e.code)
+                if(trial == True):
+                    print('HTTP Error code:', e.code)
     
-            bus_time += 1800 # increment by 30 minutes
+            bus_time += 300 # increment by 30 minutes
  
         if(trial == True):
-            print('timestamp', buses_json["timestamp"])
+            print('timestamp', r["timestamp"])
             print('-----------------')
         else: 
             repo.dropPermanent('TimedBuses')
