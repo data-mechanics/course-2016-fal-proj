@@ -25,8 +25,6 @@ class mergeCrimeSchool(dml.Algorithm):
  
         C = [doc for doc in repo.jzhou94_katerin.crime.find()]
 
-        print(S)
-        print(C)
         """
         MERGE
         """
