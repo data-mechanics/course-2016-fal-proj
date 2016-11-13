@@ -38,7 +38,7 @@ class neighborhoodZipCodes(dml.Algorithm):
 				# fix typos by boston
 				if neighborhood in ["ROXBURY CROS", "ROXBURY CROSS"]:
 					neighborhood = 'ROXBURY CROSSING'
-
+				if neighborhood == "SOUGUS"
 				if neighborhood not in neighborhoods:
 						neighborhoods[neighborhood] = [zip]
 				else:
