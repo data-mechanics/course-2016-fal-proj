@@ -51,11 +51,11 @@ The first transformation has the objective to standarize the geographic informat
 "geo_info": {
     "type": "Feature",
     "properties": {
-        "zip_code": ZIPCODE
+        "zip_code": 02215
     },
     "geometry": {
         "type": "Point",
-        "coordinates": [LATITUDE, LONGITUDE]
+        "coordinates": [-71.00, 42.00]
     }
 }
 ```
@@ -93,13 +93,13 @@ Make sure to uncomment the last lines in the file:
 
 ### Problem 1
 
-Following the same idea as **Project 1** the goal is to rank the zipcodes according to the information we have so far. That is, [Crime], [Schools], [Hospitals], [Food Establishment Inspections], [311] reports. Having these data we can derive a new dataset with the following structure:
+Following the same idea as **Project 1** the goal is to rank the zipcodes according to the information we have so far. That is, [Crime], [Schools], [Hospitals], [Food Establishment Inspections], [311] reports. Having this data we can derive a new dataset with the following structure:
 
 ```
 (zipcode, #crimes, #311 reports, #passed food inspections, #schools, #hospitals)
 ```
 
-A user might want to query this dataset in order to know which zipcode to choose to live in, based on the attributes mentioned above. To be able to perform this analysis a multi-objective query must be defined. In this case the multi-objective query could be defined as follows: minimize the ```#crimes``` and ```#311 reports```, while maximizing the quelity of the surrounding restaurants, that is, the ```#passed food inspections```, ```#schools``` and ```#hospitals```. Given equally importance to all five attributes.
+A user might want to query this dataset in order to know which zipcode to choose to live in, based on the attributes mentioned above. To be able to perform this analysis a multi-objective query must be defined. In this case the multi-objective query could be defined as follows: minimize the ```#crimes``` and ```#311 reports```, while maximizing the quality of the surrounding restaurants, that is, the ```#passed food inspections```, ```#schools``` and ```#hospitals```. Given equally importance to all five attributes.
 
 This can be computed optimally using **skyline queries**. Where the result of the query will be formed of all non-dominated tuples following the *pareto optimality* definition [1]. Where an element *a = (a<sub>1</sub>, ..., a<sub>n</sub>)* dominates an element *b = (b<sub>1</sub>, ..., b<sub>n</sub>)* if:
 
@@ -173,11 +173,11 @@ To determine if the average rating and the penalty score are truly correlated th
 
 |               | correlation coefficient |       p value       |
 |:-------------:|:-----------------------:|:-------------------:|
-|     minor     |  -0.0073                |  0.55               |
-|     major     |  -0.014                 |  0.25               |
-|     severe    |  -0.011                 |  0.37               |
-| penalty score |  -0.012                 |  0.33               |
-|  # violations |  -0.01                  |  0.40               |
+|     minor     |  -0.009                 |  0.40               |
+|     major     |  -0.016                 |  0.15               |
+|     severe    |  -0.012                 |  0.27               |
+| penalty score |  -0.014                 |  0.21               |
+|  # violations |  -0.012                 |  0.26               |
 
 ![alt text](scatter-plot.png)
 
