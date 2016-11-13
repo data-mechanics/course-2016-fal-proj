@@ -89,6 +89,9 @@ class delayMap(dml.Algorithm):
 
 	@staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
+    	client = dml.pymongo.MongoClient()
+		repo = client.repo
+		repo.authenticate("asanentz_ldebeasi_mshop_sinichol", "asanentz_ldebeasi_mshop_sinichol")
 		# Provenance Data
 		doc = prov.model.ProvDocument()
 		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/asanentz_ldebeasi_mshop_sinichol') # The scripts are in <folder>#<filename> format.
@@ -116,9 +119,9 @@ class delayMap(dml.Algorithm):
 
 
 		repo.record(doc.serialize()) # Record the provenance document.
-        repo.logout()
+		repo.logout()
 
-        return doc
+		return doc
 
 delayMap.execute()
 doc = delayMap.provenance()
