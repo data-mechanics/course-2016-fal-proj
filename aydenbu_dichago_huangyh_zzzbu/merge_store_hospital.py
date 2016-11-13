@@ -28,7 +28,7 @@ class merge(dml.Algorithm):
         stores = repo['aydenbu_huangyh.zip_Healthycornerstores_count']
 
 
-        # For every document in hospitals zip find the number of store that associate with that zip
+
         hospitals_array = []
         for document in hospitals.find():
             hospitals_array.append(
