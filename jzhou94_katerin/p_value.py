@@ -78,7 +78,7 @@ class p_value(dml.Algorithm):
         document describing that invocation event.
         '''
 
-        # Set up the database connection.
+         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('jzhou94_katerin', 'jzhou94_katerin')
@@ -89,9 +89,28 @@ class p_value(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:mergeCrimeSchool', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        schools = doc.entity('dat:schools', {prov.model.PROV_LABEL:'Number of Schools in Location', prov.model.PROV_TYPE:'ont:DataSet'})
+        this_script = doc.agent('alg:p_value', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         crime = doc.entity('dat:crime', {prov.model.PROV_LABEL:'Crimes per Location', prov.model.PROV_TYPE:'ont:DataSet'})
+        avg_earnings = doc.entity('dat:avg_earnings', {'prov:label':'Average Earnings', prov.model.PROV_TYPE:'ont:DataSet'})
+        get_pValue = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+
+        doc.wasAssociatedWith(get_pValue, this_script)
+        doc.usage(get_pValue, crime, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Computation',
+                 'ont:Query':'?value'
+                }
+            )
+        doc.usage(get_pValue, avg_earnings, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Computation',
+                 'ont:Query':'?value'
+                }
+            )
+
+        pValue = doc.entity('dat:pValue', {prov.model.PROV_LABEL:'P Value of Crimes to Average Earnings', prov.model.PROV_TYPE:'ont:Value'})
+        doc.wasAttributedTo(pValue, this_script)
+        doc.wasGeneratedBy(pValue, get_pValue, endTime)
+        doc.wasDerivedFrom(pValue, crime, get_pValue, get_pValue, get_pValue)
+        doc.wasDerivedFrom(pValue, avg_earnings, get_pValue, get_pValue, get_pValue)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
