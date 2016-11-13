@@ -10,7 +10,11 @@ import zipfile
 import shapefile
 import io
 import sys
+import pyproj
+from dbfread import DBF
+import re
 import os
+import shutil
 
 class getData(dml.Algorithm):
     contributor = 'alaw_markbest_tyroneh'
@@ -167,11 +171,11 @@ class getData(dml.Algorithm):
             repo['alaw_markbest_tyroneh.TimedBuses'].insert_many(all_buses)  
 
     	#GIS data/shapefiles urls, converts them to python dictionaries
-        gisURLs = {"CensusPopulation":'http://wsgw.mass.gov/data/gispub/shape/census2010/CENSUS2010TOWNS_SHP.zip'}
-        gisTowns = ['BOSTON','BROOKLINE','CAMBRIDGE','SOMERVILLE']
+        CensusGisURLs = {"CensusPopulation":'http://wsgw.mass.gov/data/gispub/shape/census2010/CENSUS2010TOWNS_SHP.zip'}
+        CensusGisTowns = ['BOSTON','BROOKLINE','CAMBRIDGE','SOMERVILLE']
 
-        for key in gisURLs:
-            url = gisURLs[key]
+        for key in CensusGisURLs:
+            url = CensusGisURLs[key]
 
             # Get the data from the server.
             response = urllib.request.urlopen(url)
@@ -184,11 +188,11 @@ class getData(dml.Algorithm):
             # Read the file into the Python shapefile library.
             sf = shapefile.Reader("CENSUS2010TOWNS_POLY")
 
-            # Pull out the specific records for the four areas of interest, listed in gisTowns above.
+            # Pull out the specific records for the four areas of interest, listed in CensusGisTowns above.
             # NOTE: The attribute at index 1 of any record is the uppercase town name.
             # stores dictionary with town name as key and 2010 population as data
 
-            boston_area = [{'area':x[1],'population':x[9]} for x in sf.iterRecords() if x[1] in gisTowns]
+            boston_area = [{'area':x[1],'population':x[9]} for x in sf.iterRecords() if x[1] in CensusGisTowns]
 
             # Set up the database connection
             repo.dropPermanent(key)
@@ -200,6 +204,121 @@ class getData(dml.Algorithm):
                 'CENSUS2010TOWNS_ARC.shx','CENSUS2010TOWNS_POLY.cpg','CENSUS2010TOWNS_POLY.dbf','CENSUS2010TOWNS_POLY.prj','CENSUS2010TOWNS_POLY.sbn','CENSUS2010TOWNS_POLY.sbx',
                 'CENSUS2010TOWNS_POLY.shp','CENSUS2010TOWNS_POLY.shp.xml','CENSUS2010TOWNS_POLY.shx']:
                 os.remove(path)
+
+        #Get MBTA bus GIS files
+        BusGisURLs = {"BusRoutesAndStops":'http://wsgw.mass.gov/data/gispub/shape/state/mbtabus.zip'}
+        BusGisKeys = {"BusRoutes":'MBTABUSROUTES_ARC', "BusStops":'MBTABUSSTOPS_PT'}
+        BusdbfKeys = {"RoutesToStops":'MBTABUSSTOPS_PT_EVENTS.dbf'}
+
+        for key in BusGisURLs:
+            
+            # Get the data from the server.
+            response = urllib.request.urlopen(BusGisURLs[key])
+
+            # Unzip the file into the working directory.
+            zip_ref = zipfile.ZipFile(io.BytesIO(response.read()))
+            zip_ref.extractall("./")
+            zip_ref.close()
+
+            # Function to reverse the Lambert projection done on the route/stop data and convert to latitude/longitude.
+            reverseCoordinateProjection = pyproj.Proj(proj = 'lcc', datum = 'NAD83', lat_1 = 41.71666666666667, lat_2 = 42.68333333333333,lat_0 = 41.0, lon_0 = -71.5, x_0 = 200000.0, y_0 = 750000.0)
+
+            # Read the MBTA Bus Routes file into the Python shapefile library.
+            sfRoute = shapefile.Reader(BusGisKeys['BusRoutes'])
+
+            # List comprehension to pull out route coordinates and related data in GeoJSON format.
+            geoJSONRoutes = [
+            {
+                "type":"Feature",
+                "geometry":{
+                    "type":"Multipoint",
+                    "coordinates": [reverseCoordinateProjection(p[0], p[1], inverse = True) for p in x.shape.points]},
+                "properties":{
+                    "route_name": x.record[8],
+                    "route_id": x.record[1],
+                    "route_variant": x.record[2],
+                    "direction":x.record[6],
+                    "ctps_id":x.record[9],
+                    "route_stops":[],
+                    "route_distance": 0
+                }
+            }
+            for x in [i for i in sfRoute.shapeRecords()] ]
+
+            # Drop routes that aren't metropolitan routes (numeric route_id in range(1,121))
+            geoJSONRoutes = [i for i in geoJSONRoutes if(int(re.sub("[^0-9]", "", i['properties']['route_id'])) in range(1,122))]
+
+            # Drop routes in one direction (outbound only)
+            geoJSONRoutes = [i for i in geoJSONRoutes if(i['properties']['direction'] == 0)]
+
+            # Read the MBTA Bus Stops file into the Python shapefile library.
+            sfStops = shapefile.Reader(BusGisKeys['BusStops'])
+
+            # List comprehension to pull out stop coordinates and related data in GeoJSON format.
+            geoJSONStops = [
+            {
+                "type":"Feature",
+                "geometry":{
+                    "type":"Point",
+                    "coordinates": reverseCoordinateProjection(x.shape.points[0][0], x.shape.points[0][1], inverse = True) },
+                "properties":{
+                    "stop_name": x.record[1],
+                    "stop_id": x.record[0],
+                    "town":x.record[2],
+                    "route_list":[]
+                }
+            }
+            for x in [i for i in sfStops.shapeRecords()]]
+
+            # Read the MBTA Routes to Stops file into the Python dbf library.
+            sfRTS = DBF(BusdbfKeys['RoutesToStops'], load=True)
+            records = sfRTS.records
+
+            # keep track of relevant stops
+            usable_stops = set()
+
+            #associate routes and stops together & store of total length per routes
+            for stop in records:
+                stop_id = stop['STOP_ID']
+                ctps_id = stop['CTPS_ROU_1']
+                # convert to km
+                distance = stop['MEASURE'] * 1.60934
+
+                routes = [route for route in geoJSONRoutes if route['properties']['ctps_id'] == ctps_id]
+                stops = [stop for stop in geoJSONStops if stop['properties']['stop_id'] == stop_id]
+
+                for r in routes:
+                    r['properties']['route_stops'].append(stop_id)
+                    r['properties']['route_distance'] = max([r['properties']['route_distance'],distance])
+
+                for s in stops:
+                    s['properties']['route_list'].append(ctps_id)
+
+                if(len(routes) > 0):
+                    usable_stops.add(stop_id)
+
+            # Drop routes not part of metropolitan routes
+            geoJSONStops = [i for i in geoJSONStops if i['properties']['stop_id'] in usable_stops]
+
+            # Set up the database connection for routes
+            repo.dropPermanent('BusRoutes')
+            repo.createPermanent('BusRoutes')
+            repo['alaw_markbest_tyroneh.BusRoutes'].insert_many(geoJSONRoutes)
+
+            # Set up the database connection for stops
+            repo.dropPermanent('BusStops')
+            repo.createPermanent('BusStops')
+            repo['alaw_markbest_tyroneh.BusStops'].insert_many(geoJSONStops)
+
+        # Remove files after unzipping
+        for path in ['MBTA_Bus_Routes_and_Stops_GDB.lyr','MBTA_Bus_Routes_and_Stops_SHP.lyr','MBTABUSSTOPS_PT_EVENTS.dbf','MBTABUSSTOPS_PT_EVENTS.dbf.xml',
+        'MBTABUSROUTES_ARC_EVENTS.cpg','MBTABUSROUTES_ARC_EVENTS.dbf','MBTABUSROUTES_ARC_EVENTS.dbf.xml','MBTABUSROUTES_ARC.cpg','MBTABUSROUTES_ARC.dbf',
+        'MBTABUSROUTES_ARC.prj','MBTABUSROUTES_ARC.sbn','MBTABUSROUTES_ARC.sbx','MBTABUSROUTES_ARC.shp','MBTABUSROUTES_ARC.shp.xml','MBTABUSROUTES_ARC.shx',
+        'MBTABUSSTOPS_PT_EVENTS.cpg','MBTABUSSTOPS_PT.cpg','MBTABUSSTOPS_PT.dbf','MBTABUSSTOPS_PT.prj','MBTABUSSTOPS_PT.sbn','MBTABUSSTOPS_PT.sbx',
+        'MBTABUSSTOPS_PT.shp','MBTABUSSTOPS_PT.shp.xml','MBTABUSSTOPS_PT.shx']:
+            os.remove(path)
+
+        shutil.rmtree('MBTA_BUS.gdb')    
 
         repo.logout()
         endTime = datetime.datetime.now()
