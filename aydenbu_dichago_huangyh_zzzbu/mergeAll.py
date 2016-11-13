@@ -25,8 +25,8 @@ class PublicandEarning(dml.Algorithm):
         publics = repo['aydenbu_huangyh.public_earning']
         crimes = repo['aydenbu_huangyh.zip_crime_count']
 
-        zipInBoston = [2151,2128,2129,2113,2114,2203,2109,2108,2110,2111,2116,2210,2199,2127,2118,2115,2215,2125,2120,2119,
-                       2163,2134,2135,2467,2130,2121,2122,2467,2131,2126,2124,2132,2131,2126,2136]
+        zipInBoston = ['2151','2128','2129','2113','2114','2203','2109','2108','2110','2111','2116','2210','2199','2127','2118','2115','2215','2125','2120','2119',
+                       '2163','2134','2135','2467','2130','2121','2122','2467','2131','2126','2124','2132','2131','2126','2136']
         # reference http://www.cityofboston.gov/images_documents/ZipCodes_tcm3-47884.pdf
 
         publics_array = []
@@ -109,6 +109,22 @@ class PublicandEarning(dml.Algorithm):
         repo.dropPermanent("public_earning_crime")
 
         res = test2.map_reduce(map, reducer, 'aydenbu_huangyh.public_earning_crime')
+
+
+
+
+        allData = repo['aydenbu_huangyh.public_earning_crime']
+        filterResult = []
+        for document in allData.find():
+            if document['_id'] in zipInBoston:
+                filterResult.append(document)
+            else:
+                continue
+
+        repo.dropPermanent("public_earning_crime_boston")
+        repo.createPermanent("public_earning_crime_boston")
+        repo['aydenbu_huangyh.public_earning_crime_boston'].insert_many(filterResult)
+
 
         repo.logout()
         endTime = datetime.datetime.now()
