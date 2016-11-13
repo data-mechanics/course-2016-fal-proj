@@ -77,27 +77,27 @@ class zipcodeRatings(dml.Algorithm):
         #Get bus stop and college location complete data
         hbbCounts = repo.ktan_ngurung_yazhang_emilyh23.hubwayBigBellyCounts.find_one()
         cbsCounts = repo.ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts.find_one()
-        tRideCounts = repo.ktan_ngurung_yazhang_emilyh23.tRidershipLocation.find_one()  
+        tRideCounts = repo.ktan_ngurung_yazhang_emilyh23.tRidershipLocation.find_one() 
 
-        # #3b. Capability to run algorithm in trial mode
-        # if (trial == True):
-        #     #When Trial Mode == True, this is the sample data
-        #     hbbCounts = dict(list(itertools.islice(hbbCounts.items(), 0, 10)))
-        #     print("SAMPLE")
-        #     print(hbbCounts)
-        #     cbsCounts = dict(list(itertools.islice(cbsCounts.items(), 0, 10)))
-        #     print("SAMPLE")
-        #     print(cbsCounts)
-        #     tRideCounts = dict(list(itertools.islice(tRideCounts.items(), 0, 10)))
-        #     print("SAMPLE")
-        #     print(tRideCounts)
+
+        #3b. Capability to run algorithm in trial mode
+        if (trial == True):
+            hbbSample = int(len(hbbCounts)/2)
+            cbsSample = int(len(cbsCounts)/2)
+            tRideSample = int(len(tRideCounts)/2)
+            #When Trial Mode == True, this is the sample data
+            hbbCounts = dict(list(itertools.islice(hbbCounts.items(), 0, hbbSample)))
+            cbsCounts = dict(list(itertools.islice(cbsCounts.items(), 0, cbsSample)))
+            tRideCounts = dict(list(itertools.islice(tRideCounts.items(), 0, tRideSample)))
 
 
         hbbCbsDict = {} 
         tRideTransformed = [] 
-
-        hbbCounts.pop('_id')
-        cbsCounts.pop('_id')
+        try: 
+            hbbCounts.pop('_id')
+            cbsCounts.pop('_id')
+        except (KeyError, TypeError) as e:
+            pass
 
         hbb = [] 
         for row in hbbCounts: 
@@ -108,8 +108,11 @@ class zipcodeRatings(dml.Algorithm):
 
         cbs = [] 
         for row in cbsCounts: 
-            d = {'zc': row, 'busStopCount': cbsCounts[row]['busStopCount'], 'collegeCount': cbsCounts[row]['collegeCount']}
-            cbs.append(d)
+            try: 
+                d = {'zc': row, 'busStopCount': cbsCounts[row]['busStopCount'], 'collegeCount': cbsCounts[row]['collegeCount']}
+                cbs.append(d)
+            except TypeError:
+                pass
 
         cbs_df = pd.DataFrame(cbs)
 
@@ -251,6 +254,7 @@ class zipcodeRatings(dml.Algorithm):
         star_df_final.set_index('zc', drop=True, inplace=True)
         star_dict_final = star_df_final.to_dict(orient='index')
         print(star_df_final)
+        print(len(star_df_final))
 
         for k, v in star_dict_final.items():
             star_dict_final[k]['hubway_star'] = int(star_dict_final[k]['hubway_star'])
