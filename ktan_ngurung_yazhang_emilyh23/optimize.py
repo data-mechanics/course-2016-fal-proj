@@ -5,6 +5,8 @@ import datetime
 import dml
 import numpy as np 
 import warnings
+import prov.model
+
 warnings.filterwarnings("ignore")
 
 class optimize(dml.Algorithm):
@@ -162,7 +164,7 @@ class optimize(dml.Algorithm):
     # finds n zipcodes with similar cateogory ratings as user's specified ratings
     def user_query(bus_r, station_r, college_r, bigBelly_r, hubway_r, n):    
         results, zc_len = optimize.find_sim_zipcode(bus_r, station_r, college_r, bigBelly_r, hubway_r,n)
-        print('Found {} zipcode(s) that most satisfy your search, here are the top {}:'.format(zc_len, n))
+        print('Found {} zipcode(s) that most satisfy your search:'.format(zc_len))
         
         for zc, data in results.items():
             print()
@@ -183,9 +185,12 @@ class optimize(dml.Algorithm):
     @staticmethod
     def check_int(user_in):
         try:
-            int(user_in)
+            n = int(user_in)
         except ValueError:
             raise AssertionError('Not an integer, try again.')
+            
+        if (n <= 0):
+                raise AssertionError('Integer must be greater than 0.')
             
     @staticmethod
     def user_term(user_in):
