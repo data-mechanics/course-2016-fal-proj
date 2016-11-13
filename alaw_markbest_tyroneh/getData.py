@@ -144,9 +144,10 @@ class getData(dml.Algorithm):
         # Retrieve scraped real time bus location data hosted on datamechanics.io website
         url_base = "http://datamechanics.io/data/alaw_markbest_tyroneh/busdata/mbtabuses-"
         bus_time = 1478798401
+        last_bus_time = 1479073201
         all_buses = []
  
-        for i in range(560):
+        while bus_time <= last_bus_time:
             url = url_base + str(bus_time)
             try:
                 response = urllib.request.urlopen(url)
