@@ -8,6 +8,14 @@ Optimize access and coverage to public transportation by changing bus stops alon
 Determine a stable bus schedule given information about traffic (Google maps API/NextBus) & determine optimum bus allocation for maximum efficency and performance 
   
 ###To Run the project
+
+####Installing Dependencies
+* dml
+* prov
+* xmltodict
+* pyshp
+* pyproj
+* dbfread
   
 \* **MAKE SURE YOU HAVE MONGOD RUNNING FIRST AND AUTH'D** \*
   
