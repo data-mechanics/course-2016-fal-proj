@@ -2,6 +2,7 @@ import dml
 import prov.model
 import uuid
 import datetime
+import json
 
 class transit(dml.Algorithm):
 	#more like FUNctions haha
@@ -30,7 +31,7 @@ class transit(dml.Algorithm):
 	writes = ["asanentz_ldebeasi_mshop_sinichol.transit"]
 
 	@staticmethod
-    def execute(trial = False):
+	def execute(trial = False):
 		client = dml.pymongo.MongoClient()
 		repo = client.repo
 		repo.authenticate("asanentz_ldebeasi_mshop_sinichol", "asanentz_ldebeasi_mshop_sinichol")
@@ -84,9 +85,9 @@ class transit(dml.Algorithm):
 		endTime = datetime.datetime.now()
 		return {"start":startTime, "end":endTime}
 
-    @staticmethod
-    def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-    	client = dml.pymongo.MongoClient()
+	@staticmethod
+	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
+		client = dml.pymongo.MongoClient()
 		repo = client.repo
 		repo.authenticate("asanentz_ldebeasi_mshop_sinichol", "asanentz_ldebeasi_mshop_sinichol")
 		# Provenance Data

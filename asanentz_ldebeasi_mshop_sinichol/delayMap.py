@@ -2,6 +2,7 @@ import dml
 import prov.model
 import uuid
 import datetime
+import json
 
 class delayMap(dml.Algorithm):
 
@@ -17,8 +18,8 @@ class delayMap(dml.Algorithm):
 	reads = ["asanentz_ldebeasi_mshop_sinichol.delayMap"]
 	writes = ["asanentz_ldebeasi_mshop_sinichol.delayMap"]
 
-    @staticmethod
-    def execute(trial = False):
+	@staticmethod
+	def execute(trial = False):
 		client = dml.pymongo.MongoClient()
 		repo = client.repo
 		repo.authenticate("asanentz_ldebeasi_mshop_sinichol", "asanentz_ldebeasi_mshop_sinichol")
@@ -88,8 +89,8 @@ class delayMap(dml.Algorithm):
 
 
 	@staticmethod
-    def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-    	client = dml.pymongo.MongoClient()
+	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
+		client = dml.pymongo.MongoClient()
 		repo = client.repo
 		repo.authenticate("asanentz_ldebeasi_mshop_sinichol", "asanentz_ldebeasi_mshop_sinichol")
 		# Provenance Data
@@ -108,14 +109,14 @@ class delayMap(dml.Algorithm):
 
 		doc.wasAssociatedWith(this_run, this_script)
 		doc.used(this_run, addresses, startTime)
-		doc.used(this_run, busStops, startTime)
+		doc.used(this_run, traffic, startTime)
 
 		# Our new combined data set
 		maintenance = doc.entity('dat:delayMap', {prov.model.PROV_LABEL:'Delay by Address', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(maintenance, this_script)
 		doc.wasGeneratedBy(maintenance, this_run, endTime)
 		doc.wasDerivedFrom(maintenance, addresses, this_run, this_run, this_run)
-		doc.wasDerivedFrom(maintenance, busStops, this_run, this_run, this_run)
+		doc.wasDerivedFrom(maintenance, traffic, this_run, this_run, this_run)
 
 
 		repo.record(doc.serialize()) # Record the provenance document.
