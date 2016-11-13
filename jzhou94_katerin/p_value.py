@@ -5,12 +5,14 @@ import prov.model
 import datetime
 import uuid
 from bson.code import Code
+from random import shuffle
+from math import sqrt
 
 
-class mergeCrimeSchool(dml.Algorithm):
+class p_value(dml.Algorithm):
     contributor = 'jzhou94_katerin'
-    reads = ['jzhou94_katerin.schools', 'jzhou94_katerin.crime']
-    writes = ['jzhou94_katerin.merge']
+    reads = ['jzhou94_katerin.crime', 'jzhou94_katerin.avg_earnings']
+    writes = []
         
     @staticmethod
     def execute(trial = False):
@@ -21,30 +23,52 @@ class mergeCrimeSchool(dml.Algorithm):
         print("repo: ", repo)
         repo.authenticate('jzhou94_katerin', 'jzhou94_katerin')
 
-        S = [doc for doc in repo.jzhou94_katerin.schools.find()]
- 
-        C = [doc for doc in repo.jzhou94_katerin.crime.find()]
+        avg_earnings = [doc for doc in repo.jzhou94_katerin.avg_earnings.find()]
+        crimes = [doc for doc in repo.jzhou94_katerin.crime.find()]
 
-        print(S)
-        print(C)
-        """
-        MERGE
-        """
-        repo.dropPermanent("merge")
-        repo.createPermanent("merge")
-        def product(R, S):
-            return [(t, u) for t in R for u in S if(t['_id'] == u['_id'])]
-        P = product(S, C)
-        j = 0
-        for i in P:
-            repo['jzhou94_katerin.merge'].insert({'Name': P[j]})
-            j = j+1
+        # tuple (zipcode, avg_earning)
+        zip_avg = [(item['_id'], float(item['value']['avg'])) for item in avg_earnings]
+        # tuple (zipcode, number_crimes)
+        zip_crimes = [(item['_id'], item['value']['crime']) for item in crimes]
+
+        data = [(x2, y2) for (x1, x2) in zip_avg for (y1, y2) in zip_crimes if x1 == y1]
+        
+        x = [xi for (xi, yi) in data]
+        y = [yi for (xi, yi) in data]
+        
+        def permute(x):
+            shuffled = [xi for xi in x]
+            shuffle(shuffled)
+            return shuffled
+
+        def avg(x): # Average
+            return sum(x)/len(x)
+
+        def stddev(x): # Standard deviation.
+            m = avg(x)
+            return sqrt(sum([(xi-m)**2 for xi in x])/len(x))
+
+        def cov(x, y): # Covariance.
+            return sum([(xi-avg(x))*(yi-avg(y)) for (xi,yi) in zip(x,y)])/len(x)
+
+        def corr(x, y): # Correlation coefficient.
+            if stddev(x)*stddev(y) != 0:
+                return cov(x, y)/(stddev(x)*stddev(y))
+
+        def p(x, y):
+            c0 = corr(x, y)
+            corrs = []
+            for k in range(0, 2000):
+                y_permuted = permute(y)
+                corrs.append(corr(x, y_permuted))
+            return len([c for c in corrs if abs(c) > c0])/len(corrs)
+
+        print('p_value of the average employee earning and the number of crime is equal to', p(x, y))
 
         repo.logout()
 
         endTime = datetime.datetime.now()
         return {"start":startTime, "end":endTime}
-
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -53,6 +77,7 @@ class mergeCrimeSchool(dml.Algorithm):
         in this script. Each run of the script will generate a new
         document describing that invocation event.
         '''
+
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
@@ -67,36 +92,16 @@ class mergeCrimeSchool(dml.Algorithm):
         this_script = doc.agent('alg:mergeCrimeSchool', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         schools = doc.entity('dat:schools', {prov.model.PROV_LABEL:'Number of Schools in Location', prov.model.PROV_TYPE:'ont:DataSet'})
         crime = doc.entity('dat:crime', {prov.model.PROV_LABEL:'Crimes per Location', prov.model.PROV_TYPE:'ont:DataSet'})
-        get_merge = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-
-        doc.wasAssociatedWith(get_merge, this_script)
-        doc.usage(get_merge, schools, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Computation',
-                 'ont:Query':'?value'
-                }
-            )
-        doc.usage(get_merge, crime, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Computation',
-                 'ont:Query':'?value'
-                }
-            )
-
-        merge = doc.entity('dat:merge', {prov.model.PROV_LABEL:'Crimes to Schools', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(merge, this_script)
-        doc.wasGeneratedBy(merge, get_merge, endTime)
-        doc.wasDerivedFrom(merge, schools, get_merge, get_merge, get_merge)
-        doc.wasDerivedFrom(merge, crime, get_merge, get_merge, get_merge)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
         return doc
 
-mergeCrimeSchool.execute()
-print("mergeCrimeSchool Algorithm Done")
-doc = mergeCrimeSchool.provenance()
+p_value.execute()
+print("p_value Algorithm Done")
+doc = p_value.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
-print("mergeCrimeSchool Provenance Done")
-
+print("p_value Provenance Done")
 ## eof

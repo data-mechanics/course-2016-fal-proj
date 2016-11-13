@@ -9,3 +9,6 @@ import mapReduceAvgEarnings
 import mapReduceCrimes
 import mapReduceSchools
 import mergeCrimeSchool
+
+# Get Statistical Analyses
+import p_value
