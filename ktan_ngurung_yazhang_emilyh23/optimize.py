@@ -112,8 +112,8 @@ class optimize(dml.Algorithm):
             zc_hubway = ratings['hubway_star']
             
             # for testing
-            print('zc   {}  {}  {}  {}  {}'.format(zc_bus,zc_station,zc_college,zc_bigBell,zc_hubway))
-            print('user {}  {}  {}  {}  {}'.format(u_bus, u_station, u_college, u_bigbelly, u_hubway,))
+            # print('zc   {}  {}  {}  {}  {}'.format(zc_bus,zc_station,zc_college,zc_bigBell,zc_hubway))
+            # print('user {}  {}  {}  {}  {}'.format(u_bus, u_station, u_college, u_bigbelly, u_hubway,))
             
             if (u_bus == zc_bus):
                 sim_c+=1
@@ -127,8 +127,8 @@ class optimize(dml.Algorithm):
                 sim_c+=1
     
             # for testing        
-            print('zc: {}, similarity rating: {}'.format(zc,sim_c))
-            print()
+            # print('zc: {}, similarity rating: {}'.format(zc,sim_c))
+            # print()
             
             # zipcodes being considered for optimization
             if sim_c >= 3:
@@ -143,7 +143,7 @@ class optimize(dml.Algorithm):
         sorted_sim_zc = sorted(sim_zc_pop, key=lambda x: x[1], reverse=True)
     
         # for testing
-        print(sorted_sim_zc)
+        # print(sorted_sim_zc)
         
         # just zipcodes
         sorted_zc = [zc_pop[0] for zc_pop in sorted_sim_zc]
@@ -180,7 +180,7 @@ class optimize(dml.Algorithm):
         except ValueError:
             raise AssertionError('Not an integer, try again.')
         if (n != 1 and n != 2 and n != 3):
-            raise AssertionError('Rating must be an integer - 1, 2, or 3.')
+            raise AssertionError('Rating must be an integer: 1, 2, or 3.')
          
     @staticmethod
     def check_int(user_in):
