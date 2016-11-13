@@ -46,7 +46,6 @@ To address the ultimate goal of finding the optimal zip code(s) for physical adv
 
 ```
 $ python zipcodeRatings.py
-
 ```
 
 ## Statistical Analysis (Question 2b)
