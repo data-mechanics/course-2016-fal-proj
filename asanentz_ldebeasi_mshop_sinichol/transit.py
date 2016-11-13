@@ -39,19 +39,19 @@ repo.createPermanent("transit")
 
 #a list of towns that are probably going to be in our data sets (i.e. not Lynn)
 #this is not conclusive, it's just easier to use
-towns = ["BOSTON", "BROOKLINE", "CAMBRIDGE", "SOMERVILLE", "ALLSTON"]
+#towns = ["BOSTON", "BROOKLINE", "CAMBRIDGE", "SOMERVILLE", "ALLSTON"]
 buses = repo.asanentz_ldebeasi_mshop_sinichol.busStops.find()
 
 for entry in buses:
 	#making these data entries look nice
 
-	if entry["properties"]["TOWN"] in towns:
-		entry['properties']['TYPE'] = 'BUS'
-		entry['properties']['LONGITUDE'] = entry['geometry']['coordinates'][0]
-		entry['properties']['LATITUDE']  = entry['geometry']['coordinates'][1]
+#	if entry["properties"]["TOWN"] in towns:
+	entry['properties']['TYPE'] = 'BUS'
+	entry['properties']['LONGITUDE'] = entry['geometry']['coordinates'][0]
+	entry['properties']['LATITUDE']  = entry['geometry']['coordinates'][1]
 
 		#I've taken all meaningfull data from the geometry portion of entry
-		res = repo.asanentz_ldebeasi_mshop_sinichol.transit.insert_one(entry['properties'])
+	res = repo.asanentz_ldebeasi_mshop_sinichol.transit.insert_one(entry['properties'])
 
 
 hubway = repo.asanentz_ldebeasi_mshop_sinichol.hubway.find()
