@@ -51,5 +51,19 @@ Please execute the `execute.py` to run the whole program:
 python3 execute.py
 ```
 
-###Project 2 Updates:
-Firstly we extract two new data sets [crimeIncidentReport](https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-July-2012-August-2015-Sourc/7cdf-6fgx/data)
+#Project 2 Updates:
+**Team Members:**
++ Yehui Huang
++ Yingqiao Xiong
++ Hongyu Zhou
++ Chang Gao
+
+###K-Means Algorthm in Crime and Zip
+Firstly we extract two new data sets [CrimeIncidentReport](https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-July-2012-August-2015-Sourc/7cdf-6fgx/data) and [ApprovedBuildingPermit](https://data.cityofboston.gov/Permitting/Approved-Building-Permits/msk6-43c6/data). We use the k-means s an optimization to calculate the approximated mean point in each zip code area and use the argmin to place the crime coordinates into his closest zipcode mean point. 
+
+###Map Reduce to merge Crime into the Result Dataset
+We used mapreduce again to merge the crime_zip dataset into the result dataset from project 1
+
+###Statistic Operations
+
+ 
