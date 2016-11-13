@@ -38,15 +38,29 @@ class neighborhoodZipCodes(dml.Algorithm):
 				# fix typos by boston
 				if neighborhood in ["ROXBURY CROS", "ROXBURY CROSS"]:
 					neighborhood = 'ROXBURY CROSSING'
-				if neighborhood == "SOUGUS"
+
 				if neighborhood not in neighborhoods:
-						neighborhoods[neighborhood] = [zip]
+						neighborhoods[neighborhood] = {
+							"zip":  [zip] ,
+							"income":  None
+						}
 				else:
-					if zip not in neighborhoods[neighborhood]:
-						neighborhoods[neighborhood] += [zip]
+					if zip not in neighborhoods[neighborhood]["zip"]:
+						neighborhoods[neighborhood]["zip"] += [zip]
+
+		file = open('data/Boston_IncomePerCapita.json').read()
+		data = json.loads(file)
+
+		for d in data[0]:
+			income = data[0][d]['Per Capita Income']
+			title = d.upper()
+			if title in neighborhoods:
+				neighborhoods[title]["income"] = income
+
 
 		for item in neighborhoods:
-			res = repo.asanentz_ldebeasi_mshop_sinichol.neighborhoods.insert_one( { 'name': item, 'data': neighborhoods[item] })
+			if item not in ['SOUGUS', 'ABINGTON', 'N SCITUATE', 'NORWOOD', 'ASHLAND', 'SAUGUS', 'WALTHAM', 'BROCKTON', 'MARSHFIELD', 'NORWOOD', 'MEDFORD', 'IPSWICH', 'COLLINS', 'PHIL', 'BOSTON MA 02']:
+				res = repo.asanentz_ldebeasi_mshop_sinichol.neighborhoods.insert_one( { 'name': item, 'zip': neighborhoods[item]['zip'], 'income': neighborhoods[item]['income'] })
 
 		endTime = datetime.datetime.now()
 
@@ -87,6 +101,6 @@ class neighborhoodZipCodes(dml.Algorithm):
 
 
 neighborhoodZipCodes.execute()
-doc = neighborhoodZipCodes.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#doc = neighborhoodZipCodes.provenance()
+#print(doc.get_provn())
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
