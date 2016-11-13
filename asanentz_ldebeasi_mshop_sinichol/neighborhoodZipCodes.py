@@ -48,7 +48,7 @@ class neighborhoodZipCodes(dml.Algorithm):
 					if zip not in neighborhoods[neighborhood]["zip"]:
 						neighborhoods[neighborhood]["zip"] += [zip]
 
-		file = open('data/Boston_IncomePerCapita.json').read()
+		file = open('source-data/Boston_IncomePerCapita.json').read()
 		data = json.loads(file)
 
 		for d in data[0]:
