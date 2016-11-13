@@ -51,6 +51,7 @@ $ python zipcodeRatings.py
 
 ## Statistical Analysis (Question 2b)
 In our implementation of algorithms, we plan on performing statistical analysis on potential trends that may exist in the correlation between any two landmark ratings. By interpreting the similarities, if a majority of the comparisons yield a direct/positive correlation, we may choose to either combine the similar datasets or potentially choose one over the other. If such correlations exist, we can analyze whether combinig or eliminating landmarks to query would benefit or be detrimental to designing our final optimization tool. 
+
 Results: We plotted the ratings for all the landmarks to see if there was any correlations. The correlation coefficients are printed out to show that there are no strong position or negative correlations among any of two landmark ratings. 
 
 ```
@@ -61,9 +62,13 @@ statCorrelation.png
 
 ## Optimization (Question 2b)
 Finally, the bulk of our project is based on our optimization algorithm. In our optimization, the state space is 2^(the number of zip codes) where 0 represents the choice to not advertise in a certain area and 1 represents the choice to advertise. Depending on the users' query, the objective function, which would be the sum of the permutations of the subset from the original state space that correlates most with the user's query multipled by population density. We plan on maximizing this objective function. In simpler terms, users will be asked to query in three different ways:
+
 (1) - the user can query by optimal overall rating of a zip code, which our tool would produce a single zip code with the highest population density for that particular rating. 
+
 (2) - the user can query by individual ratings of the zip code (by ratings of the 5 individual landmarks), which our tool would produce the optimal zip code most similar to the query with the highest population density. 
+
 (3) - the user can query by a specific number of optimal zip codes that follow the same logic as in (2). 
+
 Additionally, we scraped the median household income for each zip code to give the user a better idea of their target audience. In the same way, we also determined the corresponding ratings for these income values, which our tool will display in accordance to the resulting zip code. 
 
 ```
