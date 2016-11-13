@@ -57,7 +57,7 @@ class neighborhoodZipCodes(dml.Algorithm):
 
 
 		for item in neighborhoods:
-			if item not in ['SOUGUS', 'ABINGTON', 'N SCITUATE', 'NORWOOD', 'ASHLAND', 'SAUGUS', 'WALTHAM', 'BROCKTON', 'MARSHFIELD', 'NORWOOD', 'MEDFORD', 'IPSWICH', 'COLLINS', 'PHIL', 'BOSTON MA 02']:
+			if item not in ['SOUGUS', 'ABINGTON', 'N SCITUATE', 'NORWOOD', 'ASHLAND', 'SAUGUS', 'WALTHAM', 'BROCKTON', 'MARSHFIELD', 'NORWOOD', 'MEDFORD', 'IPSWICH', 'COLLINS', 'PHIL', 'BOSTON MA 02', 'S BOSTON', 'E BOSTON']:
 				res = repo.asanentz_ldebeasi_mshop_sinichol.neighborhoods.insert_one( { 'name': item, 'zip': neighborhoods[item]['zip'], 'income': neighborhoods[item]['income'] })
 
 		endTime = datetime.datetime.now()
