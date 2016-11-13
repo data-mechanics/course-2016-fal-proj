@@ -42,7 +42,7 @@ class example(dml.Algorithm):
         repo.createPermanent("earningsReport")
         repo['aydenbu_huangyh.earningsReport'].insert_many(r)
 
-        url = "https://data.cityofboston.gov/resource/ybm6-m5qd.json"
+        url = "https://data.cityofboston.gov/resource/vwsn-4yhi.json"
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)

@@ -41,7 +41,7 @@ class merge_crime_zip(dml.Algorithm):
         crime_zip = []
         project_set = {'_id':False, 'day_of_week':True, 'street':True, 'location':True}
         for document in crimeIncidentReport.find({}, project_set):
-            print(document)
+            # print(document)
             longitude, latitude = document['location']['coordinates'][0], document['location']['coordinates'][1]
             crimeXY = tuple((longitude, latitude))
             if longitude != 0 and latitude != 0:

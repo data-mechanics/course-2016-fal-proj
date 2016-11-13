@@ -66,11 +66,11 @@ class PublicandEarning(dml.Algorithm):
                 function(key,values){
 
                         var result = {
-                        "avg": '',
-                        "numofSchool" : '',
-                        "numofHospital" : '',
-                        "numofGarden": '',
-                        "numofStore": ''
+                        "avg": 0,
+                        "numofSchool" : 0,
+                        "numofHospital" : 0,
+                        "numofGarden": 0,
+                        "numofStore": 0
                         };
 
 

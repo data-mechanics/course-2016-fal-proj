@@ -73,12 +73,12 @@ class PublicandEarning(dml.Algorithm):
                 function(key,values){
 
                         var result = {
-                        "avg": '',
-                        "numofSchool" : '',
-                        "numofHospital" : '',
-                        "numofGarden": '',
-                        "numofStore": '',
-                        "numofCrime": ''
+                        "avg": 0,
+                        "numofSchool" : 0,
+                        "numofHospital" : 0,
+                        "numofGarden": 0,
+                        "numofStore": 0,
+                        "numofCrime": 0
                         };
 
 
@@ -89,6 +89,7 @@ class PublicandEarning(dml.Algorithm):
                         if(value.numofGarden !== 0) {result.numofGarden = value.numofGarden;}
                         if(value.numofStore !== 0) {result.numofStore = value.numofStore;}
                         if(value.numofStore !== 0) {result.numofCrime = value.numofCrime;}
+
 
 
                          });
