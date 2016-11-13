@@ -104,7 +104,7 @@ For Big Belly's, units with high average fullness were weighted higher, but we a
 For Trash Schedules, we add a negative weight to areas that have multiple collection days. Our reasoning is these areas already have focused effort in terms of time and resources devoted to collecting trash. We want the areas that are not receiving as much attention to be weighted higher. For each location we calculate the weight using count * the scale given below.
 * -1 * number of times trash was collected at this location.
 
-## K-D trees
+### K-D trees
 
 For each trash collection unit the user wants to install, we choose x random coordinates (x is specified from the iterations parameter when the optimized function is called) from a master dataset that contains all entries from the datasets mentioned before. 
 We then use python's K-D tree library to find all points within a certain radius of these random points. Using the points within these radii we calculate the total weight of the region associated with that coordinate. The algorithm will find the location coordinates of the regions that have maximal weight out of all randomly selected coordinates. 
