@@ -29,13 +29,30 @@ class correlation(dml.Algorithm):
         schools = []
         gardens = []
         crimes = []
+
+        x = []
+        y = []
+
         for document in data.find():
-            avg = tuple((document['_id'], document['value']['avg']))
+            avg = [document['_id'], document['value']['avg']]
             store = tuple((document['_id'], document['value']['numofStore']))
             hospital = tuple((document['_id'], document['value']['numofHospital']))
             school = tuple((document['_id'], document['value']['numofSchool']))
             garden = tuple((document['_id'], document['value']['numofGarden']))
             crime = tuple((document['_id'], document['value']['numofCrime']))
+
+            temp_avg = document['value']['avg']
+            # temp_crime = document['value']['numofGarden']
+
+            avg[1] = float(avg[1])
+            avg = tuple(avg)
+
+            temp_avg = float(temp_avg)
+
+            # x.append(temp_avg)
+            # y.append(temp_crime)
+
+
             avgs.append(avg)
             stores.append(store)
             hospitals.append(hospital)
@@ -46,12 +63,18 @@ class correlation(dml.Algorithm):
 
 
 
-        # print(avgs)
+
+
+        print(avgs)
         # print(stores)
         # print(hospitals)
         # print(schools)
         # print(gardens)
         # print(crimes)
+
+        # print(x)
+        # print(y)
+
         '''
         Implement the statistic methods here:
         '''
