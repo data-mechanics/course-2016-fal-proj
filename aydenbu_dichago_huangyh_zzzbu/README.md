@@ -50,3 +50,6 @@ Please execute the `execute.py` to run the whole program:
 ```
 python3 execute.py
 ```
+
+###Project 2 Updates:
+Firstly we extract two new data sets [crimeIncidentReport](https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-July-2012-August-2015-Sourc/7cdf-6fgx/data)
