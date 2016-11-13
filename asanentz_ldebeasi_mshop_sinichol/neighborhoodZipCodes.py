@@ -48,12 +48,10 @@ class neighborhoodZipCodes(dml.Algorithm):
 					if zip not in neighborhoods[neighborhood]["zip"]:
 						neighborhoods[neighborhood]["zip"] += [zip]
 
-		file = open('source-data/Boston_IncomePerCapita.json').read()
-		data = json.loads(file)
-
-		for d in data[0]:
-			income = data[0][d]['Per Capita Income']
-			title = d.upper()
+		data = repo.asanentz_ldebeasi_mshop_sinichol.income.find()
+		for d in data:
+			income = d['income']
+			title = d['name']
 			if title in neighborhoods:
 				neighborhoods[title]["income"] = income
 
@@ -65,6 +63,7 @@ class neighborhoodZipCodes(dml.Algorithm):
 		endTime = datetime.datetime.now()
 
 		return {"start":startTime, "end":endTime}
+
 	@staticmethod
 	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
 
@@ -83,6 +82,7 @@ class neighborhoodZipCodes(dml.Algorithm):
 		this_script = doc.agent('alg:neighborhoods', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
 		masterAddress = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#addresses', {prov.model.PROV_LABEL:'Master Address List', prov.model.PROV_TYPE:'ont:DataSet'})
 
+
 		this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
 
 		doc.wasAssociatedWith(this_run, this_script)
@@ -93,6 +93,7 @@ class neighborhoodZipCodes(dml.Algorithm):
 		doc.wasAttributedTo(maintenance, this_script)
 		doc.wasGeneratedBy(maintenance, this_run, endTime)
 		doc.wasDerivedFrom(maintenance, masterAddress, this_run, this_run, this_run)
+		doc.wasDerivedFrom(maintenance, masterAddress, this_run, this_run, this_run)
 
 		repo.record(doc.serialize()) # Record the provenance document.
 		repo.logout()
@@ -101,6 +102,6 @@ class neighborhoodZipCodes(dml.Algorithm):
 
 
 neighborhoodZipCodes.execute()
-#doc = neighborhoodZipCodes.provenance()
-#print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+doc = neighborhoodZipCodes.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
