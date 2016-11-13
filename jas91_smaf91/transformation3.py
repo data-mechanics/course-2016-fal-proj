@@ -3,6 +3,7 @@ import prov.model
 import datetime
 import uuid
 import json
+import sys
 
 from bson.code import Code
 
@@ -159,8 +160,11 @@ class transformation3(dml.Algorithm):
 
         return doc
 
-'''
-transformation3.execute()
-doc = transformation3.provenance()
-print(json.dumps(json.loads(doc.serialize()), indent=4))
-'''
+if 'trial' in sys.argv:
+    transformation3.execute(True)
+#else:
+#    transformation3.execute()
+
+#transformation3.execute()
+#doc = transformation3.provenance()
+#print(json.dumps(json.loads(doc.serialize()), indent=4))

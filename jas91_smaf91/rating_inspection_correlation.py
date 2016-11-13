@@ -7,8 +7,10 @@ import scipy
 from scipy.stats import pearsonr
 from matplotlib import pyplot as plt
 import numpy as np
+import sys
+import warnings
 
-TRIAL_LIMIT = 20000
+TRIAL_LIMIT = 5000
 
 def join_business_inspections(repo, trial):
     repo.dropPermanent('jas91_smaf91.yelp_business_inspections')
@@ -26,23 +28,34 @@ def join_business_inspections(repo, trial):
 
         if not longitude and not latitude:
             continue
-
-        business = repo.jas91_smaf91.yelp_business.find_one({
+        
+        business = repo.jas91_smaf91.yelp_business.find({
             'businessname': document['businessname'].lower(),
-            'geo_info.geometry': {
-                '$near': { 
-                    '$geometry': {
-                        'type': 'Point', 
-                        'coordinates' :[latitude,longitude]
-                        }, 
-                    '$maxDistance': 50, 
-                    '$minDistance': 0 
-                    } 
-                }
-            })
+        })
+        
+        if not business or business.count() == 0:
+            continue
+            
+        if business.count() > 1:
+            business = repo.jas91_smaf91.yelp_business.find_one({
+                'businessname': document['businessname'].lower(),
+                'geo_info.geometry': {
+                    '$near': { 
+                        '$geometry': {
+                            'type': 'Point', 
+                            'coordinates' :[latitude,longitude]
+                            }, 
+                        '$maxDistance': 50, 
+                        '$minDistance': 0 
+                        } 
+                    }
+                })
+        else:
+            business = business[0]
         
         if not business:
             continue
+
 
         document['business_id'] = business['business_id']
         repo.jas91_smaf91.yelp_business_inspections.insert_one(document)
@@ -117,8 +130,11 @@ def associate_reviews(repo):
                 ratings.append(avg_rating)
 
 def evaluate_correlation(scores,ratings):
-    coef, p_value = pearsonr(scores, ratings)
-    return (coef, p_value)
+    if len(scores) > 1 and len(ratings) > 1:
+        coef, p_value = pearsonr(scores, ratings)
+        return (coef, p_value)
+    else:
+        print("[OUT] Pearson Correlation cannot be calculated: Not enough values. Try in non trial mode")
 
 def ratings_by_severity(ratings, severities):
     level0 = []
@@ -143,6 +159,11 @@ def ratings_by_severity(ratings, severities):
     print("Level 3", evaluate_correlation(level3,ratings))
     print("Penalty Score", evaluate_correlation(penal_scores,ratings))
     print("Number of violations", evaluate_correlation(number_violations,ratings))
+
+    #plt.scatter(penal_scores, ratings, s=1, alpha=1)
+    #plt.xlabel("Penalty Score")
+    #plt.ylabel("Average User Star Rating")
+    #plt.show()
 
 BUSINESS = {}
 scores = []
@@ -226,10 +247,11 @@ class rating_inspection_correlation(dml.Algorithm):
 
         return doc
 
-
-'''
-rating_inspection_correlation.execute(True)
-doc = rating_inspection_correlation.provenance()
-print(json.dumps(json.loads(doc.serialize()), indent=4))
-'''
-
+if 'trial' in sys.argv:
+    rating_inspection_correlation.execute(True)
+#else:
+#    rating_inspection_correlation.execute()
+#
+#
+#doc = rating_inspection_correlation.provenance()
+#print(json.dumps(json.loads(doc.serialize()), indent=4))

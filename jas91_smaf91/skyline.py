@@ -3,6 +3,7 @@ import prov.model
 import datetime
 import uuid
 import json
+import sys
 
 from bson.code import Code
 
@@ -102,6 +103,9 @@ class skyline(dml.Algorithm):
     @staticmethod
     def execute(trial = False):
         startTime = datetime.datetime.now()
+        
+        if trial:
+            print("[OUT] Running in Trial Mode")
 
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
@@ -166,6 +170,9 @@ class skyline(dml.Algorithm):
 
         return doc
 
-skyline.execute()
+if 'trial' in sys.argv:
+    skyline.execute(True)
+#else:
+#    skyline.execute()
 #doc = skyline.provenance()
 #print(json.dumps(json.loads(doc.serialize()), indent=4))

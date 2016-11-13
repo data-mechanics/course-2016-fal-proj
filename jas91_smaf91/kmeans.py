@@ -3,6 +3,7 @@ import prov.model
 import datetime
 import uuid
 import json
+import sys
 
 from geopy.distance import great_circle
 from sklearn import cluster
@@ -194,7 +195,11 @@ class kmeans(dml.Algorithm):
 
         return doc
 
-kmeans.execute(True)
+if 'trial' in sys.argv:
+    kmeans.execute(True)
+#else:
+#    kmeans.execute()
+
 #doc = kmeans.provenance()
 #print(json.dumps(json.loads(doc.serialize()), indent=4))
 

@@ -5,6 +5,7 @@ import dml
 import prov.model
 import datetime
 import uuid
+import sys
 
 TRIAL_LIMIT = 5000
 
@@ -183,6 +184,9 @@ class get_data(dml.Algorithm):
         return doc
 
 # REMEMBER TO COMMENT THIS BEFORE SUBMITTING
-get_data.execute(True)
+if 'trial' in sys.argv:
+    get_data.execute(True)
+#else:
+#    get_data.execute()
 #doc = get_data.provenance()
 #print(json.dumps(json.loads(doc.serialize()), indent=4))

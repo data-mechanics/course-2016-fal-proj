@@ -4,6 +4,7 @@ import dml
 import prov.model
 import datetime
 import uuid
+import sys
 
 TRIAL_LIMIT = 5000
 
@@ -250,8 +251,9 @@ class transformation1(dml.Algorithm):
 
         return doc
 
-'''
-transformation1.execute()
-doc = transformation1.provenance()
-print(json.dumps(json.loads(doc.serialize()), indent=4))
-'''
+if 'trial' in sys.argv:
+    transformation1.execute(True)
+#else:
+#    transformation1.execute()
+#doc = transformation1.provenance()
+#print(json.dumps(json.loads(doc.serialize()), indent=4))

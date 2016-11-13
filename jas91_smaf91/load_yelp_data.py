@@ -4,6 +4,7 @@ import dml
 import prov.model
 import datetime
 import uuid
+import sys
 
 TRIAL_LIMIT = 5000
 
@@ -124,10 +125,10 @@ class load_yelp_data(dml.Algorithm):
 
         return doc
 
-'''
-load_yelp_data.execute(True)
-doc = load_yelp_data.provenance()
-print(json.dumps(json.loads(doc.serialize()), indent=4))
-'''
-
-
+if 'trial' in sys.argv:
+    load_yelp_data.execute(True)
+#else:
+#    load_yelp_data.execute()
+#
+#doc = load_yelp_data.provenance()
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
