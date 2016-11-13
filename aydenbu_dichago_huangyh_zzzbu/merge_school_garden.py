@@ -27,33 +27,60 @@ class merge(dml.Algorithm):
         gardens = repo['aydenbu_huangyh.zip_communityGardens_count']
         schools = repo['aydenbu_huangyh.zip_PublicSchool_count']
 
-
-        # For every document in hospitals zip find the number of store that associate with that zip
-        zip_public = []
+        schools_array = []
+        for document in schools.find():
+            schools_array.append(
+                {"zip": document['_id'], 'value': {"numofSchool": document['value']['numofSchool'],
+                                                   'numofGarden': 0}})
+        gardens_array = []
         for document in gardens.find():
-            schools_count = schools.find_one({'_id': document['_id']}, {'_id': False, 'value.numofSchool': True})
-            if schools_count is None:
-                zip = {'_id': document['_id'],
-                        'value': {
-                            'numofGarden': document['value']['numofGarden'],
-                            'numofSchool': 0.0}  # Assign the 0 to the num if there is no result
-                       }
-                zip_public.append(zip)
-                continue
-            else:
-                zip = {'_id': document['_id'],
-                        'value': {
-                            'numofGarden': document['value']['numofGarden'],
-                            'numofSchool': schools_count['value']['numofSchool']}
-                       }
-                zip_public.append(zip)
-        ''''''''''''''''''''''''''''''''''''''''''''''''
+            gardens_array.append({"zip": document['_id'], "value": {'numofSchool': 0,
+                                                                   "numofGarden": document['value']['numofGarden']}})
+
+        repo.dropPermanent("testforschoolgarden")
+        repo.createPermanent("testforschoolgarden")
+        repo['aydenbu_huangyh.testforschoolgarden'].insert_many(schools_array)
+        repo['aydenbu_huangyh.testforschoolgarden'].insert_many(gardens_array)
+
+        test = repo['aydenbu_huangyh.testforschoolgarden']
+
+        # MapReduce function
+
+        # def transform()
 
 
-        # Create a new collection and insert the result data set
+        map = Code("""
+                                   function(){
+                                          emit(this.zip,this.value);
+                                           }
+                                   """)
+
+        reducer = Code("""
+                               function(key,values){
+
+                                       var result = {
+                                       "numofSchool" : 0,
+                                       "numofGarden" : 0
+                                       };
+
+
+                                       values.forEach(function(value) {
+                                       if(value.numofSchool !== 0) {result.numofSchool += value.numofSchool;}
+                                       if(value.numofGarden !== 0) {result.numofGarden += value.numofGarden;}
+
+                                        });
+
+                                       return result;
+                                       }
+
+
+                                       """)
+
         repo.dropPermanent("merge_school_garden")
         repo.createPermanent("merge_school_garden")
-        repo['aydenbu_huangyh.merge_school_garden'].insert_many(zip_public)
+
+        res = test.map_reduce(map, reducer, 'aydenbu_huangyh.merge_school_garden')
+
 
         repo.logout()
         endTime = datetime.datetime.now()
