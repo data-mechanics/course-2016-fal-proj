@@ -2,6 +2,7 @@ import dml
 import prov.model
 import uuid
 import datetime
+import json
 
 class addressValue(dml.Algorithm):
 	#from http://stackoverflow.com/questions/354038/how-do-i-check-if-a-string-is-a-number-float-in-python
@@ -17,7 +18,7 @@ class addressValue(dml.Algorithm):
 	writes = ["asanentz_ldebeasi_mshop_sinichol.addressValue"]
 
 	@staticmethod
-    def execute(trial = False):
+	def execute(trial = False):
 		client = dml.pymongo.MongoClient()
 		repo = client.repo
 		repo.authenticate("asanentz_ldebeasi_mshop_sinichol", "asanentz_ldebeasi_mshop_sinichol")
@@ -93,7 +94,10 @@ class addressValue(dml.Algorithm):
 		return {"start":startTime, "end":endTime}
 
 	@staticmethod
-    def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
+	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
+		client = dml.pymongo.MongoClient()
+		repo = client.repo
+		repo.authenticate("asanentz_ldebeasi_mshop_sinichol", "asanentz_ldebeasi_mshop_sinichol")
 		# Provenance Data
 		doc = prov.model.ProvDocument()
 		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/asanentz_ldebeasi_mshop_sinichol') # The scripts are in <folder>#<filename> format.
@@ -123,9 +127,9 @@ class addressValue(dml.Algorithm):
 		doc.wasDerivedFrom(maintenance, hubway, this_run, this_run, this_run)
 
 		repo.record(doc.serialize()) # Record the provenance document.
-        repo.logout()
+		repo.logout()
 
-        return doc
+		return doc
 
 addressValue.execute()
 doc = addressValue.provenance()
