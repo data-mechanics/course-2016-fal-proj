@@ -7,7 +7,7 @@ import uuid
 
 class busStops(dml.Algorithm):
     contributor = "asanentz_ldebeasi_mshop_sinichol"
-    reads = []
+    reads = ["asanentz_ldebeasi_mshop_sinichol.busStops"]
     writes = ["asanentz_ldebeasi_mshop_sinichol.busStops"]
 
     @staticmethod

@@ -7,7 +7,7 @@ import uuid
 
 class traffic(dml.Algorithm):
     contributor = "asanentz_ldebeasi_mshop_sinichol"
-    reads = []
+    reads = ["asanentz_ldebeasi_mshop_sinichol.traffic"]
     writes = ["asanentz_ldebeasi_mshop_sinichol.traffic"]
 
     @staticmethod
