@@ -99,7 +99,7 @@ class zipXY(dml.Algorithm):
                 zips_locations.append(zl)
 
         # print(zips_locations)
-        print(zips_locations)
+        # print(zips_locations)
         zips_locations = aggregate(zips_locations, plus)
 
 
@@ -141,13 +141,13 @@ class zipXY(dml.Algorithm):
 
         get_zip_XY = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
                                                          {
-                                                             prov.model.PROV_LABEL: "Count the number of CornerStores in each zip"})
+                                                             prov.model.PROV_LABEL: "Using k-means to calculate the XY in each zip_code"})
         doc.wasAssociatedWith(get_zip_XY, this_script)
         doc.usage(get_zip_XY, resource, startTime, None,
                   {prov.model.PROV_TYPE: 'ont:Computation'})
 
-        zip_XY = doc.entity('dat:aydenbu_huangyh#zip_Healthycornerstores_count',
-                                                   {prov.model.PROV_LABEL: 'Healthy Corner Stores Count',
+        zip_XY = doc.entity('dat:aydenbu_huangyh#zip_mean_point',
+                                                   {prov.model.PROV_LABEL: 'zip_XY',
                                                     prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(zip_XY, this_script)
         doc.wasGeneratedBy(zip_XY, get_zip_XY, endTime)
@@ -161,4 +161,7 @@ class zipXY(dml.Algorithm):
         return doc
 
 zipXY.execute()
+doc = zipXY.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
