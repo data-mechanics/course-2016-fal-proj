@@ -302,8 +302,8 @@ class zipcodeRatings(dml.Algorithm):
         return doc
 
 zipcodeRatings.execute() 
-# doc = zipcodeRatings.provenance()
-# print(doc.get_provn())
-# print(json.dumps(json.loads(doc.serialize()), indent=4))
+doc = zipcodeRatings.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
