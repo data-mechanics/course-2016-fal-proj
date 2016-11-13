@@ -4,14 +4,17 @@ import uuid
 import datetime
 import json
 
+
+def is_number(s):
+	try:
+		float(s)
+		return True
+	except ValueError:
+		return False
+
 class addressValue(dml.Algorithm):
 	#from http://stackoverflow.com/questions/354038/how-do-i-check-if-a-string-is-a-number-float-in-python
-	def is_number(s):
-	    try:
-	        float(s)
-	        return True
-	    except ValueError:
-	        return False
+
 
 	contributor = "asanentz_ldebeasi_mshop_sinichol"
 	reads = ["asanentz_ldebeasi_mshop_sinichol.addressValue"]
