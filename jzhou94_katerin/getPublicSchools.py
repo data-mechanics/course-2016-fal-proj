@@ -15,7 +15,7 @@ from bson.code import Code
 class getPublicSchools(dml.Algorithm):
     contributor = 'jzhou94_katerin'
     reads = []
-    writes = ['jzhou94_katerin.crime_incident']
+    writes = ['jzhou94_katerin.public_schools']
 
     @staticmethod
     def execute(trial = False):

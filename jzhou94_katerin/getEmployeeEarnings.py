@@ -15,7 +15,7 @@ from bson.code import Code
 class getEmployeeEarnings(dml.Algorithm):
     contributor = 'jzhou94_katerin'
     reads = []
-    writes = ['jzhou94_katerin.public_schools']
+    writes = ['jzhou94_katerin.employee_earnings']
 
     @staticmethod
     def execute(trial = False):

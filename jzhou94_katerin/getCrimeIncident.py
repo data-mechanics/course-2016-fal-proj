@@ -15,7 +15,7 @@ from bson.code import Code
 class getCrimeIncident(dml.Algorithm):
     contributor = 'jzhou94_katerin'
     reads = []
-    writes = ['jzhou94_katerin.police_station']
+    writes = ['jzhou94_katerin.crime_incident']
 
     @staticmethod
     def execute(trial = False):

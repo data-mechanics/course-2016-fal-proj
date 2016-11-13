@@ -15,7 +15,7 @@ from bson.code import Code
 class getFirearmsRecovery(dml.Algorithm):
     contributor = 'jzhou94_katerin'
     reads = []
-    writes = ['jzhou94_katerin.employee_earnings']
+    writes = ['jzhou94_katerin.firearms']
 
     @staticmethod
     def execute(trial = False):
