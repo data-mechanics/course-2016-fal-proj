@@ -74,17 +74,24 @@ class zipcodeRatings(dml.Algorithm):
         repo = client.repo
         repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
 
-        #3b. Capability to run algorithm in trial mode
-        if (trial == True):
-            #When Trial Mode == True, this is the sample data
-            hbbCounts = dict(list(itertools.islice(hbbCounts.items(), 0, 20)))
-            cbsCounts = dict(list(itertools.islice(cbsCounts.items(), 0, 20)))
-            tRideCounts = dict(list(itertools.islice(tRideCounts.items(), 0, 20)))
-        else:
-            #Get bus stop and college location complete data
-            hbbCounts = repo.ktan_ngurung_yazhang_emilyh23.hubwayBigBellyCounts.find_one()
-            cbsCounts = repo.ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts.find_one()
-            tRideCounts = repo.ktan_ngurung_yazhang_emilyh23.tRidershipLocation.find_one()
+        #Get bus stop and college location complete data
+        hbbCounts = repo.ktan_ngurung_yazhang_emilyh23.hubwayBigBellyCounts.find_one()
+        cbsCounts = repo.ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts.find_one()
+        tRideCounts = repo.ktan_ngurung_yazhang_emilyh23.tRidershipLocation.find_one()  
+
+        # #3b. Capability to run algorithm in trial mode
+        # if (trial == True):
+        #     #When Trial Mode == True, this is the sample data
+        #     hbbCounts = dict(list(itertools.islice(hbbCounts.items(), 0, 10)))
+        #     print("SAMPLE")
+        #     print(hbbCounts)
+        #     cbsCounts = dict(list(itertools.islice(cbsCounts.items(), 0, 10)))
+        #     print("SAMPLE")
+        #     print(cbsCounts)
+        #     tRideCounts = dict(list(itertools.islice(tRideCounts.items(), 0, 10)))
+        #     print("SAMPLE")
+        #     print(tRideCounts)
+
 
         hbbCbsDict = {} 
         tRideTransformed = [] 
@@ -243,7 +250,7 @@ class zipcodeRatings(dml.Algorithm):
         star_df_final = pd.merge(star_df, overall_dict, on='zc')
         star_df_final.set_index('zc', drop=True, inplace=True)
         star_dict_final = star_df_final.to_dict(orient='index')
-        # print(star_df_final)
+        print(star_df_final)
 
         for k, v in star_dict_final.items():
             star_dict_final[k]['hubway_star'] = int(star_dict_final[k]['hubway_star'])
