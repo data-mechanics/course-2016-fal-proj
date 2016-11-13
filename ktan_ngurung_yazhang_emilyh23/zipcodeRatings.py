@@ -65,7 +65,7 @@ class zipcodeRatings(dml.Algorithm):
         return zc_land_area
 
     @staticmethod
-    def execute(trial = True):
+    def execute(trial = False):
         '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
         startTime = datetime.datetime.now()
 
