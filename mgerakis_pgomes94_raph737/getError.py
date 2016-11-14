@@ -91,7 +91,7 @@ class getError(dml.Algorithm):
 		doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-		this_script = doc.agent('alg:mgerakis_pgomes94_raph737/pysparkMapReduceJob.py', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+		this_script = doc.agent('alg:mgerakis_pgomes94_raph737/getError.py', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
 
 		hospital_scores_resource = doc.entity('bdp:u6fv-m8v4', {'prov:label':'Hospital Scores', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
 
