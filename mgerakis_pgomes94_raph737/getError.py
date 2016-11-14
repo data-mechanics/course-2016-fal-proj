@@ -147,7 +147,7 @@ class getError(dml.Algorithm):
 
 		return doc
 
-getGoogleRatings.execute(trial=True)
+getError.execute(trial=True)
 #doc = dataRequests.provenance()
 #print(doc.get_provn())
 #print(json.dumps(json.loads(doc.serialize()), indent=4))
