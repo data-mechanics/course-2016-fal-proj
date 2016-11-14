@@ -69,12 +69,12 @@ We used mapreduce again to merge the crime_zip dataset into the result dataset f
 
 + Linear Regression: taking the variables described above, we fit the data into the linear least square regression model, and calculate the estimated slope and interception of the regression line. Using the coefficients returned, we can quantify the effect of each independent variable. This method shall be improved using non-linear regression, as many of the relationships are not linear. 
 
-+ Coefficient of Determination: taking the estimations derived above, we calculate coefficients of determination (R-squared) for each of the regression, to measure how well the linear model fits into the data. 
++ Coefficient of Determination (R-squared): taking the estimations derived above, we calculate coefficients of determination for each of the regression, to measure how well the linear model fits into the data. 
 
 The statisticOperations.py file extracts the processed data, conducts the mathematical operations , and delivers the statistical results. 
 
 ###Interpretation of Results
-The correlations between income and each of the possible factors are vague, as most of the correlation coeffiecients fall in the range of [0, 0.5]. The linear regression model does not fit well for the data sets, as the R-squareds are noticibly close to 0. 
+The correlations between income and each of the possible factors are vague, as most of the correlation coeffiecients fall in the range of [-0.1, 0.1]. The linear regression model does not fit well for the data sets, as the coefficients are noticibly close to 0. 
 
 Surprisingly, We see a clear diminishing oscillation patern of the dependent variable against each of the independent variable. This could be caused by the un-normalized data, or it could be some unknown distributions that we have not tested with yet, thus we will normalize data before further operations, and take other models into consideration in further research. 
 
