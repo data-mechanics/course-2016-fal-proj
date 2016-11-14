@@ -10,7 +10,7 @@ import mapReduceAvgEarnings
 import mapReduceCrimes
 import mapReduceSchools
 import mergeCrimeSchool
-import mapCollegesAndMergeWithCrime
 
 # Get Statistical Analyses
 import p_value
+import k_means
