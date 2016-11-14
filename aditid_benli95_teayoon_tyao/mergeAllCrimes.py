@@ -57,7 +57,7 @@ class mergeAllCrimes(dml.Algorithm):
             if legacyDict['location']['coordinates'][1] == 0 or legacyDict['location']['coordinates'][0] == 0:
                     pass
 
-           elif currentDict['occurred_on_date'] and currentDict['day_of_week']:
+            elif currentDict['occurred_on_date'] and currentDict['day_of_week']:
                 
                 dateAndTime = currentDict['occurred_on_date'].split("T")
                 date = dateAndTime[0].split("-")

@@ -61,18 +61,19 @@ class prepData2(dml.Algorithm):
 
 
         map_function = Code('''function() {
-            emit(this.total, {crimes:1, product:this.total, temp:5});
+            emit(this.total, {crimes:1, total:this.total, product:this.total, temp:5});
             }''')
 
 
         reduce_function = Code('''function(k, vs) {
-            var total = 0;
+            var total_crimes = 0;
+            var tot = vs[0].total;
+            
             for (var i = 0; i < vs.length; i++)
-            total += vs[i].crimes;
-    
-            var prod = total * vs[0].product;
-    
-            return {crimes:total, product: prod, temp:5};
+            total_crimes += vs[i].crimes;
+            
+            var prod = tot * total_crimes
+            return {crimes:total_crimes, total:vs[0].total, product: prod, temp:5};
             }''')
 
         #reset resulting directory
@@ -80,6 +81,7 @@ class prepData2(dml.Algorithm):
         repo.createPermanent('aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment')
 
         repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment');
+
 
         #reset resulting directory
         repo.dropPermanent('aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment')

@@ -6,10 +6,10 @@ import uuid
 from bson.code import Code
 
 
-print("Getting Data")
-import getData
-getData
-    
+#print("Getting Data")
+#import getData
+#getData
+
 print("Merging all Crimes")
 import mergeAllCrimes
 mergeAllCrimes
