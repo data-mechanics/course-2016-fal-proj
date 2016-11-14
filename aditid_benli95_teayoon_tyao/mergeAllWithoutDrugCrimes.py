@@ -32,7 +32,11 @@ class mergeAllWithoutDrugCrimes(dml.Algorithm):
             if legacyDict['incident_type_description'] == 'Drug Violation' or legacyDict['incident_type_description'] == 'DRUG CHARGES':
                 continue
             else:
-                if legacyDict['location']['coordinates'] and legacyDict['fromdate'] and legacyDict['day_week']:
+
+                if legacyDict['location']['coordinates'][1] == 0 or legacyDict['location']['coordinates'][0] == 0:
+                    pass
+
+                elif legacyDict['location']['coordinates'] and legacyDict['fromdate'] and legacyDict['day_week']:
                     dateAndTime = legacyDict['fromdate'].split("T")
                     date = dateAndTime[0].split("-")
                     time = dateAndTime[1].split(":")
@@ -52,8 +56,9 @@ class mergeAllWithoutDrugCrimes(dml.Algorithm):
                 continue
                 
             else:
-                if currentDict['occurred_on_date'] and currentDict['day_of_week']:
-
+                if currentDict['location']['coordinates'][1] == 0 or currentDict['location']['coordinates'][0] == 0:
+                    pass
+                elif currentDict['occurred_on_date'] and currentDict['day_of_week']:
                     dateAndTime = currentDict['occurred_on_date'].split("T")
                     date = dateAndTime[0].split("-")
                     time = dateAndTime[1].split(":")
@@ -64,13 +69,12 @@ class mergeAllWithoutDrugCrimes(dml.Algorithm):
                     try:
                         latitude = currentDict['location_2']['coordinates'][0]
                         longitude = currentDict['location_2']['coordinates'][1]
+                        entry = {'date':dateAndTime, 'day':currentDict['day_of_week'], 'latitude':latitude, 'longitude':longitude}
+                        res = repo.aditid_benli95_teayoon_tyao.noDrugCrimesMaster.insert_one(entry)
+                    
                     except:
-                        latitude = None
-                        longitude = None
+                        pass
 
-                    entry = {'date':dateAndTime, 'day':currentDict['day_of_week'], 'latitude':latitude, 'longitude':longitude}
-                    res = repo.aditid_benli95_teayoon_tyao.noDrugCrimesMaster.insert_one(entry)
-                
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}
 

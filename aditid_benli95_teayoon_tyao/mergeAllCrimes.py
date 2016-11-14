@@ -29,7 +29,11 @@ class mergeAllCrimes(dml.Algorithm):
         data = repo.aditid_benli95_teayoon_tyao.crimesLegacy.find()
         for document in data:
             legacyDict = dict(document)
-            if legacyDict['location']['coordinates'] and legacyDict['fromdate'] and legacyDict['day_week']:
+
+            if legacyDict['location']['coordinates'][1] == 0 or legacyDict['location']['coordinates'][0] == 0:
+                    pass
+
+            elif legacyDict['location']['coordinates'] and legacyDict['fromdate'] and legacyDict['day_week']:
 
                 dateAndTime = legacyDict['fromdate'].split("T")
                 date = dateAndTime[0].split("-")
@@ -49,7 +53,11 @@ class mergeAllCrimes(dml.Algorithm):
         data = repo.aditid_benli95_teayoon_tyao.crimesCurrent.find()
         for document in data:
             currentDict = dict(document)
-            if currentDict['occurred_on_date'] and currentDict['day_of_week']:
+
+            if legacyDict['location']['coordinates'][1] == 0 or legacyDict['location']['coordinates'][0] == 0:
+                    pass
+
+           elif currentDict['occurred_on_date'] and currentDict['day_of_week']:
                 
                 dateAndTime = currentDict['occurred_on_date'].split("T")
                 date = dateAndTime[0].split("-")
@@ -61,16 +69,16 @@ class mergeAllCrimes(dml.Algorithm):
                 try:
                     latitude = currentDict['location_2']['coordinates'][0]
                     longitude = currentDict['location_2']['coordinates'][1]
+                
+
+                    if currentDict['offense_code_group'] == 'Drug Violation':
+                        entry = {'date':dateAndTime, 'day':currentDict['day_of_week'], 'isDrugCrime':"1", 'latitude':latitude, 'longitude':longitude}
+                    else:
+                        entry = {'date':dateAndTime, 'day':currentDict['day_of_week'], 'isDrugCrime':"0", 'latitude':latitude, 'longitude':longitude}
+
+                    res = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.insert_one(entry)
                 except:
-                    latitude = None
-                    longitude = None
-
-                if currentDict['offense_code_group'] == 'Drug Violation':
-                    entry = {'date':dateAndTime, 'day':currentDict['day_of_week'], 'isDrugCrime':"1", 'latitude':latitude, 'longitude':longitude}
-                else:
-                    entry = {'date':dateAndTime, 'day':currentDict['day_of_week'], 'isDrugCrime':"0", 'latitude':latitude, 'longitude':longitude}
-
-                res = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.insert_one(entry)
+                    pass
                 
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}

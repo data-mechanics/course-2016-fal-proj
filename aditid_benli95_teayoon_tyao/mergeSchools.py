@@ -27,7 +27,11 @@ class mergeSchools(dml.Algorithm):
         for document in data:
             publicDict = dict(document)
             for item in publicDict['features']:
-                if item['properties']['BLDG_NAME'] and item['geometry']['coordinates']:
+
+                if item['geometry']['coordinates'][1] == 0 or item['geometry']['coordinates'][0] == 0:
+                    pass
+
+                elif item['properties']['BLDG_NAME'] and item['geometry']['coordinates']:
                     entry = {'schoolName':item['properties']['BLDG_NAME'], 'latitude':item['geometry']['coordinates'][1], 'longitude':item['geometry']['coordinates'][0], 'type':"public"}
                     res = repo.aditid_benli95_teayoon_tyao.schoolsMaster.insert_one(entry)
 
@@ -36,7 +40,11 @@ class mergeSchools(dml.Algorithm):
         for document in data:
             privateSchools = dict(document)
             for item in privateSchools['features']:
-                if item['properties']['NAME'] and item['geometry']['coordinates']:
+
+                if item['geometry']['coordinates'][1] == 0 or item['geometry']['coordinates'][0] == 0:
+                    pass
+
+                elif item['properties']['NAME'] and item['geometry']['coordinates']:
                     entry = {'schoolName':item['properties']['NAME'], 'latitude':item['geometry']['coordinates'][1], 'longitude':item['geometry']['coordinates'][0], 'type':'private'}
                     res = repo.aditid_benli95_teayoon_tyao.schoolsMaster.insert_one(entry)
 

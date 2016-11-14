@@ -36,12 +36,11 @@ class mergeChildren(dml.Algorithm):
                 location = geolocator.geocode(address)
                 latitude = location.latitude
                 longitude = location.longitude
+                entry = {'name':document['businessname'], 'latitude':latitude, 'longitude':longitude, 'type':'child feeding program'}
+                res = repo.aditid_benli95_teayoon_tyao.childFeedingProgramsTrimmed.insert_one(entry)
             except:
-                latitude = None
-                longitude = None
+                pass
 
-            entry = {'name':document['businessname'], 'latitude':latitude, 'longitude':longitude, 'type':'child feeding program'}
-            res = repo.aditid_benli95_teayoon_tyao.childFeedingProgramsTrimmed.insert_one(entry)
 
         data = repo.aditid_benli95_teayoon_tyao.dayCamps.find()
         for document in data:
@@ -50,13 +49,12 @@ class mergeChildren(dml.Algorithm):
                 location = geolocator.geocode(address)
                 latitude = location.latitude
                 longitude = location.longitude
+                entry = {'name':document['business_name'], 'latitude': latitude, 'longitude':longitude, 'type':'day camp'}
+                res = repo.aditid_benli95_teayoon_tyao.dayCampdayCaresMaster.insert_one(entry)
 
             except:
-                latitude = None
-                longitude = None
+                pass
 
-            entry = {'name':document['business_name'], 'latitude': latitude, 'longitude':longitude, 'type':'day camp'}
-            res = repo.aditid_benli95_teayoon_tyao.dayCampdayCaresMaster.insert_one(entry)
 
         data = repo.aditid_benli95_teayoon_tyao.publicDaycares.find()
         for document in data:
@@ -65,11 +63,10 @@ class mergeChildren(dml.Algorithm):
                 location = geolocator.geocode(address)
                 latitude = location.latitude
                 longitude = location.longitude
+                entry = {'name': document['business_name'], 'latitude': latitude, 'longitude': longitude, 'type': 'public daycare'}
+                res = repo.aditid_benli95_teayoon_tyao.dayCampdayCaresMaster.insert_one(entry)
             except:
-                latitude = None
-                longitude = None
-            entry = {'name': document['business_name'], 'latitude': latitude, 'longitude': longitude, 'type': 'public daycare'}
-            res = repo.aditid_benli95_teayoon_tyao.dayCampdayCaresMaster.insert_one(entry)
+                pass
 
         data = repo.aditid_benli95_teayoon_tyao.privateDaycares.find()
         for document in data:
@@ -78,11 +75,10 @@ class mergeChildren(dml.Algorithm):
                 try:
                     latitude = document[doc]['latitude']
                     longitude = document[doc]['longitude']
+                    entry = {'name': name, 'latitude': latitude, 'longitude': longitude, 'type': 'private daycare'}
+                    res = repo.aditid_benli95_teayoon_tyao.dayCampdayCaresMaster.insert_one(entry)
                 except:
-                    latitude = None
-                    longitude = None
-                entry = {'name': name, 'latitude': latitude, 'longitude': longitude, 'type': 'private daycare'}
-                res = repo.aditid_benli95_teayoon_tyao.dayCampdayCaresMaster.insert_one(entry)
+                    pass
 
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}
