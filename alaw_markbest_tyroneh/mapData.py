@@ -24,7 +24,7 @@ class mapData():
 	def visualize():
 		'''Outputs matplotlib scatterplot'''
 
-		prop_data,stat_data = mapPoints.data()
+		prop_data,stat_data = mapData.data()
 
 		rx = []
 		ry = []

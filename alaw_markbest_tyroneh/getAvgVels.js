@@ -1,6 +1,28 @@
+/*
+ *  MAP-REDUCE FILE
+ *  ---------------
+ *  
+ *  This Javascript script is intended to be executed through the transformData.py script.
+ *  Please run this file inside there so that the provenance documentation can also be 
+ *  recorded. 
+ *  
+ *  List of Transformations:
+ *      - Convert all residential property data to the GeoJSON format
+ *          1) BostonProperty, CambridgeProperty, and SomervilleProperty coordinates
+ *             to GeoJSON points
+ *          2) Convert BrooklineProperty GeoJSON polygons to GeoJSON points by finding 
+ *             the average of all of the corners to find the polygon's middle point
+ *      - Convert all Public Transportation Stations data to GeoJSON format
+ *          3) Convert HubwayStations coordinates to GeoJSON points
+ *          4) Change TCStops stops per route to GeoJSON points per stop with routes
+ *             properties
+ *
+ *  
+*/
+
 db.loadServerScripts();
 
-//store transformed property data in collection "PropertyGeoJSONs"
+//store transformed bus data in collection "BusesJSON"
 
 dropPerm("alaw_markbest_tyroneh.BusesJSON");
 createPerm("alaw_markbest_tyroneh.BusesJSON");
@@ -113,49 +135,19 @@ db.alaw_markbest_tyroneh.BusesJSON.mapReduce(
         });
         return {"total_vel": total_vel, "vel": vel, "count": count};
     },
-    {out:{merge:"alaw_markbest_tyroneh.AvgRouteVelocity"}}
+    {out:"alaw_markbest_tyroneh.AvgRouteVelocity"}
 );
 
 dropPerm("alaw_markbest_tyroneh.BusesJSON");
 
-// b.alaw_markbest_tyroneh.BusesJSON.mapReduce(
-//     function() {
-//         var routeTag = this._id.route;
-//         var vid = this._id.id;
-//         var times = this.times;
-//         var vel = 0.000001;
-
-//         for(var i = 1; i < times.length; i++) {
-//             var bus0 = times[i-1]; var bus1 = times[i];
-
-//             var t = bus1.timestamp - bus0.timestamp;
-
-//             var lat_diff = Math.pow(bus1.lat - bus0.lat, 2);
-//             var lon_diff = Math.pow(bus1.lon - bus0.lon, 2);
-//             var d = Math.pow(lat_diff + lon_diff, 0.5);
-            
-//             var vel = d/t;
-//         }
-
-//         emit(routeTag, {
-//             "total_vel": vel,
-//             "vel": [vel],
-//             "count": 1
-//         });
-//     },
-//     function(k, vs) {
-//         var total_vel = 0;
-//         var vel = [];
-//         var count = 0;
-
-//         vs.forEach(function(bus) {
-//             total_vel += bus.total_vel;
-//             bus.vel.forEach(function(v) {
-//                 vel.push(v);
-//             });
-//             count += bus.count;
-//         });
-//         return {"total_vel": total_vel, "vel": vel, "count": count};
-//     },
-//     {out:{merge:"alaw_markbest_tyroneh.AvgRouteVelocity"}}
-// );
+db.alaw_markbest_tyroneh.AvgRouteVelocity.mapReduce(
+    //calculate average velocity for each route (only keep metropolitan routes)
+    function() {
+        if((this._id >= 1) && (this._id <= 121)){
+            emit(this._id, {"Average Velocity": this.value.total_vel/this.value.count, "Velocities": this.value.vel});
+        }
+    },
+    //no reduce, all ids are unique
+    function(){},
+    {out:"alaw_markbest_tyroneh.AvgRouteVelocity"}
+);

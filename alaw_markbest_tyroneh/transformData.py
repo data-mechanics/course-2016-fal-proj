@@ -17,34 +17,7 @@ class transformData(dml.Algorithm):
         
         subprocess.check_output('mongo repo -u alaw_markbest_tyroneh -p alaw_markbest_tyroneh  --authenticationDatabase "repo" data2Geo.js', shell=True)
 
-        # client = dml.pymongo.MongoClient()
-        # repo = client.repo
-        # repo.authenticate('alaw_markbest_tyroneh', 'alaw_markbest_tyroneh')
-
-        # data = repo['alaw_markbest_tyroneh.PropertyGeoJSONs'].find()
-
-        # counts = {}
-        # counts['Boston'] = 0
-        # counts['Cambridge'] = 0
-        # counts['Somerville'] = 0
-        # counts['Brookline'] = 0
-
-        # for d in data:
-        #     if d['value']['properties']['area'] == 'Boston':
-        #         counts['Boston'] += d['value']['properties']['rooms']
-            
-        #     if d['value']['properties']['area'] == 'Cambridge':
-        #         counts['Cambridge'] += d['value']['properties']['rooms']
-
-        #     if d['value']['properties']['area'] == 'Somerville':
-        #         counts['Somerville'] += d['value']['properties']['rooms']
-
-        #     if d['value']['properties']['area'] == 'Brookline':
-        #         counts['Brookline'] += d['value']['properties']['rooms']
-
-        # print(counts)
-
-        # data = repo['alaw_markbest_tyroneh.CensusPopulation'].find()
+        subprocess.check_output('mongo repo -u alaw_markbest_tyroneh -p alaw_markbest_tyroneh  --authenticationDatabase "repo" getAvgVels.js', shell=True)
 
         endTime = datetime.datetime.now()
         

@@ -60,8 +60,16 @@ For modeling
   
 ###Optimization Algorithms  
   
-1. Bus station optimization:
-2. Bus allocation optimization:
+1. **Bus station optimization**:
+
+2. **Bus allocation optimization**: The second most important consideration in optimizing bus routes is the number of buses each route should be allocated. Using MBTA bus location data with estimates of their average speed and deviation, the average completion time of a route per bus plus the deviation of that time can be derived. Two metrics used to measure the allocation is the latency of the route (on average how long it takes for a stop to be serviced) and the inefficiency of the allocation (the probability that two bus schedules will overlap each other at some point).  Assuming that the distribution of completion time is normally distributed, and that buses will be sent out at equal intervals to maximize coverage, the formula for optimization is below:  
+  
+> Score for Allocation = \(\(Average Time / Buses\) \* Stops\) \+ \(\(Area of Intersection between N\(0,Deviation\) and N\(Average Time / Buses\)\) \* Buses \)
+
+Total latency is simplified in that inter-stop distance is not calculated, rather latency is the average interarrival time (completion time / k) multiplied by n, where n is the number of stops and k is the number of buses. Inefficiency can be measured by the total area of intersection of k normal distributions multiplied by the number of buses.  
+To compute optimization, run optimizeBusAllocation.py
+
+
   
 
 
