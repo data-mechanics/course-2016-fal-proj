@@ -42,12 +42,12 @@ class transformData(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         
         this_script = doc.agent('alg:alaw_markbest_tyroneh#transformData', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-        residential = doc.entity('dat:alaw_markbest_tyroneh#PropertyGeoJSONs', {prov.model.PROV_LABEL:'Residential GeoJSONs', prov.model.PROV_TYPE:'ont:DataSet'})        
-        get_residential = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'MapReduce to produce Residential GeoJSONs'})        
-        doc.wasAssociatedWith(get_residential, this_script)
-        doc.used(get_residential, residential, startTime)
-        doc.wasAttributedTo(residential, this_script)
-        doc.wasGeneratedBy(residential, get_residential, endTime)        
+        Properties = doc.entity('dat:alaw_markbest_tyroneh#PropertyGeoJSONs', {prov.model.PROV_LABEL:'Properties GeoJSONs', prov.model.PROV_TYPE:'ont:DataSet'})        
+        get_Properties = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'MapReduce to produce Properties GeoJSONs'})        
+        doc.wasAssociatedWith(get_Properties, this_script)
+        doc.used(get_Properties, Properties, startTime)
+        doc.wasAttributedTo(Properties, this_script)
+        doc.wasGeneratedBy(Properties, get_Properties, endTime)        
         
         stations = doc.entity('dat:alaw_markbest_tyroneh#StationGeoJSONs', {prov.model.PROV_LABEL:'Station GeoJSONs', prov.model.PROV_TYPE:'ont:DataSet'})         
         get_stations = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'MapReduce to produce Station GeoJSONs'})          
@@ -56,6 +56,7 @@ class transformData(dml.Algorithm):
         doc.wasAttributedTo(stations, this_script)
         doc.wasGeneratedBy(stations, get_stations, endTime)          
         
+        repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
         return doc

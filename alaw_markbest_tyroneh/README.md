@@ -67,7 +67,7 @@ For modeling
 > Score for Allocation = \(\(Average Time / Buses\) \* Stops\) \+ \(\(Area of Intersection between N\(0,Deviation\) and N\(Average Time / Buses\)\) \* Buses \)
 
 Total latency is simplified in that inter-stop distance is not calculated, rather latency is the average interarrival time (completion time / k) multiplied by n, where n is the number of stops and k is the number of buses. Inefficiency can be measured by the total area of intersection of k normal distributions multiplied by the number of buses.  
-To compute optimization, run optimizeBusAllocation.py
+To compute optimization, run optimizeBusAllocation
 
 
   

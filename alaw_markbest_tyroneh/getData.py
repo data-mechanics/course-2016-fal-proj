@@ -19,7 +19,7 @@ import shutil
 class getData(dml.Algorithm):
     contributor = 'alaw_markbest_tyroneh'
     reads = []
-    writes = ['alaw_markbest_tyroneh.BostonProperty','alaw_markbest_tyroneh.CambridgeProperty','alaw_markbest_tyroneh.SomervilleProperty','alaw_markbest_tyroneh.BrooklineProperty', 'alaw_markbest_tyroneh.HubwayStations', 'alaw_markbest_tyroneh.TCStops']
+    writes = ['alaw_markbest_tyroneh.BostonProperty','alaw_markbest_tyroneh.CambridgeProperty','alaw_markbest_tyroneh.SomervilleProperty','alaw_markbest_tyroneh.BrooklineProperty', 'alaw_markbest_tyroneh.HubwayStations', 'alaw_markbest_tyroneh.TCStops','alaw_markbest_tyroneh.TimedBuses', 'alaw_markbest_tyroneh.CensusPopulation','alaw_markbest_tyroneh.BusRoutes','alaw_markbest_tyroneh.BusStops']
 
     @staticmethod
     def execute(trial = False):
@@ -233,7 +233,7 @@ class getData(dml.Algorithm):
                 "type":"Feature",
                 "geometry":{
                     "type":"Multipoint",
-                    "coordinates": [reverseCoordinateProjection(p[0], p[1], inverse = True) for p in x.shape.points]},
+                    "coordinates": [reverseCoordinateProjection(p[1], p[0], inverse = True) for p in x.shape.points]},
                 "properties":{
                     "route_name": x.record[8],
                     "route_id": x.record[1],
@@ -261,7 +261,7 @@ class getData(dml.Algorithm):
                 "type":"Feature",
                 "geometry":{
                     "type":"Point",
-                    "coordinates": reverseCoordinateProjection(x.shape.points[0][0], x.shape.points[0][1], inverse = True) },
+                    "coordinates": reverseCoordinateProjection(x.shape.points[0][1], x.shape.points[0][0], inverse = True) },
                 "properties":{
                     "stop_name": x.record[1],
                     "stop_id": x.record[0],
@@ -352,6 +352,8 @@ class getData(dml.Algorithm):
         doc.add_namespace('mbta', 'http://realtime.mbta.com/developer/api/v2/routes') # MBTA API
         doc.add_namespace('datm', 'http://datamechanics.io/data') # datamechanics.io
         doc.add_namespace('cen', 'http://wsgw.mass.gov/data/gispub/shape/census2010/') # Mass census data
+        doc.add_namespace('rou', 'http://datamechanics.io/data') # datamechanics.io
+        doc.add_namespace('stp', 'http://wsgw.mass.gov/data/gispub/shape/census2010/') # Mass census data
 
         this_script = doc.agent('alg:alaw_markbest_tyroneh#getData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
@@ -423,6 +425,24 @@ class getData(dml.Algorithm):
         get_MassCensus = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Mass Census Data'})
         doc.wasAssociatedWith(get_MassCensus, this_script);
         doc.usage(get_MassCensus, resource_CensusPopulation, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval',
+                 'ont:Query':""
+                }
+            )
+
+        resource_BusRoutes = doc.entity('rou:CENSUS2010TOWNS_SHP', {'prov:label':'Mass Census Data', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'zip'})
+        get_BusRoutes = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Mass Census Data'})
+        doc.wasAssociatedWith(get_BusRoutes, this_script);
+        doc.usage(get_BusRoutes, resource_BusRoutes, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval',
+                 'ont:Query':""
+                }
+            )
+
+        resource_BusStops = doc.entity('stp:CENSUS2010TOWNS_SHP', {'prov:label':'Mass Census Data', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'zip'})
+        get_BusStops = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Mass Census Data'})
+        doc.wasAssociatedWith(get_BusStops, this_script);
+        doc.usage(get_BusStops, resource_BusStops, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
                  'ont:Query':""
                 }
