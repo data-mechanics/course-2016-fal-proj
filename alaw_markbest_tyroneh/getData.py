@@ -32,26 +32,23 @@ class getData(dml.Algorithm):
         repo.authenticate('alaw_markbest_tyroneh', 'alaw_markbest_tyroneh')
         
         #JSON urls with SoQL queries
-        jsonURLs = {"BostonProperty": 'https://data.cityofboston.gov/resource/jsri-cpsq.json?$limit=11000000',
-                    "CambridgeProperty": 'https://data.cambridgema.gov/resource/ufnx-m9uc.json?$limit=11000000',
-                    "SomervilleProperty":'https://data.somervillema.gov/resource/dhs3-5kuu.json?$limit=11000000'}
+        jsonURLs = {"BostonProperty": 'https://data.cityofboston.gov/resource/jsri-cpsq.json?',
+                    "CambridgeProperty": 'https://data.cambridgema.gov/resource/ufnx-m9uc.json?',
+                    "SomervilleProperty":'https://data.somervillema.gov/resource/dhs3-5kuu.json?'}
         
         for key in jsonURLs:  
             url = jsonURLs[key]
+
+            #Trial mode: limit size of dataset
+            if(trial != True):
+                url = url + '$limit=11000000'
             response = urllib.request.urlopen(url).read().decode("utf-8")
             r = json.loads(response)
             
-            if(trial == True):
-                s = json.dumps(r, sort_keys=True, indent=2)
-                print(key)
-                print(s)
-                print('-----------------')
-            
-            else:
-                # Set up the database connection
-                repo.dropPermanent(key)
-                repo.createPermanent(key)
-                repo['alaw_markbest_tyroneh.'+key].insert_many(r)
+            # Set up the database connection
+            repo.dropPermanent(key)
+            repo.createPermanent(key)
+            repo['alaw_markbest_tyroneh.'+key].insert_many(r)
         
         #GeoJSON urls with queries, read list of features
         geojsonURLs = {"BrooklineProperty":"http://data.brooklinema.gov/datasets/a725742a993f425ea463c2c509d91ca3_1.geojson"}
@@ -233,7 +230,7 @@ class getData(dml.Algorithm):
                 "type":"Feature",
                 "geometry":{
                     "type":"Multipoint",
-                    "coordinates": [reverseCoordinateProjection(p[1], p[0], inverse = True) for p in x.shape.points]},
+                    "coordinates": [(reverseCoordinateProjection(p[0], p[1], inverse = True)[1], reverseCoordinateProjection(p[0], p[1], inverse = True)[0]) for p in x.shape.points]},
                 "properties":{
                     "route_name": x.record[8],
                     "route_id": x.record[1],
@@ -261,7 +258,7 @@ class getData(dml.Algorithm):
                 "type":"Feature",
                 "geometry":{
                     "type":"Point",
-                    "coordinates": reverseCoordinateProjection(x.shape.points[0][1], x.shape.points[0][0], inverse = True) },
+                    "coordinates": (reverseCoordinateProjection(x.shape.points[0][0], x.shape.points[0][1], inverse = True)[1], reverseCoordinateProjection(x.shape.points[0][0], x.shape.points[0][1], inverse = True)[0]) },
                 "properties":{
                     "stop_name": x.record[1],
                     "stop_id": x.record[0],
@@ -349,11 +346,9 @@ class getData(dml.Algorithm):
         doc.add_namespace('sdp', 'https://data.somervillema.gov/resource/') # Somerville Data Portal
         doc.add_namespace('brdp', 'http://data.brooklinema.gov/datasets/') # Brookline Data Portal
         doc.add_namespace('hub', 'https://s3.amazonaws.com/hubway-data/') # Hubway Data 
-        doc.add_namespace('mbta', 'http://realtime.mbta.com/developer/api/v2/routes') # MBTA API
-        doc.add_namespace('datm', 'http://datamechanics.io/data') # datamechanics.io
-        doc.add_namespace('cen', 'http://wsgw.mass.gov/data/gispub/shape/census2010/') # Mass census data
-        doc.add_namespace('rou', 'http://datamechanics.io/data') # datamechanics.io
-        doc.add_namespace('stp', 'http://wsgw.mass.gov/data/gispub/shape/census2010/') # Mass census data
+        doc.add_namespace('mbta', 'http://realtime.mbta.com/developer/api/v2/routes/') # MBTA API
+        doc.add_namespace('datm', 'http://datamechanics.io/data/') # datamechanics.io
+        doc.add_namespace('gis', 'http://wsgw.mass.gov/data/gispub/shape/') # MassGIS 
 
         this_script = doc.agent('alg:alaw_markbest_tyroneh#getData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
@@ -421,7 +416,7 @@ class getData(dml.Algorithm):
                 }
             )
 
-        resource_CensusPopulation = doc.entity('cen:CENSUS2010TOWNS_SHP', {'prov:label':'Mass Census Data', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'zip'})
+        resource_CensusPopulation = doc.entity('gis:census2010/CENSUS2010TOWNS_SHP', {'prov:label':'Mass Census Data', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'zip'})
         get_MassCensus = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Mass Census Data'})
         doc.wasAssociatedWith(get_MassCensus, this_script);
         doc.usage(get_MassCensus, resource_CensusPopulation, startTime, None,
@@ -430,8 +425,8 @@ class getData(dml.Algorithm):
                 }
             )
 
-        resource_BusRoutes = doc.entity('rou:CENSUS2010TOWNS_SHP', {'prov:label':'Mass Census Data', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'zip'})
-        get_BusRoutes = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Mass Census Data'})
+        resource_BusRoutes = doc.entity('gis:state/mbtabus', {'prov:label':'Mass Bus Route Data', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'zip'})
+        get_BusRoutes = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Mass Bus Route Data'})
         doc.wasAssociatedWith(get_BusRoutes, this_script);
         doc.usage(get_BusRoutes, resource_BusRoutes, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
@@ -439,8 +434,8 @@ class getData(dml.Algorithm):
                 }
             )
 
-        resource_BusStops = doc.entity('stp:CENSUS2010TOWNS_SHP', {'prov:label':'Mass Census Data', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'zip'})
-        get_BusStops = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Mass Census Data'})
+        resource_BusStops = doc.entity('stp:CENSUS2010TOWNS_SHP', {'prov:label':'Mass Bus Stop Data', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'zip'})
+        get_BusStops = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Mass Bus Route Data'})
         doc.wasAssociatedWith(get_BusStops, this_script);
         doc.usage(get_BusStops, resource_BusStops, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval',
@@ -476,9 +471,17 @@ class getData(dml.Algorithm):
         doc.wasAttributedTo(TimedBuses, this_script);
         doc.wasGeneratedBy(TimedBuses, get_TimedBuses, endTime);
 
-        MassCensus = doc.entity('dat:alaw_markbest_tyroneh#CENSUS2010TOWNS_SHP', {prov.model.PROV_LABEL:'Mass Census Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        MassCensus = doc.entity('dat:alaw_markbest_tyroneh#CensusPopulation', {prov.model.PROV_LABEL:'Mass Census Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(MassCensus, this_script);
         doc.wasGeneratedBy(MassCensus, get_MassCensus, endTime);
+
+        BusRoutes = doc.entity('dat:alaw_markbest_tyroneh#BusRoutes', {prov.model.PROV_LABEL:'Mass Bus Routes Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(BusRoutes, this_script);
+        doc.wasGeneratedBy(BusRoutes, get_BusRoutes, endTime);
+
+        BusStops = doc.entity('dat:alaw_markbest_tyroneh#BusStops', {prov.model.PROV_LABEL:'Mass Bus Stops Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(BusStops, this_script);
+        doc.wasGeneratedBy(BusStops, get_BusStops, endTime);
         
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
