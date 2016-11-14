@@ -35,7 +35,7 @@ class getColleges(dml.Algorithm):
         repo.createPermanent("colleges")
         
         repo['jzhou94_katerin.colleges'].insert_one(r)
-        print('here')
+
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -58,11 +58,23 @@ class getColleges(dml.Algorithm):
         doc.add_namespace('dat', 'http://datamechanics.io/data/jzhou94_katerin/') # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
-        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+        doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/datasets/')
 
-        this_script = doc.agent('alg:getCrimeIncident', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource_crime_incident = doc.entity('bdp:ufcx-3fdn', {'prov:label':'Crime Incident Reports (July 2012 - August 2015)', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_crime_incident = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        this_script = doc.agent('alg:Colleges', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource_colleges = doc.entity('bod:cbf14bb032ef4bd38e20429f71acb61a_2', {'prov:label':'Colleges and Universities', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'geojson'})
+        get_colleges = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+
+        doc.wasAssociatedWith(get_colleges, this_script)
+        doc.usage(get_colleges, resource_colleges, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval',
+                 'ont:Query':'?compnos,Match_type,Ref_ID,ID1,Id,SchoolID,Name,Address,City,Zipcode,Contact,PhoneNumbe,YearBuilt,NumStories,Cost,NumStudent'
+                }
+            )
+
+        colleges = doc.entity('dat:colleges', {prov.model.PROV_LABEL:'College Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(colleges, this_script)
+        doc.wasGeneratedBy(colleges, get_colleges, endTime)
+        doc.wasDerivedFrom(colleges, resource_colleges, get_colleges, get_colleges, get_colleges)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
