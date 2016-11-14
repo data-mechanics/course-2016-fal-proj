@@ -1,7 +1,7 @@
 Narrative
 ---------
 
-The four datasets are employee earnings in Boston, location of public schools in Boston, crime incidents in Boston and firearms recovery counts in Boston. These datasets can be combined on location to see various statistics relating to crime in different counties of Greater Boston area. Specifically, we want to see the presences of schools on the occurrences and different crimes. Also, we want to see if there is a correlation between wage and general crime in an area. These questions are interesting because politicians often point to increasing security and education as ways to improve living conditions.
+The five datasets are employee earnings in Boston, location of public schools in Boston, crime incidents in Boston, colleges and universities in Boston and firearms recovery counts in Boston. These datasets can be combined on location to see various statistics relating to crime in different counties of Greater Boston area. Specifically, we want to see the presences of schools on the occurrences and different crimes. Also, we want to see if there is a correlation between wage of police officers and general crime in an area. These questions are interesting because politicians often point to increasing security and education as ways to improve living conditions.
 
 * https://data.cityofboston.gov/resource/bejm-5s9g.json employee earnings
  * https://dev.socrata.com/foundry/data.cityofboston.gov/bejm-5s9g employee earnings
