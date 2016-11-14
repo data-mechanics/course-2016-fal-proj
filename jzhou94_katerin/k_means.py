@@ -51,7 +51,12 @@ class k_means(dml.Algorithm):
         P = [(doc['location']['coordinates'][0], doc['location']['coordinates'][1]) for doc in repo.jzhou94_katerin.crime_incident.find()]
         
         OLD = []
-        while OLD != M:
+        inRange = False;
+
+        r = 2
+        inRange = False
+
+        while (inRange == False):
             OLD = M
 
             MPD = [(m, p, dist(m,p)) for (m, p) in product(M, P)]
@@ -64,7 +69,16 @@ class k_means(dml.Algorithm):
             MC = aggregate(M1, sum)
 
             M = [scale(t,c) for ((m,t),(m2,c)) in product(MT, MC) if m == m2]
-        
+            
+            inRange = True
+            j = 0
+            for i in M:
+                if (M[j][0] <= (OLD[j][0] + r) and M[j][0] >= (OLD[j][0] - r) and M[j][1] <= (OLD[j][1] + r) and M[j][1] >= (OLD[j][1] - r)):
+                    inRange = inRange and True
+                else:
+                    inRange = inRange and False
+                j = j+1
+
         j = 0
         for i in M:
             repo['jzhou94_katerin.k_means'].insert({'Name': M[j]})
