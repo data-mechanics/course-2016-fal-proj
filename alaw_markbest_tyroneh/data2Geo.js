@@ -141,50 +141,51 @@ db.alaw_markbest_tyroneh.SomervilleProperty.mapReduce(
 	{out:{merge:"alaw_markbest_tyroneh.PropertyGeoJSONs"}}
 );
 
-db.alaw_markbest_tyroneh.BrooklineProperty.mapReduce(
-	//map rich geoJSON polygon to multiple singular coordinates of the polygon
-	function() {
-		var coors = this.geometry.coordinates[0];
-		var name = "Brookline";
-		var property;
-		var rooms;
-		if(this.properties.FEATURECODE == 'Building General'){
-			property = 'Residential';
-			rooms = Math.max(parseFloat(this.properties.NUMSTORIES) * 2.0, 1.0);
-		}
+// db.alaw_markbest_tyroneh.BrooklineProperty.mapReduce(
+// 	//map rich geoJSON polygon to multiple singular coordinates of the polygon
+// 	function() {
+// 		var coors = this['geometry']['coordinates'][0];
+// 		var name = "Brookline";
+// 		var property;
+// 		var rooms;
+// 		if(this.properties.FEATURECODE == 'Building General'){
+// 			property = 'Residential';
+// 			rooms = Math.max(parseFloat(this.properties.NUMSTORIES) * 2.0, 1.0);
+// 		}
 
-		else{
-			property = 'Commercial';
-			rooms = 0;
-		}
+// 		else{
+// 			property = 'Commercial';
+// 			rooms = 0;
+// 		}
 
-		var lat = new Array();
-		var long = new Array();
-		coors.forEach(function(c){
-			lat.push(c[1]);
-			long.push(c[0]);
-		});
+// 		var lat = new Array();
+// 		var long = new Array();
+// 		if(coors){
+// 			coors.forEach(function(c){
+// 				lat.push(c[1]);
+// 				long.push(c[0]);
+// 			});
+// 			if(isNaN(rooms)){
+// 				rooms = 1;
+// 			}
 
-		if(isNaN(rooms)){
-			rooms = 1;
-		}
-
-		emit(this._id,{
-					"type":"Feature",
-					"geometry":{
-					"type":"Point",
-					"coordinates": [(Array.sum(lat)/lat.length),(Array.sum(long)/long.length)]},
-					"properties":{
-						"type": property,
-						"rooms": rooms,
-						"area": name
-					}
-			});
-	},
-	//no reduce step, all ids are unique
-	function(){},
-	{out:{merge:"alaw_markbest_tyroneh.PropertyGeoJSONs"}}
-);
+// 			emit(this._id,{
+// 						"type":"Feature",
+// 						"geometry":{
+// 						"type":"Point",
+// 						"coordinates": [(Array.sum(lat)/lat.length),(Array.sum(long)/long.length)]},
+// 						"properties":{
+// 							"type": property,
+// 							"rooms": rooms,
+// 							"area": name
+// 						}
+// 				});
+// 		}
+// 	},
+// 	//no reduce step, all ids are unique
+// 	function(){},
+// 	{out:{merge:"alaw_markbest_tyroneh.PropertyGeoJSONs"}}
+// );
 
 //flatten("alaw_markbest_tyroneh.PropertyGeoJSONs")
 
@@ -204,10 +205,10 @@ db.alaw_markbest_tyroneh.PropertyGeoJSONs.mapReduce(
 	{out:{merge:"alaw_markbest_tyroneh.temp"}}
 );
 
-var Boston_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Boston'}).map(function(u) { return u.value; });
-var Cambridge_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Cambridge'}).map(function(u) { return u.value; });
-var Somerville_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Somerville'}).map(function(u) { return u.value; });
-var Brookline_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Brookline'}).map(function(u) { return u.value; });
+var Boston_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Boston'}).map(function(u) { if(u){return u.value;} else{return 1} });
+var Cambridge_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Cambridge'}).map(function(u) { if(u){return u.value;} else{return 1} });
+var Somerville_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Somerville'}).map(function(u) { if(u){return u.value;} else{return 1} });
+var Brookline_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Brookline'}).map(function(u) { if(u){return u.value;} else{return 1} });
 
 db.alaw_markbest_tyroneh.CensusPopulation.mapReduce(
 	//recalculate Census data to average population per room
