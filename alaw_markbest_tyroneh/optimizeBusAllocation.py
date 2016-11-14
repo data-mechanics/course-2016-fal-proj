@@ -12,7 +12,6 @@ class optimizeBusAllocation(dml.Algorithm):
 	reads = ['alaw_markbest_tyroneh.BusRoutes','alaw_markbest_tyroneh.AvgRouteVelocity']
 	writes = []
 
-	@staticmethod
 	def area(m1,m2,std1,std2):
 		'''returns area between two identical distributions N(m,std)'''
 
@@ -20,7 +19,6 @@ class optimizeBusAllocation(dml.Algorithm):
 		area = norm.cdf(intersect,m2,std2) + (1.-norm.cdf(intersect,m1,std1))
 		return area
 
-	@staticmethod
 	def collectData():
 		'''retrieves AvgRouteVelocity and BusRoutes datasets for optimization purposes'''
 
@@ -176,6 +174,4 @@ class optimizeBusAllocation(dml.Algorithm):
 		times = optimizeBusAllocation.execute(trial = t, visual = v)
 		optimizeBusAllocation.provenance(startTime = times['start'], endTime = times['end'])
 
-if __name__ == '__main__':
-	optimizeBusAllocation.run(v=True)
 # ## eof

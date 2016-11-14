@@ -61,7 +61,7 @@ class transformData(dml.Algorithm):
 
         return doc
     
-    def run(t=False):
+    def run():
         '''
         Scrap datasets and write provenance files
         '''

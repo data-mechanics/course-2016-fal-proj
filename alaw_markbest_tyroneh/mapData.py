@@ -64,6 +64,4 @@ class mapData():
 		#plt.xlim(-71.18,-70.993)
 		plt.show()
 
-if __name__ == '__main__':
-	mapData.visualize()
 ## eof

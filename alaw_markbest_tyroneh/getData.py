@@ -42,6 +42,7 @@ class getData(dml.Algorithm):
             #Trial mode: limit size of dataset
             if(trial != True):
                 url = url + '$limit=11000000'
+
             response = urllib.request.urlopen(url).read().decode("utf-8")
             r = json.loads(response)
             
@@ -58,17 +59,10 @@ class getData(dml.Algorithm):
             response = urllib.request.urlopen(url).read().decode("utf-8")
             r = json.loads(response)['features']
             
-            if(trial == True):
-                s = json.dumps(r, sort_keys=True, indent=2)
-                print(key)
-                print(s)
-                print('-----------------')
-            
-            else:
-                # Set up the database connection
-                repo.dropPermanent(key)
-                repo.createPermanent(key)
-                repo['alaw_markbest_tyroneh.'+key].insert_many(r) 
+            # Set up the database connection
+            repo.dropPermanent(key)
+            repo.createPermanent(key)
+            repo['alaw_markbest_tyroneh.'+key].insert_many(r) 
                 
         
         #CSV urls, converts them to python dictionaries 
@@ -82,16 +76,10 @@ class getData(dml.Algorithm):
             response = urllib.request.urlopen(url)
             csvfile = csv.DictReader(response.read().decode('utf-8').splitlines()[1:],fieldnames)
             
-            if(trial == True):
-                print(key)
-                print(csvfile)
-                print('-----------------')
-            
-            else:
-                # Set up the database connection
-                repo.dropPermanent(key)
-                repo.createPermanent(key)
-                repo['alaw_markbest_tyroneh.'+key].insert_many(csvfile) 
+            # Set up the database connection
+            repo.dropPermanent(key)
+            repo.createPermanent(key)
+            repo['alaw_markbest_tyroneh.'+key].insert_many(csvfile) 
         
         
         #MBTA API, gets xml files of every T and Commuter rail stop
@@ -121,6 +109,10 @@ class getData(dml.Algorithm):
 
             json_stops.append(stops_by_route)
 
+            #trial mode: only retrieve one set of data
+            if(trial):
+                break
+
         #json_stops = {oute':route, 'path':json.loads(responses[route]) for route in responses}
         #stops_dumps = {route:json.dumps(json_stops[route], sort_keys=True, indent=2) for route in json_stops}
         stops_dumps = json.dumps(json_stops, sort_keys=True, indent=2)
@@ -129,16 +121,12 @@ class getData(dml.Algorithm):
         for route in json_stops:
             result.append({'route':route})
 
-        if(trial == True):
-                print(result)
-                print('-----------------')
-        else:
-            # Set up the database connection
-            repo.dropPermanent('TCStops')
-            repo.createPermanent('TCStops')
-            repo['alaw_markbest_tyroneh.TCStops'].insert_many(result) 
+        # Set up the database connection
+        repo.dropPermanent('TCStops')
+        repo.createPermanent('TCStops')
+        repo['alaw_markbest_tyroneh.TCStops'].insert_many(result) 
 
-        # Retrieve scraped real time bus location data hosted on datamechanics.io website
+        #NextBus API: Retrieve scraped real time bus location data hosted on datamechanics.io website
         url_base = "http://datamechanics.io/data/alaw_markbest_tyroneh/busdata/mbtabuses-"
         bus_time = 1478798401
         last_bus_time = 1479073201
@@ -159,16 +147,16 @@ class getData(dml.Algorithm):
                     print('HTTP Error code:', e.code)
     
             bus_time += 300 # increment by 30 minutes
- 
-        if(trial == True):
-            print('timestamp', r["timestamp"])
-            print('-----------------')
-        else: 
-            repo.dropPermanent('TimedBuses')
-            repo.createPermanent('TimedBuses')
-            repo['alaw_markbest_tyroneh.TimedBuses'].insert_many(all_buses)  
 
-    	#GIS data/shapefiles urls, converts them to python dictionaries
+            #trial mode: only retrieve one set of data
+            if(trial):
+                break
+ 
+        repo.dropPermanent('TimedBuses')
+        repo.createPermanent('TimedBuses')
+        repo['alaw_markbest_tyroneh.TimedBuses'].insert_many(all_buses)  
+
+    	#GIS data/shapefiles urls: converts them to python dictionaries
         CensusGisURLs = {"CensusPopulation":'http://wsgw.mass.gov/data/gispub/shape/census2010/CENSUS2010TOWNS_SHP.zip'}
         CensusGisTowns = ['BOSTON','BROOKLINE','CAMBRIDGE','SOMERVILLE']
 
@@ -197,11 +185,18 @@ class getData(dml.Algorithm):
             repo.createPermanent(key)
             repo['alaw_markbest_tyroneh.'+key].insert_many(boston_area)
 
-            # remove files after unzipping
-            for path in ['CENSUS2010TOWNS_ARC.dbf','CENSUS2010TOWNS_ARC.prj','CENSUS2010TOWNS_ARC.sbn','CENSUS2010TOWNS_ARC.sbx','CENSUS2010TOWNS_ARC.shp','CENSUS2010TOWNS_ARC.shp.xml',
-                'CENSUS2010TOWNS_ARC.shx','CENSUS2010TOWNS_POLY.cpg','CENSUS2010TOWNS_POLY.dbf','CENSUS2010TOWNS_POLY.prj','CENSUS2010TOWNS_POLY.sbn','CENSUS2010TOWNS_POLY.sbx',
-                'CENSUS2010TOWNS_POLY.shp','CENSUS2010TOWNS_POLY.shp.xml','CENSUS2010TOWNS_POLY.shx']:
+            #trial mode: only retrieve one set of data
+            if(trial):
+                break
+
+        # remove files after unzipping
+        for path in ['CENSUS2010TOWNS_ARC.dbf','CENSUS2010TOWNS_ARC.prj','CENSUS2010TOWNS_ARC.sbn','CENSUS2010TOWNS_ARC.sbx','CENSUS2010TOWNS_ARC.shp','CENSUS2010TOWNS_ARC.shp.xml',
+            'CENSUS2010TOWNS_ARC.shx','CENSUS2010TOWNS_POLY.cpg','CENSUS2010TOWNS_POLY.dbf','CENSUS2010TOWNS_POLY.prj','CENSUS2010TOWNS_POLY.sbn','CENSUS2010TOWNS_POLY.sbx',
+            'CENSUS2010TOWNS_POLY.shp','CENSUS2010TOWNS_POLY.shp.xml','CENSUS2010TOWNS_POLY.shx']:
+            try:
                 os.remove(path)
+            except FileNotFoundError:
+                pass
 
         #Get MBTA bus GIS files
         BusGisURLs = {"BusRoutesAndStops":'http://wsgw.mass.gov/data/gispub/shape/state/mbtabus.zip'}
@@ -434,7 +429,7 @@ class getData(dml.Algorithm):
                 }
             )
 
-        resource_BusStops = doc.entity('stp:CENSUS2010TOWNS_SHP', {'prov:label':'Mass Bus Stop Data', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'zip'})
+        resource_BusStops = doc.entity('gis:state/mbtabus', {'prov:label':'Mass Bus Stop Data', prov.model.PROV_TYPE:'ont:DataReource', 'ont:Extension':'zip'})
         get_BusStops = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Mass Bus Route Data'})
         doc.wasAssociatedWith(get_BusStops, this_script);
         doc.usage(get_BusStops, resource_BusStops, startTime, None,

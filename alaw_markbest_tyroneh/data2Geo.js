@@ -237,10 +237,10 @@ db.alaw_markbest_tyroneh.CensusPopulation.mapReduce(
 
 dropPerm("alaw_markbest_tyroneh.temp");
 
-var Boston_avg = db.alaw_markbest_tyroneh.roomAverages.find({'_id': 'Boston'}).map(function(u) { return u.value; });
-var Cambridge_avg = db.alaw_markbest_tyroneh.roomAverages.find({'_id': 'Cambridge'}).map(function(u) { return u.value; });
-var Somerville_avg = db.alaw_markbest_tyroneh.roomAverages.find({'_id': 'Somerville'}).map(function(u) { return u.value; });
-var Brookline_avg = db.alaw_markbest_tyroneh.roomAverages.find({'_id': 'Brookline'}).map(function(u) { return u.value; });
+var Boston_avg = db.alaw_markbest_tyroneh.roomAverages.find({'_id': 'Boston'}).map(function(u) { if(u){return u.value;} else{return 1} });
+var Cambridge_avg = db.alaw_markbest_tyroneh.roomAverages.find({'_id': 'Cambridge'}).map(function(u) { if(u){return u.value;}else{return 1} });
+var Somerville_avg = db.alaw_markbest_tyroneh.roomAverages.find({'_id': 'Somerville'}).map(function(u) { if(u){return u.value;}else{return 1} });
+var Brookline_avg = db.alaw_markbest_tyroneh.roomAverages.find({'_id': 'Brookline'}).map(function(u) { if(u){return u.value;}else{return 1} });
 
 
 db.alaw_markbest_tyroneh.PropertyGeoJSONs.mapReduce(
