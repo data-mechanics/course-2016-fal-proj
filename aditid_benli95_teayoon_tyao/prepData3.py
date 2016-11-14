@@ -23,7 +23,7 @@ repo.createPermanent('aditid_benli95_teayoon_tyao.listOfAverages')
 
 arr_of_diff = []
 
-for d in range(80, 105, 5):
+for d in range(30, 61, 5):
     d = d / 10
 
     print("value of d: " + str(d))
