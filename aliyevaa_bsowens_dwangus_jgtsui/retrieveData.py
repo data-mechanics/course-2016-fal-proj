@@ -114,7 +114,7 @@ class retrieveData(dml.Algorithm):
                 csa.update_many({}, {"$rename": {'map_location': 'location'}})
                 csa.create_index([('location', '2dsphere')])
             elif key == 'food_licenses':
-                continue
+                #continue
                 print("Transforming food_licenses dataset...")
                 food = myrepo['food_licenses']
                 food.create_index([('location', '2dsphere')])
@@ -131,7 +131,7 @@ class retrieveData(dml.Algorithm):
                         ent.delete_one({'_id': e['_id']})
                 ent.create_index([('location', '2dsphere')])
             elif key == 'year_round_pools':
-                #continue
+                continue
                 print("Transforming year_round_pools dataset...")
                 pools = myrepo['year_round_pools']
                 pools.update_many({}, {"$rename": {'location_1': 'location_details'}})
