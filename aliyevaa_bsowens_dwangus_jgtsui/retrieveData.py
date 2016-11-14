@@ -20,7 +20,7 @@ def get_coords(number,street,suffix,city,zip):
         class location:
             longitude = 0
             latitude = 0
-    return [location.latitude,location.longitude]
+    return [location.longitude, location.latitude]
 
 
 class retrieveData(dml.Algorithm):
@@ -100,26 +100,22 @@ class retrieveData(dml.Algorithm):
             repo[retrieveData.dataSetDict[key][1]].insert_many(r)
             ###TRANSFORMATION###
             if key == 'public_fishing_access_locations':
-                #continue
                 print("Transforming public_fishing_access_locations dataset...")
                 fishing = myrepo['public_fishing_access_locations']
                 fishing.update_many({}, {"$rename": {'location': 'location_address'}})
                 fishing.update_many({}, {"$rename": {'map_location': 'location'}})
                 fishing.create_index([('location', '2dsphere')])
-            elif key == 'csaPickups':
-                #continue
-                print("Transforming csaPickups dataset...")
-                csa = myrepo['csaPickups']
+            elif key == 'csa_pickups':
+                print("Transforming csa_pickups dataset...")
+                csa = myrepo['csa_pickups']
                 csa.update_many({}, {"$rename": {'location': 'location_address'}})
                 csa.update_many({}, {"$rename": {'map_location': 'location'}})
                 csa.create_index([('location', '2dsphere')])
             elif key == 'food_licenses':
-                #continue
                 print("Transforming food_licenses dataset...")
                 food = myrepo['food_licenses']
                 food.create_index([('location', '2dsphere')])
             elif key == 'entertainment_licenses':
-                #continue
                 print("Transforming entertainment_licenses dataset...")
                 ent = myrepo['entertainment_licenses']
                 for e in ent.find(modifiers={"$snapshot": True}):
@@ -131,28 +127,22 @@ class retrieveData(dml.Algorithm):
                         ent.delete_one({'_id': e['_id']})
                 ent.create_index([('location', '2dsphere')])
             elif key == 'year_round_pools':
-                continue
                 print("Transforming year_round_pools dataset...")
                 pools = myrepo['year_round_pools']
                 pools.update_many({}, {"$rename": {'location_1': 'location_details'}})
 
                 for pool in pools.find(modifiers={"$snapshot": True}):
-                    print(pool['_id'])
+                    #print(pool['_id'])
                     if 'location_details' in pool.keys():
                         number = pool['st_no']
                         street = pool['st_name']
                         suffix = pool['suffix']
                         city = pool['location_1_city']
                         zip_code = pool['location_1_zip']
-                        coords = get_coords(number,street,suffix,city,zip_code)
-                        #pool.update({'_id': pool['_id']}, {'$unset':{'location_1'}})
-                        pool.update({'_id': pool['_id']},
-                                    {'$set': {'location_details': {'type': 'Point', 'coordinates': coords}}})
-                        print(pool)
-                try:
-                    pools.create_index([('location_details', '2dsphere')])
-                except:
-                    print("Unknown error with coordinates", )
+                        prevCoords = get_coords(number,street,suffix,city,zip_code)
+                        pools.update({'_id': pool['_id']}, \
+                                     {'$set': {'location': {'type': 'Point', 'coordinates': prevCoords}}})
+                pools.create_index([('location', '2dsphere')])
 
             elif key == 'moving_truck_permits':
                 print("Transforming moving_truck_permits dataset...")
@@ -165,7 +155,6 @@ class retrieveData(dml.Algorithm):
                         truck.update({'_id': t['_id']}, \
                                    {'$set': {'location': {'type': 'Point', 'coordinates': prevCoords}}})
                 truck.create_index([('location', '2dsphere')])
-
         repo.logout()
 
         endTime = datetime.datetime.now()
