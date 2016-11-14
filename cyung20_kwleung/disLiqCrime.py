@@ -82,5 +82,5 @@ print(doc.get_provn())
 
 data = repo.cyung20_kwleung.disLiqCrime.find()
 
-for d in data:
-    print(dict(d))
+'''for d in data:
+    print(dict(d))'''
