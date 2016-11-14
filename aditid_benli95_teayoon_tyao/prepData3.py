@@ -4,7 +4,6 @@ import prov.model
 import datetime
 import uuid
 from bson.code import Code
-#import prepData1
 
 
 contributor = 'aditid_benli95_teayoon_tyao'
@@ -27,8 +26,9 @@ arr_of_diff = []
 for d in range(80, 105, 5):
     d = d / 10
 
-#print("value of d: " + str(d))
-# prepData1.prepData1.execute(d)
+    print("value of d: " + str(d))
+    import prepData1
+    prepData1.prepData1.execute(d)
 
     print("starting prepData2 now")
     import prepData2

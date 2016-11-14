@@ -46,7 +46,7 @@ class mergeCrimes(dml.Algorithm):
         for document in data:
             currentDict = dict(document)
 
-            if legacyDict['location']['coordinates'][1] == 0 or legacyDict['location']['coordinates'][0] == 0:
+            if currentDict['location']['coordinates'][1] == 0 or currentDict['location']['coordinates'][0] == 0:
                     pass
             elif currentDict['offense_code_group'] == 'Drug Violation' and currentDict['occurred_on_date'] and currentDict['day_of_week']:    
                 dateAndTime = currentDict['occurred_on_date'].split("T")
