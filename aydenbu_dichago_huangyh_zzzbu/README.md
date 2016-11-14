@@ -67,11 +67,8 @@ We used mapreduce again to merge the crime_zip dataset into the result dataset f
 ###Statistic Operations
 Frist we use the algorithm on the leacture note to get the corrolation efficiency between average income and other public buildings(also crime) to measure the linear dependency of average income and other public.
 
-
 Then we bulid a least square function to optimize a line that has the smallest possible value for the sum of the squares of the data we use.
 
-
 Finally, we calculate the R-square score of these data combination and it least square line to evaluate how well the line fit the data.
-
 
 The statisticOperations.py file will extract the data, do the operations above, and finally output the statistic data that we need.
