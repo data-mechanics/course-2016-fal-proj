@@ -34,6 +34,7 @@ pg3='CoQDewEAAE-PjFnvJBFH81S5UIGvcthwgD-XauRh9YLD0JRviv5TpiqE7XRAjtRL4igFEMcTSJ_
 google_places_2=gmaps.places(query='Boston Parking', location='Boston, MA', page_token=pg3)
 
 art_list='['+prep_to_json(google_places)+', '+prep_to_json(google_places_1)+', '+prep_to_json(google_places_2)+']'
+
 r=json.loads(art_list)
 
 
