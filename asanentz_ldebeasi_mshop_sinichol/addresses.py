@@ -20,7 +20,12 @@ class addresses(dml.Algorithm):
         repo = client.repo
         repo.authenticate('asanentz_ldebeasi_mshop_sinichol', 'asanentz_ldebeasi_mshop_sinichol')
 
-        url = 'https://data.cityofboston.gov/resource/g5b5-xrwi.json?$$app_token=' + dml.auth["cityofboston"] + "&$limit=169690" #so it's actually just 169199 but like i'm a child
+        if trial:
+            limit = 1000
+        else:
+            limit = 169690
+
+        url = 'https://data.cityofboston.gov/resource/g5b5-xrwi.json?$$app_token=' + dml.auth["cityofboston"] + "&$limit=" + str(limit) #so it's actually just 169199 but like i'm a child
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)

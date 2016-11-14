@@ -30,6 +30,9 @@ class addressValue(dml.Algorithm):
 		repo.dropPermanent("addressValue")
 		repo.createPermanent("addressValue")
 
+		if trial:
+			count = 0
+
 		transit = repo.asanentz_ldebeasi_mshop_sinichol.transit.find()
 
 		busStops = {} 
@@ -60,6 +63,10 @@ class addressValue(dml.Algorithm):
 					tStops[coords] += 1
 				else:
 					tStops[coords] = 1
+			if trial:
+				count += 1
+				if trial > 100:
+					break
 
 
 
@@ -69,7 +76,9 @@ class addressValue(dml.Algorithm):
 
 		address = repo.asanentz_ldebeasi_mshop_sinichol.addresses.find()
 
-		count = 0
+		if trial:
+			count = 0
+
 		for entry in address:
 			temp = dict() #just to take what is useful in the entry
 			temp["ADDRESS"] = entry["mail_address"]
@@ -102,6 +111,10 @@ class addressValue(dml.Algorithm):
 				temp['T STOPS'] = "NO COORDS"
 
 			res = repo.asanentz_ldebeasi_mshop_sinichol.addressValue.insert_one(temp)
+			if trial:
+				count += 1
+				if count > 1000:
+					break
 
 		endTime = datetime.datetime.now()
 		return {"start":startTime, "end":endTime}

@@ -14,6 +14,9 @@ class income(dml.Algorithm):
 	@staticmethod
 	def execute(trial = False):
 
+		if trial:
+			count = 0
+
 		startTime = datetime.datetime.now()
 
 		client = dml.pymongo.MongoClient()
@@ -31,6 +34,11 @@ class income(dml.Algorithm):
 			income = data[0][d]['Per Capita Income']
 			title = d.upper()
 			incomeData[title] = income
+
+			if trial:
+				count += 1
+				if count >= 10:
+					break
 
 		for item in incomeData:
 

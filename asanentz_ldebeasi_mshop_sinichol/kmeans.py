@@ -36,6 +36,7 @@ class kmeans(dml.Algorithm):
 		repo.dropPermanent("kmeans")
 		repo.createPermanent("kmeans")
 
+
 		values = repo.asanentz_ldebeasi_mshop_sinichol.constraintSatisfaction.find()
 		lats = []
 		longs = []
@@ -44,6 +45,7 @@ class kmeans(dml.Algorithm):
 			lats += [value['LAT']]
 			longs += [value['LONG']]
 			latlong += [(value['LAT'],value['LONG'])]
+
 
 		#evaluate_clusters(latlong, 8)
 		kmeans = KMeans(n_clusters = 4).fit(latlong)

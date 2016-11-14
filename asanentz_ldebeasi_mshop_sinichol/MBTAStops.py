@@ -15,6 +15,9 @@ class MBTAStops(dml.Algorithm):
 	@staticmethod
 	def execute(trial = False):
 
+		if trial:
+			count = 0
+
 		startTime = datetime.datetime.now()
 
 		client = dml.pymongo.MongoClient()
@@ -33,6 +36,10 @@ class MBTAStops(dml.Algorithm):
 			lat = i[4]
 			lng = i[5]
 			res = repo.asanentz_ldebeasi_mshop_sinichol.mbta.insert_one({'name': title, 'latitude': lat, 'longitude': lng})
+			if trial:
+				count +=1
+				if count > 80:
+					break
 
 		endTime = datetime.datetime.now()
 

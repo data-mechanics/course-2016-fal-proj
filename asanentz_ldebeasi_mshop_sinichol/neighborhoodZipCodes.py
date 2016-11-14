@@ -14,6 +14,9 @@ class neighborhoodZipCodes(dml.Algorithm):
 	@staticmethod
 	def execute(trial = False):
 
+		if trial:
+			count = 0
+
 		startTime = datetime.datetime.now()
 
 		client = dml.pymongo.MongoClient()
@@ -47,6 +50,10 @@ class neighborhoodZipCodes(dml.Algorithm):
 				else:
 					if zip not in neighborhoods[neighborhood]["zip"]:
 						neighborhoods[neighborhood]["zip"] += [zip]
+			if trial:
+				count += 1
+				if count >= 100:
+					break
 
 		data = repo.asanentz_ldebeasi_mshop_sinichol.income.find()
 		for d in data:

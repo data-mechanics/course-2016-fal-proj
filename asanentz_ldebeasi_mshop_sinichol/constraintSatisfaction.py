@@ -16,6 +16,9 @@ class constraintSatisfaction(dml.Algorithm):
 		repo.authenticate("asanentz_ldebeasi_mshop_sinichol", "asanentz_ldebeasi_mshop_sinichol")
 		startTime = datetime.datetime.now()
 
+		if trial:
+			count = 0
+
 		repo.dropPermanent("constraintSatisfaction")
 		repo.createPermanent("constraintSatisfaction")
 
@@ -39,6 +42,11 @@ class constraintSatisfaction(dml.Algorithm):
 
 
 					res = repo.asanentz_ldebeasi_mshop_sinichol.constraintSatisfaction.insert_one(temp)
+
+					if trial:
+						count += 1
+						if count > 100:
+							break
 
 					noTransit += 1
 		if noTransit > 0:

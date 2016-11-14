@@ -41,6 +41,9 @@ class transit(dml.Algorithm):
 		repo.dropPermanent("transit")
 		repo.createPermanent("transit")
 
+		if trial:
+			count = 0
+
 		#a list of towns that are probably going to be in our data sets (i.e. not Lynn)
 		#this is not conclusive, it's just easier to use
 		#towns = ["BOSTON", "BROOKLINE", "CAMBRIDGE", "SOMERVILLE", "ALLSTON"]
@@ -56,6 +59,14 @@ class transit(dml.Algorithm):
 
 				#I've taken all meaningfull data from the geometry portion of entry
 			res = repo.asanentz_ldebeasi_mshop_sinichol.transit.insert_one(entry['properties'])
+
+			if trial:
+				count += 1
+				if count > 100:
+					break
+
+		if trial:
+			count = 0
 
 
 		hubway = repo.asanentz_ldebeasi_mshop_sinichol.hubway.find()
@@ -80,6 +91,14 @@ class transit(dml.Algorithm):
 
 			res = repo.asanentz_ldebeasi_mshop_sinichol.transit.insert_one(entry['properties'])
 
+			if trial:
+				count += 1
+				if count > 100:
+					break
+
+
+		if trial:
+			count = 0
 		mbta = repo.asanentz_ldebeasi_mshop_sinichol.mbta.find()
 		for t in mbta:
 			t['TYPE'] = 'MBTA'
@@ -89,6 +108,10 @@ class transit(dml.Algorithm):
 			del t['longitude']
 
 			res = repo.asanentz_ldebeasi_mshop_sinichol.transit.insert_one(t)
+			if trial:
+				count += 1
+				if count > 100:
+					break
 			
 		endTime = datetime.datetime.now()
 		return {"start":startTime, "end":endTime}
