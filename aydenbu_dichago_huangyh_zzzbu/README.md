@@ -65,7 +65,7 @@ Firstly we extract two new data sets [CrimeIncidentReport](https://data.cityofbo
 We used mapreduce again to merge the crime_zip dataset into the result dataset from project 1
 
 ###Statistic Operations
-Frist we use the algorithm on the leacture note to get the corrolation efficiency between average income and other public buildings(also crime) to measure the linear dependency of average income and other public.
+Frist we use the algorithm on the leacture note to get the corrolation efficiency between average income and other public buildings(also crime) to measure the linear dependency of them.
 
 Then we bulid a least square function to optimize a line that has the smallest possible value for the sum of the squares of the data we use.
 
