@@ -90,14 +90,6 @@ class transformation1(dml.Algorithm):
             longitude = to_float(longitude)
             return zip_code, latitude, longitude
 
-        def get_geo_info_address_list(entry):
-            zip_code = entry['p_zipcode'] if 'p_zipcode' in entry else None
-            latitude = entry['geocoded_location']['coordinates'][1] if 'geocoded_location' in entry else None
-            latitude = to_float(latitude)
-            longitude = entry['geocoded_location']['coordinates'][0] if 'geocoded_location' in entry else None
-            longitude = to_float(longitude)
-            return zip_code, latitude, longitude
-
         collections = {
             'food': {
                 'name': 'jas91_smaf91.food',
@@ -123,11 +115,6 @@ class transformation1(dml.Algorithm):
                 'name': 'jas91_smaf91.sr311',
                 'unset': {'location_zipcode':'', 'geocoded_location':'', 'location_x':'', 'location_y':''},
                 'get_geo_info': get_geo_info_sr311
-            },
-            'address_list': {
-                'name': 'jas91_smaf91.address_list',
-                'unset': {'geocoded_location':'', 'latitude':'', 'longitude':''},
-                'get_geo_info': get_geo_info_address_list
             }
         }
 
