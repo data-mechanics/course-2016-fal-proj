@@ -2,10 +2,12 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import datetime
+import uuid
 import dml
 import numpy as np 
 import warnings
 import prov.model
+import json
 
 warnings.filterwarnings("ignore")
 
@@ -240,10 +242,40 @@ class optimize(dml.Algorithm):
     
     @staticmethod           
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-        pass
-    
-    @staticmethod
-    def record():
-        pass
+        '''
+        Create the provenance document describing everything happening
+        in this script. Each run of the script will generate a new
+        document describing that invocation event.
+        '''
+
+        # Set up the database connection.
+        client = dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+        
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+
+        this_script = doc.agent('alg:ktan_ngurung_yazhang_emilyh23#optimize', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        zipcodeRatings_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/zipcode-ratings', {'prov:label':'Critera Rating and Overall Rating for Zipcodes', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Query'})
+
+        doc.wasAssociatedWith(this_run, this_script)
+
+        doc.usage(this_run, zipcodeRatings_resource, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval'}
+            )
+
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
     
 optimize.execute()
+doc = optimize.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
+
+## eof
