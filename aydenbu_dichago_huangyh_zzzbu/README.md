@@ -65,5 +65,17 @@ Firstly we extract two new data sets [CrimeIncidentReport](https://data.cityofbo
 We used mapreduce again to merge the crime_zip dataset into the result dataset from project 1
 
 ###Statistic Operations
++ Correlation Coefficient: taking the numbers of corner stores, hospitals, public schools, community gardens and crimes as independent variables, and average income as dependent variable, we calculate the correlation coefficients to measure the dependency between the dependent variable and each of the independent variable, to estimate their relationships. The formula applied are identical to those shown in the class notes.
 
- 
++ Linear Regression: taking the variables described above, we fit the data into the linear least square regression model, and calculate the estimated slope and interception of the regression line. Using the coefficients returned, we can quantify the effect of each independent variable. This method shall be improved using non-linear regression, as many of the relationships are not linear. 
+
++ Coefficient of Determination (R-squared): taking the estimations derived above, we calculate coefficients of determination for each of the regression, to measure how well the linear model fits into the data. 
+
+The statisticOperations.py file extracts the processed data, conducts the mathematical operations , and delivers the statistical results. 
+
+###Interpretation of Results
+The correlations between income and each of the possible factors are vague, as most of the correlation coeffiecients fall in the range of [-0.1, 0.1]. The linear regression model does not fit well for the data sets, as the coefficients are noticibly close to 0. 
+
+Surprisingly, We see a clear diminishing oscillation patern of the dependent variable against each of the independent variable. This could be caused by the un-normalized data, or it could be some unknown distributions that we have not tested with yet, thus we will normalize data before further operations, and take other models into consideration in further research. 
+
+In addition, we shall consider other factors which could have affected the average income in certain areas, and also consider the correlations between many of the independent variables. 
