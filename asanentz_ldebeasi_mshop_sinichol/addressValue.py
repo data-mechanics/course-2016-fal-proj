@@ -42,8 +42,8 @@ class addressValue(dml.Algorithm):
 		for entry in transit:
 			#essentially, this is creating a grid (coarser lon and lat) of stops and counting how many are 
 			#in each square. I would much rather do this by zip code, but idk how to do that atm (geometry?)
-			lat = round(float(entry['LATITUDE']), 3) #within about 100 meters
-			lon = round(float(entry['LONGITUDE']), 3)
+			lat = round(float(entry['LATITUDE']), 2) #within about 1.1 km
+			lon = round(float(entry['LONGITUDE']), 2)
 			coords = (lat,lon)
 			if entry["TYPE"] == "BUS":
 				if coords in busStops:
@@ -55,6 +55,11 @@ class addressValue(dml.Algorithm):
 					hubStops[coords] += 1
 				else:
 					hubStops[coords] = 1
+			elif entry['TYPE'] == 'MBTA':
+				if coords in tStops:
+					tStops[coords] += 1
+				else:
+					tStops[coords] = 1
 
 
 
@@ -75,8 +80,8 @@ class addressValue(dml.Algorithm):
 			temp["TAX"] = entry["gross_tax"]
 
 			if is_number(temp["LATITUDE"]):
-				lat = round(float(entry['latitude']), 3)
-				lon = round(float(entry['longitude']), 3)
+				lat = round(float(entry['latitude']), 2)
+				lon = round(float(entry['longitude']), 2)
 				coords = (lat,lon)
 
 				if coords in busStops:
@@ -87,9 +92,14 @@ class addressValue(dml.Algorithm):
 					temp["HUBWAYS"] = hubStops[coords]
 				else:
 					temp["HUBWAYS"] = 0
+				if coords in tStops:
+					temp["T STOPS"] = tStops[coords]
+				else:
+					temp["T STOPS"] = 0
 			else:
 				temp["BUSES"] = "NO COORDS"
 				temp["HUBWAYS"] = "NO COORDS"
+				temp['T STOPS'] = "NO COORDS"
 
 			res = repo.asanentz_ldebeasi_mshop_sinichol.addressValue.insert_one(temp)
 
@@ -114,12 +124,15 @@ class addressValue(dml.Algorithm):
 		addresses = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#addresses', {prov.model.PROV_LABEL:'List of Addresses', prov.model.PROV_TYPE:'ont:DataSet'})
 		busStops = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#busStops', {prov.model.PROV_LABEL:'List of Bus Stops', prov.model.PROV_TYPE:'ont:DataSet'})
 		hubway = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#hubway', {prov.model.PROV_LABEL:'List of Hubway Stops', prov.model.PROV_TYPE:'ont:DataSet'})
+		tStops = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#mbta', {prov.model.PROV_LABEL:'List of MBTA Stops', prov.model.PROV_TYPE:'ont:DataSet'})
+
 
 		this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
 
 		doc.wasAssociatedWith(this_run, this_script)
 		doc.used(this_run, addresses, startTime)
 		doc.used(this_run, hubway, startTime)
+		doc.used(this_run, tStops, startTime)
 
 		# Our new combined data set
 		maintenance = doc.entity('dat:addressValue', {prov.model.PROV_LABEL:'Number of Bus and Hubway Stops near an address', prov.model.PROV_TYPE:'ont:DataSet'})
@@ -128,6 +141,7 @@ class addressValue(dml.Algorithm):
 		doc.wasDerivedFrom(maintenance, addresses, this_run, this_run, this_run)
 		doc.wasDerivedFrom(maintenance, busStops, this_run, this_run, this_run)
 		doc.wasDerivedFrom(maintenance, hubway, this_run, this_run, this_run)
+		doc.wasDerivedFrom(maintenance, tStops, this_run, this_run, this_run)
 
 		repo.record(doc.serialize()) # Record the provenance document.
 		repo.logout()

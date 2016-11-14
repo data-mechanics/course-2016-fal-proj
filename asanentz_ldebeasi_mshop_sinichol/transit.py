@@ -45,7 +45,7 @@ class transit(dml.Algorithm):
 		#this is not conclusive, it's just easier to use
 		#towns = ["BOSTON", "BROOKLINE", "CAMBRIDGE", "SOMERVILLE", "ALLSTON"]
 		buses = repo.asanentz_ldebeasi_mshop_sinichol.busStops.find()
-
+						
 		for entry in buses:
 			#making these data entries look nice
 
@@ -80,8 +80,16 @@ class transit(dml.Algorithm):
 
 			res = repo.asanentz_ldebeasi_mshop_sinichol.transit.insert_one(entry['properties'])
 
+		mbta = repo.asanentz_ldebeasi_mshop_sinichol.mbta.find()
+		for t in mbta:
+			t['TYPE'] = 'MBTA'
+			t['LATITUDE'] = t['latitude']
+			t['LONGITUDE'] = t['longitude']
+			del t['latitude']
+			del t['longitude']
 
-
+			res = repo.asanentz_ldebeasi_mshop_sinichol.transit.insert_one(t)
+			
 		endTime = datetime.datetime.now()
 		return {"start":startTime, "end":endTime}
 
