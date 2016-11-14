@@ -18,7 +18,7 @@ Transformations
 * Mapreduce Employee Earnings: Uses mapreduce to calculate average city of Boston Employee earnings for each zip code
 * Mapreduce Schools: Uses mapreduce to calculate the number of schools located in a zip code
 * Mapreduce Crime: Uses mapreduce to project police districts into zip codes and calculate number of crimes per zipcode
-* Merge:
+* Merge: Uses list comprehension to combine the number of schools in each district and the number of crimes.
 
 Statictical Analyses
 ---------
