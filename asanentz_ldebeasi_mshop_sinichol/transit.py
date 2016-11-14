@@ -27,7 +27,7 @@ class transit(dml.Algorithm):
 		return [(key, f([v for (k,v) in R if k == key])) for key in keys]
 
 	contributor = "asanentz_ldebeasi_mshop_sinichol"
-	reads = []
+	reads = ["asanentz_ldebeasi_mshop_sinichol.transit"]
 	writes = ["asanentz_ldebeasi_mshop_sinichol.transit"]
 
 	@staticmethod
