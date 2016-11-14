@@ -11,7 +11,7 @@ The four datasets are employee earnings in Boston, location of public schools in
  * https://dev.socrata.com/foundry/data.cityofboston.gov/ufcx-3fdn crime incident
 * https://www.opendatanetwork.com/dataset/data.cityofboston.gov/vb7h-wnyg firearms
  * https://data.cityofboston.gov/api/views/vb7h-wnyg/rows.json?accessType=DOWNLOAD firearms
-
+* http://bostonopendata.boston.opendata.arcgis.com/datasets/cbf14bb032ef4bd38e20429f71acb61a_2?uiTab=table   public schools
 Transformations
 ---------
 
