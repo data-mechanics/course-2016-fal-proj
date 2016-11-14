@@ -20,8 +20,6 @@ class k_means(dml.Algorithm):
         repo = client.repo
         print("repo: ", repo)
         repo.authenticate('jzhou94_katerin', 'jzhou94_katerin')
-        repo.dropPermanent('jzhou94_katerin.k_means')
-        repo.createPermanent('jzhou94_katerin.k_means')
 
         def dist(p, q):
             (x1,y1) = p
@@ -46,6 +44,9 @@ class k_means(dml.Algorithm):
             keys = {r[0] for r in R}
             return [(key, f([v for (k,v) in R if k == key])) for key in keys]
 
+        repo.dropPermanent('jzhou94_katerin.k_means')
+        repo.createPermanent('jzhou94_katerin.k_means')
+
         M = [(13,1), (2,12)]
         P = [(doc['location']['coordinates'][0], doc['location']['coordinates'][1]) for doc in repo.jzhou94_katerin.crime_incident.find()]
         
@@ -63,8 +64,12 @@ class k_means(dml.Algorithm):
             MC = aggregate(M1, sum)
 
             M = [scale(t,c) for ((m,t),(m2,c)) in product(MT, MC) if m == m2]
-            print(sorted(M))
         
+        j = 0
+        for i in M:
+            repo['jzhou94_katerin.k_means'].insert({'Name': M[j]})
+            j = j+1
+
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -78,7 +83,8 @@ class k_means(dml.Algorithm):
         in this script. Each run of the script will generate a new
         document describing that invocation event.
         '''
-        # Set up the database connection.
+
+         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('jzhou94_katerin', 'jzhou94_katerin')
@@ -89,7 +95,22 @@ class k_means(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
- 
+        this_script = doc.agent('alg:k_means', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        crime_incident = doc.entity('dat:crime_incident', {prov.model.PROV_LABEL:'Crime Incident', prov.model.PROV_TYPE:'ont:DataSet'})
+        get_kMeans = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+
+        doc.wasAssociatedWith(get_kMeans, this_script)
+        doc.usage(get_kMeans, crime_incident, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Computation',
+                 'ont:Query':'?value'
+                }
+            )
+
+        kMeans = doc.entity('dat:k_means', {prov.model.PROV_LABEL:'K Means Location for Crimes', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(kMeans, this_script)
+        doc.wasGeneratedBy(kMeans, get_kMeans, endTime)
+        doc.wasDerivedFrom(kMeans, crime_incident, get_kMeans, get_kMeans, get_kMeans)
+
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
@@ -99,8 +120,8 @@ class k_means(dml.Algorithm):
 k_means.execute()
 print("k_means Algorithm Done")
 doc = k_means.provenance()
-#print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 print("k_means Provenance Done")
 
 ## eof
