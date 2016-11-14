@@ -69,6 +69,6 @@ Frist we use the algorithm on the leacture note to get the corrolation efficienc
 
 Then we bulid a least square function to optimize a line that has the smallest possible value for the sum of the squares of the data we use.
 
-Finally, we calculate the R-square score of these data combination and it least square line to evaluate how well the line fit the data.
+Finally, we calculate the R-square score of these data combination and its least square line to evaluate how well the line fit the data.
 
 The statisticOperations.py file will extract the data, do the operations above, and finally output the statistic data that we need.
