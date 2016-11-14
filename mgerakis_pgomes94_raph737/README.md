@@ -20,15 +20,20 @@ Police Stations: https://data.cityofboston.gov/resource/pyxn-r3i2.json
 Setting up auth.json
 ---
 
-Only 1 key is required, you can get a key at: https://dev.socrata.com/register
+Two keys required, you can get a key at: https://dev.socrata.com/register and https://developers.google.com/places/web-service/details
 
 auth.json was formatted:
 {
     "services": {
         "cityofbostondataportal": {
             "service": "https://data.cityofboston.gov/",
-            "username": "pgomes94_raph737",
+            "username": "mgerakis_pgomes94_raph737",
             "token": "KPQpbs4UiZMCXzxGYurpLOFwA"
+        },
+        "google": {
+        	"service": "https://maps.googleapis.com",
+        	"username": "",
+        	"token": "AIzaSyB9XcIGvFheP24Ff9g7tXvMNHTFKiSgm7M"
         }
     }
 }
