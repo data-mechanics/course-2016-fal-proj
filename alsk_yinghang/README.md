@@ -1,3 +1,9 @@
+# Assignment #2
+## Narrative
+In the previous assignment, we generated a data set mapping each crime to the number of streetlights within a given radius. We will be using that information to calculate the number of crimes that happen within a radius of x number of streetlights. 
+We also generated a data set mapping crimes to average property values within a given radius of the crime. We are using this to determine the number of crimes that happen within a given range of property values. 
+With this new data, our goal is to create a linear regression between the number of crimes vs. the number of streetlights, and the number of crimes vs. the average property value. By looking at this, we may be able to determine a relationship between the variables, and therefore how crime is influenced by these different factors.
+
 # Assignment #1
 ## Project
 The purpose of this project is to figure out which factors influence crime. With the information we produce, we can predict new potential hotspots for crimes and what measurements can be taken to limit the problem.
