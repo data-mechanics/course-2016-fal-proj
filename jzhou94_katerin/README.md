@@ -31,3 +31,4 @@ Statictical Analyses
     After executeing the p-value algorithm, we got a p-value equal to 1. Therefore, we cannot conclude that a significant       difference exists between null and alternative hypotheses. 
 
 * k-means:
+    We used k-means algorithm in order to find the point with the highest density of crimes. 
