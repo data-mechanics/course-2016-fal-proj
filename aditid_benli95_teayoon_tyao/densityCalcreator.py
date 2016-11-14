@@ -81,28 +81,29 @@ class transformation0(dml.Algorithm):
         doc.add_namespace('cob', 'https://data.cityofboston.gov/resource/')
         doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/datasets/')
 
-        this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#calculateDensity', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        calDen = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Merge crimes and schools', prov.model.PROV_TYPE:'ont:Computation'})
+        this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#densityCalcreator', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        calDen = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Calculate Density', prov.model.PROV_TYPE:'ont:Computation'})
         doc.wasAssociatedWith(calDen, this_script)
         
-        resource_allDrugCrimesMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#resource_allDrugCrimesMaster', {'prov:label':'All reported drug Crimes', prov.model.PROV_TYPE:'ont:Dataset'})
-        doc.usage(calDen, resource_schoolsMaster, startTime)
+        schoolsMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#schoolsMaster', {'prov:label':'All Schools', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.usage(calDen, schoolsMaster, startTime)
 
-        resource_schoolsMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#resource_schoolsMaster', {'prov:label':'All listed public and private schools', prov.model.PROV_TYPE:'ont:Dataset'})
-        doc.usage(calDen, resource_allDrugCrimesMaster, startTime)
+        allDrugCrimesMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#allDrugCrimesMaster', {'prov:label':'All Drug Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.usage(calDen, allDrugCrimesMaster, startTime)
 
-        resource_drugCrimeDensityBySchool = doc.entity('dat:aditid_benli95_teayoon_tyao#drugCrimeDensityBySchool', {'prov:label':'Crime Density of Each School', prov.model.PROV_TYPE:'ont:Dataset'})
+        drugCrimeDensityBySchool = doc.entity('dat:aditid_benli95_teayoon_tyao#drugCrimeDensityBySchool', {'prov:label':'Crime Density of Each School', prov.model.PROV_TYPE:'ont:Dataset'})
 
-        doc.wasAttributedTo(resource_drugCrimeDensityBySchool, this_script)
-        doc.wasGeneratedBy(resource_drugCrimeDensityBySchool, calDen, endTime)
-        doc.wasDerivedFrom(resource_drugCrimeDensityBySchool, resource_schoolsMaster, calDen, calDen, calDen)
-        doc.wasDerivedFrom(resource_adrugCrimeDensityBySchool, resource_allDrugCrimesMaster, calDen, calDen, calDen)
+        doc.wasAttributedTo(drugCrimeDensityBySchool, this_script)
+        doc.wasGeneratedBy(drugCrimeDensityBySchool, calDen, endTime)
+        doc.wasDerivedFrom(drugCrimeDensityBySchool, schoolsMaster, calDen, calDen, calDen)
+        doc.wasDerivedFrom(drugCrimeDensityBySchool, allDrugCrimesMaster, calDen, calDen, calDen)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
         return doc
 
-transformation0.execute()
-print("shazbot")
-doc = transformation0.provenance()
+densityCalcreator.execute()
+doc = densityCalcreator.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
