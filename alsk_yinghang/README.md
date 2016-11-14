@@ -1,8 +1,10 @@
 # Assignment #2
 ## Narrative
-In the previous assignment, we generated a data set mapping each crime to the number of streetlights within a given radius. We will be using that information to calculate the number of crimes that happen within a radius of x number of streetlights. 
-We also generated a data set mapping crimes to average property values within a given radius of the crime. We are using this to determine the number of crimes that happen within a given range of property values. 
-With this new data, our goal is to create a linear regression between the number of crimes vs. the number of streetlights, and the number of crimes vs. the average property value. By looking at this, we may be able to determine a relationship between the variables, and therefore how crime is influenced by these different factors.
+In the previous assignment, we generated a data set mapping each crime to the number of streetlights within a given radius. We will be using that information to calculate the number of crimes that happen within a radius of x number of streetlights. Our goal is to create a linear regression between the number of streetlights and the number of crimes, through which we may be able to determine a relationship between the two. We are using the _Pearson product-moment correlation coefficient_ to measure the linear dependence between our two variables, and we predict to see an overall negative linear correlation. I.e. the more streetlights in an area, the less crimes happen.
+
+To further our goal of seeing which factors influence crime, we are using our previous mapping of crimes to the average property value in a radius surrounding that crime. We are expanding this to determine the number of crimes that happen within a given range of property values. This will allow us to see any relationship between the two, and what the linear correlation may be. 
+
+Together, these two will provide further insight into which factors influence crime, and can in turn be used to predict which areas are more prone to criminal activity. 
 
 # Assignment #1
 ## Project
