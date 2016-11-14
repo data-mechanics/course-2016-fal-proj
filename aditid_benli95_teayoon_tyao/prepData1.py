@@ -89,17 +89,17 @@ class prepData1(dml.Algorithm):
                         countChildFeedingPrograms += 1
 
                 thisCrime = {"location": crimeLatLong, "schoolsInRadius": countSchools, "privateSchoolsInRadius": countPrivateSchools, "publicSchoolsInRadius": countPublicSchool, "dayCaresInRadius": countDayCares, "privateDayCaresInRadius": countPrivateDayCares, "publicDayCaresInRaidus": countPublicDayCares, "dayCampsInRadius": countDayCamps , "childFeedingProgramsInRadius": countChildFeedingPrograms, "total": countSchools + countDayCamps + countDayCares + countChildFeedingPrograms}
-                    
+
                 res = repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius.insert_one(thisCrime)
     
-    
+
         crimes = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.find()
         for crime in crimes:
             crimeDict = dict(crime)
             if crimeDict["latitude"] == None or crimeDict["longitude"] == None:
                 pass
             else:
-                crimeLatLong = (crimeDict["latitude"], crimeDict["longitude"])
+                crimeLatLong = (crimeDict["longitude"], crimeDict["latitude"])
 
                 countSchools = 0
                 countPrivateSchools = 0
