@@ -71,20 +71,20 @@ class recommend(dml.Algorithm):
 		doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-		this_script = doc.agent('alg:mgerakis_pgomes94_raph737#dataRequests', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+		this_script = doc.agent('alg:mgerakis_pgomes94_raph737#recommend.py', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
 
-		hospital_scores_resource = doc.entity('bdp:u6fv-m8v4', {'prov:label':'Hospital Scores', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+		optimal_hospital_location_resource = doc.entity('bdp:u6fv-m8v4', {'prov:label':'Optimal Hospital Location', prov.model.PROV_TYPE:'ont:Computation'})
 
-		get_hospital_scores = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+		get_optimal_hospital_location = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
 
-		doc.wasAssociatedWith(get_hospital_scores, this_script)
+		doc.wasAssociatedWith(get_optimal_hospital_location, this_script)
 
-		doc.usage(get_hospital_scores,hospital_scores_resource,startTime,None,{prov.model.PROV_TYPE:'ont:Retrieval'})
+		doc.usage(get_optimal_hospital_location,optimal_hospital_location_resource,startTime,None,{prov.model.PROV_TYPE:'ont:Retrieval'})
 
-		hospitalScores = doc.entity('dat:mgerakis_pgomes94_raph737#hospital_scores', {prov.model.PROV_LABEL:'Hospital Scores', prov.model.PROV_TYPE:'ont:DataSet'})
-		doc.wasAttributedTo(hospitalScores, this_script)
-		doc.wasGeneratedBy(hospitalScores, get_hospital_scores, endTime)
-		doc.wasDerivedFrom(hospitalScores, hospital_scores_resource)
+		hospitalScores = doc.entity('dat:mgerakis_pgomes94_raph737#optimal_hospital_location', {prov.model.PROV_LABEL:'Hospital Scores', prov.model.PROV_TYPE:'ont:DataSet'})
+		doc.wasAttributedTo(optimal_hospital_location_resource, this_script)
+		doc.wasGeneratedBy(optimal_hospital_location_resource, get_optimal_hospital_location, endTime)
+		doc.wasDerivedFrom(optimal_hospital_location_resource)
 
 		repo.record(doc.serialize())
 		repo.logout()
