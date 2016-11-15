@@ -49,37 +49,6 @@ class k_means(dml.Algorithm):
 
         M = [(-71.1097, 42.3736), (-71.05891, 42.3601)]
         P = [(doc['location']['coordinates'][0], doc['location']['coordinates'][1]) for doc in repo.jzhou94_katerin.crime_incident.find()]
-        
-        '''        
-        OLD = []
-        inRange = False;
-
-        r = 2
-        inRange = False
-
-        while (inRange == False):
-            OLD = M
-
-            MPD = [(m, p, dist(m,p)) for (m, p) in product(M, P)]
-            PDs = [(p, dist(m,p)) for (m, p, d) in MPD]
-            PD = aggregate(PDs, min)
-            MP = [(m, p) for ((m,p,d), (p2,d2)) in product(MPD, PD) if p==p2 and d==d2]
-            MT = aggregate(MP, plus)
-
-            M1 = [(m, 1) for ((m,p,d), (p2,d2)) in product(MPD, PD) if p==p2 and d==d2]
-            MC = aggregate(M1, sum)
-
-            M = [scale(t,c) for ((m,t),(m2,c)) in product(MT, MC) if m == m2]
-            print(sorted(M))
-            inRange = True
-            j = 0
-            for i in M:
-                if (M[j][0] <= (OLD[j][0] + r) and M[j][0] >= (OLD[j][0] - r) and M[j][1] <= (OLD[j][1] + r) and M[j][1] >= (OLD[j][1] - r)):
-                    inRange = inRange and True
-                else:
-                    inRange = inRange and False
-                j = j+1
-        '''
 
         OLD = []
         while OLD != M:
