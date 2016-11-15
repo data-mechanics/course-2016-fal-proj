@@ -50,4 +50,15 @@ We intend to see a correlation exists between certain establishments associated 
 #Analysis
 prepData1.py: This script takes an argument r and the allCrimesMaster, allDrugCrimesMaster, childFeedingProgramsTrimmed, dayCampdayCaresMaster and schoolsMaster datasets. Then, using r as a distance, takes every single crime in the allCrimesMaster data set and finds the frequency of the different types of establishments found within that distance. These frequencies are then put into the numberOfEstablishmentsinRadius dataset. The same thing is done to the allDrugCrimesMaster dataset but creates the numberOfEstablishmentsinRadiusDrug dataset
 
-To run this script: $python3 prepData1.py
+To run this script: $ python3 prepData1.py
+
+prepData2.py: This script takes the two datasets created by prepData1.py. It implements a map reduce function that returns a distribution of the number of crimes that have x children establishments within the specified proximity from prepData1. It will also have a product of the crimes by establishments with an appended temporary variable used to collapse the data in the reduce function.
+
+To run this script: $ python3 prepData2.py
+
+prepData3.py: This script functions as a wrapper around prepData1 and prepData2. It iterates through a range of distances to pass to prepData1. It will execute prepData1 with the specified distance, then execute prepData2, and finally calculate the averages of the frequencies of all crimes near the specified establishments compared to just drug crimes near the specified establishments. Using the data here, we are capable of pin pointing the optimal distance to use when running a logistical regression for the proximities. 
+
+To run this script: $ python3 prepData3.py
+
+#Run the whole thing
+Instead of having to run the scripts individually, run getDataAndMerge.py followed by getData3.py.
