@@ -66,7 +66,7 @@ class p_value(dml.Algorithm):
         repo.dropPermanent('jzhou94_katerin.p_value')
         repo.createPermanent('jzhou94_katerin.p_value')
 
-        repo['jzhou94_katerin.p_value'].insert(p(x, y))
+        repo['jzhou94_katerin.p_value'].insert({'P_value': p(x, y)})
 
         repo.logout()
 

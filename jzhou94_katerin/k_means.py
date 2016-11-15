@@ -13,7 +13,7 @@ class k_means(dml.Algorithm):
     writes = ['jzhou94_katerin.k_means']
         
     @staticmethod
-    def execute(trial = False):
+    def execute(trial = True):
         print("starting data retrieval")
         startTime = datetime.datetime.now()
         client = dml.pymongo.MongoClient()
@@ -48,7 +48,11 @@ class k_means(dml.Algorithm):
         repo.createPermanent('jzhou94_katerin.k_means')
 
         M = [(-71.1097, 42.3736), (-71.05891, 42.3601)]
-        P = [(doc['location']['coordinates'][0], doc['location']['coordinates'][1]) for doc in repo.jzhou94_katerin.crime_incident.find()]
+
+        if trial == True:
+            P = [(doc['location']['coordinates'][0], doc['location']['coordinates'][1]) for doc in repo.jzhou94_katerin.crime_incident.find().limit(20)]
+        else:
+            P = [(doc['location']['coordinates'][0], doc['location']['coordinates'][1]) for doc in repo.jzhou94_katerin.crime_incident.find()]
 
         OLD = []
         while OLD != M:
@@ -64,7 +68,6 @@ class k_means(dml.Algorithm):
             MC = aggregate(M1, sum)
 
             M = [scale(t,c) for ((m,t),(m2,c)) in product(MT, MC) if m == m2]
-            print(sorted(M))
             
         j = 0
         for i in M:
