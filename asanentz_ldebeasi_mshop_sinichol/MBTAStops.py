@@ -71,7 +71,7 @@ class MBTAStops(dml.Algorithm):
 				  {prov.model.PROV_TYPE: 'ont:Retrieval'}
 				  )
 
-		mbtaData = doc.entity('dat:ldebeasi_mshop#mbta', {prov.model.PROV_LABEL: 'MBTA Stops',
+		mbtaData = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#mbta', {prov.model.PROV_LABEL: 'MBTA Stops',
 																	   prov.model.PROV_TYPE: 'ont:DataSet'})
 		doc.wasAttributedTo(mbtaData, this_script)
 		doc.wasGeneratedBy(mbtaData, getMBTAStops, endTime)

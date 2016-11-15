@@ -129,7 +129,7 @@ class transit(dml.Algorithm):
 		doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-		this_script = doc.agent('alg:combineBusAddress', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
+		this_script = doc.agent('alg:asanentz_ldebeasi_mshop_sinichol#combineBusAddress', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
 		addresses = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#addresses', {prov.model.PROV_LABEL:'List of Addresses', prov.model.PROV_TYPE:'ont:DataSet'})
 		busStops = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#busStops', {prov.model.PROV_LABEL:'List of Bus Stops', prov.model.PROV_TYPE:'ont:DataSet'})
 
@@ -140,7 +140,7 @@ class transit(dml.Algorithm):
 		doc.used(this_run, busStops, startTime)
 
 		# Our new combined data set
-		maintenance = doc.entity('dat:transit', {prov.model.PROV_LABEL:'Number of bus stops near any address', prov.model.PROV_TYPE:'ont:DataSet'})
+		maintenance = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#transit', {prov.model.PROV_LABEL:'Number of bus stops near any address', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(maintenance, this_script)
 		doc.wasGeneratedBy(maintenance, this_run, endTime)
 		doc.wasDerivedFrom(maintenance, addresses, this_run, this_run, this_run)

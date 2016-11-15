@@ -36,6 +36,8 @@ class kmeans(dml.Algorithm):
 		repo.dropPermanent("kmeans")
 		repo.createPermanent("kmeans")
 
+		if trial:
+			count = 0
 
 		values = repo.asanentz_ldebeasi_mshop_sinichol.constraintSatisfaction.find()
 		lats = []
@@ -46,13 +48,18 @@ class kmeans(dml.Algorithm):
 			longs += [value['LONG']]
 			latlong += [(value['LAT'],value['LONG'])]
 
+			if trial:
+				count += 1
+				if count > 100:
+					break
+
 
 		#evaluate_clusters(latlong, 8)
 		kmeans = KMeans(n_clusters = 4).fit(latlong)
 		centers = [x[:2] for x in kmeans.cluster_centers_]
 		print(centers)
-		#plt.scatter(lats, longs, c = kmeans.labels_)
-		#plt.show()
+		plt.scatter(lats, longs, c = kmeans.labels_)
+		plt.show()
 
 	@staticmethod
 	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -68,7 +75,7 @@ class kmeans(dml.Algorithm):
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 		doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/')
 
-		this_script = doc.agent('alg:kmeans', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
+		this_script = doc.agent('alg:asanentz_ldebeasi_mshop_sinichol#kmeans', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
 		constraint = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#constraintSatisfaction', {prov.model.PROV_LABEL:'Returns whether or not the constraint is satisfied', prov.model.PROV_TYPE:'ont:DataSet'})
 		
 
@@ -78,7 +85,7 @@ class kmeans(dml.Algorithm):
 		doc.used(this_run, constraint, startTime)
 
 		# Our new combined data set
-		maintenance = doc.entity('dat:constraintSatisfaction', {prov.model.PROV_LABEL:'finds centers using kmeans', prov.model.PROV_TYPE:'ont:DataSet'})
+		maintenance = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#constraintSatisfaction', {prov.model.PROV_LABEL:'finds centers using kmeans', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(maintenance, this_script)
 		doc.wasGeneratedBy(maintenance, this_run, endTime)
 		doc.wasDerivedFrom(maintenance, constraint, this_run, this_run, this_run)
@@ -88,6 +95,8 @@ class kmeans(dml.Algorithm):
 
 		return doc
 
+
+# running in trial mode won't show you good clusters since we aren't looking at the full data set
 kmeans.execute()
 doc = kmeans.provenance()
 print(doc.get_provn())

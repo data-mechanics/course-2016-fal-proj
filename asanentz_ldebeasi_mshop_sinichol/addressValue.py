@@ -133,7 +133,7 @@ class addressValue(dml.Algorithm):
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 		doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/')
 
-		this_script = doc.agent('alg:addressValue', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
+		this_script = doc.agent('alg:asanentz_ldebeasi_mshop_sinichol#addressValue', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
 		addresses = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#addresses', {prov.model.PROV_LABEL:'List of Addresses', prov.model.PROV_TYPE:'ont:DataSet'})
 		busStops = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#busStops', {prov.model.PROV_LABEL:'List of Bus Stops', prov.model.PROV_TYPE:'ont:DataSet'})
 		hubway = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#hubway', {prov.model.PROV_LABEL:'List of Hubway Stops', prov.model.PROV_TYPE:'ont:DataSet'})
@@ -148,7 +148,7 @@ class addressValue(dml.Algorithm):
 		doc.used(this_run, tStops, startTime)
 
 		# Our new combined data set
-		maintenance = doc.entity('dat:addressValue', {prov.model.PROV_LABEL:'Number of Bus and Hubway Stops near an address', prov.model.PROV_TYPE:'ont:DataSet'})
+		maintenance = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#addressValue', {prov.model.PROV_LABEL:'Number of Bus and Hubway Stops near an address', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(maintenance, this_script)
 		doc.wasGeneratedBy(maintenance, this_run, endTime)
 		doc.wasDerivedFrom(maintenance, addresses, this_run, this_run, this_run)

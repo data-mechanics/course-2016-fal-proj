@@ -20,7 +20,11 @@ class hubway(dml.Algorithm):
         repo = client.repo
         repo.authenticate('asanentz_ldebeasi_mshop_sinichol', 'asanentz_ldebeasi_mshop_sinichol')
 
-        url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/ee7474e2a0aa45cbbdfe0b747a5eb032_4.geojson' 
+        if trial:
+            url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/ee7474e2a0aa45cbbdfe0b747a5eb032_4.geojson?where=&geometry={"xmin":-7966928.75261643,"ymin":5202677.77797017,"xmax":-7860910.5943850335,"ymax":5225608.886455691,"spatialReference":{"wkid":102100}}'
+        else:
+            url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/ee7474e2a0aa45cbbdfe0b747a5eb032_4.geojson'
+
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)

@@ -49,11 +49,13 @@ class constraintSatisfaction(dml.Algorithm):
 							break
 
 					noTransit += 1
+
+		endTime = datetime.datetime.now()
+
 		if noTransit > 0:
-			print(noTransit)
-			return False
+			return {"success": False, "start": startTime, "end": endTime}
 		else:
-			return True
+			return {"success": True, "start": startTime, "end": endTime}
 
 	@staticmethod
 	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -69,7 +71,7 @@ class constraintSatisfaction(dml.Algorithm):
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 		doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/')
 
-		this_script = doc.agent('alg:constraintSatisfaction', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
+		this_script = doc.agent('alg:asanentz_ldebeasi_mshop_sinichol#constraintSatisfaction', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
 		addressValue = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#addressValue', {prov.model.PROV_LABEL:'Number of Bus, MBTA, and Hubway Stops near an address', prov.model.PROV_TYPE:'ont:DataSet'})
 		
 
@@ -89,7 +91,7 @@ class constraintSatisfaction(dml.Algorithm):
 
 		return doc
 
-print(constraintSatisfaction.execute())
+constraintSatisfaction.execute()
 doc = constraintSatisfaction.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))

@@ -76,7 +76,7 @@ class income(dml.Algorithm):
 				  {prov.model.PROV_TYPE: 'ont:Retrieval'}
 				  )
 
-		income = doc.entity('dat:ldebeasi_mshop#income', {prov.model.PROV_LABEL: 'Income Data',
+		income = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#income', {prov.model.PROV_LABEL: 'Income Data',
 																	   prov.model.PROV_TYPE: 'ont:DataSet'})
 		doc.wasAttributedTo(income, this_script)
 		doc.wasGeneratedBy(income, get_income, endTime)

@@ -21,7 +21,11 @@ class busStops(dml.Algorithm):
         repo = client.repo
         repo.authenticate('asanentz_ldebeasi_mshop_sinichol', 'asanentz_ldebeasi_mshop_sinichol')
 
-        url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/f1a43ad3c46b4ac89b74cdaba393ccac_4.geojson'
+        if trial:
+            url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/f1a43ad3c46b4ac89b74cdaba393ccac_4.geojson?where=&geometry={"xmin":-8123334.415955527,"ymin":5167255.5971206715,"xmax":-7699261.783029573,"ymax":5258980.031062839,"spatialReference":{"wkid":102100}}'
+        else:
+            url = 'http://bostonopendata.boston.opendata.arcgis.com/datasets/f1a43ad3c46b4ac89b74cdaba393ccac_4.geojson'
+
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)

@@ -86,7 +86,7 @@ class neighborhoodZipCodes(dml.Algorithm):
 		doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-		this_script = doc.agent('alg:neighborhoods', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
+		this_script = doc.agent('alg:asanentz_ldebeasi_mshop_sinichol#neighborhoods', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
 		masterAddress = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#addresses', {prov.model.PROV_LABEL:'Master Address List', prov.model.PROV_TYPE:'ont:DataSet'})
 
 
@@ -96,7 +96,7 @@ class neighborhoodZipCodes(dml.Algorithm):
 		doc.used(this_run, masterAddress, startTime)
 
 		# Our new combined data set
-		maintenance = doc.entity('dat:neighborhoods', {prov.model.PROV_LABEL:'All Neighborhoods with their list of zipcodes', prov.model.PROV_TYPE:'ont:DataSet'})
+		maintenance = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#neighborhoods', {prov.model.PROV_LABEL:'All Neighborhoods with their list of zipcodes', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(maintenance, this_script)
 		doc.wasGeneratedBy(maintenance, this_run, endTime)
 		doc.wasDerivedFrom(maintenance, masterAddress, this_run, this_run, this_run)
