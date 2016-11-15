@@ -12,25 +12,22 @@ class scoreLocations(dml.Algorithm):
     contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
 
     oldSetExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
-                     'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools','parking'
-                        ,'libraries']
-
-    
+                     'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools','parking', \
+                     'libraries']
     oldTitles = ['Crime Incident Reports (July 2012 - August 2015) (Source: Legacy System)', \
               'Public Access Fishing Locations', 'Issued Moving Truck Permits', 'Active Food Establishment Licenses', \
-              'Entertainment Licenses', 'Community Supported Agriculture (CSA) Pickups ', 'Year-Round Swimming Pools',
-                 'Parking Lots','Public Libraries']
-    titles = ['Crime in 1-Mile Radius of Community Indicators', \
-              'Crime in 1-Mile Radius of Anti-Community Indicators', \
-              'Crime in 1-Mile Radius of Moving Truck Permits']
-    setExtensions = ['crimeVanti_community_indicators', 'crimeVcommunity_indicators']
+              'Entertainment Licenses', 'Community Supported Agriculture (CSA) Pickups ', 'Year-Round Swimming Pools', \
+              'Parking Lots', 'Public Libraries']
+    
+    titles = ['Community Indicators Location and Score']
+    setExtensions = ['community_indicators']
 
     reads = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in oldSetExtensions]
-    writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in oldSetExtensions]
+    writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]
 
     dataSetDict = {}
-    for i in range(len(oldSetExtensions)):
-        dataSetDict[oldSetExtensions[i]] = (writes[i], oldTitles[i])
+    for i in range(len(setExtensions)):
+        dataSetDict[setExtensions[i]] = (writes[i], titles[i])
     print(dataSetDict)
 
     @staticmethod
@@ -45,67 +42,25 @@ class scoreLocations(dml.Algorithm):
         repo = client.repo
         repo.authenticate(scoreLocations.contributor, scoreLocations.contributor)
         myrepo = repo.aliyevaa_bsowens_dwangus_jgtsui
-
-
-
-        for key in scoreLocations.oldSetExtensions:
-            print(key)
-            print(myrepo[key].find_one())
-            print("\n")
-
-        #Wow, that's really interesting... no crimes occurred where, in the vicinity of 1 mile, there were 23 "community centers" nearby
-        #In contrast, no crimes only began to stop occurring where, in the same radius, there were 2918 "entertainment/food" licensees nearby
-        #And no crimes happen where, in the same radius of 1 mile, there were 557 moving truck permits issued
-        #...Hmm... I didn't cross-reference these with time though...
-
-        print(myrepo['crimeVcommunity_indicators'].find({'community_indicators_1600m_radius': {'$gt': 23}}).count())
-        print(myrepo['crimeVanti_community_indicators'].find({'anti_community_indicators_1600m_radius': {'$gt': 2917}}).count())
-
-        #return
-        '''
-        #'''
-        indicatorsColl = myrepo['community_indicators']
-        repo.createPermanent('community_indicators')
+            
+        newName = 'community_indicators'
+        indicatorsColl = myrepo[newName]
+        repo.dropPermanent(newName)
+        repo.createPermanent(newName)
 
         pos_count = 0
         neg_count = 0
 
-        print(scoreLocations.dataSetDict.keys())
-        for key in scoreLocations.dataSetDict.keys():
+        for key in scoreLocations.oldSetExtensions:
             begin = time.time()
-            
-            #repo.drop_collection(key)
-
-
-        ##print(myrepo['crimeVcommunity_indicators'].find({'community_indicators_1600m_radius': {'$gt': 23}}).count())
-        ##print(myrepo['crimeVanti_community_indicators'].find({'anti_community_indicators_1600m_radius': {'$gt': 2917}}).count())
-        ##print(myrepo['crimeVmoving_truck_permits'].find({'moving_indicators_1600m_radius': {'$gt': 557}}).count())
-        ##return
-
-        for key in scoreLocations.dataSetDict.keys():
-            begin = time.time()
-
-            #repo.dropPermanent(key)
-            #repo.createPermanent(key)
-
-            print("Now copying {} entries from crime2012_2015 to create new dataset {}.\n".format(myrepo['crime2012_2015'].count(), key))
-            #"Now copying 268056 entries from crime2012_2015 to create new dataset crimeVcommunity_indicators."
-
-            #myrepo[key].insert_many(myrepo['crime2012_2015'].find())
-            #Or:
-            #repo[transformOldAggregateNew.dataSetDict[key][0]].insert(myrepo['crime2012_2015'].find())
 
             newSet = myrepo[key]
-            newSet.create_index([('location', '2dsphere')])
-
-
 
             communityIndicators = ['public_fishing_access_locations','csa_pickups','year_round_pools','libraries']
             anti_communityIndicators = ['food_licenses', 'entertainment_licenses','parking']
 
-            print("Generating new {} dataset...".format(key))
+            print("Generating from old {} dataset...".format(key))
             if key in communityIndicators:
-                #"Creating crimeVcommunity_indicators took 512.1758079528809 seconds."
                 i = 0
                 for doc in newSet.find(modifiers={"$snapshot": True}):
                     if (i%100 == 0):
@@ -128,11 +83,9 @@ class scoreLocations(dml.Algorithm):
                         pos_count += 1
                         indicatorsColl.insert({'title': title, 'type':key,
                                              'location': doc['location'],
-                                            'community_score': "1"})
+                                            'community_score': 1})
 
             elif key in anti_communityIndicators:
-                #Creating crimeVanti_community_indicators took 2504.4606323242188 seconds.
-                # "Creating crimeVcommunity_indicators took 512.1758079528809 seconds."
                 i = 0
                 for doc in newSet.find(modifiers={"$snapshot": True}):
                     if (i % 100 == 0):
@@ -151,39 +104,8 @@ class scoreLocations(dml.Algorithm):
                         neg_count += 1
                         indicatorsColl.insert({'id': doc['_id'], 'title': title, 'type': key,
                                                     'location': doc['location'],
-                                               'community_score': "-1"})
-            '''
-            else:
-                #"Creating crimeVmoving_truck_permits took 658.3249619007111 seconds."
-                #i = 0
-                for doc in newSet.find(modifiers={"$snapshot": True}):
-                    #if (i%1000 == 0):
-                    #    print(i)
-                    if 'location' in doc.keys():
-                        newSet.update({'_id': doc['_id']}, \
-                                      {'$set': \
-                                       {'moving_indicators_1600m_radius': \
-                                        myrepo['moving_truck_permits'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count()\
-                                        }\
-                                       }\
-                                      )
-                    #i += 1
-            #'''
-            print("Creating {} took {} seconds.".format(key, time.time() - begin))
-            print("")
-            print("Found "+ str(pos_count) + " positive attributes and " + str(neg_count) + " negative attributes")
-
-        if pos_count > neg_count:
-            scale = str((float(neg_count / pos_count)))
-            print("Scaling positive scores by a factor of: " + str(scale))
-            for i in indicatorsColl.find(modifiers={"$snapshot": True}):
-                indicatorsColl.find_one_and_update(filter={"community_score" : "1"},update={'$set':{'community_score': scale}})
-        elif pos_count <= neg_count:
-            scale =  str(float(pos_count / neg_count)*-1)
-            print("Scaling negative scores by a factor of: " + str(scale))
-            for i in indicatorsColl.find(modifiers={"$snapshot": True}):
-                indicatorsColl.find_one_and_update(filter={"community_score": "-1"}, update={'$set': {'community_score': scale}})
-
+                                               'community_score': -1})
+            print("Processing {} took {} seconds.\n".format(key, time.time() - begin))
 
         repo.logout()
 
@@ -223,22 +145,6 @@ class scoreLocations(dml.Algorithm):
             something = doc.entity('dat:aliyevaa_bsowens_dwangus_jgtsui#' + key, {prov.model.PROV_LABEL:scoreLocations.dataSetDict[key][1], prov.model.PROV_TYPE: 'ont:DataSet'})
             doc.wasAttributedTo(something, this_script)
             doc.wasGeneratedBy(something, get_something, endTime)
-            #doc.wasDerivedFrom(something, resource???, get_something, get_something, get_something)
-
-
-        '''
-        doc.usage(get_found, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=Animal+Found&$select=type,latitude,longitude,OPEN_DT'
-                }
-            )
-        doc.usage(get_lost, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=Animal+Lost&$select=type,latitude,longitude,OPEN_DT'
-                }
-            )
-        #'''
-
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
@@ -247,7 +153,6 @@ class scoreLocations(dml.Algorithm):
 
 scoreLocations.execute()
 doc = scoreLocations.provenance()
-#print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
