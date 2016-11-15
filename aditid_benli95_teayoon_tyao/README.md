@@ -47,18 +47,70 @@ To run this script: $ python3 mergeChildren.py
 
 We intend to see a correlation exists between certain establishments associated with children and proximity to drug crimes. Pulling data from the Private Schools, Public Schools, Child Feeding Programs, Day Camps, Public Daycares, Private Daycares, and Crimes data sets gives us the location in address or latitude and longitude format of an establishment or crime. We intend to then take each crime, drug related or not, and find the frequency of each type of establishment within a specific distance/radius to the crime. Then we take each drug related crime and find their frequencies within the same distance. Then we want to compare these two by plotting frequencies for each type of establishment on histograms. The goal is to find, while comparing the histogram with all crimes against the histogram with only drug crimes, a contrast in the peaks of the histograms. This will point to a correlation between the specific type of establishment and drug crimes. We also intend to implement an optimization function to optimize the size of the radius which dictates how many establishments will be within range to be counted in the frequencies. The optimization function will give us a specific distance which will create the largest or most obvious difference in peaks on the histograms we create.
 
+#Run Instructions
+Instead of having to run the scripts individually, run getDataAndMerge.py followed by getData3.py.
+
 #Analysis
 prepData1.py: This script takes an argument r and the allCrimesMaster, allDrugCrimesMaster, childFeedingProgramsTrimmed, dayCampdayCaresMaster and schoolsMaster datasets. Then, using r as a distance, takes every single crime in the allCrimesMaster data set and finds the frequency of the different types of establishments found within that distance. These frequencies are then put into the numberOfEstablishmentsinRadius dataset. The same thing is done to the allDrugCrimesMaster dataset but creates the numberOfEstablishmentsinRadiusDrug dataset
 
 To run this script: $ python3 prepData1.py
+Note: execute function is commented out here to allow for function call with parameter by prepData3.py
 
-prepData2.py: This script takes the two datasets created by prepData1.py. It implements a map reduce function that returns a distribution of the number of crimes that have x children establishments within the specified proximity from prepData1. It will also have a product of the crimes by establishments with an appended temporary variable used to collapse the data in the reduce function.
+prepData2.py: This script takes the two datasets created by prepData1.py. It implements a map reduce function on each that returns a distribution of the number of crimes that have x children establishments within the specified proximity from prepData1. It will also have a product of the crimes by establishments with an appended temporary variable used to collapse the data in the reduce function. Another map reduce is applied on the resulting datasets of the above map reduce to produce the total sum of establishments around each crime and the total sum of crimes. Using these values, the average number of establishments around each crime is calculated.
 
 To run this script: $ python3 prepData2.py
 
-prepData3.py: This script functions as a wrapper around prepData1 and prepData2. It iterates through a range of distances to pass to prepData1. It will execute prepData1 with the specified distance, then execute prepData2, and finally calculate the averages of the frequencies of all crimes near the specified establishments compared to just drug crimes near the specified establishments. Using the data here, we are capable of pin pointing the optimal distance to use when running a logistical regression for the proximities. 
+prepData3.py: This script functions as a wrapper around prepData1 and prepData2. It iterates through a range of distances to pass to prepData1. It will execute prepData1 with the specified distance, then execute prepData2, and finally calculate the averages of the frequencies of all crimes near the specified establishments compared to just drug crimes near the specified establishments. Using the data here, we are capable of pin pointing the optimal distance to use when running a linear regression on the proximities. 
 
 To run this script: $ python3 prepData3.py
 
-#Run the whole thing
-Instead of having to run the scripts individually, run getDataAndMerge.py followed by getData3.py.
+#Results
+
+Optimization Function:
+value of d: 1
+avg_all: 36.30665612960585
+avg_drug: 38.260169491525424
+diff: -1.9535133619195761
+
+value of d: 2
+avg_all: 119.08479304553985
+avg_drug: 122.2272033898305
+diff: -3.142410344290653
+
+value of d: 3
+avg_all: 222.20275017287366
+avg_drug: 223.4477966101695
+diff: -1.2450464373
+
+value of d: 4
+avg_all: 322.10269682900326
+avg_drug: 320.82872881355934
+diff: 1.273968015443927
+
+value of d: 5
+avg_all: 405.74762817346635
+avg_drug: 403.215
+diff: 2.532628173466379
+
+value of d: 6
+avg_all: 465.5048661463993
+avg_drug: 463.62127118644065
+diff: 1.88359495996
+
+With regards to the optimization results, we chose to work with a value of 2 miles when finding the number of children associated establishments around each crime. This was because it was at this integer that the average number of establishments around each drug crime was much greater than that around each crime. In the future, we plan to find the optimal distance by testing distances of 0.1 mile increments.
+
+![alt tag](https://raw.githubusercontent.https://github.com/tyao123/course-2016-fal-proj/tree/master/aditid_benli95_teayoon_tyao)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
