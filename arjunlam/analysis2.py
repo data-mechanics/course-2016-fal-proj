@@ -105,8 +105,8 @@ class crimeAnalysis2(dml.Algorithm):
 
 
 crimeAnalysis2.execute()
-doc = crimeAnalysis2.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#doc = crimeAnalysis2.provenance()
+#print(doc.get_provn())
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
