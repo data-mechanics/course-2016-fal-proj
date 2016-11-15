@@ -28,7 +28,13 @@ for d in range(10, 60, 10):             #to account for floats
 
     print("value of d: " + str(d))
     import prepData1
+
+    #not trial Mode
     prepData1.prepData1.execute(d)
+
+    #if you want to run trial mode
+    #prepData1.prepData1.execute(d,True)
+
 
     print("starting prepData2 now")
     import prepData2

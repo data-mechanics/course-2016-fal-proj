@@ -98,6 +98,9 @@ class getData(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('cob', 'https://data.cityofboston.gov/resource/')
         doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/datasets/')
+        doc.add_namespace('pDc', 'https://www.care.com/day-care/boston-ma-page')
+
+
 
         this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#getData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
@@ -136,7 +139,7 @@ class getData(dml.Algorithm):
         doc.wasAssociatedWith(get_publicDaycares, this_script)
         doc.usage(get_publicDaycares, resource_publicDaycares, startTime)
 
-        resource_privateDaycares = doc.entity('https://www.care.com/day-care/boston-ma-page', {'prov:label':'Private Daycares', prov.model.PROV_TYPE:'ont:DataResource'})
+        resource_privateDaycares = doc.entity('pDc:ditid_benli95_teayoon_tyao#privateDaycares', {'prov:label':'Private Daycares', prov.model.PROV_TYPE:'ont:DataResource'})
         get_privateDaycares = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Private Daycares', prov.model.PROV_TYPE:'ont:Retrieval'})
         doc.wasAssociatedWith(get_privateDaycares, this_script)
         doc.usage(get_privateDaycares, resource_privateDaycares, startTime)

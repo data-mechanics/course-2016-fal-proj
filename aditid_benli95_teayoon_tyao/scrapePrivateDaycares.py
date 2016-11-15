@@ -10,7 +10,7 @@ from geopy.geocoders import Nominatim
 def getData():
 	start_time = time.time()
 	print("Scraping private daycares")
-	driver = webdriver.Chrome("Insert_PATH_Of_Chromedriver_from_root_here")
+	driver = webdriver.Chrome("< Write the path to your Chrome dirver here>/chromedriver")
 	geolocator = Nominatim()
 	driver.get("https://www.care.com/day-care/boston-ma-page")
 
