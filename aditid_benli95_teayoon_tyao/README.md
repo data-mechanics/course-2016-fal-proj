@@ -99,7 +99,7 @@ diff: 1.88359495996
 
 With regards to the optimization results, we chose to work with a value of 2 miles when finding the number of children associated establishments around each crime. This was because it was at this integer that the average number of establishments around each drug crime was much greater than that around each crime. In the future, we plan to find the optimal distance by testing distances of 0.1 mile increments.
 
-![alt tag](images/histogram.png)
+![alt tag](images/Histogram.png)
 
 
 
