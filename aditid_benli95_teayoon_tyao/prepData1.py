@@ -13,7 +13,7 @@ class prepData1(dml.Algorithm):
     writes = ['aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius', 'aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug']
 
     @staticmethod
-    def execute(r):
+    def execute(r, trial = False):
         startTime = datetime.datetime.now()
 
         client = dml.pymongo.MongoClient()
@@ -31,7 +31,10 @@ class prepData1(dml.Algorithm):
         radius = r
         #radius = 5 #miles
 
-        crimes = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.find()
+        if (trial == True):
+            crime = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.aggregate([ { sample: { size: 50 } } ])
+        else:
+            crimes = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.find()
         for crime in crimes:
             crimeDict = dict(crime)
 
@@ -93,7 +96,11 @@ class prepData1(dml.Algorithm):
                 res = repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius.insert_one(thisCrime)
     
 
-        crimes = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.find()
+
+        if (trial == True):
+            crime = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.aggregate([ { $sample: { size: 50 } } ])
+        else:
+            crimes = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.find()
         for crime in crimes:
             crimeDict = dict(crime)
             if crimeDict["latitude"] == None or crimeDict["longitude"] == None:
