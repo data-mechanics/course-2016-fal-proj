@@ -20,7 +20,7 @@ class mapReduceCrimes(dml.Algorithm):
         repo = client.repo
         print("repo: ", repo)
         repo.authenticate('jzhou94_katerin', 'jzhou94_katerin')
-
+    
         map_function_crime = Code('''
             function() {
             district = this.reptdistrict
@@ -54,10 +54,16 @@ class mapReduceCrimes(dml.Algorithm):
                total += vs[i].crime;
             return {crime:total};
             }''')
-
+    
         repo.dropPermanent('jzhou94_katerin.crime')
         repo.createPermanent('jzhou94_katerin.crime')
-        repo.jzhou94_katerin.crime_incident.map_reduce(map_function_crime, reduce_function_crime, 'jzhou94_katerin.crime');
+
+
+        if trial == True:
+            repo['jzhou94_katerin.crime'].insert(repo.jzhou94_katerin.crime_incident.find().limit(20))
+            repo.jzhou94_katerin.crime.map_reduce(map_function_crime, reduce_function_crime, 'jzhou94_katerin.crime');
+        else:
+            repo.jzhou94_katerin.crime_incident.map_reduce(map_function_crime, reduce_function_crime, 'jzhou94_katerin.crime');
 
         repo.logout()
 

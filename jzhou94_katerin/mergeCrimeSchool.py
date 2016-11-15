@@ -20,10 +20,27 @@ class mergeCrimeSchool(dml.Algorithm):
         repo = client.repo
         print("repo: ", repo)
         repo.authenticate('jzhou94_katerin', 'jzhou94_katerin')
-
-        S = [doc for doc in repo.jzhou94_katerin.schools.find()]
- 
-        C = [doc for doc in repo.jzhou94_katerin.crime.find()]
+        
+        if trial == False:
+            S = [doc for doc in repo.jzhou94_katerin.schools.find()]
+            C = [doc for doc in repo.jzhou94_katerin.crime.find()]
+        else:
+            S = []
+            j = 0
+            for doc in repo.jzhou94_katerin.schools.find():
+                S.append(doc)
+                if j == 20:
+                    break
+                j += 1
+                
+            C = []
+            j = 0
+            for doc in repo.jzhou94_katerin.schools.find():
+                C.append(doc)
+                if j == 20:
+                    break
+                j += 1
+            
 
         """
         MERGE

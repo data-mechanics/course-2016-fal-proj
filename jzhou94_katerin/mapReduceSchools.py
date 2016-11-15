@@ -34,8 +34,13 @@ class mapReduceSchools(dml.Algorithm):
         
         repo.dropPermanent('jzhou94_katerin.schools')
         repo.createPermanent('jzhou94_katerin.schools')
-        repo.jzhou94_katerin.public_schools.map_reduce(map_function_school, reduce_function_school, 'jzhou94_katerin.schools');
 
+        if trial == True:
+            repo['jzhou94_katerin.schools'].insert(repo.jzhou94_katerin.public_schools.find().limit(20))
+            repo.jzhou94_katerin.schools.map_reduce(map_function_school, reduce_function_school, 'jzhou94_katerin.schools');
+        else:
+            repo.jzhou94_katerin.public_schools.map_reduce(map_function_school, reduce_function_school, 'jzhou94_katerin.schools');
+   
         repo.logout()
 
         endTime = datetime.datetime.now()
