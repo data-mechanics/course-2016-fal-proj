@@ -52,7 +52,15 @@ class parking(dml.Algorithm):
 		repo.dropPermanent("parking")
 		repo.createPermanent("parking")
 
-		repo['aliyevaa_bsowens_dwangus_jgtsui.parking'].insert_many(r)
+		#repo['aliyevaa_bsowens_dwangus_jgtsui.parking'].insert_many(r)
+
+
+		parkings = repo['aliyevaa_bsowens_dwangus_jgtsui.parking']
+		for i in r:
+			#print(i)
+			#print(type(i))
+			parkings.insert({'name':i['name'],'location': {'type': 'Point', 'coordinates': [i['lat'], i['lng']]}})
+		print(parkings)
 		repo.logout()
 		endTime = datetime.datetime.now()
 		return {"start":startTime, "end":endTime}

@@ -51,6 +51,7 @@ class retrieveData(dml.Algorithm):
 
     dataSetDict = {}
     for i in range(len(setExtensions)):
+
         dataSetDict[setExtensions[i]] = (urls[i], writes[i], titles[i], urls[i][39:48])
 
     @staticmethod
@@ -111,6 +112,9 @@ class retrieveData(dml.Algorithm):
                 csa.update_many({}, {"$rename": {'location': 'location_address'}})
                 csa.update_many({}, {"$rename": {'map_location': 'location'}})
                 csa.create_index([('location', '2dsphere')])
+
+
+
             elif key == 'food_licenses':
                 print("Transforming food_licenses dataset...")
                 food = myrepo['food_licenses']

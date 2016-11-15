@@ -47,7 +47,15 @@ class libraries(dml.Algorithm):
 		repo.dropPermanent("libraries")
 		repo.createPermanent("libraries")
 
-		repo['aliyevaa_bsowens_dwangus_jgtsui.libraries'].insert_many(r)
+		#repo['aliyevaa_bsowens_dwangus_jgtsui.libraries'].insert_many(r)
+
+		librarys = repo['aliyevaa_bsowens_dwangus_jgtsui.libraries']
+		for i in r:
+			# print(i)
+			# print(type(i))
+			librarys.insert({'name': i['name'], 'location': {'type': 'Point', 'coordinates': [i['lat'], i['lng']]}})
+
+
 		repo.logout()
 		endTime = datetime.datetime.now()
 		return {"start":startTime, "end":endTime}

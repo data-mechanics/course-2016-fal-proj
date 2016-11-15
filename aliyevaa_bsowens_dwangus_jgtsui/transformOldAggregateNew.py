@@ -97,7 +97,7 @@ class transformOldAggregateNew(dml.Algorithm):
 
 
 
-            communityIndicators = ['public_fishing_access_locations','csa_pickups','year_round_pools']
+            communityIndicators = ['public_fishing_access_locations','csa_pickups','year_round_pools','libraries']
             anti_communityIndicators = ['food_licenses', 'entertainment_licenses','parking']
             print("Generating new {} dataset...".format(key))
             if key in communityIndicators:
@@ -117,7 +117,12 @@ class transformOldAggregateNew(dml.Algorithm):
                             title = doc['name']
                         elif key == 'year_round_pools':
                             title = doc['business_name']
+                        elif key == 'libraries':
+                            title = doc['name']
                         else: title = "unknownName " + i
+
+
+
 
                         indicatorsColl.insert({'title': title, 'type':key,
                                              'location': doc['location'],
