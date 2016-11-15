@@ -101,7 +101,7 @@ class optimizeBusAllocation(dml.Algorithm):
 	def visualize(results):
 		'''Create visualizations for each route for bus allocation, total average wait time, and total bus inefficiency'''
 
-		plt.figure(figsize=(10,10))
+		#plt.figure(figsize=(10,10))
 		
 		#add plots for each route (blue: allocation, green: wait time, red: inefficiency)
 		for r in results:
@@ -109,13 +109,14 @@ class optimizeBusAllocation(dml.Algorithm):
 			k_vals = results[r][1]
 			latency_vals = results[r][2]
 			inefficiency_vals = results[r][3]
-			plt.plot(range(1,101), k_vals, color='blue', label = route)
-			plt.plot(range(1,101), latency_vals, color='green', label = route)
-			plt.plot(range(1,101), inefficiency_vals, color='red', label = route)
+			plt.plot(range(1,101), latency_vals, color='green')
+			plt.plot(range(1,101), inefficiency_vals, color='red')
+			plt.plot(range(1,101), k_vals, color='blue')
 
 		plt.title('Optimum Allocation of Buses for each Bus Route')
 		plt.xlabel('K = Number of Buses Allocated')
 		plt.ylabel('Allocation Score')
+		#plt.legend(loc='upper right',prop={'size':6})
 		plt.show()
 
 	@staticmethod
