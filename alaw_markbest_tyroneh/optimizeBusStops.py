@@ -2,10 +2,6 @@ import dml
 import prov.model
 import datetime
 import uuid
-import re
-import numpy as np
-from scipy.stats import norm
-import matplotlib.pyplot as plt
 
 class optimizeBusStops(dml.Algorithm):
     contributor = 'alaw_markbest_tyroneh'
@@ -69,6 +65,6 @@ class optimizeBusStops(dml.Algorithm):
         times = optimizeBusStops.execute(trial = trial)
         optimizeBusStops.provenance(startTime = times['start'], endTime = times['end'])
 
-if __name__ == '__main__':
-    optimizeBusStops.run()
+#if __name__ == '__main__':
+#    optimizeBusStops.run()
 # ## eof
