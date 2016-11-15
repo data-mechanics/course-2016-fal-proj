@@ -10,7 +10,7 @@ import datetime
 class getError(dml.Algorithm):
 	contributor = 'mgerakis_pgomes94_raph737'
 	reads = ['mgerakis_pgomes94_raph737.hospital_scores']
-	writes = []
+	writes = ['mgerakis_pgomes94_raph737.average_error']
 
 	@staticmethod
 	def execute(trial = False):
@@ -70,6 +70,11 @@ class getError(dml.Algorithm):
 					break
 
 		average_error = total_error/len(google_ratings)
+		
+		repo.dropPermanent('average_error')
+		repo.createPermanent('average_error')
+		repo['mgerakis_pgomes94_raph737.average_error'].insert_one(average_error)
+
 		print ('On average, our rating is {} spots off of the real data ordering.'.format(average_error))
 
 		repo.logout()
@@ -101,7 +106,7 @@ class getError(dml.Algorithm):
             doc.usage(calculate_error, hospital_scores_resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
             doc.usage(calculate_error, hospital_google_reviews, startTime, None, {prov.model.PROV_TYPE:'ont:Query'})
 
-            avg_error = doc.entity('ont:average_error', {prov.model.PROV_LABEL:'Average error of Google review scores and our Hospital scores', prov.model.PROV_TYPE:'ont:Computation'})
+            avg_error = doc.entity('dat:mgerakis_pgomes94_raph737#average_error', {prov.model.PROV_LABEL:'Average error of Google review scores and our Hospital scores', prov.model.PROV_TYPE:'ont:Computation'})
             doc.wasAttributedTo(avg_error, this_script)
             doc.wasGeneratedBy(avg_error, calculate_error, endTime)
             doc.wasDerivedFrom(avg_error, hospital_scores_resource, calculate_error, calculate_error, calculate_error)
