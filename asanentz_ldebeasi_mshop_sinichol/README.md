@@ -4,18 +4,15 @@
 
 ## The Question
 
-How does traffic relate to alternate means of transportation and wealth?
+Simply put, does public transit correlate to average income? In more words, do poorer areas (in terms of per capita income) have fewer means of transport in the form of bus, subway, and Hubway stops, and do richer areas have more?
 
-To break it down:
-- Do poorer areas have the alternative transportation options that they need?
-- Do wealthier areas have more vehicular traffic? 
-- Do alternative means of transport assuage traffic?
+To answer the question, we first create a grid along coarse (~1.1km) longitudinal and latitudinal lines, and add up the total number of bus/subway/Hubway stops in these blocks. We then assign these values to each of the houses in these blocks. We use this data to determine if each house has transit in a constraint satisfaction problem. Mattapan and Dorchester have clusters of houses without transit within 1.1km. Our k-means algorithm places two points in these areas.
 
-To do so, we are comparing bus stop locations, hubway stop locations, and car charging stations with traffic and address data. We are looking at how many alternate transportation stops are available relative to an address, and comparing the information with vehicular traffic for the same address/area.
+We then take each of the towns in Boston (or as many as we can) and assign each their per capita incomes (or as many as we can). This data will be used to determine if the clusters of no transit are low-income areas (they are).
 
 
 
-# The Data Sets
+## The Data Sets
 
 Master Address List (taken from Property Assessment : https://data.cityofboston.gov/Permitting/Property-Assessment-2016/i7w8-ure5
 
@@ -28,15 +25,15 @@ MBTA Bus Stops: http://bostonopendata.boston.opendata.arcgis.com/datasets/f1a43a
 WAZE Traffic Jam Data:	https://data.cityofboston.gov/Transportation/Waze-Jam-Data/yqgx-2ktq
 
 
-# To Run
+## To Run
 
 The files to access the data sets are:
 
 #### addresses.py
 #### busStops.py
-#### chargingstations.py
+#### MBTAStops.py
 #### hubway.py
-#### traffic.py
+#### income.py
 
 # The combined datasets can be found in:
 
@@ -44,20 +41,25 @@ The files to access the data sets are:
 
 This file combines all bus stop and hubway data with a given address - we see how many of these stops/stations are present, relative to a given address.
 
-
-### delayMap.py
-
-This file combines delay time traffic-wise with a given address - we see how much delay time one can expect traffic-wise at a given address.
-
-
 ### transit.py
 
 This file combines all hubway and bus stop data together into a single database.
 
+### neighborhoodZipCodes.py
 
-# Auth
+This file uses the addresses and income repos to get a list of zip codes, assign them to a neighborhood name, and then assign the zip codes/neighborhoods an income.
 
-auth.json was formatted: 
+### constraintSatisfaction.py
+
+This file creates a repo of all the houses without any buses, subways, or Hubways.
+
+#### kmeans.py
+
+This file uses the repo from constraintSatisfaction.py and uses a k-means algorithm to determine where 2 (an arbitrarily chosen number) stops (of any of the three transport systems) should be placed. 
+
+## Auth
+
+auth.json is formatted as follows: 
 
 {"cityofboston": "XxXXXXXxXxXxXXXXxxxxXxXX"}
 
