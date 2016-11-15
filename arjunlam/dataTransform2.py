@@ -34,6 +34,7 @@ class crime311(dml.Algorithm):
         numClosed311 = {}
 
         crimeClosed311 = [numCrimes, numClosed311]
+        result = []
         for collection in collectionsArray:
             for row in collection.find():
             
@@ -50,10 +51,11 @@ class crime311(dml.Algorithm):
                     else:
                         numClosed311[zip] += 1
 
-        numCrimes['data_type'] = 'Crime'
-        numClosed311['data_type'] = 'Closed 311'
-      
-        repo['arjunlam.crime311'].insert_many(crimeClosed311)
+        for zip in numCrimes:
+            if zip in numClosed311:
+                result.append({'zipcode': zip, 'Crime': numCrimes[zip], 'Closed311': numClosed311[zip]})
+            
+        repo['arjunlam.crime311'].insert_many(result)
         
         repo.logout()
 
