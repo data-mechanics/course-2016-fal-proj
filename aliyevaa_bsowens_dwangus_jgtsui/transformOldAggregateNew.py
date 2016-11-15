@@ -14,20 +14,21 @@ class transformOldAggregateNew(dml.Algorithm):
     oldSetExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
                      'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools']
     
-    '''oldTitles = ['Crime Incident Reports (July 2012 - August 2015) (Source: Legacy System)', \
+    oldTitles = ['Crime Incident Reports (July 2012 - August 2015) (Source: Legacy System)', \
               'Public Access Fishing Locations', 'Issued Moving Truck Permits', 'Active Food Establishment Licenses', \
-              'Entertainment Licenses', 'Community Supported Agriculture (CSA) Pickups ', 'Year-Round Swimming Pools']'''
+              'Entertainment Licenses', 'Community Supported Agriculture (CSA) Pickups ', 'Year-Round Swimming Pools']
     titles = ['Crime in 1-Mile Radius of Community Indicators', \
               'Crime in 1-Mile Radius of Anti-Community Indicators', \
               'Crime in 1-Mile Radius of Moving Truck Permits']
-    setExtensions = ['crimeVanti_community_indicators', 'crimeVcommunity_indicators', 'crimeVmoving_truck_permits']
+    setExtensions = ['crimeVanti_community_indicators', 'crimeVcommunity_indicators']
 
     reads = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in oldSetExtensions]
-    writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]
+    writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in oldSetExtensions]
 
     dataSetDict = {}
-    for i in range(len(setExtensions)):
-        dataSetDict[setExtensions[i]] = (writes[i], titles[i])
+    for i in range(len(oldSetExtensions)):
+        dataSetDict[oldSetExtensions[i]] = (writes[i], oldTitles[i])
+    print(dataSetDict)
 
     @staticmethod
     def execute(trial = False):
@@ -42,7 +43,11 @@ class transformOldAggregateNew(dml.Algorithm):
         repo.authenticate(transformOldAggregateNew.contributor, transformOldAggregateNew.contributor)
         myrepo = repo.aliyevaa_bsowens_dwangus_jgtsui
 
-        #'''
+
+
+
+
+        '''
         for key in transformOldAggregateNew.oldSetExtensions:
             print(key)
             print(myrepo[key].find_one())
@@ -55,57 +60,83 @@ class transformOldAggregateNew(dml.Algorithm):
         #...Hmm... I didn't cross-reference these with time though...
         print(myrepo['crimeVcommunity_indicators'].find({'community_indicators_1600m_radius': {'$gt': 23}}).count())
         print(myrepo['crimeVanti_community_indicators'].find({'anti_community_indicators_1600m_radius': {'$gt': 2917}}).count())
-        print(myrepo['crimeVmoving_truck_permits'].find({'moving_indicators_1600m_radius': {'$gt': 557}}).count())
-        return
+
+        #return
+        '''
         #'''
-        #'''
+        indicatorsColl = myrepo['community_indicators']
+        repo.createPermanent('community_indicators')
+        anti_indicatorsColl = myrepo['anti_community_indicators']
+        repo.createPermanent('anti_community_indicators')
+
+
+        print(transformOldAggregateNew.dataSetDict.keys())
         for key in transformOldAggregateNew.dataSetDict.keys():
             begin = time.time()
             
-            repo.dropPermanent(key)
+            repo.drop_collection(key)
             repo.createPermanent(key)
             print("Now copying {} entries from crime2012_2015 to create new dataset {}.\n".format(myrepo['crime2012_2015'].count(), key))
             #"Now copying 268056 entries from crime2012_2015 to create new dataset crimeVcommunity_indicators."
-            myrepo[key].insert_many(myrepo['crime2012_2015'].find())
+            #myrepo[key].insert_many(myrepo['crime2012_2015'].find())
             #Or:
             #repo[transformOldAggregateNew.dataSetDict[key][0]].insert(myrepo['crime2012_2015'].find())
             
             newSet = myrepo[key]
             newSet.create_index([('location', '2dsphere')])
-            
+            indicatorsColl.create_index([('location', '2dsphere')])
+            anti_indicatorsColl.create_index([('location', '2dsphere')])
+
+
+            communityIndicators = ['public_fishing_access_locations','csa_pickups','year_round_pools']
+            anti_communityIndicators = ['food_licenses', 'entertainment_licenses','parking']
             print("Generating new {} dataset...".format(key))
-            if key == 'crimeVcommunity_indicators':
+            if key in communityIndicators:
                 #"Creating crimeVcommunity_indicators took 512.1758079528809 seconds."
-                #i = 0
+                i = 0
                 for doc in newSet.find(modifiers={"$snapshot": True}):
-                    #if (i%1000 == 0):
-                    #    print(i)
+                    if (i%100 == 0):
+                        print(i)
+                    i += 1
                     if 'location' in doc.keys():
-                        newSet.update({'_id': doc['_id']}, \
-                                      {'$set': \
-                                       {'community_indicators_1600m_radius': \
-                                        myrepo['public_fishing_access_locations'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count() + \
-                                        myrepo['csa_pickups'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count()\
-                                        }\
-                                       }\
-                                      )
-                    #i += 1
-            elif key == 'crimeVanti_community_indicators':
+
+                        #get the title of the business, based on common title keys
+
+                        if key == 'public_fishing_access_locations':
+                            title = doc['name']
+                        elif key == 'csa_pickups':
+                            title = doc['name']
+                        elif key == 'year_round_pools':
+                            title = doc['business_name']
+                        else: title = "unknownName " + i
+
+                        indicatorsColl.insert({'title': title, 'type':key,
+                                             'location': doc['location'],
+                                            'community_score': 1})
+
+            elif key in anti_communityIndicators:
                 #Creating crimeVanti_community_indicators took 2504.4606323242188 seconds.
-                #i = 0
+                # "Creating crimeVcommunity_indicators took 512.1758079528809 seconds."
+                i = 0
                 for doc in newSet.find(modifiers={"$snapshot": True}):
-                    #if (i%1000 == 0):
-                    #    print(i)
+                    if (i % 100 == 0):
+                        print(i)
+                    i += 1
                     if 'location' in doc.keys():
-                        newSet.update({'_id': doc['_id']}, \
-                                      {'$set': \
-                                       {'anti_community_indicators_1600m_radius': \
-                                        myrepo['food_licenses'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count() + \
-                                        myrepo['entertainment_licenses'].find({'location': {'$near': {'$geometry': doc['location'], '$maxDistance': 1600}}}).count()\
-                                        }\
-                                       }\
-                                      )
-                    #i += 1
+                        # get the title of the business, based on common title keys
+                        if key == 'entertainment_licenses':
+                            title = doc['dbaname']
+                        elif key == 'food_licenses':
+                            title = doc['businessname']
+                        elif key == 'parking':
+                            title = doc['name']
+                        else: title = 'unknownName ' + i
+
+
+                        indicatorsColl.insert({'id': doc['_id'], 'title': title, 'type': key,
+                                                    'location': doc['location'],
+                                               'community_score': -1})
+            '''
             else:
                 #"Creating crimeVmoving_truck_permits took 658.3249619007111 seconds."
                 #i = 0
@@ -121,8 +152,9 @@ class transformOldAggregateNew(dml.Algorithm):
                                        }\
                                       )
                     #i += 1
+            #'''
             print("Creating {} took {} seconds.".format(key, time.time() - begin))
-        #'''
+
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -184,8 +216,8 @@ class transformOldAggregateNew(dml.Algorithm):
         return doc
 
 transformOldAggregateNew.execute()
-doc = transformOldAggregateNew.provenance()
+#doc = transformOldAggregateNew.provenance()
 #print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
