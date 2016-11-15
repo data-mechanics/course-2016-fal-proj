@@ -69,14 +69,14 @@ auth.json is formatted as follows:
 
 # In order to run the files:
 
-Run the five "access the data" sets first, in any order:
+Run the five "Files that get data" sets first, in any order:
 - addresses.py
 - busStops.py
 - MBTAStops.py
 - hubway.py
 - income.py
 
-Then, in order:
+Then, **in order**:
 - transit.py
 - addressValue.py
 - neighborhoodZipCodes.py
