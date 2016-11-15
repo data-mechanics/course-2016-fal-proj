@@ -20,15 +20,34 @@ class proj2(dml.Algorithm):
 		client = dml.pymongo.MongoClient()
 		repo = client.repo
 		repo.authenticate('shreya','shreya')
-		
-		datasets = ['building_permits_kmeans','crime_reports_kmeans','earnings_kmeans']
+
+		def get_data(filename):
+			data_list = [(2012,[]),(2013,[]),(2014,[]),(2015,[])]
+			with open(filename,'r') as src:
+				for line in src:
+					line = line.split(',')
+					try:
+						year = int(line[0])
+						if year == 2012:
+							data_list[0][1] += [(float(line[1]),float(line[2]))]
+						if year == 2013:
+							data_list[1][1] += [(float(line[1]),float(line[2]))]
+						if year == 2014:
+							data_list[2][1] += [(float(line[1]),float(line[2]))]
+						if year == 2015:
+							data_list[3][1] += [(float(line[1]),float(line[2]))]
+					except: continue
+			return data_list
+
+		buildings_data = get_data('buildings_means.csv')
+		crimes_data = get_data('crimes_means.csv')
+		earnings_data = get_data('earnings_means.csv')
+		datasets = {'building_permits_kmeans':buildings_data, 'crime_reports_kmeans':crimes_data,'earnings_kmeans':earnings_data}
 		for dataset in datasets:
-			#input format
-			data2012 = (2012, [(19, 19), (24, 13), (25, 6)])
-			data2013 = (2012, [(17, 8), (19, 19), (23, 23)])
-			data2014 = (2012, [(18, 28), (24, 18), (27, 31)])
-			data2015 = (2012, [(34, 25), (19, 15), (13, 13)])
-			
+			data2012 = datasets[dataset][0]
+			data2013 = datasets[dataset][1]
+			data2014 = datasets[dataset][2]
+			data2015 = datasets[dataset][3]
 			if trial:
 				data2012 = (2012, data2012[1][0:3])
 				data2013 = (2013, data2013[1][0:3])
@@ -66,9 +85,9 @@ class proj2(dml.Algorithm):
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
 		this_script = doc.agent('alg:shreya#',{prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'],'ont:Extention':'py'})
-		buildings_resource = doc.entity('dat:shreya/building_permits_kmeans', {'prov:label':'K-Means over 4 Years for Building Permits',prov.model.PROV_TYPE:'ont:DataResource','ont:Extension':'json'})
-		crimes_resource = doc.entity('dat:shreya/crime_reports_kmeans',{'prov:label':'K-Means over 4 Years for Crime Reports',prov.model.PROV_TYPE:'ont:DataResource','ont:Extension':'json'})
-		earnings_resource = doc.entity('dat:shreya/earnings_kmeans',{'prov:label':'K-means over 4 Years for Earnings',prov.model.PROV_TYPE:'ont:DataResource','ont:Extension':'json'})
+		buildings_resource = doc.entity('dat:shreya/building_permits_kmeans', {'prov:label':'K-Means over 4 Years for Building Permits',prov.model.PROV_TYPE:'ont:DataResource','ont:Extension':'csv'})
+		crimes_resource = doc.entity('dat:shreya/crime_reports_kmeans',{'prov:label':'K-Means over 4 Years for Crime Reports',prov.model.PROV_TYPE:'ont:DataResource','ont:Extension':'csv'})
+		earnings_resource = doc.entity('dat:shreya/earnings_kmeans',{'prov:label':'K-means over 4 Years for Earnings',prov.model.PROV_TYPE:'ont:DataResource','ont:Extension':'csv'})
 		
 		buildings_pscores = doc.entity('dat:shreya#buildings_pscores', {'prov:label':'P-Scores for Progression of Means over 4 Years for Building Permits',prov.model.PROV_TYPE:'ont:DataResource','ont:Extension':'DataSet'})
 		crimes_pscores = doc.entity('dat:shreya#crimes_pscores', {'prov:label':'P-Scores for Progression of Means over 4 Years for Crime Reports',prov.model.PROV_TYPE:'ont:DataResource','ont:Extension':'DataSet'})
