@@ -178,7 +178,7 @@ class scoreLocations(dml.Algorithm):
             print("Scaling positive scores by a factor of: " + str(scale))
             for i in indicatorsColl.find(modifiers={"$snapshot": True}):
                 indicatorsColl.find_one_and_update(filter={"community_score" : "1"},update={'$set':{'community_score': scale}})
-        elif pos_count < neg_count:
+        elif pos_count <= neg_count:
             scale =  str(float(pos_count / neg_count)*-1)
             print("Scaling negative scores by a factor of: " + str(scale))
             for i in indicatorsColl.find(modifiers={"$snapshot": True}):
