@@ -13,7 +13,7 @@ class prepData4(dml.Algorithm):
 
     contributor = 'aditid_benli95_teayoon_tyao'
     reads = ['aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment', 'aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment']
-    writes = ['aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment', 'aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment', 'aditid_benli95_teayoon_tyao.averageAll', 'aditid_benli95_teayoon_tyao.averageDrug']
+    writes = []
 
 
     @staticmethod
@@ -65,16 +65,7 @@ class prepData4(dml.Algorithm):
 
         plt.xlabel("Establisments")
         plt.ylabel("Crimes")
-        #plt.show()
-
-        repo.dropPermanent('aditid_benli95_teayoon_tyao.a')
-        repo.createPermanent('aditid_benli95_teayoon_tyao.a')
-
-        repo.dropPermanent('aditid_benli95_teayoon_tyao.b')
-        repo.createPermanent('aditid_benli95_teayoon_tyao.b')
-        
-        repo.aditid_benli95_teayoon_tyao.b = repo.aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment.find()
-        repo.aditid_benli95_teayoon_tyao.a = repo.aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment.find()
+        plt.show()
 
         import statsmodels.api as sm
         model = sm.OLS(y, x)
@@ -89,11 +80,6 @@ class prepData4(dml.Algorithm):
         print ("Confidence Intervals:", results.conf_int())
         print ("Parameters:", results2.params)
 
-        #reset resulting directory
-        repo.dropPermanent('aditid_benli95_teayoon_tyao.averageDrug')
-        repo.createPermanent('aditid_benli95_teayoon_tyao.averageDrug')
-
-
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}
 
@@ -102,9 +88,33 @@ class prepData4(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
-        pass
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('cob', 'https://data.cityofboston.gov/resource/')
+        doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/datasets/')
+
+        this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#prepData4', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        prepD4 = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Prep Data 4', prov.model.PROV_TYPE:'ont:Computation'})
+        doc.wasAssociatedWith(prepD4, this_script)
+
+        crimesPerNumberOfEstablishment = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesPerNumberOfEstablishment', {'prov:label':'Number Of All Crimes per Establishments', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.usage(prepD4, crimesPerNumberOfEstablishment, startTime)
+
+        drugCrimesPerNumberOfEstablishment = doc.entity('dat:aditid_benli95_teayoon_tyao#drugCrimesPerNumberOfEstablishment', {'prov:label':'Number Of Drug Crimes per Establishments', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.usage(prepD4, drugCrimesPerNumberOfEstablishment, startTime)
+
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
 
 prepData4.execute()
+doc = prepData4.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 
 
