@@ -64,8 +64,7 @@ class transformOldAggregateNew(dml.Algorithm):
         #'''
         indicatorsColl = myrepo['community_indicators']
         repo.createPermanent('community_indicators')
-        anti_indicatorsColl = myrepo['anti_community_indicators']
-        repo.createPermanent('anti_community_indicators')
+
 
 
         print(transformOldAggregateNew.dataSetDict.keys())
@@ -95,8 +94,7 @@ class transformOldAggregateNew(dml.Algorithm):
 
             newSet = myrepo[key]
             newSet.create_index([('location', '2dsphere')])
-            indicatorsColl.create_index([('location', '2dsphere')])
-            anti_indicatorsColl.create_index([('location', '2dsphere')])
+
 
 
             communityIndicators = ['public_fishing_access_locations','csa_pickups','year_round_pools']
