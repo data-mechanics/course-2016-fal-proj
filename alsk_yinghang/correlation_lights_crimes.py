@@ -20,7 +20,7 @@ class correlation_lights_crimes(dml.Algorithm):
         n = 0
         lights_crimes = {}
         for doc in repo['alsk_yinghang.crime_lights'].find():
-            if n > 10000:
+            if n > 10000 and trial:
               break
             num_of_lights = doc['num_of_lights']
             if num_of_lights not in lights_crimes.keys():

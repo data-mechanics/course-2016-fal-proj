@@ -20,7 +20,7 @@ class correlation_propval_crime(dml.Algorithm):
         n = 0
         propval_crime = {}
         for doc in repo['alsk_yinghang.crime_properties'].find():
-            if n > 10000:
+            if n > 10000 and trial:
               break
             avg_prop_val = int(round(doc['avg_prop_val'], -6))
             if avg_prop_val not in propval_crime.keys():
@@ -59,6 +59,9 @@ class correlation_propval_crime(dml.Algorithm):
         print('The p-value obtained is: ' + str(pvalue) + '.')
         if pvalue < 0.01:
             print("The result is statistically highly significant ")
+        if pvalue < 0.05 and pvalue > 0.01:
+            print("The result is statistically significant ")
+
         print('According to scipy online documentation, "The p-value roughly indicates the probability of an uncorrelated system producing datasets that have a Pearson correlation at least as extreme as the one computed from these datasets. "')
 
     @staticmethod
