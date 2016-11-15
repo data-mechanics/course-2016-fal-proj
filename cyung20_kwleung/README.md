@@ -58,7 +58,17 @@ This algorithm retrieves the districts in which crime incidents have been report
 #Constraint Satisfaction and Statistical Analysis
 
 **1. liquorAndCrime.py** 
-We have modified our version of liquorAndCrime.py to now include constraints which we deem necessary towards addressing our problem. It uses selection to make sure essential information from liquor stores and crimes are stored in the repository. One major update was that their were constraints added. After making sure liquor stores and crime locations within 100 meters are stored (as opposed to 25 meters earlier), we filter out the crimes by having the constraints be these type of crimes: "Harassment" "Aggravated Assault" "Simple Assault." We are taking a small subset of the crimes by doing so. Our justification for implementing this is that we want to see if crimes pertaining to physical abuse and/or directly and personally impactful to others in a negative way is correlated with the crime scene being within 100 meters of a liquor store or not. 
+We have modified our version of liquorAndCrime.py to now include constraints: that the crimes be within 100 meters from a liquor store, belong to these selected offense categories "Harassment", "Aggravated Assault", "Simple Assault", "Sex Offender Registration" or "Homicide" and returns a subset of the the first 10,000 entries of the crime data (so our computer doesn't crash) which meets all of these constraints. We have concluded that on from Friday-Sunday on average more of our selected crimes are committed per day. 
+
+Below are the results.<br>
+Selected Crimes Total Within 100 meters of Liquor Store: 682
+
+Selected Crimes Total Within 100 meters of Liquor Store (Mon-Thurs): 313
+Selected Crimes Avg Within 100 meters of Liquor Store (Mon-Thurs): 78.25
+
+Selected Crimes Total Within 100 meters of Liquor Store (Fri-Sun): 369
+Selected Crimes Avg Within 100 meters of Liquor Store (Fri-Sun): 123.0
+
 
 **2. crime_time_correlation.py**
 Stastical Analysis was used to determine if there is a correlation between crimes and the hour they were committed. After calculations, we received a correlation coefficient with a magnitude of 0.589, which tells us that the two variables have a positive, moderately strong correlation.
