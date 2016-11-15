@@ -133,10 +133,52 @@ class prepData2(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
-        pass
 
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('cob', 'https://data.cityofboston.gov/resource/')
+        doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/datasets/')
 
+        this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#prepData2', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        prepD2 = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Prep Data 2', prov.model.PROV_TYPE:'ont:Computation'})
+        doc.wasAssociatedWith(prepD2, this_script)
+
+        numberOfEstablishmentsinRadius = doc.entity('dat:aditid_benli95_teayoon_tyao#numberOfEstablishmentsinRadius', {'prov:label':'Number Of Establishments near All Crimes', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.usage(prepD2, numberOfEstablishmentsinRadius, startTime)
+
+        numberOfEstablishmentsinRadiusDrug = doc.entity('dat:aditid_benli95_teayoon_tyao#numberOfEstablishmentsinRadiusDrug', {'prov:label':'Number Of Establishments near Drug Crimes', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.usage(prepD2, numberOfEstablishmentsinRadiusDrug, startTime)
+
+        crimesPerNumberOfEstablishment = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesPerNumberOfEstablishment', {'prov:label':'Number Of All Crimes per Establishments', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.wasAttributedTo(crimesPerNumberOfEstablishment, this_script)
+        doc.wasGeneratedBy(crimesPerNumberOfEstablishment, prepD2, endTime)
+        doc.wasDerivedFrom(crimesPerNumberOfEstablishment, numberOfEstablishmentsinRadius, prepD2, prepD2, prepD2)
+        
+        drugCrimesPerNumberOfEstablishment = doc.entity('dat:aditid_benli95_teayoon_tyao#drugCrimesPerNumberOfEstablishment', {'prov:label':'Number Of Drug Crimes per Establishments', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.wasAttributedTo(drugCrimesPerNumberOfEstablishment, this_script)
+        doc.wasGeneratedBy(drugCrimesPerNumberOfEstablishment, prepD2, endTime)
+        doc.wasDerivedFrom(drugCrimesPerNumberOfEstablishment, numberOfEstablishmentsinRadiusDrug, prepD2, prepD2, prepD2)
+
+        averageAll = doc.entity('dat:aditid_benli95_teayoon_tyao#averageAll', {'prov:label':'Average of Establishments near All Crimes', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.wasAttributedTo(averageAll, this_script)
+        doc.wasGeneratedBy(averageAll, prepD2, endTime)
+        doc.wasDerivedFrom(averageAll, numberOfEstablishmentsinRadius, prepD2, prepD2, prepD2)
+
+        averageDrug = doc.entity('dat:aditid_benli95_teayoon_tyao#averageDrug', {'prov:label':'Average of Establishments near Drug Crimes', prov.model.PROV_TYPE:'ont:Dataset'})
+        doc.wasAttributedTo(averageDrug, this_script)
+        doc.wasGeneratedBy(averageDrug, prepD2, endTime)
+        doc.wasDerivedFrom(averageDrug, numberOfEstablishmentsinRadiusDrug, prepD2, prepD2, prepD2)
+
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
 
 prepData2.execute()
 doc = prepData2.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
+
 
