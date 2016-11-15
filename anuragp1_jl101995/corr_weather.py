@@ -89,7 +89,6 @@ class corr_weather(dml.Algorithm):
         in this script. Each run of the script will generate a new
         document describing that invocation event.
         '''
-
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
@@ -100,33 +99,22 @@ class corr_weather(dml.Algorithm):
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
  
- 		this_script = doc.agent(
- +            'alg:anuragp1_jl101995#corr_weather', 
- +            {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'}
- +        )
- +        resourceCrimeProperties = doc.entity(
- +            'dat:alsk_yinghang#crime_properties', 
- +            {'prov:label':'Crime Properties', prov.model.PROV_TYPE:'ont:DataSet'}
- +        )
- +        this_run = doc.activity(
- +            'log:a'+str(uuid.uuid4()), startTime, endTime,
- +            {prov.model.PROV_TYPE:'ont:Computation'}
- +        )
- +        doc.wasAssociatedWith(this_run, this_script)
- +        doc.used(this_run, resourceCrimeProperties, startTime)
- +
- +        correlationPropvalCrime = doc.entity(
- +            'dat:alsk_yinghang#correlation_propval_crime', 
- +            {prov.model.PROV_LABEL:'Correlation Property Values Crimes', prov.model.PROV_TYPE:'ont:DataSet'}
- +        )
- +        doc.wasAttributedTo(correlationPropvalCrime, this_script)
- +        doc.wasGeneratedBy(correlationPropvalCrime, this_run, endTime)
- +        doc.wasDerivedFrom(correlationPropvalCrime, resourceCrimeProperties, this_run, this_run, this_run)
- +
- +        repo.record(doc.serialize()) # Record the provenance document.
- +        repo.logout()
- +
- 		 return doc
+ 		this_script = doc.agent('alg:anuragp1_jl101995#corr_weather', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+
+ 		weather_correlation_resource = doc.entity('dat:anuragp1_jl101995#corr_weather', {'prov:label':'Werather Correlation', prov.model.PROV_TYPE:'ont:DataSet'})
+ 		get_corr = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime,{prov.model.PROV_TYPE:'ont:Computation'})
+ 		doc.wasAssociatedWith(get_corr, this_script)
+ 		doc.used(get_corr, weather_correlation_resource, startTime)
+ 
+ 		weather_corr = doc.entity('dat:anurgp1_jl101995#corr_weather',{prov.model.PROV_LABEL:'Weather Correlation', prov.model.PROV_TYPE:'ont:DataSet'})
+ 		doc.wasAttributedTo(weather_corr, this_script)
+ 		doc.wasGeneratedBy(weather_corr, this_run, endTime)
+ 		doc.wasDerivedFrom(weather_corr, weather_corr, get_corr, get_corr, get_corr)
+
+		repo.record(doc.serialize()) # Record the provenance document.
+		repo.logout()
+ 		
+ 		return doc
 
 
 corr_weather.execute(Trial=False)

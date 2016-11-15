@@ -124,11 +124,7 @@ We aim to answer the following family of problems:
 
 	We can solve this problem by combining subway usage, CitiBike usage, and weather by date. 	Once we have the total subway usage and totaly CitiBike usage for each day, we can find the 	correlation between each of these usages and weather. 
 
-2. **Can we predict subway usage from pedestrian count of a region using a linear regression model?**
-	* Hypotheses:
-		* Regions with higher pedestrian count have higher subway and CitiBike usage
-		
-	We can solve this problem by looking at the ratio between pedestrian count and daily usage of		the subway and citibike.  Then we can look at whether some areas have higher ratios compared 		to other, and compare the ratios of the subway to citibike in different regions.  
+2. **Can we predict subway usage from pedestrian count of a region using a linear regression model?** 
 
 #### Statistical Analysis Results
 
