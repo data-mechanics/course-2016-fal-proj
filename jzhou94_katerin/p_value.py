@@ -12,7 +12,7 @@ from math import sqrt
 class p_value(dml.Algorithm):
     contributor = 'jzhou94_katerin'
     reads = ['jzhou94_katerin.crime', 'jzhou94_katerin.avg_earnings']
-    writes = []
+    writes = ['jzhou94_katerin.p_value']
         
     @staticmethod
     def execute(trial = False):
@@ -63,15 +63,67 @@ class p_value(dml.Algorithm):
                 corrs.append(corr(x, y_permuted))
             return len([c for c in corrs if abs(c) > c0])/len(corrs)
 
-        print('p_value of the average employee earning and the number of crime is equal to', p(x, y))
+        repo.dropPermanent('jzhou94_katerin.p_value')
+        repo.createPermanent('jzhou94_katerin.p_value')
+
+        repo['jzhou94_katerin.p_value'].insert(p(x, y))
 
         repo.logout()
 
         endTime = datetime.datetime.now()
         return {"start":startTime, "end":endTime}
 
+    @staticmethod
+    def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
+        '''
+        Create the provenance document describing everything happening
+        in this script. Each run of the script will generate a new
+        document describing that invocation event.
+        '''
+
+         # Set up the database connection.
+        client = dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('jzhou94_katerin', 'jzhou94_katerin')
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/jzhou94_katerin/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/jzhou94_katerin/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:p_value', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        crime = doc.entity('dat:crime', {prov.model.PROV_LABEL:'Crimes per Location', prov.model.PROV_TYPE:'ont:DataSet'})
+        avg_earnings = doc.entity('dat:avg_earnings', {'prov:label':'Average Earnings', prov.model.PROV_TYPE:'ont:DataSet'})
+        get_pValue = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+
+        doc.wasAssociatedWith(get_pValue, this_script)
+        doc.usage(get_pValue, crime, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Computation',
+                 'ont:Query':'?value'
+                }
+            )
+        doc.usage(get_pValue, avg_earnings, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Computation',
+                 'ont:Query':'?value'
+                }
+            )
+
+        pValue = doc.entity('dat:p_value', {prov.model.PROV_LABEL:'P Value of Crimes to Average Earnings', prov.model.PROV_TYPE:'ont:Value'})
+        doc.wasAttributedTo(pValue, this_script)
+        doc.wasGeneratedBy(pValue, get_pValue, endTime)
+        doc.wasDerivedFrom(pValue, crime, get_pValue, get_pValue, get_pValue)
+        doc.wasDerivedFrom(pValue, avg_earnings, get_pValue, get_pValue, get_pValue)
+
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
 
 p_value.execute()
 print("p_value Algorithm Done")
-
+doc = p_value.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
+print("p_value Provenance Done")
 ## eof
