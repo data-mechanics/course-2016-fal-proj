@@ -26,8 +26,8 @@ class  get_properties(dml.Algorithm):
         print("Using pandas")
         df = pd.read_json(url)
         df = df[df['latitude'] != "#N/A"]
-        df = df[df['gross_tax'] != 0]
-        zip = df[['longitude', 'latitude', 'gross_tax']]
+        df = df[df['av_total'] != 0]
+        zip = df[['longitude', 'latitude', 'av_total']]
         r = json.loads(zip.to_json(orient='records'))
         new = []
         for obj in r:

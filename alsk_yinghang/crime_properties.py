@@ -38,13 +38,13 @@ class crime_properties(dml.Algorithm):
                     maxDistance=2000)['results']
             sum = 0
             for i in results:
-                sum =  sum + i['obj']['gross_tax']
+                sum =  sum + i['obj']['av_total']
             if len(results) == 0:
                 avg = 0
             else:
                 avg = sum / len(results)
             jsonObj = doc
-            doc['avg_tax'] = avg
+            doc['avg_prop_val'] = avg
             crime_and_properties.append(jsonObj)
             print(str(format(counter/num_collections*100, '.2f'))+"%")
             counter = counter + 1
