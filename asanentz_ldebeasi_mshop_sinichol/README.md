@@ -55,7 +55,7 @@ This file creates a repo of all the houses without any buses, subways, or Hubway
 
 #### kmeans.py
 
-This file uses the repo from constraintSatisfaction.py and uses a k-means algorithm to determine where 2 (an arbitrarily chosen number) stops (of any of the three transport systems) should be placed. 
+This file uses the repo from constraintSatisfaction.py and uses a k-means algorithm to determine where 4 stops (of any of the three transport systems) should be placed. To see how we determined how many clusters, uncommment "evaluate_clusters(latlong,8)". To see the centers of the clusters, uncomment "print(centers)".
 
 ## Auth
 
