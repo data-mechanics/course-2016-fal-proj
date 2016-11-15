@@ -97,7 +97,7 @@ class scoreLocations(dml.Algorithm):
 
             newSet = myrepo[key]
             newSet.create_index([('location', '2dsphere')])
-            print(newSet)
+
 
 
             communityIndicators = ['public_fishing_access_locations','csa_pickups','year_round_pools','libraries']
