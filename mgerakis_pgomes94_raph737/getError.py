@@ -79,41 +79,41 @@ class getError(dml.Algorithm):
 
 	@staticmethod
 	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
+            # Set up the database connection.
+            client = dml.pymongo.MongoClient()
+            repo = client.repo
+            repo.authenticate('mgerakis_pgomes94_raph737', 'mgerakis_pgomes94_raph737')
 
-		# Set up the database connection.
-		client = dml.pymongo.MongoClient()
-		repo = client.repo
-		repo.authenticate('mgerakis_pgomes94_raph737', 'mgerakis_pgomes94_raph737')
+            doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+            doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+            doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+            doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+            doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+            doc.add_namespace('goog', 'https://maps.googleapis.com/maps/api/') # Google API
 
-		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
-		doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
-		doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
-		doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
-		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+            this_script = doc.agent('alg:mgerakis_pgomes94_raph737/getError', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+            hospital_scores_resource = doc.entity('dat:mgerakis_pgomes94_raph737#hospital_scores', {'prov:label':'Hospital Scores', prov.model.PROV_TYPE:'ont:DataSet'})
+            hospital_google_reviews = doc.entity('goog:place', {'prov:label': 'Google Place Search', prov.model.PROV_TYPE: 'ont:DataResource', 'ont:Extension': 'json'})
+            
+            calculate_error = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+            doc.wasAssociatedWith(calculate_error, this_script)
+            
+            doc.usage(calculate_error, hospital_scores_resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+            doc.usage(calculate_error, hospital_google_reviews, startTime, None, {prov.model.PROV_TYPE:'ont:Query'})
 
-		this_script = doc.agent('alg:mgerakis_pgomes94_raph737/getError.py', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-		hospital_scores_resource = doc.entity('dat:mgerakis_pgomes94_raph737#hospital_scores', {'prov:label':'Hospital Scores', prov.model.PROV_TYPE:'ont:DataSet'})
-		hospital_google_reviews = doc.entity('https://maps.googleapis.com/maps/api/place', {'prov:label': 'Google Place Search', prov.model.PROV_TYPE: 'ont:DataResource', 'ont:Extension': 'json'})
-		
-		calculate_error = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-		doc.wasAssociatedWith(calculate_error, this_script)
-		
-		doc.usage(calculate_error, hospital_scores_resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
-   	 	doc.usage(calculate_error, hospital_google_reviews, startTime, None, {prov.model.PROV_TYPE:'ont:Query'})
-												    
-		avg_error = doc.entity('average_error', {prov.model.PROV_LABEL:'Average error of Google review scores and our Hospital scores', prov.model.PROV_TYPE:'ont:Computation'})
-		doc.wasAttributedTo(avg_error, this_script)
-		doc.wasGeneratedBy(avg_error, calculate_error, endTime)
-		doc.wasDerivedFrom(avg_error, hospital_scores_resource, calculate_error, calculate_error, calculate_error)
-		doc.wasDerivedFrom(avg_error, hospital_google_reviews, calculate_error, calculate_error, calculate_error)
+            avg_error = doc.entity('ont:average_error', {prov.model.PROV_LABEL:'Average error of Google review scores and our Hospital scores', prov.model.PROV_TYPE:'ont:Computation'})
+            doc.wasAttributedTo(avg_error, this_script)
+            doc.wasGeneratedBy(avg_error, calculate_error, endTime)
+            doc.wasDerivedFrom(avg_error, hospital_scores_resource, calculate_error, calculate_error, calculate_error)
+            doc.wasDerivedFrom(avg_error, hospital_google_reviews, calculate_error, calculate_error, calculate_error)
 
-		repo.record(doc.serialize())
-		repo.logout()
+            repo.record(doc.serialize())
+            repo.logout()
 
-		return doc
+            return doc
 
 getError.execute(trial=True)
-doc = dataRequests.provenance()
+doc = getError.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 

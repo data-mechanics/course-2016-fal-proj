@@ -59,50 +59,50 @@ class recommend(dml.Algorithm):
 	@staticmethod
 	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
 
-		# Set up the database connection.
-		client = dml.pymongo.MongoClient()
-		repo = client.repo
-		repo.authenticate('mgerakis_pgomes94_raph737', 'mgerakis_pgomes94_raph737')
+            # Set up the database connection.
+            client = dml.pymongo.MongoClient()
+            repo = client.repo
+            repo.authenticate('mgerakis_pgomes94_raph737', 'mgerakis_pgomes94_raph737')
 
-		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
-		doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
-		doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
-		doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
-		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+            doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+            doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+            doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+            doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+            doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-		this_script = doc.agent('alg:mgerakis_pgomes94_raph737#recommend.py', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-		proximity_cluster_centers = doc.entity('dat:mgerakis_pgomes94_raph737#proximity_cluster_centers', {'prov:label': 'Proximity Cluster Centers', prov.model.PROV_TYPE:'ont:DataSet'})
-		
-		cluster_close_centers = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-		doc.wasAssociatedWith(cluster_close_centers, this_script)
-		
-		doc.usage(cluster_close_centers, proximity_cluster_centers, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
-		
-		cluster_center = doc.entity('kmeans_centers', {prov.model.PROV_LABEL:'Center of close cluster.', prov.model.PROV_TYPE:'ont:Computation'})
-		doc.wasAttributedTo(cluster_center, this_script)
-		doc.wasGeneratedBy(cluster_center, cluster_close_centers, endTime)
-		doc.wasDerivedFrom(cluster_center, proximity_cluster_centers, cluster_close_centers, cluster_close_centers, cluster_close_centers)
-		
-		maximize_distance = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-		doc.wasAssociatedWith(maximize_distance, this_script)
-		
-		doc.usage(maximize_distance, cluster_center, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
-		doc.usage(maximize_distance, proximity_cluster_centers, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
-		
-		optimal_coords = doc.entity('Optimal lat/long', {prov.model.PROV_LABEL:'Optimal latitude, longtitude position', prov.model.PROV_TYPE:'ont:Computation'})
-		doc.wasAttributedTo(optimal_coords, this_script)
-		doc.wasGeneratedBy(optimal_coords, maximize_distance, endTime)
-		doc.wasDerivedFrom(optimal_coords, cluster_center, maximize_distance, maximize_distance, maximize_distance)
-		doc.wasDerivedFrom(optimal_coords, cluster_close_centers, maximize_distance, maximize_distance, maximize_distance)
+            this_script = doc.agent('alg:mgerakis_pgomes94_raph737#recommend', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+            proximity_cluster_centers = doc.entity('dat:mgerakis_pgomes94_raph737#proximity_cluster_centers', {'prov:label': 'Proximity Cluster Centers', prov.model.PROV_TYPE:'ont:DataSet'})
+            
+            cluster_close_centers = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+            doc.wasAssociatedWith(cluster_close_centers, this_script)
+            
+            doc.usage(cluster_close_centers, proximity_cluster_centers, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+            
+            cluster_center = doc.entity('ont:kmeans_centers', {prov.model.PROV_LABEL:'Center of close cluster.', prov.model.PROV_TYPE:'ont:Computation'})
+            doc.wasAttributedTo(cluster_center, this_script)
+            doc.wasGeneratedBy(cluster_center, cluster_close_centers, endTime)
+            doc.wasDerivedFrom(cluster_center, proximity_cluster_centers, cluster_close_centers, cluster_close_centers, cluster_close_centers)
+            
+            maximize_distance = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+            doc.wasAssociatedWith(maximize_distance, this_script)
+            
+            doc.usage(maximize_distance, cluster_center, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+            doc.usage(maximize_distance, proximity_cluster_centers, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+            
+            optimal_coords = doc.entity('ont:optimal_coords', {prov.model.PROV_LABEL:'Optimal latitude, longtitude position', prov.model.PROV_TYPE:'ont:Computation'})
+            doc.wasAttributedTo(optimal_coords, this_script)
+            doc.wasGeneratedBy(optimal_coords, maximize_distance, endTime)
+            doc.wasDerivedFrom(optimal_coords, cluster_center, maximize_distance, maximize_distance, maximize_distance)
+            doc.wasDerivedFrom(optimal_coords, cluster_close_centers, maximize_distance, maximize_distance, maximize_distance)
 
-		repo.record(doc.serialize())
-		repo.logout()
+            repo.record(doc.serialize())
+            repo.logout()
 
-		return doc
+            return doc
 
 
 recommend.execute()
-doc = dataRequests.provenance()
+doc = recommend.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 

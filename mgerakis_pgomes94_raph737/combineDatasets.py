@@ -152,7 +152,7 @@ class combineDatasets(dml.Algorithm):
 		police_stations_resource = doc.entity('dat:mgerakis_pgomes94_raph737#police_station_locations', {prov.model.PROV_LABEL:'Police Station Locations', prov.model.PROV_TYPE:'ont:DataSet'})
 		
 		project_data = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-		doc.wasAssociated(project_data, this_script)
+		doc.wasAssociatedWith(project_data, this_script)
 		
 		doc.usage(project_data, mbta_stops_resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
 		doc.usage(project_data, crimes_resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
@@ -168,7 +168,7 @@ class combineDatasets(dml.Algorithm):
 		doc.wasDerivedFrom(proximity_locations, police_stations_resource, project_data, project_data, project_data)
 		
 		cluster_data = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-		doc.wasAssociated(cluster_data, this_script)
+		doc.wasAssociatedWith(cluster_data, this_script)
 		
 		doc.usage(cluster_data, proximity_locations, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
 		
