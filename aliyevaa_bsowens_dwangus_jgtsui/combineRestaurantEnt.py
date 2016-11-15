@@ -20,36 +20,14 @@ class combineRestaurantEnt(dml.Algorithm):
     setExtension = 'entertainment_licenses_no_restaurants'
 
     reads = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in oldSetExtensions]
-    writes = 'aliyevaa_bsowens_dwangus_jgtsui' + setExtension
+    writes = ['aliyevaa_bsowens_dwangus_jgtsui' + setExtension]
 
     dataSetDict = {}
-    dataSetDict[setExtension] = writes, titles[0]
+    dataSetDict[setExtension] = (writes, titles[0])
 
     @staticmethod
     def execute(trial=False):
 
-        """
-        rep = {'av': '', \
-               'ave': '', \
-               'bi': '', \
-               'bl': '', \
-               'dr': '', \
-               'hw':'', \
-               'pk': '', \
-               'pl': '', \
-               'pw': '', \
-               'pz': '', \
-               'rd': '', \
-               'ro': '', \
-               'saint': '', \
-               'st': '', \
-               'sq': '', \
-               'wh': '', \
-               'wy': ''}
-
-        rep = dict((re.escape(k), v) for k, v in rep.iteritems())
-        pattern = re.compile("|".join(rep.keys()))
-        """
         start = time.time()
         startTime = datetime.datetime.now()
         print("Starting execution of script @{}".format(startTime))
@@ -124,8 +102,8 @@ class combineRestaurantEnt(dml.Algorithm):
 
                 city_ent = (doc['city'].lower()).replace(' ', '')
 
-                long = round(float(doc['location']['coordinates'][0]), 3)
-                lat = round(float(doc['location']['coordinates'][1]), 3)
+                long_ent = round(float(doc['location']['coordinates'][0]), 3)
+                lat_ent = round(float(doc['location']['coordinates'][1]), 3)
 
                 ###########################################################################
                 # name = (restaurant['businessname']).lower                               #
@@ -135,7 +113,19 @@ class combineRestaurantEnt(dml.Algorithm):
                 # The following line is equivalent to these four preceding lines:         #
                 ###########################################################################
 
-                name = (re.sub(r'[\s\'\",.;:]', '', doc['dbaname'].lower()).replace('&', 'and')).replace('@', 'at')
+                name_ent = (re.sub(r'[\s\'\",.;:]', '', doc['dbaname'].lower()).replace('&', 'and')).replace('@', 'at')
+
+
+                if long_ent in longLats:
+                    if lat_ent in longLats[long_ent]:
+                        if longLats[long_ent][lat_ent] == name_ent:
+                            doc.remove({'_id': doc['_id']})
+
+                if city_ent in locations:
+                    if st_name_ent in locations[city_ent]:
+                        if st_no_ent in locations[city_ent][st_name_ent]:
+                            if locations[city_ent][st_name_ent][st_no_ent] == name_ent:
+                                doc.remove({'_id': doc['_id']})
 
 
         endTime = datetime.datetime.now()
