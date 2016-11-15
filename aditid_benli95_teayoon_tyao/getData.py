@@ -18,16 +18,20 @@ class getData(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
-
-        response = urllib.request.urlopen('https://data.cityofboston.gov/resource/ufcx-3fdn.json?$limit=300000').read().decode("utf-8")
+        if (trial == True):
+            response = urllib.request.urlopen('https://data.cityofboston.gov/resource/ufcx-3fdn.json?$limit=50').read().decode("utf-8")
+        else:
+            response = urllib.request.urlopen('https://data.cityofboston.gov/resource/ufcx-3fdn.json?$limit=300000').read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("crimesLegacy")
         repo.createPermanent("crimesLegacy")
         repo['aditid_benli95_teayoon_tyao.crimesLegacy'].insert_many(r)
         print('Load crimesLegacy')
-
-        response = urllib.request.urlopen('https://data.cityofboston.gov/resource/29yf-ye7n.json?$limit=300000').read().decode("utf-8")
+        if (trial == True):
+            response = urllib.request.urlopen('https://data.cityofboston.gov/resource/29yf-ye7n.json?$limit=50').read().decode("utf-8")
+        else:
+            response = urllib.request.urlopen('https://data.cityofboston.gov/resource/29yf-ye7n.json?$limit=300000').read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys = True, indent = 2)
         repo.dropPermanent("crimesCurrent")
@@ -192,6 +196,7 @@ class getData(dml.Algorithm):
 
 
 getData.execute()
+#getData.execute(True)
 doc = getData.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#print(doc.get_provn())
+#print(json.dumps(json.loads(doc.serialize()), indent=4))

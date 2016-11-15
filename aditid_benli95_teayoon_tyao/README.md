@@ -120,6 +120,11 @@ Normalized Histogram:
 ![alt tag](images/Histogram_normalized.png)
 
 
+Trial Mode
+if you want to run trial mode, go to getData.py and uncomment line 199 and comment out line 198.  Then run
+the follow the running instructions. 
+
+
 
 
 
