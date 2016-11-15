@@ -1,14 +1,13 @@
 import dml
 import prov.model
 import uuid
-import json
 import datetime
 import gpxpy.geo
 
-class liquorAndCrime(dml.Algorithm):
+class liquorAndBPDS(dml.Algorithm):
     contributor = "cyung20_kwleung"
-    reads = ['cyung20_kwleung.liquor','cyung20_kwleung.crime']
-    writes = ['cyung20_kwleung.liquorAndCrime']
+    reads = ['cyung20_kwleung.liquor', 'cyung20_kwleung.BPDS']
+    writes = ['cyung20_kwleung.liquorAndBPDS']
 
     @staticmethod
     def execute(trial = False):
@@ -18,90 +17,71 @@ class liquorAndCrime(dml.Algorithm):
         
         startTime = datetime.datetime.now()
         
-        repo.dropPermanent("liquorAndCrime")
-        repo.createPermanent("liquorAndCrime")
+        repo.dropPermanent("liquorAndBPDS")
+        repo.createPermanent("liquorAndBPDS")
         
-        data = repo.cyung20_kwleung.crime.find()
-        
-        #Consists of crime data we want before we use product()
-        crimeDetails = []
-        #counter and total makes sure only 10,000 crimes are 
-        #run through, so that our computer doesn't crash!
-        counter = 0
-        total = 10000
+        data = repo.cyung20_kwleung.BPDS.find()
+
+        # new is a list storing location name + location coordinates for
+        # Boston Police District Stations
+        new = []
+        names = []
         for d in data:
-            theData = dict(d)
-            if counter < 10000:
-                try:
-                    lon = theData['long']
-                except KeyError:
-                    lon = None
-                try:
-                    lat = theData['lat']
-                except KeyError:
-                    lat = None
-                try: 
-                    offense = theData['offense_code_group']
-                except KeyError:
-                    offense = None
-                if lon != None and lat != None:
-                    crimeDetails += [['crime', [lon,lat],offense]]
-            counter += 1
+            a = dict(d)['location']
+            lon = (a['coordinates'][0])
+            lat = (a['coordinates'][1])
+            name = d['name']
+            new += [[name, [lon, lat]]]
         
+        #print(new)
+            
         data = repo.cyung20_kwleung.liquor.find() 
         
-        #Consists of liquor store data we want before we use product()
-        liquorDetails = []
-        
+        # new is a list storing business name + location coordinates for
+        # liquor stores.
+        new1 = []
         for d in data:
-            theData = dict(d)
-            businessName = theData['businessname'] 
-            coord = theData['location']['coordinates'] 
-            if coord[0] != 0 and coord[1] != 0:
-                liquorDetails += [['liquor store', businessName, coord]]
+            a = dict(d)['location']
+            businessName = dict(d)['businessname']
+            if a['coordinates'][0] != 0 and a['coordinates'][1] != 0:
+                new1 += [[businessName, [a['coordinates'][0], a['coordinates'][1]]]]
         
-        def product(R, S):
-                return [(t,u) for t in R for u in S]
+        #print(new1)
         
-        def select(R, s):
-            return [t for t in R if s(t)]
+        # liq contains all liquor stores with NO police stations within a 
+        # mile of its location
+        liq = {}
         
-        #Function used for select in order to "select" liquor stores within
-        #25 meters of a crime scene.
-        def dis(t):
-            lon1 = t[0][2][0]
-            lat1 = t[0][2][1]
-            #print(lat1)
-            lon2 = float(t[1][1][0])
-            lat2 = float(t[1][1][1])
-            #print(lat2)
-            #dist calculates distance in meters
-            dist = gpxpy.geo.haversine_distance(lat1, lon1, lat2, lon2)
-            #If the distance is less or equal to 100 meters, keep it. 
-            return dist <= 100
-        
-        #Number of alcohol places at least 25 meters from crime.
-        #print(len(select(product(liquorDetails,crimeDetails),dis)))
-        
-        #Alcohol places at least 25 meters from crime.
-        selected = select(product(liquorDetails,crimeDetails),dis)
-        
-        instances = {}
-        #for x in range(0, len(selected)):
+        # use num to count amount of liquor stores (key = location + str(num))
         num = 1
-        for x in range(0, len(selected)):
-            one = str(selected[x][0][1])
-            two = str(selected[x][0][2])
-            three = str(selected[x][1][1])
-            four = str(selected[x][1][2])
-            if four == "Harassment" or four == "Aggravated Assault" or four == "Simple Assault":
-                repo.cyung20_kwleung.liquorAndCrime.insert_one({'liquor_name':one, 'liquor_location':two, 'crime_location':three, 'crime_offense':four})
+        
+        #new1 refers to liquor stores
+        for x in range(0, len(new1)):
+            count = 0
+            #new refers to BPDS
+            #compares distance of each liquor store to all BPDS's.
+            for y in range(0, len(new)):
+                lon1 = new1[x][1][0]
+                lon2 = new[y][1][0]
+                lat1 = new1[x][1][1]
+                lat2 = new[y][1][1]
+                dist = gpxpy.geo.haversine_distance(lat1, lon1, lat2, lon2)
+                # 1609 is a mile. 
+                # If distance is less than/equal to a mile, increment count
+                if dist <= 1609:
+                    count += 1
+            # Count 0 means a liquor store has no police stations within a mile
+            if count == 0:
+                liq['location' + str(num)] = new1[x][1], new1[x][0]
                 num += 1
         
-        repo.logout()
-
+        for key in liq:
+            #add all liquor stores with no police stations within a mile to
+            #liquorAndDPDS
+            repo.cyung20_kwleung.liquorAndBPDS.insert_one({key: liq[key]})
+        
+            repo.logout()
         endTime = datetime.datetime.now()
-
         return {"start":startTime, "end":endTime}
 
     @staticmethod
@@ -116,38 +96,35 @@ class liquorAndCrime(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
         
-        this_script = doc.agent('alg:liquorAndCrime', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-        crimeReports = doc.entity('dat:cyung20_kwleung#crime', {prov.model.PROV_LABEL:'Crime Incident Reports', prov.model.PROV_TYPE:'ont:DataSet'})
+        this_script = doc.agent('alg:liquorAndBPDS', {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
+        BPDS = doc.entity('dat:cyung20_kwleung#BPDS', {prov.model.PROV_LABEL:'Boston Police District Stations', prov.model.PROV_TYPE:'ont:DataSet'})
         liquorLicense = doc.entity('dat:cyung20_kwleung#liquor', {prov.model.PROV_LABEL:'Liquor Licenses', prov.model.PROV_TYPE:'ont:DataSet'})
         
         this_final = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
         
         doc.wasAssociatedWith(this_final, this_script)
         doc.used(this_final, liquorLicense, startTime)
-        doc.used(this_final, crimeReports, startTime)
+        doc.used(this_final, BPDS, startTime)
         
-        crimeLiq = doc.entity('dat:liquorAndCrime', {prov.model.PROV_LABEL:'Proximity of crime locations and liquor', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(crimeLiq, this_script)
-        doc.wasGeneratedBy(crimeLiq, this_final, endTime)
-        doc.wasDerivedFrom(crimeLiq, crimeReports, this_final, this_final, this_final)
-        doc.wasDerivedFrom(crimeLiq, liquorLicense, this_final, this_final, this_final)
+        liquorAndBPDS = doc.entity('dat:liquorAndBPDS', {prov.model.PROV_LABEL:'Liquor stores and # of police stations nearby', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(liquorAndBPDS, this_script)
+        doc.wasGeneratedBy(liquorAndBPDS, this_final, endTime)
+        doc.wasDerivedFrom(liquorAndBPDS, BPDS, this_final, this_final, this_final)
+        doc.wasDerivedFrom(liquorAndBPDS, liquorLicense, this_final, this_final, this_final)
         
         repo.record(doc.serialize())
         repo.logout()
         
         return doc
+        
 
-#print(repo.record(doc.serialize()))
-
-liquorAndCrime.execute()
-doc = liquorAndCrime.provenance()
+liquorAndBPDS.execute()
+doc = liquorAndBPDS.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 
-#Print out new data set!
-data = repo.cyung20_kwleung.liquorAndCrime.find()
+# Print results from new data from liquorAndBPS
+'''data = repo.cyung20_kwleung.liquorAndBPDS.find()
 
-count = 0
 for d in data:
-    count += 1 
-print(count)
+    print(dict(d))'''
