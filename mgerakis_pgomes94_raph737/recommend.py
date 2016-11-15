@@ -17,48 +17,48 @@ class recommend(dml.Algorithm):
 
 	@staticmethod
 	def execute(trial = False):
-		start_time = datetime.datetime.now()
+            start_time = datetime.datetime.now()
 
-		client = dml.pymongo.MongoClient()
-		repo = client.repo
-		repo.authenticate('mgerakis_pgomes94_raph737', 'mgerakis_pgomes94_raph737')
+            client = dml.pymongo.MongoClient()
+            repo = client.repo
+            repo.authenticate('mgerakis_pgomes94_raph737', 'mgerakis_pgomes94_raph737')
 
-		close_clusters = [x['location'] for x in repo['mgerakis_pgomes94_raph737.proximity_cluster_centers'].find({'proximity': 'C'})]
-		far_clusters = [x['location'] for x in repo['mgerakis_pgomes94_raph737.proximity_cluster_centers'].find({'proximity': 'F'})]
+            close_clusters = [x['location'] for x in repo['mgerakis_pgomes94_raph737.proximity_cluster_centers'].find({'proximity': 'C'})]
+            far_clusters = [x['location'] for x in repo['mgerakis_pgomes94_raph737.proximity_cluster_centers'].find({'proximity': 'F'})]
 
-		if trial == True:
-			close_clusters = close_clusters[0:5]
-			far_clusters = far_clusters[0:5]
+            if trial == True:
+                    close_clusters = close_clusters[0:5]
+                    far_clusters = far_clusters[0:5]
 
-		kmeans = KMeans(init='k-means++', n_clusters=5, max_iter=1000)
-		kmeans_centers = kmeans.fit(close_clusters).cluster_centers_
+            kmeans = KMeans(init='k-means++', n_clusters=5, max_iter=1000)
+            kmeans_centers = kmeans.fit(close_clusters).cluster_centers_
 
-		# calculate distance to all the far clusters
-		distances  = []
-		for x,y in kmeans_centers:
-			distance = 0.0
-			for i,j in far_clusters:
-				distance += pow(pow(x-i,2) + pow(y-j,2), .5)
-			distances.append(distance)
+            # calculate distance to all the far clusters
+            distances  = []
+            for x,y in kmeans_centers:
+                    distance = 0.0
+                    for i,j in far_clusters:
+                            distance += pow(pow(x-i,2) + pow(y-j,2), .5)
+                    distances.append(distance)
 
-		# gets the index which maximizes the distance to all the far clusters
-		val = 0.0
-		index = -1
-		for i in range(len(distances)):
-			if val < distances[i]:
-				val = distances[i]
-				index = i
-		
-		optimal_coord = (kmeans_centers[index][0], kmeans_centers[index][1])
-		repo.dropPermanent("optimal_coord")
-		repo.createPermanent("optimal_coord")
-		repo['mgerakis_pgomes94_raph737.optimal_coord'].insert_one(optimal_coord)
+            # gets the index which maximizes the distance to all the far clusters
+            val = 0.0
+            index = -1
+            for i in range(len(distances)):
+                    if val < distances[i]:
+                            val = distances[i]
+                            index = i
+            
+            optimal_coord = (kmeans_centers[index][0], kmeans_centers[index][1])
+            repo.dropPermanent("optimal_coord")
+            repo.createPermanent("optimal_coord")
+            repo['mgerakis_pgomes94_raph737.optimal_coord'].insert_one({'optimal_coord': optimal_coord})
 
-		print ('The optimal lat/long is {}, {}'.format(optimal_coord[0], optimal_coord[1]))
+            print ('The optimal lat/long is {}, {}'.format(optimal_coord[0], optimal_coord[1]))
 
-		repo.logout()
+            repo.logout()
 
-		end_time = datetime.datetime.now()
+            end_time = datetime.datetime.now()
 
 
 	@staticmethod
