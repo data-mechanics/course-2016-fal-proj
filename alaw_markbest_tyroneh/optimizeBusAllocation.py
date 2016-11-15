@@ -79,7 +79,7 @@ class optimizeBusAllocation(dml.Algorithm):
 
 			#store route's optimum in output
 			output.append({route:{'Avg Time': avg, 'Time Stdev': std, 'Stops Count': n, 'Optimum Allocation': k_vals.index(min(k_vals)) + 1, 'Optimum Avg Time': avg/(k_vals.index(min(k_vals))+1)}})
-			results[route] = [k_vals,latency_vals,inefficiency_vals]
+			results[route] = [route,k_vals,latency_vals,inefficiency_vals]
 
 			#trial mode: only calculate for 1 route
 			if(trial):
@@ -105,12 +105,13 @@ class optimizeBusAllocation(dml.Algorithm):
 		
 		#add plots for each route (blue: allocation, green: wait time, red: inefficiency)
 		for r in results:
-			k_vals = results[r][0]
-			latency_vals = results[r][1]
-			inefficiency_vals = results[r][2]
-			plt.plot(range(1,101), k_vals, color='blue')
-			plt.plot(range(1,101), latency_vals, color='green')
-			plt.plot(range(1,101), inefficiency_vals, color='red')
+			route = results[r][0]
+			k_vals = results[r][1]
+			latency_vals = results[r][2]
+			inefficiency_vals = results[r][3]
+			plt.plot(range(1,101), k_vals, color='blue', label = route)
+			plt.plot(range(1,101), latency_vals, color='green', label = route)
+			plt.plot(range(1,101), inefficiency_vals, color='red', label = route)
 
 		plt.title('Optimum Allocation of Buses for each Bus Route')
 		plt.xlabel('K = Number of Buses Allocated')
@@ -166,12 +167,14 @@ class optimizeBusAllocation(dml.Algorithm):
 
 		return doc
 
-	def run(t = False, v = False):
+	def run(trial = False, visual = False):
 		'''
 		Scrap datasets and write provenance files
 		set v = True for visualizations
 		'''
-		times = optimizeBusAllocation.execute(trial = t, visual = v)
+		times = optimizeBusAllocation.execute(trial = trial, visual = visual)
 		optimizeBusAllocation.provenance(startTime = times['start'], endTime = times['end'])
 
+# if __name__ == '__main__':
+# 	optimizeBusAllocation.run(v=True)
 # ## eof

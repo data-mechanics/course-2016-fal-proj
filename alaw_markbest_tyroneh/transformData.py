@@ -6,7 +6,7 @@ import uuid
 
 class transformData(dml.Algorithm):
     contributor = 'alaw_markbest_tyroneh'
-    reads = ['alaw_markbest_tyroneh.BostonProperty','alaw_markbest_tyroneh.CambridgeProperty','alaw_markbest_tyroneh.SomervilleProperty','alaw_markbest_tyroneh.BrooklineProperty','alaw_markbest_tyroneh.HubwayStations','alaw_markbest_tyroneh.TCStops']
+    reads = ['alaw_markbest_tyroneh.BostonProperty','alaw_markbest_tyroneh.CambridgeProperty','alaw_markbest_tyroneh.SomervilleProperty','alaw_markbest_tyroneh.BrooklineProperty', 'alaw_markbest_tyroneh.HubwayStations', 'alaw_markbest_tyroneh.TCStops','alaw_markbest_tyroneh.TimedBuses', 'alaw_markbest_tyroneh.CensusPopulation','alaw_markbest_tyroneh.BusRoutes','alaw_markbest_tyroneh.BusStops']
     writes = ['alaw_markbest_tyroneh.PropertyGeoJSONs','alaw_markbest_tyroneh.StationGeoJSONs']
 
     @staticmethod
@@ -69,6 +69,6 @@ class transformData(dml.Algorithm):
         times = transformData.execute()
         transformData.provenance(startTime = times['start'], endTime = times['end'])
 
-if __name__ == '__main__':
-    transformData.run()
+# if __name__ == '__main__':
+#     transformData.run()
 ## eof

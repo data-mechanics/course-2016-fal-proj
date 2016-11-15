@@ -46,8 +46,8 @@ class mapData():
 		sx = []
 		sy = []
 
-		print(len(rx))
-		print(len(cx))
+		# print(len(rx))
+		# print(len(cx))
 
 		for json in stat_data:
 			y = json['value']['geometry']['coordinates'][0]
@@ -55,7 +55,7 @@ class mapData():
 			sx.append(x)
 			sy.append(y)
 
-		print(len(sx))
+		# print(len(sx))
 		plt.figure(figsize=(10,10))
 		plt.scatter(rx, ry, color='blue')
 		plt.scatter(cx, cy, color='green')
@@ -64,4 +64,6 @@ class mapData():
 		#plt.xlim(-71.18,-70.993)
 		plt.show()
 
+# if __name__ == '__main__':
+# 	mapData.visualize()
 ## eof

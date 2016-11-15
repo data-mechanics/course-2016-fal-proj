@@ -136,15 +136,12 @@ class getData(dml.Algorithm):
             url = url_base + str(bus_time)
             try:
                 response = urllib.request.urlopen(url)
-                if(trial == True):
-                    print(url)
                 response = response.read().decode("utf-8")
                 r = json.loads(response)
                 r['timestamp'] = bus_time # change timestamp to time of scraping
                 all_buses.append(r)
             except urllib.error.HTTPError as e:
-                if(trial == True):
-                    print('HTTP Error code:', e.code)
+                pass
     
             bus_time += 300 # increment by 30 minutes
 
@@ -483,14 +480,14 @@ class getData(dml.Algorithm):
 
         return doc
     
-    def run(t=False):
+    def run(trial=False):
         '''
         Scrap datasets and write provenance files
         '''
 
-        times = getData.execute(trial=t)
+        times = getData.execute(trial=trial)
         getData.provenance(startTime = times['start'], endTime = times['end'])
 
-if __name__ == '__main__':
-    getData.run()
+# if __name__ == '__main__':
+#     getData.run()
 ## eof
