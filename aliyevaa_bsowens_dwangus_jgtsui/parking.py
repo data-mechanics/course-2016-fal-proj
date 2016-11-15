@@ -54,6 +54,7 @@ class parking(dml.Algorithm):
 		repo.dropPermanent("parking")
 		repo.createPermanent("parking")
 
+
 		repo['aliyevaa_bsowens_dwangus_jgtsui.parking'].insert_many(r)
 		for elem in repo.aliyevaa_bsowens_dwangus_jgtsui.parking.find( modifiers={"$snapshot": True}):
 			lng=elem['lng']

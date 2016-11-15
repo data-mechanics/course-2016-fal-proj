@@ -8,7 +8,7 @@ import ast
 from geopy.distance import vincenty as vct
 from bson.code import Code
 
-class transformOldAggregateNew(dml.Algorithm):
+class scoreLocations(dml.Algorithm):
     contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
 
     oldSetExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
@@ -41,12 +41,12 @@ class transformOldAggregateNew(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate(transformOldAggregateNew.contributor, transformOldAggregateNew.contributor)
+        repo.authenticate(scoreLocations.contributor, scoreLocations.contributor)
         myrepo = repo.aliyevaa_bsowens_dwangus_jgtsui
 
 
 
-        for key in transformOldAggregateNew.oldSetExtensions:
+        for key in scoreLocations.oldSetExtensions:
             print(key)
             print(myrepo[key].find_one())
             print("\n")
@@ -67,8 +67,8 @@ class transformOldAggregateNew(dml.Algorithm):
 
 
 
-        print(transformOldAggregateNew.dataSetDict.keys())
-        for key in transformOldAggregateNew.dataSetDict.keys():
+        print(scoreLocations.dataSetDict.keys())
+        for key in scoreLocations.dataSetDict.keys():
             begin = time.time()
             
             repo.drop_collection(key)
@@ -79,7 +79,7 @@ class transformOldAggregateNew(dml.Algorithm):
         ##print(myrepo['crimeVmoving_truck_permits'].find({'moving_indicators_1600m_radius': {'$gt': 557}}).count())
         ##return
 
-        for key in transformOldAggregateNew.dataSetDict.keys():
+        for key in scoreLocations.dataSetDict.keys():
             begin = time.time()
 
             repo.dropPermanent(key)
@@ -190,7 +190,7 @@ class transformOldAggregateNew(dml.Algorithm):
          # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate(transformOldAggregateNew.contributor, transformOldAggregateNew.contributor)
+        repo.authenticate(scoreLocations.contributor, scoreLocations.contributor)
 
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
@@ -199,12 +199,12 @@ class transformOldAggregateNew(dml.Algorithm):
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
         this_script = doc.agent('alg:aliyevaa_bsowens_dwangus_jgtsui#transformOldAggregateNew', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        for key in transformOldAggregateNew.dataSetDict.keys():
+        for key in scoreLocations.dataSetDict.keys():
             #How to say that this dataset was generated from multiple sources?
             #resource = doc.entity('dat:' + transformOldAggregateNew.contributor + '#' + key???, {'prov:label':transformOldAggregateNew.dataSetDict[key][1], prov.model.PROV_TYPE:'ont:DataSet'})
             get_something = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
             doc.wasAssociatedWith(get_something, this_script)
-            something = doc.entity('dat:aliyevaa_bsowens_dwangus_jgtsui#' + key, {prov.model.PROV_LABEL:transformOldAggregateNew.dataSetDict[key][1], prov.model.PROV_TYPE:'ont:DataSet'})
+            something = doc.entity('dat:aliyevaa_bsowens_dwangus_jgtsui#' + key, {prov.model.PROV_LABEL:scoreLocations.dataSetDict[key][1], prov.model.PROV_TYPE: 'ont:DataSet'})
             doc.wasAttributedTo(something, this_script)
             doc.wasGeneratedBy(something, get_something, endTime)
             #doc.wasDerivedFrom(something, resource???, get_something, get_something, get_something)
@@ -229,7 +229,7 @@ class transformOldAggregateNew(dml.Algorithm):
 
         return doc
 
-transformOldAggregateNew.execute()
+scoreLocations.execute()
 #doc = transformOldAggregateNew.provenance()
 #print(doc.get_provn())
 #print(json.dumps(json.loads(doc.serialize()), indent=4))
