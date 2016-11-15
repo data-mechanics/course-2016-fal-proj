@@ -36,10 +36,20 @@ The datasets obtained in Project 1 were of the form (year, [45 k-means]) for loc
 I chose to use linear regression because not only does it provide a basic visualization, but it provides the capability to fit future points around the regression line. The dataset has a key of the data source and the value is a tuple of the coefficients, mean-squared error, and variance score where 1 indicates "perfect prediction". I'm not sure how to incorporate the year into the graph yet, to ensure that the points are actually happening in sequence. Below are the results of the linear regression:
 
 Buildings K-Means Regression
+
+
 ![Alt text](buildings.png?raw=true "Buildings K-Means Regression")
+
+
 Crimes K-Means Regression
+
+
 ![Alt text](crimes.png?raw=true "Crimes K-Means Regression")
+
+
 Earnings K-Means Regression
+
+
 ![Alt text](earnings.png?raw=true "Earnings K-Means Regression")
 
 The p-score and correlation calculations will provide more detailed information on the relationship between the trends and indicate whether or not this shows an overall progression in certain directions.  
