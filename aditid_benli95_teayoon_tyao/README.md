@@ -64,7 +64,7 @@ prepData3.py: This script functions as a wrapper around prepData1 and prepData2.
 
 To run this script: $ python3 prepData3.py
 
-prepData4.py: This script functions as a wrapper around prepData1 and prepData2. It iterates through a range of distances to pas
+prepData4.py: Generates the histogram and linear regression values.
 
 #Results
 
