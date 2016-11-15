@@ -16,10 +16,11 @@ Determine a stable bus schedule given information about traffic (Google maps API
 * pyshp
 * pyproj
 * dbfread
+* random
   
 \* **MAKE SURE YOU HAVE MONGOD RUNNING FIRST AND AUTH'D** \*
   
-**main.py**: executes all scripts in order and performs optimizations (-t: trial mode to reduce running time to ~2 mins, -v: produce graphs for optimizations)  
+**main.py**: executes all scripts in order and performs optimizations (-t: trial mode to do Algo R Sampling on datasets, -v: produce graphs for optimizations)  
 **getData.py**: Pulls raw data and stores them inside MongoDB and records prov  
 **transformData.py**: Retrieves raw data and reformats/transforms them for optimization use and records prov  
 **mapData.py (TEMP)**: Simple matplotlib scatter plot of current points in datset for visualization purposes (Please replace with D3)

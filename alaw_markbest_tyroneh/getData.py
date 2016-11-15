@@ -15,6 +15,7 @@ from dbfread import DBF
 import re
 import os
 import shutil
+import random
 
 class getData(dml.Algorithm):
     contributor = 'alaw_markbest_tyroneh'
@@ -32,20 +33,27 @@ class getData(dml.Algorithm):
         repo.authenticate('alaw_markbest_tyroneh', 'alaw_markbest_tyroneh')
         
         #JSON urls with SoQL queries
-        jsonURLs = {"BostonProperty": 'https://data.cityofboston.gov/resource/jsri-cpsq.json?',
-                    "CambridgeProperty": 'https://data.cambridgema.gov/resource/ufnx-m9uc.json?',
-                    "SomervilleProperty":'https://data.somervillema.gov/resource/dhs3-5kuu.json?'}
+        jsonURLs = {"BostonProperty": 'https://data.cityofboston.gov/resource/jsri-cpsq.json?$limit=11000000',
+                    "CambridgeProperty": 'https://data.cambridgema.gov/resource/ufnx-m9uc.json?$limit=11000000',
+                    "SomervilleProperty":'https://data.somervillema.gov/resource/dhs3-5kuu.json?$limit=11000000'}
         
         for key in jsonURLs:  
             url = jsonURLs[key]
 
-            #Trial mode: limit size of dataset
-            if(trial != True):
-                url = url + '$limit=11000000'
-
             response = urllib.request.urlopen(url).read().decode("utf-8")
             r = json.loads(response)
-            
+
+            #Trial mode: run Algo R for 1000 samples
+            if(trial == True):
+                k = 1000
+                sample = r[0:k]
+                for i in range(2000,len(r)):
+                    j = random.randint(0, i)
+                    if(j <= k-1):
+                        sample[j] = r[i]
+                r = sample
+
+
             # Set up the database connection
             repo.dropPermanent(key)
             repo.createPermanent(key)
@@ -58,6 +66,16 @@ class getData(dml.Algorithm):
             url = geojsonURLs[key]
             response = urllib.request.urlopen(url).read().decode("utf-8")
             r = json.loads(response)['features']
+
+            #Trial mode: run Algo R for 1000 samples
+            if(trial == True):
+                k = 1000
+                sample = r[0:k]
+                for i in range(2000,len(r)):
+                    j = random.randint(0, i)
+                    if(j <= k-1):
+                        sample[j] = r[i]
+                r = sample
             
             # Set up the database connection
             repo.dropPermanent(key)
@@ -74,7 +92,17 @@ class getData(dml.Algorithm):
             fieldnames = csvFields[key]
             
             response = urllib.request.urlopen(url)
-            csvfile = csv.DictReader(response.read().decode('utf-8').splitlines()[1:],fieldnames)
+            csvfile = list(csv.DictReader(response.read().decode('utf-8').splitlines()[1:],fieldnames))
+
+            #Trial mode: run Algo R for 1000 samples
+            if(trial == True):
+                k = 1000
+                sample = csvfile[0:k]
+                for i in range(2000,len(csvfile)):
+                    j = random.randint(0, i)
+                    if(j <= k-1):
+                        sample[j] = csvfile[i]
+                csvfile = sample
             
             # Set up the database connection
             repo.dropPermanent(key)
@@ -109,10 +137,6 @@ class getData(dml.Algorithm):
 
             json_stops.append(stops_by_route)
 
-            #trial mode: only retrieve one set of data
-            if(trial):
-                break
-
         #json_stops = {oute':route, 'path':json.loads(responses[route]) for route in responses}
         #stops_dumps = {route:json.dumps(json_stops[route], sort_keys=True, indent=2) for route in json_stops}
         stops_dumps = json.dumps(json_stops, sort_keys=True, indent=2)
@@ -120,6 +144,16 @@ class getData(dml.Algorithm):
         result = []
         for route in json_stops:
             result.append({'route':route})
+
+        #Trial mode: run Algo R for 1000 samples
+        if(trial == True):
+            k = 1000
+            sample = result[0:k]
+            for i in range(2000,len(result)):
+                j = random.randint(0, i)
+                if(j <= k-1):
+                    sample[j] = result[i]
+            result = sample
 
         # Set up the database connection
         repo.dropPermanent('TCStops')
@@ -145,9 +179,15 @@ class getData(dml.Algorithm):
     
             bus_time += 300 # increment by 30 minutes
 
-            #trial mode: only retrieve one set of data
-            if(trial):
-                break
+        #Trial mode: run Algo R for 1000 samples
+        if(trial == True):
+            k = 1000
+            sample = all_buses[0:k]
+            for i in range(2000,len(all_buses)):
+                j = random.randint(0, i)
+                if(j <= k-1):
+                    sample[j] = all_buses[i]
+            all_buses = sample
  
         repo.dropPermanent('TimedBuses')
         repo.createPermanent('TimedBuses')
@@ -177,14 +217,21 @@ class getData(dml.Algorithm):
 
             boston_area = [{'area':x[1],'population':x[9]} for x in sf.iterRecords() if x[1] in CensusGisTowns]
 
+            #Trial mode: run Algo R for 1000 samples
+            if(trial == True):
+                k = 1000
+                sample = boston_area[0:k]
+                for i in range(2000,len(boston_area)):
+                    j = random.randint(0, i)
+                    if(j <= k-1):
+                        sample[j] = boston_area[i]
+                boston_area = sample
+
             # Set up the database connection
             repo.dropPermanent(key)
             repo.createPermanent(key)
             repo['alaw_markbest_tyroneh.'+key].insert_many(boston_area)
 
-            #trial mode: only retrieve one set of data
-            if(trial):
-                break
 
         # remove files after unzipping
         for path in ['CENSUS2010TOWNS_ARC.dbf','CENSUS2010TOWNS_ARC.prj','CENSUS2010TOWNS_ARC.sbn','CENSUS2010TOWNS_ARC.sbx','CENSUS2010TOWNS_ARC.shp','CENSUS2010TOWNS_ARC.shp.xml',
@@ -289,6 +336,26 @@ class getData(dml.Algorithm):
 
             # Drop routes not part of metropolitan routes
             geoJSONStops = [i for i in geoJSONStops if i['properties']['stop_id'] in usable_stops]
+
+            #Trial mode: run Algo R for 1000 samples
+            if(trial == True):
+                k = 1000
+                sample = geoJSONRoutes[0:k]
+                for i in range(2000,len(geoJSONRoutes)):
+                    j = random.randint(0, i)
+                    if(j <= k-1):
+                        sample[j] = geoJSONRoutes[i]
+                geoJSONRoutes = sample
+
+            #Trial mode: run Algo R for 1000 samples
+            if(trial == True):
+                k = 1000
+                sample = geoJSONStops[0:k]
+                for i in range(2000,len(geoJSONStops)):
+                    j = random.randint(0, i)
+                    if(j <= k-1):
+                        sample[j] = geoJSONStops[i]
+                geoJSONStops = sample
 
             # Set up the database connection for routes
             repo.dropPermanent('BusRoutes')
