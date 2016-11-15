@@ -5,10 +5,10 @@ import prov.model
 import datetime
 import uuid
 
-class getSchools(dml.Algorithm):
+class getHospitals(dml.Algorithm):
     contributor = 'jyaang_robinliu106'
     reads = []
-    writes = ['jyaang_robinliu106.school']
+    writes = ['jyaang_robinliu106.hospital', 'jyaang_robinliu106.found']
 
     @staticmethod
     def execute(trial = False):
@@ -20,24 +20,24 @@ class getSchools(dml.Algorithm):
         repo = client.repo
         repo.authenticate('jyaang_robinliu106', 'jyaang_robinliu106')
 
-        url = "https://data.cityofboston.gov/api/views/e29s-ympv/rows.json?accessType=DOWNLOAD"
+        url = "https://data.cityofboston.gov/api/views/46f7-2snz/rows.json?accessType=DOWNLOAD"
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
 
-        schoolData = r['data']
+        hospitalData = r['data']
         a = []
-        for school in schoolData:
-            city = school[12][0]
+        for hospital in hospitalData:
+            city = hospital[14][0]
             city = city[1:-1].split(',')
             city = str(city[1]).split(':')[1]
             city = city.strip("\"")
-            city = city.upper()
-            a.append({"name" : school[10] , "city" : city , "coord" : school[-1][1:3] })
+            #a.append({"hospitalName" : hospital[8] , "city" : city , "coord" : hospital[-1][1:3] })
+            a.append({"hospitalName" : hospital[8] , "coord" : hospital[-1][1:3] })
 
-        repo.dropPermanent("school")
-        repo.createPermanent("school")
-        repo['jyaang_robinliu106.school'].insert_many(a)
+        repo.dropPermanent("hospital")
+        repo.createPermanent("hospital")
+        repo['jyaang_robinliu106.hospital'].insert_many(a)
 
         repo.logout()
 
@@ -64,28 +64,27 @@ class getSchools(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:jyaang_robinliu106#getschools', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'School Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_school = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        doc.wasAssociatedWith(get_school, this_script)
-        doc.usage(get_school, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=school&$select=schoolName,city,coord'
+        this_script = doc.agent('alg:jyaang_robinliu106#getHospitals', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource = doc.entity('bdp:46f7-2snz', {'prov:label':'Hospital Location', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        get_hospital = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        doc.wasAssociatedWith(get_hospital, this_script)
+        doc.usage(get_hospital, resource, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval'
                 }
             )
 
-        school = doc.entity('dat:jyaang_robinliu106#school', {prov.model.PROV_LABEL:'school Locations', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(school, this_script)
-        doc.wasGeneratedBy(school, get_school, endTime)
-        doc.wasDerivedFrom(school, resource, get_school, get_school, get_school)
+        hospital = doc.entity('dat:jyaang_robinliu106#hospital', {prov.model.PROV_LABEL:'Hospital Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(hospital, this_script)
+        doc.wasGeneratedBy(hospital, get_hospital, endTime)
+        doc.wasDerivedFrom(hospital, resource, get_hospital, get_hospital, get_hospital)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
         return doc
 
-getSchools.execute()
-doc = getSchools.provenance()
+getHospitals.execute()
+doc = getHospitals.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 

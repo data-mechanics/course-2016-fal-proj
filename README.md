@@ -1,69 +1,13 @@
-# course-2016-fal-proj
-Project repository for the course project in the Fall 2016 iteration of the Data Mechanics course at Boston University.
+Project #2 By Ji Eun Yang and Hin Lok Liu (jyaang_robinliu106)
 
-In this project, you will implement platform components that can obtain a some data sets from web services of your choice, and platform components that combine these data sets into at least two additional derived data sets. These components will interct with the backend repository by inserting and retrieving data sets as necessary. They will also satisfy a standard interface by supporting specified capabilities (such as generation of dependency information and provenance records).
+For our project, we wanted to be able to measure child-friendliness per Boston neighborhood. We created a score for the following Boston neighborhoods: Allston, Back Bay, Bay Village, Beacon Hill, Brighton, Charlestown, Chinatown, Dorchester, Downtown Crossing, East Boston, Fenway, Hyde park, Jamaica Plain, Mattapan, Mission Hill, North End, Roslindale, Roxbury, South Boston, South End, West End, and Roxbury.
 
-**This project description will be updated as we continue work on the infrastructure.**
+For each of these neighborhoods, we created a constraint satisfaction problem where we counted the number of schools and crimes within an approximate radius within the center of each neighborhood. We also created an optimization problem to find the hospital with the shortest distance from the center of the neighborhood.
 
-## MongoDB infrastructure
+We used datasets from the City of Boston to retrieve coordinates of all the hospitals, schools, and crimes in Boston.
 
-### Setting up
+After calculating the number of schools and crimes, and the distance to the closest hospital, we used these constants to developed a scoring algorithm based on our working weights: 25% hospitals, 50% education, and 25% safety. Based on these numbers, we generate a weighted score where a high number of schools, low number of crimes, and short distance to a hospital is desirable. A higher rating for a neighborhood indicates it is more child-friendly. Using this algorithm, we calculated scores for each neighborhood and stored it in a new collection “neighborhood_scores” in repo.
 
-We have committed setup scripts for a MongoDB database that will set up the database and collection management functions that ensure users sharing the project data repository can read everyone's collections but can only write to their own collections. Once you have installed your MongoDB instance, you can prepare it by first starting `mongod` _without authentication_:
-```
-mongod --dbpath "<your_db_path>"
-```
-If you're setting up after previously running `setup.js`, you may want to reset (i.e., delete) the repository as follows.
-```
-mongo reset.js
-```
-Next, make sure your user directories (e.g., `alice_bob` if Alice and Bob are working together on a team) are present in the same location as the `setup.js` script, open a separate terminal window, and run the script:
-```
-mongo setup.js
-```
-Your MongoDB instance should now be ready. Stop `mongod` and restart it, enabling authentication with the `--auth` option:
-```
-mongod --auth --dbpath "<your_db_path>"
-```
+To run our project:
 
-### Working on data sets with authentication
-
-With authentication enabled, you can start `mongo` on the repository (called `repo` by default) with your user credentials:
-```
-mongo repo -u alice_bob -p alice_bob --authenticationDatabase "repo"
-```
-However, you should be unable to create new collections using `db.createCollection()` in the default `repo` database created for this project:
-```
-> db.createCollection("EXAMPLE");
-{
-  "ok" : 0,
-  "errmsg" : "not authorized on repo to execute command { create: \"EXAMPLE\" }",
-  "code" : 13
-}
-```
-Instead, load the server-side functions so that you can use the customized `createTemp()` or `createPerm()` functions, which will create collections that can be read by everyone but written only by you:
-```
-> db.loadServerScripts();
-> var EXAMPLE = createPerm("EXAMPLE");
-```
-Notice that this function also prefixes the user name to the name of the collection (unless the prefix is already present in the name supplied to the function).
-```
-> EXAMPLE
-alice_bob.EXAMPLE
-> db.alice_bob.EXAMPLE.insert({value:123})
-WriteResult({ "nInserted" : 1 })
-> db.alice_bob.EXAMPLE.find()
-{ "_id" : ObjectId("56b7adef3503ebd45080bd87"), "value" : 123 }
-```
-For temporary collections that are only necessary during intermediate steps of of a computation, use `createTemp()`; for permanent collections that represent data that is imported or derived, use `createPerm()`.
-
-If you do not want to run `db.loadServerScripts()` every time you open a new terminal, you can use a `.mongorc.js` file in your home directory to store any commands or calls you want issued whenever you run `mongo`.
-
-## Other required libraries and tools
-
-You will need the latest versions of the PROV and DML Python libraries. If you have `pip` installed, the following should install the latest versions automatically:
-```
-pip install prov --upgrade --no-cache-dir
-pip install dml --upgrade --no-cache-dir
-```
-If you are having trouble with `lxml`, you could try retrieving it [here](http://www.lfd.uci.edu/~gohlke/pythonlibs/).
+$ python run.py

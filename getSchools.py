@@ -4,12 +4,11 @@ import dml
 import prov.model
 import datetime
 import uuid
-from bson.code import Code
 
-class getTestScores(dml.Algorithm):
+class getSchools(dml.Algorithm):
     contributor = 'jyaang_robinliu106'
     reads = []
-    writes = ['jyaang_robinliu106.testScore']
+    writes = ['jyaang_robinliu106.school']
 
     @staticmethod
     def execute(trial = False):
@@ -21,29 +20,30 @@ class getTestScores(dml.Algorithm):
         repo = client.repo
         repo.authenticate('jyaang_robinliu106', 'jyaang_robinliu106')
 
-        with open('districtScores.json') as json_data:
-            test_scores = json.load(json_data)
-        # Change the key "Org Name" to "Name"
-        for entry in test_scores:
-            for key in entry:
-                if key == "Org Name":
-                    entry["Name"] = entry.pop(key).upper()
-                else:
-                    continue
+        url = "https://data.cityofboston.gov/api/views/e29s-ympv/rows.json?accessType=DOWNLOAD"
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
 
+        schoolData = r['data']
+        a = []
+        for school in schoolData:
+            #zipcode = school[12][0]
+            #zipcode = zipcode[1:-1].split(',')
+            #zipcode = str(zipcode[3]).split(':')[1]
+            #zipcode = zipcode.strip("\"")
+            #a.append({"schoolName" : school[10] , "zipcode" : zipcode , "coord" : school[-1][1:3] })
+            a.append({"schoolName" : school[10], "coord" : school[-1][1:3] })
 
-
-        jsonTestScores = json.dumps(test_scores, sort_keys=True, indent=2)
-        repo.dropPermanent("testScores")
-        repo.createPermanent("testScores")
-        repo['jyaang_robinliu106.testScores'].insert_many(test_scores)
+        repo.dropPermanent("school")
+        repo.createPermanent("school")
+        repo['jyaang_robinliu106.school'].insert_many(a)
 
         repo.logout()
 
         endTime = datetime.datetime.now()
 
         return {"start":startTime, "end":endTime}
-
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -64,28 +64,27 @@ class getTestScores(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:jyaang_robinliu106#getTestScores', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'testScore Location', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_testScore = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        doc.wasAssociatedWith(get_testScore, this_script)
-        doc.usage(get_testScore, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=testScore&$select=type,latitude,longitude,OPEN_DT'
+        this_script = doc.agent('alg:jyaang_robinliu106#getschools', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource = doc.entity('bdp:e29s-ympv', {'prov:label':'School Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        get_school = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        doc.wasAssociatedWith(get_school, this_script)
+        doc.usage(get_school, resource, startTime, None,
+                {prov.model.PROV_TYPE:'ont:Retrieval'
                 }
             )
 
-        testScore = doc.entity('dat:jyaang_robinliu106#testScore', {prov.model.PROV_LABEL:'testScore Locations', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(testScore, this_script)
-        doc.wasGeneratedBy(testScore, get_testScore, endTime)
-        doc.wasDerivedFrom(testScore, resource, get_testScore, get_testScore, get_testScore)
+        school = doc.entity('dat:jyaang_robinliu106#school', {prov.model.PROV_LABEL:'school Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(school, this_script)
+        doc.wasGeneratedBy(school, get_school, endTime)
+        doc.wasDerivedFrom(school, resource, get_school, get_school, get_school)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
         return doc
 
-getTestScores.execute()
-doc = getTestScores.provenance()
+getSchools.execute()
+doc = getSchools.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 
