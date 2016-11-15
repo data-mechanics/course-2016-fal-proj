@@ -3,18 +3,30 @@ Project repository for the course project in the Fall 2016 iteration of the Data
 
 ## Justification
 
-The data sets I've chosen are the Crime Incident Reports (from July 2012 - August 2015), Public Access Fishing Locations, Issued Moving Truck Permits, 
-Active Food Establishment Licenses, Entertainment Licenses, Community Supported Agriculture Pickups, and Year-Round Swimming Pools. The three new data sets
-I've created as a result of these 7 data sets (all of them pulled from https://data.cityofboston.gov/ using the Socrata Open Data API endpoint .json URL)
-are (informally) called Crime Instances v. Community Indicators, Crime Instances v. Anti-Community Indicators, and Crime Instances v. Moving Truck Permits
+The data sets we have chosen are:
+
+- Crime Incident Reports (from July 2012 - August 2015)
+- Public Access Fishing Locations, Issued Moving Truck Permits
+- Active Food Establishment Licenses, Entertainment Licenses
+- Community Supported Agriculture Pickups
+- Year-Round Swimming Pools.
+- Boston Parking Lots
+- Boston Libaries
+
+The first five datasets are pulled from [City of Boston](https://data.cityofboston.gov/) using the Socrata Open Data API endpoint *.json* URL. The last two data sets were scraped from Google using the Google API. 
+
+
+
+The ???? new data sets we have created as a result of these 7 data sets (the first five a) are (informally) called Crime Instances v. Community Indicators, Crime Instances v. Anti-Community Indicators, and Crime Instances v. Moving Truck Permits
 (all instances of crime are looked at within a one-mile, or 1600-meter radius of the indicators mentioned in the title).
 
-The interesting question I'm trying to solve is this: if, given different "types" of city establishments/infrastructure that can either be categorized as 
+The interesting question we are trying to solve is this: if, given different "types" of city establishments/infrastructure that can either be categorized as 
 indicators of "stronger community" or "weaker community", can we find other correlations with other indicators of inequality or "instability" in Boston and 
 address common problems in terms of this social aspect? Stated in another, more concrete way -- if we were to add a new "community hotspot" or take away an
 existing "tourist establishment" in order to maximize the benefits to Bostonians across a variety of metrics -- economic, social, infrastructural, etc. --
 where would we do so?
 
+**fix dis plz**
 These data sets were combined as a preliminary test to this question, using crime statistics, and seeing if there was a correlation in the location where a
 crime occurred and the frequency of "anti-community" and "community" indicators within a 1-mile radius. The public fishing locations and community supported
 agriculture pickups were grouped and taken to be "community indicators", while entertainment and active food establishment licenses were taken to be "anti-
@@ -28,7 +40,7 @@ location coordinate formats were being used in the data set.
 
 ## Algorithms, Tools, and Methods
 
-The following data sets were retrieved from https://data.cityofboston.gov/ and store and transformed in some specific way, all in order to facilitate the
+The following data sets were retrieved, stored, and transformed in some specific way, all in order to facilitate the
 creation of 2D-Sphere indexing in MongoDB (and for reference, 2D-Sphere indexing in MongoDB is a useful tool in comparing formatted geolocation data en-masse 
 in MongoDB's databases (see https://docs.mongodb.com/manual/core/2dsphere/ for reference)):
 - Public Access Fishing Locations: 
@@ -42,11 +54,20 @@ in MongoDB's databases (see https://docs.mongodb.com/manual/core/2dsphere/ for r
 	- The 'location' field was, as a string, in '(latitude, longitude)' format -- so it was parsed and turned into a correct GeoJSON object
 		(which, for reference, is in {'type': 'Point', 'coordinates': [longitude,latitude]} format); otherwise, that data-entry was deleted,
 		as had to occur for a few rows that had malformed data
+	- For project two, we further streamlined this dataset by:
+		- Eliminating duplicate licenses within the dataset and
+		- Eliminating any overlap between Active Food Establishment Licenses and Entertainment Licenses. Since there were some inconsistencies in regards to how each entry's location (latitude, longitude, city, street number, etc.) was formatted, we could only approximately find this overlap. 
 - Issued Moving Truck Permits:
 	- The existing 'location' field was renamed to 'location_details'
 	- The 'location' field was added and, from the existing (now) 'location_details' field, we parsed their location_details.latitude and
 		location_details.longitude sub-fields (both strings) and added the geolocation data in correct GeoJSON format
+	- For project two, we decided to not include this dataset because there was no way of determing where the truck was coming from and going to.
+- Year Round Swimming Pools
+	- We transformed the included coordinate system in a similar way to how we transformed the Issued Moving Truck Permits. However, since the coordinates were in a format that we didn't understand, we manually input each address into GeoPy to find the latitude and longitude for each pool.
+	- We decided to not transform this dataset any further for project two, because we still need to find a way to distinguish between the public pools (which are an indicator of positive community) and the pools that require an admission fee (whihch we would categorize an a negative community indicator).
 		
+		
+**FIX DIS TOO**		
 The transformations/algorithms used to create the three new data sets occurred in the following manner, applied in a near-identical manner for each:
 - Copy the existing crime data set (whose geolocation data was already correctly formatted) as the new data set to be created, that will be soon edited in-place
 - For each crime/entry in this new data set, update as follows:
