@@ -12,12 +12,14 @@ class scoreLocations(dml.Algorithm):
     contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
 
     oldSetExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
-                     'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools']
+                     'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools','parking'
+                        ,'libraries']
 
     
     oldTitles = ['Crime Incident Reports (July 2012 - August 2015) (Source: Legacy System)', \
               'Public Access Fishing Locations', 'Issued Moving Truck Permits', 'Active Food Establishment Licenses', \
-              'Entertainment Licenses', 'Community Supported Agriculture (CSA) Pickups ', 'Year-Round Swimming Pools']
+              'Entertainment Licenses', 'Community Supported Agriculture (CSA) Pickups ', 'Year-Round Swimming Pools',
+                 'Parking Lots','Public Libraries']
     titles = ['Crime in 1-Mile Radius of Community Indicators', \
               'Crime in 1-Mile Radius of Anti-Community Indicators', \
               'Crime in 1-Mile Radius of Moving Truck Permits']
@@ -65,13 +67,14 @@ class scoreLocations(dml.Algorithm):
         indicatorsColl = myrepo['community_indicators']
         repo.createPermanent('community_indicators')
 
-
+        pos_count = 0
+        neg_count = 0
 
         print(scoreLocations.dataSetDict.keys())
         for key in scoreLocations.dataSetDict.keys():
             begin = time.time()
             
-            repo.drop_collection(key)
+            #repo.drop_collection(key)
 
 
         ##print(myrepo['crimeVcommunity_indicators'].find({'community_indicators_1600m_radius': {'$gt': 23}}).count())
@@ -82,8 +85,8 @@ class scoreLocations(dml.Algorithm):
         for key in scoreLocations.dataSetDict.keys():
             begin = time.time()
 
-            repo.dropPermanent(key)
-            repo.createPermanent(key)
+            #repo.dropPermanent(key)
+            #repo.createPermanent(key)
 
             print("Now copying {} entries from crime2012_2015 to create new dataset {}.\n".format(myrepo['crime2012_2015'].count(), key))
             #"Now copying 268056 entries from crime2012_2015 to create new dataset crimeVcommunity_indicators."
@@ -94,11 +97,12 @@ class scoreLocations(dml.Algorithm):
 
             newSet = myrepo[key]
             newSet.create_index([('location', '2dsphere')])
-
+            print(newSet)
 
 
             communityIndicators = ['public_fishing_access_locations','csa_pickups','year_round_pools','libraries']
             anti_communityIndicators = ['food_licenses', 'entertainment_licenses','parking']
+
             print("Generating new {} dataset...".format(key))
             if key in communityIndicators:
                 #"Creating crimeVcommunity_indicators took 512.1758079528809 seconds."
@@ -121,9 +125,7 @@ class scoreLocations(dml.Algorithm):
                             title = doc['name']
                         else: title = "unknownName " + i
 
-
-
-
+                        pos_count += 1
                         indicatorsColl.insert({'title': title, 'type':key,
                                              'location': doc['location'],
                                             'community_score': 1})
@@ -146,7 +148,7 @@ class scoreLocations(dml.Algorithm):
                             title = doc['name']
                         else: title = 'unknownName ' + i
 
-
+                        neg_count += 1
                         indicatorsColl.insert({'id': doc['_id'], 'title': title, 'type': key,
                                                     'location': doc['location'],
                                                'community_score': -1})
@@ -168,6 +170,7 @@ class scoreLocations(dml.Algorithm):
                     #i += 1
             #'''
             print("Creating {} took {} seconds.".format(key, time.time() - begin))
+            print("")
 
         repo.logout()
 
@@ -198,7 +201,7 @@ class scoreLocations(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:aliyevaa_bsowens_dwangus_jgtsui#transformOldAggregateNew', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:aliyevaa_bsowens_dwangus_jgtsui#scoreLocations', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         for key in scoreLocations.dataSetDict.keys():
             #How to say that this dataset was generated from multiple sources?
             #resource = doc.entity('dat:' + transformOldAggregateNew.contributor + '#' + key???, {'prov:label':transformOldAggregateNew.dataSetDict[key][1], prov.model.PROV_TYPE:'ont:DataSet'})
@@ -230,8 +233,8 @@ class scoreLocations(dml.Algorithm):
         return doc
 
 scoreLocations.execute()
-#doc = transformOldAggregateNew.provenance()
+doc = scoreLocations.provenance()
 #print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
