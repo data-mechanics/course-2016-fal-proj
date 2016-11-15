@@ -128,7 +128,7 @@ class scoreLocations(dml.Algorithm):
                         pos_count += 1
                         indicatorsColl.insert({'title': title, 'type':key,
                                              'location': doc['location'],
-                                            'community_score': 1})
+                                            'community_score': "1"})
 
             elif key in anti_communityIndicators:
                 #Creating crimeVanti_community_indicators took 2504.4606323242188 seconds.
@@ -151,7 +151,7 @@ class scoreLocations(dml.Algorithm):
                         neg_count += 1
                         indicatorsColl.insert({'id': doc['_id'], 'title': title, 'type': key,
                                                     'location': doc['location'],
-                                               'community_score': -1})
+                                               'community_score': "-1"})
             '''
             else:
                 #"Creating crimeVmoving_truck_permits took 658.3249619007111 seconds."
@@ -171,6 +171,19 @@ class scoreLocations(dml.Algorithm):
             #'''
             print("Creating {} took {} seconds.".format(key, time.time() - begin))
             print("")
+            print("Found "+ str(pos_count) + " positive attributes and " + str(neg_count) + " negative attributes")
+
+        if pos_count > neg_count:
+            scale = str((float(neg_count / pos_count)))
+            print("Scaling positive scores by a factor of: " + str(scale))
+            for i in indicatorsColl.find(modifiers={"$snapshot": True}):
+                indicatorsColl.find_one_and_update(filter={"community_score" : "1"},update={'$set':{'community_score': scale}})
+        elif pos_count <= neg_count:
+            scale =  str(float(pos_count / neg_count)*-1)
+            print("Scaling negative scores by a factor of: " + str(scale))
+            for i in indicatorsColl.find(modifiers={"$snapshot": True}):
+                indicatorsColl.find_one_and_update(filter={"community_score": "-1"}, update={'$set': {'community_score': scale}})
+
 
         repo.logout()
 
@@ -235,6 +248,6 @@ class scoreLocations(dml.Algorithm):
 scoreLocations.execute()
 doc = scoreLocations.provenance()
 #print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
