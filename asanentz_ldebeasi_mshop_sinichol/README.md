@@ -67,11 +67,19 @@ auth.json is formatted as follows:
 
 ## In order to run the files:
 
-Run the five "access the data" sets first.
+Run the five "access the data" sets first, in no order:
+addresses.py
+busStops.py
+MBTAStops.py
+hubway.py
+income.py
 
-Then, run transit.py - which combines hubway and bus stop data together.
-
-Then, you can run any of the other combination files.
+Then, in order:
+transit.py
+addressValue.py
+neighborhoodZipCodes.py
+constraintSatisfaction.py
+kmeans.py
 
 The script to run any .py files:
 
