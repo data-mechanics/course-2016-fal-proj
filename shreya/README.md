@@ -33,7 +33,11 @@ In this project, I continued using the datasets I obtained in Project 1. The two
 
 The datasets obtained in Project 1 were of the form (year, [45 k-means]) for locations of building permits, crime reports, and earnings from the years 2012-2015. My goal in this part of the project is to identify trends in the means. In order to do this, I made a new dataset of points with the least distance between them over the 4 years. Since k-means are not ordered when calculated, I decided that this was the best way to identify patterns in movement. 
 
-I chose to use linear regression because not only does it provide a basic visualization, but it provides the capability to fit future points around the regression line. The dataset has a key of the data source and the value is a tuple of the coefficients, mean-squared error, and variance score where 1 indicates "perfect prediction".
+I chose to use linear regression because not only does it provide a basic visualization, but it provides the capability to fit future points around the regression line. The dataset has a key of the data source and the value is a tuple of the coefficients, mean-squared error, and variance score where 1 indicates "perfect prediction". Below are the results of the linear regression:
+
+![Alt text](buildings.png?raw=true "Buildings K-Means Regression")
+![Alt text](crimes.png?raw=true "Crimes K-Means Regression")
+![Alt text](earnings.png?raw=true "Earnings K-Means Regression")
 
 The p-score and correlation calculations will provide more detailed information on the relationship between the trends and indicate whether or not this shows an overall progression in certain directions.
 
