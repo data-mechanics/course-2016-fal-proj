@@ -36,11 +36,7 @@ class mapReduceAvgEarnings(dml.Algorithm):
             
             return {tot:total.toFixed(2), n: counts, avg: (total/counts).toFixed(2)};
             }''')
-<<<<<<< Updated upstream
-        
-=======
 
->>>>>>> Stashed changes
         repo.dropPermanent('jzhou94_katerin.avg_earnings')
         repo.createPermanent('jzhou94_katerin.avg_earnings')
 
