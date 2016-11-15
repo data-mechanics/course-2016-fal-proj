@@ -85,25 +85,21 @@ class crime311(dml.Algorithm):
         this_script = doc.agent('alg:arjunlam#crime311', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
         crime_entity = doc.entity('bdp:29yf-ye7n', {'prov:label':'Crime Incident Report', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        
         closed311_entity = doc.entity('bdp:wc8w-nujj', {'prov:label':'Closed 311 Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         
-        get_crime = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        get_closed311 = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_crime311 = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         
-        doc.wasAssociatedWith(get_crime, this_script)
-        doc.wasAssociatedWith(get_closed311, this_script)
+        doc.wasAssociatedWith(get_crime311, this_script)
         
-        doc.usage(get_crime, crime_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
-        doc.usage(get_closed311, closed311_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(get_crime311, crime_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(get_crime311, closed311_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
         
         
         crimeClosed311 = doc.entity('dat:arjunlam#crime', {prov.model.PROV_LABEL:'Crime Closed 311', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(crimeClosed311, this_script)
-        doc.wasGeneratedBy(get_crime, get_crime, endTime)
-        doc.wasGeneratedBy(get_closed311, get_closed311, endTime)
-        doc.wasDerivedFrom(crimeClosed311, crime_entity, get_crime, get_crime, get_crime)
-        doc.wasDerivedFrom(crimeClosed311, closed311_entity, get_closed311, get_closed311, get_closed311)
+        doc.wasGeneratedBy(crimeClosed311, get_crime311, endTime)
+        doc.wasDerivedFrom(crimeClosed311, crime_entity, get_crime311, get_crime311, get_crime311)
+        doc.wasDerivedFrom(crimeClosed311, closed311_entity, get_crime311, get_crime311, get_crime311)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
