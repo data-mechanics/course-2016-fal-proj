@@ -59,7 +59,7 @@ class kmeans(dml.Algorithm):
 		centers = [x[:2] for x in kmeans.cluster_centers_]
 		print(centers)
 		plt.scatter(lats, longs, c = kmeans.labels_)
-		plt.show()
+		#plt.show()
 
 	@staticmethod
 	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
