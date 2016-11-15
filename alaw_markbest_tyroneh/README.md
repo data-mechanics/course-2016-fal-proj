@@ -29,7 +29,7 @@ getAvgVels.js contains the map-reduce functions for calculates bus velocities ba
   
 Run main.py to execute scripts in order, use flags to customize speed and output of algorithms
   
-###Bus Data Sources 
+##Data Sources 
   
 For current bus data
 *	Bus Routes and Stations (MassGIS) 
@@ -46,7 +46,7 @@ For modeling
 *	Residential properties (Boston, Cambridge, Somerville, Brookline Data Portal)
 *	2010 Population Census of relevant cities (MassGIS)
   
-###Data Transformations
+##Data Transformations
   
 - [x] Standardize all property data to the GeoJSON format
 	- [x] convert Brookline polygon coordinates to point data
@@ -60,7 +60,7 @@ For modeling
  	- [x] Using Bus coordinate data & distance estimates (using coordinate distance/Route completion difference/Google Maps API), calcuate average speed + deviation and record corresponding average completion time of a route + deviation
 - [x] \*Note: Drop datapoints outside of current purview
   
-###Optimization Algorithms  
+##Optimization Algorithms  
   
 1. **Bus station optimization**: The routes that run through metropolitan Boston distribute stops across the city. Running k-means can measure the efficiency of the current placement by comparing the means generated using the distribution of residential and non-residential properties and stations of other modes of public transportation in relation to these bus stops. This k-means algorithm differ from regular implementations in that every iteration has to project the new set of means back on to the closest segment of a bus route. The output for each route will show the original placement of stops with the calculated means.
 
