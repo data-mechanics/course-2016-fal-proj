@@ -102,6 +102,6 @@ class correlation_lights_crimes(dml.Algorithm):
         return doc
 
 correlation_lights_crimes.execute()
-doc = crime_properties.provenance()
+doc = correlation_lights_crimes.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))

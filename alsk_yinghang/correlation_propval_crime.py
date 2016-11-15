@@ -104,6 +104,6 @@ class correlation_propval_crime(dml.Algorithm):
         return doc
 
 correlation_propval_crime.execute()
-doc = crime_properties.provenance()
+doc = correlation_propval_crime.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))

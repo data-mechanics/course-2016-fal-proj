@@ -90,7 +90,7 @@ class crime_properties(dml.Algorithm):
         doc.used(this_run, resourceProperties, startTime)
 
         crime_properties = doc.entity(
-            'dat:alsk_yinghhang#crime_properties', 
+            'dat:alsk_yinghang#crime_properties', 
             {prov.model.PROV_LABEL:'Crime Properties', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(crime_properties, this_script)
         doc.wasGeneratedBy(crime_properties, this_run, endTime)
