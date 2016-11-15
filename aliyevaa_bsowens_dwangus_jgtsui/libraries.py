@@ -48,6 +48,13 @@ class libraries(dml.Algorithm):
 		repo.createPermanent("libraries")
 
 		repo['aliyevaa_bsowens_dwangus_jgtsui.libraries'].insert_many(r)
+		for elem in repo.aliyevaa_bsowens_dwangus_jgtsui.libraries.find( modifiers={"$snapshot": True}):
+			lng=elem['lng']
+			lat=elem['lat']
+			repo.aliyevaa_bsowens_dwangus_jgtsui.libraries.update({'_id': elem['_id']}, {'$set': {'location': {'type': 'Point', 'coordinates': [float(lng),float(lat)]}}})
+		repo.aliyevaa_bsowens_dwangus_jgtsui.libraries.create_index([('location', '2dsphere')])
+		
+
 		repo.logout()
 		endTime = datetime.datetime.now()
 		return {"start":startTime, "end":endTime}
@@ -82,4 +89,3 @@ libraries.execute()
 doc = libraries.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
-
