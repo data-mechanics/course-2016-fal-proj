@@ -18,8 +18,6 @@ Master Address List (taken from Property Assessment : https://data.cityofboston.
 
 Hubway Stops: http://bostonopendata.boston.opendata.arcgis.com/datasets/ee7474e2a0aa45cbbdfe0b747a5eb032_4
 
-Electric Car Charging Stations: http://bostonopendata.boston.opendata.arcgis.com/datasets/465e00f9632145a1ad645a27d27069b4_2
-
 MBTA Bus Stops: http://bostonopendata.boston.opendata.arcgis.com/datasets/f1a43ad3c46b4ac89b74cdaba393ccac_4
 
 MBTA Subway Stops: https://www.mbta.com/uploadedfiles/MBTA_GTFS.zip
