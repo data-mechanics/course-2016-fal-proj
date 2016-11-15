@@ -25,7 +25,7 @@ MBTA Subway Stops: https://www.mbta.com/uploadedfiles/MBTA_GTFS.zip
 Income Data Per Capita (This dataset was later updated to add new income data):   https://github.com/Data-Mechanics/course-2016-spr-proj/blob/222e4fd34ad436932b58c44cdf8b31c2e9da27c4/jlam17_mckay678/data/Boston_IncomePerCapita.json
 
 
-## To Run
+## Files that get data
 
 The files to access the data sets are:
 
@@ -34,6 +34,8 @@ The files to access the data sets are:
 #### MBTAStops.py
 #### hubway.py
 #### income.py
+
+See the "**In order to run the files**" section for instructions on how to run code
 
 # The combined datasets can be found in:
 
