@@ -37,9 +37,17 @@ class mapReduceAvgEarnings(dml.Algorithm):
             return {tot:total.toFixed(2), n: counts, avg: (total/counts).toFixed(2)};
             }''')
         
+        if (trial):
+            print('adfasdfasfsa')
+
         repo.dropPermanent('jzhou94_katerin.avg_earnings')
         repo.createPermanent('jzhou94_katerin.avg_earnings')
-        repo.jzhou94_katerin.employee_earnings.map_reduce(map_function_avg_earnings, reduce_function_avg_earnings, 'jzhou94_katerin.avg_earnings');
+
+        if trial == True:
+            repo['jzhou94_katerin.avg_earnings'].insert(repo.jzhou94_katerin.employee_earnings.find().limit(100))
+            repo.jzhou94_katerin.avg_earnings.map_reduce(map_function_avg_earnings, reduce_function_avg_earnings, 'jzhou94_katerin.avg_earnings');
+        else:
+            repo.jzhou94_katerin.employee_earnings.map_reduce(map_function_avg_earnings, reduce_function_avg_earnings, 'jzhou94_katerin.avg_earnings');
 
         repo.logout()
 
