@@ -5,7 +5,7 @@ import uuid
 
 class optimizeBusStops(dml.Algorithm):
     contributor = 'alaw_markbest_tyroneh'
-    reads = ['alaw_markbest_tyroneh.BusRoutes','alaw_markbest_tyroneh.StationsGeoJSONs', ]
+    reads = ['alaw_markbest_tyroneh.BusRoutes','alaw_markbest_tyroneh.StationsGeoJSONs']
     writes = ['alaw_markbest_tyroneh.NewStops']
 
     @staticmethod
