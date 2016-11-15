@@ -123,7 +123,7 @@ Normalized Histogram:
 
 
 Trial Mode:
-If you want to run the trial mode, go to getData.py and uncomment out line 199 and comment out line 198.  Then follow the run instructions. 
+If you want to run the trial mode, go to getData.py and uncomment out line 199: getData.execute(True) and comment out line 198: getData.execute().  Then follow the run instructions. 
 
 
 
