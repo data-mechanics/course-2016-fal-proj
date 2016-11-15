@@ -100,8 +100,8 @@ class crimePotholes(dml.Algorithm):
         doc.wasAttributedTo(crimePotholes, this_script)
         doc.wasGeneratedBy(get_crime, get_crime, endTime)
         doc.wasGeneratedBy(get_potholes, get_potholes, endTime)
-        doc.wasDerivedFrom(get_crime, crime_entity, get_crime, get_crime, get_crime)
-        doc.wasDerivedFrom(get_potholes, pothole_entity, get_potholes, get_potholes, get_potholes)
+        doc.wasDerivedFrom(crimePotholes, crime_entity, get_crime, get_crime, get_crime)
+        doc.wasDerivedFrom(crimePotholes, pothole_entity, get_potholes, get_potholes, get_potholes)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()

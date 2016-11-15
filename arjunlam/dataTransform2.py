@@ -102,8 +102,8 @@ class crime311(dml.Algorithm):
         doc.wasAttributedTo(crimeClosed311, this_script)
         doc.wasGeneratedBy(get_crime, get_crime, endTime)
         doc.wasGeneratedBy(get_closed311, get_closed311, endTime)
-        doc.wasDerivedFrom(get_crime, crime_entity, get_crime, get_crime, get_crime)
-        doc.wasDerivedFrom(get_closed311, closed311_entity, get_closed311, get_closed311, get_closed311)
+        doc.wasDerivedFrom(crimeClosed311, crime_entity, get_crime, get_crime, get_crime)
+        doc.wasDerivedFrom(crimeClosed311, closed311_entity, get_closed311, get_closed311, get_closed311)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
