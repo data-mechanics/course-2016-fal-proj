@@ -96,7 +96,7 @@ class getError(dml.Algorithm):
             doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
             doc.add_namespace('goog', 'https://maps.googleapis.com/maps/api/') # Google API
 
-            this_script = doc.agent('alg:mgerakis_pgomes94_raph737/getError', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+            this_script = doc.agent('alg:mgerakis_pgomes94_raph737#getError', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
             hospital_scores_resource = doc.entity('dat:mgerakis_pgomes94_raph737#hospital_scores', {'prov:label':'Hospital Scores', prov.model.PROV_TYPE:'ont:DataSet'})
             hospital_google_reviews = doc.entity('goog:place', {'prov:label': 'Google Place Search', prov.model.PROV_TYPE: 'ont:DataResource', 'ont:Extension': 'json'})
             
