@@ -17,13 +17,13 @@ repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
 
 
 
-#reset resulting directory
-repo.dropPermanent('aditid_benli95_teayoon_tyao.listOfAverages')
-repo.createPermanent('aditid_benli95_teayoon_tyao.listOfAverages')
+##reset resulting directory
+#repo.dropPermanent('aditid_benli95_teayoon_tyao.listOfAverages')
+#repo.createPermanent('aditid_benli95_teayoon_tyao.listOfAverages')
 
 arr_of_diff = []
 
-for d in range(30, 61, 5):
+for d in range(40, 44, 5):
     d = d / 10
 
     print("value of d: " + str(d))
