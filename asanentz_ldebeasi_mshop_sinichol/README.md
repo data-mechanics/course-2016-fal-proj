@@ -1,4 +1,5 @@
 # Project Proposal
+Arman Sanentz, Liam DeBeasi, Molly Shopper, Simon Nichols
 
 
 
@@ -14,7 +15,7 @@ We then take each of the towns in Boston (or as many as we can) and assign each 
 
 ## The Data Sets
 
-Master Address List (taken from Property Assessment : https://data.cityofboston.gov/Permitting/Property-Assessment-2016/i7w8-ure5
+Master Address List (taken from Property Assessment): https://data.cityofboston.gov/Permitting/Property-Assessment-2016/i7w8-ure5
 
 Hubway Stops: http://bostonopendata.boston.opendata.arcgis.com/datasets/ee7474e2a0aa45cbbdfe0b747a5eb032_4
 
