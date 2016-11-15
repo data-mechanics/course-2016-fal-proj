@@ -43,7 +43,7 @@ Transofmation 5: This transformation merges the day camps, public daycares and p
 
 To run this script: $ python3 mergeChildren.py
 
-#Project part 2
+#Project Part 2
 
 We intend to see a correlation exists between certain establishments associated with children and proximity to drug crimes. Pulling data from the Private Schools, Public Schools, Child Feeding Programs, Day Camps, Public Daycares, Private Daycares, and Crimes data sets gives us the location in address or latitude and longitude format of an establishment or crime. We intend to then take each crime, drug related or not, and find the frequency of each type of establishment within a specific distance/radius to the crime. Then we take each drug related crime and find their frequencies within the same distance. Then we want to compare these two by plotting frequencies for each type of establishment on histograms. The goal is to find, while comparing the histogram with all crimes against the histogram with only drug crimes, a contrast in the peaks of the histograms. This will point to a correlation between the specific type of establishment and drug crimes. We also intend to implement an optimization function to optimize the size of the radius which dictates how many establishments will be within range to be counted in the frequencies. The optimization function will give us a specific distance which will create the largest or most obvious difference in peaks on the histograms we create.
 
@@ -65,6 +65,8 @@ prepData3.py: This script functions as a wrapper around prepData1 and prepData2.
 To run this script: $ python3 prepData3.py
 
 prepData4.py: Generates the histogram and linear regression values.
+
+To run this script: $ python3 prepData4.py
 
 #Results
 
@@ -108,7 +110,7 @@ Linear Regression results for all crimes vs number of establishments for each cr
 Linear Regression results for drug crimes vs number of establishments for each crime:
 0.4711
 
-This is more or less as predicted since the data is not linear, but it seems that all crimes has a greater correlation to the number of establishments compared to drug crimes
+This is more or less as predicted since the data is not linear, but it seems that all crimes have a greater correlation to the number of establishments compared to drug crimes
 
 
 Histogram:
@@ -120,9 +122,8 @@ Normalized Histogram:
 ![alt tag](images/Histogram_normalized.png)
 
 
-Trial Mode
-if you want to run trial mode, go to getData.py and uncomment line 199 and comment out line 198.  Then run
-the follow the running instructions. 
+Trial Mode:
+If you want to run the trial mode, go to getData.py and uncomment out line 199 and comment out line 198.  Then follow the run instructions. 
 
 
 
