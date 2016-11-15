@@ -18,7 +18,7 @@ Transformations
 * Mapreduce Employee Earnings: Uses mapreduce to calculate average city of Boston Employee earnings for each zip code
 * Mapreduce Schools: Uses mapreduce to calculate the number of schools located in a zip code
 * Mapreduce Crime: Uses mapreduce to project police districts into zip codes and calculate number of crimes per zipcode
-* Merge:
+* Merge: Uses list comprehension to combine the number of schools in each district and the number of crimes.
 
 Statictical Analyses
 ---------
@@ -31,3 +31,4 @@ Statictical Analyses
     After executeing the p-value algorithm, we got a p-value equal to 1. Therefore, we cannot conclude that a significant       difference exists between null and alternative hypotheses. 
 
 * k-means:
+    We used k-means algorithm in order to find the point with the highest density of crimes. 
