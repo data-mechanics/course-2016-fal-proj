@@ -10,9 +10,10 @@ from bson.code import Code
 
 class transformOldAggregateNew(dml.Algorithm):
     contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
-    
+
     oldSetExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
                      'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools']
+
     
     oldTitles = ['Crime Incident Reports (July 2012 - August 2015) (Source: Legacy System)', \
               'Public Access Fishing Locations', 'Issued Moving Truck Permits', 'Active Food Establishment Licenses', \
@@ -36,7 +37,7 @@ class transformOldAggregateNew(dml.Algorithm):
         startTime = datetime.datetime.now()
         print("Starting execution of script @{}".format(startTime))
         start = time.time()
-        
+
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
@@ -45,19 +46,16 @@ class transformOldAggregateNew(dml.Algorithm):
 
 
 
-
-
-        '''
         for key in transformOldAggregateNew.oldSetExtensions:
             print(key)
             print(myrepo[key].find_one())
             print("\n")
-        #'''
-        #'''
+
         #Wow, that's really interesting... no crimes occurred where, in the vicinity of 1 mile, there were 23 "community centers" nearby
         #In contrast, no crimes only began to stop occurring where, in the same radius, there were 2918 "entertainment/food" licensees nearby
         #And no crimes happen where, in the same radius of 1 mile, there were 557 moving truck permits issued
         #...Hmm... I didn't cross-reference these with time though...
+
         print(myrepo['crimeVcommunity_indicators'].find({'community_indicators_1600m_radius': {'$gt': 23}}).count())
         print(myrepo['crimeVanti_community_indicators'].find({'anti_community_indicators_1600m_radius': {'$gt': 2917}}).count())
 
@@ -75,13 +73,26 @@ class transformOldAggregateNew(dml.Algorithm):
             begin = time.time()
             
             repo.drop_collection(key)
+
+
+        ##print(myrepo['crimeVcommunity_indicators'].find({'community_indicators_1600m_radius': {'$gt': 23}}).count())
+        ##print(myrepo['crimeVanti_community_indicators'].find({'anti_community_indicators_1600m_radius': {'$gt': 2917}}).count())
+        ##print(myrepo['crimeVmoving_truck_permits'].find({'moving_indicators_1600m_radius': {'$gt': 557}}).count())
+        ##return
+
+        for key in transformOldAggregateNew.dataSetDict.keys():
+            begin = time.time()
+
+            repo.dropPermanent(key)
             repo.createPermanent(key)
+
             print("Now copying {} entries from crime2012_2015 to create new dataset {}.\n".format(myrepo['crime2012_2015'].count(), key))
             #"Now copying 268056 entries from crime2012_2015 to create new dataset crimeVcommunity_indicators."
+
             #myrepo[key].insert_many(myrepo['crime2012_2015'].find())
             #Or:
             #repo[transformOldAggregateNew.dataSetDict[key][0]].insert(myrepo['crime2012_2015'].find())
-            
+
             newSet = myrepo[key]
             newSet.create_index([('location', '2dsphere')])
             indicatorsColl.create_index([('location', '2dsphere')])
