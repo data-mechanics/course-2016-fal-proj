@@ -15,7 +15,7 @@ class p_value(dml.Algorithm):
     writes = ['jzhou94_katerin.p_value']
         
     @staticmethod
-    def execute(trial = False):
+    def execute(trial = True):
         print("starting data retrieval")
         startTime = datetime.datetime.now()
         client = dml.pymongo.MongoClient()
@@ -23,9 +23,15 @@ class p_value(dml.Algorithm):
         print("repo: ", repo)
         repo.authenticate('jzhou94_katerin', 'jzhou94_katerin')
 
-        avg_earnings = [doc for doc in repo.jzhou94_katerin.avg_earnings.find()]
-        crimes = [doc for doc in repo.jzhou94_katerin.crime.find()]
+        if trial == False:
+            avg_earnings = [doc for doc in repo.jzhou94_katerin.avg_earnings.find()]
+            crimes = [doc for doc in repo.jzhou94_katerin.crime.find()]
+        else:
+            avg_earnings = [doc for doc in repo.jzhou94_katerin.avg_earnings.find().limit(5)]
+            crimes = [doc for doc in repo.jzhou94_katerin.crime.find().limit(5)]
 
+        print(avg_earnings)
+        print(crimes)
         # tuple (zipcode, avg_earning)
         zip_avg = [(item['_id'], float(item['value']['avg'])) for item in avg_earnings]
         # tuple (zipcode, number_crimes)
