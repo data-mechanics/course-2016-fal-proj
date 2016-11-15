@@ -64,6 +64,8 @@ prepData3.py: This script functions as a wrapper around prepData1 and prepData2.
 
 To run this script: $ python3 prepData3.py
 
+prepData4.py: This script functions as a wrapper around prepData1 and prepData2. It iterates through a range of distances to pas
+
 #Results
 
 Optimization Function:
@@ -99,7 +101,23 @@ diff: 1.88359495996
 
 With regards to the optimization results, we chose to work with a value of 2 miles when finding the number of children associated establishments around each crime. This was because it was at this integer that the average number of establishments around each drug crime was much greater than that around each crime. In the future, we plan to find the optimal distance by testing distances of 0.1 mile increments.
 
+
+Linear Regression results for all crimes vs number of establishments for each crime:
+0.8706
+
+Linear Regression results for drug crimes vs number of establishments for each crime:
+0.4711
+
+This is more or less as predicted since the data is not linear, but it seems that all crimes has a greater correlation to the number of establishments compared to drug crimes
+
+
+Histogram:
+
 ![alt tag](images/Histogram.png)
+
+Normalized Histogram:
+
+![alt tag](images/Histogram_normalized.png)
 
 
 

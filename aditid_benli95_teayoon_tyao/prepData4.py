@@ -38,7 +38,7 @@ class prepData4(dml.Algorithm):
         
         all = []
         for i in range(0,len(x)):
-            for j in range(0,int(y[i]/21.5)):           #253075 / 11800 = 21.5
+            for j in range(0,int(y[i]/21.5)):           #253075 / 11800 = 21.5 for nomalization
                 all.append(x[i])
         
         
