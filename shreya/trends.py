@@ -1,7 +1,8 @@
 def calculate(data2012, data2013, data2014, data2015):
     num_points = len(data2012[1]) 
     years_data = [data2012,data2013,data2014,data2015]
-
+    #Finds the point in the next year which is closest to the previous point,
+    #to identify a trend over years.
     #results = 45 lists
     trends = [[]]*num_points
     for year in range(0,3): 
