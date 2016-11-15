@@ -13,7 +13,7 @@ import numpy as np
 class recommend(dml.Algorithm):
 	contributor = 'mgerakis_pgomes94_raph737'
 	reads = ['mgerakis_pgomes94_raph737.proximity_cluster_centers']
-	writes = []
+	writes = ['mgerakis_pgomes94_raph737.optimal_coord']
 
 	@staticmethod
 	def execute(trial = False):
@@ -48,8 +48,13 @@ class recommend(dml.Algorithm):
 			if val < distances[i]:
 				val = distances[i]
 				index = i
+		
+		optimal_coord = (kmeans_centers[index][0], kmeans_centers[index][1])
+		repo.dropPermanent("optimal_coord")
+		repo.createPermanent("optimal_coord")
+		repo['mgerakis_pgomes94_raph737.optimal_coord'].insert_one(optimal_coord)
 
-		print ('The optimal lat/long is {}, {}'.format(kmeans_centers[index][0], kmeans_centers[index][1]))
+		print ('The optimal lat/long is {}, {}'.format(optimal_coord[0], optimal_coord[1]))
 
 		repo.logout()
 
@@ -89,7 +94,7 @@ class recommend(dml.Algorithm):
             doc.usage(maximize_distance, cluster_center, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
             doc.usage(maximize_distance, proximity_cluster_centers, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
             
-            optimal_coords = doc.entity('ont:optimal_coords', {prov.model.PROV_LABEL:'Optimal latitude, longtitude position', prov.model.PROV_TYPE:'ont:Computation'})
+            optimal_coords = doc.entity('dat:mgerakis_pgomes94_raph737#optimal_coord', {prov.model.PROV_LABEL:'Optimal latitude, longtitude position', prov.model.PROV_TYPE:'ont:Computation'})
             doc.wasAttributedTo(optimal_coords, this_script)
             doc.wasGeneratedBy(optimal_coords, maximize_distance, endTime)
             doc.wasDerivedFrom(optimal_coords, cluster_center, maximize_distance, maximize_distance, maximize_distance)
