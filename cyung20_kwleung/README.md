@@ -63,10 +63,10 @@ We have modified our version of liquorAndCrime.py to now include constraints: th
 Below are the results.<br>
 Selected Crimes Total Within 100 meters of Liquor Store: 682
 
-Selected Crimes Total Within 100 meters of Liquor Store (Mon-Thurs): 313
+Selected Crimes Total Within 100 meters of Liquor Store (Mon-Thurs): 313<br>
 Selected Crimes Avg Within 100 meters of Liquor Store (Mon-Thurs): 78.25
 
-Selected Crimes Total Within 100 meters of Liquor Store (Fri-Sun): 369
+Selected Crimes Total Within 100 meters of Liquor Store (Fri-Sun): 369<br>
 Selected Crimes Avg Within 100 meters of Liquor Store (Fri-Sun): 123.0
 
 
