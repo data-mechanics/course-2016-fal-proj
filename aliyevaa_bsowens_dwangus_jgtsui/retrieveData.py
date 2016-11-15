@@ -126,9 +126,6 @@ class retrieveData(dml.Algorithm):
                     else:
                         ent.delete_one({'_id': e['_id']})
                 ent.create_index([('location', '2dsphere')])
-                # note: these coords are various trailing zeros s.t. the length of each coord is 11 digits long
-                # must erase these trailing zeros in order to compare these entertainment licenses with the dataset
-                # or restaurants
             elif key == 'year_round_pools':
                 print("Transforming year_round_pools dataset...")
                 pools = myrepo['year_round_pools']
