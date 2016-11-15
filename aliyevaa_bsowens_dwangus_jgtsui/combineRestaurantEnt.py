@@ -8,6 +8,13 @@ import re # regular expression
 import ast
 from geopy.distance import vincenty as vct
 from bson.code import Code
+from difflib import SequenceMatcher
+
+###### HELPER METHODS #####
+
+def similar(a, b):
+    return SequenceMatcher(None, a, b).ratio()
+
 
 
 class combineRestaurantEnt(dml.Algorithm):
@@ -121,14 +128,18 @@ class combineRestaurantEnt(dml.Algorithm):
 
                 if long_ent in longLats:
                     if lat_ent in longLats[long_ent]:
-                        if longLats[long_ent][lat_ent] == name_ent:
+                        restaurant_name = longLats[long_ent][lat_ent]
+                        similarityPercent = similar(restaurant_name, name_ent)
+                        if similarityPercent < float(1/3):
                             newSet.remove({'_id': doc['_id']})
 
 
                 if city_ent in locations:
                     if st_name_ent in locations[city_ent]:
                         if st_no_ent in locations[city_ent][st_name_ent]:
-                            if locations[city_ent][st_name_ent][st_no_ent] == name_ent:
+                            restaurant_name = locations[city_ent][st_name_ent][st_no_ent]
+                            similarityPercent = similar(restaurant_name, name_ent)
+                            if similarityPercent < float(1/3):
                                 newSet.remove({'_id': doc['_id']})
 
 
