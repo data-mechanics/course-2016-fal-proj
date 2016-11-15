@@ -56,5 +56,4 @@ This algorithm retrieves the districts in which crime incidents have been report
 liquorAndCrime.py was updated and now uses selection to make sure essential information from liquor stores and crimes are stored in the repository. One major update was that their were constraints added. After making sure liquor stores and crime locations within 100 meters are stored (as opposed to 25 meters earlier), we filter out the crimes by having the constraints be these type of crimes: "Harassment" "Aggravated Assault" "Simple Assault." Our justification for implementing this is that we want to see if crimes pertaining to physical abuse and/or directly and personally impactful to others in a negative way is correlated with the crime scene being within 100 meters of a liquor store or not. 
 
 **2. .py**
-
-
+Stastical Analysis was used to find the correlation coefficient for the time in hours of the each crime and the number of crimes per hour. The objective is to observe if crimes are more frequent in certain hours of the day. 
