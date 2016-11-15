@@ -145,40 +145,37 @@ class combineDatasets(dml.Algorithm):
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
 		this_script = doc.agent('alg:mgerakis_pgomes94_raph737#combineDatasets', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+		
 		mbta_stops_resource = doc.entity('dat:mgerakis_pgomes94_raph737#mbta_stop_locations', {prov.model.PROV_LABEL:'MBTA Stop Locations', prov.model.PROV_TYPE:'ont:DataSet'})
 		crimes_resource = doc.entity('dat:mgerakis_pgomes94_raph737#crime_locations', {prov.model.PROV_LABEL:'Crime Locations', prov.model.PROV_TYPE:'ont:DataSet'})
 		traffic_resource = doc.entity('dat:mgerakis_pgomes94_raph737#traffic_locations', {prov.model.PROV_LABEL:'Traffic Locations', prov.model.PROV_TYPE:'ont:DataSet'})
 		police_stations_resource = doc.entity('dat:mgerakis_pgomes94_raph737#police_station_locations', {prov.model.PROV_LABEL:'Police Station Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+		
+		project_data = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+		doc.wasAssociated(project_data, this_script)
+		
+		doc.usage(project_data, mbta_stops_resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+		doc.usage(project_data, crimes_resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+		doc.usage(project_data, traffic_resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+		doc.usage(project_data, police_stations_resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
 
-		get_traffic_locations  = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-		get_crime_locations    = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-		get_mbta_stops         = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-		get_police_stations    = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-		get_proximity_locations = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-
-		doc.wasAssociatedWith(get_traffic_locations, this_script)
-		doc.wasAssociatedWith(get_crime_locations, this_script)
-		doc.wasAssociatedWith(get_mbta_stops, this_script)
-		doc.wasAssociatedWith(get_police_stations, this_script)
-
-		doc.usage(get_traffic_locations,traffic_resource,startTime,None,{prov.model.PROV_TYPE:'ont:DataSet'})
-		doc.usage(get_crime_locations,crimes_resource,startTime,None,{prov.model.PROV_TYPE:'ont:DataSet'})
-		doc.usage(get_mbta_stops,mbta_stops_resource,startTime,None,{prov.model.PROV_TYPE:'ont:DataSet'})
-		doc.usage(get_police_stations,police_stations_resource,startTime,None,{prov.model.PROV_TYPE:'ont:DataSet'})
-
-		proximity_locations = doc.entity('dat:mgerakis_pgomes94_raph737#proximity_locations', {prov.model.PROV_LABEL:'Proximity Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+		proximity_locations = doc.entity('dat:mgerakis_pgomes94_raph737#proximity_locations', {prov.model.PROV_LABEL:'Proximity of various locations that fall under different categories.', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(proximity_locations, this_script)
-		doc.wasGeneratedBy(proximity_locations,get_proximity_locations, endTime)
-		doc.wasDerivedFrom(get_mbta_stops,get_traffic_locations)
-
-		get_proximity_locations = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-		doc.wasAssociatedWith(get_proximity_locations,this_script)
-		doc.usage(get_proximity_locations,startTime,None,{prov.model.PROV_TYPE:'ont:DataSet'})
-
-		proximity_cluster_centers = doc.entity('dat:mgerakis_pgomes94_raph737#proximity_cluster_centers', {prov.model.PROV_LABEL:'Proximity cluster locations', prov.model.PROV_TYPE:'ont:DataSet'})
-		doc.wasAttributedTo(proximity_cluster_centers, this_script)
-		doc.wasGeneratedBy(proximity_locations,get_proximity_locations, endTime)
-		doc.wasDerivedFrom(proximity_cluster_centers, proximity_locations)
+		doc.wasGeneratedBy(proximity_locations, project_data, endTime)
+		doc.wasDerivedFrom(proximity_locations, mbta_stops_resource, project_data, project_data, project_data)
+		doc.wasDerivedFrom(proximity_locations, crimes_resource, project_data, project_data, project_data)
+		doc.wasDerivedFrom(proximity_locations, traffic_resource, project_data, project_data, project_data)
+		doc.wasDerivedFrom(proximity_locations, police_stations_resource, project_data, project_data, project_data)
+		
+		cluster_data = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+		doc.wasAssociated(cluster_data, this_script)
+		
+		doc.usage(cluster_data, proximity_locations, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+		
+		proximity_cluster_locations = doc.entity('dat:mgerakis_pgomes94_raph737#proximity_cluster_locations', {prov.model.PROV_LABEL:'Clustered proximities of various locations that fall under different categories.', prov.model.PROV_TYPE:'ont:DataSet'})
+		doc.wasAttributedTo(proximity_cluster_locations, this_script)
+		doc.wasGeneratedBy(proximity_cluster_locations, cluster_data, endTime)
+		doc.wasDerivedFrom(proximity_cluster_locations, proximity_locations, cluster_data, cluster_data, cluster_data)
 
 		repo.record(doc.serialize())
 		repo.logout()
