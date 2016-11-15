@@ -42,27 +42,25 @@ class distances(dml.Algorithm):
 				point=[]
 		
 	
-		out=open('community_spots.txt', 'w')
+		out=open('out.txt', 'w')
 		entry={}
 		score=0
 		count=0
 		#json.dump(x, out), x-object
 		elem_n=0
-		print("# coordinates: " + str(len(coordinates)))
+		print(len(coordinates))
 		for elem in repo.aliyevaa_bsowens_dwangus_jgtsui.community_indicators.find():
-			print
 			elem_n+=1
 			for center in coordinates:
+	
 				d=calculate(elem['location']['coordinates'][0], elem['location']['coordinates'][1], center[0],center[1])
-				score= (float(elem['community_score']) * d) + score
-				c=str(center[0])+ ' ' + str(center[1])
+				score=d*elem['community_score']+score
+				c=str(center[0])+' '+str(center[1])
 				entry.update({c:score})
 				count=count+1
 			score=0
-		# Done, what do with this tho:
-		print(entry)
-
-		print("# indicators computed: " + str(elem_n))
+		print(count)
+		print(elem_n)
 		
 		json.dump(entry, out)					
 		repo.logout()
