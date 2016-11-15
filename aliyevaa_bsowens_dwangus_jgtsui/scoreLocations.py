@@ -171,6 +171,17 @@ class scoreLocations(dml.Algorithm):
             #'''
             print("Creating {} took {} seconds.".format(key, time.time() - begin))
             print("")
+            print("Found "+ str(pos_count) + " positive attributes and " + str(neg_count) + " negative attributes")
+
+        if pos_count > neg_count:
+            scale = str((float(neg_count / pos_count))*-1)
+            print(scale)
+            indicatorsColl.find_one_and_update(filter={"community_score" : -1},update={'$set':{'community_score': scale}})
+        elif pos_count < neg_count:
+            scale =  str(float(pos_count / neg_count))
+            print(scale)
+            indicatorsColl.find_one_and_update(filter={"community_score": 1}, update={'$set': {'community_score': scale}})
+
 
         repo.logout()
 
@@ -235,6 +246,6 @@ class scoreLocations(dml.Algorithm):
 scoreLocations.execute()
 doc = scoreLocations.provenance()
 #print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
