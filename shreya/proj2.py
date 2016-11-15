@@ -133,4 +133,3 @@ class proj2(dml.Algorithm):
 		repo.logout()
 
 		return doc
-proj2.execute()
