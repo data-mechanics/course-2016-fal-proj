@@ -7,7 +7,7 @@ import datetime
 import uuid
 
 
-class numOfCrimeInDistricts(dml.Algorithm):
+class DistrictNumCrimes(dml.Algorithm):
     contributor = 'ggelinas'
     reads = ['ggelinas.stations',
               'ggelinas.incidents']
@@ -111,8 +111,8 @@ class numOfCrimeInDistricts(dml.Algorithm):
 
         return doc
 
-numOfCrimeInDistricts.execute()
-doc = numOfCrimeInDistricts.provenance()
+DistrictNumCrimes.execute()
+doc = DistrictNumCrimes.provenance()
 #print(json.dumps(json.loads(doc.serialize()),indent=4))
 
 #eof
