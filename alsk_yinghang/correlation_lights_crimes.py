@@ -63,7 +63,45 @@ class correlation_lights_crimes(dml.Algorithm):
 
 
     @staticmethod
-    def provenance(doc=prov.model.ProvDocument(), startTime=None, endTime=None):
-        return
+    def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
+        client =  dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('alsk_yinghang', 'alsk_yinghang')
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+
+        this_script = doc.agent(
+            'alg:alsk_yinghang#correlation_lights_crimes', 
+            {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'}
+        )
+        resourceCrimeLights = doc.entity(
+            'dat:alsk_yinghang#crime_lights', 
+            {'prov:label':'Crime Lights', prov.model.PROV_TYPE:'ont:DataSet'}
+        )
+        this_run = doc.activity(
+            'log:a'+str(uuid.uuid4()), startTime, endTime,
+            {prov.model.PROV_TYPE:'ont:Computation'}
+        )
+        doc.wasAssociatedWith(this_run, this_script)
+        doc.used(this_run, resourceCrimeLights, startTime)
+
+        correlationLightsCrimes = doc.entity(
+            'dat:alsk_yinghang#correlation_lights_crimes', 
+            {prov.model.PROV_LABEL:'Correlation Lights Crimes', prov.model.PROV_TYPE:'ont:DataSet'}
+        )
+        doc.wasAttributedTo(correlationLightsCrimes, this_script)
+        doc.wasGeneratedBy(correlationLightsCrimes, this_run, endTime)
+        doc.wasDerivedFrom(correlationLightsCrimes, resourceCrimeLights, this_run, this_run, this_run)
+
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
 
 correlation_lights_crimes.execute()
+doc = crime_properties.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
