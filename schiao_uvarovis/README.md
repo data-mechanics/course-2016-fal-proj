@@ -25,7 +25,7 @@ There're 2 files that perform mentioned algorithms:
 2. pval.py - finds p-value for a given dataset (using functions mentioned in class)
 
 Actual data analysis is done in the following files:
-1. lights_accidents_correlation.py - we wanted to find is there's any correlation between number of street lights and number of car accidents. We used for transportation regions that we obtained previously and calculated the p-value. At the moment, it's not super interesting because there're only 6 transportation districts. Later, we might split data on zip code, so we have more data to analyze.
+1. lights_accidents_correlation.py - we wanted to find if there's any correlation between number of street lights and number of car accidents. We used transportation regions that we obtained previously and calculated the p-value. At the moment, it's not super interesting because there're only 6 transportation districts. Later, we might split data on zip codes, so we have more data points to analyze.
 2. accident_clusters.py - in this script we found 2 clusters for car accidents using k-means algorithms. This data can be used to find places where more traffic control needed.
 
 Overall, we plan to use these scripts to find areas that are more dangerous to drive in. Additionally, we want to compute suggestions how these areas can be made safer (increasing traffic lights, street lights, etc.)
