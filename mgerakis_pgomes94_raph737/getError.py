@@ -92,19 +92,20 @@ class getError(dml.Algorithm):
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
 		this_script = doc.agent('alg:mgerakis_pgomes94_raph737/getError.py', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-
-		hospital_scores_resource = doc.entity('bdp:u6fv-m8v4', {'prov:label':'Hospital Scores', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-
-		get_hospital_scores = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-
-		doc.wasAssociatedWith(get_hospital_scores, this_script)
-
-		doc.usage(get_hospital_scores,hospital_scores_resource,startTime,None,{prov.model.PROV_TYPE:'ont:Retrieval'})
-
-		hospitalScores = doc.entity('dat:mgerakis_pgomes94_raph737#hospital_scores', {prov.model.PROV_LABEL:'Hospital Scores', prov.model.PROV_TYPE:'ont:DataSet'})
-		doc.wasAttributedTo(hospitalScores, this_script)
-		doc.wasGeneratedBy(hospitalScores, get_hospital_scores, endTime)
-		doc.wasDerivedFrom(hospitalScores, hospital_scores_resource)
+		hospital_scores_resource = doc.entity('dat:mgerakis_pgomes94_raph737#hospital_scores', {'prov:label':'Hospital Scores', prov.model.PROV_TYPE:'ont:DataSet'})
+		hospital_google_reviews = doc.entity('https://maps.googleapis.com/maps/api/place', {'prov:label': 'Google Place Search', prov.model.PROV_TYPE: 'ont:DataResource', 'ont:Extension': 'json'})
+		
+		calculate_error = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+		doc.wasAssociatedWith(calculate_error, this_script)
+		
+		doc.usage(calculate_error, hospital_scores_resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+   	 	doc.usage(calculate_error, hospital_google_reviews, startTime, None, {prov.model.PROV_TYPE:'ont:Query'})
+												    
+		avg_error = doc.entity('average_error', {prov.model.PROV_LABEL:'Average error of Google review scores and our Hospital scores', prov.model.PROV_TYPE:'ont:Computation'})
+		doc.wasAttributedTo(avg_error, this_script)
+		doc.wasGeneratedBy(avg_error, calculate_error, endTime)
+		doc.wasDerivedFrom(avg_error, hospital_scores_resource, calculate_error, calculate_error, calculate_error)
+		doc.wasDerivedFrom(avg_error, hospital_google_reviews, calculate_error, calculate_error, calculate_error)
 
 		repo.record(doc.serialize())
 		repo.logout()
