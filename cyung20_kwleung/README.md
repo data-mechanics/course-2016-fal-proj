@@ -61,10 +61,10 @@ This algorithm retrieves the districts in which crime incidents have been report
 We have modified our version of liquorAndCrime.py to now include constraints: that the crimes be within 100 meters from a liquor store, belong to these selected offense categories "Harassment", "Aggravated Assault", "Simple Assault", "Sex Offender Registration" or "Homicide" and returns a subset of the the first 10,000 entries of the crime data (so our computer doesn't crash) which meets all of these constraints. We have concluded that on from Friday-Sunday on average more of our selected crimes are committed per day.
 
 Before running liquorAndCrime.py:
-<br>1) run crimeReports.py and liquorLicense.py2
+<br>1) run crimeReports.py and liquorLicense.py
 <br>2) Install gpxpy by typing "pip install gpxpy" on your Command Prompt
 
-Below are the results.<br>
+Below are the results:<br>
 Selected Crimes Total Within 100 meters of Liquor Store: 682
 
 Selected Crimes Total Within 100 meters of Liquor Store (Mon-Thurs): 313<br>
