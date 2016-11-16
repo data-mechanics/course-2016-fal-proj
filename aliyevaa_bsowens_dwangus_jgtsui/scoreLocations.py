@@ -102,9 +102,7 @@ class scoreLocations(dml.Algorithm):
                         else: title = 'unknownName ' + i
 
                         neg_count += 1
-                        # note: multiply negative community indicators by ratio so that the negative
-                        # indicators aren't overpowering the positive indicators (since there are
-                        # less of the latter than the former)
+                        # note: s
                         indicatorsColl.insert({'id': doc['_id'], 'title': title, 'type': key,
                                                     'location': doc['location'],
                                                'community_score': -1*ratio})
