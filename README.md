@@ -16,9 +16,13 @@ The data sets we have chosen are:
 The first five datasets are pulled from [City of Boston](https://data.cityofboston.gov/) using the Socrata Open Data API endpoint *.json* URL. The last two data sets were scraped from Google using the Google API. 
 
 
+The five new data sets we have created as a result of these 7 data sets are (informally) called:
 
-The ???? new data sets we have created as a result of these 7 data sets (the first five a) are (informally) called Crime Instances v. Community Indicators, Crime Instances v. Anti-Community Indicators, and Crime Instances v. Moving Truck Permits
-(all instances of crime are looked at within a one-mile, or 1600-meter radius of the indicators mentioned in the title).
+- Boston Grid Cell GPS Centers (1000-FT Cells)
+- Community Indicators Location and Score
+- Boston Grid Cells Inverse Community Score
+- Distinct Entertainment Licenses (without restaurants)
+- Boston Grid Cells Crime Incidence 2012 - 2015.
 
 The interesting question we are trying to solve is this: if, given different "types" of city establishments/infrastructure that can either be categorized as 
 indicators of "stronger community" or "weaker community", can we find other correlations with other indicators of inequality or "instability" in Boston and 
@@ -26,17 +30,25 @@ address common problems in terms of this social aspect? Stated in another, more 
 existing "tourist establishment" in order to maximize the benefits to Bostonians across a variety of metrics -- economic, social, infrastructural, etc. --
 where would we do so?
 
-**fix dis plz**
+
 These data sets were combined as a preliminary test to this question, using crime statistics, and seeing if there was a correlation in the location where a
 crime occurred and the frequency of "anti-community" and "community" indicators within a 1-mile radius. The public fishing locations and community supported
 agriculture pickups were grouped and taken to be "community indicators", while entertainment and active food establishment licenses were taken to be "anti-
 community indicators" -- with the rationale that entertainment is a form of escapism from where one currently is, and that food establishments similarly 
 exist to give people a break from eating around their community (and often being tourist spots as well). The moving truck permits data set was offered as a 
 frame of reference to the proposed groupings of community and anti-community indicators -- as it's unclear whether all moving truck permits issued are for
-people leaving or entering Boston.
+people leaving or entering Boston. 
 
-The year-round swimming pools data set was excluded from the methods used for now (they would be community indicators), as I could not figure out what GPS/
-location coordinate formats were being used in the data set.
+For project 2, we decided to create a well-defined heatmap of Boston, where each geographic location has an indicator of how "strong" or "weak" community at that location is.
+
+- Scour different data-sets as to how they might indicate "pro" or "anti" community indicators; the key, here, is to find fixed addresses/buildings/locations well-known for a specific purpose that are static over time/space (i.e., fixed points in the map of Boston)
+- Once we've processed/grouped the data-sets accordingly to unique location points, we then determine whether a single location is pro or anti-community
+- Once we have a dataset of all "pro" or "anti-community" locations/points in the map of Boston, we then figure out how to scale, appropriately, the pro vs. anti-community datasets against each other (since it's anticipated that there are plentifully more anti-community points than pro-community)
+- (the key here is to be as isolated/objective as possible from whatever our perceived ultimate effects we're cross-referencing -- i.e., we shouldn't be changing how we scale or changing our definition of "community" after we know, for example, the crime heatmap or that an area has a high incidence of crime)
+- Once we've figured out our precise scale of weighting anti-community vs pro-community locations/points across Boston, we then produce our heatmap of "how much community" each point in the map of Boston has
+- (another potentially interesting aspect would be to add the dimension of time for our heatmaps -- i.e., see trends of how our definition of community has changed the heatmap over time)
+- (another implementation note -- weighting individual "pro-community" locations/points against each other -- i.e. determining how "strong" a particular community-location is, relative to all others... maybe based somehow on frequency of traffic... or web traffic... or surrounding population density, etc.)
+- We should take care to not include data sets of fixed locations (at least with regards to pro-community) that are heavily regulated by the government, as the government might have different incentives for putting ____ (like bus stops or building a new public school, etc.) at location (x,y), to minimize/maximize other economic/transportation/population metrics, independent of our study of how community affects certain metrics and how those same metrics affect community back vicer-versa (in other words, if a correlation exists)
 
 ## Algorithms, Tools, and Methods
 
