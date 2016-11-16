@@ -19,7 +19,7 @@ def calculate(x0,y0,x1,y1):
 class distances(dml.Algorithm):
     contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
 
-    oldSetExtensions = ['community_indicators', 'cell_GPS_center_coodinates']
+    oldSetExtensions = ['community_indicators', 'cell_GPS_center_coordinates']
     titles = ['Boston Grid Cells Inverse Community Score']
     setExtensions = ['boston_grid_community_values_cellSize1000sqft']
 
@@ -28,8 +28,7 @@ class distances(dml.Algorithm):
 
     dataSetDict = {}
     for i in range(len(setExtensions)):
-		dataSetDict[setExtensions[i]] = (writes[i], titles[i])
-
+        dataSetDict[setExtensions[i]] = (writes[i], titles[i])
     @staticmethod
     def execute(trial = False):
         startTime = datetime.datetime.now()
@@ -42,7 +41,7 @@ class distances(dml.Algorithm):
 
         myrepo = repo.aliyevaa_bsowens_dwangus_jgtsui
 
-        cellCoordinates = myrepo[distances.reads[1]]
+        cellCoordinates = repo[distances.reads[1]]
         coordinates = []
         for cellCoord in cellCoordinates.find():
             coordinates.append((cellCoord['longitude'], cellCoord['latitude']))
@@ -65,7 +64,7 @@ class distances(dml.Algorithm):
         for center in coordinates:
             lat = center[1]
             long = center[0]
-            for elem in myrepo[distances.reads[0]].find():  # Every entry in community_indicators
+            for elem in repo[distances.reads[0]].find():  # Every entry in community_indicators
                 d = calculate(elem['location']['coordinates'][0], elem['location']['coordinates'][1], long,lat)
                 score += d*elem['community_score']
 
