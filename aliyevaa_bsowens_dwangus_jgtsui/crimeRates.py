@@ -38,7 +38,7 @@ class crimeRates(dml.Algorithm):
         myrepo = repo.aliyevaa_bsowens_dwangus_jgtsui
 
         #'''
-        cellCoordinates = myrepo[crimeRates.reads[1]]
+        cellCoordinates = repo[crimeRates.reads[1]]
         coordinates = []
         for cellCoord in cellCoordinates.find():
             coordinates.append((cellCoord['longitude'],cellCoord['latitude']))
@@ -58,7 +58,7 @@ class crimeRates(dml.Algorithm):
         repo.dropPermanent(crimeRates.setExtensions[0])
         repo.createPermanent(crimeRates.setExtensions[0])
 
-        crimeDataSet = myrepo[crimeRates.reads[0]]
+        crimeDataSet = repo[crimeRates.reads[0]]
         print(crimeDataSet.count())
         count = 0
         for elem in crimeDataSet.find():
@@ -87,8 +87,8 @@ class crimeRates(dml.Algorithm):
                     print("Parsed " +  str(count) + " crime entries")
 
         for e in entry.keys():
-            crimeDataSet.insert({str(e): entry[e]}, check_keys=False)
-            #crimeDataSet.insert({str(e): str(entry[e])}, check_keys=False)
+            #crimeDataSet.insert({str(e): entry[e]}, check_keys=False)
+            myrepo[crimeRates.setExtensions[0]].insert({str(e): str(entry[e])}, check_keys=False)
 
         repo.logout()
         endTime = datetime.datetime.now()
