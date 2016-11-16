@@ -37,14 +37,14 @@ class crimeRates(dml.Algorithm):
 
         myrepo = repo.aliyevaa_bsowens_dwangus_jgtsui
 
-        '''
+        #'''
         cellCoordinates = myrepo[crimeRates.reads[1]]
         coordinates = []
         for cellCoord in cellCoordinates.find():
             coordinates.append((cellCoord['longitude'],cellCoord['latitude']))
         #'''
 
-        #'''
+        '''
         lines = [line.rstrip('\n') for line in open('centers.txt')]
         coordinates = []
         for line in lines:
