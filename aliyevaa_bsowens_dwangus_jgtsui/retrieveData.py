@@ -99,6 +99,9 @@ class retrieveData(dml.Algorithm):
             r = json.loads(response)
             s = json.dumps(r, sort_keys=True, indent=2)
             repo[retrieveData.dataSetDict[key][1]].insert_many(r)
+            if key == 'crime2012_2015':
+                print(len(r)) #1000
+                break
             ###TRANSFORMATION###
             if key == 'public_fishing_access_locations':
                 print("Transforming public_fishing_access_locations dataset...")
