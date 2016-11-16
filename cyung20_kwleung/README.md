@@ -44,7 +44,7 @@ To retrieve information from each dataset, run mbtaLocations.py, crimeReports.py
 
 **1. liquorAndCrime.py**
 
-**NOTE: This python file has been modified and no longer implements the following algorithm. Below is a description of an updated version of liquorAndCrime.py**<br>
+**NOTE: This python file was written for Project 1 and has been modified for Project 2, so it no longer implements the following algorithm. Scroll to the next section to see an updated version of liquorAndCrime.py**<br>
 This transformation takes the product of 1) a set containing the name of the liquor store and its location in longitude and latitude and 2) a set containing the location of a crime. Selection is used to make sure that the essential data from liquor stores (location, name) that are located 25 meters or less from a location in which a crime was reported committed are included in the new data set. There is a double count. 
 
 **2. liquorAndBPDS.py**
