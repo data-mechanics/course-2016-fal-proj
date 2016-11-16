@@ -148,18 +148,6 @@ class retrieveData(dml.Algorithm):
                         pools.update({'_id': pool['_id']}, \
                                      {'$set': {'location': {'type': 'Point', 'coordinates': prevCoords}}})
                 pools.create_index([('location', '2dsphere')])
-
-            elif key == 'moving_truck_permits':
-                print("Transforming moving_truck_permits dataset...")
-                truck = myrepo['moving_truck_permits']
-                truck.update_many({}, {"$rename": {'location': 'location_details'}})
-
-                for t in truck.find(modifiers={"$snapshot": True}):
-                    if 'location_details' in t.keys():
-                        prevCoords = [float(t['location_details']['longitude']), float(t['location_details']['latitude'])]
-                        truck.update({'_id': t['_id']}, \
-                                   {'$set': {'location': {'type': 'Point', 'coordinates': prevCoords}}})
-                truck.create_index([('location', '2dsphere')])
         repo.logout()
 
         endTime = datetime.datetime.now()

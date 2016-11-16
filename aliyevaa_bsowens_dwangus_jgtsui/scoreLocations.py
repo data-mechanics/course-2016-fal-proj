@@ -50,7 +50,7 @@ class scoreLocations(dml.Algorithm):
 
         pos_count = 0
         neg_count = 0
-
+        ratio = 198/1858 # ratio is pos/neg counts
         for key in scoreLocations.oldSetExtensions:
             begin = time.time()
 
@@ -102,13 +102,18 @@ class scoreLocations(dml.Algorithm):
                         else: title = 'unknownName ' + i
 
                         neg_count += 1
+                        # note: multiply negative community indicators by ratio so that the negative
+                        # indicators aren't overpowering the positive indicators (since there are
+                        # less of the latter than the former)
                         indicatorsColl.insert({'id': doc['_id'], 'title': title, 'type': key,
                                                     'location': doc['location'],
-                                               'community_score': -1})
+                                               'community_score': -1*ratio})
             print("Processing {} took {} seconds.\n".format(key, time.time() - begin))
 
         repo.logout()
-
+        #print("pos count =", pos_count) = 198
+        #print("neg count =", neg_count) = 1858
+        # ratio =
         endTime = datetime.datetime.now()
         print("\nTransformation/manipulation of old + storage of new datasets took:\n{} seconds\n...and ended at:\n{}\n".format(time.time() - start, endTime))
         #"Transformation/manipulation of old + storage of new datasets took:
