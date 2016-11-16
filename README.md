@@ -77,7 +77,37 @@ in MongoDB's databases (see [this](https://docs.mongodb.com/manual/core/2dsphere
 - Year Round Swimming Pools
 	- We transformed the included coordinate system in a similar way to how we transformed the Issued Moving Truck Permits. However, since the coordinates were in a format that we didn't understand, we manually input each address into GeoPy to find the latitude and longitude for each pool.
 	- We decided to not transform this dataset any further for project two, because we still need to find a way to distinguish between the public pools (which are an indicator of positive community) and the pools that require an admission fee (whihch we would categorize an a negative community indicator).
-			
+	
+	
+## Dependencies
+
+Please make sure to install the following using pip:
+
+```
+pip3 install pyshp
+```
+
+```
+pip3 install pyproj
+```
+
+```
+pip3 install -U googlemaps
+```
+
+Moreover, make sure you run the files in this order:
+
+1. `retrieveData.py`
+2. `libraries.py`
+3. `parking.py`
+4. `cleanup.py`
+5. `combineRestaurantEnt.py`
+6. `scoreLocations.py`
+7. `gridCenters.py`
+8. `distances.py`
+9. `crimeRates.py`
+
+
 The transformations/algorithms used to create the five new data sets occurred in the following manner.
 
 1. Boston Grid Cell GPS Centers (1000-FT Cells)
