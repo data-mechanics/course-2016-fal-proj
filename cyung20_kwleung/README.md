@@ -2,7 +2,7 @@
 
 For our project, we will be looking at Crime Incident Reports, as released by the City of Boston, and linking them to various other datasets to see if we can determine how safe areas might be based on the businesses, public services, etc. that encompass these areas. This may be used by anyone to estimate how safe they may be wherever they are, provided they are near one of the variables we analyze. In particular, we will be looking at the following datasets: Crime Incident Reports (made between August 2015 to now); businesses that have a liquor license; locations of streetlights; MBTA T Stop Locations; and the locations of all Boston Police District Stations.
 
-Below are the following techniques we have implemented in order to further address our problem:
+Below are the following techniques we have implemented in order to further address our problem for Project 2:
 
 1) Our implementation of constraint satisfaction takes a select number of offenses (from the crime incident reports dataset) and counts how many have been reported within 100 meters of all the liquor stores from the liquor license dataset. We will also analyze how frequent these offenses occur during the weekdays (ie. Monday, Tuesday, Wednesday, and Thursday) compared to during the weekends (Friday, Saturday, and Sunday) - with Friday being grouped into the weekend because people typically have no obligations the next day so they are more free. This will ultimately help give us an idea of what crimes are most frequent around liquor stores (more will be added and analyzed later) and if it's more dangerous around liquor stores during the weekday or during the weekend.
 
@@ -40,7 +40,7 @@ This will be used to see how often crimes were committed near Boston Police Dist
 
 To retrieve information from each dataset, run mbtaLocations.py, crimeReports.py, liquorLicenses.py, streetlightLocations.py, and BPDStations.py, respectively.
 
-#Transformations
+#Project 1: Transformations
 
 **1. liquorAndCrime.py**
 
@@ -55,7 +55,7 @@ This transformation looks for liquor stores that do not have a Boston Police Dis
 
 This algorithm retrieves the districts in which crime incidents have been reported (as recorded by the Crime Incident Report dataset), counts how many crimes transpired in each individual district, then adds the counts to the pre-existing BPDS database with their corresponding districts.
 
-#Constraint Satisfaction and Statistical Analysis
+#Project 2: Constraint Satisfaction and Statistical Analysis
 
 **1. liquorAndCrime.py** 
 We have modified our version of liquorAndCrime.py to now include constraints: that the crimes be within 100 meters from a liquor store, belong to these selected offense categories "Harassment", "Aggravated Assault", "Simple Assault", "Sex Offender Registration" or "Homicide" and returns a subset of the the first 10,000 entries of the crime data (so our computer doesn't crash) which meets all of these constraints. We have concluded that on from Friday-Sunday on average more of our selected crimes are committed per day. 
