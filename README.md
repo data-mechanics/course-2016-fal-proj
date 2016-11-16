@@ -54,7 +54,7 @@ For project 2, we decided to create a well-defined heatmap of Boston, where each
 
 The following data sets were retrieved, stored, and transformed in some specific way, all in order to facilitate the
 creation of 2D-Sphere indexing in MongoDB (and for reference, 2D-Sphere indexing in MongoDB is a useful tool in comparing formatted geolocation data en-masse 
-in MongoDB's databases (see https://docs.mongodb.com/manual/core/2dsphere/ for reference)):
+in MongoDB's databases (see [this](https://docs.mongodb.com/manual/core/2dsphere/ for reference))):
 - Public Access Fishing Locations: 
 	- The existing 'location' field was renamed to 'location_addess'
 	- The existing 'map_location' field, in correct GeoJSON format to create the 2D-Sphere indexes, was renamed to 'location'
