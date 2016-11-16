@@ -79,15 +79,17 @@ in MongoDB's databases (see https://docs.mongodb.com/manual/core/2dsphere/ for r
 	- We decided to not transform this dataset any further for project two, because we still need to find a way to distinguish between the public pools (which are an indicator of positive community) and the pools that require an admission fee (whihch we would categorize an a negative community indicator).
 			
 The transformations/algorithms used to create the five new data sets occurred in the following manner.
-1) Boston Grid Cell GPS Centers (1000-FT Cells)
-	- For each crime/entry in this new data set, update as follows:
-	- Create a new field called '<>_indicators_1600m_radius', with value = 
-		- Find the size of the filtered set of all entries in the corresponding data sets based on category (community, anti-community, moving permits), based on whether their location exists within 1600 meters of the given crime's location
-	-  Copy the existing crime data set (whose geolocation data was already correctly formatted) as the new data set to be created, that will be soon edited in-place
+
+1. Boston Grid Cell GPS Centers (1000-FT Cells)
+
+	* For each crime/entry in this new data set, update as follows:
+	* Create a new field called '<>_indicators_1600m_radius', with value = 
+	* Find the size of the filtered set of all entries in the corresponding data sets based on category (community, anti-community, moving permits), based on whether their location exists within 1600 meters of the given crime's location
+	*  Copy the existing crime data set (whose geolocation data was already correctly formatted) as the new data set to be created, that will be soon edited in-place
 	
-2) Community Indicators Location and Score
-3) Boston Grid Cells Inverse Community Score
-4) Distinct Entertainment Licenses (without restaurants)
-5) Boston Grid Cells Crime Incidence 2012 - 2015
+2. Community Indicators Location and Score
+3. Boston Grid Cells Inverse Community Score
+4. Distinct Entertainment Licenses (without restaurants)
+5.  Boston Grid Cells Crime Incidence 2012 - 2015
 
 
