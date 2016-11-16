@@ -58,6 +58,7 @@ This algorithm retrieves the districts in which crime incidents have been report
 #Project 2: Constraint Satisfaction and Statistical Analysis
 
 **1. liquorAndCrime.py** 
+
 We have modified our version of liquorAndCrime.py to now include constraints: that the crimes be within 100 meters from a liquor store, belong to these selected offense categories "Harassment", "Aggravated Assault", "Simple Assault", "Sex Offender Registration" or "Homicide" and returns a subset of the the first 10,000 entries of the crime data (so our computer doesn't crash) which meets all of these constraints. We have concluded that on from Friday-Sunday on average more of our selected crimes are committed per day.
 
 Before running liquorAndCrime.py:
@@ -75,4 +76,5 @@ Selected Crimes Avg Within 100 meters of Liquor Store (Fri-Sun): 123.0
 
 
 **2. crime_time_correlation.py**
+
 Stastical Analysis was used to determine if there is a correlation between crimes and the hour they were committed. After calculations, we received a correlation coefficient with a magnitude of 0.589, which tells us that the two variables have a positive, moderately strong correlation. The time_crime.PNG picture illustrates our graph for this correlation.
