@@ -112,14 +112,36 @@ The transformations/algorithms used to create the five new data sets occurred in
 
 1. Boston Grid Cell GPS Centers (1000-FT Cells)
 
-	* For each crime/entry in this new data set, update as follows:
-	* Create a new field called '<>_indicators_1600m_radius', with value = 
-	* Find the size of the filtered set of all entries in the corresponding data sets based on category (community, anti-community, moving permits), based on whether their location exists within 1600 meters of the given crime's location
-	*  Copy the existing crime data set (whose geolocation data was already correctly formatted) as the new data set to be created, that will be soon edited in-place
+	* 
 	
 2. Community Indicators Location and Score
-3. Boston Grid Cells Inverse Community Score
-4. Distinct Entertainment Licenses (without restaurants)
-5.  Boston Grid Cells Crime Incidence 2012 - 2015
 
+	* First, we took seven datasets:
+	
+		- Crime Incident Reports (from July 2012 - August 2015)
+		- Public Access Fishing Locations, Issued Moving Truck Permits
+		- Active Food Establishment Licenses, Entertainment Licenses
+		- Community Supported Agriculture Pickups
+		- Year-Round Swimming Pools.
+		- Boston Parking Lots
+		- Boston Libaries
+		
+	* We assumed that Fishing Locations, CSA pickups, year round pools and libraries have positive effect on a community. That is why we assigned community_score = 1 for each location. 
+	* Analogously, for each location that fell under the category of "anti-community" (such as Restaurant Licenses, Parking, and Entertainment Licenses), we assigned a community_score = -1.
+	* Then, we multiply each "anti-community" community_score by the ratio that was detailed above.
+
+3. Boston Grid Cells Inverse Community Score
+
+	* For each GPS center, we calculated the distance between itself and all the location points using the distance formula.
+	* Then, we multpled the distance by the community score (from 'Community Indicators Location and Score') to obtain the overall impact on the GPS center.
+
+4. Distinct Entertainment Licenses (without restaurants)
+
+	* First, we cleaned up the Entertainment Licences dataset to exclude multiple entries for one license.
+	* Then, we looked for the overlap between the Restaurant Licenses and the Entertainment Licenses by comparing the latitude, longitude, street name, street number, city, etc.
+	* If it was the case that the same entry was found in both datasets, remove the entry from the Entertainment Licenses dataset, as that means that specific entry is actually a restaurant.
+
+5. Boston Grid Cells Crime Incidence 2012 - 2015
+
+	*
 
