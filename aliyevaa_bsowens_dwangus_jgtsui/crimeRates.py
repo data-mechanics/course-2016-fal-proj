@@ -20,8 +20,21 @@ def calculate(x0, y0, x1, y1):
 
 class crimeRates(dml.Algorithm):
     contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
-    reads = ['aliyevaa_bsowens_dwangus_jgtsui.crime2012_2015']
-    writes = ['aliyevaa_bsowens_dwangus_jgtsui.crimeRates']
+    reads = []
+
+    titles = ['Crime Rate Cluster']
+
+    setExtensions = ['crimeRates']
+
+    authentication_stuff = '?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']
+
+    urls = ['https://data.cityofboston.gov/resource/ufcx-3fdn.json']
+
+    writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]
+
+    dataSetDict = {}
+    for i in range(len(setExtensions)):
+        dataSetDict[setExtensions[i]] = (urls[i], writes[i], titles[i], urls[i][39:48])
 
     @staticmethod
     def execute(trial=False):
@@ -80,9 +93,33 @@ class crimeRates(dml.Algorithm):
 
     @staticmethod
     def provenance(doc=prov.model.ProvDocument(), startTime=None, endTime=None):
-        return 0
+        client = dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate(crimeRates.contributor, crimeRates.contributor)
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/')
+        doc.add_namespace('dat', 'http://datamechanics.io/data/')
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#')
+        doc.add_namespace('log', 'http://datamechanics.io/log/')
+        doc.add_namespace('bdp', 'https://maps.googleapis.com/maps/api/place')
+
+        this_script = doc.agent('alg:aliyevaa_bsowens_dwangus_jgtsui#crimeRates',
+                                {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
+
+        for key in crimeRates.dataSetDict.keys():
+            resource = doc.entity('bdp:' + crimeRates.dataSetDict[key][3], {'prov:label':crimeRates.dataSetDict[key][2], prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+            get_something = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+            doc.wasAssociatedWith(get_something, this_script)
+            something = doc.entity('dat:aliyevaa_bsowens_dwangus_jgtsui#' + key, {prov.model.PROV_LABEL:crimeRates.dataSetDict[key][2], prov.model.PROV_TYPE:'ont:DataSet'})
+            doc.wasAttributedTo(something, this_script)
+            doc.wasGeneratedBy(something, get_something, endTime)
+            doc.wasDerivedFrom(something, resource, get_something, get_something, get_something)
+
+        repo.record(doc.serialize())  # Record the provenance document.
+        repo.logout()
+
+        return doc
 
 
 crimeRates.execute()
 doc = crimeRates.provenance()
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+print(json.dumps(json.loads(doc.serialize()), indent=4))
