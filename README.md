@@ -112,7 +112,7 @@ The transformations/algorithms used to create the five new data sets occurred in
 
 1. Boston Grid Cell GPS Centers (1000-FT Cells)
 
-	* 
+	* Taking the Boston Shapefile x-y points (while also finding the necssary coordinate-system reprojection into standard GPS coordinates) (and only using the mainland and airport/East Boston divisions of the shapefile), I divided up Boston into a grid of ~1000x~1000-ft cells, and output into the Boston Grid Cell GPS Centers (1000-FT Cells) dataset the list of about ~1700 coordinates ((longitude, latitude) as (x,y) coordinates), each the center of a cell/box in the Boston-divided grid.
 	
 2. Community Indicators Location and Score
 
@@ -143,5 +143,5 @@ The transformations/algorithms used to create the five new data sets occurred in
 
 5. Boston Grid Cells Crime Incidence 2012 - 2015
 
-	*
+	* We looked at the crime data and the output from Boston Grid Cell GPS Centers(1000-FT Cells). From here, we keep a running count of how many crimes occured within a 1000ft radius from the GPS center.
 
