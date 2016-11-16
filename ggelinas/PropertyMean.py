@@ -5,6 +5,7 @@ import dml
 import prov.model
 import datetime
 import uuid
+from pyzipcode import ZipCodeDatabase
 
 
 class PropertyMean(dml.Algorithm):
@@ -67,7 +68,7 @@ class PropertyMean(dml.Algorithm):
 
         for i in AvgValueZip:
             repo['ggelinas.propertymean'].insert({'zip_code': i[0], 'avg_value': i[1]})
-        
+
         #districts = ['A1', 'D4', 'E13', 'B3', 'E18', 'D14', 'A7', 'C6', 'B2', 'E5', 'C11']
         #counter = 0
         #for doc in repo['ggelinas.stations'].find():
