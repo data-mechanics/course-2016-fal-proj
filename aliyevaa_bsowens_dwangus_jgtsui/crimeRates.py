@@ -11,6 +11,8 @@ import ast
 import math
 
 
+
+
 def calculate(x0, y0, x1, y1):
     x_d_sq = pow(abs(x0) - abs(x1), 2)
     y_d_sq = pow(abs(y0) - abs(y1), 2)
@@ -20,15 +22,14 @@ def calculate(x0, y0, x1, y1):
 
 class crimeRates(dml.Algorithm):
     contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
-    reads = []
+    reads = ['crime']
 
     titles = ['Crime Rate Cluster']
 
     setExtensions = ['crimeRates']
 
-    authentication_stuff = '?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']
-
     urls = ['https://data.cityofboston.gov/resource/ufcx-3fdn.json']
+
 
     writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]
 
@@ -66,6 +67,7 @@ class crimeRates(dml.Algorithm):
             this_coord = [elem['location']['coordinates'][0],elem['location']['coordinates'][1]]
 
             # find closest center
+
             closest_so_far = 100000000
             for center in coordinates:
                 c_str = str(center[0]) + ' ' + str(center[1])
@@ -77,6 +79,7 @@ class crimeRates(dml.Algorithm):
                     closest_so_far = d
                     closest_center = c_str
             entry[closest_center] += 1
+            count_stuff += 1
             if elem_n % 100 == 0:
                 print("Parsed " +  str(elem_n) + " crime entries")
 
