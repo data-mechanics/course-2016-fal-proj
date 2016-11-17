@@ -12,7 +12,8 @@ class PropertyMean(dml.Algorithm):
     contributor = 'ggelinas'
     reads = ['ggelinas.property',
              'ggelinas.stations']
-    writes = ['ggelinas.propertymean']
+    writes = ['ggelinas.propertymean',
+              'ggelinas.districtvalue']
 
     def aggregate(R, f):
         keys = {r[0] for r in R}
@@ -29,7 +30,6 @@ class PropertyMean(dml.Algorithm):
 
     @staticmethod
     def execute(trial = False):
-        print('here')
 
         startTime = datetime.datetime.now()
         # Set up the database connection.
@@ -54,20 +54,46 @@ class PropertyMean(dml.Algorithm):
         zipcount = [(c['mail_zipcode'], 1) for c in propData]
         totalZipCount = PropertyMean.aggregate(zipcount, sum)
         print(totalPropVal)
-        print(totalZipCount)
-
+        # print(totalZipCount)
         P = PropertyMean.product(totalPropVal, totalZipCount)
         S = PropertyMean.select(P, lambda t: t[0][0] == t[1][0])
         CV = PropertyMean.project(S, lambda t: (t[0][0], t[0][1], t[1][1]))
-        print(CV)
+        # print(CV)
         AvgValueZip = [(i[0], (i[1]/i[2])) for i in CV]
-        print(AvgValueZip)
+        # print(AvgValueZip)
 
         repo.dropPermanent("propertymean")
         repo.createPermanent("propertymean")
 
         for i in AvgValueZip:
             repo['ggelinas.propertymean'].insert({'zip_code': i[0], 'avg_value': i[1]})
+
+        zcdb = ZipCodeDatabase()
+        stations = []
+        stationProperty = []
+        stationCount = []
+        for station in repo['ggelinas.stations'].find():
+                stations.append(station)
+
+        for s in stations:
+            in_radius = [z.zip for z in zcdb.get_zipcodes_around_radius(s['location_zip'], 1.61)]
+            for zipcode in repo['ggelinas.propertymean'].find():
+                for i in in_radius:
+                    if zipcode['zip_code'] == i:
+                        stationProperty.append((s['location_zip'], zipcode['avg_value']))
+                        stationCount.append((s['location_zip'], 1))
+        # print(stationProperty)
+        SPS = PropertyMean.aggregate(stationProperty, sum)
+        SPC = PropertyMean.aggregate(stationCount, sum)
+        Prod = PropertyMean.product(SPS, SPC)
+        Sele = PropertyMean.select(Prod, lambda t: t[0][0] == t[1][0])
+        Proj = PropertyMean.project(Sele, lambda t: (t[0][0], t[0][1], t[1][1]))
+        AvgDisProp = [(i[0], (i[1] / i[2])) for i in Proj]
+
+        repo.dropPermanent("districtvalue")
+        repo.createPermanent("districtvalue")
+        for i in AvgDisProp:
+            repo['ggelinas.districtvalue'].insert({'zip_code': i[0], 'avg_value': i[1]})
 
         #districts = ['A1', 'D4', 'E13', 'B3', 'E18', 'D14', 'A7', 'C6', 'B2', 'E5', 'C11']
         #counter = 0
