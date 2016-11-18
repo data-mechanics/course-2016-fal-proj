@@ -37,14 +37,6 @@ class PropertyMean(dml.Algorithm):
         repo = client.repo
         repo.authenticate('ggelinas', 'ggelinas')
 
-
-        #repo['ggelinas.stations'].remove({"name": "Boston Police Headquarters"})
-
-        # We had to hard code the list of districts because the names
-        # were not consistent in the dataset. If we use it in the future
-        # we will make it actually pull these from the dataset.
-
-
         propData = []
         for prop in repo['ggelinas.property'].find():
             propData.append(prop)
@@ -115,13 +107,13 @@ class PropertyMean(dml.Algorithm):
         doc.add_namespace('alg',
                           'http://datamechanics.io/algorithm/ggelinas')  # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat',
-                          'http://datamechanics.io/data/ggelinas')  # The data sets are in <user>#<collection> format.
+                          'http://datamechanics.io/data/')  # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont',
                           'http://datamechanics.io/ontology#')  # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/')  # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:ggelinas#numOfCrimeInDistricts',
+        this_script = doc.agent('alg:ggelinas#DistrictNumCrimes',
                                 {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
         stations_resource = doc.entity('dat:ggelinas#stations', {'prov:label': 'Boston Police Stations District',
                                                                  prov.model.PROV_TYPE: 'ont:DataSet'})
@@ -137,7 +129,7 @@ class PropertyMean(dml.Algorithm):
             {prov.model.PROV_TYPE: 'ont:Retrieval'}
         )
 
-        incidents_resource = doc.entity('dat:ggelinas#incidents', {'prov:label': 'Crime Incidents Report',
+        property_resource = doc.entity('dat:ggelinas#property', {'prov:label': 'Property Assessment 2016',
                                                                    prov.model.PROV_TYPE: 'ont:DataResource',
                                                                    'ont:Extension': 'json'})
         this_run2 = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
@@ -145,7 +137,7 @@ class PropertyMean(dml.Algorithm):
         doc.wasAssociatedWith(this_run2, this_script)
         doc.usage(
             this_run2,
-            incidents_resource,
+            property_resource,
             startTime,
             None,
             {prov.model.PROV_TYPE: 'ont:Computation'}
@@ -157,15 +149,17 @@ class PropertyMean(dml.Algorithm):
         doc.wasGeneratedBy(stations, this_run, endTime)
         doc.wasDerivedFrom(stations, stations_resource, this_run, this_run, this_run)
 
-        incidents = doc.entity('dat:ggelinas#incidents',
+        incidents = doc.entity('dat:ggelinas#property',
                                {prov.model.PROV_LABEL: 'Counted incidents', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(incidents, this_script)
         doc.wasGeneratedBy(incidents, this_run2, endTime)
-        doc.wasDerivedFrom(incidents, incidents_resource, this_run2, this_run2, this_run2)
+        doc.wasDerivedFrom(incidents, property_resource, this_run2, this_run2, this_run2)
 
         repo.record(doc.serialize())
         repo.logout()
 
         return doc
+
 PropertyMean.execute()
+doc = PropertyMean.provenance()
 #eof

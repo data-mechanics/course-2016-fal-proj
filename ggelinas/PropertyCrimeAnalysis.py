@@ -129,7 +129,7 @@ class PropertyCrimeAnalysis(dml.Algorithm):
             {prov.model.PROV_TYPE: 'ont:Retrieval'}
         )
 
-        incidents_resource = doc.entity('dat:ggelinas#incidents', {'prov:label': 'Crime Incidents Report',
+        districtvalue_resource = doc.entity('dat:ggelinas#districtvalue', {'prov:label': 'Property Value in District',
                                                                    prov.model.PROV_TYPE: 'ont:DataResource',
                                                                    'ont:Extension': 'json'})
         this_run2 = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
@@ -137,7 +137,7 @@ class PropertyCrimeAnalysis(dml.Algorithm):
         doc.wasAssociatedWith(this_run2, this_script)
         doc.usage(
             this_run2,
-            incidents_resource,
+            districtvalue_resource,
             startTime,
             None,
             {prov.model.PROV_TYPE: 'ont:Computation'}
@@ -149,11 +149,11 @@ class PropertyCrimeAnalysis(dml.Algorithm):
         doc.wasGeneratedBy(stations, this_run, endTime)
         doc.wasDerivedFrom(stations, stations_resource, this_run, this_run, this_run)
 
-        incidents = doc.entity('dat:ggelinas#incidents',
+        incidents = doc.entity('dat:ggelinas#districtvalue',
                                {prov.model.PROV_LABEL: 'Counted incidents', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(incidents, this_script)
         doc.wasGeneratedBy(incidents, this_run2, endTime)
-        doc.wasDerivedFrom(incidents, incidents_resource, this_run2, this_run2, this_run2)
+        doc.wasDerivedFrom(incidents, districtvalue_resource, this_run2, this_run2, this_run2)
 
         repo.record(doc.serialize())
         repo.logout()

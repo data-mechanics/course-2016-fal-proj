@@ -118,18 +118,18 @@ class HospitalLocationAnalysis(dml.Algorithm):
         doc.add_namespace('alg',
                           'http://datamechanics.io/algorithm/ggelinas')  # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat',
-                          'http://datamechanics.io/data/ggelinas')  # The data sets are in <user>#<collection> format.
+                          'http://datamechanics.io/data/')  # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont',
                           'http://datamechanics.io/ontology#')  # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/')  # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:ggelinas#numOfCrimeInDistricts',
+        this_script = doc.agent('alg:ggelinas#HospitalLocationAnalysis',
                                 {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
-        stations_resource = doc.entity('dat:ggelinas#stations', {'prov:label': 'Boston Police Stations District',
+        stations_resource = doc.entity('dat:ggelinas#hospitals', {'prov:label': 'Boston Hospital Locations',
                                                                  prov.model.PROV_TYPE: 'ont:DataSet'})
         this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime,
-                                {'prov:label': 'Get Boston Police Stations District'})
+                                {'prov:label': 'Get Boston Hospital Locations'})
         doc.wasAssociatedWith(this_run, this_script)
 
         doc.usage(
@@ -141,10 +141,9 @@ class HospitalLocationAnalysis(dml.Algorithm):
         )
 
         incidents_resource = doc.entity('dat:ggelinas#incidents', {'prov:label': 'Crime Incidents Report',
-                                                                   prov.model.PROV_TYPE: 'ont:DataResource',
-                                                                   'ont:Extension': 'json'})
+                                                                   prov.model.PROV_TYPE: 'ont:DataSet'})
         this_run2 = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
-                                 {'prov:label': 'Get Crime Incidents District Report Data'})
+                                 {'prov:label': 'Get Crime Locations'})
         doc.wasAssociatedWith(this_run2, this_script)
         doc.usage(
             this_run2,
@@ -154,14 +153,14 @@ class HospitalLocationAnalysis(dml.Algorithm):
             {prov.model.PROV_TYPE: 'ont:Computation'}
         )
 
-        stations = doc.entity('dat:ggelinas#stations',
-                              {prov.model.PROV_LABEL: 'Districts incident count', prov.model.PROV_TYPE: 'ont:DataSet'})
+        stations = doc.entity('dat:ggelinas#hospitals',
+                              {prov.model.PROV_LABEL: 'Hospital locations', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(stations, this_script)
         doc.wasGeneratedBy(stations, this_run, endTime)
         doc.wasDerivedFrom(stations, stations_resource, this_run, this_run, this_run)
 
         incidents = doc.entity('dat:ggelinas#incidents',
-                               {prov.model.PROV_LABEL: 'Counted incidents', prov.model.PROV_TYPE: 'ont:DataSet'})
+                               {prov.model.PROV_LABEL: 'Crime locations', prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(incidents, this_script)
         doc.wasGeneratedBy(incidents, this_run2, endTime)
         doc.wasDerivedFrom(incidents, incidents_resource, this_run2, this_run2, this_run2)
@@ -173,3 +172,6 @@ class HospitalLocationAnalysis(dml.Algorithm):
 
 
 HospitalLocationAnalysis.execute()
+doc = HospitalLocationAnalysis.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
