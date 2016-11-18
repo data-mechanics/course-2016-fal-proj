@@ -15,7 +15,7 @@ district and the average property value within that district. My hypothesis is t
 with property value increasing and number of crimes decreasing. I will be using the Boston Police Stations, Boston Crime 
 Reports and Property Assessments data sets to calculate the correlation coefficient and p-value.
 
-## Transformations
+##Transformations
 
 1. getData.py obtains all of the data sets and stores them as collections within MongoDB.
 
@@ -38,13 +38,15 @@ Correlation Coefficient: -0.6809827474468138
 P-value: 1.0
 
 This correlation coefficient shows that it is a strong negative correlation.
-Transformation 1: Calculated correlation coefficient number of crimes within
-a district with average property value within those districts
-Correlation Coefficient: -0.6809827474468138
-P-value: 1.0
 
-Transformation 2:
-this is the locations of current Hospital station: [(42.30025000839615, -71.10737910445549), 
+##Hospital Location Analysis
+This analysis is to determine if the current hospital locations are placed in optimal locations by comparing it towards
+K means of the 26 hospitals. The algorithm takes in the Boston Hospital Locations and Boston Crime Reports data set.
+It compares the current location of the hospitals and compares the distance for each location with the most crimes.
+
+Here are the results:
+
+Locations of current hospital locations: [(42.30025000839615, -71.10737910445549), 
 (42.3438499996779, -71.08983000035408), (42.31856289432221, -71.09165569529381), (42.329611374844326, -71.10616871232227),
 (42.27137912172521, -71.08168028446168), (42.3371094801158, -71.07139912234962), (42.329611374844326, -71.10616871232227),
 (42.36297141612903, -71.07043169540236), (42.34665771451756, -71.14136122385321), (42.33587602903896, -71.10741054246668),
@@ -55,7 +57,7 @@ this is the locations of current Hospital station: [(42.30025000839615, -71.1073
 (42.3385289546495, -71.10940050507557), (42.33734993862189, -71.1071702648531), (42.36247485742686, -71.06924724545246),
 (42.335925371008436, -71.07378404269969)]
 
-K means Hospital locations: [(42.31766665432098, -71.08874154320986), (42.335336941176465, -71.06332752941175), 
+K means hospital locations: [(42.31766665432098, -71.08874154320986), (42.335336941176465, -71.06332752941175), 
 (42.2758958548387, -71.09411869354837), (42.28982995238095, -71.10348738095237), (42.3534265, -71.0765595), 
 (42.34568411111111, -71.14137922222223), (42.33503033333333, -71.10632700000001), (39.704630671641794, -66.88389731343281), 
 (42.3537191, -71.13231374999998), (42.31140083760684, -71.0637535213675), (42.334351783333325, -71.07737868333335), 
@@ -65,7 +67,7 @@ K means Hospital locations: [(42.31766665432098, -71.08874154320986), (42.335336
 (42.27484629166666, -71.13036083333334), (42.327336736842106, -71.10366789473683), (42.344890825, -71.08917249999999), 
 (42.355409333333334, -71.07107333333333)]
 
-this is difference between Hospital and Clusters: [(0.017416645924832608, 0.01863756124562599), 
+Difference between hospitals and optimal K means clusters: [(0.017416645924832608, 0.01863756124562599), 
 (0.008513058501435466, 0.026502470942332934), (0.04266703948351136, 0.0024629982545576468), 
 (0.03978142246337768, 0.0026813313698994534), (0.08204737827478681, 0.005120784461681183), 
 (0.008574630995312305, 0.069980099872609), (0.005418958489002534, 0.00015828767773484742), 
@@ -78,3 +80,6 @@ this is difference between Hospital and Clusters: [(0.017416645924832608, 0.0186
 (0.0028460887054890804, 0.04655490456511302), (0.09280159901472018, 0.06471353112688405), 
 (0.02528326347081844, 0.029142105544323726), (0.006361870350502841, 0.020228005075580313), 
 (0.018059394711443133, 0.03609693151976501)]
+
+Analyzing the difference in the K means algorithm and the current locations sow that the locations of the Hospitals are
+not far off from the optimal locations determined by the most number of crimes. 
