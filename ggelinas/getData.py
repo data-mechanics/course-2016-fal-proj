@@ -6,7 +6,7 @@ import datetime
 import uuid
 
 class getData(dml.Algorithm):
-    contributor = 'alice_bob'
+    contributor = 'ggelinas'
     reads = []
     writes = ['ggelinas.stations',
               'ggelinas.incidents',
