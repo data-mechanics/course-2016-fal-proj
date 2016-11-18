@@ -118,7 +118,7 @@ class PropertyMean(dml.Algorithm):
         stations_resource = doc.entity('dat:ggelinas#stations', {'prov:label': 'Boston Police Stations District',
                                                                  prov.model.PROV_TYPE: 'ont:DataSet'})
         this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime,
-                                {'prov:label': 'Get Boston Police Stations District'})
+                                {'prov:label': 'Police Station Districts zip code'})
         doc.wasAssociatedWith(this_run, this_script)
 
         doc.usage(
@@ -126,14 +126,13 @@ class PropertyMean(dml.Algorithm):
             stations_resource,
             startTime,
             None,
-            {prov.model.PROV_TYPE: 'ont:Retrieval'}
+            {prov.model.PROV_TYPE: 'ont:Computation'}
         )
 
         property_resource = doc.entity('dat:ggelinas#property', {'prov:label': 'Property Assessment 2016',
-                                                                   prov.model.PROV_TYPE: 'ont:DataResource',
-                                                                   'ont:Extension': 'json'})
+                                                                   prov.model.PROV_TYPE: 'ont:DataSet'})
         this_run2 = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
-                                 {'prov:label': 'Get Crime Incidents District Report Data'})
+                                 {'prov:label': 'Property value near districts'})
         doc.wasAssociatedWith(this_run2, this_script)
         doc.usage(
             this_run2,
@@ -143,17 +142,17 @@ class PropertyMean(dml.Algorithm):
             {prov.model.PROV_TYPE: 'ont:Computation'}
         )
 
-        stations = doc.entity('dat:ggelinas#stations',
-                              {prov.model.PROV_LABEL: 'Districts incident count', prov.model.PROV_TYPE: 'ont:DataSet'})
-        doc.wasAttributedTo(stations, this_script)
-        doc.wasGeneratedBy(stations, this_run, endTime)
-        doc.wasDerivedFrom(stations, stations_resource, this_run, this_run, this_run)
+        propertymean = doc.entity('dat:ggelinas#propertymean',
+                              {prov.model.PROV_LABEL: 'Avg Property Value by Zip Code', prov.model.PROV_TYPE: 'ont:DataSet'})
+        doc.wasAttributedTo(propertymean, this_script)
+        doc.wasGeneratedBy(propertymean, this_run, endTime)
+        doc.wasDerivedFrom(propertymean, stations_resource, this_run, this_run, this_run)
 
-        incidents = doc.entity('dat:ggelinas#property',
-                               {prov.model.PROV_LABEL: 'Counted incidents', prov.model.PROV_TYPE: 'ont:DataSet'})
-        doc.wasAttributedTo(incidents, this_script)
-        doc.wasGeneratedBy(incidents, this_run2, endTime)
-        doc.wasDerivedFrom(incidents, property_resource, this_run2, this_run2, this_run2)
+        districtvalue = doc.entity('dat:ggelinas#districtvalue',
+                               {prov.model.PROV_LABEL: 'Avg Property Value in Districts', prov.model.PROV_TYPE: 'ont:DataSet'})
+        doc.wasAttributedTo(districtvalue, this_script)
+        doc.wasGeneratedBy(districtvalue, this_run2, endTime)
+        doc.wasDerivedFrom(districtvalue, property_resource, this_run2, this_run2, this_run2)
 
         repo.record(doc.serialize())
         repo.logout()
@@ -162,4 +161,6 @@ class PropertyMean(dml.Algorithm):
 
 PropertyMean.execute()
 doc = PropertyMean.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 #eof
