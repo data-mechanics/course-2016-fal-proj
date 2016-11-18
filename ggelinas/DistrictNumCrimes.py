@@ -10,7 +10,7 @@ import uuid
 class DistrictNumCrimes(dml.Algorithm):
     contributor = 'ggelinas'
     reads = ['ggelinas.stations',
-              'ggelinas.incidents']
+             'ggelinas.incidents']
     writes = ['ggelinas.stations',
               'ggelinas.incidents']
 
