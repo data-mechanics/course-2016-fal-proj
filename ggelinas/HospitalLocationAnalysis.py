@@ -137,10 +137,10 @@ class HospitalLocationAnalysis(dml.Algorithm):
             stations_resource,
             startTime,
             None,
-            {prov.model.PROV_TYPE: 'ont:Retrieval'}
+            {prov.model.PROV_TYPE: 'ont:Computation'}
         )
 
-        incidents_resource = doc.entity('dat:ggelinas#incidents', {'prov:label': 'Crime Incidents Report',
+        incidents_resource = doc.entity('dat:ggelinas#incidents', {'prov:label': 'Crime Incidents Location',
                                                                    prov.model.PROV_TYPE: 'ont:DataSet'})
         this_run2 = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
                                  {'prov:label': 'Get Crime Locations'})
@@ -153,17 +153,19 @@ class HospitalLocationAnalysis(dml.Algorithm):
             {prov.model.PROV_TYPE: 'ont:Computation'}
         )
 
-        stations = doc.entity('dat:ggelinas#hospitals',
-                              {prov.model.PROV_LABEL: 'Hospital locations', prov.model.PROV_TYPE: 'ont:DataSet'})
-        doc.wasAttributedTo(stations, this_script)
-        doc.wasGeneratedBy(stations, this_run, endTime)
-        doc.wasDerivedFrom(stations, stations_resource, this_run, this_run, this_run)
+        #Unsure about documenting since the algorithm does not write new data and stores it
 
-        incidents = doc.entity('dat:ggelinas#incidents',
-                               {prov.model.PROV_LABEL: 'Crime locations', prov.model.PROV_TYPE: 'ont:DataSet'})
-        doc.wasAttributedTo(incidents, this_script)
-        doc.wasGeneratedBy(incidents, this_run2, endTime)
-        doc.wasDerivedFrom(incidents, incidents_resource, this_run2, this_run2, this_run2)
+        # stations = doc.entity('dat:ggelinas#hospitals',
+        #                       {prov.model.PROV_LABEL: 'Hospital locations', prov.model.PROV_TYPE: 'ont:DataSet'})
+        # doc.wasAttributedTo(stations, this_script)
+        # doc.wasGeneratedBy(stations, this_run, endTime)
+        # doc.wasDerivedFrom(stations, stations_resource, this_run, this_run, this_run)
+        #
+        # incidents = doc.entity('dat:ggelinas#incidents',
+        #                        {prov.model.PROV_LABEL: 'Crime locations', prov.model.PROV_TYPE: 'ont:DataSet'})
+        # doc.wasAttributedTo(incidents, this_script)
+        # doc.wasGeneratedBy(incidents, this_run2, endTime)
+        # doc.wasDerivedFrom(incidents, incidents_resource, this_run2, this_run2, this_run2)
 
         repo.record(doc.serialize())
         repo.logout()
