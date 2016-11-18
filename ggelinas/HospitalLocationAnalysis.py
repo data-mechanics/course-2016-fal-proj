@@ -77,14 +77,14 @@ class HospitalLocationAnalysis(dml.Algorithm):
         old = []
         while old != Hospital:
             old = Hospital
-            MPD = [(m, p, HospitalLocationAnalysis.dist(m,p)) for (m, p) in HospitalLocationAnalysis.product(Hospital, Crime)]
-            PDs = [(p, HospitalLocationAnalysis.dist(m,p)) for (m,p,d) in MPD]
-            PD = HospitalLocationAnalysis.aggregate(PDs, min)
-            MP = [(m,p) for ((m,p,d), (p2,d2)) in HospitalLocationAnalysis.product(MPD, PD) if p==p2 and d==d2]
-            MT = HospitalLocationAnalysis.aggregate(MP, HospitalLocationAnalysis.plus)
-            M1 = [(m, 1) for ((m,p,d), (p2,d2)) in HospitalLocationAnalysis.product(MPD, PD) if p==p2 and d==d2]
-            MC = HospitalLocationAnalysis.aggregate(M1, sum)
-            M = [HospitalLocationAnalysis.scale(t,c) for ((m,t),(m2,c)) in HospitalLocationAnalysis.product(MT, MC) if m == m2]
+            A = [(m, p, HospitalLocationAnalysis.dist(m,p)) for (m, p) in HospitalLocationAnalysis.product(Hospital, Crime)]
+            B = [(p, HospitalLocationAnalysis.dist(m,p)) for (m,p,d) in A]
+            C = HospitalLocationAnalysis.aggregate(B, min)
+            D = [(m,p) for ((m,p,d), (p2,d2)) in HospitalLocationAnalysis.product(A, C) if p == p2 and d == d2]
+            E = HospitalLocationAnalysis.aggregate(D, HospitalLocationAnalysis.plus)
+            F = [(m, 1) for ((m,p,d), (p2,d2)) in HospitalLocationAnalysis.product(A, C) if p == p2 and d == d2]
+            G = HospitalLocationAnalysis.aggregate(F, sum)
+            M = [HospitalLocationAnalysis.scale(t,c) for ((m,t),(m2,c)) in HospitalLocationAnalysis.product(E, G) if m == m2]
 
         XM = [float(i[0]) for i in M]
         XY = [float(i[1]) for i in M]

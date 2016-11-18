@@ -13,7 +13,9 @@ Project repository for the course project in the Fall 2016 iteration of the Data
 Using the data sets above, I wanted to observe if there was a correlation between number of crimes within a police 
 district and the average property value within that district. My hypothesis is that there should be a negative correlation 
 with property value increasing and number of crimes decreasing. I will be using the Boston Police Stations, Boston Crime 
-Reports and Property Assessments data sets to calculate the correlation coefficient and p-value.
+Reports and Property Assessments data sets to calculate the correlation coefficient and p-value. I also wanted to see
+if hospitals are located near areas with more crime as to make ambulances and emergency services respond efficiently.
+There is no auth.json file since I did not use any keys to access any of the data sets used in this project.
 
 ##Transformations
 

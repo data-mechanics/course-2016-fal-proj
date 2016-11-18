@@ -176,6 +176,7 @@ class getData(dml.Algorithm):
 
 getData.execute()
 doc = getData.provenance()
-print(json.dumps(json.loads(doc.serialize()),indent=4))
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 #eof
