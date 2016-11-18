@@ -80,9 +80,9 @@ class HospitalLocationAnalysis(dml.Algorithm):
             MPD = [(m, p, HospitalLocationAnalysis.dist(m,p)) for (m, p) in HospitalLocationAnalysis.product(Hospital, Crime)]
             PDs = [(p, HospitalLocationAnalysis.dist(m,p)) for (m,p,d) in MPD]
             PD = HospitalLocationAnalysis.aggregate(PDs, min)
-            MP = [(m,p) for ((m,p,d), (p2,d2)) in HospitalLocationAnalysis.product(MPD, PD)]
+            MP = [(m,p) for ((m,p,d), (p2,d2)) in HospitalLocationAnalysis.product(MPD, PD) if p==p2 and d==d2]
             MT = HospitalLocationAnalysis.aggregate(MP, HospitalLocationAnalysis.plus)
-            M1 = [(m, 1) for ((m,p,d), (p2,d2)) in HospitalLocationAnalysis.product(MPD, PD)]
+            M1 = [(m, 1) for ((m,p,d), (p2,d2)) in HospitalLocationAnalysis.product(MPD, PD) if p==p2 and d==d2]
             MC = HospitalLocationAnalysis.aggregate(M1, sum)
             M = [HospitalLocationAnalysis.scale(t,c) for ((m,t),(m2,c)) in HospitalLocationAnalysis.product(MT, MC) if m == m2]
 

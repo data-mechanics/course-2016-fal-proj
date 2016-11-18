@@ -95,20 +95,6 @@ class PropertyMean(dml.Algorithm):
         for i in AvgDisProp:
             repo['ggelinas.districtvalue'].insert({'zip_code': i[0], 'avg_value': i[1]})
 
-        #districts = ['A1', 'D4', 'E13', 'B3', 'E18', 'D14', 'A7', 'C6', 'B2', 'E5', 'C11']
-        #counter = 0
-        #for doc in repo['ggelinas.stations'].find():
-        #    district = districts[counter]
-        #     num_crimes = repo['ggelinas.incidents'].count({'district': district})
-        #     print(num_crimes)
-        #
-        #     repo['ggelinas.stations'].update(
-        #         {'_id': doc['_id']},
-        #         {'$set': {'num_crimes': num_crimes},},
-        #         upsert=False
-        #     )
-        #     counter += 1
-
         repo.logout()
 
         endTime = datetime.datetime.now()
