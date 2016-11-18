@@ -10,19 +10,34 @@ Project repository for the course project in the Fall 2016 iteration of the Data
 
 ##Description
 
-Using the data sets above, I wanted to observe if there was a correlation between number of crimes within a district and
-the average property value within that district. My hypothesis is that there should be a negative correlation with 
-property value increasing and number of crimes decreasing. I will be using the Boston Police Stations, Boston Crime 
+Using the data sets above, I wanted to observe if there was a correlation between number of crimes within a police 
+district and the average property value within that district. My hypothesis is that there should be a negative correlation 
+with property value increasing and number of crimes decreasing. I will be using the Boston Police Stations, Boston Crime 
 Reports and Property Assessments data sets to calculate the correlation coefficient and p-value.
 
 ## Transformations
 
-1. Within DistrictNumCrimes.py I take Boston Crime Reports and Boston Police Stations data sets and take the total 
+1. getData.py obtains all of the data sets and stores them as collections within MongoDB.
+
+2. Within DistrictNumCrimes.py I take Boston Crime Reports and Boston Police Stations data sets and take the total 
 number of crimes for each district from the Boston Crime Reports and add a new column within the Boston Police Stations
-called num_crimes that corresponds to its specific district.
+ data set called num_crimes that corresponds to its specific district.
 
-2. PropertyMean.py takes the Boston Property Assessment 
+3. PropertyMean.py takes the Boston Property Assessment and Boston Police Stations data sets and transforms them to obtain
+the average property value within a 1 mile range from each police district. I used a package called pyszipcode that must
+be installed in order to run this file. pyzipcode provides a database of zipcodes and functions that provide nearby
+zip codes within a range of a specific zipcode you are focused on. Although the full installation of pyzipcode might not
+fully install it should be able to still install pyzipcode without sqlite3.
 
+##Property Crime Analysis
+
+Before the analysis, I predicted that there would be a negative correlation coefficient as number of crimes going down
+and property value increasing within police districts. Based on the calculations it yielded these results.
+
+Correlation Coefficient: -0.6809827474468138
+P-value: 1.0
+
+This correlation coefficient shows that it is a strong negative correlation.
 Transformation 1: Calculated correlation coefficient number of crimes within
 a district with average property value within those districts
 Correlation Coefficient: -0.6809827474468138

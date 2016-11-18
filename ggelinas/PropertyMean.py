@@ -51,14 +51,13 @@ class PropertyMean(dml.Algorithm):
 
         zipval = [(c['mail_zipcode'], (int(c['av_total']))) for c in propData]
         totalPropVal = PropertyMean.aggregate(zipval, sum)
+
         zipcount = [(c['mail_zipcode'], 1) for c in propData]
         totalZipCount = PropertyMean.aggregate(zipcount, sum)
-        print(totalPropVal)
-        # print(totalZipCount)
         P = PropertyMean.product(totalPropVal, totalZipCount)
         S = PropertyMean.select(P, lambda t: t[0][0] == t[1][0])
         CV = PropertyMean.project(S, lambda t: (t[0][0], t[0][1], t[1][1]))
-        # print(CV)
+
         AvgValueZip = [(i[0], (i[1]/i[2])) for i in CV]
         # print(AvgValueZip)
 
@@ -82,7 +81,7 @@ class PropertyMean(dml.Algorithm):
                     if zipcode['zip_code'] == i:
                         stationProperty.append((s['location_zip'], zipcode['avg_value']))
                         stationCount.append((s['location_zip'], 1))
-        # print(stationProperty)
+
         SPS = PropertyMean.aggregate(stationProperty, sum)
         SPC = PropertyMean.aggregate(stationCount, sum)
         Prod = PropertyMean.product(SPS, SPC)
