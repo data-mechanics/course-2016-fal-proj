@@ -19,7 +19,7 @@ MAX_PATROLS = config.MAX_PATROLS
 TRIAL_LIMIT = 5000
 
 def build_query(repo):
-    query = {'main_crimecode': {'$in': CODES}}
+    query = {'incident_type_description': {'$in': CODES}}
     return query
 
 def extract_coordinates_from_crimes(repo, query, trial):
