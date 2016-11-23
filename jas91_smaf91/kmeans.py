@@ -18,13 +18,13 @@ MAX_PATROLS = config.MAX_PATROLS
 
 TRIAL_LIMIT = 5000
 
-def build_query():
+def build_query(repo):
     query = {'main_crimecode': {'$in': CODES}}
     return query
 
 def extract_coordinates_from_crimes(repo, query, trial):
-    repo.dropPermanent('jas91_smaf91.crime_coordinates')
-    repo.createPermanent('jas91_smaf91.crime_coordinates')
+    repo.dropPermanent('jas91_smaf91.crimes_coordinates')
+    repo.createPermanent('jas91_smaf91.crimes_coordinates')
     
     map_function = Code('''function() {
         id = {
@@ -42,16 +42,15 @@ def extract_coordinates_from_crimes(repo, query, trial):
     }''')
 
     if trial:
-        repo.jas91_smaf91.crime.map_reduce(map_function, reduce_function, 'jas91_smaf91.crime_coordinates', query=query, limit=TRIAL_LIMIT)
+        repo.jas91_smaf91.crime.map_reduce(map_function, reduce_function, 'jas91_smaf91.crimes_coordinates', query=query, limit=TRIAL_LIMIT)
     else:
-        repo.jas91_smaf91.crime.map_reduce(map_function, reduce_function, 'jas91_smaf91.crime_coordinates', query=query)
+        repo.jas91_smaf91.crime.map_reduce(map_function, reduce_function, 'jas91_smaf91.crimes_coordinates', query=query)
         
-    print('[OUT] done extracting the coordinates')
 
 def load_data(repo):
 
     data = []
-    for document in repo.jas91_smaf91.crime_coordinates.find():
+    for document in repo.jas91_smaf91.crimes_coordinates.find():
         coordinates = [document['_id']['latitude'], document['_id']['longitude']]
         data.append(coordinates)
 
@@ -61,7 +60,6 @@ def run_kmeans(data, k):
     kmeans = cluster.KMeans(n_clusters=k)
     kmeans.fit(data)
 
-    print('[OUT] done running kmeans++ with', k, 'clusters')
 
     return kmeans.cluster_centers_, kmeans.labels_
 
@@ -113,12 +111,31 @@ def store_patrols_coordinates(repo, centers):
 
     repo.jas91_smaf91.patrols_coordinates.insert_many(records)
 
-    print('[OUT] done storing patrol coordinates')
+def get_crimes_coordinates(repo):
+    coordinates = repo.jas91_smaf91.crimes_coordinates.find()
+    return [ (c['_id']['latitude'], c['_id']['longitude']) for c in coordinates]
 
 class kmeans(dml.Algorithm):
     contributor = 'jas91_smaf91'
     reads = ['jas91_smaf91.crime']
     writes = []
+
+    @staticmethod
+    def api_execute(min_distance, min_patrols, max_patrols, codes):
+        global MIN_DISTANCE
+        global MIN_PATROLS
+        global MAX_PATROLS
+        global CODES 
+
+        MIN_DISTANCE = int(min_distance)
+        MIN_PATROLS = int(min_patrols)
+        MAX_PATROLS = int(max_patrols)
+        CODES = codes.split(',')
+        res = kmeans.execute()
+        patrols_coordinates = [(c[0],c[1]) for c in res['patrols_coordinates']] if res['patrols_coordinates'] != None  else []
+        crimes_coordinates = res['crimes_coordinates']
+        return patrols_coordinates,crimes_coordinates
+        
 
     @staticmethod
     def execute(trial = False):
@@ -132,7 +149,7 @@ class kmeans(dml.Algorithm):
         repo = client.repo
         repo.authenticate('jas91_smaf91', 'jas91_smaf91')
 
-        query = build_query()
+        query = build_query(repo)
 
         extract_coordinates_from_crimes(repo, query, trial)
 
@@ -141,18 +158,15 @@ class kmeans(dml.Algorithm):
         patrols, max_distance, centers = find_minimum_patrols(data, MIN_PATROLS, MAX_PATROLS, MIN_DISTANCE)
 
         if patrols:
-            print('Placing', patrols, 'patrols at a minimum distance of', MIN_DISTANCE, 'miles from high crime rate zones is feasable.')
-            print('Patrols should be placed in the following areas:')
-            for center in centers:
-                print ('\t', center[0], center[1])
             store_patrols_coordinates(repo, centers)
         else:
-            print('It is not feasible to locate patrols with a range less than', MIN_DISTANCE, 'miles.')
-            print('At least one zone is left with a distance of', max_distance, '.', 'consider increasing the number of patrols or the minimum distance.')
+            repo.dropPermanent('jas91_smaf91.patrols_coordinates')
+
+        crimes_coordinates = get_crimes_coordinates(repo)
 
         endTime = datetime.datetime.now()
 
-        return {"start":startTime, "end":endTime}
+        return {"start":startTime, "end":endTime, "patrols_coordinates": centers, "crimes_coordinates": crimes_coordinates}
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -185,11 +199,11 @@ class kmeans(dml.Algorithm):
             {}
         )
         
-        resource_patrol_coordinates = doc.entity('dat:jas91_smaf91#patrol_coordinates', {'prov:label':'Patrol Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
+        resource_patrols_coordinates = doc.entity('dat:jas91_smaf91#patrols_coordinates', {'prov:label':'Patrol Coordinates', prov.model.PROV_TYPE:'ont:DataSet'})
 
-        doc.wasAttributedTo(resource_patrol_coordinates, this_script)
-        doc.wasGeneratedBy(resource_patrol_coordinates, min_patrols, endTime)
-        doc.wasDerivedFrom(resource_patrol_coordinates, resource_crime, min_patrols, min_patrols, min_patrols) 
+        doc.wasAttributedTo(resource_patrols_coordinates, this_script)
+        doc.wasGeneratedBy(resource_patrols_coordinates, min_patrols, endTime)
+        doc.wasDerivedFrom(resource_patrols_coordinates, resource_crime, min_patrols, min_patrols, min_patrols) 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
