@@ -75,3 +75,7 @@ The locations of the current police stations are:
   There is only a small difference between the current locations of the police stations and the k means calculated locations.  From this data, we can conclude that the police stations are in a good location relative to where crimes that involved firearms occurred.
 
   For the trial part of this assignment, we did not incorporate the trial settings on the district crime data since there is only 12 districts in total. 
+
+#### Visualizations
+
+1.  index.html uses d3.js and a geoJSON file created from the coordinates of our dataset.  It shows an overlay of Boston, in which the borders are the police districts.  Each crime that was registered with a coordinate point has been placed on the map, showing the crime density.
