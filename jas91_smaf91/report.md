@@ -44,15 +44,15 @@ Since location (latitude and longitude) is an important feature we are exploitin
 }
 ```
 
-### Populating zip_codes
+### Populating zip codes
 
-Almost all datasets in addition to the latitude and longitude, had the zip_code information, except for the Crime Incident Reports. In order make a ranking over the zip_codes while taking into account the crimes, it is crucial to also incoporate the zip_code on the Crime Incident Reports dataset.
+Almost all datasets in addition to the latitude and longitude, had the zip code information, except for the Crime Incident Reports. In order make a ranking over the zip codes while taking into account the crimes, it is crucial to also incoporate the zip code on the Crime Incident Reports dataset.
 
 There is enough information in the other datasets to populate a significant percentage of the Crime Incident Reports dataset.  Based on this premise, it is possible to build and index over that geographical data, and later given the two coordinates from each crime entry it is possible to find an entry within 1 Km range and assign its zip code.
 
 ### Grouping 
 
-After populating the zip_codes, it is possible to aggregate some important attributes between all these datasets to later be able to rank the zip_codes. That is, having this data we can derive a new dataset with the following structure:
+After populating the zip codes, it is possible to aggregate some important attributes between all these datasets to later be able to rank the zip codes. That is, having this data we can derive a new dataset with the following structure:
 
 ```
 (zipcode, #crimes, #311 reports, #passed food inspections, #schools, #hospitals)
@@ -88,6 +88,14 @@ The final step of the merging process was to associate a group of reviews to a g
 ```
 
 ## Methodologies
+
+In this section the methodologies used to solve the problems described in the Introduction are described. First, we introduce K-means which is the technique used in order to minimize the distances between the Police Patrols and the selected crimes. Second, we compute the *Pearson Correlation Coefficient* between the Yelp reviews average rating and the penalty score of the Food Establishment Inspections to determine whether there is a correlation between these two attributes. And finally we use a  *skyline query* to solve the multi-objective query of ranking the zip codes.
+
+### Minimizing the distance between police patrols and crime locations
+
+### Finding correlation between reviews and penalty score
+
+### Ranking zip codes
 
 ## Results
 
