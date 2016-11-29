@@ -1,13 +1,104 @@
 # Title
 
+Stephanie Alibrandi, Javier Arguello
+
 ## Introduction
+
+## Objectives
+
+The main objective of this project was to find o way of optimizing the location of Boston Police Patrols across the city according. And to make that implementation flexile enough so that the user can input parameters such as the maximum and minimum patrols the city can afford, 
 
 ## Datasets
 
-## Methodology
+For the purposes of this project, mutiple datasets were used and combined. Most of them were retrieved from The City of Boston Open Data portal:
+
+* [Crime Incident Reports]
+* [School Grounds]
+* [Hospital Locations]
+* [Food Establishment Inspections]
+* [311, Open Service Requests]
+
+Also, for the statistical analysis conducted, the [Yelp Academic Dataset] was used, more concretely a subset containing these two collections:
+
+* Yelp business reviews
+* Yelp business
+
+## Preprocessing
+
+The preprocessing steps were performed based on relational data and map-reduce paradigm. More details on how these were used in order to obtain the resulting datasets can be found in the ```README.md``` file along with the instructions on how to run the source code. On the following sub-sections the preprocessing performed will be described in a high level.
+
+### Standarize geographical information
+
+Since location (latitude and longitude) is an important feature we are exploiting in this project, the first preprocessing step was to standarize the geographic information. The resulting JSON structure is the following 
+
+```json
+"geo_info": {
+    "type": "Feature",
+    "properties": {
+        "zip_code": 02215
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-71.00, 42.00]
+    }
+}
+```
+
+### Populating zip_codes
+
+Almost all datasets in addition to the latitude and longitude, had the zip_code information, except for the Crime Incident Reports. In order make a ranking over the zip_codes while taking into account the crimes, it is crucial to also incoporate the zip_code on the Crime Incident Reports dataset.
+
+There is enough information in the other datasets to populate a significant percentage of the Crime Incident Reports dataset.  Based on this premise, it is possible to build and index over that geographical data, and later given the two coordinates from each crime entry it is possible to find an entry within 1 Km range and assign its zip code.
+
+### Grouping 
+
+After populating the zip_codes, it is possible to aggregate some important attributes between all these datasets to later be able to rank the zip_codes. That is, having this data we can derive a new dataset with the following structure:
+
+```
+(zipcode, #crimes, #311 reports, #passed food inspections, #schools, #hospitals)
+```
+
+### Merging the datasets
+
+After gathering the data and to help speed-up the join process two indexes were created:
+
+* Geographical index over location information of the Yelp Business dataset.
+* Index over the ```business_id``` of the Yelp Reviews dataset.
+
+For each entry in the Food Inspection dataset, it was mandatory to determine which business it corresponded with respect to Yelp data. To perform this we matched entries in both datasets by ```businessname``` and resolved ties by location: associating the closest restaurant found by latitude and longitude. The Yelp Business dataset contains 1689 distinct business names, while the Food Establishment Inspections dataset contains 6406. As it is natural to assume, these names are not in the same format. That is: Yelp could have McDonald's as the business name while the Inspections have it listed ad MC Donalds. Over the 452112 inspections we were able to combine approximately 64000 (which represents the 15% of the dataset).
+
+The following step was to group all inspections by ```business_id``` and ```date```. The attribute ```viollevel``` was aggregated sice the correlation study will be strongly related to the penalty score.
+
+The final step of the merging process was to associate a group of reviews to a given inspection. For each inspection, we found all the reviews associated with that ```business_id``` between the previous inspection date and the current inspection date.  The final per entry structure of the merging process is the following:
+
+```json
+{
+    "_id": {
+        "business_id": "XXXXXXXX",
+        "date": "MM/DD/YYYY"
+    },
+    "reviews": [{
+        "text": "some random text about the food",
+        "date": "MM/DD/YYYY",
+        "stars": 3
+    }],
+    "viollevels": [1, 2, 3, 1],
+    "business_name": "Example restaurant"
+}
+```
+
+## Methodologies
 
 ## Results
 
 ## Conclusions
 
 ## Future Work
+
+
+[Crime Incident Reports]: <https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-July-2012-August-2015-Sourc/7cdf-6fgx>
+[School Grounds]: <https://data.cityofboston.gov/Facilities/School-Gardens/cxb7-aa9j>
+[Hospital Locations]: <https://data.cityofboston.gov/Public-Health/Hospital-Locations/46f7-2snz>
+[Food Establishment Inspections]: <https://data.cityofboston.gov/Health/Food-Establishment-Inspections/qndu-wx8w>
+[311, Open Service Requests]: <https://data.cityofboston.gov/City-Services/311-Open-Service-Requests/rtbk-4hc4>
+[Yelp Academic Dataset]: <https://www.yelp.com/dataset_challenge/drivendata>
