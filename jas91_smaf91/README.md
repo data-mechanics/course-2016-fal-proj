@@ -1,4 +1,4 @@
-# Data Mechanics
+# Instructions
 
 ## General requisites
 
@@ -191,6 +191,42 @@ Make sure to uncomment the last lines in the file:
 ```python
 # rating_inspection_correlation.execute()
 ```
+## Project 3
+
+For this part of the project, we decided to create an interactive client-server application with the **Problem 2** of the previous project. Using FlaskAPI to create a simple API and D3 + Google Maps to create the visualization. The visualization source code is located in the ```/visualization``` folder, while the API is located in file ```api.py```. For now both visualization and API will run in ```locahost:8000``` and ```localhost:5000``` respectively
+
+### API
+
+To run the api just execute from the shell:
+```shell
+>>> python api.py
+```
+This will run the API in port ```5000```.
+
+Make sure to install the python module ```FlaskAPI```. To make a ```GET``` request to the api the JSON header looks like the this:
+
+```json
+{
+  "async": true,
+  "crossDomain": true,
+  "url": "http://localhost:5000/patrols_coordinates?max_patrols=X1&min_patrols=X2&min_distance=X3&codes=Y1,Y2,Y3",
+  "method": "GET"
+}
+```
+
+where ```X1```, ```X2``` and ```X3``` are integers and ```Y1```, ```Y2``` and ```Y3``` are crime codes.
+
+### Visualization
+
+To run the visualization part of the project, go to the ```/visualization``` folder and execute:
+```shell
+python -m SimpleHTTPServer
+```
+and type the url ```http://localhost:8000/``` in the browser. That will take you to the index page.
+
+![alt text](visualization.png)
+
+In here just fill the inputs and click on the **Sumit** button, this will call the API and show the results on the map.
 
 ## References
 
