@@ -127,6 +127,28 @@ for all *i* in {*1, ..., n*}, a<sub>i</sub> ≥ b<sub>i</sub> and exists *j* in 
 
 ## 5. Results
 
+### Minimizing the distance between police patrols and crime locations
+
+Using the application, the user can input his own query, execute it and observe the results. An example of an execution is the following:
+
+![alt text](visualization.png)
+
+### Finding correlation between reviews and penalty score of the inspections
+
+The correlation coefficients and the p-value can be observed in the table below. The results indicate that, with high significance (since the p-values are low), there is a negative correlation between the average ratings and the penalty score. That is, if the penalty score is high, one can expect that the average rating is low and vice versa.
+
+|               | correlation coefficient |       p value       |
+|:-------------:|:-----------------------:|:-------------------:|
+|     minor     |  -0.036                 |  0.006              |
+|     major     |  -0.038                 |  0.003              |
+|     severe    |  -0.030                 |  0.02               |
+| penalty score |  -0.042                 |  0.001              |
+|  # violations |  -0.041                 |  0.001              |
+
+The following scatterplot shows that the lower the negative score, the higher the average rating is.
+
+![alt text](scatter-plot.png)
+
 ## 6. Conclusions
 
 In this project we proposed three different studies related to the city of Boston services. First, we built a tool for dispatching police patrols across the city to maximize the area coverage of specific historic crimes. This tool can be used as a web service where the results can be observed in a friendly front-end interface. Second, we investigated whether a correlation exists between the review average ratings and the inspection penalty score. Results indicates, with a high significance, that in fact such correlation exists. Finally, we modeled the zip codes with a multi-objective query and we ranked them based on several attributes.
