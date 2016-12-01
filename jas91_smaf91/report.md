@@ -149,6 +149,32 @@ The following scatterplot shows that the lower the negative score, the higher th
 
 ![alt text](scatter-plot.png)
 
+### Ranking zip codes
+
+Out of the 44 total zip codes, the skyline set was composed by 21 total. The best ranked zip codes according to the query defined in section 4 are listed below:
+
+* (**2113**, 0.0, 1.0, 0.3, 0.0, 10901.0)
+* (**2115**, 4.0, 2.0, 0.43, 0.0, 13970.0)
+* (**2118**, 2.0, 3.0, 0.3, 0.0, 28076.0)
+* (**2119**, 1.0, 11.0, 0.27, 0.0, 31616.0)
+* (**2120**, 2.0, 5.0, 0.22, 0.0, 12428.0)
+* (**2121**, 0.0, 8.0, 0.41, 0.0, 29843.0)
+* (**2122**, 0.0, 6.0, 0.31, 0.0, 28152.0)
+* (**2445**, 0.0, 1.0, 0.0, 0.0, 0.0)
+* (**2126**, 1.0, 5.0, 0.35, 0.0, 28973.0)
+* (**2127**, 0.0, 10.0, 0.48, 0.0, 43586.0)
+* (**2129**, 0.0, 5.0, 0.39, 0.0, 19911.0)
+* (**2130**, 3.0, 8.0, 0.11, 0.0, 45247.0)
+* (**2135**, 2.0, 8.0, 0.48, 0.0, 35270.0)
+* (**2136**, 0.0, 5.0, 0.43, 0.0, 32727.0)
+* (**2201**, 0.0, 0.0, 0.33, 0.0, 0.0)
+* (**2467**, 0.0, 0.0, 1.0, 0.0, 687.0)
+* (**2215**, 1.0, 2.0, 0.4, 0.0, 11167.0)
+* (**2163**, 0.0, 0.0, 0.67, 0.0, 91.0)
+* (**2171**, 0.0, 1.0, 0.0, 0.0, 0.0)
+* (**2186**, 0.0, 1.0, 0.0, 0.0, 0.0)
+* (**2111**, 1.0, 1.0, 0.25, 0.0, 7594.0)
+
 ## 6. Conclusions
 
 In this project we proposed three different studies related to the city of Boston services. First, we built a tool for dispatching police patrols across the city to maximize the area coverage of specific historic crimes. This tool can be used as a web service where the results can be observed in a friendly front-end interface. Second, we investigated whether a correlation exists between the review average ratings and the inspection penalty score. Results indicates, with a high significance, that in fact such correlation exists. Finally, we modeled the zip codes with a multi-objective query and we ranked them based on several attributes.
