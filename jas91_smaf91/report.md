@@ -131,6 +131,11 @@ for all *i* in {*1, ..., n*}, a<sub>i</sub> ≥ b<sub>i</sub> and exists *j* in 
 
 ## 7. Future Work
 
+For future work we propose two possible enhancements:
+
+* Following the idea of ranking the zip codes, another insteresting applications will be to take the residential data and perform a similar analysis to it, in order to determine which are the best neighborhood to live in. This would be more specific than merely ranking an area as big as a zip code.
+* Given that a correlation exists between some of the review data and the penalty score of the inspection, it wuld be convenient to build a model that predicts the probability of inspection failure based on user reviews.
+
 ## References
 
 [1] U. Guntzer W.T. Balke. *Multi-objective query processing for database systems*. 2004
