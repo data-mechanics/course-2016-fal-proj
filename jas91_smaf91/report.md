@@ -101,9 +101,17 @@ Given the location of the crimes, an interesting application is to find the mini
 
 For this problem user input is used to define what types of crimes should have priority, the minimum distance between these new added patrols and the crime locations, and the minimum/maximum amount of patrols that can be allocated for this purpose.
 
-### Finding correlation between reviews and penalty score
+### Finding correlation between reviews and penalty score of the inspections
 
+Given the [Food Establishment Inspections] dataset and the [Yelp Academic Dataset] we want to determine if there exists a correlation between the average ratings given by the users of Yelp and the penalty score given by the inspectors. These results could be used in the future to determine whether the reviews can be used to predict if a given restaurant might fail a future inspection.
 
+First, is important to define the *penalty score* of a restaurant. Let *b* be a business in the Food Establishment Inspections dataset, inspected at a time *t*, then the penalty score of *b* is defined as follows:
+
+penalty<sub>b</sub> = minor<sub>b</sub> + major<sub>b</sub> + severe<sub>b</sub>
+
+where minor<sub>b</sub>, major<sub>b</sub> and severe<sub>b</sub> are minor, major and severe violations (which in the dataset are represented as strings '\*', '\*\*', '\*\*\*').
+
+To perform the correlation analysis, the data was partitioned by date. We defined a window of time between two inspections *i* and *i+1* and the average rating was calculated depending on which interval of time that review was performed. We decided to do it this way since we assumed that, if the ratings are correlated with the inspection, they would reflect the results based on the inmediate performed inspection, not having an important effect on subsequent or previous inspections. Later to determine if the average rating and the penalty score are correlated the *Pearson Correlation Coefficient* (from the ```scipy.stats``` python package) was used. 
 
 ### Ranking zip codes
 
