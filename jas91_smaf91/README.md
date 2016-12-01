@@ -226,7 +226,7 @@ and type the url ```http://localhost:8000/``` in the browser. That will take you
 
 ![alt text](visualization.png)
 
-In here just fill the inputs and click on the **Sumit** button, this will call the API and show the results on the map.
+In here just fill the inputs and click on the **Submit** button, this will call the API and show the results on the map.
 
 ## References
 
