@@ -6,7 +6,7 @@ Stephanie Alibrandi, Javier Arguello
 
 ## Objectives
 
-The main objective of this project was to find o way of optimizing the location of Boston Police Patrols across the city according. And to make that implementation flexile enough so that the user can input parameters such as the maximum and minimum patrols the city can afford, 
+The main objective of this project was to find a way of optimizing the location of Boston Police Patrols across the city, and to make that implementation flexile enough so that the user can input parameters such as the maximum and minimum patrols the city can afford.
 
 ## Datasets
 
@@ -89,13 +89,29 @@ The final step of the merging process was to associate a group of reviews to a g
 
 ## Methodologies
 
-In this section the methodologies used to solve the problems described in the Introduction are described. First, we introduce K-means which is the technique used in order to minimize the distances between the Police Patrols and the selected crimes. Second, we compute the *Pearson Correlation Coefficient* between the Yelp reviews average rating and the penalty score of the Food Establishment Inspections to determine whether there is a correlation between these two attributes. And finally we use a  *skyline query* to solve the multi-objective query of ranking the zip codes.
+In this section the methodologies used to solve the problems introduced in the Introduction are described. First, we use k-means in order to minimize the distances between the Police Patrols and the selected crimes. Second, we compute the *Pearson Correlation Coefficient* between Yelp reviews average rating and the penalty score of the Food Establishment Inspections to determine whether there is a correlation between these two attributes. And finally we use a *skyline query* to solve the multi-objective query of ranking Boston's zip codes.
 
 ### Minimizing the distance between police patrols and crime locations
 
+Given the location of the crimes, an interesting application is to find the minimum number of police patrols and where should these patrols be located in order to minimize the distance between these patrols and the historic crime locations. Also, it is possible to select a subset of crimes from the overall dataset. That is, to select a list of codes to give priority to, as an example: giving importance to *robbery* and *shooting* but ignoring *towing cars* and *evading fares*. The minimum patrols needed to fulfill the constraints and the approximate locations can be found using **k-means**.
+
+For this problem user input is used to define what types of crimes should have priority, the minimum distance between these new added patrols and the crime locations, and the minimum/maximum amount of patrols that can be allocated for this purpose.
+
 ### Finding correlation between reviews and penalty score
 
+
+
 ### Ranking zip codes
+
+Based on the dataset obtained from the the preprocessing described in previous sections with the following structure:
+```
+(zipcode, #crimes, #311 reports, #passed food inspections, #schools, #hospitals)
+```
+a user might want to query the dataset containing these tuples in order to decide which zip code to live in. To be able to perform this analysis, a multi-objective query is defined as follows: minimize the ```#crimes```, minimize ```#311 reports```, maximizing the quality of the surrounding restaurants, that is, the ```#passed food inspections```, along with the ```#schools``` and ```#hospitals```. Given equal importance to all five attributes.
+
+This can be computed optimally using **skyline queries**. A result to a skyline query will be composed of all non-dominated tuples following the *pareto optimality* definition [1]. Where an element *a = (a<sub>1</sub>, ..., a<sub>n</sub>)* dominates an element *b = (b<sub>1</sub>, ..., b<sub>n</sub>)* if:
+
+for all *i* in {*1, ..., n*}, a<sub>i</sub> ≥ b<sub>i</sub> and exists *j* in {*1, ..., n*}, such as a<sub>j</sub> > b<sub>j</sub>
 
 ## Results
 
@@ -103,7 +119,9 @@ In this section the methodologies used to solve the problems described in the In
 
 ## Future Work
 
+## References
 
+[1] U. Guntzer W.T. Balke. *Multi-objective query processing for database systems*. 2004
 [Crime Incident Reports]: <https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-July-2012-August-2015-Sourc/7cdf-6fgx>
 [School Grounds]: <https://data.cityofboston.gov/Facilities/School-Gardens/cxb7-aa9j>
 [Hospital Locations]: <https://data.cityofboston.gov/Public-Health/Hospital-Locations/46f7-2snz>
