@@ -2,13 +2,17 @@
 
 Stephanie Alibrandi, Javier Arguello
 
-## Introduction
+## 1. Introduction
 
-## Objectives
+Summarizing this project had multiple objectives, all focused on either ranking or improve city services.
 
-The main objective of this project was to find a way of optimizing the location of Boston Police Patrols across the city, and to make that implementation flexile enough so that the user can input parameters such as the maximum and minimum patrols the city can afford.
+* The main objective of this project is to find a way of optimizing the location of Boston Police Patrols across the city, and to make that implementation flexile enough so that the user can input parameters such as the maximum and minimum patrols the city can afford.
+* Secondly, to find wether the Yelp user reviews are correlated with the penalty score given to the restaurant after an inspection.
+* Finally, to rank the Boston's zip codes using a multi-objective query that takes into consideration several attributes.
 
-## Datasets
+The rest of this report is structured as follows: first, in section 2, the datasets used are enumerated. In section 3 all the preprocessing steps performed over the data are described. In section 4 the techniques applied in order to solve the problems enumerated above are highlighted. Section 6 summarizes the results obtained after applying the techniques of section 5. Finally in section 7 and 8 we present our conclusions and future work.
+
+## 2. Datasets
 
 For the purposes of this project, mutiple datasets were used and combined. Most of them were retrieved from The City of Boston Open Data portal:
 
@@ -23,7 +27,7 @@ Also, for the statistical analysis conducted, the [Yelp Academic Dataset] was us
 * Yelp business reviews
 * Yelp business
 
-## Preprocessing
+## 3. Preprocessing
 
 The preprocessing steps were performed based on relational data and map-reduce paradigm. More details on how these were used in order to obtain the resulting datasets can be found in the ```README.md``` file along with the instructions on how to run the source code. On the following sub-sections the preprocessing performed will be described in a high level.
 
@@ -87,7 +91,7 @@ The final step of the merging process was to associate a group of reviews to a g
 }
 ```
 
-## Methodologies
+## 4. Methodologies
 
 In this section the methodologies used to solve the problems introduced in the Introduction are described. First, we use k-means in order to minimize the distances between the Police Patrols and the selected crimes. Second, we compute the *Pearson Correlation Coefficient* between Yelp reviews average rating and the penalty score of the Food Establishment Inspections to determine whether there is a correlation between these two attributes. And finally we use a *skyline query* to solve the multi-objective query of ranking Boston's zip codes.
 
@@ -113,11 +117,11 @@ This can be computed optimally using **skyline queries**. A result to a skyline 
 
 for all *i* in {*1, ..., n*}, a<sub>i</sub> ≥ b<sub>i</sub> and exists *j* in {*1, ..., n*}, such as a<sub>j</sub> > b<sub>j</sub>
 
-## Results
+## 5. Results
 
-## Conclusions
+## 6. Conclusions
 
-## Future Work
+## 7. Future Work
 
 ## References
 
