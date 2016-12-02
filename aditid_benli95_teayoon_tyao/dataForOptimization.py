@@ -71,7 +71,7 @@ class prepData1(dml.Algorithm):
         if (trial == True):
             crime = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.aggregate([ { sample: { size: 50 } } ])
         else:
-            crimes = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.find()
+            crimes = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.find().batch_size(10)
         for crime in crimes:
             crimeDict = dict(crime)
 
@@ -148,7 +148,7 @@ class prepData1(dml.Algorithm):
         if (trial == True):
             crime = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.aggregate([ { sample: { size: 50 } } ])
         else:
-            crimes = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.find()
+            crimes = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.find().batch_size(10)
         for crime in crimes:
             crimeDict = dict(crime)
             if crimeDict["latitude"] == None or crimeDict["longitude"] == None:
