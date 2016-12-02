@@ -57,7 +57,7 @@ class prepData1(dml.Algorithm):
             radius_denom = radius + (k/10)
             radius_arr.append(radius_denom)    #saves float values in array (5.0, 5.1, ...)
             
-            add_on = str(radius_denom*10)      #creates string of integer values (50, 51, ...)
+            add_on = str((radius*10)+k)      #creates string of integer values (50, 51, ...)
             repo_string_all = base_string_all + add_on
             repo_string_drug = base_string_drugs + add_on
             
