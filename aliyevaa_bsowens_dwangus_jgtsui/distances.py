@@ -70,8 +70,8 @@ class distances(dml.Algorithm):
 
             entry = {}
             entry.update({"cell_community_value": 1.0/score, \
-                          "cell_center_latitude": elem['location']['coordinates'][0], \
-                          "cell_center_longitude": elem['location']['coordinates'][1]})
+                          "cell_center_latitude": lat, \
+                          "cell_center_longitude": long})
             prep.append(entry)
             score=0
 
