@@ -10,21 +10,34 @@
     />
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
-    <script
-        src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/style.css">
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js">
     </script>
 
     
 </head>
 <body>
 
-	<form action = "#"><!-- "http://localhost:5000/optimization"> -->
-		Number of Trash Cans: <input type="text" name="num_trash" id="num_trash" required><br>
-		Expected Radius: <input type="text" name="radius" id="radius" value="0.0013" disabled required><br>
-		<input type="button" value="Submit" id="submit" onClick="postSomething()">
-	</form>
+	<h1 style="text-align: center;">Optimal Trash Collection Installation Sites</h1>
+	<h5 style="text-align: center;">(CS591 Data Mechanics Web Service (written by Jackie Andrade and Joseph Cho)</h5>
+	
+	<br>
+	<br>
+	<br>
 
-	<div id="map" style="width: 600px; height: 400px"></div>
+	<p style="text-align: center">Specify the number of trash collection sites to place and each site's expected radius of coverage (in meters).</p>
+
+	<div class="form-group row" style="text-align:center">
+	<form action = "#" class="service"><!-- "http://localhost:5000/optimization"> -->
+		Number of trash collection sites: <input class="textinput" type="text" name="num_trash" id="num_trash" required><br>
+		Expected radius of coverage(m): <input class="textinput" type="text" name="radius" id="radius" value="145" required><br>
+		<input class="btn btn-primary" style="" type="button" value="Submit" id="submit" onClick="postSomething()">
+	</form>
+	</div>
+
+	<div id="map" style="width: 600px; height: 400px; margin:auto;"></div>
 
 	<script type="text/javascript">
 
@@ -56,7 +69,11 @@
 		function postSomething() {
 			document.getElementById('submit').disabled = true;
 		    var http = new XMLHttpRequest();
-		    var url = "http://localhost:5000/optimization/" + document.getElementById("num_trash").value + "/" + document.getElementById("radius").value;
+		    var userInput = document.getElementById("radius").value;
+		    var convertedUsrIn = userInput / 111230;
+		    console.log("userInput = " + userInput);
+		    console.log("convertedUsrIn = " + convertedUsrIn);
+		    var url = "http://localhost:5000/optimization/" + document.getElementById("num_trash").value + "/" + convertedUsrIn;
 		    console.log(url);
 		    http.open("GET", url, true);
 		    http.setRequestHeader("Content-type", "application/json");
@@ -65,7 +82,7 @@
 		      	var data = JSON.parse(http.responseText).results;
 		      	for (i in data) {
 		      		var marker = L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).bindPopup("Trash " + (parseInt(i) + 1)).addTo(map);
-		      		var radius = L.circleMarker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])], {color: 'yellow', radius: 20}).addTo(map);
+		      		//var radius = L.circleMarker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])], {color: 'yellow', radius: 20}).addTo(map);
 
 		      	}
 		        console.log(data);
