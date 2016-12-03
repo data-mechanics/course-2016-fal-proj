@@ -37,13 +37,22 @@
 	</form>
 	</div>
 
-	<div id="map" style="width: 600px; height: 400px; margin:auto;"></div>
+	<div class="mapkey">
+		<label for="circle">Key:  </label>
+		<div id="violationcircle"></div>
+		 = Violations,
+		<div id="servreqcircle"></div>
+		 = Service Requests,
+		<div id="bbcircle"></div>
+		 = Big Belly Collection Sites
+
+	</div>
+	<div id="map" style="width: 600px; height: 400px; margin:auto;">
+	</div>
 
 	<script type="text/javascript">
-
 		var map = L.map('map').setView([42.360413, -71.057620], 12);
 			mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-
 	
         // L.tileLayer(
         //     'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -53,19 +62,13 @@
 		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 		    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 		}).addTo(map);
-
         // var service = L.marker([42.35000, -71.057620]).bindPopup('How do i get rid');
         // var denver  = L.marker([42.360413, -71.057620]).bindPopup('This is Denver, CO.');
-
 		// // var services = L.layerGroup([service, denver]);
-
 		// console.log([service, denver]);
-
 				
 		/* Initialize the SVG layer */
 		map._initPathRoot()    
-
-
 		function postSomething() {
 			document.getElementById('submit').disabled = true;
 		    var http = new XMLHttpRequest();
@@ -83,14 +86,12 @@
 		      	for (i in data) {
 		      		var marker = L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).bindPopup("Trash " + (parseInt(i) + 1)).addTo(map);
 		      		//var radius = L.circleMarker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])], {color: 'yellow', radius: 20}).addTo(map);
-
 		      	}
 		        console.log(data);
 		      }
 		    }
 		    http.send();
 	  	}	
-
 	  	function getBigBelly() {
 	  		var http = new XMLHttpRequest();
 		    var url = "http://localhost:5000/bigbelly";
@@ -100,9 +101,7 @@
 		    http.onreadystatechange = function() {
 		      if (http.readyState == 4 && http.status == 200) {
 		      	var data = JSON.parse(http.responseText).results;
-
 		        var arr = [];
-
 		        for (i in data) {
 		        	arr.push(L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).bindPopup("Big Belly"));
 			        // var circle = L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).addTo(map);
@@ -114,7 +113,6 @@
 		    }
 		    http.send();
 	  	}	
-
 	  	function getCodeViolations() {
 	  		var http = new XMLHttpRequest();
 		    var url = "http://localhost:5000/violations";
@@ -124,9 +122,7 @@
 		    http.onreadystatechange = function() {
 		      if (http.readyState == 4 && http.status == 200) {
 		      	var data = JSON.parse(http.responseText).results;
-
 		        var arr = [];
-
 		        for (i in data) {
 		        	arr.push(L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).bindPopup("Violations"));
 			        // var circle = L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).addTo(map);
@@ -137,7 +133,6 @@
 		    }
 		    http.send();
 	  	}
-
 	  	function getHotline() {
 	  		var http = new XMLHttpRequest();
 		    var url = "http://localhost:5000/hotline";
@@ -147,9 +142,7 @@
 		    http.onreadystatechange = function() {
 		      if (http.readyState == 4 && http.status == 200) {
 		      	var data = JSON.parse(http.responseText).results;
-
 		        var arr = [];
-
 		        for (i in data) {
 		        	arr.push(L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).bindPopup("Hotline"));
 			        // var circle = L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).addTo(map);
@@ -161,41 +154,30 @@
 		    }
 		    http.send();
 	  	}	
-
 	  	getBigBelly();
 	  	getCodeViolations();
 	  	getHotline();
-
 	  	// console.log(getBigBelly());
 	  	// console.log(getCodeViolations());
 	  	// console.log(getHotline());
-
 	  	// var bigBelly = getBigBelly();
 	  	// var service_req = getHotline();
 	  	// var violations = getCodeViolations();
-
 	 //  	var response = Promise.all([getBigBelly(), getHotline(), getCodeViolations()])
-
 	 //  	console.log(response[0]);
 	 //  	console.log(response[1]);
 	 //  	console.log(response[2]);
-
 		// var overlayMaps = {
 		// 	"Big Belly": L.layerGroup(response[0]),
 		// 	"Service": L.layerGroup(getHotline()),
 		// 	"Violations": L.layerGroup(getCodeViolations()),
 		// 	"Test": L.layerGroup([service, denver])
-
 		// };
-
 		// console.log(overlayMaps);
-
 		// var baseMaps = {
 		// 	"Streets": base
 		// };
-
 	 //    L.control.layers(baseMaps, overlayMaps).addTo(map);
-
 	</script>
 
 </body>
