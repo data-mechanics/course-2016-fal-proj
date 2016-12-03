@@ -1,0 +1,16 @@
+body {
+  	padding-top: 50px;
+}
+
+#mapid { 
+	height: 400px;
+}
+
+select {
+	width: 100px;
+}
+
+.starter-template {
+	padding: 20px 15px;
+  	text-align: center;
+}
