@@ -8,21 +8,18 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>Find Your Next Optimal Ad Placement</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!-- Bootstrap core CSS -->
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <!-- Custom styles for this template -->
-    <link href="/static/style.css" rel="stylesheet">
+    <link href="/static/style.css?version=403" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
 
@@ -39,67 +36,70 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">Ad-Opt</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about">Visualizations</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
-    <div class="container">
-
+    <div class="container" id="home-container">
       <div class="starter-template">
-        <h1>Bootstrap starter template</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+        <h1>Find Your Next Optimal Ad Placement</h1>
+        <p class="lead">We will put a description of what the ratings mean here.</p>
       </div>
       <div class="row">
           <div class="col-sm-4">
               <form>
-                <div class="form-group">
-                    <label for="hubways">Select your desired rating for hubways:</label>
+                <div class="form-group row">
+                    <label for="numzip">Enter the no. of zipcodes you would like returned:</label>
+                    <input class="form-control" type="number" value="1" id="num-zip">
+                </div>
+                <div class="form-group row">
+                    <label for="hubways">Select your desired rating for <span style="color:#563F7A"> hubways</span>:</label>
                     <select class="form-control" id="hubways">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="tstops">Select your desired rating for t-stops:</label>
+                <div class="form-group row">
+                    <label for="tstops">Select your desired rating for <span style="color:#563F7A"> t-stops</span>:</label>
                     <select class="form-control" id="tstops">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="busstops">Select your desired rating for bus stops:</label>
+                <div class="form-group row">
+                    <label for="busstops">Select your desired rating for <span style="color:#563F7A"> bus stops</span>:</label>
                     <select class="form-control" id="busstops">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="colleges">Select your desired rating for colleges:</label>
+                <div class="form-group row">
+                    <label for="colleges">Select your desired rating for <span style="color:#563F7A"> colleges</span>:</label>
                     <select class="form-control" id="colleges">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="bigbelly">Select your desired rating for big belly's:</label>
+                <div class="form-group row">
+                    <label for="bigbelly">Select your desired rating for <span style="color:#563F7A"> big belly's</span>:</label>
                     <select class="form-control" id="bigbelly">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
                     </select>
                 </div>
+                <button type="submit" class="btn btn-primary form-group row">Submit</button>
               </form>
           </div>
           <div id="mapid" class="col-sm-8"></div>
