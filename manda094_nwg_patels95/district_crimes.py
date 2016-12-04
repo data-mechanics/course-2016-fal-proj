@@ -6,9 +6,9 @@ import datetime
 import uuid
 
 class district_crimes(dml.Algorithm):
-    contributor = 'patels95'
-    reads = ['patels95.crimes']
-    writes = ['patels95.district_crimes']
+    contributor = 'manda094_nwg_patels95'
+    reads = ['manda094_nwg_patels95.crimes']
+    writes = ['manda094_nwg_patels95.district_crimes']
 
     @staticmethod
     def execute(trial = False):
@@ -17,7 +17,7 @@ class district_crimes(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('patels95', 'patels95')
+        repo.authenticate('manda094_nwg_patels95', 'manda094_nwg_patels95')
 
         with open('../auth.json') as jsonFile:
             auth = json.load(jsonFile)
@@ -36,7 +36,7 @@ class district_crimes(dml.Algorithm):
         # count the number of firearm crimes in each district
         for d in districts:
             count = 0
-            for crime in repo['patels95.crimes'].find():
+            for crime in repo['manda094_nwg_patels95.crimes'].find():
                 if d == crime['reptdistrict']:
                     count += 1
             data.append({'district': d, 'total_crimes': count})
@@ -54,7 +54,7 @@ class district_crimes(dml.Algorithm):
 
         repo.dropPermanent("district_crimes")
         repo.createPermanent("district_crimes")
-        repo['patels95.district_crimes'].insert_many(data)
+        repo['manda094_nwg_patels95.district_crimes'].insert_many(data)
 
         repo.logout()
 
@@ -66,7 +66,7 @@ class district_crimes(dml.Algorithm):
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('patels95', 'patels95')
+        repo.authenticate('manda094_nwg_patels95', 'manda094_nwg_patels95')
 
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
@@ -75,8 +75,8 @@ class district_crimes(dml.Algorithm):
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
         doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/')
 
-        this_script = doc.agent('alg:patels95#district_crimes', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource1 = doc.entity('dat:patels95#crimes', {'prov:label':'Crimes', prov.model.PROV_TYPE:'ont:DataResource'})
+        this_script = doc.agent('alg:manda094_nwg_patels95#district_crimes', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource1 = doc.entity('dat:manda094_nwg_patels95#crimes', {'prov:label':'Crimes', prov.model.PROV_TYPE:'ont:DataResource'})
         resource2 = doc.entity('bod:e5a0066d38ac4e2abbc7918197a4f6af_6', {'prov:label':'Police Departments', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         this_run = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(this_run, this_script)
@@ -84,7 +84,7 @@ class district_crimes(dml.Algorithm):
         doc.usage(this_run, resource2, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
 
 
-        district_crimes_count = doc.entity('dat:patels95#district_crimes', {prov.model.PROV_LABEL:'District Crimes', prov.model.PROV_TYPE:'ont:DataSet'})
+        district_crimes_count = doc.entity('dat:manda094_nwg_patels95#district_crimes', {prov.model.PROV_LABEL:'District Crimes', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(district_crimes_count, this_script)
         doc.wasGeneratedBy(district_crimes_count, this_run, endTime)
         doc.wasDerivedFrom(district_crimes_count, resource1, this_run, this_run, this_run)
