@@ -1,5 +1,16 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 CS591
+  p Welcome to CS591's Demo Page
+  svg(width='960', height='500')
+  script(type="text/javascript").
+    d3.select("#viz")
+      .append("svg")
+        .attr('width', 600)
+        .attr('height', 300)
+        .append('circle')
+          .attr('cx', 300)
+          .attr('cy', 150)
+          .attr('r', 30)
+          .attr('fill', '#26963c')
