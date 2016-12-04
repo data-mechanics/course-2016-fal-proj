@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[8]:
+# In[3]:
 
 import urllib.request
 import json
@@ -39,9 +39,10 @@ def aggregate(R, f):
 
 def processData(row):
     try:
-        if row['trash_day'] and row['p_zipcode']:
+        if row['trash_day'] and row['geocoded_location']:
             trashDay = row['trash_day']
-            trashLoc = row['p_zipcode']
+            #trashLoc = row['p_zipcode']
+            trashLoc = (row['geocoded_location']['coordinates'][1], row['geocoded_location']['coordinates'][0])
             return (trashLoc, trashDay)
     except:
         return None
@@ -57,7 +58,7 @@ def removeNoneValues(row):
 def dictionarify(R):
     result = []
     for r in R:
-        result.append((('zipcode', r[0]), ('days', r[1])))
+        result.append((('location', r[0]), ('days', r[1])))
     return result
 
 
@@ -67,7 +68,7 @@ def dictionarify(R):
 class trashSchedules(dml.Algorithm):
     contributor = 'andradej_chojoe'
     reads = []
-    writes = ['andrade_chojoe.bigbelly']
+    writes = ['andrade_chojoe.trashSchedules']
     
     @staticmethod
     def execute(trial = False):
@@ -94,7 +95,7 @@ class trashSchedules(dml.Algorithm):
         for t in processed_trashSchedules:
             t = dict(t)
             repo['andradej_chojoe.trashSch_transf'].insert_one(t)
-        
+                    
         endTime = datetime.datetime.now()
         return{'start':startTime, "end":endTime}
         
@@ -112,7 +113,7 @@ class trashSchedules(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
         
-        this_script = doc.agent('alg:andradej_chojoe#trashSchedules', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:#trashSchedules', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
         trashSch_rsc = doc.entity('bdp:je5q-tbjf', {'prov:label':'Trash Schedules by Address', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         get_trashSch = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Trash Schedules by Address '})
@@ -125,7 +126,7 @@ class trashSchedules(dml.Algorithm):
             {prov.model.PROV_TYPE:'ont:Retrieval'}
         )
         
-        trashSch = doc.entity('dat:andradej_chojoe#trashSch', {prov.model.PROV_LABEL:'Trash Schedules by Address', prov.model.PROV_TYPE:'ont:DataSet'})
+        trashSch = doc.entity('dat:#trashSch', {prov.model.PROV_LABEL:'Trash Schedules by Address', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(trashSch, this_script)
         doc.wasGeneratedBy(trashSch, get_trashSch, endTime)
         doc.wasDerivedFrom(trashSch, trashSch_rsc, get_trashSch, get_trashSch, get_trashSch)
