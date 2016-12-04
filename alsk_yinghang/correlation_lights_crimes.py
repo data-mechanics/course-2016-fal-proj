@@ -13,7 +13,7 @@ class correlation_lights_crimes(dml.Algorithm):
     writes = ['alsk_yinghang.lights_crimes']
 
     @staticmethod
-    def execute(trial=False):
+    def execute(trial):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('alsk_yinghang', 'alsk_yinghang')
