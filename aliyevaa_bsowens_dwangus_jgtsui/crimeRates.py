@@ -63,7 +63,7 @@ class crimeRates(dml.Algorithm):
         count = 0
         for elem in crimeDataSet.find():
             if ('location' in elem) and ('coordinates' in elem['location']) \
-                    and (elem['location']['coordinates'][0] > 0) \
+                    and (elem['location']['coordinates'][0] < 0) \
                     and (elem['location']['coordinates'][1] > 0):
                 count += 1
 
