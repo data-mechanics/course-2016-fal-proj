@@ -1,14 +1,16 @@
-# Finding optimal police patrol locations in the City of Boston
+# Finding optimal police patrol location in the City of Boston
 
 Stephanie Alibrandi, Javier Arguello
 
 ## 1. Introduction
 
-Summarizing this project had multiple objectives, all focused on either ranking or improve city services.
+The City of Boston has performed a significant effort on collecting data over different services and other public information. The diversity of these publicly available datasets, allows us to combine them in order to improve, among other things, city services. Particularly, in this project we are focusing on improving the city of Boston Police patrol allocation, perform a statistical analysis among the data regarding Food Establishment Inspections and finally, ranking and comparing zip codes accoding to some attributes such as: low crime rate, hospital availability among others. Summarizing, this project has the following objectives:
 
-* The main objective of this project is to find a way of optimizing the location of Boston Police Patrols across the city, and to make that implementation flexile enough so that the user can input parameters such as the maximum and minimum patrols the city can afford.
-* Secondly, to find wether the Yelp user reviews are correlated with the penalty score given to the restaurant after an inspection.
-* Finally, to rank the Boston's zip codes using a multi-objective query that takes into consideration several attributes.
+* First, find a way of optimizing the location of Boston Police Patrols across the city, and make that implementation flexile enough so that the user can input parameters such as the maximum and minimum patrols the city can afford and filter the crimes to give a greater weight to severe crimes such as: shootings, roberries, sex offenses, etc.
+* Secondly, considering the public record of Food Establishment Inspections and the availability of user reviews from platforms such as Yelp, determine if there is a correlation between the results of such inspections and any aspect of the user reviews on social networks.
+* Finally, a secondary but still interesting problem, is to rank the Boston's zip codes using a multi-objective query that takes into consideration several attributes that can be extracted from some of the previously public available datasets mentioned.
+
+Our results include a functional web service with an user interface to execute queries regarding possible police patrol location. We were able to extract 21 zip codes that represent the best among all Boston zip codes according to a multi-objective query defined in section 4. Finally, our statiscal study indicated that there exist a correlation between user reviews in Yelp and the results of inspections.
 
 The rest of this report is structured as follows: first, in section 2, the datasets used are enumerated. In section 3 all the preprocessing steps performed over the data are described. In section 4 the techniques applied in order to solve the problems enumerated above are highlighted. Section 6 summarizes the results obtained after applying the techniques of section 5. Finally in section 7 and 8 we present our conclusions and future work.
 
@@ -64,7 +66,7 @@ After populating the zip codes, it is possible to aggregate some important attri
 
 ### Merging the datasets
 
-After gathering the data and to help speed-up the join process two indexes were created:
+To help speed-up the join process two indexes were created:
 
 * Geographical index over location information of the Yelp Business dataset.
 * Index over the ```business_id``` of the Yelp Reviews dataset.
@@ -93,7 +95,7 @@ The final step of the merging process was to associate a group of reviews to a g
 
 ## 4. Methodologies
 
-In this section the methodologies used to solve the problems introduced in the Introduction are described. First, we use k-means in order to minimize the distances between the Police Patrols and the selected crimes. Second, we compute the *Pearson Correlation Coefficient* between Yelp reviews average rating and the penalty score of the Food Establishment Inspections to determine whether there is a correlation between these two attributes. And finally we use a *skyline query* to solve the multi-objective query of ranking Boston's zip codes.
+In this section the methodologies used to solve the problems introduced in section 1 are described. First, we use k-means in order to minimize the distances between the Police Patrols and the selected crimes. Second, we compute the *Pearson Correlation Coefficient* between Yelp reviews average rating and the penalty score of the Food Establishment Inspections to determine whether there is a correlation between these two attributes. And finally we use a *skyline query* to solve the multi-objective query of ranking Boston's zip codes.
 
 ### Minimizing the distance between police patrols and crime locations
 
@@ -105,7 +107,7 @@ For this problem user input is used to define what types of crimes should have p
 
 Given the [Food Establishment Inspections] dataset and the [Yelp Academic Dataset] we want to determine if there exists a correlation between the average ratings given by the users of Yelp and the penalty score given by the inspectors. These results could be used in the future to determine whether the reviews can be used to predict if a given restaurant might fail a future inspection.
 
-First, is important to define the *penalty score* of a restaurant. Let *b* be a business in the Food Establishment Inspections dataset, inspected at a time *t*, then the penalty score of *b* is defined as follows:
+First, is important to define the *penalty score* of a restaurant. Let *b* be a business in the Food Establishment Inspections dataset, then the penalty score of *b* is defined as follows:
 
 penalty<sub>b</sub> = minor<sub>b</sub> + major<sub>b</sub> + severe<sub>b</sub>
 
@@ -129,7 +131,7 @@ for all *i* in {*1, ..., n*}, a<sub>i</sub> ≥ b<sub>i</sub> and exists *j* in 
 
 ### Minimizing the distance between police patrols and crime locations
 
-Using the application, the user can input his own query, execute it and observe the results. An example of an execution is the following:
+The image below, shows how the results are displayed in an user interface given the input constraints:
 
 ![alt text](visualization.png)
 
@@ -184,7 +186,7 @@ In this project we proposed three different studies related to the city of Bosto
 For future work we propose two possible enhancements:
 
 * Following the idea of ranking the zip codes, another insteresting applications will be to take the residential data and perform a similar analysis to it, in order to determine which are the best neighborhood to live in. This would be more specific than merely ranking an area as big as a zip code.
-* Given that a correlation exists between some of the review data and the penalty score of the inspection, it wuld be convenient to build a model that predicts the probability of inspection failure based on user reviews.
+* Given that a correlation exists between some of the review data and the penalty score of the inspection, it would be convenient to build a model that predicts the probability of inspection failure based on user reviews.
 
 ## References
 
