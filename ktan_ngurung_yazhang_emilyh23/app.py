@@ -1,4 +1,5 @@
-import jsonschema
+import jsonschema, json
+from urllib.request import urlopen
 from flask import Flask, jsonify, abort, make_response, request, render_template
 from flask_httpauth import HTTPBasicAuth
 

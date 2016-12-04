@@ -18,98 +18,147 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <!-- Custom styles for this template -->
+    <link href="/static/style.css?version=487" rel="stylesheet">
+
+    <style>
+
+        text {
+          pointer-events: none;
+          fill: #666;
+          font-weight: bold;
+        }
+
+        rect {
+          stroke: #fff;
+          stroke-width: 1px;
+        }
+
+        rect.parent, .grandparent rect {
+          stroke-width: 2px;
+        }
+
+        .grandparent:hover rect {
+          fill: #ffe463;
+        }
+
+        .children rect.parent, .grandparent rect {
+          cursor: pointer;
+        }
+
+        .children rect.child {
+          opacity: 0;
+        }
+
+        .children rect.parent {
+        }
+
+        .children:hover rect.child {
+          opacity: 1;
+          stroke-width: 1px;
+        }
+
+        .children:hover rect.parent {
+          opacity: 0;
+        }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">Ad-Opt</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">Home</a></li>
+            <li class="active"><a href="visualization.html">Visualization</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="starter-template">
+        <h1>Zoomable Zipcode Treemap</h1>
+        <p class="lead">We will put a description of the treemap here.</p>
+      </div>
+      <div id="chart"></div>
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
     <script>
 
-        window.addEventListener('message', function(e) {
-            var opts = e.data.opts,
-                data = e.data.data;
+        var margin = {top: 30, right: 0, bottom: 20, left: 0},
+            width = 960,
+            height = 450 - margin.top - margin.bottom,
+            formatNumber = d3.format(",%"),
+            colorDomain = [-.6, 0, .6],
+            colorRange = ["#fcc914", '#fcfaf4', "#ffe484"],
+            transitioning;
 
-            return main(opts, data);
-        });
+        // sets x and y scale to determine size of visible boxes
+        var x = d3.scale.linear()
+            .domain([0, width])
+            .range([0, width]);
 
-        var defaults = {
-            margin: {top: 24, right: 0, bottom: 0, left: 0},
-            rootname: "TOP",
-            format: ",d",
-            title: "",
-            width: 960,
-            height: 500
-        };
+        var y = d3.scale.linear()
+            .domain([0, height])
+            .range([0, height]);
 
-        function main(o, data) {
-          var root,
-              opts = $.extend(true, {}, defaults, o),
-              formatNumber = d3.format(opts.format),
-              rname = opts.rootname,
-              margin = opts.margin,
-              theight = 36 + 16;
+        // adding a color scale
+        var color = d3.scale.linear()
+            .domain(colorDomain)
+            .range(colorRange);
 
-          $('#chart').width(opts.width).height(opts.height);
-          var width = opts.width - margin.left - margin.right,
-              height = opts.height - margin.top - margin.bottom - theight,
-              transitioning;
-          
-          var color = d3.scale.category20c();
-          
-          var x = d3.scale.linear()
-              .domain([0, width])
-              .range([0, width]);
-          
-          var y = d3.scale.linear()
-              .domain([0, height])
-              .range([0, height]);
-          
-          var treemap = d3.layout.treemap()
-              .children(function(d, depth) { return depth ? null : d._children; })
-              .sort(function(a, b) { return a.value - b.value; })
-              .ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
-              .round(false);
-          
-          var svg = d3.select("#chart").append("svg")
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.bottom + margin.top)
-              .style("margin-left", -margin.left + "px")
-              .style("margin.right", -margin.right + "px")
-            .append("g")
-              .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-              .style("shape-rendering", "crispEdges");
-          
-          var grandparent = svg.append("g")
-              .attr("class", "grandparent");
-          
-          grandparent.append("rect")
-              .attr("y", -margin.top)
-              .attr("width", width)
-              .attr("height", margin.top);
-          
-          grandparent.append("text")
-              .attr("x", 6)
-              .attr("y", 6 - margin.top)
-              .attr("dy", ".75em");
+        // introduce color scale here
 
-          if (opts.title) {
-            $("#chart").prepend("<p class='title'>" + opts.title + "</p>");
-          }
-          if (data instanceof Array) {
-            root = { key: rname, values: data };
-          } else {
-            root = data;
-          }
-            
-          initialize(root);
-          accumulate(root);
-          layout(root);
-          console.log(root);
-          display(root);
+        var treemap = d3.layout.treemap()
+            .children(function(d, depth) { return depth ? null : d._children; })
+            .sort(function(a, b) { return a.value - b.value; })
+            .ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
+            .round(false);
 
-          if (window.parent !== window) {
-            var myheight = document.documentElement.scrollHeight || document.body.scrollHeight;
-            window.parent.postMessage({height: myheight}, '*');
-          }
+        var svg = d3.select("#chart").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.bottom + margin.top)
+            .style("margin-left", -margin.left + "px")
+            .style("margin.right", -margin.right + "px")
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .style("shape-rendering", "crispEdges");
 
-          function initialize(root) {
+        var grandparent = svg.append("g")
+            .attr("class", "grandparent");
+
+        grandparent.append("rect")
+            .attr("y", -margin.top)
+            .attr("width", width)
+            .attr("height", margin.top);
+
+        grandparent.append("text")
+            .attr("x", 6)
+            .attr("y", 6 - margin.top)
+            .attr("dy", ".75em");
+
+        // functions
+
+        function initialize(root) {
             root.x = root.y = 0;
             root.dx = width;
             root.dy = height;
@@ -121,8 +170,9 @@
           // We also take a snapshot of the original children (_children) to avoid
           // the children being overwritten when when layout is computed.
           function accumulate(d) {
-            return (d._children = d.values)
-                ? d.value = d.values.reduce(function(p, v) { return p + accumulate(v); }, 0)
+            return (d._children = d.children)
+              // recursion step, note that p and v are defined by reduce
+                ? d.value = d.children.reduce(function(p, v) {return p + accumulate(v); }, 0)
                 : d.value;
           }
 
@@ -135,6 +185,7 @@
           // coordinates. This lets us use a viewport to zoom.
           function layout(d) {
             if (d._children) {
+              // treemap nodes comes from the treemap set of functions as part of d3
               treemap.nodes({_children: d._children});
               d._children.forEach(function(c) {
                 c.x = d.x + c.x * d.dx;
@@ -142,17 +193,40 @@
                 c.dx *= d.dx;
                 c.dy *= d.dy;
                 c.parent = d;
+                // recursion
                 layout(c);
               });
             }
           }
 
+        function colorIncrements(d){
+            return (colorDomain[colorDomain.length - 1] - colorDomain[0])/18*d + colorDomain[0];
+        }
+
+        // determines if white or black will be better contrasting color
+        function getContrast50(hexcolor){
+            return (parseInt(hexcolor.replace('#', ''), 16) > 0x666666/3) ? 'black':'white';
+        }
+
+        d3.json("static/zoomabletreemap.json?version=2", function(root) {
+          console.log(root)
+          initialize(root);
+          accumulate(root);
+          layout(root);
+          display(root);
+
           function display(d) {
             grandparent
                 .datum(d.parent)
                 .on("click", transition)
-              .select("text")
-                .text(name(d));
+                .select("text")
+                .text(name(d))
+
+            // color header based on grandparent's rate
+            grandparent
+              .datum(d.parent)
+              .select("rect")
+              .attr("fill", function(){console.log(color(d.rate)); return color(d['rate'])})
 
             var g1 = svg.insert("g", ".grandparent")
                 .datum(d)
@@ -160,43 +234,28 @@
 
             var g = g1.selectAll("g")
                 .data(d._children)
-              .enter().append("g");
+                .enter().append("g");
 
             g.filter(function(d) { return d._children; })
                 .classed("children", true)
                 .on("click", transition);
 
-            var children = g.selectAll(".child")
+            g.selectAll(".child")
                 .data(function(d) { return d._children || [d]; })
-              .enter().append("g");
-
-            children.append("rect")
+                .enter().append("rect")
                 .attr("class", "child")
-                .call(rect)
-              .append("title")
-                .text(function(d) { return d.key + " (" + formatNumber(d.value) + ")"; });
-            children.append("text")
-                .attr("class", "ctext")
-                .text(function(d) { return d.key; })
-                .call(text2);
+                .call(rect);
 
             g.append("rect")
                 .attr("class", "parent")
-                .call(rect);
+                .call(rect)
+                .append("title")
+                .text(function(d) {console.log(typeof(d.value), d.value); return d.name + ', Cases of TB: ' + d.value + ', percent change: ' + formatNumber(d.rate); });
 
-            var t = g.append("text")
-                .attr("class", "ptext")
+            g.append("text")
                 .attr("dy", ".75em")
-
-            t.append("tspan")
-                .text(function(d) { return d.key; });
-            t.append("tspan")
-                .attr("dy", "1.0em")
-                .text(function(d) { return formatNumber(d.value); });
-            t.call(text);
-
-            g.selectAll("rect")
-                .style("fill", function(d) { return color(d.key); });
+                .text(function(d) { return d.name; })
+                .call(text);
 
             function transition(d) {
               if (transitioning || !d) return;
@@ -220,10 +279,8 @@
               g2.selectAll("text").style("fill-opacity", 0);
 
               // Transition to the new view.
-              t1.selectAll(".ptext").call(text).style("fill-opacity", 0);
-              t1.selectAll(".ctext").call(text2).style("fill-opacity", 0);
-              t2.selectAll(".ptext").call(text).style("fill-opacity", 1);
-              t2.selectAll(".ctext").call(text2).style("fill-opacity", 1);
+              t1.selectAll("text").call(text).style("fill-opacity", 0);
+              t2.selectAll("text").call(text).style("fill-opacity", 1);
               t1.selectAll("rect").call(rect);
               t2.selectAll("rect").call(rect);
 
@@ -238,84 +295,28 @@
           }
 
           function text(text) {
-            text.selectAll("tspan")
-                .attr("x", function(d) { return x(d.x) + 6; })
             text.attr("x", function(d) { return x(d.x) + 6; })
                 .attr("y", function(d) { return y(d.y) + 6; })
-                .style("opacity", function(d) { return this.getComputedTextLength() < x(d.x + d.dx) - x(d.x) ? 1 : 0; });
-          }
-
-          function text2(text) {
-            text.attr("x", function(d) { return x(d.x + d.dx) - this.getComputedTextLength() - 6; })
-                .attr("y", function(d) { return y(d.y + d.dy) - 6; })
-                .style("opacity", function(d) { return this.getComputedTextLength() < x(d.x + d.dx) - x(d.x) ? 1 : 0; });
+                .attr("fill", function (d) {return getContrast50(color(parseFloat(d.rate)))});
           }
 
           function rect(rect) {
             rect.attr("x", function(d) { return x(d.x); })
                 .attr("y", function(d) { return y(d.y); })
                 .attr("width", function(d) { return x(d.x + d.dx) - x(d.x); })
-                .attr("height", function(d) { return y(d.y + d.dy) - y(d.y); });
+                .attr("height", function(d) { return y(d.y + d.dy) - y(d.y); })
+                .attr("fill", function(d){return color(parseFloat(d.rate));});
           }
 
           function name(d) {
             return d.parent
-                ? name(d.parent) + " / " + d.key + " (" + formatNumber(d.value) + ")"
-                : d.key + " (" + formatNumber(d.value) + ")";
+                ? name(d.parent) + "." + d.name
+                : d.name;
           }
-        }
 
-        if (window.location.hash === "") {
-            d3.json("countries.json", function(err, res) {
-                if (!err) {
-                    console.log(res);
-                    var data = d3.nest().key(function(d) { return d.region; }).key(function(d) { return d.subregion; }).entries(res);
-                    main({title: "World Population"}, {key: "World", values: data});
-                }
-            });
-        }
+        });
 
     </script>
-
-    <!-- Custom styles for this template -->
-    <link href="/static/style.css?version=403" rel="stylesheet">
-
-  </head>
-
-  <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Ad-Opt</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="index.html">Home</a></li>
-            <li class="active"><a href="visualization.html">Visualization</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-
-    <div class="container" id="home-container">
-      <div class="starter-template">
-        <h1>Find Your Next Optimal Ad Placement</h1>
-        <p class="lead">We will put a description of what the ratings mean here.</p>
-      </div>
-      <div id="chart"></div>
-    </div><!-- /.container -->
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 
   </body>
 </html>
