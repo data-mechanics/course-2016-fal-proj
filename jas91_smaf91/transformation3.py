@@ -3,13 +3,20 @@ import prov.model
 import datetime
 import uuid
 import json
+import sys
 
 from bson.code import Code
+
+TRIAL_LIMIT = 5000
 
 class transformation3(dml.Algorithm):
     contributor = 'jas91_smaf91'
     reads = ['jas91_smaf91.crime', 'jas91_smaf91.sr311']
-    writes = ['jas91_smaf91.sr311_crime_per_zip_code']
+    writes = [
+        'jas91_smaf91.crime_per_zip_code', 
+        'jas91_smaf91.sr311_per_zip_code', 
+        'jas91_smaf91.sr311_crime_per_zip_code'
+    ]
 
     @staticmethod
     def execute(trial = False):
@@ -19,6 +26,9 @@ class transformation3(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('jas91_smaf91', 'jas91_smaf91')
+        
+        if trial:
+            print("[OUT] Running in Trial Mode")
 
         map_function = Code('''function() {
             id = {
@@ -32,7 +42,11 @@ class transformation3(dml.Algorithm):
             return Array.sum(vs);        
         }''')
         
-        repo.jas91_smaf91.crime.map_reduce(map_function, reduce_function, 'jas91_smaf91.crime_per_zip_code')
+        if trial:
+            repo.jas91_smaf91.crime.map_reduce(map_function, reduce_function, 'jas91_smaf91.crime_per_zip_code', limit=TRIAL_LIMIT)
+        else:
+            repo.jas91_smaf91.crime.map_reduce(map_function, reduce_function, 'jas91_smaf91.crime_per_zip_code')
+
 
         map_function = Code('''function(){
             id = {
@@ -42,7 +56,10 @@ class transformation3(dml.Algorithm):
             emit(id,1);
         }''')
 
-        repo.jas91_smaf91.sr311.map_reduce(map_function, reduce_function, 'jas91_smaf91.sr311_per_zip_code')
+        if trial:
+            repo.jas91_smaf91.sr311.map_reduce(map_function, reduce_function, 'jas91_smaf91.sr311_per_zip_code', limit=TRIAL_LIMIT)
+        else:
+            repo.jas91_smaf91.sr311.map_reduce(map_function, reduce_function, 'jas91_smaf91.sr311_per_zip_code')
         
         def union(collection1, collection2, result):
             for document in repo[collection1].find():
@@ -135,14 +152,19 @@ class transformation3(dml.Algorithm):
 
         doc.wasAttributedTo(sr311_crime_per_zip_code, this_script)
         doc.wasGeneratedBy(sr311_crime_per_zip_code, reports, endTime)
+        doc.wasDerivedFrom(sr311_crime_per_zip_code, resource_sr311, reports, reports, reports) 
+        doc.wasDerivedFrom(sr311_crime_per_zip_code, resource_crime, reports, reports, reports) 
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
         return doc
 
-'''
-transformation3.execute()
-doc = transformation3.provenance()
-print(json.dumps(json.loads(doc.serialize()), indent=4))
-'''
+if 'trial' in sys.argv:
+    transformation3.execute(True)
+#else:
+#    transformation3.execute()
+
+#transformation3.execute()
+#doc = transformation3.provenance()
+#print(json.dumps(json.loads(doc.serialize()), indent=4))

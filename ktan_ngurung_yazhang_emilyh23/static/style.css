@@ -1,0 +1,59 @@
+body {
+  	padding-top: 50px;
+  	color: #666666;
+}
+
+button[type=submit], button[type=submit]:visited {
+	margin-top: 15px;
+	color: #666666;
+	background-color: #ffe484;
+	border-color: #ffe484;
+	width: 87%;
+}
+
+button[type=submit]:hover, button[type=submit]:active {
+	color: #666666;
+	background-color: #ffe463;
+	border-color: #ffe463;
+}
+
+#chart {
+	text-align: center;
+}
+
+#home-container {
+	padding-bottom: 50px;
+}
+
+#mapid { 
+	height: 495px;
+}
+
+.navbar {
+	background-color: #563F7A;
+}
+
+.navbar .navbar-brand {
+	color: #ffffff;
+}
+
+.navbar-inverse .navbar-nav li a {
+	color: #bdc3c7;
+}
+
+.navbar-inverse .navbar-nav .active a {
+	background-color: #493766;
+}
+
+.navbar-inverse .navbar-nav .active a:hover, .navbar-inverse .navbar-nav .active a:visited {
+	background-color: #493766;
+}
+
+.form-control {
+	width: 80%;
+}
+
+.starter-template {
+	padding: 20px 15px;
+  	text-align: center;
+}

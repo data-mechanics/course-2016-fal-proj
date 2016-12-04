@@ -54,7 +54,7 @@ class gatherDataSets(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
     
-        this_script = doc.agent('alg:andradej_chojoe#gatherDataSets', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:#gatherDataSets', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
         bigbelly_rsc = doc.entity('bdp:nybq-xu5r', {'prov:label':'Big Belly Reports 2014', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         get_bigbelly = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Big Belly Reports 2014'})
@@ -111,27 +111,27 @@ class gatherDataSets(dml.Algorithm):
             {prov.model.PROV_TYPE:'ont:Retrieval'}
         )
         
-        bigbelly = doc.entity('dat:andradej_chojoe#bigbelly', {prov.model.PROV_LABEL:'Big Belly Reports 2014', prov.model.PROV_TYPE:'ont:DataSet'})
+        bigbelly = doc.entity('dat:#bigbelly', {prov.model.PROV_LABEL:'Big Belly Reports 2014', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(bigbelly, this_script)
         doc.wasGeneratedBy(bigbelly, get_bigbelly, endTime)
         doc.wasDerivedFrom(bigbelly, bigbelly_rsc, get_bigbelly, get_bigbelly, get_bigbelly)
         
-        trashSch = doc.entity('dat:andradej_chojoe#trashSch', {prov.model.PROV_LABEL:'Trash Schedules by Address', prov.model.PROV_TYPE:'ont:DataSet'})
+        trashSch = doc.entity('dat:#trashSch', {prov.model.PROV_LABEL:'Trash Schedules by Address', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(trashSch, this_script)
         doc.wasGeneratedBy(trashSch, get_trashSch, endTime)
         doc.wasDerivedFrom(trashSch, trashSch_rsc, get_trashSch, get_trashSch, get_trashSch)
         
-        codeEnf = doc.entity('dat:andradej_chojoe#codeEnf', {prov.model.PROV_LABEL:'Code Enforcement - Building and Property Violations', prov.model.PROV_TYPE:'ont:DataSet'})
+        codeEnf = doc.entity('dat:#codeEnf', {prov.model.PROV_LABEL:'Code Enforcement - Building and Property Violations', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(codeEnf, this_script)
         doc.wasGeneratedBy(codeEnf, get_codeEnf, endTime)
         doc.wasDerivedFrom(codeEnf, codeEnf_rsc, get_codeEnf, get_codeEnf, get_codeEnf)
         
-        foodEst = doc.entity('dat:andradej_chojoe#foodEst', {prov.model.PROV_LABEL:'Food Establishment Inspections', prov.model.PROV_TYPE:'ont:DataSet'})
+        foodEst = doc.entity('dat:#foodEst', {prov.model.PROV_LABEL:'Food Establishment Inspections', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(foodEst, this_script)
         doc.wasGeneratedBy(foodEst, get_foodEst, endTime)
         doc.wasDerivedFrom(foodEst, foodEst_rsc, get_foodEst, get_foodEst, get_foodEst)
         
-        hotline = doc.entity('dat:andradej_chojoe#hotline', {prov.model.PROV_LABEL:'Mayors 24 Hour Hotline', prov.model.PROV_TYPE:'ont:DataSet'})
+        hotline = doc.entity('dat:#hotline', {prov.model.PROV_LABEL:'Mayors 24 Hour Hotline', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(hotline, this_script)
         doc.wasGeneratedBy(hotline, get_hotline, endTime)
         doc.wasDerivedFrom(hotline, hotline_rsc, get_hotline, get_hotline, get_hotline)
