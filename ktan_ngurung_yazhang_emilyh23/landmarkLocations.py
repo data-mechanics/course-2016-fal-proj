@@ -6,9 +6,9 @@ import datetime
 import uuid
 
 class landmarkLocations(dml.Algorithm):
-    contributor = 'ktan_ngurung'
+    contributor = 'ktan_ngurung_yazhang_emilyh23'
     reads = []
-    writes = ['ktan_ngurung.bigBelly', 'ktan_ngurung.colleges', 'ktan_ngurung.hubways', 'ktan_ngurung.busStops', 'ktan_ngurung.tStops', 'ktan_ngurung.ridership']
+    writes = ['ktan_ngurung_yazhang_emilyh23.bigBelly', 'ktan_ngurung_yazhang_emilyh23.colleges', 'ktan_ngurung_yazhang_emilyh23.hubways', 'ktan_ngurung_yazhang_emilyh23.busStops', 'ktan_ngurung_yazhang_emilyh23.tStops', 'ktan_ngurung_yazhang_emilyh23.ridership']
 
     @staticmethod
     def execute(trial = False):
@@ -18,55 +18,55 @@ class landmarkLocations(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung', 'ktan_ngurung')
+        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
 
-        url = 'http://datamechanics.io/data/ktan_ngurung/big-belly-locations.json'
+        url = 'http://datamechanics.io/data/ktan_ngurung_yazhang_emilyh23/big-belly-locations.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r0 = json.loads(response)
         s0 = json.dumps(r0, sort_keys=True, indent=2)
         repo.dropPermanent("bigBelly")
         repo.createPermanent("bigBelly")
-        repo['ktan_ngurung.bigBelly'].insert_one(r0)
+        repo['ktan_ngurung_yazhang_emilyh23.bigBelly'].insert_one(r0)
 
-        url = 'http://datamechanics.io/data/ktan_ngurung/colleges-and-universities.json'
+        url = 'http://datamechanics.io/data/ktan_ngurung_yazhang_emilyh23/colleges-and-universities.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r1 = json.loads(response)
         s1 = json.dumps(r1, sort_keys=True, indent=2)
         repo.dropPermanent("colleges")
         repo.createPermanent("colleges")
-        repo['ktan_ngurung.colleges'].insert_many(r1)
+        repo['ktan_ngurung_yazhang_emilyh23.colleges'].insert_many(r1)
 
-        url = 'http://datamechanics.io/data/ktan_ngurung/hubway-stations-in-boston.json'
+        url = 'http://datamechanics.io/data/ktan_ngurung_yazhang_emilyh23/hubway-stations-in-boston.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r2 = json.loads(response)
         s2 = json.dumps(r2, sort_keys=True, indent=2)
         repo.dropPermanent("hubways")
         repo.createPermanent("hubways")
-        repo['ktan_ngurung.hubways'].insert_many(r2)
+        repo['ktan_ngurung_yazhang_emilyh23.hubways'].insert_many(r2)
 
-        url = 'http://datamechanics.io/data/ktan_ngurung/mbta-bus-stops.json'
+        url = 'http://datamechanics.io/data/ktan_ngurung_yazhang_emilyh23/mbta-bus-stops.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r3 = json.loads(response)
         s3 = json.dumps(r3, sort_keys=True, indent=2)
         repo.dropPermanent("busStops")
         repo.createPermanent("busStops")
-        repo['ktan_ngurung.busStops'].insert_many(r3)
+        repo['ktan_ngurung_yazhang_emilyh23.busStops'].insert_many(r3)
 
-        url = 'http://datamechanics.io/data/ktan_ngurung/t-stop-locations.json'
+        url = 'http://datamechanics.io/data/ktan_ngurung_yazhang_emilyh23/t-stop-locations.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r4 = json.loads(response)
         s4 = json.dumps(r4, sort_keys=True, indent=2)
         repo.dropPermanent("tStops")
         repo.createPermanent("tStops")
-        repo['ktan_ngurung.tStops'].insert_many(r4)
+        repo['ktan_ngurung_yazhang_emilyh23.tStops'].insert_many(r4)
 
-        url = 'http://datamechanics.io/data/ktan_ngurung/boston-ridership.json'
+        url = 'http://datamechanics.io/data/ktan_ngurung_yazhang_emilyh23/boston-ridership.json'
         response = urllib.request.urlopen(url).read().decode('utf-8')
         r5 = json.loads(response)
         s5 = json.dumps(r5, sort_keys=True, indent=2)
         repo.dropPermanent("ridership")
         repo.createPermanent("ridership")
-        repo['ktan_ngurung.ridership'].insert_many(r5)
+        repo['ktan_ngurung_yazhang_emilyh23.ridership'].insert_many(r5)
 
         repo.logout()
 
@@ -85,7 +85,7 @@ class landmarkLocations(dml.Algorithm):
          # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung', 'ktan_ngurung')
+        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
 
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
@@ -93,13 +93,13 @@ class landmarkLocations(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:ktan_ngurung#landmarkLocations', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:ktan_ngurung_yazhang_emilyh23#landmarkLocations', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         bigBelly_resource = doc.entity('bdp:42qi-w8d7', {'prov:label':'Big Belly Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        colleges_resource = doc.entity('dat:ktan_ngurung/colleges-and-universities', {'prov:label':'Colleges and Universities', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        hubways_resource = doc.entity('dat:ktan_ngurung/hubway-stations-in-boston', {'prov:label':'Hubway Stations in Boston', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        busStops_resource = doc.entity('dat:ktan_ngurung/mbta-bus-stops', {'prov:label':'MBTA Bus Stops', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        tStops_resource = doc.entity('dat:ktan_ngurung/t-stop-locations', {'prov:label':'T-Stop Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        ridership_resource = doc.entity('dat:ktan_ngurung/boston-ridership', {'prov:label':'Boston Ridership', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        colleges_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/colleges-and-universities', {'prov:label':'Colleges and Universities', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        hubways_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/hubway-stations-in-boston', {'prov:label':'Hubway Stations in Boston', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        busStops_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/mbta-bus-stops', {'prov:label':'MBTA Bus Stops', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        tStops_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/t-stop-locations', {'prov:label':'T-Stop Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        ridership_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/boston-ridership', {'prov:label':'Boston Ridership', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
 
         get_bigBelly = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_colleges = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
@@ -139,32 +139,32 @@ class landmarkLocations(dml.Algorithm):
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        bigBelly = doc.entity('dat:ktan_ngurung#bigBelly', {prov.model.PROV_LABEL:'Big Belly Locations Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        bigBelly = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#bigBelly', {prov.model.PROV_LABEL:'Big Belly Locations Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(bigBelly, this_script)
         doc.wasGeneratedBy(bigBelly, get_bigBelly, endTime)
         doc.wasDerivedFrom(bigBelly, bigBelly_resource, get_bigBelly, get_bigBelly, get_bigBelly)
 
-        colleges = doc.entity('dat:ktan_ngurung#colleges', {prov.model.PROV_LABEL:'Colleges and Universities Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        colleges = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#colleges', {prov.model.PROV_LABEL:'Colleges and Universities Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(colleges, this_script)
         doc.wasGeneratedBy(colleges, get_colleges, endTime)
         doc.wasDerivedFrom(colleges, colleges_resource, get_colleges, get_colleges, get_colleges)
 
-        hubways = doc.entity('dat:ktan_ngurung#hubways', {prov.model.PROV_LABEL:'Hubway Stations in Boston Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        hubways = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#hubways', {prov.model.PROV_LABEL:'Hubway Stations in Boston Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(hubways, this_script)
         doc.wasGeneratedBy(hubways, get_hubways, endTime)
         doc.wasDerivedFrom(hubways, hubways_resource, get_hubways, get_hubways, get_hubways)
 
-        busStops = doc.entity('dat:ktan_ngurung#busStops', {prov.model.PROV_LABEL:'MBTA Bus Stops Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        busStops = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#busStops', {prov.model.PROV_LABEL:'MBTA Bus Stops Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(busStops, this_script)
         doc.wasGeneratedBy(busStops, get_busStops, endTime)
         doc.wasDerivedFrom(busStops, busStops_resource, get_busStops, get_busStops, get_busStops)
 
-        tStops = doc.entity('dat:ktan_ngurung#tStops', {prov.model.PROV_LABEL:'T-Stop Locations Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        tStops = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#tStops', {prov.model.PROV_LABEL:'T-Stop Locations Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(tStops, this_script)
         doc.wasGeneratedBy(tStops, get_tStops, endTime)
         doc.wasDerivedFrom(tStops, tStops_resource, get_tStops, get_tStops, get_tStops)
 
-        ridership = doc.entity('dat:ktan_ngurung#ridership', {prov.model.PROV_LABEL:'Boston T Ridership Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        ridership = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#ridership', {prov.model.PROV_LABEL:'Boston T Ridership Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(ridership, this_script)
         doc.wasGeneratedBy(ridership, get_ridership, endTime)
         doc.wasDerivedFrom(ridership, ridership_resource, get_ridership, get_ridership, get_ridership)
