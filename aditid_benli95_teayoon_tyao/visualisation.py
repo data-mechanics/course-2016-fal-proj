@@ -4,6 +4,7 @@ import prov.model
 import datetime
 import uuid
 from bson.code import Code
+from matplotlib import pyplot
 import numpy as np
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
@@ -60,12 +61,17 @@ class prepData4(dml.Algorithm):
             bins.append(k)
 
 
-        plt.hist(all,bins)
-        plt.hist(drug,bins,facecolor="green")
+        pyplot.hist(all, bins, alpha=.5, label='All Crimes')
+        pyplot.hist(drug, bins, alpha=.5, label='Drug Crimes')
 
-        plt.xlabel("Establisments")
-        plt.ylabel("Crimes")
-        plt.show()
+
+        # plt.hist(all, bins, alpha=.7, color='blue')
+        # plt.hist(drug, bins, alpha=.7, color='red')
+
+        pyplot.xlabel("Establisments")
+        pyplot.ylabel("Crimes")
+        pyplot.legend(loc='upper left')
+        pyplot.show()
 
         import statsmodels.api as sm
         model = sm.OLS(y, x)
