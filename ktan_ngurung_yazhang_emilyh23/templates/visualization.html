@@ -19,7 +19,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <!-- Custom styles for this template -->
-    <link href="/static/style.css?version=487" rel="stylesheet">
+    <link href="/static/style.css?version=52" rel="stylesheet">
 
     <style>
 
@@ -108,8 +108,8 @@
             width = 960,
             height = 450 - margin.top - margin.bottom,
             formatNumber = d3.format(",%"),
-            colorDomain = [-.6, 0, .6],
-            colorRange = ["#fcc914", '#fcfaf4', "#ffe484"],
+            colorDomain = [-0.6, 0, 0.6],
+            colorRange = ["#ffd338", '#fcfaf4', "#ffe484"],
             transitioning;
 
         // sets x and y scale to determine size of visible boxes
@@ -208,7 +208,7 @@
             return (parseInt(hexcolor.replace('#', ''), 16) > 0x666666/3) ? 'black':'white';
         }
 
-        d3.json("static/zoomabletreemap.json?version=2", function(root) {
+        d3.json("static/zoomabletreemap.json?version=102", function(root) {
           console.log(root)
           initialize(root);
           accumulate(root);
