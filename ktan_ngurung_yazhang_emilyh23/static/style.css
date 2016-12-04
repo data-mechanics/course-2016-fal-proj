@@ -18,13 +18,11 @@ button[type=submit]:hover, button[type=submit]:active {
 }
 
 #chart {
-	width: 100%;
-	height: 500px;
 	text-align: center;
 }
 
 #home-container {
-	padding-bottom: 100px;
+	padding-bottom: 50px;
 }
 
 #mapid { 
