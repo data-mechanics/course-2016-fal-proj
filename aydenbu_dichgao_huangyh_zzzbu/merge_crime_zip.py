@@ -99,7 +99,7 @@ class merge_crime_zip(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/')  # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:aydenbu_huangyh#zipXY',
+        this_script = doc.agent('alg:aydenbu_huangyh#merge_crime_zip',
                                 {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
         resource = doc.entity('dat:crime_incident_report',
                               {'prov:label': 'Crime Incident Report', prov.model.PROV_TYPE: 'ont:DataResource',
@@ -117,8 +117,8 @@ class merge_crime_zip(dml.Algorithm):
         doc.usage(merge_crime_zip, resource2, startTime, None,
                   {prov.model.PROV_TYPE: 'ont:Computation'})
 
-        crime_zip = doc.entity('dat:aydenbu_huangyh#zip_Healthycornerstores_count',
-                            {prov.model.PROV_LABEL: 'Healthy Corner Stores Count',
+        crime_zip = doc.entity('dat:aydenbu_huangyh#zip_crime',
+                            {prov.model.PROV_LABEL: 'Crime and its related zipcode',
                              prov.model.PROV_TYPE: 'ont:DataSet'})
         doc.wasAttributedTo(crime_zip, this_script)
         doc.wasGeneratedBy(crime_zip, merge_crime_zip, endTime)
@@ -135,3 +135,6 @@ class merge_crime_zip(dml.Algorithm):
         return doc
 
 merge_crime_zip.execute()
+doc = merge_crime_zip.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))

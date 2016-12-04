@@ -134,9 +134,9 @@ class SchoolandHospital(dml.Algorithm):
 
 
 SchoolandHospital.execute()
-# doc = SchoolandHospital.provenance()
-# print(doc.get_provn())
-# print(json.dumps(json.loads(doc.serialize()), indent=4))
+doc = SchoolandHospital.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## add provenance
 ## eof
