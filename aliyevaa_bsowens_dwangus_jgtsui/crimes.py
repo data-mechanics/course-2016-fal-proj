@@ -8,8 +8,7 @@ import datetime
 import uuid
 import urllib.request
 
-class crimes_all(dml.Algorithm):
-	# Set up the database connection.	
+class crimes_all(dml.Algorithm):	
 	contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
 	reads = []
 	writes = ['aliyevaa_bsowens_dwangus_jgtsui.crimes_new']
