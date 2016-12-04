@@ -17,3 +17,11 @@ os.system('python3.5 ./merge_school_garden.py')
 os.system('python3.5 ./merge_store_hospital.py')
 os.system('python3.5 ./merge_all_public_buildings.py')
 os.system('python3.5 ./public_earning.py')
+
+# Project 2
+os.system('python3.5 ./zipXY.py')
+os.system('python3.5 ./merge_crime_zip.py')
+os.system('python3.5 ./countCrime.py')
+os.system('python3.5 ./mergeAll.py')
+os.system('python3.5 ./statisticOperations.py')
+# os.system('python3.5 ./public_earning.py')

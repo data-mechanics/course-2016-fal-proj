@@ -12,8 +12,8 @@ from helpers import *
 
 class PublicandEarning(dml.Algorithm):
     contributor = 'aydenbu_huangyh'
-    reads = ['aydenbu_huangyh.zip_public','aydenbu_huangyh.zip_avg_earnings']
-    writes = ['aydenbu_huangyh.public_earning']
+    reads = ['aydenbu_huangyh.public_earning','aydenbu_huangyh.zip_crime_count']
+    writes = ['aydenbu_huangyh.public_earning_crime']
 
     @staticmethod
     def execute(trial = False):
@@ -22,36 +22,43 @@ class PublicandEarning(dml.Algorithm):
 
         # Set up the database connection
         repo = openDb(getAuth("db_username"), getAuth("db_password"))
-        publics = repo['aydenbu_huangyh.zip_public']
-        earnings = repo['aydenbu_huangyh.zip_avg_earnings']
+        publics = repo['aydenbu_huangyh.public_earning']
+        crimes = repo['aydenbu_huangyh.zip_crime_count']
+
+        zipInBoston = ['2151','2128','2129','2113','2114','2203','2109','2108','2110','2111','2116','2210','2199','2127','2118','2115','2215','2125','2120','2119',
+                       '2163','2134','2135','2467','2130','2121','2122','2467','2131','2126','2124','2132','2131','2126','2136']
+        # reference http://www.cityofboston.gov/images_documents/ZipCodes_tcm3-47884.pdf
 
         publics_array = []
         for document in publics.find():
-            publics_array.append({"zip":document['_id'], 'value':{'avg': 0,
-                                                                    'numofHospital': document['value']['numofHospital'],
-                                                                    'numofSchool': document['value']['numofSchool'],
-                                                                    'numofGarden':document['value']['numofGarden'],
-                                                                     'numofStore': document['value']['numofStore']}})
+           # if int(str(document['_id']),10) != 0:
+                publics_array.append({"zip":document['_id'], 'value':{'avg': document['value']['avg'],
+                                                                        'numofHospital': document['value']['numofHospital'],
+                                                                        'numofSchool': document['value']['numofSchool'],
+                                                                        'numofGarden':document['value']['numofGarden'],
+                                                                         'numofStore': document['value']['numofStore'],
+                                                                         'numofCrime': 0 }})
 
-        earnings_array = []
-        for document in earnings.find():
-            earnings_array.append({"zip":document['_id'], "value":{'avg': document['value']['avg'],
+        crimes_array = []
+        for document in crimes.find():
+            crimes_array.append({"zip":document['_id'], "value":{'avg': 0,
                                                                   'numofSchool': 0,
                                                                   'numofHospital': 0,
                                                                   'numofGarden': 0,
-                                                                   'numofStore': 0
+                                                                   'numofStore': 0,
+                                                                   'numofCrime': document['value']['numofCrime']
                                                                   }})
 
         repo.dropPermanent("test2")
         repo.createPermanent("test2")
         repo['aydenbu_huangyh.test2'].insert_many(publics_array)
-        repo['aydenbu_huangyh.test2'].insert_many(earnings_array)
+        repo['aydenbu_huangyh.test2'].insert_many(crimes_array)
 
         test2 = repo['aydenbu_huangyh.test2']
 
         # MapReduce function
 
-        #def transform()
+
 
 
 
@@ -66,11 +73,12 @@ class PublicandEarning(dml.Algorithm):
                 function(key,values){
 
                         var result = {
-                        "avg": '',
-                        "numofSchool" : '',
-                        "numofHospital" : '',
-                        "numofGarden": '',
-                        "numofStore": ''
+                        "avg": 0,
+                        "numofSchool" : 0,
+                        "numofHospital" : 0,
+                        "numofGarden": 0,
+                        "numofStore": 0,
+                        "numofCrime": 0
                         };
 
 
@@ -80,6 +88,8 @@ class PublicandEarning(dml.Algorithm):
                         if(value.numofSchool !== 0) {result.numofSchool = value.numofSchool;}
                         if(value.numofGarden !== 0) {result.numofGarden = value.numofGarden;}
                         if(value.numofStore !== 0) {result.numofStore = value.numofStore;}
+                        if(value.numofCrime !== 0) {result.numofCrime = value.numofCrime;}
+
 
 
                          });
@@ -96,9 +106,25 @@ class PublicandEarning(dml.Algorithm):
 
 
 
-        repo.dropPermanent("aydenbu_huangyh.public_earning")
+        repo.dropPermanent("public_earning_crime")
 
-        res = test2.map_reduce(map, reducer, 'aydenbu_huangyh.public_earning')
+        res = test2.map_reduce(map, reducer, 'aydenbu_huangyh.public_earning_crime')
+
+
+
+
+        allData = repo['aydenbu_huangyh.public_earning_crime']
+        filterResult = []
+        for document in allData.find():
+            if document['_id'] in zipInBoston:
+                filterResult.append(document)
+            else:
+                continue
+
+        repo.dropPermanent("public_earning_crime_boston")
+        repo.createPermanent("public_earning_crime_boston")
+        repo['aydenbu_huangyh.public_earning_crime_boston'].insert_many(filterResult)
+
 
         repo.logout()
         endTime = datetime.datetime.now()

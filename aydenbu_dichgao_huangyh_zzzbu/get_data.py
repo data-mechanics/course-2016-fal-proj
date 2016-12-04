@@ -42,7 +42,7 @@ class example(dml.Algorithm):
         repo.createPermanent("earningsReport")
         repo['aydenbu_huangyh.earningsReport'].insert_many(r)
 
-        url = "https://data.cityofboston.gov/resource/ybm6-m5qd.json"
+        url = "https://data.cityofboston.gov/resource/vwsn-4yhi.json"
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
         s = json.dumps(r, sort_keys=True, indent=2)
@@ -65,6 +65,26 @@ class example(dml.Algorithm):
         repo.dropPermanent("publicSchool")
         repo.createPermanent("publicSchool")
         repo['aydenbu_huangyh.publicSchool'].insert_many(r)
+
+
+        # Approved Building Permit
+        url = "https://data.cityofboston.gov/resource/msk6-43c6.json"
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("approved_building_permits")
+        repo.createPermanent("approved_building_permits")
+        repo['aydenbu_huangyh.approved_building_permits'].insert_many(r)
+
+
+        # Crime Incident Report
+        url = "https://data.cityofboston.gov/resource/29yf-ye7n.json"
+        response = urllib.request.urlopen(url).read().decode("utf-8")
+        r = json.loads(response)
+        s = json.dumps(r, sort_keys=True, indent=2)
+        repo.dropPermanent("crime_incident_report")
+        repo.createPermanent("crime_incident_report")
+        repo['aydenbu_huangyh.crime_incident_report'].insert_many(r)
 
         repo.logout()
 

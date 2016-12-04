@@ -9,11 +9,13 @@ from bson.json_util import dumps
 from helpers import *
 
 
-class merge(dml.Algorithm):
+class k_means(dml.Algorithm):
     contributor = 'aydenbu_huangyh'
-    reads = ['aydenbu_huangyh.zip_PublicSchool_count',
-             'aydenbu_huangyh.zip_communityGardens_count']
-    writes = ['aydenbu_huangyh.zip_public']
+    reads = ['aydenbu_huangyh.zip_Healthycornerstores_XY',
+             'aydenbu_huangyh.zip_communityGardens_XY',
+             'aydenbu_huangyh.zip_hospitals_XY',
+             'aydenbu_huangyh.zip_PublicSchool_XY']
+    writes = ['aydenbu_huangyh.k_means']
 
     @staticmethod
     def execute(trial = False):
@@ -24,36 +26,101 @@ class merge(dml.Algorithm):
         repo = openDb(getAuth("db_username"), getAuth("db_password"))
 
         # Get the collections
-        gardens = repo['aydenbu_huangyh.zip_communityGardens_count']
-        schools = repo['aydenbu_huangyh.zip_PublicSchool_count']
+        stores = repo['aydenbu_huangyh.zip_Healthycornerstores_XY']
+        gardens = repo['aydenbu_huangyh.zip_communityGardens_XY']
+        hospitals = repo['aydenbu_huangyh.zip_hospitals_XY']
+        schools = repo['aydenbu_huangyh.zip_PublicSchool_XY']
 
+        stores_xy = []
+        for document in stores.find():
+            if document is not None:
+                record = (float(document['location'][0]), float(document['location'][1]))
+                stores_xy.append(record)
 
-        # For every document in hospitals zip find the number of store that associate with that zip
-        zip_public = []
+        gardens_xy = []
         for document in gardens.find():
-            schools_count = schools.find_one({'_id': document['_id']}, {'_id': False, 'value.numofSchool': True})
-            if schools_count is None:
-                zip = {'_id': document['_id'],
-                        'value': {
-                            'numofGarden': document['value']['numofGarden'],
-                            'numofSchool': 0.0}  # Assign the 0 to the num if there is no result
-                       }
-                zip_public.append(zip)
-                continue
-            else:
-                zip = {'_id': document['_id'],
-                        'value': {
-                            'numofGarden': document['value']['numofGarden'],
-                            'numofSchool': schools_count['value']['numofSchool']}
-                       }
-                zip_public.append(zip)
-        ''''''''''''''''''''''''''''''''''''''''''''''''
+            if document is not None:
+                record = (float(document['location'][0]), float(document['location'][1]))
+                if float(document['location'][0]) <0:
+                    print ("gardens")
+                gardens_xy.append(record)
+
+        hospitals_xy = []
+        for document in hospitals.find():
+            if document is not None:
+                record = (float(document['location'][0]), float(document['location'][1]))
+                if float(document['location'][0]) < 0:
+                    print ("hospitals")
+                hospitals_xy.append(record)
+
+        schools_xy = []
+        for document in schools.find():
+            if document is not None:
+                record = (float(document['location'][0]), float(document['location'][1]))
+                if float(document['location'][0]) < 0:
+                    print ("schools")
+                schools_xy.append(record)
+
+
+
+
+
+
+        # k means algorithm code
+
+        def product(R, S):
+            return [(t, u) for t in R for u in S]
+
+        def aggregate(R, f):
+            keys = {r[0] for r in R}
+            return [(key, f([v for (k, v) in R if k == key])) for key in keys]
+
+
+        def dist(p, q):
+            (x1, y1) = p
+            (x2, y2) = q
+            return (x1 - x2) ** 2 + (y1 - y2) ** 2
+
+        def plus(args):
+            p = [0, 0]
+            for (x, y) in args:
+                p[0] += x
+                p[1] += y
+            return tuple(p)
+
+        def scale(p, c):
+            (x, y) = p
+            return (x / c, y / c)
+
+        M = [(41, -70), (40, -70)]
+        P = stores_xy + gardens_xy + hospitals_xy + schools_xy
+        print(P)
+
+        OLD = []
+        while OLD != M:
+            OLD = M
+
+            MPD = [(m, p, dist(m, p)) for (m, p) in product(M, P)]
+            PDs = [(p, dist(m, p)) for (m, p, d) in MPD]
+            PD = aggregate(PDs, min)
+            MP = [(m, p) for ((m, p, d), (p2, d2)) in product(MPD, PD) if p == p2 and d == d2]
+            MT = aggregate(MP, plus)
+
+            M1 = [(m, 1) for ((m, p, d), (p2, d2)) in product(MPD, PD) if p == p2 and d == d2]
+            MC = aggregate(M1, sum)
+
+            M = [scale(t, c) for ((m, t), (m2, c)) in product(MT, MC) if m == m2]
+            print(sorted(M))
+
+            # first it only returned one point, second the point it returned is in the sea
+
+
 
 
         # Create a new collection and insert the result data set
-        repo.dropPermanent("merge_school_garden")
-        repo.createPermanent("merge_school_garden")
-        repo['aydenbu_huangyh.merge_school_garden'].insert_many(zip_public)
+        repo.dropPermanent("k_means")
+        repo.createPermanent("k_means")
+
 
         repo.logout()
         endTime = datetime.datetime.now()
@@ -126,7 +193,7 @@ class merge(dml.Algorithm):
 
         return doc
 
-merge.execute()
-doc = merge.provenance()
+k_means.execute()
+doc = k_means.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))

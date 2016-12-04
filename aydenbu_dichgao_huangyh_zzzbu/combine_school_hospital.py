@@ -65,7 +65,7 @@ class SchoolandHospital(dml.Algorithm):
 
 
                         values.forEach(function(value) {
-                        if(value.numofHospital !== 0) {result.numofHospital = value.numofHospital;}
+                        if(value.numofHospital !== 0) {result.numofHospital += value.numofHospital;}
                         if(value.numofSchool !== 0) {result.numofSchool += value.numofSchool;}
 
                          });

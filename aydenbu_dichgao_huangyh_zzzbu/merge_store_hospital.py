@@ -28,33 +28,62 @@ class merge(dml.Algorithm):
         stores = repo['aydenbu_huangyh.zip_Healthycornerstores_count']
 
 
-        # For every document in hospitals zip find the number of store that associate with that zip
-        zip_health = []
+
+        hospitals_array = []
         for document in hospitals.find():
-            stores_count = stores.find_one({'_id': document['_id']}, {'_id': False, 'value.numofStore': True})
-            if stores_count is None:
-                zip = {'_id': document['_id'],
-                        'value': {
-                            'numofHospital': document['value']['numofHospital'],
-                            'numofStore': 0.0}  # Assign the 0 to the num if there is no result
-                       }
-                zip_health.append(zip)
-                continue
-            else:
-                zip = {'_id': document['_id'],
-                        'value': {
-                            'numofHospital': document['value']['numofHospital'],
-                            'numofStore': stores_count['value']['numofStore']}
-                       }
-                zip_health.append(zip)
-        ''''''''''''''''''''''''''''''''''''''''''''''''
+            hospitals_array.append(
+                {"zip": document['_id'], 'value': {"numofHospital": document['value']['numofHospital'],
+                                                   'numofStore': 0}})
+        stores_array = []
+        for document in stores.find():
+            stores_array.append({"zip": document['_id'], "value": {'numofHospital': 0,
+                                                                    "numofStore": document['value']['numofStore']}})
+
+        repo.dropPermanent("testforhospitalstores")
+        repo.createPermanent("testforhospitalstores")
+        repo['aydenbu_huangyh.testforhospitalstores'].insert_many(stores_array)
+        repo['aydenbu_huangyh.testforhospitalstores'].insert_many(hospitals_array)
+
+        test = repo['aydenbu_huangyh.testforhospitalstores']
+
+        # MapReduce function
+
+        # def transform()
 
 
-        # Create a new collection and insert the result data set
-        #repo.dropPermanent("zip_health")
+        map = Code("""
+                           function(){
+                                  emit(this.zip,this.value);
+                                   }
+                           """)
+
+        reducer = Code("""
+                       function(key,values){
+
+                               var result = {
+                               "numofStore" : 0,
+                               "numofHospital" : 0
+                               };
+
+
+                               values.forEach(function(value) {
+                               if(value.numofHospital !== 0) {result.numofHospital += value.numofHospital;}
+                               if(value.numofStore !== 0) {result.numofStore += value.numofStore;}
+
+                                });
+
+                               return result;
+                               }
+
+
+                               """)
+
         repo.dropPermanent("merge_store_hospital")
         repo.createPermanent("merge_store_hospital")
-        repo['aydenbu_huangyh.merge_store_hospital'].insert_many(zip_health)
+
+        res = test.map_reduce(map, reducer, 'aydenbu_huangyh.merge_store_hospital')
+
+
 
         repo.logout()
         endTime = datetime.datetime.now()
