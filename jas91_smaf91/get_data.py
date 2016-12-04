@@ -1,9 +1,13 @@
+import requests
 import urllib.request
 import json
 import dml
 import prov.model
 import datetime
 import uuid
+import sys
+
+TRIAL_LIMIT = 5000
 
 class get_data(dml.Algorithm):
     contributor = 'jas91_smaf91'
@@ -14,29 +18,64 @@ class get_data(dml.Algorithm):
     def execute(trial = False):
         '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
         startTime = datetime.datetime.now()
+        
+        if trial:
+            print("[OUT] Running in Trial Mode")
 
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('jas91_smaf91', 'jas91_smaf91')
 
+        # Load credentials
+        with open('../auth.json') as json_data:
+            credentials = json.load(json_data)
+
+
         city_of_boston_datasets = {
                 'crime': 'https://data.cityofboston.gov/resource/ufcx-3fdn.json',
-                'sr311': 'https://data.cityofboston.gov/resource/rtbk-4hc4.json',
+                'sr311': 'https://data.cityofboston.gov/resource/wc8w-nujj.json',
                 'hospitals': 'https://data.cityofboston.gov/resource/u6fv-m8v4.json',
                 'food': 'https://data.cityofboston.gov/resource/427a-3cn5.json',
-                'schools': 'https://data.cityofboston.gov/resource/pzcy-jpz4.json'
+                'schools': 'https://data.cityofboston.gov/resource/pzcy-jpz4.json',
+                'address_list': 'https://data.cityofboston.gov/resource/je5q-tbjf.json'
                 }
 
+
+        token = "?$$app_token="+credentials['services']['cityofbostondataportal']['token']
+        limit = 100000
+
         for dataset in city_of_boston_datasets:
-            response = urllib.request.urlopen(city_of_boston_datasets[dataset]).read().decode("utf-8")
-            r = json.loads(response)
-            s = json.dumps(r, sort_keys=True, indent=2)
             repo.dropPermanent(dataset)
             repo.createPermanent(dataset)
-            repo['jas91_smaf91.' + dataset].insert_many(r)
-            print('[OUT] Done loading dataset', dataset)
 
+            # Count records for pagination 
+            url = city_of_boston_datasets[dataset]+token+"&$select=count(*)"
+            response = urllib.request.urlopen(url).read().decode("utf-8")
+            r = json.loads(response)
+            count = int(r[0]["count"])
+            if trial:
+                count = min(count, TRIAL_LIMIT)
+
+            print("[OUT] Retreiving dataset ", dataset, "total number of records:", count)
+
+            # Calculate pages
+            pages = count//limit + 1
+
+            if trial:
+                pages = 1
+                limit = TRIAL_LIMIT
+
+            for i in range(pages):
+                print('[OUT] page', i, 'of', pages)
+                offset = limit*i
+                paging = '&$limit='+str(limit)+'&$offset='+str(offset)
+
+                url = city_of_boston_datasets[dataset]+token+paging
+                response = urllib.request.urlopen(url).read().decode("utf-8")
+                r = json.loads(response)
+                s = json.dumps(r, sort_keys=True, indent=2)
+                repo['jas91_smaf91.' + dataset].insert_many(r)
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -145,8 +184,9 @@ class get_data(dml.Algorithm):
         return doc
 
 # REMEMBER TO COMMENT THIS BEFORE SUBMITTING
-'''
-get_data.execute()
-doc = get_data.provenance()
-print(json.dumps(json.loads(doc.serialize()), indent=4))
-'''
+if 'trial' in sys.argv:
+    get_data.execute(True)
+#else:
+#    get_data.execute()
+#doc = get_data.provenance()
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
