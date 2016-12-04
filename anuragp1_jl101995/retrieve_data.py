@@ -30,34 +30,34 @@ class retrieve_data(dml.Algorithm):
         repo.authenticate('anuragp1_jl101995', 'anuragp1_jl101995')
         
         # Retrieve NYC Subway Station data
-        url = "https://data.cityofnewyork.us/resource/kk4q-3rt2.json"
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        print(json.dumps(r, sort_keys=True, indent=2))
-        repo.dropPermanent("subway_stations")
-        repo.createPermanent("subway_stations")
-        repo['anuragp1_jl101995.subway_stations'].insert_many(r)
+        # url = "https://data.cityofnewyork.us/resource/kk4q-3rt2.json"
+        # response = urllib.request.urlopen(url).read().decode("utf-8")
+        # r = json.loads(response)
+        # s = json.dumps(r, sort_keys=True, indent=2)
+        # print(json.dumps(r, sort_keys=True, indent=2))
+        # repo.dropPermanent("subway_stations")
+        # repo.createPermanent("subway_stations")
+        # repo['anuragp1_jl101995.subway_stations'].insert_many(r)
       
         # Retrieve Bi-Annual Pedestrian Counts data  
-        url = "https://data.cityofnewyork.us/resource/cqsj-cfgu.json"
-        response = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
-        print(json.dumps(r, sort_keys=True, indent=2))
-        repo.dropPermanent("pedestriancounts")
-        repo.createPermanent("pedestriancounts")
-        repo['anuragp1_jl101995.pedestriancounts'].insert_many(r)
+        # url = "https://data.cityofnewyork.us/resource/cqsj-cfgu.json"
+        # response = urllib.request.urlopen(url).read().decode("utf-8")
+        # r = json.loads(response)
+        # s = json.dumps(r, sort_keys=True, indent=2)
+        # print(json.dumps(r, sort_keys=True, indent=2))
+        # repo.dropPermanent("pedestriancounts")
+        # repo.createPermanent("pedestriancounts")
+        # repo['anuragp1_jl101995.pedestriancounts'].insert_many(r)
 
         # Load NYC Weather Data (source: http://www.ncdc.noaa.gov/cdo-web/)
-        repo.dropPermanent("weather")
-        repo.createPermanent("weather")
+        # repo.dropPermanent("weather")
+        # repo.createPermanent("weather")
 
-        url = "http://datamechanics.io/data/anuragp1_jl101995/weather.csv"
-        urllib.request.urlretrieve(url, 'weather.csv')
-        weather_df = pd.DataFrame.from_csv('weather.csv')
-        repo['anuragp1_jl101995.weather'].insert_many(weather_df.to_dict('records'))
-        os.remove('weather.csv')
+        # url = "http://datamechanics.io/data/anuragp1_jl101995/weather.csv"
+        # urllib.request.urlretrieve(url, 'weather.csv')
+        # weather_df = pd.DataFrame.from_csv('weather.csv')
+        # repo['anuragp1_jl101995.weather'].insert_many(weather_df.to_dict('records'))
+        # os.remove('weather.csv')
 
         # Retrieve Subway Turnstile Data from 2015 to mid-2016
         repo.dropPermanent("turnstile")
@@ -91,27 +91,27 @@ class retrieve_data(dml.Algorithm):
             os.remove(extension + ".csv")
 
         # Retrieve CitiBike Trip Histories
-        def listUrls(file):
-            with open(file) as f:
-                return [url.split('\n')[0] for url in f]
+        # def listUrls(file):
+        #     with open(file) as f:
+        #         return [url.split('\n')[0] for url in f]
 
-        repo.dropPermanent('citibike')
-        repo.createPermanent('citibike')
+        # repo.dropPermanent('citibike')
+        # repo.createPermanent('citibike')
 
-        # iterate through list of citibike trip data .zip urls
-        for url in listUrls('citizip_urls.txt'):    
+        # # iterate through list of citibike trip data .zip urls
+        # for url in listUrls('citizip_urls.txt'):    
 
-            urllib.request.urlretrieve(url, 'tripdata.zip')
+        #     urllib.request.urlretrieve(url, 'tripdata.zip')
 
-            with zipfile.ZipFile('tripdata.zip', 'r') as zip_ref:
-                for fn in zip_ref.namelist():
-                    zip_ref.extractall()
-                    csv = pd.read_csv(fn)
-                    tripdata_df = pd.DataFrame(csv)
-                    repo['anuragp1_jl101995.citibike'].insert_many(tripdata_df.to_dict('records'))
-                    os.remove(fn)
+        #     with zipfile.ZipFile('tripdata.zip', 'r') as zip_ref:
+        #         for fn in zip_ref.namelist():
+        #             zip_ref.extractall()
+        #             csv = pd.read_csv(fn)
+        #             tripdata_df = pd.DataFrame(csv)
+        #             repo['anuragp1_jl101995.citibike'].insert_many(tripdata_df.to_dict('records'))
+        #             os.remove(fn)
 
-            os.remove('tripdata.zip')
+        #     os.remove('tripdata.zip')
       
         # end database connection
         repo.logout()
@@ -159,8 +159,8 @@ class retrieve_data(dml.Algorithm):
         doc.wasAssociatedWith(get_stations, this_script)
         doc.wasAssociatedWith(get_pedestrian, this_script)
         doc.wasAssociatedWith(get_weather, this_script)
-        doc.wasAssociatedWith(get_turnstile, this_turnstile)
-        doc.wasAssociatedWith(get_citbike, this_citibike)
+        doc.wasAssociatedWith(get_turnstile, this_script)
+        doc.wasAssociatedWith(get_citbike, this_script)
 
         doc.usage(get_stations, stations_resource, startTime, None,
                   {prov.model.PROV_TYPE:'ont:Retrieval'} )

@@ -5,6 +5,7 @@ import prov.model
 import datetime
 import uuid
 
+
 class transformation2(dml.Algorithm):
     contributor = 'anuragp1_jl101995'
     reads = ['anuragp1_jl101995.citibike', 'anuragp1_jl101995.pedestriancounts']
