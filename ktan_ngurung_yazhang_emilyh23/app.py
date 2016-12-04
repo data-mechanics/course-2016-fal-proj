@@ -16,9 +16,13 @@ schema = {
   "required": ["username"]
 }
 
-@app.route('/')
+@app.route('/index.html')
 def index():
     return render_template('index.html')
+
+@app.route('/visualization.html')
+def visualization():
+    return render_template("visualization.html")
 
 @app.route('/client', methods=['OPTIONS'])
 def show_api():
