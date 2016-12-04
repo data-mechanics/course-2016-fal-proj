@@ -1,4 +1,4 @@
-Patrick Gomes and Raphael Baysa
+Michael Gerakis, Patrick Gomes and Raphael Baysa
 
 We decided to look into the optimal area to build a new hospital in the Boston area. The data sets we are using include current hospital locations, police station locations, mbta/train stops, traffic points and crime rates. The new hopsital would be located far from current hospital locations and from police stations, but near high population density locations, preferably near two or more clusters. Accessibility is a concern so it would have to be close to a bus or train stop, but far away from high traffic areas for ambulances. If possible, the optimal hospital would also be located near, but not in, a crime cluster for faster response. 
 
@@ -20,15 +20,20 @@ Police Stations: https://data.cityofboston.gov/resource/pyxn-r3i2.json
 Setting up auth.json
 ---
 
-Only 1 key is required, you can get a key at: https://dev.socrata.com/register
+Two keys required, you can get a key at: https://dev.socrata.com/register and https://developers.google.com/places/web-service/details
 
 auth.json was formatted:
 {
     "services": {
         "cityofbostondataportal": {
             "service": "https://data.cityofboston.gov/",
-            "username": "pgomes94_raph737",
+            "username": "mgerakis_pgomes94_raph737",
             "token": "KPQpbs4UiZMCXzxGYurpLOFwA"
+        },
+        "google": {
+        	"service": "https://maps.googleapis.com",
+        	"username": "",
+        	"token": "AIzaSyB9XcIGvFheP24Ff9g7tXvMNHTFKiSgm7M"
         }
     }
 }
@@ -82,3 +87,15 @@ Quickly highlighting the main steps:
 	e. export PYSPARK_PYTHON="/LOCATION/OF/PYTHON/VERSION/3.4/bin/python3" (needed if more than one version of python is installed, point to python3)
 
 Once the .bash_profile is updated, completely close the terminal app and reopen to apply these updates to the local environment.
+
+---
+The two problems we are solving for Project 2
+---
+Solved in getError.py
+The first problem we are going to solve is seeing how our hospital scores compare to actual hospital rankings. First we build a dictionary for each hospital in Boston with 'hospital name' : star rating from google reviews. This is done through requests to google.com and extracting the star rating from the webpage. Afterwards we can establish an order of the hospitals and we can do the same with our scores. To compare these two lists we calculate for each hospital the average error in ranking. By analyzing this we can learn more about how our algorithm compares with real world data.
+
+Sovled in recommend.py
+The second problem we are going to solve is to recommend possible locations for the new hospital. To do this, we solve for the top 5 coordinates that minimizes the Euclidean distance to all the close proximity clusters calculated in the previous transformations. Ideally Manhattan distance would be used, but it would require remapping the data points and roads into a grid like shape which we haven't done, so we will be using the shortest straight distance from one point to another. To find these 5 points we are going to use kmeans.
+Then from the returned points to choose the one that maximizes the distance to all the far proximity clusters. This is an optimization problem defined as:
+argmax x`,y` summation across all cluster centers x,y with proximity=='F': Euclidean Distance((x`,y`), (x,y))
+
