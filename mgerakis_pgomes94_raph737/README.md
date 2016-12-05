@@ -23,6 +23,7 @@ Setting up auth.json
 Two keys required, you can get a key at: https://dev.socrata.com/register and https://developers.google.com/places/web-service/details
 
 auth.json was formatted:
+```javascript
 {
     "services": {
         "cityofbostondataportal": {
@@ -37,6 +38,7 @@ auth.json was formatted:
         }
     }
 }
+```
 
 ---
 Getting the data
