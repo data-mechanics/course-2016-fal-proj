@@ -6,7 +6,7 @@ CS591 L1 Fall 2016
 
 Professor Andrei Lapets
 
-By [Ying Hang Eng](yinghang@bu.edu) and [Aleksander Skjoelsvik](alsk@bu.edu)
+By [Ying Hang Eng](mailto:yinghang@bu.edu) and [Aleksander Skjoelsvik](mailto:alsk@bu.edu)
 
 ## Introduction
 For our project we have attempted to figure out which factors influence crime, and if successful, what direct measures can be taken to limit the problem. 
