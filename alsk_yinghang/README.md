@@ -1,31 +1,44 @@
 # How streetlights deter crime
+
 Boston University Department of Computer Science
+
 CS591 L1 Fall 2016 
+
 Professor Andrei Lapets
+
 By [Ying Hang Eng](yinghang@bu.edu) and [Aleksander Skjoelsvik](alsk@bu.edu)
 
 ## Introduction
-For our project we have attempted to figure out which factors influence crime, and if successful, what direct measures can be taken to limit the problem. Through our use of datasets provided by The City of Boston, we have been able to map crimes to a number of other relevant traits, and from that deduct if there is a correlation. This can be used to pinpoint locations exposed to crime that would benefit from certain improvements.
+For our project we have attempted to figure out which factors influence crime, and if successful, what direct measures can be taken to limit the problem. 
+
+Through our use of datasets provided by The City of Boston, we have been able to map crimes to a number of other relevant traits, and from that deduct if there is a correlation. This can be used to pinpoint locations exposed to crime that would benefit from certain improvements.
 
 ## Datasets
-Our core dataset is the [Crime Incident Reports](https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-August-2015-To-Date-Source-/fqn4-4qap). This is provided by The Boston Police Department through The City of Boston data portal and contain all official crime reports from August 2015 to current day. This dataset laid the groundwork for which all our other research is built on.
+Our core dataset is the **[Crime Incident Reports](https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-August-2015-To-Date-Source-/fqn4-4qap)**. This is provided by The Boston Police Department through The City of Boston data portal and contain all official crime reports from August 2015 to current day. This dataset laid the groundwork for which all our other research is built on.
 
-The second most important dataset we ended up working with is the [Streetlight Locations](https://data.cityofboston.gov/Facilities/Streetlight-Locations/7hu5-gg2y) dataset provided by The Department of Public Works through The City of Boston data portal, which contains the coordinate locations of every current streetlight in Boston. The full map of all streetlights, as provided by The City of Boston data portal, is shown below.
+The second most important dataset we ended up working with is the **[Streetlight Locations](https://data.cityofboston.gov/Facilities/Streetlight-Locations/7hu5-gg2y)** dataset provided by The Department of Public Works through The City of Boston data portal, which contains the coordinate locations of every current streetlight in Boston. The full map of all streetlights, as provided by The City of Boston data portal, is shown below.
 
 ![Streetlight Data](streetlight_data.png)
 
-To further our research, we also used the [Police District Stations](https://data.cityofboston.gov/Public-Safety/Boston-Police-District-Stations/23yb-cufe) dataset. This contains the coordinate location of all Police District Stations in Boston. 
+To further our research, we also used the **[Police District Stations](https://data.cityofboston.gov/Public-Safety/Boston-Police-District-Stations/23yb-cufe)** dataset. This contains the coordinate location of all Police District Stations in Boston. 
 
-In addition, we also looked at the [Food Pantries](https://data.cityofboston.gov/Health/Food-Pantries/vjvb-2kg6) dataset. It contains the coordinate location of every registered food pantry throughout the city, along with some other non-relevant information.
+In addition, we also looked at the **[Food Pantries](https://data.cityofboston.gov/Health/Food-Pantries/vjvb-2kg6)** dataset. It contains the coordinate location of every registered food pantry throughout the city, along with some other non-relevant information.
 
-Finally, we worked with the [Property Assessment](https://data.cityofboston.gov/Permitting/Property-Assessment-2016/i7w8-ure5) dataset. The information provided is very extensive, but we ended up relying mainly on the total assessed property value. 
+Finally, we worked with the **[Property Assessment](https://data.cityofboston.gov/Permitting/Property-Assessment-2016/i7w8-ure5)** dataset. The information provided is very extensive, but we ended up relying mainly on the total assessed property value. 
 
 ## Transformations
-The first step towards our goal was to combine the crime dataset with a number of the other datasets we had retreived to see if we could find a correlation between them. A transformation that mapped each crime to the number of streetlights within a certain radius, supported our suspicion that there may be an association between them. We also combined the property assessment data set with crime to calculate the average property value in a radius surrounding each crime, which also furthered our suspicion that it may be relevant. Finally we decided to calculate the distance from every crime to the closest police district station. Sadly this did not seem to yield the same results as the other two, and we therefore decided not to pursue this further. 
+The first step towards our goal was to combine the crime dataset with a number of the other datasets we had retreived to see if we could find a correlation between them. 
 
-Once we had the relevant transformations, we moved onto finding an actual correlation between them. We used the new crime-streetlight dataset to calculate the number of crimes that happen within a radius of 20 meters of x number of streetlights. Then we created a linear regression between the number of streetlights and the number of crimes, using the _Pearson product-moment correlation coefficient_ to measure the linear dependence between our two variables. 
+A transformation that mapped each crime to the number of streetlights within a certain radius supported our suspicion that there may be an association between them. 
 
-> __Pearson Product-moment correlation coefficient__: ρ(x, y) =	cov(x, y) / (σ(x) ⋅ σ(y))
+We also combined the property assessment data set with crime to calculate the average property value in a radius surrounding each crime, which also furthered our suspicion that it may be relevant. 
+
+Finally we decided to calculate the distance from every crime to the closest police district station. Sadly this did not seem to yield the same results as the other two, and we therefore decided not to pursue this further. 
+
+Once we had the relevant transformations, we moved onto finding an actual correlation between them. We used the new crime-streetlight dataset to calculate the number of crimes that happen within a radius of _20 meters_ of x number of streetlights. Then we created a linear regression between the number of streetlights and the number of crimes, using the _Pearson product-moment correlation coefficient_ to measure the linear dependence between our two variables. 
+
+> __Pearson product-moment correlation coefficient__:
+> `ρ(x, y) = cov(x, y) / (σ(x) ⋅ σ(y))`
 
 [Source](http://cs-people.bu.edu/lapets/591/s.php#2a91b48a2e1040808d9538ff45aede2f)
 
@@ -34,7 +47,9 @@ We also used our previous mapping of crimes to the average property value to det
 ## Results
 Due to the poor quality of the property value dataset, we were not able to confidently confgirm a relationship between the average property value in an area and the number of crimes. 
 
-However, the crime-streetlight mapping gave us an overall linear correlation of __-0.85__, which proves there is a relationship between the two. More specifically, the more streetlights in an area the less crimes happen. Below is the raw data mapping the number of crimes that happen within vincinity to a number of streetlights. Though there are some outliers, the overall trend shows a negative correlation (as confirmed by our the product-moment coefficient). The large outlier at 2 streetlights is due to the fact that there are far more areas in close vincinity to 2 streetlight than areas with only 1 or 0. 
+However, the crime-streetlight mapping gave us an overall linear correlation of __-0.85__, which proves there is a relationship between the two. More specifically, the more streetlights in an area the less crimes happen. 
+
+Below is the raw data mapping the number of crimes that happen within vincinity to a number of streetlights. Though there are some outliers, the overall trend shows a negative correlation (as confirmed by our the product-moment coefficient). The large outlier at 2 streetlights is due to the fact that there are far more areas in close vincinity to 2 streetlight than areas with only 1 or 0. 
 
 ![Crimes within radius of 20 meters of x number of streetlights](crime_streetlight_data.png)
 
