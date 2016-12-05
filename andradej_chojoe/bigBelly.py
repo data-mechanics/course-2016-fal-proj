@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[2]:
+# In[1]:
 
 import urllib.request
 import json
@@ -44,6 +44,7 @@ def aggregate(R, f):
     
     return results #:D
 
+# --------------------------------USED THIS ONE --------------------------------
 # Processes and projects the current data in the dataset to produce key, value pair
 # Key: Zipcode
 # Value: percentage full, count
@@ -74,7 +75,7 @@ def dictionarify(R):
     result = []
     for r in R:
         #result.update('zipcode': r[0], 'days': r[1]})
-        result.append((('coordinates', r[0]), ('percentage', r[1]), ('count', r[2])))
+        result.append((('location', r[0]), ('percentage', r[1]), ('count', r[2])))
     return result
 
 # -----------------------Geolocation functions (START - fix)----------------------------------------
@@ -191,6 +192,7 @@ class bigbelly(dml.Algorithm):
     
         # transformations
         bigbelly_filtered = project(bigbellyinfo, processData)
+        bigbelly_filtered = aggregate(bigbelly_filtered, sum)
         bigbelly_filtered = dictionarify(bigbelly_filtered)
         
         
@@ -209,24 +211,24 @@ class bigbelly(dml.Algorithm):
         repo.authenticate('andradej_chojoe', 'andradej_chojoe')
 
         doc = prov.model.ProvDocument()
-        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/andradej_chojoe/') # The scripts in / format.
-        doc.add_namespace('dat', 'http://datamechanics.io/data/andradej_chojoe/') # The data sets in / format.
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/andradej_chojoe') # The scripts in / format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/andradej_chojoe') # The data sets in / format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#')
         doc.add_namespace('log', 'http://datamechanics.io/log#') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
         
-        this_script = doc.agent('alg:andradej_chojoe#bigBelly', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:#bigBelly', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         bigbelly_rsc = doc.entity('bdp:nybq-xu5r', {'prov:label':'Big Belly Alerts 2014',                                                 prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_bigbelly = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        doc.wasAssociatedWith(get_bigbelly, this_script)
+        run_bigbelly = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        doc.wasAssociatedWith(run_bigbelly, this_script)
         
-        doc.usage(get_bigbelly, bigbelly_rsc, startTime, None,                   {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(run_bigbelly, bigbelly_rsc, startTime, None,                   {prov.model.PROV_TYPE:'ont:Retrieval'})
         
-        bigbelly = doc.entity('dat:andradej_chojoe#bigbelly', {prov.model.PROV_LABEL:'Big Belly Locations', prov.model.PROV_TYPE:'ont:DataSet'})
+        bigbelly = doc.entity('dat:#bigbelly', {prov.model.PROV_LABEL:'Big Belly Locations', prov.model.PROV_TYPE:'ont:DataSet'})
         
         doc.wasAttributedTo(bigbelly, this_script)
-        doc.wasGeneratedBy(bigbelly, get_bigbelly, endTime)
-        doc.wasDerivedFrom(bigbelly, bigbelly_rsc, get_bigbelly, get_bigbelly, get_bigbelly)
+        doc.wasGeneratedBy(bigbelly, run_bigbelly, endTime)
+        doc.wasDerivedFrom(bigbelly, bigbelly_rsc, run_bigbelly, run_bigbelly, run_bigbelly)
         
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()

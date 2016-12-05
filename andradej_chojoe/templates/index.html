@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Mechanics App</title>
+
+
+    <link 
+        rel="stylesheet" 
+        href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"
+    />
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/style.css">
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js">
+    </script>
+
+    
+</head>
+<body>
+
+	<h1 style="text-align: center;">Optimal Trash Collection Installation Sites</h1>
+	<h5 style="text-align: center;">(CS591 Data Mechanics Web Service (written by Jackie Andrade and Joseph Cho)</h5>
+	
+	<br>
+	<br>
+	<br>
+
+	<p style="text-align: center">Specify the number of trash collection sites to place and each site's expected radius of coverage (in meters).</p>
+
+	<div class="form-group row" style="text-align:center">
+	<form action = "#" class="service"><!-- "http://localhost:5000/optimization"> -->
+		Number of trash collection sites: <input class="textinput" type="text" name="num_trash" id="num_trash" required><br>
+		Expected radius of coverage(m): <input class="textinput" type="text" name="radius" id="radius" value="145" required><br>
+		<input class="btn btn-primary" style="" type="button" value="Submit" id="submit" onClick="postSomething()">
+	</form>
+	</div>
+
+	<div class="mapkey">
+		<label for="circle">Key:  </label>
+		<div id="violationcircle"></div>
+		 = Violations,
+		<div id="servreqcircle"></div>
+		 = Service Requests,
+		<div id="bbcircle"></div>
+		 = Big Belly Collection Sites
+
+	</div>
+	<div id="map" style="width: 600px; height: 400px; margin:auto;">
+	</div>
+
+	<script type="text/javascript">
+		var map = L.map('map').setView([42.360413, -71.057620], 12);
+			mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+	
+        // L.tileLayer(
+        //     'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        //     attribution: '&copy; ' + mapLink + ' Contributors',
+        //     maxZoom: 18,
+        //     });
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+		    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(map);
+        // var service = L.marker([42.35000, -71.057620]).bindPopup('How do i get rid');
+        // var denver  = L.marker([42.360413, -71.057620]).bindPopup('This is Denver, CO.');
+		// // var services = L.layerGroup([service, denver]);
+		// console.log([service, denver]);
+				
+		/* Initialize the SVG layer */
+		map._initPathRoot()    
+		function postSomething() {
+			document.getElementById('submit').disabled = true;
+		    var http = new XMLHttpRequest();
+		    var userInput = document.getElementById("radius").value;
+		    var convertedUsrIn = userInput / 111230;
+		    console.log("userInput = " + userInput);
+		    console.log("convertedUsrIn = " + convertedUsrIn);
+		    var url = "http://localhost:5000/optimization/" + document.getElementById("num_trash").value + "/" + convertedUsrIn;
+		    console.log(url);
+		    http.open("GET", url, true);
+		    http.setRequestHeader("Content-type", "application/json");
+		    http.onreadystatechange = function() {
+		      if (http.readyState == 4 && http.status == 200) {
+		      	var data = JSON.parse(http.responseText).results;
+		      	for (i in data) {
+		      		var marker = L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).bindPopup("Trash " + (parseInt(i) + 1)).addTo(map);
+		      		//var radius = L.circleMarker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])], {color: 'yellow', radius: 20}).addTo(map);
+		      	}
+		        console.log(data);
+		      }
+		    }
+		    http.send();
+	  	}	
+	  	function getBigBelly() {
+	  		var http = new XMLHttpRequest();
+		    var url = "http://localhost:5000/bigbelly";
+		    console.log(url);
+		    http.open("GET", url, true);
+		    http.setRequestHeader("Content-type", "application/json");
+		    http.onreadystatechange = function() {
+		      if (http.readyState == 4 && http.status == 200) {
+		      	var data = JSON.parse(http.responseText).results;
+		        var arr = [];
+		        for (i in data) {
+		        	arr.push(L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).bindPopup("Big Belly"));
+			        // var circle = L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).addTo(map);
+			        var circle = L.circleMarker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])], {color: 'green', radius: 2}).bindPopup("Average Fullness: " + data[i].percentage).addTo(map);
+		        }
+		        // console.log(arr);
+		        return arr;
+		      }
+		    }
+		    http.send();
+	  	}	
+	  	function getCodeViolations() {
+	  		var http = new XMLHttpRequest();
+		    var url = "http://localhost:5000/violations";
+		    console.log(url);
+		    http.open("GET", url, true);
+		    http.setRequestHeader("Content-type", "application/json");
+		    http.onreadystatechange = function() {
+		      if (http.readyState == 4 && http.status == 200) {
+		      	var data = JSON.parse(http.responseText).results;
+		        var arr = [];
+		        for (i in data) {
+		        	arr.push(L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).bindPopup("Violations"));
+			        // var circle = L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).addTo(map);
+			        var circle = L.circleMarker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])], {color: 'red', radius: 2}).bindPopup("Type: " + data[i].type + "<br> Number of incidents: " + data[i].count).addTo(map);
+		        }
+		        return arr;
+		      }
+		    }
+		    http.send();
+	  	}
+	  	function getHotline() {
+	  		var http = new XMLHttpRequest();
+		    var url = "http://localhost:5000/hotline";
+		    console.log(url);
+		    http.open("GET", url, true);
+		    http.setRequestHeader("Content-type", "application/json");
+		    http.onreadystatechange = function() {
+		      if (http.readyState == 4 && http.status == 200) {
+		      	var data = JSON.parse(http.responseText).results;
+		        var arr = [];
+		        for (i in data) {
+		        	arr.push(L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).bindPopup("Hotline"));
+			        // var circle = L.marker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])]).addTo(map);
+			        var circle = L.circleMarker([parseFloat(data[i].location[0]), parseFloat(data[i].location[1])], {color: 'blue', radius: 2}).bindPopup("Type: " + data[i].type + "<br> Number of incidents: " + data[i].count).addTo(map);
+		        }
+		        // console.log(arr);
+		        return arr;
+		      }
+		    }
+		    http.send();
+	  	}	
+	  	getBigBelly();
+	  	getCodeViolations();
+	  	getHotline();
+	  	// console.log(getBigBelly());
+	  	// console.log(getCodeViolations());
+	  	// console.log(getHotline());
+	  	// var bigBelly = getBigBelly();
+	  	// var service_req = getHotline();
+	  	// var violations = getCodeViolations();
+	 //  	var response = Promise.all([getBigBelly(), getHotline(), getCodeViolations()])
+	 //  	console.log(response[0]);
+	 //  	console.log(response[1]);
+	 //  	console.log(response[2]);
+		// var overlayMaps = {
+		// 	"Big Belly": L.layerGroup(response[0]),
+		// 	"Service": L.layerGroup(getHotline()),
+		// 	"Violations": L.layerGroup(getCodeViolations()),
+		// 	"Test": L.layerGroup([service, denver])
+		// };
+		// console.log(overlayMaps);
+		// var baseMaps = {
+		// 	"Streets": base
+		// };
+	 //    L.control.layers(baseMaps, overlayMaps).addTo(map);
+	</script>
+
+</body>
+</html>
