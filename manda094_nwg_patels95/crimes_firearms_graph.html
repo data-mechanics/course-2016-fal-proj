@@ -5,16 +5,20 @@
 		<title>Crimes and Firearm Recovery Graph</title>
 		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 		<script src="crimes_firearms_graph_data.js"></script>
+		<script src="d3.legend.js"></script>
 		<style>
-		.axis--x path {
-		  display: none;
+		.domain { 
+		  fill: none; 
+		  stroke: black; 
+		  stroke-width: 1.5; 
+		} 
+
+		.legend rect {
+		  fill:white;
+		  stroke:black;
+		  opacity:0.8;
 		}
 
-		.line {
-		  fill: none;
-		  stroke: steelblue;
-		  stroke-width: 1.5px;
-		}
 		</style>
 	</head>
 	<body>
@@ -36,7 +40,7 @@
                    	maxDate = format.parse("2015-07-27");
 
                     xScale = d3.time.scale().range([MARGINS.left, WIDTH - MARGINS.right]).domain([minDate, maxDate]),
-                    yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 16]),
+                    yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 14]),
                     xAxis = d3.svg.axis()
                     .orient("bottom")
                     .scale(xScale),
@@ -47,6 +51,7 @@
                 graph.append("svg:g")
                     .attr("class", "x axis")
                     .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+                    .attr("stroke-width", 1)
                     .call(xAxis);
                 graph.append("svg:g")
                     .attr("class", "y axis")
@@ -67,38 +72,22 @@
                     .attr('d', lineGen(crimes_firearms.crimes))
                     .attr('stroke', 'green')
                     .attr('stroke-width', 1.5)
+                    .attr('data-legend', 'Crimes')
                     .attr('fill', 'none');
                 graph.append('svg:path')
                     .attr('d', lineGen(crimes_firearms.firearms))
                     .attr('stroke', 'blue')
                     .attr('stroke-width', 1.5)
+                    .attr('data-legend', "Firearms Recovered")
                     .attr('fill', 'none');
+
+                legend = graph.append("svg:g")
+                	.attr('class', 'legend')
+                	.attr('transform', 'translate(800, 50)')
+                	.style('font-size', '12px')
+                	.call(d3.legend)
             }
             lineGraph();
-			// var svg = d3.select("svg"),
-   //  			margin = {top: 20, right: 20, bottom: 20, left: 50},
-			//     width = 1000,
-			//     height = 500;
-			//     //g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-			// var parseTime = d3.timeParse("%Y-%m-%d")
-
-			// var x = d3.scaleTime().range([0, width]),
-			//     y = d3.scaleLinear().range([height, 0]),
-			//     z = d3.scaleOrdinal(d3.schemeCategory10);
-
-			// xScale = d3.scale.linear().range([margin.left, width - margin.right]).domain([2000,2010])
-			// yScale = d3.scale.linear().range([height - margin.top, margin.bottom]).domain([134,215])
-			
-
-			// xAxis = d3.svg.axis()
-   //  			.scale(xScale),
-  
-			// yAxis = d3.svg.axis()
-			//     .scale(yScale);
-
-			// svg.append("svg:g")
-   //  			.call(xAxis);  
 		</script>
 	</body>
 </html>
