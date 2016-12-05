@@ -3,5 +3,16 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='https://d3js.org/d3.v4.js')
+    style.
+      .bar {
+      fill: steelblue;
+      }
+      .bar:hover {
+      fill: brown;
+      }
+      .axis--x path {
+      display: none;
+      }
   body
     block content
