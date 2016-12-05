@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 class optimizeBusAllocation(dml.Algorithm):
 	contributor = 'alaw_markbest_tyroneh'
 	reads = ['alaw_markbest_tyroneh.BusRoutes','alaw_markbest_tyroneh.AvgRouteVelocity']
-	writes = []
+	writes = ['alaw_markbest_tyroneh.OptimumAllocation']
 
 	def area(m1,m2,std1,std2):
 		'''returns area between two identical distributions N(m,std)'''
@@ -78,7 +78,7 @@ class optimizeBusAllocation(dml.Algorithm):
 				inefficiency_vals.append(inefficiency)
 
 			#store route's optimum in output
-			output.append({route:{'Avg Time': avg, 'Time Stdev': std, 'Stops Count': n, 'Optimum Allocation': k_vals.index(min(k_vals)) + 1, 'Optimum Avg Time': avg/(k_vals.index(min(k_vals))+1)}})
+			output.append({route:{'Avg Time': avg, 'Time Stdev': std, 'Stops Count': n, 'Allocation Scores': k_vals, 'Optimum Allocation': k_vals.index(min(k_vals)) + 1, 'Optimum Avg Time': avg/(k_vals.index(min(k_vals))+1)}})
 			results[route] = [route,k_vals,latency_vals,inefficiency_vals]
 
 			#trial mode: only calculate for 1 route
