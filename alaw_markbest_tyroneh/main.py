@@ -21,16 +21,13 @@ def main():
 				if a in ("-v"):
 					print('Graphs Enabled')
 					v = True
-	else:
-		print('Error: ' + help_str)
-		sys.exit()
 
 	getData.run(trial = t)
 	transformData.run()
 	# if(v):
 	# 	mapData.visualize()
 	optimizeBusAllocation.run(trial=t, visual = v)
-    optimizeBusStops.run(trial=t)
+	optimizeBusStops.run(trial=t)
 
 if __name__ == '__main__':
 	main()

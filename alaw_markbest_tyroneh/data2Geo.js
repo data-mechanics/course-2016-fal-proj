@@ -72,31 +72,33 @@ db.alaw_markbest_tyroneh.BostonProperty.mapReduce(
 db.alaw_markbest_tyroneh.CambridgeProperty.mapReduce(
 	//map location data (long,lat) to geoJSON format
 	function() {
-		var lat = parseFloat(this.location_1.coordinates[1]);
-		var long = parseFloat(this.location_1.coordinates[0]);
-		var name = "Cambridge";
-		var property;
-		var rooms;
-		if(this.land_use_category.includes('Residential')){
-			property = 'Residential';
-			rooms = Math.max(parseInt(this.existing_units),1.0);
-		}
-		else{
-			property = 'Commercial';
-			rooms = 0;
-		}
-		if((lat >= 42.23) && (lat <= 42.41) && (long >= -71.18) && (long <= -70.993)){
-			emit(this._id, {
-				"type":"Feature",
-				"geometry":{
-					"type":"Point",
-					"coordinates": [lat,long]},
-				"properties":{
-					"type":property,
-					"rooms": rooms,
-					"area": name
-				}
-			})
+		if(this.location_1 != undefined){
+			var lat = parseFloat(this.location_1.coordinates[1]);
+			var long = parseFloat(this.location_1.coordinates[0]);
+			var name = "Cambridge";
+			var property;
+			var rooms;
+			if(this.land_use_category.includes('Residential')){
+				property = 'Residential';
+				rooms = Math.max(parseInt(this.existing_units),1.0);
+			}
+			else{
+				property = 'Commercial';
+				rooms = 0;
+			}
+			if((lat >= 42.23) && (lat <= 42.41) && (long >= -71.18) && (long <= -70.993)){
+				emit(this._id, {
+					"type":"Feature",
+					"geometry":{
+						"type":"Point",
+						"coordinates": [lat,long]},
+					"properties":{
+						"type":property,
+						"rooms": rooms,
+						"area": name
+					}
+				})
+			}
 		}
 	},
 	//no reduce step, all ids are unique
@@ -141,53 +143,53 @@ db.alaw_markbest_tyroneh.SomervilleProperty.mapReduce(
 	{out:{merge:"alaw_markbest_tyroneh.PropertyGeoJSONs"}}
 );
 
-// db.alaw_markbest_tyroneh.BrooklineProperty.mapReduce(
-// 	//map rich geoJSON polygon to multiple singular coordinates of the polygon
-// 	function() {
-// 		var coors = this['geometry']['coordinates'][0];
-// 		var name = "Brookline";
-// 		var property;
-// 		var rooms;
-// 		if(this.properties.FEATURECODE == 'Building General'){
-// 			property = 'Residential';
-// 			rooms = Math.max(parseFloat(this.properties.NUMSTORIES) * 2.0, 1.0);
-// 		}
+db.alaw_markbest_tyroneh.BrooklineProperty.mapReduce(
+	//map rich geoJSON polygon to multiple singular coordinates of the polygon
+	function() {
+		var coors = this['geometry']['coordinates'][0];
+		var name = "Brookline";
+		var property;
+		var rooms;
+		if(this.properties.FEATURECODE == 'Building General'){
+			property = 'Residential';
+			rooms = Math.max(parseFloat(this.properties.NUMSTORIES) * 2.0, 1.0);
+		}
 
-// 		else{
-// 			property = 'Commercial';
-// 			rooms = 0;
-// 		}
+		else{
+			property = 'Commercial';
+			rooms = 0;
+		}
 
-// 		var lat = new Array();
-// 		var long = new Array();
-// 		if(coors){
-// 			coors.forEach(function(c){
-// 				lat.push(c[1]);
-// 				long.push(c[0]);
-// 			});
-// 			if(isNaN(rooms)){
-// 				rooms = 1;
-// 			}
+		var lat = new Array();
+		var long = new Array();
+		if(coors){
+			coors.forEach(function(c){
+				lat.push(c[1]);
+				long.push(c[0]);
+			});
+			if(isNaN(rooms)){
+				rooms = 1;
+			}
 
-// 			emit(this._id,{
-// 						"type":"Feature",
-// 						"geometry":{
-// 						"type":"Point",
-// 						"coordinates": [(Array.sum(lat)/lat.length),(Array.sum(long)/long.length)]},
-// 						"properties":{
-// 							"type": property,
-// 							"rooms": rooms,
-// 							"area": name
-// 						}
-// 				});
-// 		}
-// 	},
-// 	//no reduce step, all ids are unique
-// 	function(){},
-// 	{out:{merge:"alaw_markbest_tyroneh.PropertyGeoJSONs"}}
-// );
+			emit(this._id,{
+						"type":"Feature",
+						"geometry":{
+						"type":"Point",
+						"coordinates": [(Array.sum(lat)/lat.length),(Array.sum(long)/long.length)]},
+						"properties":{
+							"type": property,
+							"rooms": rooms,
+							"area": name
+						}
+				});
+		}
+	},
+	//no reduce step, all ids are unique
+	function(){},
+	{out:{merge:"alaw_markbest_tyroneh.PropertyGeoJSONs"}}
+);
 
-//flatten("alaw_markbest_tyroneh.PropertyGeoJSONs")
+// flatten("alaw_markbest_tyroneh.PropertyGeoJSONs")
 
 
 dropPerm("alaw_markbest_tyroneh.temp");
@@ -213,8 +215,7 @@ var Brookline_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Brookline'}).m
 db.alaw_markbest_tyroneh.CensusPopulation.mapReduce(
 	//recalculate Census data to average population per room
 	function() {
-		var name = this.area.toLowerCase();
-		print(name);
+		var name = this.area.toLowerCase();\
 		name = name.charAt(0).toUpperCase() + name.slice(1);
 		if(name == 'Boston'){
 			emit(name,this.population/a);	
