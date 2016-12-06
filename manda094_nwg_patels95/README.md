@@ -12,7 +12,7 @@ I chose to work with these five data sets:
 
 #### Project Description
 
-My plan is to find if a correlation exists between the number of firearms recovered by the Boston Police Department and the number of crimes involving firearms in Boston. My expectation is that the number of crimes involving firearms should decrease after a greater number of firearms have been recovered. I want to analyze how effective the recovery of firearms is in decreasing crimes with firearms. The Firearm Recovery Counts data set contains data for about a one year period from 8/20/2014 to 7/27/2015, therefore I only use the crime data from this same time period. I will also use police departments data to determine in which areas of Boston firearm crimes are most frequent.
+Our plan is to find if a correlation exists between the number of firearms recovered by the Boston Police Department and the number of crimes involving firearms in Boston. We expect that the number of crimes involving firearms should decrease after a greater number of firearms have been recovered. We want to analyze how effective the recovery of firearms is in decreasing crimes with firearms. The Firearm Recovery Counts data set contains data for about a one year period from 8/20/2014 to 7/27/2015, therefore we only use the crime data from this same time period. We also use police department location data to determine in which areas of Boston firearm crimes are most frequent.
 
 I performed transformations on Crime Incident Reports, Firearm Recovery Counts, and Police Departments to generate three new data sets.
 
