@@ -4,32 +4,55 @@ var path = require('path')
 var mongodb = require('mongodb')
 
 
-// mongoose.connect(url);
-// var Hospitals = new mongoose.Schema({
-//         location: [Number,Number],
-//         identifier: String
-// });
-
-// var Hospital = mongoose.model('Hospitals', Hospitals,"mgerakis_pgomes94_raph737_hospital_locations");
-
-
-
 
 app.use(express.static(__dirname + '/'));
 
-app.get('/hospitals', function (req, res) {
+const api = express.Router();
+
+api.get('/hospitals', function (req, res) {
 	const cb = docs => res.send({'hospitals': docs});
 	getCollectionData(cb,"mgerakis_pgomes94_raph737.hospital_locations");
 });
 
-app.get('/crimes', function(req,res){
+api.get('/crimes', function(req,res){
 	const cb = docs => res.send({'crimes': docs});
 	getCollectionData(cb,"mgerakis_pgomes94_raph737.crime_locations")
 })
 
+api.get('/mbtastops', function(req,res){
+	const cb = docs => res.send({'mbta_stops': docs});
+	getCollectionData(cb,"mgerakis_pgomes94_raph737.mbta_stop_locations")
+})
+
+api.get('/policestations', function(req,res){
+	const cb = docs => res.send({'mbta_stops': docs});
+	getCollectionData(cb,"mgerakis_pgomes94_raph737.police_station_locations")
+})
+
+api.get('/optimalcoords', function(req,res){
+	const cb = docs => res.send({'mbta_stops': docs});
+	getCollectionData(cb,"mgerakis_pgomes94_raph737.optimal_coord")
+})
+
+api.get('/trafficlocs', function(req,res){
+		const cb = docs => res.send({'mbta_stops': docs});
+	getCollectionData(cb,"mgerakis_pgomes94_raph737.traffic_locations")
+})
+
+app.use('/api', api);
+
+
+
+
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
+
+
+
+
+
+
 
 
 function getCollectionData(cb,collectionName){
