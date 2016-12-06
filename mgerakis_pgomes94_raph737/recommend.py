@@ -42,10 +42,10 @@ class recommend(dml.Algorithm):
                     distances.append(distance)
 
             # gets the index which maximizes the distance to all the far clusters
-            val = 0.0
-            index = -1
+            val = distances[0]
+            index = 0
             for i in range(len(distances)):
-                    if val < distances[i]:
+                    if val > distances[i]:
                             val = distances[i]
                             index = i
             

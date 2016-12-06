@@ -13,13 +13,13 @@ function initialize() {
   		zoom: 11,
   		center: boston
 		});
-		addHospitalMarkers(hospitalData.hospitals,map)
+		//addHospitalMarkers(hospitalData.hospitals,map)
 		url = "http://localhost:3000/api/crimes"
 		fetch(url).then(res => res.json()).then(function(crimeData){
 			addCrimeMarkers(crimeData.crimes,map)
 			url = "http://localhost:3000/api/mbtastops"
 			fetch(url).then(res => res.json()).then(function(mbtaStops){
-				// addMbtaMarkers(mbtaStops.mbta_stops,map);
+				//addMbtaMarkers(mbtaStops.mbta_stops,map);
 				url = "http://localhost:3000/api/policestations"
 				fetch(url).then(res => res.json()).then(function(policestations){
 					addPoliceStationMarkers(policestations.policestations,map)
@@ -63,7 +63,7 @@ function addCrimeMarkers(crimeData,map){
 
 function addHospitalMarkers(hospitalData,map){
 	for(var i = 0; i < hospitalData.length; i++){
-		addMarker(hospitalData[i].identifier,{lat:hospitalData[i].location[0],lng:hospitalData[i].location[1]}, map,'green');	
+		addMarker(hospitalData[i].identifier,{lat:hospitalData[i].location[0],lng:hospitalData[i].location[1]}, map,'red');	
 	}
 }
 
