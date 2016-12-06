@@ -12,7 +12,7 @@ const api = express.Router();
 api.get('/hospitals', function (req, res) {
 	const cb = docs => res.send({'hospitals': docs});
 	getCollectionData(cb,"mgerakis_pgomes94_raph737.hospital_locations");
-});
+})
 
 api.get('/crimes', function(req,res){
 	const cb = docs => res.send({'crimes': docs});
@@ -25,23 +25,25 @@ api.get('/mbtastops', function(req,res){
 })
 
 api.get('/policestations', function(req,res){
-	const cb = docs => res.send({'mbta_stops': docs});
+	const cb = docs => res.send({'policestations': docs});
 	getCollectionData(cb,"mgerakis_pgomes94_raph737.police_station_locations")
 })
 
 api.get('/optimalcoords', function(req,res){
-	const cb = docs => res.send({'mbta_stops': docs});
+	const cb = docs => res.send({'optimalcoord': docs});
 	getCollectionData(cb,"mgerakis_pgomes94_raph737.optimal_coord")
 })
 
 api.get('/trafficlocs', function(req,res){
-		const cb = docs => res.send({'mbta_stops': docs});
+		const cb = docs => res.send({'trafficlocs': docs});
 	getCollectionData(cb,"mgerakis_pgomes94_raph737.traffic_locations")
 })
 
 app.use('/api', api);
 
-
+app.get('/', function(req,res){
+	res.sendFile("./index.html")
+})
 
 
 app.listen(3000, function () {

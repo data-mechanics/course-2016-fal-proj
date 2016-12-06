@@ -1,9 +1,14 @@
+
 // In the following example, markers appear when the user clicks on the map.
 // Each marker is labeled with a single alphabetical character.
 var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var labelIndex = 0;
 
+
 function initialize() {
+	url = "http://localhost:3000/api/hospitals"
+	data = fetch(url).then(res => res.json());
+	console.log(data)
 	var boston = { lat: 42.3601, lng: -71.0589 };
 	var map = new google.maps.Map(document.getElementById('map'), {
 	  zoom: 12,
