@@ -39,20 +39,27 @@ class treeMap(dml.Algorithm):
         
         for zc in zipcodeRatings:
             zc_data = zipcodeRatings[zc]
-            zc_data['name'] = zc
-            if (zc_data['overall_star']) == 3:
-                del zc_data['overall_star']
+            zc_data["name"] = zc
+            
+            # value determines size of box in tree-map
+            zc_data["value"] = zc_data.pop("area in square miles")
+            
+            # rate determines color of box in tree-map (dark -> greater value)
+            zc_data["rate"] = zc_data.pop("population density")
+            if (zc_data["overall_star"]) == 3:
+                zc_data.pop("overall_star")
                 rating_3.append(zc_data)
-            elif(zc_data['overall_star']) == 2:
-                del zc_data['overall_star']
+        
+            elif(zc_data["overall_star"]) == 2:
+                zc_data.pop("overall_star")
                 rating_2.append(zc_data)
             else:
-                del zc_data['overall_star']
+                zc_data.pop("overall_star")
                 rating_1.append(zc_data)
-        
-        treeMapDict = {'children': [{'children': rating_1, 'rate': 1, 'name': 'rating 1'}, {'children': rating_2, 'rate': 2, 'name': 'rating 2'}, {'children': rating_3, 'rate': 3, 'name': 'rating 3'}], 'rate': -0.28656039777712783, 'name': 'Boston zipcode ratings'}       
 
-        # Convert dictionary into JSON object 
+        treeMapDict = {"children": [{"children": rating_1, "rate": 1, "name": "rating 1"}, {"children": rating_2, "rate": 2, "name": "rating 2"}, {"children": rating_3, "rate": 3, "name": "rating 3"}], "rate": -0.28656039777712783, "name": "Boston zipcode ratings"}
+       
+       # Convert dictionary into JSON object 
         data = json.dumps(treeMapDict, sort_keys=True, indent=2)
         r = json.loads(data)
 
@@ -85,16 +92,9 @@ class treeMap(dml.Algorithm):
 
         doc.wasAssociatedWith(this_run, this_script)
 
-        doc.usage(this_run, collegeBusStops_resource, startTime, None,
+        doc.usage(this_run, zipcode_ratings_resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
-            )
-        doc.usage(this_run, tRidershipLocation_resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval'}
-            )
-        doc.usage(this_run, hubwayBigBelly_resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval'}
-            )
-
+            )      
         treeMap = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#treeMap', {prov.model.PROV_LABEL:'Data for tree map configuration', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(treeMap, this_script)
         doc.wasGeneratedBy(treeMap, this_run, endTime)
@@ -105,8 +105,8 @@ class treeMap(dml.Algorithm):
         return doc
 
 treeMap.execute() 
-#doc = zipcodeRatings.provenance()
-#print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+doc = treeMap.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
