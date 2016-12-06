@@ -3,38 +3,54 @@
 // Each marker is labeled with a single alphabetical character.
 var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var labelIndex = 0;
+let map;
 
 
 function initialize() {
-	url = "http://localhost:3000/api/hospitals"
-	fetch(url).then(res => res.json()).then(function(hospitalData){
+  url = "http://localhost:3000/api/hospitals"
+	fetch(url)
+  .then(res => res.json())
+  .then(function(hospitalData) {
 		var boston = { lat: 42.3601, lng: -71.0589 };
-		var map = new google.maps.Map(document.getElementById('map'), {
+		map = new google.maps.Map(document.getElementById('map'), {
   		zoom: 11,
   		center: boston
 		});
-		//addHospitalMarkers(hospitalData.hospitals,map)
-		url = "http://localhost:3000/api/crimes"
-		fetch(url).then(res => res.json()).then(function(crimeData){
-			addCrimeMarkers(crimeData.crimes,map)
-			url = "http://localhost:3000/api/mbtastops"
-			fetch(url).then(res => res.json()).then(function(mbtaStops){
-				//addMbtaMarkers(mbtaStops.mbta_stops,map);
-				url = "http://localhost:3000/api/policestations"
-				fetch(url).then(res => res.json()).then(function(policestations){
-					addPoliceStationMarkers(policestations.policestations,map)
-					url = "http://localhost:3000/api/trafficlocs"
-					fetch(url).then(res => res.json()).then(function(trafficlocs){
-						addtrafficlocsMarkers(trafficlocs.trafficlocs,map)
-						url = "http://localhost:3000/api/optimalcoords"
-						fetch(url).then(res => res.json()).then(function(optimalcoords){
-							addOptimalCoordsMarker(optimalcoords.optimalcoord,map)
-						})
-					})
-				})
-			})
-		})
-	})}
+
+    url = "http://localhost:3000/api/crimes"
+	  return fetch(url);
+  })
+  .then(res => res.json())
+  .then(function(crimeData) {
+    addCrimeMarkers(crimeData.crimes,map);
+
+    url = "http://localhost:3000/api/mbtastops";
+    return fetch(url);
+  })
+  .then(res => res.json())
+  .then(function(mbtaStops) {
+
+    url = "http://localhost:3000/api/policestations";
+    return fetch(url);
+  })
+  .then(res => res.json())
+  .then(function(policestations) {
+    addPoliceStationMarkers(policestations.policestations,map);
+
+    url = "http://localhost:3000/api/trafficlocs";
+    return fetch(url);
+  })
+  .then(res => res.json())
+  .then(function(trafficlocs) {
+    addtrafficlocsMarkers(trafficlocs.trafficlocs,map)
+    url = "http://localhost:3000/api/optimalcoords";
+    return fetch(url);
+  })
+  .then(res => res.json())
+  .then(function(optimalcoords) {
+    addOptimalCoordsMarker(optimalcoords.optimalcoord,map);
+  });
+};
 
 function addOptimalCoordsMarker(optimalcoord,map){
 	addMarker('Optimal Coord',{lat:parseFloat(optimalcoord[0].optimal_coord[0]),lng:parseFloat(optimalcoord[0].optimal_coord[1])},map,'blue')
