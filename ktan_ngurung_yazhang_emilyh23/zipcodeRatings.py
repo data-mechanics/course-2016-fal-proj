@@ -51,6 +51,10 @@ class zipcodeRatings(dml.Algorithm):
     @staticmethod
     def scrapeData(soup, zc_list):
         zc_land_area = {}
+        income_list = []
+        zc_income_dict = {}
+        zc_pop_dict = {} # for sorting zipcodes by population
+        
         for zc in zc_list:
             # 02446 is missing
             try: 
@@ -59,10 +63,35 @@ class zipcodeRatings(dml.Algorithm):
                 land_area_index = b_text.index('Land area:')
                 land_area = float(b_text[land_area_index+1])
                 zc_land_area[zc] = land_area * 100
+                
+                # yao stuff
+                # getting the median household income for zipcode
+                b_text = zc_data_block.findAll(text=True)
+                income_index = b_text.index('Estimated median household income in 2013:')
+                med_house_income_str = b_text[income_index+1] 
+                med_house_income = re.sub("[^0-9]", "", med_house_income_str)
+              
+                income_list.append(int(med_house_income))                
+                
+                # getting the population density for zipcode
+                pop_str = zc_data_block.find('table').get_text()
+                pop_numbers = re.findall('\d+', pop_str)
+                pop_density = pop_numbers[0]+ pop_numbers[1]
+                
+                # storing scraped data
+                zc_income_dict[zc] = {'med_house_income': int(med_house_income)}
+                zc_pop_dict[zc] = int(pop_density)
+                # yao stuff ends
+                
             except AttributeError:
                 if zc == '02446':
                     zc_land_area[zc] = 129
-        return zc_land_area
+                    
+                    # yao stuff
+                    income_list.append(79289)
+                    zc_income_dict[zc] = {'med_house_income': 79289}
+                    zc_pop_dict[zc] = 22035
+        return (zc_land_area, zc_pop_dict, zc_income_dict)
 
     @staticmethod
     def execute(trial = False):
@@ -134,7 +163,9 @@ class zipcodeRatings(dml.Algorithm):
         url = 'http://www.city-data.com/zipmaps/Boston-Massachusetts.html'
         r = urllib.request.urlopen(url)
         soup = BeautifulSoup(r, 'html.parser')
-        zc_land_area = zipcodeRatings.scrapeData(soup, zc)
+        zc_land_area = zipcodeRatings.scrapeData(soup, zc)[0]
+        zc_pop_dict = zipcodeRatings.scrapeData(soup, zc)[1]
+        zc_income_dict = zipcodeRatings.scrapeData(soup, zc)[2]
 
         # Lists for individual dictionary per zip code 
         bs_list = []  
@@ -262,7 +293,12 @@ class zipcodeRatings(dml.Algorithm):
             star_dict_final[k]['station_star'] = int(star_dict_final[k]['station_star'])
             star_dict_final[k]['bigBelly_star'] = int(star_dict_final[k]['bigBelly_star'])
             star_dict_final[k]['overall_star'] = int(star_dict_final[k]['overall_star'])
+            star_dict_final[k]['area in square miles'] = float(zc_land_area[k]/100)
+            star_dict_final[k]['name'] = str(k)
+            star_dict_final[k]['population density'] = float(zc_pop_dict[k]/10000)
+            star_dict_final[k]['average household income'] = int(zc_income_dict[k]['med_house_income'])
 
+            
         # Convert dictionary into JSON object 
         data = json.dumps(star_dict_final, sort_keys=True, indent=2)
         r = json.loads(data)
