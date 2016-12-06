@@ -61,11 +61,14 @@ class rTreeKmeans(dml.Algorithm):
 
 		return tree, tree_keys
 
-	def coordinateDistance(xi, yi, xj, yj, x, y):
-		'''calculate distance of point to line using formula'''
-
-		dist = abs((yj - yi) * x - (xj - xi) * y + (xj * yi) - (xi * yj))
-		return dist / (( ((yj - yi) ** 2) + ((xj - xi) ** 2) ) ** 0.5)
+	def coordinateDistance(v,w,p):
+		'''find distance of point to line segment'''
+		seglen_squared = (v[0] - w[0])**2 + (v[1] - w[1])**2
+		#t = max(0, min(1, dot(p - v, w - v) / l2))
+		t =  max(0, min(1, ((p[0]-v[0])*(w[0]-v[0]) + (p[1]-v[1])*(w[1]-v[1]))/seglen_squared ))
+		#projection = v + t * (w - v)
+		projection = (t*(w[0] - v[0])+v[0],t*(w[1] - v[1])+v[1])
+		return ((p[0] - projection[0])**2 + (p[1] - projection[1])**2 )**0.5
 
 	def routeTreeIntersection(route,tree,tree_keys,points_dict, r):
 		'''Using route from dictionary and the points tree, return list of keys that are within distance r of the route'''
@@ -129,10 +132,14 @@ class rTreeKmeans(dml.Algorithm):
 				key = tree_keys[str(i)]
 				coor = points_dict[key]['geometry']['coordinates']
 
-				if rTreeKmeans.coordinateDistance(xi, yi, xj, yj, coor[1], coor[0]) <= r:
+				if rTreeKmeans.coordinateDistance((xi, yi),(xj, yj), (coor[1], coor[0])) <= r:
 					result_set.add(i)
 
 		return result_set
+
+	def projectPoints(route,points_dict,intersecting_points,tree_keys):
+		'''project the intersecting points onto the route'''
+		pass
 
 	def visualize(route,points_dict,intersecting_points,tree_keys):
 		'''check to see if a route on the map has indeed drawn the correct points in the intersecting set versus the rest of the points'''

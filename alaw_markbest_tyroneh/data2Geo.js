@@ -152,7 +152,7 @@ db.alaw_markbest_tyroneh.BrooklineProperty.mapReduce(
 		var rooms;
 		if(this.properties.FEATURECODE == 'Building General'){
 			property = 'Residential';
-			rooms = Math.max(parseFloat(this.properties.NUMSTORIES) * 2.0, 1.0);
+			rooms = Math.max(parseFloat(this.properties['NUMSTORIES']) * 2.0, 1.0);
 		}
 
 		else{
@@ -215,7 +215,7 @@ var Brookline_rooms = db.alaw_markbest_tyroneh.temp.find({'_id': 'Brookline'}).m
 db.alaw_markbest_tyroneh.CensusPopulation.mapReduce(
 	//recalculate Census data to average population per room
 	function() {
-		var name = this.area.toLowerCase();\
+		var name = this.area.toLowerCase();
 		name = name.charAt(0).toUpperCase() + name.slice(1);
 		if(name == 'Boston'){
 			emit(name,this.population/a);	
