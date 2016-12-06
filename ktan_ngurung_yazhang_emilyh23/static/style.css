@@ -5,16 +5,16 @@ body {
 
 button[type=submit], button[type=submit]:visited {
 	margin-top: 15px;
-	color: #666666;
-	background-color: #ffe484;
-	border-color: #ffe484;
+	color: #ffffff;
+	background-color: #2D4059;
+	border-color: #2D4059;
 	width: 87%;
 }
 
 button[type=submit]:hover, button[type=submit]:active {
-	color: #666666;
-	background-color: #ffe463;
-	border-color: #ffe463;
+	color: #ffffff;
+	background-color: #1d2a3a;
+	border-color: #1d2a3a;
 }
 
 #chart {
@@ -30,7 +30,8 @@ button[type=submit]:hover, button[type=submit]:active {
 }
 
 .navbar {
-	background-color: #563F7A;
+	background-color: #EA5455;
+	border-color: #EA5455;
 }
 
 .navbar .navbar-brand {
@@ -38,15 +39,21 @@ button[type=submit]:hover, button[type=submit]:active {
 }
 
 .navbar-inverse .navbar-nav li a {
-	color: #bdc3c7;
+	color: #F1F1F1;
 }
 
 .navbar-inverse .navbar-nav .active a {
-	background-color: #493766;
+	color: #ffffff;
+	background-color: #B74448;
 }
 
-.navbar-inverse .navbar-nav .active a:hover, .navbar-inverse .navbar-nav .active a:visited {
-	background-color: #493766;
+.navbar-inverse .navbar-nav li a:hover {
+	color: #ffffff;
+}
+
+.navbar-inverse .navbar-nav .active a:visited {
+	color: #ffffff;
+	background-color: #B74448;
 }
 
 .form-control {
