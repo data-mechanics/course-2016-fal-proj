@@ -7,6 +7,10 @@ import datetime
 from math import sqrt
 from random import shuffle
 
+import numpy
+import matplotlib.pyplot as plt
+import scipy.stats
+
 class PropertyCrimeAnalysis(dml.Algorithm):
     contributor = 'ggelinas'
     reads = ['ggelinas.stations',
@@ -85,6 +89,15 @@ class PropertyCrimeAnalysis(dml.Algorithm):
         print("Correlation Coefficient: " + str(PropertyCrimeAnalysis.corr(NumCrimes, PropValue)))
 
         print("P-value: " + str(PropertyCrimeAnalysis.p(NumCrimes, PropValue)))
+        print(len(NumCrimes))
+        print(PropValue)
+        plt.scatter(NumCrimes, PropValue, alpha=0.5)
+        plt.plot(NumCrimes, numpy.poly1d(numpy.polyfit(NumCrimes, PropValue, 1))(NumCrimes))
+        plt.xlabel('Number of Crimes in Police District')
+        plt.ylabel('Average Property Value')
+        #plt.ylim()
+
+        plt.show()
 
         repo.logout()
 
