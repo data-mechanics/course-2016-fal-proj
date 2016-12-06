@@ -134,6 +134,34 @@ class rTreeKmeans(dml.Algorithm):
 
 		return result_set
 
+	def visualize(route,points_dict,intersecting_points,tree_keys):
+		'''check to see if a route on the map has indeed drawn the correct points in the intersecting set versus the rest of the points'''
+
+		route_x = [c[1] for c in route['geometry']['coordinates']]
+		route_y = [c[0] for c in route['geometry']['coordinates']]
+
+		point_x = []
+		point_y = []
+		for p in points_dict:
+			point_x.append(points_dict[p]['geometry']['coordinates'][1])
+			point_y.append(points_dict[p]['geometry']['coordinates'][0])
+
+		intersect_x = []
+		intersect_y = []
+		for p in intersecting_points:
+			key = tree_keys[str(p)]
+			intersect_x.append(points_dict[key]['geometry']['coordinates'][1])
+			intersect_y.append(points_dict[key]['geometry']['coordinates'][0])
+
+		plt.figure(figsize=(10,10))
+		plt.scatter(point_x, point_y, color='blue')
+		plt.scatter(intersect_x, intersect_y, color='red')
+		plt.scatter(route_x, route_y, color='green')
+		
+		#plt.ylim(42.23,42.41)
+		#plt.xlim(-71.18,-70.993)
+		plt.show()
+
 	@staticmethod
 	def execute():
 		pass
