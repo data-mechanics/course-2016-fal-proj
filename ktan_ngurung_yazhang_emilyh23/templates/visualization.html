@@ -26,7 +26,6 @@
         text {
           pointer-events: none;
           fill: #ffffff;
-          font-weight: bold;
         }
 
         rect {
@@ -108,8 +107,8 @@
             width = 960,
             height = 450 - margin.top - margin.bottom,
             formatNumber = d3.format(",%"),
-            colorDomain = [-0.6, 0, 0.6],
-            colorRange = ["#2d4059", "#354c6b", "#3d577a"],
+            colorDomain = [-1.0, 0, 1.0],
+            colorRange = ["#5175a5", "#4c6e9b", "#3d577a"],
             transitioning;
 
         // sets x and y scale to determine size of visible boxes
@@ -208,7 +207,8 @@
             return (parseInt(hexcolor.replace('#', ''), 16) > 0x666666/3) ? 'black':'white';
         }
 
-        d3.json("static/zoomabletreemap.json?version=102", function(root) {
+        var url = "http://localhost:5000/treemap"
+        d3.json(url, function(root) {
           console.log(root)
           initialize(root);
           accumulate(root);
@@ -226,7 +226,7 @@
             grandparent
               .datum(d.parent)
               .select("rect")
-              .attr("fill", function(){console.log(color(d.rate)); return color(d['rate'])})
+              .attr("fill", function(){return color(d['rate'])})
 
             var g1 = svg.insert("g", ".grandparent")
                 .datum(d)
@@ -250,12 +250,19 @@
                 .attr("class", "parent")
                 .call(rect)
                 .append("title")
-                .text(function(d) {console.log(typeof(d.value), d.value); return d.name + ', Cases of TB: ' + d.value + ', percent change: ' + formatNumber(d.rate); });
+                .text(function(d) {return d.name + ': Area Size = ' + d.value + ' sq. miles / Population Density = ' + (d.rate*10000); });
 
-            g.append("text")
+            var t = g.append("text")
                 .attr("dy", ".75em")
+                .attr("class", "ptext")
                 .text(function(d) { return d.name; })
                 .call(text);
+
+            t.append("tspan")
+                .attr("dx", "-2.0em")
+                .attr("dy", "2.0em")
+                .text(function(d) { return 'Area Size = ' + d.value; });
+            t.call(text);
 
             function transition(d) {
               if (transitioning || !d) return;
