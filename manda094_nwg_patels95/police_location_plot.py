@@ -55,7 +55,7 @@ class police_location_plot(dml.Algorithm):
 		# create geoJSON mapping with the coordinates of each crime in our dataset with a coordinate given
 		count = 0
 		for x,y in og_police_locations:
-			f.write("{ \"type\": \"Feature\", \"geometry\": " + "{ \"type\": \"Point\", \"coordinates\":" + "[" + str(x) + "," + str(y) + "]" +  "}}")
+			f.write("{ \"type\": \"Feature\", \"geometry\": " + "{ \'type\': \'Point\', \'coordinates\':" + "[" + str(y) + "," + str(x) + "]" +  "}}")
 			count = count + 1
 			if (count == og_police_locations[ln-1]):
 				f.write("\n")
@@ -65,7 +65,7 @@ class police_location_plot(dml.Algorithm):
 
 		count1 = 0
 		for x,y in k_cluster_M:
-			f2.write("{ \"type\": \"Feature\", \"geometry\": " + "{ \"type\": \"Point\", \"coordinates\":" + "[" + str(x) + "," + str(y) + "]" +  "}}")
+			f2.write("{ \"type\": \"Feature\", \"geometry\": " + "{ \'type\': \'Point\', \'coordinates\':" + "[" + str(y) + "," + str(x) + "]" +  "}}")
 			count1 = count1 + 1
 			if (count1 == k_cluster_M[lnX-1]):
 				f2.write("\n")
