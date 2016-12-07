@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Police Station Locations</title>
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script src="police_locationMap.js"></script>
+		<script src="district.js"></script>
+		<script src="kcluster_police_locationMap.js"></script>
+		<style>
+		#districts path{
+		  	fill: #ccc;
+			stroke: black;
+		}
+		</style>
+	</head>
+	<body>
+		<script>
+			var width = 700,
+				height = 580;
+
+			var svg = d3.select( "body" )
+				.append( "svg" )
+				.attr( "width", width )
+				.attr( "height", height );
+
+			var districts = svg.append( "g" ).attr( "id", "districts" );
+
+			var albersProjection = d3.geo.albers()
+				.scale( 190000 )
+				.rotate( [71.057,0] )
+				.center( [0, 42.313] )
+				.translate( [width/2,height/2] );
+
+			var geoPath = d3.geo.path()
+				.projection( albersProjection );
+
+			districts.selectAll( "path" )
+				.data( district_json.features )
+				.enter()
+				.append( "path" )
+				.attr( "d", geoPath );
+
+
+			var police_location = svg.append("g");
+
+			police_location.selectAll("path")
+				.data(police_location_json.features)
+				.enter()
+				.append("path")
+				.attr("fill", "#900")
+				.attr("stroke", "#999")
+				.attr("d", geoPath);
+
+			var kcluster_police_location = svg.append("g");
+
+			kcluster_police_location.selectAll("path")
+					.data(kcluster_police_location_json.features)
+					.enter()
+					.append("path")
+					.attr("fill", "#000")
+					.attr("stroke", "#000")
+					.attr("d", geoPath);
+
+
+		</script>
+	</body>
+</html>

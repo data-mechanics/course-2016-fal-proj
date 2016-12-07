@@ -93,22 +93,22 @@ class police_location_analysis(dml.Algorithm):
 
 
         XM = [float(i[0]) for i in M] #pulling out all the X values from M
-        XY = [float(i[1]) for i in M] #pulling out all Y values from M
+        YM = [float(i[1]) for i in M] #pulling out all Y values from M
         XDiff= [abs(x - y) for x, y in zip(XM, X)] #Finding the abs difference between clustered means and data district
-        YDiff= [abs(x - y) for x,y in zip (XY, Y)]
+        YDiff= [abs(x - y) for x,y in zip (YM, Y)]
         XY = [(x,y) for x,y in zip(XDiff, YDiff)] #combining calculated differences into one list of tuples (x,y)
 
 
-        print("This is the locations of the current Police stations:  " + str(Means) + '\n')
-        print("K Means Police station locations:" + str(M) + '\n')
-        print("This is the absolute difference between Means and Clustered Means:" + str(XY) + '\n')
+    #    print("This is the locations of the current Police stations:  " + str(Means) + '\n')
+#        print("K Means Police station locations:" + str(M) + '\n')
+#        print("This is the absolute difference between Means and Clustered Means:" + str(XY) + '\n')
 
 
         repo.logout()
 
         endTime = datetime.datetime.now()
 
-        return {"start":startTime, "end":endTime}
+        return {"start":startTime, "end":endTime}, Means, X,Y, XM, YM, M
 
 
     @staticmethod
@@ -141,7 +141,11 @@ class police_location_analysis(dml.Algorithm):
 
 police_location_analysis.execute()
 doc = police_location_analysis.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+analysis_data = police_location_analysis.execute()
+
+
+
+#print(doc.get_provn())
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ##eof
