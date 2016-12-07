@@ -42,10 +42,10 @@ class treeMap(dml.Algorithm):
             zc_data["name"] = zc
             
             # value determines size of box in tree-map
-            zc_data["value"] = zc_data.pop("area in square miles")
+            zc_data["value"] = zc_data.pop("area")
             
             # rate determines color of box in tree-map (dark -> greater value)
-            zc_data["rate"] = zc_data.pop("population density")
+            zc_data["rate"] = zc_data.pop("population_density")
             if (zc_data["overall_star"]) == 3:
                 zc_data.pop("overall_star")
                 rating_3.append(zc_data)

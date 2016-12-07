@@ -61,6 +61,32 @@
           opacity: 0;
         }
 
+        #tooltip {
+          position: absolute;
+          width: 220px;
+          height: auto;
+          padding: 10px;
+          background-color: white;
+          -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+          border-radius: 10px;
+          -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+          -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+          box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+          pointer-events: none;
+        }
+
+        #tooltip.hidden {
+          display: none;
+        }
+
+        #tooltip p {
+          margin: 0;
+          font-family: sans-serif;
+          font-size: 16px;
+          line-height: 20px;
+        }
+
     </style>
 
   </head>
@@ -93,6 +119,11 @@
         <p class="lead">We will put a description of the treemap here.</p>
       </div>
       <div id="chart"></div>
+      <div id="tooltip" class="hidden">
+        <p><span id="area"></span></p>
+        <p><span id="bigBelly_star"></span></p>
+        <p><span id="hubway_star"></span></p>
+      </div>
     </div><!-- /.container -->
 
     <!-- Bootstrap core JavaScript
@@ -104,7 +135,7 @@
     <script>
 
         var margin = {top: 30, right: 0, bottom: 20, left: 0},
-            width = 960,
+            width = 1000,
             height = 450 - margin.top - margin.bottom,
             formatNumber = d3.format(",%"),
             colorDomain = [-1.0, 0, 1.0],
@@ -255,14 +286,42 @@
             var t = g.append("text")
                 .attr("dy", ".75em")
                 .attr("class", "ptext")
+                .attr("text-anchor", "start")
                 .text(function(d) { return d.name; })
                 .call(text);
 
-            t.append("tspan")
-                .attr("dx", "-2.0em")
-                .attr("dy", "2.0em")
-                .text(function(d) { return 'Area Size = ' + d.value; });
-            t.call(text);
+            if (d._children[0].name != "rating 3" || d._children[1].name != "rating 2" || d._children[2].name != "rating 1") {
+                t.append("tspan")
+                    .attr("dy", "1.0em")
+                    .attr("text-anchor", "start")
+                    .text(function(d) { return 'Area Size = ' + d.value;});
+
+                t.append("tspan")
+                    .attr("dy", "1.0em")
+                    .attr("text-anchor", "start")
+                    .text(function(d) { return '(' + d.hubway_star + "," + d.bus_star + "," + d.bigBelly_star + "," + d.station_star + "," + d.college_star + "," + d.average_household_income + ")";});
+
+                t.call(text);
+            }
+
+            // var mousemove = function(d) {
+            //     var xPosition = d3.event.pageX + 5;
+            //     var yPosition = d3.event.pageY + 5;
+            //     d3.select("#tooltip")
+            //         .style("left", xPosition + "px")
+            //         .style("top", yPosition + "px");
+            //     d3.select("#tooltip #area")
+            //         .text(d.bigBelly_star);
+            //     d3.select("#tooltip #bigBelly_star")
+            //         .text(d.bigBelly_star);
+            //     d3.select("#tooltip #hubway_star")
+            //         .text(d.hubway_star);
+            //     d3.select("#tooltip").classed("hidden", false);
+            // };
+
+            // var mouseout = function() {
+            //     d3.select("#tooltip").classed("hidden", true);
+            // };
 
             function transition(d) {
               if (transitioning || !d) return;

@@ -293,10 +293,10 @@ class zipcodeRatings(dml.Algorithm):
             star_dict_final[k]['station_star'] = int(star_dict_final[k]['station_star'])
             star_dict_final[k]['bigBelly_star'] = int(star_dict_final[k]['bigBelly_star'])
             star_dict_final[k]['overall_star'] = int(star_dict_final[k]['overall_star'])
-            star_dict_final[k]['area in square miles'] = float(zc_land_area[k]/100)
+            star_dict_final[k]['area'] = float(zc_land_area[k]/100)
             star_dict_final[k]['name'] = str(k)
-            star_dict_final[k]['population density'] = float(zc_pop_dict[k]/10000)
-            star_dict_final[k]['average household income'] = int(zc_income_dict[k]['med_house_income'])
+            star_dict_final[k]['population_density'] = float(zc_pop_dict[k]/10000)
+            star_dict_final[k]['average_household_income'] = int(zc_income_dict[k]['med_house_income'])
 
             
         # Convert dictionary into JSON object 
