@@ -79,3 +79,8 @@ The locations of the current police stations are:
 #### Visualizations
 
 1.  index.html uses d3.js and a geoJSON file created from the coordinates of our dataset.  It shows an overlay of Boston, in which the borders are the police districts.  Each crime that was registered with a coordinate point has been placed on the map, showing the crime density.
+
+#### Conclusion
+
+We found no significant correlation between the number of firearms recovered by Boston police departments and the number of crimes involving firearms. However, this analysis is constrained by the limited amount of available firearm recovery data. Using the k-means algorithm, we found that police departments in Boston are ideally located at the center of areas with a high concentration of firearm crimes.
+
