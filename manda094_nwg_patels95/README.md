@@ -78,7 +78,7 @@ The locations of the current police stations are:
 
 #### Visualizations
 
-1.  index.html uses d3.js and a geoJSON file created from the coordinates of our dataset.  It shows an overlay of Boston, in which the borders are the police districts.  Each crime that was registered with a coordinate point has been placed on the map, showing the crime density.
+1.  crime_plot.html uses d3.js and a geoJSON file created from the coordinates of our dataset.  After filtering out the crimes that were not recorded with a coordinate point, the remaining crimes were all written into crimeMap.js as a json dictionary.  The visualization creates an overlay of Boston, in which the borders are the current police districts.  Each crime that was registered with a coordinate point has been placed on the map, showing the crime density across the city.
 
 #### Conclusion
 
