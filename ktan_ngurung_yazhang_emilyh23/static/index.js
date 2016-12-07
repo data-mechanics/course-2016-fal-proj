@@ -11,9 +11,9 @@ function initMap() {
 
   L.geoJson(zcdata).addTo(map);
 
-  // L.marker([42.3601, -71.0589]).addTo(map)
-  //       .bindPopup('This is Boston.')
-  //       .openPopup();
+  L.marker([42.3601, -71.0589]).addTo(map)
+        .bindPopup('This is Boston.')
+        .openPopup();
 
   function getColor(d) {
     return d > 1000 ? '#800026' :
