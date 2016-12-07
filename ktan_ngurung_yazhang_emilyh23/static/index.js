@@ -4,16 +4,16 @@ $(document).ready(
 
 function initMap() {
 
-  var map = L.map('mapid').setView([42.3318, -71.1212], 11);
+  var map = L.map('mapid').setView([42.3294, -71.0632], 12);
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
   L.geoJson(zcdata).addTo(map);
 
-  L.marker([42.3601, -71.0589]).addTo(map)
-        .bindPopup('This is Boston.')
-        .openPopup();
+  // L.marker([42.3601, -71.0589]).addTo(map)
+  //       .bindPopup('This is Boston.')
+  //       .openPopup();
 
   function getColor(d) {
     return d > 1000 ? '#800026' :
