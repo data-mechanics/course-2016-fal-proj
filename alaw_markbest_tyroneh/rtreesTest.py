@@ -9,44 +9,69 @@ from rtree import index
 from collections import OrderedDict
 from sklearn.cluster import KMeans
 
-def dist(p1, p2):
-    p1x, p1y = p1
-    p2x, p2y = p2
-    return (p2x-p1x)**2 + (p2y-p1y)**2
+class vector:
+    def __init__(self, x, y, xFirst=True):
+        if xFirst:
+            self.x = x
+            self.y = y
+        else:
+            self.x = y
+            self.y = x
 
-def mag(v):
-    vx, vy = v
-    return vx*vx + vy*vy
+    @staticmethod
+    def dist(u, v):
+        return (v.x-u.x)**2 + (v.y-u.y)**2
 
-def project(u, v):
-    '''projects vector u onto vector v'''
-    ux, uy = u
-    vx, vy = v
+    def __add__(self, other):
+        return vector(self.x + other.x, self.y + other.y)
 
-    uv_dot = (ux * vx) + (uy * vy)
-    v_mag_sqr = (vx * vx) + (vy * vy)
-    c = uv_dot / v_mag_sqr
+    def __sub__(self, other):
+        return vector(self.x - other.x, self.y - other.y)
 
-    return (c*vx, c*vy)
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
 
-def normal(u, v):
-    ux, uy = u
-    vx, vy = v
-    px, py = project(u, v)
+    def __str__(self):
+        return "v(" + str(self.x) + ", " + str(self.y) + ")"
 
-    norm = (px - ux, py - uy)
+    def __repr__(self):
+        return self.__str__()
 
-    in_xbounds = (vx >= 0 and 0 <= px <= vx) or (vx <= 0 and vx <= px <= 0)
-    in_ybounds = (vy >= 0 and 0 <= py <= vy) or (vy <= 0 and vy <= py <= 0)
+    def tup(self):
+        return (self.x, self.y)
 
-    if not (in_xbounds and in_ybounds):
-        # find the closest endpoint of the line to the original point
-        cl_x, cl_y = min((0, 0), v, key=lambda x: dist(x, u))
-        norm = (cl_x - ux, cl_y - uy)
+    def scale(self, c):
+        ''' Returns a vector scaled by constant c '''
+        return vector(c*self.x, c*self.y)
 
-    return norm
+    def dot(self, v):
+        return self.x * v.x + self.y * v.y
 
+    def mag(self):
+        return self.x*self.x + self.y*self.y
 
+    def project(self, v):
+        '''projects this vector onto vector v'''
+
+        c = self.dot(v) / v.mag()
+        return v.scale(c)
+
+    def normal(self, v):
+        p = self.project(v)
+
+        norm = p - self
+
+        in_xbounds = (v.x >= 0 and 0 <= p.x <= v.x) or (v.x <= 0 and v.x <= p.x <= 0)
+        in_ybounds = (v.y >= 0 and 0 <= p.y <= v.y) or (v.y <= 0 and v.y <= p.y <= 0)
+
+        if not (in_xbounds and in_ybounds):
+            # find the closest endpoint of the line to the original point
+            cl = min(vector(0, 0), v, key=lambda x: vector.dist(x, self))
+            norm = cl - self
+            #cl_x, cl_y = min((0, 0), v, key=lambda x: dist(x, u))
+            #norm = (cl_x - ux, cl_y - uy)
+
+        return norm
 
 class rTreeKmeans(dml.Algorithm):
     contributor = 'alaw_markbest_tyroneh'
@@ -153,44 +178,86 @@ class rTreeKmeans(dml.Algorithm):
         normals = {}
 
         for j in range(1,len(multipoint)):
-            yi, xi = multipoint[j-1]
-            yj, xj = multipoint[j]
-            line = (xj - xi, yj - yi)
+            end_i = vector(*multipoint[j-1], False)
+            end_j = vector(*multipoint[j], False)
+
+            line = end_j - end_i
+            #line = (xj - xi, yj - yi)
 
             for i in close_points:
                 key = tree_keys[str(i)]
-                py, px = points_dict[key]['geometry']['coordinates']
+                p = vector(*points_dict[key]['geometry']['coordinates'], False)
 
-                vec = (px - xi, py - yi)
-                norm = (j, normal(vec, line))
+                vec = p - end_i
+
+                #vec = (px - xi, py - yi)
+                norm = (j, vec.normal(line))
+                #norm = (j, normal(vec, line))
 
                 if i not in normals:
                     normals[i] = norm
                 else:
-                    normals[i] = min(normals[i], norm, key=lambda x: mag(x[1]))
+                    normals[i] = min(normals[i], norm, key=lambda x: x[1].mag())
 
         projections = OrderedDict()
         for i in range(1, len(multipoint)): projections[i] = [] # Initialize sort order of dict
 
         for i, norm in normals.items():
                 key = tree_keys[str(i)]
-                py, px = points_dict[key]['geometry']['coordinates']
-                line_num = norm[0]
-                nx, ny = norm[1]
+                p = vector(*points_dict[key]['geometry']['coordinates'], False)
 
-                projections[line_num].append((nx+px, ny+py))
+                line_num, n = norm
+
+                projections[line_num].append((n+p))
 
         #sort the projection dictionary
         for j, points in projections.items():
-            ey, ex = multipoint[j-1] # sort by distance from the 'starting' endpoint
-            points.sort(key = lambda p: dist(p, (ex, ey)))
+            e = vector(*multipoint[j-1], False) # sort by distance from the 'starting' endpoint
+            points.sort(key = lambda p: vector.dist(p, e))
 
         #return projections
-        return [p for line in projections.values() for p in line]  
+        return [p for line in projections.values() for p in line]
 
+    def map1D(ps):
+        ''' Maps points on a multiline to a straight line based on their total distance from the first point'''
+        qs = [0]
+        q = 0
+        for j in range(1, len(ps)):  
+            q += vector.dist(ps[j-1], ps[j])
+            qs.append(q)
+
+        return qs
+
+    def unmap1D(qs, points):
+        ps = []
+        for q in qs:
+            accum = 0
+            p1 = points[0]
+            
+            for i in range(1, len(points)):
+                p2 = points[i]
+                if vector.dist(p1, p2) == 0:
+                    continue
+
+                if q >= accum:
+                    line = p2 - p1
+                    diff = q - accum
+                    p = p1 + line.scale(diff / line.mag())
+                    ps.append(p)
+                    break
+                else:
+                    accum += vector.dist(p1, p2)
+            
+                # only accept points that are far enough apart
+                p1 = points[i]
+                
+        return ps
+        
     def findStops(numStops, points):
+        mapped_points = map1D(points)
         kmeans = KMeans(n_clusters=numStops, random_state=0)
-        kmeans.fit(points)
+        mapped_stops = kmeans.fit(mapped_points)
+        return unmap1D(mapped_stops)
 
     def visualize(route,points_dict,intersecting_points,tree_keys,using_idx=True):
         '''check to see if a route on the map has indeed drawn the correct points in the intersecting set versus the rest of the points'''
@@ -226,12 +293,19 @@ class rTreeKmeans(dml.Algorithm):
 
     @staticmethod
     def execute(route_num, r=0.01):
+        # Collect point data and store in r tree
         routes_dict, stops_dict, points_dict = rTreeKmeans.collectData()
         tree, tree_keys = rTreeKmeans.rTreeify(points_dict)
+
+        # find close points and project onto line
         route = routes_dict[str(route_num)]
         result_set = rTreeKmeans.routeTreeIntersection(routes_dict['29100'], tree, tree_keys, points_dict, r)
         proj = rTreeKmeans.projectPoints(route, points_dict, result_set, tree_keys)
-        return routes_dict, stops_dict, points_dict, tree, tree_keys, result_set, proj
+
+        # run k-means to find stops
+        num_stops = 10
+        stops = findStops(10, proj)
+        return routes_dict, stops_dict, points_dict, tree, tree_keys, result_set, proj, stops
 
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
