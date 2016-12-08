@@ -91,7 +91,7 @@ class optimize(dml.Algorithm):
                 zc_income_dict[zc]['income_star'] = 'high'
             else:
                 zc_income_dict[zc]['income_star'] = 'med'
-        optimize.user_input()
+        #optimize.user_input()
     
     @staticmethod     
     def find_sim_zipcode(u_bus, u_station, u_college, u_bigbelly, u_hubway, n):
@@ -157,7 +157,8 @@ class optimize(dml.Algorithm):
     
     @staticmethod
     # finds n zipcodes with similar cateogory ratings as user's specified ratings
-    def user_query(bus_r, station_r, college_r, bigBelly_r, hubway_r, n):    
+    def user_query(bus_r, station_r, college_r, bigBelly_r, hubway_r, n):
+        bus_r, station_r, college_r, bigBelly_r, hubway_r, n = int(bus_r), int(station_r), int(college_r), int(bigBelly_r), int(hubway_r), int(n)
         results, zc_len = optimize.find_sim_zipcode(bus_r, station_r, college_r, bigBelly_r, hubway_r,n)
         print('Here are the top {}:'.format(n))
         
@@ -166,7 +167,9 @@ class optimize(dml.Algorithm):
             print('zipcode: {}'.format(zc))
             print('{}\'s overall ranking: {}'.format(zc,data['overall_rating']))
             print('neighborhood income: {}'.format(data['income_star']))
-     
+
+        return results
+
     @staticmethod       
     # checks user input and raises errors if incorrect
     def check_rating(user_in):
@@ -275,7 +278,7 @@ class optimize(dml.Algorithm):
     
 optimize.execute()
 doc = optimize.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+# print(doc.get_provn())
+# print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
