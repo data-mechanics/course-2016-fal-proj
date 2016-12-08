@@ -16,7 +16,7 @@ signals_collection    = team_name + '.traffic_signals'
 accidents_collection  = team_name + '.car_accidents'
 mbta_collection       = team_name + '.mbta_stops'
 districts_collection  = team_name + '.transportation_districts'
-analysis_collection   = team_name + '.accidents_analysis'
+analysis_collection   = team_name + '.districts_overview'
 
 ###############################
 # MAIN

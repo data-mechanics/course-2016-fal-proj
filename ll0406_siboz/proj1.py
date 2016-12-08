@@ -6,85 +6,10 @@ import datetime
 import uuid
 import numpy
 import math
+from pprint import pprint
 from sodapy import Socrata
-
-##Some standard transformation
-def union(R, S):
-    return R + S
-
-def difference(R, S):
-    return [t for t in R if t not in S]
-
-def intersect(R, S):
-    return [t for t in R if t in S]
-
-def project(R, p):
-    return [p(t) for t in R]
-
-def select(R, s):
-    return [t for t in R if s(t)]
- 
-def product(R, S):
-    return [(t,u) for t in R for u in S]
-
-def aggregate(R, f):
-    keys = {r[0] for r in R}
-    return [(key, f([v for (k,v) in R if k == key])) for key in keys]
-
-def printjson(a):
-    print(json.dumps(a, sort_keys=True, indent=4, separators=(',',': ')))
-
-def dist(p, q):
-    (x1,y1) = p
-    (x2,y2) = q
-    return (x1-x2)**2 + (y1-y2)**2
-
-def plus(args):
-    p = [0,0]
-    for (x,y) in args:
-        p[0] += x
-        p[1] += y
-    return tuple(p)
-
-def scale(p, c):
-    (x,y) = p
-    return (x/c, y/c)
-
-##K-means clustering algorithm for computing coordinate system.
-def COORDKMEANS (initial, points):
-    M = initial
-    P = points
-    OLD = []
-    #DIFF = []
-    notEqual = True
-    while notEqual:
-        ##print(OLD == M)
-        ct = 0
-        if OLD != []:
-            for i in range(0, len(M)):
-                print(i)
-                if(math.isclose(OLD[i][0], M[i][0], rel_tol=1e-8) and math.isclose(OLD[i][1], M[i][1], rel_tol=1e-8)):
-                    ct = ct + 1
-                    if(i == len(M) - 1):
-                        notEqual = False
-                    continue
-                else:
-                    print(str(i) + " Something wrong")
-                    break
-        print(ct)
-        OLD = M
-        #print("Start")
-        MPD = [(m, p, dist(m,p)) for (m, p) in product(M, P)]
-        PDs = [(p, dist(m,p)) for (m, p, d) in MPD]
-        PD = aggregate(PDs, min)
-        MP = [(m, p) for ((m,p,d), (p2,d2)) in product(MPD, PD) if p==p2 and d==d2]
-        MT = aggregate(MP, plus)
-        M1 = [(m, 1) for ((m,p,d), (p2,d2)) in product(MPD, PD) if p==p2 and d==d2]
-        MC = aggregate(M1, sum)
-        M = [scale(t,c) for ((m,t),(m2,c)) in product(MT, MC) if m == m2]
-        print(sorted(M))
-
-    return M
+from dataRetrieval import *
+from generalHelperTemplate import *
 
 UPPER_LATITUDE = 42.40851
 UPPER_LONGITUDE = -70.993137
@@ -107,58 +32,13 @@ class proj1(dml.Algorithm):
         repo = client.repo
         repo.authenticate('ll0406_siboz', 'll0406_siboz')
 
-        #Socrata API setup and raw data retrieval
-        socrataClient = Socrata(DOMAIN, None)
+        retrieval()
 
-        #Crime data retrieval
-        #Due to the large size of data set, using the URL request here.
-        url = 'https://data.cityofboston.gov/resource/ufcx-3fdn.json?$where=location.longitude!=0'
-        res = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(res)
-        repo.dropPermanent("crimeIncident")
-        repo.createPermanent("crimeIncident")
-        repo['ll0406_siboz.crimeIncident'].insert_many(r)
-        rawCrime = repo['ll0406_siboz.crimeIncident'].find({}); #RawCrime is a cursor
-        ##print(json.dumps(rawCrime, sort_keys=True, indent=4, separators=(',',': ')))
-
-        #Police station location retrieval
-        url = 'https://data.cityofboston.gov/resource/pyxn-r3i2.json'
-        res = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(res)
-        repo.dropPermanent("policeLocation")
-        repo.createPermanent("policeLocation")
-        repo['ll0406_siboz.policeLocation'].insert_many(r)
+        rawCrime = repo['ll0406_siboz.crimeIncident'].find({});
         rawPoliceStation = repo['ll0406_siboz.policeLocation'].find({});
-
-        """
-        #Liquor store location retrieval
-        url = 'https://data.cityofboston.gov/resource/g9d9-7sj6.json'
-        res = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(res)
-        repo.createPermanent("liquorLocation")
-        repo['ll0406_siboz.liquorLocation'].insert_many(r)
         rawLiquor = repo['ll0406_siboz.liquorLocation'].find({});
-        
-        
-        #Restaraunt location retrieval
-        url = 'https://data.cityofboston.gov/resource/fdxy-gydq.json'
-        res = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(res)
-        repo.dropPermanent("foodLocation")
-        repo.createPermanent("foodLocation")
-        repo['ll0406_siboz.foodLocation'].insert_many(r)
         rawFood = repo['ll0406_siboz.foodLocation'].find({});
-
-        
-        #Entertainment location retrieval
-        url = 'https://data.cityofboston.gov/resource/cz6t-w69j.json'
-        res = urllib.request.urlopen(url).read().decode("utf-8")
-        r = json.loads(res)
-        repo.dropPermanent("entertainmentLocation")
-        repo.createPermanent("entertainmentLocation")
-        repo['ll0406_siboz.entertainmentLocation'].insert_many(r)
-        rawEntertainment = repo['ll0406_siboz.printentertainmentLocation'].find({});
-        """
+        rawEntertain = repo['ll0406_siboz.printentertainmentLocation'].find({});
 
         ##Data Cleanup, mainly through selection
         ##Crime data
@@ -166,6 +46,9 @@ class proj1(dml.Algorithm):
         for item in rawCrime:
             temp = {k:v for k,v in item.items() if (k == "shooting" or k == "incident_type_description" or k == "location")} 
             CrimeModifiedData.append(temp)
+
+        """
+        #The following random process has already been run once
 
 
         #Since the data set is still too large to for computing a k-means clutering algorithm.
@@ -176,9 +59,29 @@ class proj1(dml.Algorithm):
         for i in range (0, 1000):
             randomInd.append(int(len(CrimeModifiedData) * numpy.random.rand()))
 
+        SampleCrimeDataTemp = []
         SampleCrimeData = []
         for i in range (0, 1000):
-            SampleCrimeData.append(CrimeModifiedData[randomInd[i]])
+            SampleCrimeDataTemp.append(CrimeModifiedData[randomInd[i]])
+
+		"""
+
+
+
+       	"""After we examined the nature of our project carefully, we think that to many factors of ranom would make it nearly
+        impossible for us to make any meaningful progress later on for the optimization and stat inference. So here we will
+        sample the crime data once and store it locally, and later everytime we run the code, the random sample would always be the same
+        and will produce consistent result"""
+        """
+        #The SampleCrimeData.json has already been generated
+
+        with open('localData\sampleCrimeData.json', 'w') as outfile:
+        	json.dump(SampleCrimeDataTemp, outfile)
+
+		"""
+        with open('localData\sampleCrimeData.json') as data_file:
+        	SampleCrimeData = json.load(data_file)
+
 
         crimeGeoList = []
         for item in SampleCrimeData:
@@ -187,16 +90,37 @@ class proj1(dml.Algorithm):
                     temp = (float(v["coordinates"][0]), float(v["coordinates"][1])) #Longitude, Latitude
                     crimeGeoList.append(temp)
 
-        ##We want to see does the police stations' location have some impact on the occurance of
-        ##crime event. There are 12 Boston Police Stations, so I will be randomly generating 12 starting points
-        ##within the region (LOWER_LONGITUDE, LOWER_LATITUDE) to (UPPER_LONGITUDE, UPPER_LATITUDE) as the starting cluster points for k-means cluster algorithm
-        initialPoints = []
-        for i in range(0, 12):
-            latiOffset = numpy.random.rand() * (UPPER_LATITUDE- LOWER_LATITUDE)
-            longiOffset = numpy.random.rand() * (UPPER_LONGITUDE - LOWER_LONGITUDE)
-            initialPoints.append((LOWER_LONGITUDE + longiOffset, LOWER_LATITUDE + latiOffset))
+        """
+        After obtaining the crimeGeoList from the sample crime data, we will continue further to random sample out 9 points as the 
+        initial cluster point for the k-means algorithm 
+        Also for the sake of the consistency and stable output, the random selection will only run once, and the initial points are stored
+        into a local json file, and later will be pushed to the database.
+        """
 
-        crimeCluster = COORDKMEANS(initialPoints, crimeGeoList)
+        initialPointsTemp = []
+        jsonTemp = []
+        initialPoints = []
+
+        """
+        #The same as above, the random process and the localData has already been generated,
+        #To make sure we have consistent result, this section of code will be commented out
+        for i in range(0, 8):
+        	initialPointsTemp.append(crimeGeoList[int(len(CrimeModifiedData) * numpy.random.rand())])
+
+        with open('localData\initialKMeans.json', 'w') as outfile:
+        	json.dump(initialPointsTemp, outfile)
+
+		"""
+        with open('localData\initialKMeans.json') as data_file:
+        	jsonTemp = json.load(data_file)
+
+        for l in jsonTemp:
+        	initialPoints.append((l[0],l[1]))
+        print(crimeGeoList)
+        print(initialPoints)
+        print(type(initialPoints))
+        print(type(crimeGeoList))
+        crimeCluster = coordKMeans(initialPoints, crimeGeoList)
 
 
         """
@@ -223,19 +147,6 @@ class proj1(dml.Algorithm):
         CP = [(c, p) for ((c,p,d),(c2,d2)) in product(CPD, CD) if c == c2 and d == d2]
 
 
-        #Credit to https://gist.github.com/rochacbruno/2883505#file-haversine-py-L6
-        def geoDist(p1,p2):
-            long1, lat1 = p1
-            long2, lat2 = p2
-            radius = 6371 #in kilometer
-            dlon = math.radians(long1-long2)
-            dlat = math.radians(lat1-lat2)
-            a = math.sin(dlat/2) * math.sin(dlat/2) + math.cos(math.radians(lat1)) \
-                * math.cos(math.radians(lat2)) * math.sin(dlon/2) * math.sin(dlon/2)
-            c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
-            d = radius * c
-            return d
-
         distList = []
         for item in CP:
             distList.append(geoDist(item[0],item[1]))
@@ -249,6 +160,8 @@ class proj1(dml.Algorithm):
         repo.createPermanent("crimeDistToPoliceSation")
         repo['ll0406_siboz.crimeDistToPoliceSation'].insert_many(distance)
         repo['ll0406_siboz.crimeDistToPoliceSation'].find({});
+
+
         repo.logout()
 
         endTime = datetime.datetime.now()

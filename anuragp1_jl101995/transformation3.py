@@ -6,6 +6,7 @@ import datetime
 import uuid
 import statistics
 
+
 class transformation3(dml.Algorithm):
     contributor = 'anuragp1_jl101995'
     reads = [ 'anuragp1_jl101995.weather,' 'anuragp1_jl101995.turnstile']
