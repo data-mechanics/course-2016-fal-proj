@@ -110,7 +110,7 @@ class crimeRates(dml.Algorithm):
                 closestLongitude = findClosest(longitudeKeys, long)
                 cellCenterDict[closestLongitude][findClosest(cellCenterDict[closestLongitude]['latitudes'], lat)] += 1
                 
-                if count % 100 == 0:
+                if count % 10000 == 0:
                     print("Parsed " +  str(count) + " crime entries")
 
         '''#From previous method of aggregating crimes into cells
