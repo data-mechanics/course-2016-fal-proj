@@ -218,7 +218,9 @@ where ```X1```, ```X2``` and ```X3``` are integers and ```Y1```, ```Y2``` and ``
 
 ### Visualization
 
-To run the visualization part of the project, go to the ```/visualization``` folder and execute:
+#### Police patrol allocation
+
+To run the visualization part of the project, go to the ```/visualization/police-patrol-allocation``` folder and execute:
 ```shell
 python -m SimpleHTTPServer
 ```
@@ -227,6 +229,17 @@ and type the url ```http://localhost:8000/``` in the browser. That will take you
 ![alt text](visualization.png)
 
 In here just fill the inputs and click on the **Submit** button, this will call the API and show the results on the map.
+
+#### Zip code ranking
+
+To run the visualization part of the project, go to the ```/visualization/zip-code-ranking``` folder and execute:
+```shell
+python -m SimpleHTTPServer
+```
+and type the url ```http://localhost:8000/``` in the browser. That will take you to the index page.
+
+![alt text](zip-code-ranking.png)
+
 
 ## References
 
