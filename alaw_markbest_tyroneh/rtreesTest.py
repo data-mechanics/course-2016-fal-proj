@@ -4,74 +4,12 @@ import datetime
 import uuid
 import json
 import math
+from vector import vector
 import matplotlib.pyplot as plt
+import numpy as np
 from rtree import index
 from collections import OrderedDict
 from sklearn.cluster import KMeans
-
-class vector:
-    def __init__(self, x, y, xFirst=True):
-        if xFirst:
-            self.x = x
-            self.y = y
-        else:
-            self.x = y
-            self.y = x
-
-    @staticmethod
-    def dist(u, v):
-        return (v.x-u.x)**2 + (v.y-u.y)**2
-
-    def __add__(self, other):
-        return vector(self.x + other.x, self.y + other.y)
-
-    def __sub__(self, other):
-        return vector(self.x - other.x, self.y - other.y)
-
-    def __eq__(self, other):
-        return self.x == other.x and self.y == other.y
-
-    def __str__(self):
-        return "v(" + str(self.x) + ", " + str(self.y) + ")"
-
-    def __repr__(self):
-        return self.__str__()
-
-    def tup(self):
-        return (self.x, self.y)
-
-    def scale(self, c):
-        ''' Returns a vector scaled by constant c '''
-        return vector(c*self.x, c*self.y)
-
-    def dot(self, v):
-        return self.x * v.x + self.y * v.y
-
-    def mag(self):
-        return self.x*self.x + self.y*self.y
-
-    def project(self, v):
-        '''projects this vector onto vector v'''
-
-        c = self.dot(v) / v.mag()
-        return v.scale(c)
-
-    def normal(self, v):
-        p = self.project(v)
-
-        norm = p - self
-
-        in_xbounds = (v.x >= 0 and 0 <= p.x <= v.x) or (v.x <= 0 and v.x <= p.x <= 0)
-        in_ybounds = (v.y >= 0 and 0 <= p.y <= v.y) or (v.y <= 0 and v.y <= p.y <= 0)
-
-        if not (in_xbounds and in_ybounds):
-            # find the closest endpoint of the line to the original point
-            cl = min(vector(0, 0), v, key=lambda x: vector.dist(x, self))
-            norm = cl - self
-            #cl_x, cl_y = min((0, 0), v, key=lambda x: dist(x, u))
-            #norm = (cl_x - ux, cl_y - uy)
-
-        return norm
 
 class rTreeKmeans(dml.Algorithm):
     contributor = 'alaw_markbest_tyroneh'
@@ -219,45 +157,57 @@ class rTreeKmeans(dml.Algorithm):
         return [p for line in projections.values() for p in line]
 
     def map1D(ps):
-        ''' Maps points on a multiline to a straight line based on their total distance from the first point'''
+        ''' Maps points on a multiline to a straight line based
+            on an aggregated sum of the line distances
+            Also returns a function that will unmap the 1D points '''
         qs = [0]
         q = 0
         for j in range(1, len(ps)):  
-            q += vector.dist(ps[j-1], ps[j])
+            q += vector.dist(ps[j-1], ps[j], squared=False)
             qs.append(q)
 
-        return qs
+        def unmap1D(qs):
+            return rTreeKmeans._unmap1D(qs, ps)
 
-    def unmap1D(qs, points):
+        return qs, unmap1D
+
+    def _unmap1D(qs, points):
         ps = []
         for q in qs:
             accum = 0
             p1 = points[0]
-            
+
             for i in range(1, len(points)):
                 p2 = points[i]
-                if vector.dist(p1, p2) == 0:
+                line = p2 - p1
+                line_mag = line.mag(squared=False)
+                if line_mag == 0:
                     continue
 
-                if q >= accum:
-                    line = p2 - p1
-                    diff = q - accum
-                    p = p1 + line.scale(diff / line.mag())
+                accum += line_mag
+
+                if accum >= q:
+                    diff = accum - q
+                    p = p1 + line.scale(diff / line_mag)
                     ps.append(p)
                     break
-                else:
-                    accum += vector.dist(p1, p2)
-            
+
                 # only accept points that are far enough apart
-                p1 = points[i]
-                
+                p1 = p2
+
         return ps
-        
-    def findStops(numStops, points):
-        mapped_points = map1D(points)
+
+    def findStops(numStops, points2D):
+        ''' maps points to a 1D line and performs a kmeans, then unmaps the stops'''
+        points1D, unmap1D = rTreeKmeans.map1D(points2D)
+
+        # reshape points
+        X = np.array(points1D).reshape(-1,1)
+
         kmeans = KMeans(n_clusters=numStops, random_state=0)
-        mapped_stops = kmeans.fit(mapped_points)
-        return unmap1D(mapped_stops)
+        mapped_stops = kmeans.fit(X).cluster_centers_
+        stops = [stop.tup() for stop in unmap1D(mapped_stops)]
+        return stops
 
     def visualize(route,points_dict,intersecting_points,tree_keys,using_idx=True):
         '''check to see if a route on the map has indeed drawn the correct points in the intersecting set versus the rest of the points'''
@@ -291,6 +241,81 @@ class rTreeKmeans(dml.Algorithm):
         #plt.xlim(-71.18,-70.993)
         plt.show()
 
+    def visualize_stops(route_dict, stops_dict, new_stops):
+        '''check to see if a route on the map has indeed drawn the correct points in the intersecting set versus the rest of the points'''
+
+        route_y, route_x = zip(*route_dict['geometry']['coordinates'])
+        
+        stop_ids_for_route = route_dict['properties']['route_stops']    
+        old_stops = [stops_dict[str(stop_id)]['geometry']['coordinates'] for stop_id in stop_ids_for_route]
+        
+        old_stops_y, old_stops_x = zip(*old_stops)
+        new_stops_x, new_stops_y = zip(*new_stops)
+        
+        plt.figure(figsize=(10,10))
+
+        plt.plot(route_x, route_y, color='#e36c09', linewidth=1)
+        plt.scatter(old_stops_x, old_stops_y, color='#4e74ba')
+        plt.scatter(new_stops_x, new_stops_y, color='cyan')
+
+        #plt.ylim(42.23,42.41)
+        #plt.xlim(-71.18,-70.993)
+        plt.show()
+
+    def visualize_stops1(route_dict, stops_dict, new_stops, intersecting_points, tree_keys, points_dict):
+            '''Create visualizations for each route for bus allocation, total average wait time, and total bus inefficiency'''
+
+            fig = plt.figure(figsize=(14,10))
+            fig.patch.set_facecolor('white')
+            ax = plt.gca()
+
+            ax.set_axis_bgcolor('white')
+            ax.set_xticklabels([])
+            ax.set_yticklabels([])
+            #plt.grid(True)
+
+            plt.title('Allocation Score for each Bus Route', fontsize=48, y=1.03, fontweight='medium', color='#4e74ba')
+            #plt.xlabel('Latitude',  fontsize=24, fontweight='medium', color='#e36c09')
+            #plt.ylabel('Longitude', fontsize=24, fontweight='medium', color='#e36c09')
+
+            os = mpatches.Patch(color='#96bbff', label='Original Stop locations')
+            ns = mpatches.Patch(color='#0042ba', label='Kmeans derived locations')
+
+            plt.legend(handles=[os, ns], fancybox=True, loc='best', fontsize=20)
+
+            point_y, point_x = zip(*[points_dict[p]['geometry']['coordinates'] for p in points_dict])
+                
+            route_y, route_x = zip(*route_dict['geometry']['coordinates'])
+        
+            stop_ids_for_route = route_dict['properties']['route_stops']    
+            old_stops = [stops_dict[str(stop_id)]['geometry']['coordinates'] for stop_id in stop_ids_for_route]
+            old_stops_y, old_stops_x = zip(*old_stops)
+
+            new_stops_x, new_stops_y = zip(*new_stops)
+            
+            inters = [tree_keys[str(i)] for i in intersecting_points]
+            intersecting_points_y, intersecting_points_x = zip(*[points_dict[key]['geometry']['coordinates'] for key in inters])
+            
+            plt.plot(point_x, point_y, color='#96bbff', marker='.', linestyle='None', markersize=3, zorder=1)
+            plt.plot(intersecting_points_x, intersecting_points_y, color='#0042ba', marker='.', linestyle='None', markersize=5, zorder=2)
+            plt.plot(route_x, route_y, color='#999999', linestyle='-', linewidth=12, zorder=3)
+            plt.scatter(old_stops_x, old_stops_y, color= '#ffc091', s=36.0, marker='D', zorder=4)
+            plt.scatter(new_stops_x, new_stops_y, color='#ff6e00', s=36.0, marker='D', zorder=5)
+
+            # margin
+            m = 0.01
+            xmin = min(min(route_x), min(new_stops_x), min(old_stops_x), min(intersecting_points_x)) - m 
+            xmax = max(max(route_x), max(new_stops_x), max(old_stops_x), max(intersecting_points_x)) + m
+            ymin = min(min(route_y), min(new_stops_y), min(old_stops_y), min(intersecting_points_y)) - m
+            ymax = max(max(route_y), max(new_stops_y), max(old_stops_y), max(intersecting_points_y)) + m
+            
+            plt.xlim(xmin, xmax)
+            plt.ylim(ymin, ymax)
+
+            #plt.savefig('optimalAllocation.png')
+
+            plt.show()
+
     @staticmethod
     def execute(route_num, r=0.01):
         # Collect point data and store in r tree
@@ -299,12 +324,12 @@ class rTreeKmeans(dml.Algorithm):
 
         # find close points and project onto line
         route = routes_dict[str(route_num)]
-        result_set = rTreeKmeans.routeTreeIntersection(routes_dict['29100'], tree, tree_keys, points_dict, r)
+        result_set = rTreeKmeans.routeTreeIntersection(route, tree, tree_keys, points_dict, r)
         proj = rTreeKmeans.projectPoints(route, points_dict, result_set, tree_keys)
 
         # run k-means to find stops
-        num_stops = 10
-        stops = findStops(10, proj)
+        num_stops = len(route['properties']['route_stops'])
+        stops = findStops(num_stops, proj)
         return routes_dict, stops_dict, points_dict, tree, tree_keys, result_set, proj, stops
 
     @staticmethod
