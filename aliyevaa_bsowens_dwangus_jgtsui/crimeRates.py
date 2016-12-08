@@ -7,12 +7,18 @@ import uuid
 import time
 import ast
 import math
+import numpy as np
 
 def calculate(x0, y0, x1, y1):
     x_d_sq = pow(abs(x0) - abs(x1), 2)
     y_d_sq = pow(abs(y0) - abs(y1), 2)
     dist = math.sqrt(x_d_sq + y_d_sq)
     return dist
+
+#My updated code for faster crime aggregation
+def findClosest(array, value):
+    idx = (np.abs(array - value)).argmin()
+    return array[idx]
 
 class crimeRates(dml.Algorithm):
     contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
@@ -43,7 +49,6 @@ class crimeRates(dml.Algorithm):
         for cellCoord in cellCoordinates.find():
             coordinates.append((cellCoord['longitude'],cellCoord['latitude']))
         #'''
-
         '''
         lines = [line.rstrip('\n') for line in open('centers.txt')]
         coordinates = []
@@ -51,13 +56,32 @@ class crimeRates(dml.Algorithm):
             if line != '':
                 coordinates.append([float(x) for x in line.split()])
         #'''
-
-        entry = dict((str(center[0]) + ' ' + str(center[1]),0) for center in coordinates)
-        print("# Total Cell Coordinates: {}".format(len(coordinates)))
-
+        
+        #Boston GPS Map is X: Longitudes, from -71.2 to -70.95 (approximately)
+        #Boston GPS Map is Y: Latitudes, from 42.2 to 42.4 (approximately)
+        
+        #My updated code for faster crime aggregation
+        cellCenterDict = {}
+        for coord in coordinates:
+            gpslong = coord[0]
+            gpslat = coord[1]
+            if gpslong in cellCenterDict:
+                cellCenterDict[gsplong][gpslat] = 0
+            else:
+                cellCenter[gpslong] = {gpslat: 0}
+        #My updated code for faster crime aggregation
+        longitudeKeys = np.array(cellCenterDict.keys())#sorted(list(cellCenterDict.keys()))
+        for lo in longitudeKeys:
+            cellCenterDict[lo]['latitudes'] = np.array(cellCenterDict[lo].keys())#sorted(list(cellCenterDict[lo].keys()))
+        
         repo.dropPermanent(crimeRates.setExtensions[0])
         repo.createPermanent(crimeRates.setExtensions[0])
-
+        
+        '''#From previous method of aggregating crimes into cells
+        entry = dict((str(center[0]) + ' ' + str(center[1]),0) for center in coordinates)
+        print("# Total Cell Coordinates: {}".format(len(coordinates)))
+        #'''
+        
         crimeDataSet = repo[crimeRates.reads[0]]
         print(crimeDataSet.count())
         count = 0
@@ -70,9 +94,8 @@ class crimeRates(dml.Algorithm):
                 long = elem['location']['coordinates'][0]
                 lat = elem['location']['coordinates'][1]
 
+                '''#From previous method of aggregating crimes into cells
                 #Find closest cell-center to this particular crime's GPS coordinates
-                asdasd = coordinates[0][0]
-                qwuwq = coordinates[0][1]
                 closest_so_far = calculate(long, lat, coordinates[0][0], coordinates[0][1])
                 closest_center = str(coordinates[0][0]) + ' ' + str(coordinates[0][1])
                 for center in coordinates[1:]:
@@ -81,15 +104,27 @@ class crimeRates(dml.Algorithm):
                     if d < closest_so_far:
                         closest_so_far = d
                         closest_center = c_str
-
                 entry[closest_center] += 1
+                #'''
+                #My updated code for faster crime aggregation
+                closestLongitude = findClosest(longitudeKeys, long)
+                cellCenterDict[closestLongitude][findClosest(cellCenterDict[closestLongitude]['latitudes'], lat)] += 1
+                
                 if count % 100 == 0:
                     print("Parsed " +  str(count) + " crime entries")
 
+        '''#From previous method of aggregating crimes into cells
         for e in entry.keys():
             #crimeDataSet.insert({str(e): entry[e]}, check_keys=False)
             myrepo[crimeRates.setExtensions[0]].insert({str(e): str(entry[e])}, check_keys=False)
-
+        #'''
+        #My updated code for faster crime aggregation
+        for e in cellCenterDict.keys():
+            curLong = cellCenterDict[e]
+            curLongStr = str(e) + ' '
+            for f in curLong['latitudes']:
+                myrepo[crimeRates.setExtensions[0]].insert({curLongStr + str(f): str(curLong[f])}, check_keys=False)
+                
         repo.logout()
         endTime = datetime.datetime.now()
         return {"start": startTime, "end": endTime}
