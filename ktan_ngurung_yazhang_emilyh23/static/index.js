@@ -37,13 +37,10 @@ function initMap() {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
-  // window.pins = L.marker([arguments[0], arguments[1]]).addTo(map)
-  //       .bindPopup('This is Boston.')
-  //       .openPopup();
-
-  window.pin_dict = new Array();
-  pin_dict.push(new L.marker([arguments[0], arguments[1]]));
-  pin_dict[0].addTo(map).bindPopup("This is the center of the map.");
+  	window.mapMarkers = [];
+  	var marker = L.marker([arguments[0], arguments[1]])
+  	mapMarkers.push(marker);
+  	mapMarkers[0].addTo(map).bindPopup("This is center of the map.");
 
   function getColor(d) {
     return d > 200  ? '#E31A1C' :
@@ -113,30 +110,28 @@ function getResult() {
     if (http.readyState == 4 && http.status == 200) {
       var data = JSON.parse(http.responseText);
 
-      // getting zipcodes
-      for (var i = 0; i < pin_dict.length; i++) {
-        console.log('yes')
-        map.removeLayer(pin_dict[i])
-        pin_dict.shift()
-      }
-      console.log("for loop done")
-      console.log(pin_dict)
+      if (mapMarkers.length != 0) {
+  		console.log('length > 0')
+  		for(var i = 0; i < mapMarkers.length; i++){
+			map.removeLayer(mapMarkers[i]);
+			console.log(mapMarkers);
+		}
+		mapMarkers.length = 0;
+		console.log(mapMarkers);
+	}
 
       var results = data.results
-      for (var i = 0; i < results.length; i++) {
-        zc = results[i]['zipcode']
-        lat = latLng[zc]['lat']
-        long = latLng[zc]['lng']
+		for (var i = 0; i < results.length; i++) {
+	        zc = results[i]['zipcode']
+	        lat = latLng[zc]['lat']
+	        long = latLng[zc]['lng']
 
-
-        pin_dict.push(new L.marker([lat, long]));
-        pin_dict[i].addTo(map).bindPopup(zc);
-
-        // console.log(lat)
-        // console.log(zc)
-        // console.log(long)
+	        var marker = L.marker([lat, long])
+	  		mapMarkers.push(marker);
+	  		mapMarkers[i].addTo(map).bindPopup(zc);
       }
-
+      var group = new L.featureGroup(mapMarkers);
+      map.fitBounds(group.getBounds());
       console.log(data)
     }
   }
