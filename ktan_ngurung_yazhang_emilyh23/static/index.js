@@ -15,14 +15,13 @@ function initMap() {
     zoom:arguments[2],
   });
 
-  var hubwayRatingLayer = L.geoJson(hubwaydata, {style: style}).addTo(map);
-  var tstopRatingLayer = L.geoJson(tstopdata, {style: style}).addTo(map);
-  var busstopRatingLayer = L.geoJson(busstopdata, {style: style}).addTo(map);
-  var collegeRatingLayer = L.geoJson(collegedata, {style: style}).addTo(map);
-  var bigbellyRatingLayer = L.geoJson(bigbellydata, {style: style}).addTo(map);
+  var hubwayRatingLayer = L.geoJson(hubwaydata, {style: style})
+  var tstopRatingLayer = L.geoJson(tstopdata, {style: style})
+  var busstopRatingLayer = L.geoJson(busstopdata, {style: style})
+  var collegeRatingLayer = L.geoJson(collegedata, {style: style})
+  var bigbellyRatingLayer = L.geoJson(bigbellydata, {style: style})
   var overallRatingLayer = L.geoJson(zcdata, {style: style}).addTo(map);
 
-  
   var baseLayers = {
     "overall": overallRatingLayer,
     "hubway": hubwayRatingLayer,
