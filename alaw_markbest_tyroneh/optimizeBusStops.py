@@ -2,6 +2,7 @@ import dml
 import prov.model
 import datetime
 import uuid
+import subprocess
 
 class optimizeBusStops(dml.Algorithm):
     contributor = 'alaw_markbest_tyroneh'
