@@ -131,7 +131,7 @@ function getResult() {
 
 
         pin_dict.push(new L.marker([lat, long]));
-        pin_dict[i].addTo(map).bindPopup("something!!");
+        pin_dict[i].addTo(map).bindPopup(zc);
 
         // console.log(lat)
         // console.log(zc)
