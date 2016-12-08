@@ -120,13 +120,18 @@ function getResult() {
 		console.log(mapMarkers);
 	}
 
-      var results = data.results
+    var results = data.results
+    if (results.length == 0) {
+      $("#no-results").fadeIn()
+      map.setZoom(12);
+    } else {
+      $("#no-results").fadeOut()
+    }
 		for (var i = 0; i < results.length; i++) {
 	        zc = results[i]['zipcode']
 	        lat = latLng[zc]['lat']
 	        long = latLng[zc]['lng']
-
-	        var marker = L.marker([lat, long])
+	     var marker = L.marker([lat, long])
 	  		mapMarkers.push(marker);
 	  		mapMarkers[i].addTo(map).bindPopup(zc);
       }
