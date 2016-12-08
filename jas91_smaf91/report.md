@@ -1,4 +1,4 @@
-# Finding optimal police patrol location in the City of Boston
+# City of Boston services: Optimal Police Patrol allocation & inspection analysis
 
 Stephanie Alibrandi, Javier Arguello
 
