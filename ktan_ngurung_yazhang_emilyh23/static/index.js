@@ -16,6 +16,7 @@ function initMap() {
   var bigbellyRatingLayer = L.geoJson(bigbellydata, {style: style}).addTo(map);
   var overallRatingLayer = L.geoJson(zcdata, {style: style}).addTo(map);
 
+  
   var baseLayers = {
     "overall": overallRatingLayer,
     "hubway": hubwayRatingLayer,
