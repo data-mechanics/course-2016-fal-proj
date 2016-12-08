@@ -62,7 +62,13 @@ For the first we used a bar chart that depicts the negative correlation between 
 
 ![Crime-Streetlight Bar Chart](crime_streetlight_barchart.png)
 
-To more easily make suggestions in terms of limiting crime, it would be beneficial to visually map our data. Through the use of a geographic heatmap that depicts areas with more streetlights as warmer, with each crime plotted as a single point, we can easily see which areas are currently exposed to crime. If this area also coincide with less streetlights, we can conclude that this area could benefit from more streetlights.
+To more easily make suggestions in terms of limiting crime, it would be beneficial to visually map our data. Through the use of a geographic heatmap that depicts areas with more streetlights as warmer, with each crime plotted as a point, we can easily see which areas are currently exposed to crime. If this area also coincide with less streetlights, we can conclude that this area could benefit from more streetlights. Below is a screenshot of our mapped visualization, where one can easily see the relationship between poorly-lit areas and more crime. 
+
+![Crime-Streetlight Heatmap Zoomed Out](crime_streetlight_heatmap_min_zoom.png)
+
+Referring to the image above, one can see that there are 873 crimes in the Downtown/ Chinatown area alone, an area that according to our data is less under-lit compared to other parts of Boston (such as Beacon Hill). Though there are far more factors at play than just streetlights, this could be the starting point for more in-depth research. The image below is a zoomed-in version of the Chinatown area from the map above, and though it can be hard to make out at first glance, there are far more crimes happening (ref yellow circles) in areas with less streetlights (ref lighter blue areas). 
+
+![Crime-Streetlight Heatmap Zoomed In](crime_streetlight_heatmap_max_zoom.png)
 
 ## Conclusion
 Through the use of data provided by The City of Boston, we have been able to determine a negative correlation between crimes and number of streetlights. Using our transformations and visualization, we can also make suggestions for which areas could benefit from more streetlights. Though there are more factors that contribute to crime, this could help give officials an overview of which areas are in need of more thorough research, and possibly more streetlights if another strong contributor cannot be found.
@@ -73,13 +79,17 @@ We have already made solid progress towards our goal of determining which factor
 ## Dependencies
 * [Pandas](https://pypi.python.org/pypi/pandas/0.18.1/): Data manipulation library
 * [Numpy](https://pypi.python.org/pypi/numpy): Scientific computing library
+* [Leaflet.js](http://leafletjs.com): JavaScript map library
+* [Node.js](https://nodejs.org/en/): JavaScript runtime library
+* [Express](http://expressjs.com): Node.js web framework
+* [Mongoose](http://mongoosejs.com): Node.js MongoDB object modeling library
 
-### Installation
-```shell
-pip install pandas
-```
-
-## Running the project
+### Running the transformations
 ```shell
 python main_file.py
+```
+
+### Running the web application
+```shell
+tba
 ```
