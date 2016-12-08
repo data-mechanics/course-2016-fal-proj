@@ -1,0 +1,980 @@
+
+        <!DOCTYPE html>
+        <head>
+            
+        
+            <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        
+            
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster-src.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://raw.githubusercontent.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css" />
+        
+        
+        
+            
+            <style>
+
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                }
+
+            #map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+            
+        
+            
+            <style> #map_9521e7b7df504fb98cc2dc515e3bfef9 {
+                position : relative;
+                width : 100.0%;
+                height: 100.0%;
+                left: 0.0%;
+                top: 0.0%;
+                }
+            </style>
+        
+        
+            
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-dvf/0.2/leaflet-dvf.markers.min.js"></script>
+        
+        
+        
+        
+        </head>
+        <body>
+            
+        
+            
+            <div class="folium-map" id="map_9521e7b7df504fb98cc2dc515e3bfef9" ></div>
+        
+        
+        
+        </body>
+        <script>
+            
+        
+            
+
+            var southWest = L.latLng(-90, -180);
+            var northEast = L.latLng(90, 180);
+            var bounds = L.latLngBounds(southWest, northEast);
+
+            var map_9521e7b7df504fb98cc2dc515e3bfef9 = L.map('map_9521e7b7df504fb98cc2dc515e3bfef9', {
+                                           center:[42.355,-71.0609],
+                                           zoom: 13,
+                                           maxBounds: bounds,
+                                           layers: [],
+                                           crs: L.CRS.EPSG3857
+                                         });
+            
+        
+        
+            
+            var tile_layer_656ac01bb45f449c81c417b33f58c73d = L.tileLayer(
+                'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                {
+                    maxZoom: 18,
+                    minZoom: 1,
+                    attribution: 'Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.',
+                    detectRetina: false
+                    }
+                ).addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+
+        
+        
+            
+            var regular_polygon_marker_ee143c27dc464624bac0ebb07cf628ad = new L.RegularPolygonMarker(
+                new L.LatLng(42.30025000839615,-71.10737910445549),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_45ad8758bf6e452f84893aa14c840241 = L.popup({maxWidth: '300'});
+
+            
+                var html_2a85159e2a5a4f6c9fc8bf0139660b7b = $('         <div id="html_2a85159e2a5a4f6c9fc8bf0139660b7b"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_45ad8758bf6e452f84893aa14c840241.setContent(html_2a85159e2a5a4f6c9fc8bf0139660b7b);
+            
+
+            regular_polygon_marker_ee143c27dc464624bac0ebb07cf628ad.bindPopup(popup_45ad8758bf6e452f84893aa14c840241);
+
+            
+        
+        
+            
+            var regular_polygon_marker_b1212f4dddab4fad9acc99e4640493c0 = new L.RegularPolygonMarker(
+                new L.LatLng(42.3438499996779,-71.08983000035408),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_6470c9cbcc164636915fb2d1940f7ba3 = L.popup({maxWidth: '300'});
+
+            
+                var html_ccfaf6b13eb846e59c697ea8075bd916 = $('         <div id="html_ccfaf6b13eb846e59c697ea8075bd916"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_6470c9cbcc164636915fb2d1940f7ba3.setContent(html_ccfaf6b13eb846e59c697ea8075bd916);
+            
+
+            regular_polygon_marker_b1212f4dddab4fad9acc99e4640493c0.bindPopup(popup_6470c9cbcc164636915fb2d1940f7ba3);
+
+            
+        
+        
+            
+            var regular_polygon_marker_7cba0ccec05149fdb58aa83e23808461 = new L.RegularPolygonMarker(
+                new L.LatLng(42.31856289432221,-71.09165569529381),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_6f85f9a66ecb4e6b8dcba0e1625f1454 = L.popup({maxWidth: '300'});
+
+            
+                var html_878b68fe99b94bdba83dfe9becff6f07 = $('         <div id="html_878b68fe99b94bdba83dfe9becff6f07"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_6f85f9a66ecb4e6b8dcba0e1625f1454.setContent(html_878b68fe99b94bdba83dfe9becff6f07);
+            
+
+            regular_polygon_marker_7cba0ccec05149fdb58aa83e23808461.bindPopup(popup_6f85f9a66ecb4e6b8dcba0e1625f1454);
+
+            
+        
+        
+            
+            var regular_polygon_marker_c24465671a5840e6a9d60632231d3b69 = new L.RegularPolygonMarker(
+                new L.LatLng(42.329611374844326,-71.10616871232227),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_213bee4c67054e2698fd3aba40101ff9 = L.popup({maxWidth: '300'});
+
+            
+                var html_cc30706fa01a4d7aa8cd836ad96af176 = $('         <div id="html_cc30706fa01a4d7aa8cd836ad96af176"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_213bee4c67054e2698fd3aba40101ff9.setContent(html_cc30706fa01a4d7aa8cd836ad96af176);
+            
+
+            regular_polygon_marker_c24465671a5840e6a9d60632231d3b69.bindPopup(popup_213bee4c67054e2698fd3aba40101ff9);
+
+            
+        
+        
+            
+            var regular_polygon_marker_de58abc292ea4903a8b9ca7debd920c0 = new L.RegularPolygonMarker(
+                new L.LatLng(42.27137912172521,-71.08168028446168),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_570fd657e276404bb9dffe41db2058a0 = L.popup({maxWidth: '300'});
+
+            
+                var html_7e14d25321b149eb97e1f86e81b2d888 = $('         <div id="html_7e14d25321b149eb97e1f86e81b2d888"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_570fd657e276404bb9dffe41db2058a0.setContent(html_7e14d25321b149eb97e1f86e81b2d888);
+            
+
+            regular_polygon_marker_de58abc292ea4903a8b9ca7debd920c0.bindPopup(popup_570fd657e276404bb9dffe41db2058a0);
+
+            
+        
+        
+            
+            var regular_polygon_marker_2206ff70746542fb95778dc7805234ab = new L.RegularPolygonMarker(
+                new L.LatLng(42.3371094801158,-71.07139912234962),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_fb1a4ff3cedd4f20b17f3b011c121af3 = L.popup({maxWidth: '300'});
+
+            
+                var html_35aa2216e03a4836a0f36badecd06cf4 = $('         <div id="html_35aa2216e03a4836a0f36badecd06cf4"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_fb1a4ff3cedd4f20b17f3b011c121af3.setContent(html_35aa2216e03a4836a0f36badecd06cf4);
+            
+
+            regular_polygon_marker_2206ff70746542fb95778dc7805234ab.bindPopup(popup_fb1a4ff3cedd4f20b17f3b011c121af3);
+
+            
+        
+        
+            
+            var regular_polygon_marker_e8f3dbfa8df847ceacb422b37af6f340 = new L.RegularPolygonMarker(
+                new L.LatLng(42.329611374844326,-71.10616871232227),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_a9163a5b80a841bfb2c6db983e755fb4 = L.popup({maxWidth: '300'});
+
+            
+                var html_2921539042e6484da52de988b6af1762 = $('         <div id="html_2921539042e6484da52de988b6af1762"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_a9163a5b80a841bfb2c6db983e755fb4.setContent(html_2921539042e6484da52de988b6af1762);
+            
+
+            regular_polygon_marker_e8f3dbfa8df847ceacb422b37af6f340.bindPopup(popup_a9163a5b80a841bfb2c6db983e755fb4);
+
+            
+        
+        
+            
+            var regular_polygon_marker_ca295e6d1c2c46218c252c497c52a33f = new L.RegularPolygonMarker(
+                new L.LatLng(42.36297141612903,-71.07043169540236),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_278934d1b9fe45aebb884b48c3b3daac = L.popup({maxWidth: '300'});
+
+            
+                var html_2de78d4ff8b84e78a8694b8f61e955ca = $('         <div id="html_2de78d4ff8b84e78a8694b8f61e955ca"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_278934d1b9fe45aebb884b48c3b3daac.setContent(html_2de78d4ff8b84e78a8694b8f61e955ca);
+            
+
+            regular_polygon_marker_ca295e6d1c2c46218c252c497c52a33f.bindPopup(popup_278934d1b9fe45aebb884b48c3b3daac);
+
+            
+        
+        
+            
+            var regular_polygon_marker_8fb7701a7e4a400d8d09c22a65bf0993 = new L.RegularPolygonMarker(
+                new L.LatLng(42.34665771451756,-71.14136122385321),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_d16b627da55c4a08aafc7c4c5161d6c5 = L.popup({maxWidth: '300'});
+
+            
+                var html_cb898d30dcde49e9ba5b4dcd18ab95ab = $('         <div id="html_cb898d30dcde49e9ba5b4dcd18ab95ab"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_d16b627da55c4a08aafc7c4c5161d6c5.setContent(html_cb898d30dcde49e9ba5b4dcd18ab95ab);
+            
+
+            regular_polygon_marker_8fb7701a7e4a400d8d09c22a65bf0993.bindPopup(popup_d16b627da55c4a08aafc7c4c5161d6c5);
+
+            
+        
+        
+            
+            var regular_polygon_marker_ff98117d0dd14a6a9d62a37f80582b74 = new L.RegularPolygonMarker(
+                new L.LatLng(42.33587602903896,-71.10741054246668),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_d7d4692df90b4b1380aa7b2b8e5b8589 = L.popup({maxWidth: '300'});
+
+            
+                var html_e3ba1ee7f3924ad2b9c7143a91619d3b = $('         <div id="html_e3ba1ee7f3924ad2b9c7143a91619d3b"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_d7d4692df90b4b1380aa7b2b8e5b8589.setContent(html_e3ba1ee7f3924ad2b9c7143a91619d3b);
+            
+
+            regular_polygon_marker_ff98117d0dd14a6a9d62a37f80582b74.bindPopup(popup_d7d4692df90b4b1380aa7b2b8e5b8589);
+
+            
+        
+        
+            
+            var regular_polygon_marker_1a93754872454942a8227ce4ec6773c2 = new L.RegularPolygonMarker(
+                new L.LatLng(42.27854306401838,-71.06631280050811),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_6e8a0b91651b44ad99c0ca84d901be1e = L.popup({maxWidth: '300'});
+
+            
+                var html_70cc2b8d172c4a9586b833c95dae40d9 = $('         <div id="html_70cc2b8d172c4a9586b833c95dae40d9"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_6e8a0b91651b44ad99c0ca84d901be1e.setContent(html_70cc2b8d172c4a9586b833c95dae40d9);
+            
+
+            regular_polygon_marker_1a93754872454942a8227ce4ec6773c2.bindPopup(popup_6e8a0b91651b44ad99c0ca84d901be1e);
+
+            
+        
+        
+            
+            var regular_polygon_marker_383ea5255c0040e4bb218e7883201c3f = new L.RegularPolygonMarker(
+                new L.LatLng(42.349946522039204,-71.0634111017112),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_85aa905789b24cd5905986169dd9cf24 = L.popup({maxWidth: '300'});
+
+            
+                var html_0d1a940180e44040a808a943d3cfdaa6 = $('         <div id="html_0d1a940180e44040a808a943d3cfdaa6"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_85aa905789b24cd5905986169dd9cf24.setContent(html_0d1a940180e44040a808a943d3cfdaa6);
+            
+
+            regular_polygon_marker_383ea5255c0040e4bb218e7883201c3f.bindPopup(popup_85aa905789b24cd5905986169dd9cf24);
+
+            
+        
+        
+            
+            var regular_polygon_marker_7d6249334fba48a78311fa004e2e19d9 = new L.RegularPolygonMarker(
+                new L.LatLng(42.30021828265608,-71.12789683059322),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_8fbed34e7fab41288f2a7e9670f4d087 = L.popup({maxWidth: '300'});
+
+            
+                var html_5234dff2b3c543ff8c76abee39bb76d2 = $('         <div id="html_5234dff2b3c543ff8c76abee39bb76d2"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_8fbed34e7fab41288f2a7e9670f4d087.setContent(html_5234dff2b3c543ff8c76abee39bb76d2);
+            
+
+            regular_polygon_marker_7d6249334fba48a78311fa004e2e19d9.bindPopup(popup_8fbed34e7fab41288f2a7e9670f4d087);
+
+            
+        
+        
+            
+            var regular_polygon_marker_0dc730fc5d7b4e25971ad1378d3da617 = new L.RegularPolygonMarker(
+                new L.LatLng(42.349656455743144,-71.14822103232248),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_7854897252154035ab6f0c692a1107a5 = L.popup({maxWidth: '300'});
+
+            
+                var html_6b6aaecde2404d25becf2687cfe8e6d6 = $('         <div id="html_6b6aaecde2404d25becf2687cfe8e6d6"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_7854897252154035ab6f0c692a1107a5.setContent(html_6b6aaecde2404d25becf2687cfe8e6d6);
+            
+
+            regular_polygon_marker_0dc730fc5d7b4e25971ad1378d3da617.bindPopup(popup_7854897252154035ab6f0c692a1107a5);
+
+            
+        
+        
+            
+            var regular_polygon_marker_a3ebee055a4142068a650051ac53930c = new L.RegularPolygonMarker(
+                new L.LatLng(42.27598935537618,-71.17245195460838),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_7d1fb8ea3e6249ddb6ad73b3a0907cea = L.popup({maxWidth: '300'});
+
+            
+                var html_0606a9718b924e6088470067e23db80c = $('         <div id="html_0606a9718b924e6088470067e23db80c"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_7d1fb8ea3e6249ddb6ad73b3a0907cea.setContent(html_0606a9718b924e6088470067e23db80c);
+            
+
+            regular_polygon_marker_a3ebee055a4142068a650051ac53930c.bindPopup(popup_7d1fb8ea3e6249ddb6ad73b3a0907cea);
+
+            
+        
+        
+            
+            var regular_polygon_marker_6b1516842e1a408bbd69f84f76849cc2 = new L.RegularPolygonMarker(
+                new L.LatLng(42.36327718561898,-71.0668523937257),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_a311875c5dd64c25be340fa22e6d120b = L.popup({maxWidth: '300'});
+
+            
+                var html_f344290c7ac34070b26d4b12d386e23c = $('         <div id="html_f344290c7ac34070b26d4b12d386e23c"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_a311875c5dd64c25be340fa22e6d120b.setContent(html_f344290c7ac34070b26d4b12d386e23c);
+            
+
+            regular_polygon_marker_6b1516842e1a408bbd69f84f76849cc2.bindPopup(popup_a311875c5dd64c25be340fa22e6d120b);
+
+            
+        
+        
+            
+            var regular_polygon_marker_b392017229cd4db98aecc4cef9b4aa15 = new L.RegularPolygonMarker(
+                new L.LatLng(42.337592548462226,-71.10472284437952),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_ab61de0490c74e1d8ec65d2404fc449e = L.popup({maxWidth: '300'});
+
+            
+                var html_8b6eac133a344e3797a5f890bf8f992e = $('         <div id="html_8b6eac133a344e3797a5f890bf8f992e"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_ab61de0490c74e1d8ec65d2404fc449e.setContent(html_8b6eac133a344e3797a5f890bf8f992e);
+            
+
+            regular_polygon_marker_b392017229cd4db98aecc4cef9b4aa15.bindPopup(popup_ab61de0490c74e1d8ec65d2404fc449e);
+
+            
+        
+        
+            
+            var regular_polygon_marker_436124d9d4574330a536b7a8df01035c = new L.RegularPolygonMarker(
+                new L.LatLng(42.31617666213941,-71.11272670363542),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_e2b39536f6cf4251b99298f1a103da04 = L.popup({maxWidth: '300'});
+
+            
+                var html_3a13fb7a450a404686826de89aa68dfc = $('         <div id="html_3a13fb7a450a404686826de89aa68dfc"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_e2b39536f6cf4251b99298f1a103da04.setContent(html_3a13fb7a450a404686826de89aa68dfc);
+            
+
+            regular_polygon_marker_436124d9d4574330a536b7a8df01035c.bindPopup(popup_e2b39536f6cf4251b99298f1a103da04);
+
+            
+        
+        
+            
+            var regular_polygon_marker_f1016e538075466da2bf5768932e8bd1 = new L.RegularPolygonMarker(
+                new L.LatLng(42.29738386053219,-71.13150465441208),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_db4f786d036a4b59975ae36cf6b496d4 = L.popup({maxWidth: '300'});
+
+            
+                var html_6e598fbd3d15470cb8369248d0da955d = $('         <div id="html_6e598fbd3d15470cb8369248d0da955d"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_db4f786d036a4b59975ae36cf6b496d4.setContent(html_6e598fbd3d15470cb8369248d0da955d);
+            
+
+            regular_polygon_marker_f1016e538075466da2bf5768932e8bd1.bindPopup(popup_db4f786d036a4b59975ae36cf6b496d4);
+
+            
+        
+        
+            
+            var regular_polygon_marker_8c124cb346ab439c97e9ef2012f13cb0 = new L.RegularPolygonMarker(
+                new L.LatLng(42.314030311294516,-71.06406449543488),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_5c79c32d0c854dbabed25da7cf1b11d3 = L.popup({maxWidth: '300'});
+
+            
+                var html_c058131d16c34cb7bd1fe16224062b45 = $('         <div id="html_c058131d16c34cb7bd1fe16224062b45"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_5c79c32d0c854dbabed25da7cf1b11d3.setContent(html_c058131d16c34cb7bd1fe16224062b45);
+            
+
+            regular_polygon_marker_8c124cb346ab439c97e9ef2012f13cb0.bindPopup(popup_5c79c32d0c854dbabed25da7cf1b11d3);
+
+            
+        
+        
+            
+            var regular_polygon_marker_ada71f675dc2468d92d0eb2a928690b3 = new L.RegularPolygonMarker(
+                new L.LatLng(42.36764789068138,-71.06564730220646),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_760d73936bcd4e5f926e894aad5dcf25 = L.popup({maxWidth: '300'});
+
+            
+                var html_4d179075cb8f4101a54e8563c9c3be75 = $('         <div id="html_4d179075cb8f4101a54e8563c9c3be75"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_760d73936bcd4e5f926e894aad5dcf25.setContent(html_4d179075cb8f4101a54e8563c9c3be75);
+            
+
+            regular_polygon_marker_ada71f675dc2468d92d0eb2a928690b3.bindPopup(popup_760d73936bcd4e5f926e894aad5dcf25);
+
+            
+        
+        
+            
+            var regular_polygon_marker_7928786925694d4cb449bd7f5853ac71 = new L.RegularPolygonMarker(
+                new L.LatLng(42.352620000312925,-71.13281000028115),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_17f530560ab343018f79971f40f704cf = L.popup({maxWidth: '300'});
+
+            
+                var html_b44aad76c231407dab9231aec0485d9c = $('         <div id="html_b44aad76c231407dab9231aec0485d9c"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_17f530560ab343018f79971f40f704cf.setContent(html_b44aad76c231407dab9231aec0485d9c);
+            
+
+            regular_polygon_marker_7928786925694d4cb449bd7f5853ac71.bindPopup(popup_17f530560ab343018f79971f40f704cf);
+
+            
+        
+        
+            
+            var regular_polygon_marker_1621c835848d4a61923646651632dbaf = new L.RegularPolygonMarker(
+                new L.LatLng(42.3385289546495,-71.10940050507557),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_acf11de153234f3ab72ecd17e132d4ab = L.popup({maxWidth: '300'});
+
+            
+                var html_2e4d5baaa7894659907c15e5764fd5b1 = $('         <div id="html_2e4d5baaa7894659907c15e5764fd5b1"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_acf11de153234f3ab72ecd17e132d4ab.setContent(html_2e4d5baaa7894659907c15e5764fd5b1);
+            
+
+            regular_polygon_marker_1621c835848d4a61923646651632dbaf.bindPopup(popup_acf11de153234f3ab72ecd17e132d4ab);
+
+            
+        
+        
+            
+            var regular_polygon_marker_7c96a603dafa45e4b0dd2289ef25a7be = new L.RegularPolygonMarker(
+                new L.LatLng(42.33734993862189,-71.1071702648531),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_dcb723ecc83d4847b23ae168257ce280 = L.popup({maxWidth: '300'});
+
+            
+                var html_f06a65e8311d49b7b5c3e1dbdcb056f8 = $('         <div id="html_f06a65e8311d49b7b5c3e1dbdcb056f8"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_dcb723ecc83d4847b23ae168257ce280.setContent(html_f06a65e8311d49b7b5c3e1dbdcb056f8);
+            
+
+            regular_polygon_marker_7c96a603dafa45e4b0dd2289ef25a7be.bindPopup(popup_dcb723ecc83d4847b23ae168257ce280);
+
+            
+        
+        
+            
+            var regular_polygon_marker_9639b4a440d343e59a46eb5c85b431f9 = new L.RegularPolygonMarker(
+                new L.LatLng(42.36247485742686,-71.06924724545246),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_ec46d06ba0d64565888d862eafd73fbb = L.popup({maxWidth: '300'});
+
+            
+                var html_705d16136c7a4b0b8966faf9dc030172 = $('         <div id="html_705d16136c7a4b0b8966faf9dc030172"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_ec46d06ba0d64565888d862eafd73fbb.setContent(html_705d16136c7a4b0b8966faf9dc030172);
+            
+
+            regular_polygon_marker_9639b4a440d343e59a46eb5c85b431f9.bindPopup(popup_ec46d06ba0d64565888d862eafd73fbb);
+
+            
+        
+        
+            
+            var regular_polygon_marker_29a5771cdba54118a2208bd46276e9f7 = new L.RegularPolygonMarker(
+                new L.LatLng(42.335925371008436,-71.07378404269969),
+                {
+                    icon : new L.Icon.Default(),
+                    color: 'black',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.3,
+                    numberOfSides: 8,
+                    rotation: 0,
+                    radius: 10
+                    }
+                )
+                .addTo(map_9521e7b7df504fb98cc2dc515e3bfef9);
+            
+        
+            
+            var popup_959ffa928f944a25a197738a42ca8d65 = L.popup({maxWidth: '300'});
+
+            
+                var html_24cae77d336c4eb59855f8aa53b9d829 = $('         <div id="html_24cae77d336c4eb59855f8aa53b9d829"                 style="width: 100.0%; height: 100.0%;">                 Hospital</div>                 ')[0];
+                popup_959ffa928f944a25a197738a42ca8d65.setContent(html_24cae77d336c4eb59855f8aa53b9d829);
+            
+
+            regular_polygon_marker_29a5771cdba54118a2208bd46276e9f7.bindPopup(popup_959ffa928f944a25a197738a42ca8d65);
+
+            
+        
+        
+        
+        </script>
+        

@@ -92,6 +92,20 @@ class HospitalLocationAnalysis(dml.Algorithm):
         Ydiff = [abs(x-y) for x, y in zip(XY, Y)]
         XY = [(x,y) for x,y in zip(Xdiff, Ydiff)]
 
+        print(Hospital)
+        ###################################################
+        # plotting map
+        import folium
+        output = 'hospital.html'
+        map = folium.Map(location=[42.355, -71.0609], zoom_start=13)
+        for i in range(len(Hospital)):
+            lat, long = Hospital[i]
+            map.polygon_marker(location=[lat,long], popup='Hospital', fill_color='#ff0000', num_sides=8, radius=10, fill_opacity=0.3)
+        map
+        map.create_map(path=output)
+
+        ###################################################
+
         print("this is the locations of current Hospital station: " + str(Hospital))
         print("K means Hospital locations: " + str(M))
         print("this is difference between Hospital and Clusters: " + str(XY))
