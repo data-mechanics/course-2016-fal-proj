@@ -43,7 +43,7 @@ function initMap() {
 
   window.pin_dict = new Array();
   pin_dict.push(new L.marker([arguments[0], arguments[1]]));
-  pin_dict[0].addTo(map).bindPopup("init!!");
+  pin_dict[0].addTo(map).bindPopup("This is the center of the map.");
 
   function getColor(d) {
     return d > 200  ? '#E31A1C' :
