@@ -274,7 +274,7 @@ class rTreeKmeans(dml.Algorithm):
             ax.set_yticklabels([])
             #plt.grid(True)
 
-            plt.title('Allocation Score for each Bus Route', fontsize=48, y=1.03, fontweight='medium', color='#4e74ba')
+            plt.title('', fontsize=48, y=1.03, fontweight='medium', color='#4e74ba')
             #plt.xlabel('Latitude',  fontsize=24, fontweight='medium', color='#e36c09')
             #plt.ylabel('Longitude', fontsize=24, fontweight='medium', color='#e36c09')
 
@@ -329,7 +329,7 @@ class rTreeKmeans(dml.Algorithm):
 
         # run k-means to find stops
         num_stops = len(route['properties']['route_stops'])
-        stops = findStops(num_stops, proj)
+        stops = rTreeKmeans.findStops(num_stops, proj)
         return routes_dict, stops_dict, points_dict, tree, tree_keys, result_set, proj, stops
 
     @staticmethod
