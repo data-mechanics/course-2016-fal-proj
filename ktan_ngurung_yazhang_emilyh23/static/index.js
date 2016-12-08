@@ -4,12 +4,24 @@ $(document).ready(
 
 function initMap() {
 
-  var map = L.map('mapid').setView([42.3601, -71.0589], 12);
+  var map = L.map('mapid', { 
+    center:[42.329408, -71.057513], 
+    zoom:12,
+  });
+
+  var overallRatingLayer = L.geoJson(zcdata, {style: style}).addTo(map);
+  var hubwayRatingLayer = L.geoJson(hubwaydata, {style: style}).addTo(map);
+
+  var baseLayers = {
+    "overall": overallRatingLayer,
+    "hubway": hubwayRatingLayer
+  };
+
+  L.control.layers(baseLayers).addTo(map);
+
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
-
-  L.geoJson(zcdata).addTo(map);
 
   L.marker([42.3601, -71.0589]).addTo(map)
         .bindPopup('This is Boston.')
@@ -32,7 +44,6 @@ function initMap() {
           fillOpacity: 0.7
       };
   }
-  L.geoJson(zcdata, {style: style}).addTo(map);
 
   var legend = L.control({position: 'bottomright'});
 
