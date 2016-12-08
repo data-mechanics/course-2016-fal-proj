@@ -4,6 +4,9 @@ import dml
 import prov.model
 import datetime
 import uuid
+import sys
+
+TRIAL_LIMIT = 5000
 
 class transformation1(dml.Algorithm):
     contributor = 'jas91_smaf91'
@@ -13,6 +16,9 @@ class transformation1(dml.Algorithm):
     @staticmethod
     def execute(trial = False):
         startTime = datetime.datetime.now()
+        
+        if trial:
+            print("[OUT] Running in Trial Mode")
 
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
@@ -78,9 +84,9 @@ class transformation1(dml.Algorithm):
 
         def get_geo_info_sr311(entry):
             zip_code = entry['location_zipcode'] if 'location_zipcode' in entry else None
-            latitude = entry['geocoded_location']['latitude'] if 'geocoded_location' in entry else None
+            latitude = entry['geocoded_location']['coordinates'][1] if 'geocoded_location' in entry else None
             latitude = to_float(latitude)
-            longitude = entry['geocoded_location']['longitude'] if 'geocoded_location' in entry else None
+            longitude = entry['geocoded_location']['coordinates'][0] if 'geocoded_location' in entry else None
             longitude = to_float(longitude)
             return zip_code, latitude, longitude
 
@@ -112,9 +118,16 @@ class transformation1(dml.Algorithm):
             }
         }
 
+
         for collection_id in collections:
             collection = collections[collection_id]
-            for document in repo[collection['name']].find():
+
+            if trial:
+                records = repo[collection['name']].find().limit(TRIAL_LIMIT)
+            else:
+                records = repo[collection['name']].find()
+
+            for document in records: 
                 if 'geo_info' in document:
                     continue
 
@@ -225,8 +238,9 @@ class transformation1(dml.Algorithm):
 
         return doc
 
-'''
-transformation1.execute()
-doc = transformation1.provenance()
-print(json.dumps(json.loads(doc.serialize()), indent=4))
-'''
+if 'trial' in sys.argv:
+    transformation1.execute(True)
+#else:
+#    transformation1.execute()
+#doc = transformation1.provenance()
+#print(json.dumps(json.loads(doc.serialize()), indent=4))

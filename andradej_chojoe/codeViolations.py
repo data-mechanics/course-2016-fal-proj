@@ -45,8 +45,8 @@ def aggregate(R, f):
 # Helper method for Code Enforcement
 def projectCodeViol(row):
     try:
-        if row['zip'] and row['description']:
-            zipcode = row['zip']
+        if row['latitude'] and row['longitude'] and row['description']:
+            coordinates = (row['latitude'], row['longitude'])
             description = row['description']
         else:
             return None
@@ -54,7 +54,7 @@ def projectCodeViol(row):
         return None
 
     #we append the newly contructed tuple format
-    return (zipcode, description)
+    return (coordinates, description)
 
 # Helper method for Code Enforcement
 def compareCodeTypes(row):
@@ -90,13 +90,10 @@ def removeZeroOccurences(row):
 # Helper method for Food Violations
 def projectFoodViol(row):
     try: 
-        if row['zip'] and row['violstatus'] and row['violdesc']:
+        if row['location'] and row['violstatus'] and row['violdesc']:
             
             # takes into account error for zip codes with 4 length
-            if len(row['zip']) < 5:
-                zipcode = "0" + str(row['zip'])
-            else:
-                zipcode = row['zip']
+            coordinates = (row['location']['coordinates'][1],row['location']['coordinates'][0])
                 
             # only considers failed inspections
             if row['violstatus'] != "Fail":
@@ -104,7 +101,7 @@ def projectFoodViol(row):
 
             description = row['violdesc']
             
-            return (zipcode, description)
+            return (coordinates, description)
         else:
             return None
     except:
@@ -145,7 +142,7 @@ def dictionarify(R):
     result = []
     for r in R:
         #result.update('zipcode': r[0], 'days': r[1]})
-        result.append((('zipcode', r[0]), ('type', r[1]), ('count', r[2])))
+        result.append((('location', r[0]), ('type', r[1]), ('count', r[2])))
         #print(result)
     return result
 
@@ -222,40 +219,69 @@ class codeViolations(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
         
-        this_script = doc.agent('alg:andradej_chojoe#codeViolations', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        # define the agent which is the script
+        this_script = doc.agent('alg:#codeViolations', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
+        # define all entities and all associated arrows from them
         codeEnf_rsc = doc.entity('bdp:w39n-pvs8', {'prov:label':'Code Enforcement - Building and Property Violations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_codeEnf = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Code Enforcement - Building and Property Violations'})
-        doc.wasAssociatedWith(get_codeEnf, this_script)
+        foodEst_rsc = doc.entity('bdp:427a-3cn5', {'prov:label':'Food Establishment Inspections', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        run_algorithm = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Run execute method'})
+        doc.wasAssociatedWith(run_algorithm, this_script)
+
+        codeEnf = doc.entity('dat:#codeEnf', {prov.model.PROV_LABEL:'Filtered: Code Enforcement', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(codeEnf, this_script)
+        doc.wasGeneratedBy(codeEnf, run_algorithm, endTime)
+        doc.wasDerivedFrom(codeEnf, codeEnf_rsc, run_algorithm, run_algorithm, run_algorithm)
+        
+        foodEst = doc.entity('dat:#foodEst', {prov.model.PROV_LABEL:'Filtered: Food Inspections', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(foodEst, this_script)
+        doc.wasGeneratedBy(foodEst, run_algorithm, endTime)
+        doc.wasDerivedFrom(foodEst, foodEst_rsc, run_algorithm, run_algorithm, run_algorithm)
+        
+        sanViol = doc.entity('dat:#sanViol', {prov.model.PROV_LABEL:'Sanitation Violations', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(sanViol, this_script)
+        doc.wasGeneratedBy(sanViol, run_algorithm, endTime)
+        doc.wasDerivedFrom(sanViol, codeEnf, codeEnf_rsc, run_algorithm, run_algorithm)
+        doc.wasDerivedFrom(sanViol, foodEst, foodEst_rsc, run_algorithm, run_algorithm)
+        
+        # define the usage activities
         doc.usage(
-            get_codeEnf,
+            run_algorithm,
             codeEnf_rsc,
             startTime,
             None,
             {prov.model.PROV_TYPE:'ont:Retrieval'}
         )
-        
-        foodEst_rsc = doc.entity('bdp:427a-3cn5', {'prov:label':'Food Establishment Inspections', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        get_foodEst = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime, {'prov:label':'Get Food Establishment Inspections'})
-        doc.wasAssociatedWith(get_foodEst, this_script)
         doc.usage(
-            get_foodEst,
+            run_algorithm,
+            codeEnf,
+            startTime,
+            None,
+            {prov.model.PROV_TYPE:'ont:Dataset'}
+        )
+        doc.usage(
+            run_algorithm,
             foodEst_rsc,
             startTime,
             None,
             {prov.model.PROV_TYPE:'ont:Retrieval'}
         )
+        doc.usage(
+            run_algorithm,
+            foodEst,
+            startTime,
+            None,
+            {prov.model.PROV_TYPE:'ont:Dataset'}
+        )
+        doc.usage(
+            run_algorithm,
+            sanViol,
+            startTime,
+            None,
+            {prov.model.PROV_TYPE:'ont:Dataset'}
+        )
         
-        codeEnf = doc.entity('dat:andradej_chojoe#codeEnf', {prov.model.PROV_LABEL:'Code Enforcement - Building and Property Violations', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(codeEnf, this_script)
-        doc.wasGeneratedBy(codeEnf, get_codeEnf, endTime)
-        doc.wasDerivedFrom(codeEnf, codeEnf_rsc, get_codeEnf, get_codeEnf, get_codeEnf)
-        
-        foodEst = doc.entity('dat:andradej_chojoe#foodEst', {prov.model.PROV_LABEL:'Food Establishment Inspections', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(foodEst, this_script)
-        doc.wasGeneratedBy(foodEst, get_foodEst, endTime)
-        doc.wasDerivedFrom(foodEst, foodEst_rsc, get_foodEst, get_foodEst, get_foodEst)
-        
+        # record the prov document
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
         
