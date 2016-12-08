@@ -1,12 +1,18 @@
-$(document).ready(
-    initMap
-);
+$(document).ready(function() {
+
+  if (!$("#mapid").size()) {
+      console.log("here"); 
+    } else { 
+      initMap(42.3294,-71.0632, 12); 
+    }
+
+});
 
 function initMap() {
 
-  var map = L.map('mapid', { 
-    center:[42.329408, -71.057513], 
-    zoom:12,
+  window.map = L.map('mapid', { 
+    center:[arguments[0], arguments[1]], 
+    zoom:arguments[2],
   });
 
   var hubwayRatingLayer = L.geoJson(hubwaydata, {style: style}).addTo(map);
@@ -32,9 +38,13 @@ function initMap() {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
-  L.marker([42.3601, -71.0589]).addTo(map)
-        .bindPopup('This is Boston.')
-        .openPopup();
+  // window.pins = L.marker([arguments[0], arguments[1]]).addTo(map)
+  //       .bindPopup('This is Boston.')
+  //       .openPopup();
+
+  window.pin_dict = new Array();
+  pin_dict.push(new L.marker([arguments[0], arguments[1]]));
+  pin_dict[0].addTo(map).bindPopup("init!!");
 
   function getColor(d) {
     return d > 200  ? '#E31A1C' :
@@ -103,6 +113,31 @@ function getResult() {
   http.onreadystatechange = function() {
     if (http.readyState == 4 && http.status == 200) {
       var data = JSON.parse(http.responseText);
+
+      // getting zipcodes
+      for (var i = 0; i < pin_dict.length; i++) {
+        console.log('yes')
+        map.removeLayer(pin_dict[i])
+        pin_dict.shift()
+      }
+      console.log("for loop done")
+      console.log(pin_dict)
+
+      var results = data.results
+      for (var i = 0; i < results.length; i++) {
+        zc = results[i]['zipcode']
+        lat = latLng[zc]['lat']
+        long = latLng[zc]['lng']
+
+
+        pin_dict.push(new L.marker([lat, long]));
+        pin_dict[i].addTo(map).bindPopup("something!!");
+
+        // console.log(lat)
+        // console.log(zc)
+        // console.log(long)
+      }
+
       console.log(data)
     }
   }
