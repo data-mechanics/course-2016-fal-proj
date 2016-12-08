@@ -91,11 +91,17 @@ class PropertyCrimeAnalysis(dml.Algorithm):
         print("P-value: " + str(PropertyCrimeAnalysis.p(NumCrimes, PropValue)))
         print(len(NumCrimes))
         print(PropValue)
+        districts = ['A1', 'D4', 'E13', 'B3', 'E18', 'D14', 'A7', 'C6', 'B2', 'E5', 'C11']
         plt.scatter(NumCrimes, PropValue, alpha=0.5)
         plt.plot(NumCrimes, numpy.poly1d(numpy.polyfit(NumCrimes, PropValue, 1))(NumCrimes))
+        for i, txt in enumerate(districts):
+            plt.annotate(txt, (NumCrimes[i], PropValue[i]))
+        major_ticks = np.arrange(0, )
         plt.xlabel('Number of Crimes in Police District')
         plt.ylabel('Average Property Value')
-        #plt.ylim()
+        plt.title("Crime Rates and Average Property Value within Police Districts")
+        plt.ylim(0, 12000000)
+        plt.xlim(0, 180)
 
         plt.show()
 
