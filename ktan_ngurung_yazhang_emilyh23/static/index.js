@@ -129,11 +129,13 @@ function getResult() {
     }
 		for (var i = 0; i < results.length; i++) {
 	        zc = results[i]['zipcode']
+          pop_density = latLng[zc]['pop_density']
+          avg_income = latLng[zc]['avg_income']
 	        lat = latLng[zc]['lat']
 	        long = latLng[zc]['lng']
 	     var marker = L.marker([lat, long])
 	  		mapMarkers.push(marker);
-	  		mapMarkers[i].addTo(map).bindPopup(zc);
+	  		mapMarkers[i].addTo(map).bindPopup('Zipcode: ' + zc + '<br>Population Density: ' + pop_density + '<br>Median Income: ' + avg_income);
       }
       var group = new L.featureGroup(mapMarkers);
       map.fitBounds(group.getBounds());
