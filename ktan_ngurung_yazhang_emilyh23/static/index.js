@@ -4,7 +4,7 @@ $(document).ready(
 
 function initMap() {
 
-  var map = L.map('mapid').setView([42.3294, -71.0632], 12);
+  var map = L.map('mapid').setView([42.3601, -71.0589], 12);
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
