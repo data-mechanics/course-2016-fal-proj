@@ -32,8 +32,8 @@ class getHospitals(dml.Algorithm):
             city = city[1:-1].split(',')
             city = str(city[1]).split(':')[1]
             city = city.strip("\"")
-            city = city.upper()
-            a.append({"name" : hospital[8] , "city" : city , "coord" : hospital[-1][1:3] })
+            #a.append({"hospitalName" : hospital[8] , "city" : city , "coord" : hospital[-1][1:3] })
+            a.append({"hospitalName" : hospital[8] , "coord" : hospital[-1][1:3] })
 
         repo.dropPermanent("hospital")
         repo.createPermanent("hospital")
@@ -65,12 +65,11 @@ class getHospitals(dml.Algorithm):
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
         this_script = doc.agent('alg:jyaang_robinliu106#getHospitals', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'Hospital Location', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        resource = doc.entity('bdp:46f7-2snz', {'prov:label':'Hospital Location', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         get_hospital = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(get_hospital, this_script)
         doc.usage(get_hospital, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=hospital&$select=type,latitude,longitude,OPEN_DT'
+                {prov.model.PROV_TYPE:'ont:Retrieval'
                 }
             )
 
