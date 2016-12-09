@@ -6,18 +6,39 @@ import datetime
 import uuid
 import time
 import ast
+from geopy.geocoders import Nominatim
+geolocator = Nominatim()
+
+
+# HELPER METHODS #
+
+
+def get_coords(number,street,suffix,city,zip):
+    address_str = number + " " + street + " " + suffix + " " + city + " " + zip
+    location = geolocator.geocode(address_str, timeout=20)
+    if location == None:
+        class location:
+            longitude = 0
+            latitude = 0
+    return [location.longitude, location.latitude]
+
 
 class retrieveData(dml.Algorithm):
-    contributor = 'dwangus'
+    contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
     reads = []
     
     titles = ['Crime Incident Reports (July 2012 - August 2015) (Source: Legacy System)', \
               'Public Access Fishing Locations', 'Issued Moving Truck Permits', 'Active Food Establishment Licenses', \
               'Entertainment Licenses', 'Community Supported Agriculture (CSA) Pickups ', 'Year-Round Swimming Pools']
-    setExtensions = ['crime2012-2015', 'public-fishing-access-locations', 'moving-truck-permits', \
-                     'food-licenses', 'entertainment-licenses', 'csa-pickups', 'year-round-pools']
 
-    writes = ['dwangus.' + dataSet for dataSet in setExtensions]
+
+    setExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
+                     'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools']
+
+    authentication_stuff = '?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']
+
+
+    writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]
 
     urls = ['https://data.cityofboston.gov/resource/ufcx-3fdn.json', \
             'https://data.cityofboston.gov/resource/jaz3-9yrd.json', \
@@ -27,21 +48,22 @@ class retrieveData(dml.Algorithm):
             'https://data.cityofboston.gov/resource/cqit-55tt.json', \
             'https://data.cityofboston.gov/resource/5jxx-wfpr.json']
 
+
     dataSetDict = {}
     for i in range(len(setExtensions)):
         dataSetDict[setExtensions[i]] = (urls[i], writes[i], titles[i], urls[i][39:48])
-    
+
     @staticmethod
     def execute(trial = False):
         '''Retrieve some data sets.'''
         startTime = datetime.datetime.now()
         start = time.time()
-        
+
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate(retrieveData.contributor, retrieveData.contributor)
-        myrepo = repo.dwangus
+        myrepo = repo.aliyevaa_bsowens_dwangus_jgtsui # must change repo
 
         '''
         ###Notes for each of the datasets' geo-location data and format###
@@ -69,30 +91,36 @@ class retrieveData(dml.Algorithm):
             print("Starting retrieval and storage of {} dataset".format(key))
             repo.dropPermanent(key)
             repo.createPermanent(key)
-            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0]).read().decode("utf-8")
+
+
+            response = urllib.request.urlopen(retrieveData.dataSetDict[key][0] + retrieveData.authentication_stuff).read().decode("utf-8") # why didn't you append the secret key here "via json file"
+
             r = json.loads(response)
             s = json.dumps(r, sort_keys=True, indent=2)
             repo[retrieveData.dataSetDict[key][1]].insert_many(r)
             ###TRANSFORMATION###
-            if key == 'public-fishing-access-locations':
-                print("Transforming public-fishing-access-locations dataset...")
-                fishing = myrepo['public-fishing-access-locations']
+            if key == 'public_fishing_access_locations':
+                #continue
+                print("Transforming public_fishing_access_locations dataset...")
+                fishing = myrepo['public_fishing_access_locations']
                 fishing.update_many({}, {"$rename": {'location': 'location_address'}})
                 fishing.update_many({}, {"$rename": {'map_location': 'location'}})
                 fishing.create_index([('location', '2dsphere')])
-            elif key == 'csa-pickups':
-                print("Transforming csa-pickups dataset...")
-                csa = myrepo['csa-pickups']
+            elif key == 'csa_pickups':
+                print("Transforming csa_pickups dataset...")
+                csa = myrepo['csa_pickups']
                 csa.update_many({}, {"$rename": {'location': 'location_address'}})
                 csa.update_many({}, {"$rename": {'map_location': 'location'}})
                 csa.create_index([('location', '2dsphere')])
-            elif key == 'food-licenses':
-                print("Transforming food-licenses dataset...")
-                food = myrepo['food-licenses']
+            elif key == 'food_licenses':
+                continue
+                print("Transforming food_licenses dataset...")
+                food = myrepo['food_licenses']
                 food.create_index([('location', '2dsphere')])
-            elif key == 'entertainment-licenses':
-                print("Transforming entertainment-licenses dataset...")
-                ent = myrepo['entertainment-licenses']
+            elif key == 'entertainment_licenses':
+                #continue
+                print("Transforming entertainment_licenses dataset...")
+                ent = myrepo['entertainment_licenses']
                 for e in ent.find(modifiers={"$snapshot": True}):
                     if 'location' in e.keys() and type(e['location']) == str and e['location'].startswith('('):
                         prevCoords = ast.literal_eval(e['location'])
@@ -101,21 +129,42 @@ class retrieveData(dml.Algorithm):
                     else:
                         ent.delete_one({'_id': e['_id']})
                 ent.create_index([('location', '2dsphere')])
-            elif key == 'year-round-pools':
-                #Transform year-round-pools geolocation field format
-                #Putting this off for now... still don't know what its current format is...
-                continue
-            elif key == 'moving-truck-permits':
-                print("Transforming moving-truck-permits dataset...")
-                truck = myrepo['moving-truck-permits']
+            elif key == 'year_round_pools':
+                #continue
+                print("Transforming year_round_pools dataset...")
+                pools = myrepo['year_round_pools']
+                pools.update_many({}, {"$rename": {'location_1': 'location_details'}})
+
+                for pool in pools.find(modifiers={"$snapshot": True}):
+                    #print(pool['_id'])
+                    if 'location_details' in pool.keys():
+                        number = pool['st_no']
+                        street = pool['st_name']
+                        suffix = pool['suffix']
+                        city = pool['location_1_city']
+                        zip_code = pool['location_1_zip']
+                        prevCoords = get_coords(number,street,suffix,city,zip_code)
+                        #pool.update({'_id': pool['_id']}, {'$unset':{'location_1'}})
+                        pools.update({'_id': pool['_id']}, \
+                                     {'$set': {'location': {'type': 'Point', 'coordinates': prevCoords}}})
+                #try:
+                    #pools.create_index([('location_details', '2dsphere')])
+                #except:
+                    #print("Unknown error with coordinates", )
+
+                pools.create_index([('location', '2dsphere')])
+
+            elif key == 'moving_truck_permits':
+                print("Transforming moving_truck_permits dataset...")
+                truck = myrepo['moving_truck_permits']
                 truck.update_many({}, {"$rename": {'location': 'location_details'}})
+
                 for t in truck.find(modifiers={"$snapshot": True}):
                     if 'location_details' in t.keys():
                         prevCoords = [float(t['location_details']['longitude']), float(t['location_details']['latitude'])]
                         truck.update({'_id': t['_id']}, \
                                    {'$set': {'location': {'type': 'Point', 'coordinates': prevCoords}}})
                 truck.create_index([('location', '2dsphere')])
-
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -141,12 +190,12 @@ class retrieveData(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:dwangus#retrieveData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:aliyevaa_bsowens_dwangus_jgtsui#retrieveData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         for key in retrieveData.dataSetDict.keys():
             resource = doc.entity('bdp:' + retrieveData.dataSetDict[key][3], {'prov:label':retrieveData.dataSetDict[key][2], prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
             get_something = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
             doc.wasAssociatedWith(get_something, this_script)
-            something = doc.entity('dat:dwangus#' + key, {prov.model.PROV_LABEL:retrieveData.dataSetDict[key][2], prov.model.PROV_TYPE:'ont:DataSet'})
+            something = doc.entity('dat:aliyevaa_bsowens_dwangus_jgtsui#' + key, {prov.model.PROV_LABEL:retrieveData.dataSetDict[key][2], prov.model.PROV_TYPE:'ont:DataSet'})
             doc.wasAttributedTo(something, this_script)
             doc.wasGeneratedBy(something, get_something, endTime)
             doc.wasDerivedFrom(something, resource, get_something, get_something, get_something)
