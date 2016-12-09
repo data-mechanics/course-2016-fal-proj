@@ -9,7 +9,7 @@ The data sets we have chosen are:
 - Public Access Fishing Locations, Issued Moving Truck Permits
 - Active Food Establishment Licenses, Entertainment Licenses
 - Community Supported Agriculture Pickups
-- Year-Round Swimming Pools.
+- Year-Round Swimming Pools. (will be cleaned up for Proj-3)
 - Boston Parking Lots
 - Boston Libaries
 
@@ -31,15 +31,17 @@ existing "tourist establishment" in order to maximize the benefits to Bostonians
 where would we do so?
 
 
-These data sets were combined as a preliminary test to this question, using crime statistics, and seeing if there was a correlation in the location where a
-crime occurred and the frequency of "anti-community" and "community" indicators within a 1-mile radius. The public fishing locations and community supported
-agriculture pickups were grouped and taken to be "community indicators", while entertainment and active food establishment licenses were taken to be "anti-
-community indicators" -- with the rationale that entertainment is a form of escapism from where one currently is, and that food establishments similarly 
-exist to give people a break from eating around their community (and often being tourist spots as well). The moving truck permits data set was offered as a 
-frame of reference to the proposed groupings of community and anti-community indicators -- as it's unclear whether all moving truck permits issued are for
-people leaving or entering Boston. 
+These data sets were combined as a preliminary test to this question, using crime statistics, and seeing if there was a correlation in the 1000x1000-foot 
+cells with crime incidence and what we scored as a "community value". The public fishing locations, community supported
+agriculture pickups, and library 
+locations were grouped and taken to be "community indicators", while entertainment, active food establishment license, and parking lot locations were taken 
+to be "anti-community indicators" -- with the rationale that entertainment is a form of escapism from where one currently is (with large parking lots/garages 
+designated as private, doing no public good), and that food establishments similarly exist to give people a break from eating around their community (and often 
+being tourist spots as well). 
 
-For project 2, we decided to create a well-defined heatmap of Boston, where each geographic location has an indicator of how "strong" or "weak" community at that location is.
+For project 2, we decided to create a well-defined heatmap of Boston (preliminarily, we simply have the values necessary to create the heatmap visualization 
+across a 2D map of Boston), where each geographic 1000x1000-ft cell in a grid of cells across Boston has a computed indicator of how "strong" or "weak" community 
+at that location is.
 
 - Scour different data-sets as to how they might indicate "pro" or "anti" community indicators; the key here is to find fixed addresses/buildings/locations well-known for a specific purpose that are static over time/space (i.e., fixed points in the map of Boston)
 - Once we've processed/grouped the data-sets accordingly to unique location points, we then determine whether a single location is pro or anti-community
@@ -76,19 +78,76 @@ in MongoDB's databases (see [this](https://docs.mongodb.com/manual/core/2dsphere
 	- For project two, we decided to not include this dataset because there was no way of determing where the truck was coming from and going to.
 - Year Round Swimming Pools
 	- We transformed the included coordinate system in a similar way to how we transformed the Issued Moving Truck Permits. However, since the coordinates were in a format that we didn't understand, we manually input each address into GeoPy to find the latitude and longitude for each pool.
-	- We decided to not transform this dataset any further for project two, because we still need to find a way to distinguish between the public pools (which are an indicator of positive community) and the pools that require an admission fee (whihch we would categorize an a negative community indicator).
-			
+	- We decided to not transform this dataset any further for project two, because we still need to find a way to distinguish between the public pools (which are an indicator of positive community) and the pools that require an admission fee (which we would categorize an a negative community indicator).
+- Libraries:
+	- Scraped GPS locations using GoogleMaps API and other resources listing libraries in Boston
+- Parking Lots/Garages:
+	- Scraped GPS locations using GoogleMaps API and other resources listing parking lots/garages in Boston
+	
+	
+## Dependencies
+
+Please make sure to install the following using pip:
+
+```
+pip3 install pyshp
+```
+
+```
+pip3 install pyproj
+```
+
+```
+pip3 install -U googlemaps
+```
+
+Moreover, make sure you run the files in this order:
+
+1. `retrieveData.py`
+2. `libraries.py`
+3. `parking.py`
+4. `cleanup.py`
+5. `combineRestaurantEnt.py`
+6. `scoreLocations.py`
+7. `gridCenters.py`
+8. `distances.py`
+9. `crimeRates.py`
+
+
 The transformations/algorithms used to create the five new data sets occurred in the following manner.
 
 1. Boston Grid Cell GPS Centers (1000-FT Cells)
 
-	* For each crime/entry in this new data set, update as follows:
-	* Create a new field called '<>_indicators_1600m_radius', with value = 
-	* Find the size of the filtered set of all entries in the corresponding data sets based on category (community, anti-community, moving permits), based on whether their location exists within 1600 meters of the given crime's location
-	*  Copy the existing crime data set (whose geolocation data was already correctly formatted) as the new data set to be created, that will be soon edited in-place
+	* Taking the Boston Shapefile (downloaded from this resource: http://www.arcgis.com/home/item.html?id=734463787ac44a648fe9119af4e98cae) and its coordinate points (while also finding the necessary coordinate-system reprojection into standard GPS coordinates), we found/used only the mainland and airport/East Boston geographic divisions of the shapefile, and subsequently divided up Boston into a grid of roughly ~1000x~1000-ft cells, and output into the "Boston Grid Cell GPS Centers (1000-FT Cells)" dataset the list of about ~1700 coordinates ((longitude, latitude) as (x,y) coordinates), each coordinate the respective center of a cell/box in the Boston-divided grid.
 	
 2. Community Indicators Location and Score
-3. Boston Grid Cells Inverse Community Score
-4. Distinct Entertainment Licenses (without restaurants)
-5.  Boston Grid Cells Crime Incidence 2012 - 2015
 
+	* First, we took seven datasets:
+	
+		- Crime Incident Reports (from July 2012 - August 2015)
+		- Public Access Fishing Locations, Issued Moving Truck Permits
+		- Active Food Establishment Licenses, Entertainment Licenses
+		- Community Supported Agriculture Pickups
+		- Year-Round Swimming Pools.
+		- Boston Parking Lots
+		- Boston Libaries
+		
+	* We assumed that Fishing Locations, CSA pickups, year round pools and libraries have positive effect on a community. That is why we assigned community_score = 1 for each location. (for now, we ignored the pools dataset; will incorporate in Project 3)
+	* Analogously, for each location that fell under the category of "anti-community" (such as Restaurant Licenses, Parking, and Entertainment Licenses), we assigned a community_score = -1.
+	* Then, we multiply each "anti-community" community_score by the ratio that was detailed above.
+
+3. Boston Grid Cells Inverse Community Score
+
+	* For each GPS center, we calculated the distance between itself and all the location points using the distance formula.
+	* Then, we multpled each respective calculated distance by the community score (from 'Community Indicators Location and Score') to obtain the overall impact on the cell's GPS center.
+	* Then, we took the inverse of the entire sum and took that to be that specific cell's "Community Score/Value".
+
+4. Distinct Entertainment Licenses (without restaurants)
+
+	* First, we cleaned up the Entertainment Licenses dataset to exclude multiple entries for one license.
+	* Then, we looked for the overlap between the Restaurant Licenses and the Entertainment Licenses by comparing the latitude, longitude, street name, street number, city, etc.
+	* If it was the case that the same entry was found in both datasets, remove the entry from the Entertainment Licenses dataset, as that means that specific entry is actually a restaurant.
+
+5. Boston Grid Cells Crime Incidence 2012 - 2015
+
+	* We looked at the crime data and the output from Boston Grid Cell GPS Centers(1000-FT Cells). From here, we keep a running count of how many crimes occured within each 1000x1000ft cell, as determined by finding the geographically closest cell's GPS center for this current crime's reported location.
