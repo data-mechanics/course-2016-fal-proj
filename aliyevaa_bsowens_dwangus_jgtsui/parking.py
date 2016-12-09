@@ -20,6 +20,7 @@ def prep_to_json (data):
 	return str_parking_list
 	
 
+
 #privacy violation, but is required for using Google APIs (customized) 
 api_key='AIzaSyCKwiWXDPTAHdUFPS9UOQ732-gJ3dCta9w'
 
@@ -53,7 +54,13 @@ class parking(dml.Algorithm):
 		repo.dropPermanent("parking")
 		repo.createPermanent("parking")
 
+
 		repo['aliyevaa_bsowens_dwangus_jgtsui.parking'].insert_many(r)
+		for elem in repo.aliyevaa_bsowens_dwangus_jgtsui.parking.find( modifiers={"$snapshot": True}):
+			lng=elem['lng']
+			lat=elem['lat']
+			repo.aliyevaa_bsowens_dwangus_jgtsui.parking.update({'_id': elem['_id']}, {'$set': {'location': {'type': 'Point', 'coordinates': [float(lng),float(lat)]}}})
+		repo.aliyevaa_bsowens_dwangus_jgtsui.parking.create_index([('location', '2dsphere')])
 		repo.logout()
 		endTime = datetime.datetime.now()
 		return {"start":startTime, "end":endTime}
@@ -88,33 +95,5 @@ parking.execute()
 doc = parking.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
