@@ -51,6 +51,7 @@ class retrieveData(dml.Algorithm):
 
     dataSetDict = {}
     for i in range(len(setExtensions)):
+
         dataSetDict[setExtensions[i]] = (urls[i], writes[i], titles[i], urls[i][39:48])
 
     @staticmethod
@@ -98,9 +99,11 @@ class retrieveData(dml.Algorithm):
             r = json.loads(response)
             s = json.dumps(r, sort_keys=True, indent=2)
             repo[retrieveData.dataSetDict[key][1]].insert_many(r)
+            if key == 'crime2012_2015':
+                print(len(r)) #1000
+                break
             ###TRANSFORMATION###
             if key == 'public_fishing_access_locations':
-                #continue
                 print("Transforming public_fishing_access_locations dataset...")
                 fishing = myrepo['public_fishing_access_locations']
                 fishing.update_many({}, {"$rename": {'location': 'location_address'}})
@@ -112,13 +115,14 @@ class retrieveData(dml.Algorithm):
                 csa.update_many({}, {"$rename": {'location': 'location_address'}})
                 csa.update_many({}, {"$rename": {'map_location': 'location'}})
                 csa.create_index([('location', '2dsphere')])
+
+
+
             elif key == 'food_licenses':
-                continue
                 print("Transforming food_licenses dataset...")
                 food = myrepo['food_licenses']
                 food.create_index([('location', '2dsphere')])
             elif key == 'entertainment_licenses':
-                #continue
                 print("Transforming entertainment_licenses dataset...")
                 ent = myrepo['entertainment_licenses']
                 for e in ent.find(modifiers={"$snapshot": True}):
@@ -130,7 +134,7 @@ class retrieveData(dml.Algorithm):
                         ent.delete_one({'_id': e['_id']})
                 ent.create_index([('location', '2dsphere')])
             elif key == 'year_round_pools':
-                #continue
+                continue
                 print("Transforming year_round_pools dataset...")
                 pools = myrepo['year_round_pools']
                 pools.update_many({}, {"$rename": {'location_1': 'location_details'}})
@@ -144,27 +148,9 @@ class retrieveData(dml.Algorithm):
                         city = pool['location_1_city']
                         zip_code = pool['location_1_zip']
                         prevCoords = get_coords(number,street,suffix,city,zip_code)
-                        #pool.update({'_id': pool['_id']}, {'$unset':{'location_1'}})
                         pools.update({'_id': pool['_id']}, \
                                      {'$set': {'location': {'type': 'Point', 'coordinates': prevCoords}}})
-                #try:
-                    #pools.create_index([('location_details', '2dsphere')])
-                #except:
-                    #print("Unknown error with coordinates", )
-
                 pools.create_index([('location', '2dsphere')])
-
-            elif key == 'moving_truck_permits':
-                print("Transforming moving_truck_permits dataset...")
-                truck = myrepo['moving_truck_permits']
-                truck.update_many({}, {"$rename": {'location': 'location_details'}})
-
-                for t in truck.find(modifiers={"$snapshot": True}):
-                    if 'location_details' in t.keys():
-                        prevCoords = [float(t['location_details']['longitude']), float(t['location_details']['latitude'])]
-                        truck.update({'_id': t['_id']}, \
-                                   {'$set': {'location': {'type': 'Point', 'coordinates': prevCoords}}})
-                truck.create_index([('location', '2dsphere')])
         repo.logout()
 
         endTime = datetime.datetime.now()
