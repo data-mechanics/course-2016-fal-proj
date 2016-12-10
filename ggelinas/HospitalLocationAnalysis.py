@@ -93,6 +93,7 @@ class HospitalLocationAnalysis(dml.Algorithm):
         XY = [(x,y) for x,y in zip(Xdiff, Ydiff)]
 
         print(Hospital)
+        print(M)
         ###################################################
         # plotting map
         import folium
@@ -100,7 +101,10 @@ class HospitalLocationAnalysis(dml.Algorithm):
         map = folium.Map(location=[42.355, -71.0609], zoom_start=13)
         for i in range(len(Hospital)):
             lat, long = Hospital[i]
-            map.polygon_marker(location=[lat,long], popup='Hospital', fill_color='#ff0000', num_sides=8, radius=10, fill_opacity=0.3)
+            map.polygon_marker(location=[lat, long], popup='Hospital', fill_color='#ff0000', num_sides=8, radius=10, fill_opacity=0.3)
+        for j in range(len(M)):
+            lat, long = M[j]
+            map.polygon_marker(location=[lat, long], popup='Optimal Hospital', fill_color='#0000ff', num_sides=4, radius=10, fill_opacity=0.3)
         map
         map.create_map(path=output)
 
