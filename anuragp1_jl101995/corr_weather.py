@@ -65,7 +65,7 @@ class corr_weather(dml.Algorithm):
         for d in citibike_weather_data:
         	x_precip_citi.append(d['Precip'])
         	x_temp_citi.append(d['AvgTemp'])
-        	y_citibike_usage.append(d['Citibike_Usage'])
+            y_citibike_usage.append(d['Citibike_Usage'])
 
         # # get corr(precipitation, citibike ridership
         precip_citi_result = scipy.stats.pearsonr(x_precip_citi, y_citibike_usage)
@@ -79,7 +79,7 @@ class corr_weather(dml.Algorithm):
         print('Correlation between temperature and citibike usage is ' + str(temp_citi_result[0]) + ' with a p-value of ' + str(temp_citi_result[1]))
 
         repo.dropPermanent('weather_correlations')
-        repo.createPermanent('weather_correlations')
+        # repo.createPermanent('weather_correlations')
 
 
     @staticmethod
@@ -99,22 +99,22 @@ class corr_weather(dml.Algorithm):
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
  
- 		this_script = doc.agent('alg:anuragp1_jl101995#corr_weather', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:anuragp1_jl101995#corr_weather', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
 
- 		weather_correlation_resource = doc.entity('dat:anuragp1_jl101995#corr_weather', {'prov:label':'Werather Correlation', prov.model.PROV_TYPE:'ont:DataSet'})
- 		get_corr = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime,{prov.model.PROV_TYPE:'ont:Computation'})
- 		doc.wasAssociatedWith(get_corr, this_script)
- 		doc.used(get_corr, weather_correlation_resource, startTime)
+        weather_correlation_resource = doc.entity('dat:anuragp1_jl101995#corr_weather', {'prov:label':'Werather Correlation', prov.model.PROV_TYPE:'ont:DataSet'})
+        get_corr = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime,{prov.model.PROV_TYPE:'ont:Computation'})
+        doc.wasAssociatedWith(get_corr, this_script)
+        doc.used(get_corr, weather_correlation_resource, startTime)
  
- 		weather_corr = doc.entity('dat:anurgp1_jl101995#corr_weather',{prov.model.PROV_LABEL:'Weather Correlation', prov.model.PROV_TYPE:'ont:DataSet'})
- 		doc.wasAttributedTo(weather_corr, this_script)
- 		doc.wasGeneratedBy(weather_corr, this_run, endTime)
- 		doc.wasDerivedFrom(weather_corr, weather_corr, get_corr, get_corr, get_corr)
+        weather_corr = doc.entity('dat:anurgp1_jl101995#corr_weather',{prov.model.PROV_LABEL:'Weather Correlation', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(weather_corr, this_script)
+        doc.wasGeneratedBy(weather_corr, this_script, endTime)
+        doc.wasDerivedFrom(weather_corr, weather_corr, get_corr, get_corr, get_corr)
 
-		repo.record(doc.serialize()) # Record the provenance document.
-		repo.logout()
- 		
- 		return doc
+        repo.record(doc.serialize()) # Record the provenance document.
+        repo.logout()
+
+        return doc
 
 
 corr_weather.execute(Trial=False)
