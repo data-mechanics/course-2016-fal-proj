@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MY APP</title>
+  <style>
+     #map {
+      height: 500px;
+      width: 100%;
+     }
+  </style>
+</head>
+<body>
+
+  <ul class="tdata">
+  <% for(var i=0; i<tdata.length; i++) {%>
+    <li class="tdata">
+      <span><%= tdata[i].LeastSquare %></span>
+    </li>
+  <% } %>
+  </ul>
+
+
+  <form action="/tdata" method="POST">
+    <input type="text" placeholder="day" name="day">
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MY APP</title>
+  <style>
+     #map {
+      height: 500px;
+      width: 100%;
+     }
+  </style>
+</head>
+<body>
+
+  <ul class="tdata">
+  <% for(var i=0; i<tdata.length; i++) {%>
+    <li class="tdata">
+      <span><%= tdata[i].LeastSquare %></span>
+    </li>
+  <% } %>
+  </ul>
+
+
+  <form action="/tdata" method="POST">
+    <input type="text" placeholder="day" name="day">
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
