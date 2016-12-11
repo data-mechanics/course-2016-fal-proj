@@ -1,3 +1,5 @@
+<h1> Crimes and Firearm Recovery in Boston </h1>
+
 We chose to work with these five data sets:
 
 * Crime Incident Reports
@@ -77,10 +79,19 @@ The locations of the current police stations are:
   For the trial part of this assignment, we did not incorporate the trial settings on the district crime data since there is only 12 districts in total. 
 
 #### Visualizations
+Both map visualizations use <i>d3.js</i> and the <i>district.js</i> file to show an overlay of the city of Boston broken up by police district.  The district borders in <i>district.js</i> are GeoJSON multi-polygons saved as a JavaScript variable for use in the html visualizations.  
 
-1.  crime_plot.html uses d3.js and a geoJSON file created from the coordinates of our dataset.  After filtering out the crimes that were not recorded with a coordinate point, the remaining crimes were all written into crimeMap.js as a json dictionary.  The visualization creates an overlay of Boston, in which the borders are the current police districts.  Each crime that was registered with a coordinate point has been placed on the map, showing the crime density across the city.
+1.  Our python file, <i>crime_plot.py</i>, was used to search our crime data for every firearm crime that was logged with a coordinate point.  It then wrote each of those crimes into <i>crimeMap.js</i>, a GeoJSON dictionary assigned to a JavaScript variable.  Each crime that was registered with a coordinate point has been placed on the map in <i>crime_plot.html</i>, showing the crime density across the city.
 
+<img src="crime_plot.png" alt="Crime plot">
 
+2.  The python files <i>police_location_analysis.py</i> and <i>police_location_plot.py</i> we used to calculate the k-clustering of the district headquarters to minimize the distance between between the headquarters and the most firearms crimes.  Our goal was to position them in a way that would minimize the distance to the most firearm crime, allowing for a quicker response time.  The results were then written into GeoJSON dictionaries and assigned to JavaScript variables.  The GeoJson dictionaries were saved into two files, <i>police_locationMap.js</i> and <i>kcluster_police_locationMap.js</i>.  Our visualization, <i>police_location.html</i>, shows the results of the k-clustering as well as the existing locations of the headquarters.  In most of the districts, the locations we found were much closer to the existing locations than we had expected.
+
+<img src="kcluster_police_locations.png" alt="Police locations">
+
+3.  Our python file, <i>crimes_firearms_plot.py</i>, was used to search our crime data for the number of firearms collected each day as well as the number of crimes committed each day.  These values were saved as JSON dictionaries in <i>crimes_firearms_graph_data.js</i>, where they were assigned as JavaScript variables.  These values were then graphed in <i>crimes_firearms_graph.html</i> using <i>d3.js</i> and <i>d3.legend.js</i> to create a line graph directly comparing the data collected.
+
+<img src="crimes_firearms_graph.png" alt="Crimes graph">
 
 #### Conclusion
 
