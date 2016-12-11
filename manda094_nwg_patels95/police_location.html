@@ -7,14 +7,40 @@
 		<script src="police_locationMap.js"></script>
 		<script src="district.js"></script>
 		<script src="kcluster_police_locationMap.js"></script>
+		<script src="d3.legend.js"></script>
 		<style>
 		#districts path{
 		  	fill: #ccc;
 			stroke: black;
 		}
+		fieldset {
+		  border:1px solid black;
+		  border-radius: 5px;
+		  opacity:0.8;
+		  width: 260px;
+		}
+		span { 
+			color:black; 
+			font-size: 14px;
+		}
+		.b { 
+			color:#000;
+			font-size: 24px;
+		}
+		.g { 
+			color: #090;
+			font-size: 24px;
+		}
 		</style>
 	</head>
 	<body>
+		<fieldset>
+			<legend>Legend:</legend>
+			<ul>
+				<li class="b"><span>Original Police Headquarters</span></li>
+				<li class="g"><span>K-Clustered Police Locations</span>
+			</ul>
+		</fieldset>
 		<script>
 			var width = 700,
 				height = 580;
@@ -48,9 +74,9 @@
 				.data(police_location_json.features)
 				.enter()
 				.append("path")
-				.attr("fill", "#900")
-				.attr("stroke", "#999")
-				.attr("d", geoPath);
+				.attr("fill", "#000")
+				.attr("stroke", "#000")
+				.attr("d", geoPath)
 
 			var kcluster_police_location = svg.append("g");
 
@@ -58,11 +84,9 @@
 					.data(kcluster_police_location_json.features)
 					.enter()
 					.append("path")
-					.attr("fill", "#000")
-					.attr("stroke", "#000")
-					.attr("d", geoPath);
-
-
+					.attr("fill", "#090")
+					.attr("stroke", "#090")
+					.attr("d", geoPath)
 		</script>
 	</body>
 </html>
