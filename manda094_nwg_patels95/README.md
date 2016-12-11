@@ -1,4 +1,4 @@
-<h1> Crimes and Firearm Recovery in Boston </h1>
+# Crimes and Firearm Recovery in Boston
 
 We chose to work with these five data sets:
 
@@ -12,13 +12,13 @@ We chose to work with these five data sets:
 * Police Departments Map
  * http://bostonopendata.boston.opendata.arcgis.com/datasets/e5a0066d38ac4e2abbc7918197a4f6af_6
 
-#### Project Description
+### Project Description
 
 Our plan is to find if a correlation exists between the number of firearms recovered by the Boston Police Department and the number of crimes involving firearms in Boston. We expect that the number of crimes involving firearms should decrease after a greater number of firearms have been recovered. We want to analyze how effective the recovery of firearms is in decreasing crimes with firearms. The Firearm Recovery Counts data set contains data for about a one year period from 8/20/2014 to 7/27/2015, therefore we only use the crime data from this same time period. We also use police department location data to determine in which areas of Boston firearm crimes are most frequent.
 
 We performed transformations on Crime Incident Reports, Firearm Recovery Counts, and Police Departments to generate three new data sets.
 
-#### Transformations
+### Transformations
 
 1. We retrieved crime data and used the crimes involving firearms, only using crimes that occurred between 8/20/14 and 7/27/15 since the firearm recovery data was only available for this time period.
 
@@ -40,13 +40,13 @@ We used the default format for my auth.json file:
 }
 ```
 
-#### Firearm Recovery and Crime Analysis
+### Firearm Recovery and Crime Analysis
 
 Before performing this analysis we believed there should be a negative correlation between the number of firearms recovered and the number of firearm-related crimes. We predicted that as the number of firearms recovered increases, the number of crimes should decrease. We found a correlation coefficient of 0.068 and a p-value of 0.29. This correlation coefficient indicates a very weak positive correlation between the data sets. However, the p-value is high so we cannot reject the null hypothesis.
 
 A limitation of our analysis is the limited amount of available data to test this correlation. We could more accurately perform this analysis if we had firearm recovery data for a longer time period.
 
-#### Police Station Location and Firearm Crime Rate Analysis
+### Police Station Location and Firearm Crime Rate Analysis
 
 For this analysis, we used the District Crime police station coordinates and the coordinates of where crimes occurred from the Crime dataset. In the District Crime dataset, there are 12 police stations; however, A1 and A15 police stations service the same area so we set our K means to 11 distinct police stations.  For this problem, we wanted to analyze whether the current locations of the police stations are optimal against the locations of the most firearm crimes.
 
@@ -78,22 +78,22 @@ The locations of the current police stations are:
 
   For the trial part of this assignment, we did not incorporate the trial settings on the district crime data since there is only 12 districts in total. 
 
-#### Visualizations
+### Visualizations
 Both map visualizations use <i>d3.js</i> and the <i>district.js</i> file to show an overlay of the city of Boston broken up by police district.  The district borders in <i>district.js</i> are GeoJSON multi-polygons saved as a JavaScript variable for use in the html visualizations.  
 
-1.  Our python file, <i>crime_plot.py</i>, was used to search our crime data for every firearm crime that was logged with a coordinate point.  It then wrote each of those crimes into <i>crimeMap.js</i>, a GeoJSON dictionary assigned to a JavaScript variable.  Each crime that was registered with a coordinate point has been placed on the map in <i>crime_plot.html</i>, showing the crime density across the city.
+1. Our python file, <i>crime_plot.py</i>, was used to search our crime data for every firearm crime that was logged with a coordinate point.  It then wrote each of those crimes into <i>crimeMap.js</i>, a GeoJSON dictionary assigned to a JavaScript variable.  Each crime that was registered with a coordinate point has been placed on the map in <i>crime_plot.html</i>, showing the crime density across the city.
 
-<img src="crime_plot.png" alt="Crime plot">
+	<img src="crime_plot.png" alt="Crime plot">
 
-2.  The python files <i>police_location_analysis.py</i> and <i>police_location_plot.py</i> we used to calculate the k-clustering of the district headquarters to minimize the distance between between the headquarters and the most firearms crimes.  Our goal was to position them in a way that would minimize the distance to the most firearm crime, allowing for a quicker response time.  The results were then written into GeoJSON dictionaries and assigned to JavaScript variables.  The GeoJson dictionaries were saved into two files, <i>police_locationMap.js</i> and <i>kcluster_police_locationMap.js</i>.  Our visualization, <i>police_location.html</i>, shows the results of the k-clustering as well as the existing locations of the headquarters.  In most of the districts, the locations we found were much closer to the existing locations than we had expected.
+2. The python files <i>police_location_analysis.py</i> and <i>police_location_plot.py</i> we used to calculate the k-clustering of the district headquarters to minimize the distance between between the headquarters and the most firearms crimes.  Our goal was to position them in a way that would minimize the distance to the most firearm crime, allowing for a quicker response time.  The results were then written into GeoJSON dictionaries and assigned to JavaScript variables.  The GeoJson dictionaries were saved into two files, <i>police_locationMap.js</i> and <i>kcluster_police_locationMap.js</i>.  Our visualization, <i>police_location.html</i>, shows the results of the k-clustering as well as the existing locations of the headquarters.  In most of the districts, the locations we found were much closer to the existing locations than we had expected.
 
-<img src="kcluster_police_locations.png" alt="Police locations">
+	<img src="kcluster_police_locations.png" alt="Police locations">
 
-3.  Our python file, <i>crimes_firearms_plot.py</i>, was used to search our crime data for the number of firearms collected each day as well as the number of crimes committed each day.  These values were saved as JSON dictionaries in <i>crimes_firearms_graph_data.js</i>, where they were assigned as JavaScript variables.  These values were then graphed in <i>crimes_firearms_graph.html</i> using <i>d3.js</i> and <i>d3.legend.js</i> to create a line graph directly comparing the data collected.
+3. Our python file, <i>crimes_firearms_plot.py</i>, was used to search our crime data for the number of firearms collected each day as well as the number of crimes committed each day.  These values were saved as JSON dictionaries in <i>crimes_firearms_graph_data.js</i>, where they were assigned as JavaScript variables.  These values were then graphed in <i>crimes_firearms_graph.html</i> using <i>d3.js</i> and <i>d3.legend.js</i> to create a line graph directly comparing the data collected.
 
-<img src="crimes_firearms_graph.png" alt="Crimes graph">
+	<img src="crimes_firearms_graph.png" alt="Crimes graph">
 
-#### Conclusion
+### Conclusion
 
 We found no significant correlation between the number of firearms recovered by Boston police departments and the number of crimes involving firearms. However, this analysis is constrained by the limited amount of available firearm recovery data. Using the k-means algorithm, we found that police departments in Boston are ideally located at the center of areas with a high concentration of firearm crimes.
 
