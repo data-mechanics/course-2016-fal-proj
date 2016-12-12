@@ -71,6 +71,8 @@ class getError(dml.Algorithm):
 
             average_error = total_error/len(google_ratings)
             
+            print(google_ratings[0:7])
+            print(hospital_scores_list[0:7])
             repo.dropPermanent('average_error')
             repo.createPermanent('average_error')
             repo['mgerakis_pgomes94_raph737.average_error'].insert_one({'average_error': average_error})
@@ -117,7 +119,7 @@ class getError(dml.Algorithm):
 
             return doc
 
-getError.execute(trial=True)
+getError.execute(trial=False)
 doc = getError.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))

@@ -17,43 +17,20 @@ function initialize() {
   		center: boston
 		});
 
-    url = "http://localhost:3000/api/crimes"
-	  return fetch(url);
-  })
-  .then(res => res.json())
-  .then(function(crimeData) {
-    addCrimeMarkers(crimeData.crimes,map);
+    addHospitalMarkers(hospitalData.hospitals, map);
 
-    url = "http://localhost:3000/api/mbtastops";
+    url = "http://localhost:3000/api/clusters";
     return fetch(url);
   })
   .then(res => res.json())
-  .then(function(mbtaStops) {
-
-    url = "http://localhost:3000/api/policestations";
-    return fetch(url);
-  })
-  .then(res => res.json())
-  .then(function(policestations) {
-    addPoliceStationMarkers(policestations.policestations,map);
-
-    url = "http://localhost:3000/api/trafficlocs";
-    return fetch(url);
-  })
-  .then(res => res.json())
-  .then(function(trafficlocs) {
-    addtrafficlocsMarkers(trafficlocs.trafficlocs,map)
-    url = "http://localhost:3000/api/optimalcoords";
-    return fetch(url);
-  })
-  .then(res => res.json())
-  .then(function(optimalcoords) {
-    addOptimalCoordsMarker(optimalcoords.optimalcoord,map);
+  .then(function(clusters) {
+    addClusterMarkers(clusters.c_clusters, map, 'green');
+    addClusterMarkers(clusters.f_clusters, map, 'red');
   });
 };
 
 function addOptimalCoordsMarker(optimalcoord,map){
-	addMarker('Optimal Coord',{lat:parseFloat(optimalcoord[0].optimal_coord[0]),lng:parseFloat(optimalcoord[0].optimal_coord[1])},map,'blue')
+	addMarker('',{lat:parseFloat(optimalcoord[0].optimal_coord[0]),lng:parseFloat(optimalcoord[0].optimal_coord[1])},map,'blue')
 }
 function addtrafficlocsMarkers(trafficlocs,map){
 	for(var i = 0; i < trafficlocs.length; i++){
@@ -79,10 +56,19 @@ function addCrimeMarkers(crimeData,map){
 
 function addHospitalMarkers(hospitalData,map){
 	for(var i = 0; i < hospitalData.length; i++){
-		addMarker(hospitalData[i].identifier,{lat:hospitalData[i].location[0],lng:hospitalData[i].location[1]}, map,'red');	
+		addMarker('',{lat:hospitalData[i].location[0],lng:hospitalData[i].location[1]}, map,'yellow');	
 	}
 }
 
+function addClusterMarkers(clusters, map, color){
+  console.log(clusters);
+  console.log(color);
+  clusters.forEach(cluster => {
+    addMarker('', {
+      lat: cluster.location[0], lng: cluster.location[1]
+    }, map, color);
+  });
+}
 
 // Adds a marker to the map.
 function addMarker(locationName,location, map,color) {
