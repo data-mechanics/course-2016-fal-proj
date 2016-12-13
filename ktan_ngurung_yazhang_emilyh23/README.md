@@ -3,7 +3,7 @@
 
 # Narrative
 
-Companies spend millions of dollars on advertisements every year. Therefore, it is important to find optimal locations to place them for the most impact on consumers. Eliminating ineffective advertisements can minimize waste while increasing competition and boosting a city’s economy. Accomplishing this not only helps businesses, but also reaps benefits for any given city. In this project, our main focus of research is looking into optimal zip codes in Boston. By looking into physical forms of advertisement around Boston (MBTA bus stops, MBTA T stops, Big Belly garbage locations, college campuses, and Hubway stations), we create an optimization tool in the form of a web service to determine the best locations by zip code in Boston, adjusted to individual need. 
+In this project, we are looking into optimal zip codes for advertisment placement in Boston. By using five raw datasets (MBTA bus stops, MBTA T stops, Big Belly garbage locations, college campuses, and Hubway stations), we were able to create an optimization tool in the form of a web service to determine the best locations by zip code in Boston, adjusted to individual need. 
 
 #Datasets
 
@@ -77,7 +77,7 @@ $ python hubwayBigBelly.py
 
 **Statistical Analysis**
 
-In our implementation of algorithms, we performed statistical analysis on potential trends that may exist in the correlation between any two landmark ratings. By interpreting the similarities, if a majority of the comparisons yield a direct/positive correlation, we may choose to either combine the similar datasets or potentially choose one over the other. If such correlations exist, we can analyze whether combining or eliminating landmarks to query would benefit or be detrimental to designing our optimization tool. 
+We performed statistical analysis on potential trends that may exist in the correlation between any two landmark ratings. If any strong correlations exist, we can analyze whether combining or eliminating landmarks to query would benefit or be detrimental to designing our optimization tool. 
 
 To run and generate the plots:
 
@@ -95,7 +95,8 @@ Results: There does not seem to be any strong positive or negative correlations 
 
 Preparation:
 
-To find the optimal zip code(s) for physical advertisements based on a rating system, which is from the landmarks outlined in the 5 datasets: MBTA T-stops, MBTA bus stops, Big Belly garbage cans, colleges, and hubway stations. The zip codes will be rated on a 3-star scale: 1-star being the advertising area with the least outreach and 3-star being the area with the most. Using this rating system, we generated an overall numeric rating for each zip code that would be fair after taking into account the number of landmarks in each zipcode and their corresponding square miles. 
+The zip codes are rated on a 3-star scale: 1-star being the advertising area with the least outreach and 3-star being the area with the most. Using this rating system, we generated an overall numeric rating for each zip code that would be fair after taking into account the number of landmarks in each zipcode and their corresponding square miles. 
+
 `zipcodeRatings.py` will create the finalized overall scores for each zipcode and store it into our database.
 
 To run:
@@ -103,10 +104,6 @@ To run:
 ```
 $ python zipcodeRatings.py
 ```
-
-In our optimization, the state space is 2^(the number of zip codes) where 0 represents the choice to not advertise in a certain area and 1 represents the choice to advertise. Depending on the users' query, the objective function, which would be the sum of the permutations of the subset from the original state space that correlates most with the user's query, multipled by population density. We maximized this objective function by returning the zip code with the highest population density. 
-
-In simpler terms, users will be asked to query in the following two ways (in succession):
 
 (1) - the user will be asked to specify the number of optimal zip codes as a result from the query (How many optimal zip codes does the user want to advertise in/is interested in?)
 
@@ -124,7 +121,7 @@ To better visualize, we created a web service that allows users to test out our 
 
 ![webService](https://github.com/ktango/course-2016-fal-proj/blob/master/ktan_ngurung_yazhang_emilyh23/webservice.png)
 
-The web service incorporates Leaflet, an open-source JavaScript library that displays an interactive map. Our map illustrates the zip codes by area, colored by gradients. The gradients are defined by the calculated ratings for each zip code (darker color represents a higher rating and lighter color represents a lower rating). The map is initialized to show one pin in the heart of Boston and shading by overall zip code rating. After users input their queries for the optimal zip code(s), the map will zoom in/out to frame new pin(s) that are dropped on the optimal zip code location area(s). 
+The web service incorporates Leaflet, an open-source JavaScript library that displays an interactive map. Our map illustrates the zip codes by area, colored by gradients. A darker color represents a higher rating and lighter color represents a lower rating. After users input their queries for the optimal zip code(s), the map will zoom in/out to frame new pin(s) that are dropped on the optimal zip code location area(s). 
 
 On the top right corner of our map, there is a toggle that allows users to select different "views".
 
@@ -139,7 +136,7 @@ This is to give users flexibility and different perspectives in analyzing their 
 
 **Visualization**
 
-For our interactive visualization, we chose to do a zoomable tree map. Tree maps are used to illustrate hierarchical data, which we represent with our rating system. It is implemented in D3.js, allowing for users to view the full dataset of overall rating scores in a compact way (by zooming in and out). 
+For our interactive visualization, we chose to do a zoomable tree map. It is implemented in D3.js, allowing for users to view the full dataset of overall rating scores in a compact way (by zooming in and out). 
 
 ![treeMap1](https://github.com/ktango/course-2016-fal-proj/blob/master/ktan_ngurung_yazhang_emilyh23/treemap_ratings.jpg)
 
@@ -147,4 +144,4 @@ The sizes of these rating sections are determined by number of zip codes that po
 
 ![treeMap2](https://github.com/ktango/course-2016-fal-proj/blob/master/ktan_ngurung_yazhang_emilyh23/treemap_zoomed.jpg)
 
-The sizes of each zip code section are determined by zip code area size and the gradient color of each section is determined by population density. This means that the darker a section is, the more densely populated that zip code is. In this view, we display the median household income for each zip code in the users’ results to provide a better idea for their target audience. 
+The sizes of each zip code section are determined by zip code area size and the gradient color of each section is determined by population density. In this view, we display the median household income for each zip code to provide a better idea for their target audience. 
