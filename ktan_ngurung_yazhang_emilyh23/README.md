@@ -7,11 +7,11 @@ Companies spend millions of dollars on advertisements every year. Therefore, it 
 
 #Datasets
 
--[MBTA Bus](https://boston.opendatasoft.com/explore/dataset/mbta-bus-stops/)
--[T Stops](http://erikdemaine.org/maps/mbta/mbta.yaml)
--[Big Belly Locations](https://data.cityofboston.gov/City-Services/Big-Belly-Locations/42qi-w8d7)
--[College/University Locations](https://boston.opendatasoft.com/explore/dataset/colleges-and-universities/)
--[Hubway Locations](https://boston.opendatasoft.com/explore/dataset/hubway-stations-in-boston/)
+1. [MBTA Bus](https://boston.opendatasoft.com/explore/dataset/mbta-bus-stops/)
+2. [T Stops](http://erikdemaine.org/maps/mbta/mbta.yaml)
+3. [Big Belly Locations](https://data.cityofboston.gov/City-Services/Big-Belly-Locations/42qi-w8d7)
+4. [College/University Locations](https://boston.opendatasoft.com/explore/dataset/colleges-and-universities/)
+5. [Hubway Locations](https://boston.opendatasoft.com/explore/dataset/hubway-stations-in-boston/)
 
 #Interactive Web Service & Visualization (description below)
 Preparation: After complete set up of the MongoDB database, run the retrieval and transformation scripts outlined below.
