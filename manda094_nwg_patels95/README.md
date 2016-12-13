@@ -76,7 +76,7 @@ The locations of the current police stations are:
 
   There is only a small difference between the current locations of the police stations and the k means calculated locations.  From this data, we can conclude that the police stations are in a good location relative to where crimes that involved firearms occurred.
 
-  For the trial part of this assignment, we did not incorporate the trial settings on the district crime data since there is only 12 districts in total. 
+  For the trial part of this assignment, we did not incorporate the trial settings on the district crime data since there are only 12 districts in total.
 
 ### Visualizations
 Both map visualizations use <i>d3.js</i> and the <i>district.js</i> file to show an overlay of the city of Boston broken up by police district.  The district borders in <i>district.js</i> are GeoJSON multi-polygons saved as a JavaScript variable for use in the html visualizations.  
@@ -97,3 +97,6 @@ Both map visualizations use <i>d3.js</i> and the <i>district.js</i> file to show
 
 We found no significant correlation between the number of firearms recovered by Boston police departments and the number of crimes involving firearms. However, this analysis is constrained by the limited amount of available firearm recovery data. Using the k-means algorithm, we found that police departments in Boston are ideally located at the center of areas with a high concentration of firearm crimes.
 
+### Future Work
+
+Currently the Firearm Count Recovery dataset contains data for a one year period of 8/20/2014 to 7/27/2015, therefore we could only use the crime data from this same time period.  If more data becomes available, this project would be interesting to repeat to see the new results. 
