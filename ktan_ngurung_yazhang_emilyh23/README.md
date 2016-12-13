@@ -48,6 +48,7 @@ Likewise, the web page for our visualization can be found at http://localhost:50
 #Running Scripts: 
 
 **Retrieval**
+
 `landmarkLocations.py` will retrieve our intial raw datasets. 
 
 To run:
@@ -75,6 +76,7 @@ $ python hubwayBigBelly.py
 ```
 
 **Statistical Analysis**
+
 In our implementation of algorithms, we performed statistical analysis on potential trends that may exist in the correlation between any two landmark ratings. By interpreting the similarities, if a majority of the comparisons yield a direct/positive correlation, we may choose to either combine the similar datasets or potentially choose one over the other. If such correlations exist, we can analyze whether combining or eliminating landmarks to query would benefit or be detrimental to designing our optimization tool. 
 
 To run and generate the plots:
@@ -90,7 +92,9 @@ Results: There does not seem to be any strong positive or negative correlations 
 
 
 **Optimization**
+
 Preparation:
+
 To find the optimal zip code(s) for physical advertisements based on a rating system, which is from the landmarks outlined in the 5 datasets: MBTA T-stops, MBTA bus stops, Big Belly garbage cans, colleges, and hubway stations. The zip codes will be rated on a 3-star scale: 1-star being the advertising area with the least outreach and 3-star being the area with the most. Using this rating system, we generated an overall numeric rating for each zip code that would be fair after taking into account the number of landmarks in each zipcode and their corresponding square miles. 
 `zipcodeRatings.py` will create the finalized overall scores for each zipcode and store it into our database.
 
@@ -115,6 +119,7 @@ $ python optimize.py
 ```
 
 **Web Service**
+
 To better visualize, we created a web service that allows users to test out our optimization algorithm:
 
 ![webService](https://github.com/ktango/course-2016-fal-proj/blob/master/ktan_ngurung_yazhang_emilyh23/webservice.png)
@@ -133,6 +138,7 @@ On the top right corner of our map, there is a toggle that allows users to selec
 This is to give users flexibility and different perspectives in analyzing their target audience. 
 
 **Visualization**
+
 For our interactive visualization, we chose to do a zoomable tree map. Tree maps are used to illustrate hierarchical data, which we represent with our rating system. It is implemented in D3.js, allowing for users to view the full dataset of overall rating scores in a compact way (by zooming in and out). 
 
 ![treeMap1](https://github.com/ktango/course-2016-fal-proj/blob/master/ktan_ngurung_yazhang_emilyh23/treemap_ratings.jpg)
