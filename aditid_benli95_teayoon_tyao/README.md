@@ -189,9 +189,9 @@ The second analysis compared the total number of establishments with a specific 
 
 #Regression Results
 
-|-----------|Correlation Coefficient|R-squared Value|
+|           |Correlation Coefficient|R-squared Value|
 |All Crimes |0.471					|0.775     	    |
 |Drug Crimes|0.186					|0.273			|
 
 
-![alt tag](images/Histogram.png)
+![alt tag](images/Histogramstuff.png)
