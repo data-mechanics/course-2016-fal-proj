@@ -125,16 +125,73 @@ Normalized Histogram:
 Trial Mode:
 If you want to run the trial mode, go to getData.py and uncomment out line 199: getData.execute(True) and comment out line 198: getData.execute().  Then follow the run instructions. 
 
+#Project Part 3: Final Report
+
+#Introduction
+
+Drug crime among youth population is a major concern in any major urban populace. People find the possibility of such crimes occurring near children to be a disconcerting reality.  However, when said metric is overlayed into city geography, it becomes rather difficult to extrapolate meaningful information.
+
+#Project Goals
+
+Our projects goals can be split into two major tracks:
+Find the distance at which the difference between the number of child establishments surrounding each drug crimes and the number around each standard crime is maximised.
+At this distance, find if a relationship exists between the number of such establishments and the number of drug crimes.
+
+#Data
+
+Crime Datasets: Primary dataset was a consolidation of the legacy crimes dataset (July 2012 - Aug 2015) and the current crimes dataset (Aug 2015 - present) found on the data.cityofboston.gov portal.
+Child Establishment Datasets: Supplementary datasets contain the locations of establishments that children frequent including public and private schools, public and private daycares and child food services found on the city portal and through web scraping. 
+
+#Objective Function
+
+max(|average number of child establishments within r distance of any crime - average number of child establishments within distance r of drug crimes|)
+
+The following steps were implemented for each radius value r in range(0, 5) miles to a precision of 0.1 miles.
+
+#Step 1
+
+For each crime and drug crime, find the number of child establishments within radius r.
+
+#Step 2
+
+Reduce data from Step 1 to show number of crimes with x child establishments and number of drug crimes with x child establishments.
+
+#Step 3
+
+Reduce data from Step 2 to show average number of child establishments around each crime and each drug crime.
+
+#Step 4
+
+Plot difference between average number of establishments around all crimes and average number of establishments around drug crimes.
+
+#Objective Function Results
+
+![alt tag](images/DifferenceAgainstDistance.png)
+
+|Radius|Absolute Difference|
+|------|------------------:|
+|1.8   | 2.845			   |
+|1.9   | 3.169             |
+|2.0   | 3.225             |
+|2.1   | 3.178             |
+|2.2   | 3.184             |
+
+Data from radius > 5 trended towards constant values as distance approcahes Boston boundaries.
+
+#Regression
+
+We ran two OLS analysis using the statsmodels.api package with the optimized distance found in the objective function: 2 miles.
+
+The first compared the total number of establishments with a specific number of all crimes within its radius. 
+For example, a data point in the format: {value : {crimes: 576, total: 27}} means that there are 27 establishments with 576 crimes within its 2 mile radius.
+
+The second analysis compared the total number of establishments with a specific number of drug crimes within its radius.  We also created a histogram to visually represent the differences between the normalized number of crimes to number of establishments.
+
+#Regression Results
+
+|-----------|Correlation Coefficient|R-squared Value|
+|All Crimes |0.471					|0.775     	    |
+|Drug Crimes|0.186					|0.273			|
 
 
-
-
-
-
-
-
-
-
-
-
-
+![alt tag](images/Histogram.png)
