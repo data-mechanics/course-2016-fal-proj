@@ -66,7 +66,7 @@ To run this script: `$ python3 prepData3.py`
 
 prepData4.py: Generates the histogram and linear regression values.
 
-To run this script: `$ python3 prepData4.py`
+To run this script: `$ python3 visualization.py`
 
 #Results
 
@@ -169,7 +169,7 @@ Plot difference between average number of establishments around all crimes and a
 
 #Objective Function Results
 
-![alt tag](images/obj_func.png)
+![alt tag](images/Radius.png)
 
 |Radius|Absolute Difference|
 |------|------------------:|
@@ -200,7 +200,7 @@ The second analysis compared the total number of establishments with a specific 
 |Drug Crimes|0.186					|0.273			|
 
 
-![alt tag](images/Histogramstuff.png)
+![alt tag](images/obj_func.png)
 
 #Conclusion
 
