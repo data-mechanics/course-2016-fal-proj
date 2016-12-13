@@ -1,14 +1,11 @@
 # Crimes and Firearm Recovery in Boston
 
-We chose to work with these five data sets:
+We chose to work with these three data sets:
 
 * Crime Incident Reports
  * https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-July-2012-August-2015-Sourc/7cdf-6fgx
- * https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-by-Weapon-Type/vwgc-k7be
 * Boston Police Department Firearms Recovery Counts
  * https://data.cityofboston.gov/Public-Safety/Boston-Police-Department-Firearms-Recovery-Counts/vb7h-wnyg
-* Hospital Locations
- * https://data.cityofboston.gov/Public-Health/Hospital-Locations/46f7-2snz
 * Police Departments Map
  * http://bostonopendata.boston.opendata.arcgis.com/datasets/e5a0066d38ac4e2abbc7918197a4f6af_6
 
@@ -26,7 +23,7 @@ We performed transformations on Crime Incident Reports, Firearm Recovery Counts,
 
 3. We retrieved firearm recovery data and merged this with crimes data to create a new data set.  We aggregated the number of crimes that occurred on each day during this time period, and also added the three fields for recovered firearms to create a new field with the total number of firearms recovered on each day. The final data set contains an entry for each date with the total number of crimes, the total number of firearms recovered, and a list of IDs for each crime that occurred on that day.
 
-We used the default format for my auth.json file:
+We used the default format for the auth.json file:
 ```
 {
 	"services": {
@@ -100,3 +97,4 @@ We found no significant correlation between the number of firearms recovered by 
 ### Future Work
 
 Currently the Firearm Count Recovery dataset contains data for a one year period of 8/20/2014 to 7/27/2015, therefore we could only use the crime data from this same time period.  If more data becomes available, this project would be interesting to repeat to see the new results.  A future analysis could be on the number of firearm crimes that occur in each district in comparison to the number of firearms recovered in that district. This could potentially show the effectiveness of each district in reducing the number of firearm crimes.  
+

@@ -7,7 +7,7 @@ import uuid
 from math import sqrt
 from random import shuffle
 
-class firearms_crimes_analysis(dml.Algorithm):
+class crimes_firearms_plot(dml.Algorithm):
     contributor = 'manda094_nwg_patels95'
     reads = ['manda094_nwg_patels95.firearm_recovery']
     writes = []
@@ -70,15 +70,26 @@ class firearms_crimes_analysis(dml.Algorithm):
         repo = client.repo
         repo.authenticate('manda094_nwg_patels95', 'manda094_nwg_patels95')
 
-       
-        # repo.record(doc.serialize())
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:manda094_nwg_patels95#crimes_firearms_plot', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource = doc.entity('dat:manda094_nwg_patels95#firearm_recovery', {'prov:label':'Firearm Recovery', prov.model.PROV_TYPE:'ont:DataResource'})
+        this_run = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        doc.wasAssociatedWith(this_run, this_script)
+        doc.usage(this_run, resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+
+        repo.record(doc.serialize())
         repo.logout()
 
         return doc
 
-firearms_crimes_analysis.execute()
-# doc = firearms_crimes_analysis.provenance()
-# print(doc.get_provn())
-# print(json.dumps(json.loads(doc.serialize()), indent=4))
+crimes_firearms_plot.execute()
+doc = crimes_firearms_plot.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
