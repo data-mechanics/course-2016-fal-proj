@@ -178,7 +178,7 @@ function addtrafficlocsMarkers(trafficlocs,map){
 }
 function addPoliceStationMarkers(policestations,map){
 	for(var i = 0; i < policestations.length; i++){
-		policeMarkers.push(addMarker('',{lat:parseFloat(policestations[i].location[0]),lng:parseFloat(policestations[i].location[1])},map,'green',policestations[i].identifier))
+		policeMarkers.push(addMarker('',{lat:parseFloat(policestations[i].location[0]),lng:parseFloat(policestations[i].location[1])},map,'red',policestations[i].identifier))
 	}
 }
 function addMbtaMarkers(mbtaStops,map){
