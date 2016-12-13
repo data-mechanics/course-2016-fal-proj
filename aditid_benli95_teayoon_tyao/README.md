@@ -181,6 +181,9 @@ Plot difference between average number of establishments around all crimes and a
 |2.2   | 3.184             |
 | ...  | ...			   |
 
+
+The radius of 2 miles has the largest absolute difference and therefor is the optimized value for our analysis.
+
 Data from radius > 5 trended towards constant values as distance approcahes Boston boundaries.
 
 #Regression
