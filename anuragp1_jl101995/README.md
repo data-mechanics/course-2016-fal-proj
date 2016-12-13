@@ -121,7 +121,8 @@ We can solve this problem by combining subway usage, CitiBike usage, and weather
 
 #### Statistical Analysis Results
 
-For statistical analysis #1, we found the folllwing results: 
+##### Statistical Analysis 1: Weather and Station Usage
+We found the folllwing results:
 
 * Correlation between precipitation and subway usage is -0.0781896796422 with a p-value of 0.0478418069172
 * Correlation between temperature and subway usage is 0.0205902690486 with a p-value of 0.602825476302
@@ -130,21 +131,24 @@ For statistical analysis #1, we found the folllwing results:
 
 It is apparent that citibike usage is much more sensitive to weather than subway usage. We expected the negative and positive correlations between CitiBike usage and precipitation/temperature respectively. These correlations make sense because New Yorkers take the subway no matter what conditions. Therefore, there wouldn't be much correlation between weather 
 
-For statistical analysis #2, we found the following results from the regression on subway usage based on pedestrian count: 
+##### Statistical Analysis 2: Regression of Pedestrian Count on Subway Usage
 
 slope is 18.9080077596<br>
 intercept is 517937.435161<br>
 r-squared is 0.0854615984247<br>
 Our regression equation is : Subway_Usage = 517937 + 18.9*(Region_Pedestrian_Count). The r-squared value indicates that the variation in pedestrian count by region cannot explain the variation in subway usage.  This is a surprising finding for us because we expected subway station usage would be heavily effected by the pedestrian traffic in that station's region.
  
- <br><br>
+##### Statistical Analysis 3: Correlation of Subway Usage and CitiBike Usage Daily Totals
+
+
+<br><br>
 ### Part III: Visualizations, Web Services, and Project Completion
 
 1. Extend your project with two new features/components, where each feature/component is either an interactive web-based visualization that can be displayed in a standard web browser or a web service with a RESTful web API. You might choose to create two visualizations given the results you produced a previous project, or you might choose to create an interactive client-server (i.e., web interface and web service) application that allows users to invoke an algorithm or statistical analysis using their own specific parameters.
 
 
 ##### Visualization 1: Station Usage Timeseries
---> update to make filter by something else  (reverse geocoded by borough?)
+--> update to make filter by something else  (reverse geocoded by borough or k-means (by coordinates) clusters of stations?)
 
 ##### Visualization 2: Effect of Weather
 
@@ -184,7 +188,6 @@ describe any ideas for future work that you had while working on the project tha
 		*argmin s ∈ S f(s)* 
 
 #### TODO: Transformations, sources, and provenance 
-* Change retrieval algorithm to get subway_stations from datamechanics.io repository
 * Fix prov mistake in Project 1, Problem 3. (25 pts) 20/ 25: <br>
            (1) In transformation provenance()
              functions, you use the "cny" namespace
@@ -197,7 +200,7 @@ describe any ideas for future work that you had while working on the project tha
              example. 
  * Change jupyter notebook files to their own transformations
  * Make byday_tocsv generate csv in appropriate folder (the visualizations/usage_vis/ directory) and then perform transformation
-* CLEAN CODE AND FIX ALL PROVENANCE
+* CLEAN CODE, FIX ALL PROVENANCE, AND PERFECT README
 * Get everything to run seamlessly through the database without manual changes and physical files
 
 -->

@@ -30,8 +30,8 @@ class retrieve_data(dml.Algorithm):
         repo = client.repo
         repo.authenticate('anuragp1_jl101995', 'anuragp1_jl101995')
         
-        # Retrieve NYC Subway Station data
-        # url = "https://data.cityofnewyork.us/resource/kk4q-3rt2.json"
+        # Retrieve NYC Subway Station data (Updated Source)
+        # url = "http://datamechanics.io/data/anuragp1_jl101995/subway_stations.json"
         # response = urllib.request.urlopen(url).read().decode("utf-8")
         # r = json.loads(response)
         # s = json.dumps(r, sort_keys=True, indent=2)
@@ -39,7 +39,7 @@ class retrieve_data(dml.Algorithm):
         # repo.dropPermanent("subway_stations")
         # repo.createPermanent("subway_stations")
         # repo['anuragp1_jl101995.subway_stations'].insert_many(r)
-      
+
         # Retrieve Bi-Annual Pedestrian Counts data  
         # url = "https://data.cityofnewyork.us/resource/cqsj-cfgu.json"
         # response = urllib.request.urlopen(url).read().decode("utf-8")
@@ -120,8 +120,9 @@ class retrieve_data(dml.Algorithm):
 
         url = "http://datamechanics.io/data/anuragp1_jl101995/turnstiles_geocoded.csv"
         urllib.request.urlretrieve(url, 'turnstiles_geocoded.csv')
-        geoturnstile_df = pd.DataFrame.from_csv('turnstiles_geocoded.csv')
-        repo['anuragp1_jl101995.weather'].insert_many(geoturnstile_df.to_dict('records'))
+        geoturnstile_df = pd.read_csv('turnstiles_geocoded.csv', header=None, names=['UNIT1', 'UNIT2', 'STATION', 'LINENAME', 'DIVISION', 'LAT', 'LONG'])
+        #geoturnstile_df = pd.DataFrame.from_csv('turnstiles_geocoded.csv', index_col=['UNIT1', 'UNIT2', 'STATION', 'LINENAME', 'DIVISION', 'LAT', 'LONG'])
+        repo['anuragp1_jl101995.geocoded_turnstile'].insert_many(geoturnstile_df.to_dict('records'))
         os.remove('turnstiles_geocoded.csv')
 
         # end database connection
@@ -173,7 +174,7 @@ class retrieve_data(dml.Algorithm):
         doc.wasAssociatedWith(get_pedestrian, this_script)
         doc.wasAssociatedWith(get_weather, this_script)
         doc.wasAssociatedWith(get_turnstile, this_script)
-        doc.wasAssociatedWith(get_citbike, this_script)
+        doc.wasAssociatedWith(get_citibike, this_script)
         # associated geoturnstile
 
         doc.usage(get_stations, stations_resource, startTime, None,
@@ -211,7 +212,7 @@ class retrieve_data(dml.Algorithm):
         citibike = doc.entity('dat:anuragp1_jl101995#citibike', {prov.model.PROV_LABEL:'CitiBike Trip Data', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(citibike, this_script)
         doc.wasGeneratedBy(citibike, get_citibike, endTime)
-        doc.wasDerivedFrom(citibike, citibike_resource, get_citibike, get_citbike, get_citibike)
+        doc.wasDerivedFrom(citibike, citibike_resource, get_citibike, get_citibike, get_citibike)
         
         # geoturnstile
         # geoturnstile
