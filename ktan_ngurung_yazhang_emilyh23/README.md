@@ -1,4 +1,4 @@
-#Ad-Opt: Finding the Most Optimal Location for Advertisement in Boston
+#Ad-Opt: Find Optimal Advertisement Placement in Boston
 ### *by Nisa Gurung, Kristel Tan, Yao Zhang, Emily Hou*
 
 # Narrative
