@@ -55,7 +55,7 @@ app.use('/api', api);
 app.get('/', function(req, res){
 	res.sendFile("./index.html")
 });
-app.get('/calculatescore', (req, res) => {
+app.get('/hospitalcalculator', (req, res) => {
   res.sendFile(__dirname + '/score.html');
 });
 

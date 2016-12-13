@@ -188,7 +188,6 @@ function addMbtaMarkers(mbtaStops,map){
 }
 function addCrimeMarkers(crimeData,map){
 	for(var i = 0; i < crimeData.length; i++){
-		console.log(crimeData[i])
 		crimeMarkers.push(addMarker('',{lat:parseFloat(crimeData[i].location[0]),lng:parseFloat(crimeData[i].location[1])},map,'red',crimeData[i].identifier))
 	}
 }
