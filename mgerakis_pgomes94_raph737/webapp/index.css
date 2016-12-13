@@ -2,10 +2,30 @@
  * element that contains the map. */
 #map {
   height: 90%;
+  position: relative;
+  overflow: hidden;
+  width: 50%;
+  text-align: center;
+  margin-left: 25%;
+  float:left;
 }
+
 /* Optional: Makes the sample page fill the window. */
 html, body {
   height: 90%;
   margin: 0;
   padding: 0;
+}
+
+#header{
+    text-align: center;
+    border-bottom: 1px solid black;
+    width: 50%;
+    margin-left: 25%;
+    margin-bottom: 10px;
+}
+
+#checkboxes{
+  float: right;
+  width: 200px;
 }
