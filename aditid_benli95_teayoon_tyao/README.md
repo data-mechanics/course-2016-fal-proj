@@ -169,7 +169,7 @@ Plot difference between average number of establishments around all crimes and a
 
 #Objective Function Results
 
-![alt tag](obj_func.png)
+![alt tag](./obj_func.png)
 
 |Radius|Absolute Difference|
 |------|------------------:|
