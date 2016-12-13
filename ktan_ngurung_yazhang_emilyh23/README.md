@@ -123,16 +123,7 @@ To better visualize, we created a web service that allows users to test out our 
 
 The web service incorporates Leaflet, an open-source JavaScript library that displays an interactive map. Our map illustrates the zip codes by area, colored by gradients. A darker color represents a higher rating and lighter color represents a lower rating. After users input their queries for the optimal zip code(s), the map will zoom in/out to frame new pin(s) that are dropped on the optimal zip code location area(s). 
 
-On the top right corner of our map, there is a toggle that allows users to select different "views".
-
-"overall" represents overall zip code ratings (initially stored from `zipcodeRating.py`)
-"hubway" represents zip code ratings for hubway stations
-"tstop" represents zip code ratings for T-stops
-"busstop" represents zip code ratings for bus stops
-"colleges" represents zip code ratings for college campuses
-"bigbelly" represents zip code ratings for Big Belly locations
-
-This is to give users flexibility and different perspectives in analyzing their target audience. 
+On the top right corner of our map, there is a toggle that allows users to select different "views". It will display zip code ratings that correspond to each type of category (hubway, tstop, busstop, colleges, bigbelly). The map is initialized on "overall", which shows overall zip code ratings, initially stored from `zipcodeRating.py`. This is to give users flexibility and different perspectives in analyzing their target audience. 
 
 **Visualization**
 
