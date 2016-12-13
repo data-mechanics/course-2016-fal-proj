@@ -18,30 +18,30 @@ Day Camps: https://data.cityofboston.gov/dataset/Day-Camps/sgf2-btru
 
 Children Feeding Programs: https://data.cityofboston.gov/Human-Services/Children-s-Feeding-Program/p9yd-36dn
 
-To get these datasets: $ python3 getData.py
+To get these datasets: `$ python3 getData.py`
 
-(getData.py calls the python module scrapePrivateDaycares.py which requires selenium. To run the webscraper, download the Chrome webdriver at: https://sites.google.com/a/chromium.org/chromedriver/downloads and on line 13 of scrapePrivateDaycares.py please make sure to input the path to the downloaded chrome driver as an argument for the webdriver. Example: driver = webdriver.Chrome("C:/Users/Test/chromedriver.exe"))
+(getData.py calls the python module scrapePrivateDaycares.py which requires selenium. To run the webscraper, download the Chrome webdriver at: https://sites.google.com/a/chromium.org/chromedriver/downloads and on line 13 of scrapePrivateDaycares.py please make sure to input the path to the downloaded chrome driver as an argument for the webdriver. Example: driver = webdriver.Chrome("C:/Users/Test/chromedriver.exe")
 
 #Transformations
 Transformation 1: The first transformation merges all the Legacy and Current crimes data sets. This will create a consolidated dataset that merges the old and new crime datasets from the city of Boston. We will be only selecting the locations of the crimes and merging them on their type of crime. The resulting dataset will be a consolidated dataset of all the crimes in Boston from July 2012 to current with their locations and whether or not they are a related crime. This creates the allCrimesMaster dataset.
 
-To run this script: $ python3 mergeAllCrimes.py
+To run this script: `$ python3 mergeAllCrimes.py`
 
 Transformation 2: The second transformation is similar to the first except it only grabs the crimes that are not drug related and puts them in their own dataset. This creates the noDrugCrimesMaster dataset.
 
-To run this script: $ python3 mergeAllWithoutCrimes.py
+To run this script: `$ python3 mergeAllWithoutCrimes.py`
 
 Transformation 3: This third tranformation is also similar to the first. It only grabs the crimes that are drug related. This creates the allDrugCrimesMaster dataset.
 
-To run this script: $ python3 mergeDrugCrimes
+To run this script: `$ python3 mergeDrugCrimes`
 
 Transformation 4: This tranformation merges the public school and private school datasets. This will select the school name and location while preserving if the school is private or public. Because some of the latitue and longitude values were unavailable, their latitudes and longitudes were converted from their physical adresses using the geopy package. This creates the schoolsMaster dataset.
 
-To run this script: $ python3 mergeSchools.py
+To run this script: `$ python3 mergeSchools.py`
 
 Transofmation 5: This transformation merges the day camps, public daycares and private daycares datasets while just selecting certain columns from the child feeding programs dataset. It merges the day camps, public daycares and private daycares and preserves name, type of establishment and location. Location and name are selected from the child feeding programs dataset. This script creates the childFeedingProgramsTrimmed and dayCampdayCaresMaster datasets.
 
-To run this script: $ python3 mergeChildren.py
+To run this script: `$ python3 mergeChildren.py`
 
 #Project Part 2
 
@@ -53,24 +53,26 @@ Instead of having to run the scripts individually, enter file path of chromedriv
 #Analysis
 prepData1.py: This script takes an argument r and the allCrimesMaster, allDrugCrimesMaster, childFeedingProgramsTrimmed, dayCampdayCaresMaster and schoolsMaster datasets. Then, using r as a distance, takes every single crime in the allCrimesMaster data set and finds the frequency of the different types of establishments found within that distance. These frequencies are then put into the numberOfEstablishmentsinRadius dataset. The same thing is done to the allDrugCrimesMaster dataset but creates the numberOfEstablishmentsinRadiusDrug dataset
 
-To run this script: $ python3 prepData1.py
+To run this script: `$ python3 prepData1.py`
 Note: execute function is commented out here to allow for function call with parameter by prepData3.py
 
 prepData2.py: This script takes the two datasets created by prepData1.py. It implements a map reduce function on each that returns a distribution of the number of crimes that have x children establishments within the specified proximity from prepData1. It will also have a product of the crimes by establishments with an appended temporary variable used to collapse the data in the reduce function. Another map reduce is applied on the resulting datasets of the above map reduce to produce the total sum of establishments around each crime and the total sum of crimes. Using these values, the average number of establishments around each crime is calculated.
 
-To run this script: $ python3 prepData2.py
+To run this script: `$ python3 prepData2.py`
 
 prepData3.py: This script functions as a wrapper around prepData1 and prepData2. It iterates through a range of distances to pass to prepData1. It will execute prepData1 with the specified distance, then execute prepData2, and finally calculate the averages of the frequencies of all crimes near the specified establishments compared to just drug crimes near the specified establishments. Using the data here, we are capable of pin pointing the optimal distance to use when running a linear regression on the proximities. 
 
-To run this script: $ python3 prepData3.py
+To run this script: `$ python3 prepData3.py`
 
 prepData4.py: Generates the histogram and linear regression values.
 
-To run this script: $ python3 prepData4.py
+To run this script: `$ python3 prepData4.py`
 
 #Results
 
 Optimization Function:
+
+```
 value of d: 1
 avg_all: 36.30665612960585
 avg_drug: 38.260169491525424
@@ -100,6 +102,7 @@ value of d: 6
 avg_all: 465.5048661463993
 avg_drug: 463.62127118644065
 diff: 1.88359495996
+```
 
 With regards to the optimization results, we chose to work with a value of 2 miles when finding the number of children associated establishments around each crime. This was because it was at this integer that the average number of establishments around each drug crime was much greater than that around each crime. In the future, we plan to find the optimal distance by testing distances of 0.1 mile increments.
 
@@ -166,15 +169,17 @@ Plot difference between average number of establishments around all crimes and a
 
 #Objective Function Results
 
-![alt tag](images/DifferenceAgainstDistance.png)
+![alt tag](obj_func.png)
 
 |Radius|Absolute Difference|
 |------|------------------:|
+| ...  | ...			   |
 |1.8   | 2.845			   |
 |1.9   | 3.169             |
 |2.0   | 3.225             |
 |2.1   | 3.178             |
 |2.2   | 3.184             |
+| ...  | ...			   |
 
 Data from radius > 5 trended towards constant values as distance approcahes Boston boundaries.
 
@@ -196,3 +201,13 @@ The second analysis compared the total number of establishments with a specific 
 
 
 ![alt tag](images/Histogramstuff.png)
+
+#Conclusion
+
+We can see that there are two peaks in our histogram of Number of Crimes per Number of Establishments. These two peaks represent that there are about 1100 crimes with around 125 children establishments in its radius and there are about 1100 crimes with around 190 children establishments in its radius. We suspect that these peaks are a result of a hotspot of crimes within the optimized radius. 
+
+We expected to find more drug crimes around child establishments than all crimes. However from the regression analysis results, the higher R-squared value and resulting correlation coefficient of all crimes compared to only drug crimes indicates that our predictions were not in fact the case. We suspect this was due to unreported drug crimes around child establishments.
+
+#Future Work
+
+For the Objective Function, the data points represent a definite pattern. Further work involves trying to find the best fit equation of this pattern. Explanations for why avg(establishments per crime) overtakes avg(establishments per drug crime) at radius 3.3 also seems like an intriguing avenue to explore.
