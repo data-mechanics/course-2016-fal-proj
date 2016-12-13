@@ -176,7 +176,7 @@ Plot difference between average number of establishments around all crimes and a
 | ...  | ...			   |
 |1.8   | 2.845			   |
 |1.9   | 3.169             |
-|2.0   | 3.225             |
+|**2.0**   | **3.225**             |
 |2.1   | 3.178             |
 |2.2   | 3.184             |
 | ...  | ...			   |
