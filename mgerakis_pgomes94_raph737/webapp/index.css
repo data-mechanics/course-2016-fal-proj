@@ -1,3 +1,6 @@
+body{
+	background:#f6f6f6;
+}
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
 #map {
@@ -6,7 +9,7 @@
   overflow: hidden;
   width: 50%;
   text-align: center;
-  margin-left: 25%;
+  margin-left: 2%;
   float:left;
 }
 
@@ -19,13 +22,35 @@ html, body {
 
 #header{
     text-align: center;
-    border-bottom: 1px solid black;
     width: 50%;
     margin-left: 25%;
     margin-bottom: 10px;
+    background: white;
+    margin-top: 1%;
+    border-radius:5px;
 }
 
 #checkboxes{
-  float: right;
-  width: 200px;
+    float: right;
+    width: 140px;
+    background: white;
+    border-radius: 5px;
+    margin-right: 6%;
+    padding-left: 1%;
+    padding-top: 3px;
+}
+
+#legend{
+  float: left;
+  width: 18%;
+  text-align: center;
+  margin-left: 4%;
+  background: white;
+  border-radius: 5px;
+  padding-left: 1%;
+}
+
+#legendText{
+	text-align:left;
+	width:100%;
 }
