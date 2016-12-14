@@ -3,14 +3,83 @@ extends layout
 block content
   h1 CS591
   p Welcome to CS591's Demo Page
-  svg(width='960', height='500')
+  svg(width='960', height='500', id='viz')
+  #mapid
   script(type="text/javascript").
-    d3.select("#viz")
-      .append("svg")
-        .attr('width', 600)
-        .attr('height', 300)
-        .append('circle')
-          .attr('cx', 300)
-          .attr('cy', 150)
-          .attr('r', 30)
-          .attr('fill', '#26963c')
+    var svg = d3.select("#viz"),
+        margin = {top: 20, right: 20, bottom: 30, left: 40},
+        width = +svg.attr("width") - margin.left - margin.right,
+        height = +svg.attr("height") - margin.top - margin.bottom;
+    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+        y = d3.scaleLinear().rangeRound([height, 0]);
+    var g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    d3.tsv("lights_crimes.tsv", function(d) {
+      d.frequency = +d.frequency;
+      return d;
+    }, function(error, data) {
+      if (error) throw error;
+      x.domain(data.map(function(d) { return d.letter; }));
+      y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+      g.append("g")
+          .attr("class", "axis axis--x")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x));
+      g.append("g")
+          .attr("class", "axis axis--y")
+          .call(d3.axisLeft(y))
+        .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", "0.71em")
+          .attr("text-anchor", "end")
+          .text("Frequency");
+      g.selectAll(".bar")
+        .data(data)
+        .enter().append("rect")
+          .attr("class", "bar")
+          .attr("x", function(d) { return x(d.letter); })
+          .attr("y", function(d) { return y(d.frequency); })
+          .attr("width", x.bandwidth())
+          .attr("height", function(d) { return height - y(d.frequency); });
+    });
+  script(type="text/javascript").
+    var mymap = L.map('mapid').setView([42.3561, -71.0579], 14);
+
+    // tile set
+    L.tileLayer('https://api.mapbox.com/styles/v1/yinghang/ciwdo2n6g000t2pnaaed3yh74/tiles/256/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        maxZoom: 22,
+        id: 'mapbox.mapbox-streets-v7',
+        accessToken: 'pk.eyJ1IjoieWluZ2hhbmciLCJhIjoiY2l3ZG15YTdiMGM4cjJ6bWh3ZHZqZ3Q0ZSJ9.b3ghyJWf6ZIMPIinB0ZdYA'
+    }).addTo(mymap);
+
+    // ajax call for lights
+    $.ajax({
+       url: 'http://localhost:3000/crimes/40000',
+       success: function(data) {
+        var markers = L.markerClusterGroup({maxClusterRadius: 40});
+        
+        Object.keys(data).forEach(function(key) {
+          var obj = data[key]
+          markers.addLayer(L.marker([obj.lat, obj.long]));
+        });
+
+        mymap.addLayer(markers);
+       },
+       type: 'GET'
+    });
+
+    // ajax call for heatmap
+    $.ajax({
+       url: 'http://localhost:3000/lights/40000',
+       success: function(data) {
+        var arr = []        
+        Object.keys(data).forEach(function(key) {
+          var c = data[key].location.coordinates
+          arr.push([c[1], c[0], 1])
+        });
+        var heat = L.heatLayer(arr, {radius: 30}).addTo(mymap);
+       },
+       type: 'GET'
+    });

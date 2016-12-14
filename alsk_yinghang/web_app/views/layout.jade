@@ -1,9 +1,16 @@
 doctype html
 html
   head
-    title= title
+    title CS591
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='https://unpkg.com/leaflet@1.0.2/dist/leaflet.css')
+    link(rel='stylesheet', href='https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.css')
+    link(rel='stylesheet', href='https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.Default.css')
     script(src='https://d3js.org/d3.v4.js')
+    script(src='https://unpkg.com/leaflet@1.0.2/dist/leaflet.js')
+    script(src='https://unpkg.com/leaflet.markercluster@1.0.0/dist/leaflet.markercluster.js')
+    script(src='/javascripts/leaflet-heat.js')
+    script(src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous")
     style.
       .bar {
       fill: steelblue;
@@ -14,5 +21,9 @@ html
       .axis--x path {
       display: none;
       }
+      #mapid { height: 580px; }
+      body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
+      .ghbtns { position: relative; top: 4px; margin-left: 5px; }
+      a { color: #0077ff; }
   body
     block content
