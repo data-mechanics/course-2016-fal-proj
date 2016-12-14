@@ -90,6 +90,21 @@ python main_file.py
 ```
 
 ### Running the web application
+
+First, you need to install the dependencies
+
 ```shell
-tba
+npm install
 ```
+Then, edit line 4 in web_app/models/models.js to the appropriate db uri
+
+```shell
+var connect = 'mongodb://admin:example@localhost:27017/repo';
+```
+
+Lastly, start the server and visit http://localhost:3000
+
+```shell
+npm start
+```
+
