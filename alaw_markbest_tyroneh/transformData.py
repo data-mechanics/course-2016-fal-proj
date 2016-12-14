@@ -16,7 +16,7 @@ class transformData(dml.Algorithm):
         
         startTime = datetime.datetime.now()
         
-        subprocess.check_output('mongo repo -u alaw_markbest_tyroneh -p alaw_markbest_tyroneh  --authenticationDatabase "repo" javascript/data2Geo.js; mongo repo -u alaw_markbest_tyroneh -p alaw_markbest_tyroneh  --authenticationDatabase "repo" javascript/getAvgVels.js', shell=True)
+        subprocess.check_output('mongo repo -u alaw_markbest_tyroneh -p alaw_markbest_tyroneh  --authenticationDatabase "repo" mongojs/data2Geo.js; mongo repo -u alaw_markbest_tyroneh -p alaw_markbest_tyroneh  --authenticationDatabase "repo" mongojs/getAvgVels.js', shell=True)
 
         endTime = datetime.datetime.now()
         

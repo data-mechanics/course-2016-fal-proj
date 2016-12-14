@@ -160,8 +160,9 @@ class optimizeBusAllocation(dml.Algorithm):
 		for d in data:
 			route_name = d['Route']
 			scores = d['Allocation Scores']
+			k = d['Optimum Allocation']
 
-			output[route_name] = scores
+			output[route_name] = {"scores": scores, "optimal": k}
 
 		repo.logout()
 
