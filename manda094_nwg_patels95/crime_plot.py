@@ -13,15 +13,6 @@ class crime_plot(dml.Algorithm):
 	writes = []
 
 	@staticmethod
-	def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
-		client = dml.pymongo.MongoClient()
-		repo = client.repo
-		repo.authenticate('manda094_nwg_patels95', 'manda094_nwg_patels95')
-
-		repo.logout()
-		return doc
-
-	@staticmethod
 	def execute(trial = False):
 		startTime = datetime.datetime.now()
 		# Set up the database connection.
@@ -64,6 +55,30 @@ class crime_plot(dml.Algorithm):
 		repo.logout()
 		endTime = datetime.datetime.now()
 		return {"start":startTime, "end":endTime}
+
+
+	@staticmethod
+    def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
+        client = dml.pymongo.MongoClient()
+        repo = client.repo
+        repo.authenticate('manda094_nwg_patels95', 'manda094_nwg_patels95')
+
+        doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+        doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
+        doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
+        doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
+        doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
+
+        this_script = doc.agent('alg:manda094_nwg_patels95#crime_plot', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        resource = doc.entity('dat:manda094_nwg_patels95#crimes', {'prov:label':'Crimes', prov.model.PROV_TYPE:'ont:DataResource'})
+        this_run = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        doc.wasAssociatedWith(this_run, this_script)
+        doc.usage(this_run, resource, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+
+        repo.record(doc.serialize())
+        repo.logout()
+
+        return doc
 crime_plot.execute()
 
 ## eof
