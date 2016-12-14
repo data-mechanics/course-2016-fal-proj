@@ -4,7 +4,6 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Marker Labels</title>
-    <link rel="stylesheet" type="text/css" href="./index.css"/>
     <style>
       body {
         width: 100%;
@@ -20,7 +19,9 @@
         position: relative;
         top: 7.5%;
         margin: 0 auto;
-        background: #4f5061
+        background: #4f5061;
+        border-radius: 5px;
+        padding-bottom:15px;
       }
       .form__inputs {
         padding-top: 50%;
@@ -52,7 +53,7 @@
         left: 7.5%;
         color: white;
         text-align: center;
-        font-size: 17px;
+        font-size: 23px;
       }
       .button {
         width: 65%;
@@ -90,6 +91,7 @@
         box-sizing: border-box;
         animation: 0.8s revolve infinite linear;
       }
+
       @keyframes revolve {
         from {
           transform: rotate(0deg);
@@ -102,7 +104,7 @@
   </head>
   <body>
     <div class='form'>
-      <div class='score'></div>
+      <div class='score'>Calculate your hospital score</div>
       <div class='form__inputs'>
         <div class='input'>
           <input id='name' name='name' type='text' placeholder='Hospital Name'> 
@@ -117,6 +119,10 @@
       <div class='button' onclick='submit()'><div class='buttonload'></div>Submit</div>
     </div>
     <div id='scores'></div>
+
+    <div id='scoreTables'></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD38LEOz1r5lOB9u4bWBNZCEFCc780hgiU"></script>
   <script src="./score.js"></script>
   </body>
 </html>
