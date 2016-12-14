@@ -4,6 +4,7 @@ import prov.model
 import datetime
 import uuid
 
+
 class transformData(dml.Algorithm):
     contributor = 'alaw_markbest_tyroneh'
     reads = ['alaw_markbest_tyroneh.BostonProperty','alaw_markbest_tyroneh.CambridgeProperty','alaw_markbest_tyroneh.SomervilleProperty','alaw_markbest_tyroneh.BrooklineProperty', 'alaw_markbest_tyroneh.HubwayStations', 'alaw_markbest_tyroneh.TCStops','alaw_markbest_tyroneh.TimedBuses', 'alaw_markbest_tyroneh.CensusPopulation','alaw_markbest_tyroneh.BusRoutes','alaw_markbest_tyroneh.BusStops']
@@ -15,7 +16,7 @@ class transformData(dml.Algorithm):
         
         startTime = datetime.datetime.now()
         
-        subprocess.check_output('mongo repo -u alaw_markbest_tyroneh -p alaw_markbest_tyroneh  --authenticationDatabase "repo" data2Geo.js; mongo repo -u alaw_markbest_tyroneh -p alaw_markbest_tyroneh  --authenticationDatabase "repo" getAvgVels.js', shell=True)
+        subprocess.check_output('mongo repo -u alaw_markbest_tyroneh -p alaw_markbest_tyroneh  --authenticationDatabase "repo" javascript/data2Geo.js; mongo repo -u alaw_markbest_tyroneh -p alaw_markbest_tyroneh  --authenticationDatabase "repo" javascript/getAvgVels.js', shell=True)
 
         endTime = datetime.datetime.now()
         

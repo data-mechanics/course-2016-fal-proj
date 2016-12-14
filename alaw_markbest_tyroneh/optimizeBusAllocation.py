@@ -6,6 +6,8 @@ import re
 import numpy as np
 from scipy.stats import norm
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+import json
 
 class optimizeBusAllocation(dml.Algorithm):
 	contributor = 'alaw_markbest_tyroneh'
@@ -78,7 +80,7 @@ class optimizeBusAllocation(dml.Algorithm):
 				inefficiency_vals.append(inefficiency)
 
 			#store route's optimum in output
-			output.append({route:{'Avg Time': avg, 'Time Stdev': std, 'Stops Count': n, 'Allocation Scores': k_vals, 'Optimum Allocation': k_vals.index(min(k_vals)) + 1, 'Optimum Avg Time': avg/(k_vals.index(min(k_vals))+1)}})
+			output.append({'Route': route, 'Avg Time': avg, 'Time Stdev': std, 'Stops Count': n, 'Allocation Scores': k_vals, 'Optimum Allocation': k_vals.index(min(k_vals)) + 1, 'Optimum Avg Time': avg/(k_vals.index(min(k_vals))+1)})
 			results[route] = [route,k_vals,latency_vals,inefficiency_vals]
 
 			#trial mode: only calculate for 1 route
@@ -101,23 +103,71 @@ class optimizeBusAllocation(dml.Algorithm):
 	def visualize(results):
 		'''Create visualizations for each route for bus allocation, total average wait time, and total bus inefficiency'''
 
-		#plt.figure(figsize=(10,10))
+		fig = plt.figure(figsize=(14,10))
+		fig.patch.set_facecolor('white')
+		ax = plt.gca()
 		
+		optimal_x = []
+		optimal_y = []
+		route_opts = []
+
 		#add plots for each route (blue: allocation, green: wait time, red: inefficiency)
 		for r in results:
 			route = results[r][0]
 			k_vals = results[r][1]
-			latency_vals = results[r][2]
-			inefficiency_vals = results[r][3]
-			plt.plot(range(1,101), latency_vals, color='green')
-			plt.plot(range(1,101), inefficiency_vals, color='red')
-			plt.plot(range(1,101), k_vals, color='blue')
+			#plt.plot(range(1,101), latency_vals, color='green')
+			#plt.plot(range(1,101), inefficiency_vals, color='red')
+			plt.plot(range(1,101), k_vals, color='#4e74ba', label = route, zorder=1)
+			optimal_i = k_vals.index(min(k_vals)) + 1
+			optimal_x.append(optimal_i)
+			optimal_y.append(k_vals[optimal_i])
+			route_opts.append(route)
 
-		plt.title('Optimum Allocation of Buses for each Bus Route')
-		plt.xlabel('K = Number of Buses Allocated')
-		plt.ylabel('Allocation Score')
-		#plt.legend(loc='upper right',prop={'size':6})
+		plt.scatter(optimal_x,optimal_y, color='#e36c09',zorder=2)
+
+		ax.set_axis_bgcolor('white')
+		plt.grid(True)
+
+		plt.xlabel('Buses Allocation (K)',  fontsize=24, fontweight='medium', color='#e36c09')
+		plt.ylabel('Allocation Score (S)', fontsize=24, fontweight='medium', color='#e36c09')
+
+		#lv = mpatches.Patch(color='green', label='Latency')
+		#iv = mpatches.Patch(color='red', label='Inefficiency')
+		kv = mpatches.Patch(color='#4e74ba', label='Allocation Score Curve')
+		ov = mpatches.Patch(color='#e36c09', label='Optimal Score')
+
+		plt.legend(handles=[kv,ov], fancybox=True, loc=7, fontsize=20)
+
+
+		plt.xlim(1,25)
+		plt.ylim(0,120)
+
+		plt.savefig('optimalAllocation.png')
+
 		plt.show()
+
+	def outputScores():
+		'''collect allocation scores for each route'''
+
+		client = dml.pymongo.MongoClient()
+		repo = client.repo
+		repo.authenticate('alaw_markbest_tyroneh', 'alaw_markbest_tyroneh')
+
+		data = repo['alaw_markbest_tyroneh.OptimumAllocation'].find()
+
+		output = {}
+
+		for d in data:
+			route_name = d['Route']
+			scores = d['Allocation Scores']
+
+			output[route_name] = scores
+
+		repo.logout()
+
+		json.dump(output,open('routeScores.json','w'))
+		
+		return output
 
 	@staticmethod
 	def execute(trial = False, visual = False):	
@@ -126,6 +176,7 @@ class optimizeBusAllocation(dml.Algorithm):
 		output = optimizeBusAllocation.runOptimization(results, trial=trial)
 		if(visual):
 			optimizeBusAllocation.visualize(output)
+		optimizeBusAllocation.outputScores()
 		endTime = datetime.datetime.now()
 		return {"start":startTime, "end":endTime}
 
