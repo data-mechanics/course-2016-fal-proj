@@ -44,6 +44,7 @@ class HospitalLocationAnalysis(dml.Algorithm):
         repo.authenticate('ggelinas', 'ggelinas')
 
         Hospital = []
+        Hospitalname = []
         Crime = []
         X = []
         Y = []
@@ -51,6 +52,7 @@ class HospitalLocationAnalysis(dml.Algorithm):
         for h in repo['ggelinas.hospitals'].find():
             try:
                 if not (h['location']['coordinates'] == [0,0]):
+                    Hospitalname.append(h['name'])
                     Hospital.append((h['location']['coordinates'][1], h['location']['coordinates'][0]))
                     X.append(h['location']['coordinates'][1])
                     Y.append(h['location']['coordinates'][0])
@@ -98,15 +100,16 @@ class HospitalLocationAnalysis(dml.Algorithm):
         # plotting map
         import folium
         output = 'hospital.html'
-        map = folium.Map(location=[42.355, -71.0609], zoom_start=13)
+        hospitalmap = folium.Map(location=[42.355, -71.0609], zoom_start=13)
         for i in range(len(Hospital)):
             lat, long = Hospital[i]
-            map.polygon_marker(location=[lat, long], popup='Hospital', fill_color='#ff0000', num_sides=8, radius=10, fill_opacity=0.3)
+            name = Hospitalname[i]
+            folium.CircleMarker(location=[lat, long], popup=name, color='#ff0000',  fill_color='#ff0000', radius=50, fill_opacity=0.7).add_to(hospitalmap)
         for j in range(len(M)):
             lat, long = M[j]
-            map.polygon_marker(location=[lat, long], popup='Optimal Hospital', fill_color='#0000ff', num_sides=4, radius=10, fill_opacity=0.3)
-        map
-        map.create_map(path=output)
+            name = Hospitalname[j]
+            folium.CircleMarker(location=[lat, long], popup='Optimal ' + name, color='#0000ff', fill_color='#0000ff', radius=50, fill_opacity=0.7).add_to(hospitalmap)
+        hospitalmap.save('hospitalmap.html')
 
         ###################################################
 
