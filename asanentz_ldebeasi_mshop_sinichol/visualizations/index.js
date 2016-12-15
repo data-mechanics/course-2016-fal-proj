@@ -25,7 +25,6 @@ app.use(express.static(__dirname + '/assets'));
 
 /* ------------- Application Routing ------------- */
 
-
 app.get('/lookup', function(req,res) {
    res.render('lookup.html'); 
 });
@@ -134,6 +133,10 @@ app.post('/getStops', function(req, res) {
             });
         }
     });
+});
+
+app.get('*', function(req,res) {
+   res.render('index.html'); 
 });
 
 
