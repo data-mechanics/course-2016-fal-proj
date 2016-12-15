@@ -163,14 +163,11 @@ The entertainment, active food establishment license, and parking lot locations 
 Analysis Techniques
 
 Fig. 1: Crime Heat Map — We looked at the crime data and the output from Boston Grid Cell GPS Centers(1000-FT Cells). The former data was computed by us, and it splits up Boston into 1000x1000-ft. cells and finds the center of that point (which is stored as a latitude and longitude). For each GPS center, we calculated the distance between itself and all the crime location points using the distance formula. Next, we multiplied each respective calculated distance by the community score (from 'Community Indicators Location and Score') to obtain the overall impact on the cell's GPS center. Then, we took the inverse of the entire sum and took that to be that specific cell's “Crime Score”.
-
-Fig. 2: Community Heat Map — We take 1000x1000-ft cells in a grid of cells across Boston, and compute the indicator of how "strong" or "weak" community at that location is. The higher community areas have a redder coloring. 
-
-
-
 ![alt tag](http://i67.tinypic.com/19roth.png)
-
+Fig. 2: Community Heat Map — We take 1000x1000-ft cells in a grid of cells across Boston, and compute the indicator of how "strong" or "weak" community at that location is. The higher community areas have a redder coloring. 
 ![alt tag](http://i68.tinypic.com/2d6w36o.png)
+Fig. 3: Correlations — This bar chart is made from a computation of the correlation coefficient, based on the community score vs. crime and property values.
+![alt tag](http://i66.tinypic.com/351g5y8.png)
 
 
 ##Observations
