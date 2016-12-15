@@ -39,7 +39,7 @@ Transformation 4: This tranformation merges the public school and private school
 
 To run this script: `$ python3 project#1/mergeSchools.py`
 
-Transofmation 5: This transformation merges the day camps, public daycares and private daycares datasets while just selecting certain columns from the child feeding programs dataset. It merges the day camps, public daycares and private daycares and preserves name, type of establishment and location. Location and name are selected from the child feeding programs dataset. This script creates the childFeedingProgramsTrimmed and dayCampdayCaresMaster datasets.
+Transformation 5: This transformation merges the day camps, public daycares and private daycares datasets while just selecting certain columns from the child feeding programs dataset. It merges the day camps, public daycares and private daycares and preserves name, type of establishment and location. Location and name are selected from the child feeding programs dataset. This script creates the childFeedingProgramsTrimmed and dayCampdayCaresMaster datasets.
 
 To run this script: `$ python3 project#1/mergeChildren.py`
 
@@ -49,7 +49,7 @@ To run this script: `$ python3 project#1/mergeChildren.py`
 
 #Project Part 2
 
-We intend to see a correlation exists between certain establishments associated with children and proximity to drug crimes. Pulling data from the Private Schools, Public Schools, Child Feeding Programs, Day Camps, Public Daycares, Private Daycares, and Crimes data sets gives us the location in address or latitude and longitude format of an establishment or crime. We intend to then take each crime, drug related or not, and find the frequency of each type of establishment within a specific distance/radius to the crime. Then we take each drug related crime and find their frequencies within the same distance. Then we want to compare these two by plotting frequencies for each type of establishment on histograms. The goal is to find, while comparing the histogram with all crimes against the histogram with only drug crimes, a contrast in the peaks of the histograms. This will point to a correlation between the specific type of establishment and drug crimes. We also intend to implement an optimization function to optimize the size of the radius which dictates how many establishments will be within range to be counted in the frequencies. The optimization function will give us a specific distance which will create the largest or most obvious difference in peaks on the histograms we create.
+We intend to see whether a correlation exists between certain establishments associated with children and proximity to drug crimes. Pulling data from the Private Schools, Public Schools, Child Feeding Programs, Day Camps, Public Daycares, Private Daycares, and Crimes data sets gives us the location in address or latitude and longitude format of an establishment or crime. We intend to then take each crime, drug related or not, and find the frequency of each type of establishment within a specific distance/radius to the crime. Then we take each drug related crime and find their frequencies within the same distance. Then we want to compare these two by plotting frequencies for each type of establishment on histograms. The goal is to find, while comparing the histogram with all crimes against the histogram with only drug crimes, a contrast in the peaks of the histograms. This will point to a correlation between the specific type of establishment and drug crimes. We also intend to implement an optimization function to optimize the size of the radius which dictates how many establishments will be within range to be counted in the frequencies. The optimization function will give us a specific distance which will create the largest or most obvious difference in peaks on the histograms we create.
 
 #Run Instructions
 Running `$ python3 project#2/prepData3.py` will run prepData1.py and prepData2.py. But they will only iterate through integer radius values (1-6). Also it will only output the averages as a result. It does not save the distributions for later usage. Running this sequence:
@@ -110,7 +110,7 @@ avg_drug: 463.62127118644065
 diff: 1.88359495996
 ```
 
-With regards to the optimization results, we chose to work with a value of 2 miles when finding the number of children associated establishments around each crime. This was because it was at this integer that the average number of establishments around each drug crime was much greater than that around each crime. In the future, we plan to find the optimal distance by testing distances of 0.1 mile increments.
+With regards to the optimization results, we chose to work with a value of 2 miles when finding the number of children associated establishments around each crime. This was because it was at this integer that the average number of establishments around each drug crime was much greater than the number of establishments around all crimes. In the future, we plan to find the optimal distance by testing distances of 0.1 mile increments.
 
 
 Linear Regression results for all crimes vs number of establishments for each crime:
@@ -119,7 +119,7 @@ Linear Regression results for all crimes vs number of establishments for each cr
 Linear Regression results for drug crimes vs number of establishments for each crime:
 0.4711
 
-This is more or less as predicted since the data is not linear, but it seems that all crimes have a greater correlation to the number of establishments compared to drug crimes
+This is more or less as predicted since the data is not linear, but it seems that all crimes have a greater correlation to the number of establishments compared to drug crimes.
 
 
 Histogram:
@@ -132,18 +132,18 @@ Normalized Histogram:
 
 
 Trial Mode:
-If you want to run the trial mode, go to getData.py and uncomment out line 199: getData.execute(True) and comment out line 198: getData.execute().  Then follow the run instructions. 
+If you want to run the trial mode, go to getData.py and uncomment out line 197: getData.execute(True) and comment out line 198: getData.execute(). Then follow the run instructions. 
 
 #Project Part 3: Final Report
 
 #Introduction
 
-Drug crime among youth population is a major concern in any major urban populace. People find the possibility of such crimes occurring near children to be a disconcerting reality.  However, when said metric is overlayed into city geography, it becomes rather difficult to extrapolate meaningful information.
+Drug crime among youth population is a major concern in any major urban populace. People find the possibility of such crimes occurring near children to be a disconcerting reality. However, when said metric is overlayed into city geography, it becomes rather difficult to extrapolate meaningful information.
 
 #Project Goals
 
 Our projects goals can be split into two major tracks:
-Find the distance at which the difference between the number of child establishments surrounding each drug crimes and the number around each standard crime is maximised.
+Find the distance at which the difference between the number of child establishments surrounding each drug crime and the number around each standard crime is maximised.
 At this distance, find if a relationship exists between the number of such establishments and the number of drug crimes.
 
 #Data
@@ -155,7 +155,7 @@ Child Establishment Datasets: Supplementary datasets contain the locations of es
 
 max(|average number of child establishments within r distance of any crime - average number of child establishments within distance r of drug crimes|)
 
-After first running the optimization for project 2 with integer radius values, we found the radius of 2 miles to be the optimal radius for our analysis. But to be sure, we decided to be more precise with our radius measurement and incremented by 0.1 instead of 1.
+After first running the optimization for project 2 with integer radius values, we found the radius of 2 miles to be the optimal radius for our analysis. For further confirmation, we decided to be more precise with our radius measurement and incremented by 0.1 instead of 1.
 
 The following steps were implemented for each radius value r in range(0, 5) miles to a precision of 0.1 miles.
 
@@ -165,15 +165,15 @@ For each crime and drug crime, find the number of child establishments within ra
 
 #Step 2
 
-Reduce data from Step 1 to show number of crimes with x child establishments and number of drug crimes with x child establishments.
+Reduce data from Step 1 to show the number of all crimes with x child establishments and number of drug crimes with x child establishments.
 
 #Step 3
 
-Reduce data from Step 2 to show average number of child establishments around each crime and each drug crime.
+Reduce data from Step 2 to show the average number of child establishments around every crime and every drug crime.
 
 #Step 4
 
-Plot difference between average number of establishments around all crimes and average number of establishments around drug crimes.
+Plot the difference between the average number of establishments around all crimes and average number of establishments around drug crimes.
 
 #Objective Function Results
 
@@ -192,9 +192,9 @@ To run this visualization run `$ python3 project#3/visualisationScatter.py`
 | ...  | ...			   |
 
 
-The radius of 2 miles has the largest absolute difference and therefor is the optimized value for our analysis. The computations for this portion were the heaviest in our project. For every single crime, we summed up the number of child establishments within each incremented radius. The average computation time for each mile was about two and half hours. 
+The radius of 2 miles has the largest absolute difference and therefore is the optimized value for our analysis. The computations for this portion were the heaviest in our project. For every single crime, we summed up the number of child establishments within each incremented radius. The average computation time for each mile was about two and half hours. 
 
-Data from radius > 5 trended towards constant values as distance approcahes Boston boundaries.
+Data from radius > 5 trended towards constant values as distance approaches Boston boundaries.
 
 #Regression
 
@@ -203,7 +203,7 @@ We ran two OLS analysis using the statsmodels.api package with the optimized dis
 The first compared the total number of establishments with a specific number of all crimes within its radius. 
 For example, a data point in the format: {value : {crimes: 576, total: 27}} means that there are 27 establishments with 576 crimes within its 2 mile radius.
 
-The second analysis compared the total number of establishments with a specific number of drug crimes within its radius.  We also created a histogram to visually represent the differences between the normalized number of crimes to number of establishments.
+The second analysis compared the total number of establishments with a specific number of drug crimes within its radius. We also created a histogram to visually represent the differences between the normalized number of crimes to number of establishments.
 
 #Regression Results
 
@@ -220,8 +220,8 @@ To run this visualization run `$ python3 project#3/visualisation.py`
 
 We can see that there are two peaks in our histogram of Number of Crimes per Number of Establishments. These two peaks represent that there are about 1100 crimes with around 125 children establishments in its radius and there are about 1100 crimes with around 190 children establishments in its radius. We suspect that these peaks are a result of a hotspot of crimes within the optimized radius. 
 
-Our hypothesis at the beginning of the project was proximity to child establishments would be positively correlated with the number of drug crimes within our optimized radius. However, based on our regression analysis we cannot conclude that our hypothesis was not correct. There is a larger correlation between all crimes and number of child establishments than between just drug crimes and number of child establishments. So all we can conclude is that there is no correlation between drug crimes and proximity to child establishments. We suspect that this is due to unreported drug crimes around child establishments.
+Our hypothesis at the beginning of the project was that proximity to child establishments would be positively correlated with the number of drug crimes within our optimized radius. However, based on our regression analysis we can conclude that our hypothesis was not correct. There is a larger correlation between all crimes and number of child establishments than between just drug crimes and number of child establishments. So all we can conclude is that there is no correlation between drug crimes and proximity to child establishments. We suspect that this is due to unreported drug crimes around child establishments.
 
 #Future Work
 
-For the Objective Function, the data points represent a definite pattern. Further work involves trying to find the best fit equation of this pattern. Explanations for why avg(establishments per crime) overtakes avg(establishments per drug crime) at radius 3.3 also seems like an intriguing avenue to explore. Also, if we could somehow obtain the ages of the perpetrators of eatch crime we could have found more interesting information.
+For the Objective Function, the data points represent a definite pattern. Further work involves trying to find the best fit equation of this pattern. Explanations for why avg(establishments per crime) overtakes avg(establishments per drug crime) at radius 3.3 also seems like an intriguing avenue to explore. Also, if we could possibly obtain the ages of the perpetrators of each crime, we could have possibly analyzed how age has a play in all of this.
