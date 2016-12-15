@@ -32,3 +32,7 @@ Due to the limit success of Project 2, we decided to experiment more on the algo
 
 Description on Part 4:
 In part4.py, we implmented one rather simple residential buildings scoring system based on their price, distance to entertainment clusters and distance to crime clusters. Although the scoring system itself may not be very sophisticated, we can observe some general pattern to the map on the map.
+
+And at last in Visualization folder, we implmented, using d3 and html,  two visualizations of part3 and part4 of this project. You can just load them directly to your browser to see the code in action, just be sure to download the entire folder of visualization together since d3 code are included inside.
+
+Details of this project can be found in the final report .
