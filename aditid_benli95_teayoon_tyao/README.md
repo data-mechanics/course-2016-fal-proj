@@ -18,55 +18,61 @@ Day Camps: https://data.cityofboston.gov/dataset/Day-Camps/sgf2-btru
 
 Children Feeding Programs: https://data.cityofboston.gov/Human-Services/Children-s-Feeding-Program/p9yd-36dn
 
-To get these datasets: `$ python3 getData.py`
+To get these datasets: `$ python3 project#1/getData.py`
 
 (getData.py calls the python module scrapePrivateDaycares.py which requires selenium. To run the webscraper, download the Chrome webdriver at: https://sites.google.com/a/chromium.org/chromedriver/downloads and on line 13 of scrapePrivateDaycares.py please make sure to input the path to the downloaded chrome driver as an argument for the webdriver. Example: driver = webdriver.Chrome("C:/Users/Test/chromedriver.exe")
 
 #Transformations
 Transformation 1: The first transformation merges all the Legacy and Current crimes data sets. This will create a consolidated dataset that merges the old and new crime datasets from the city of Boston. We will be only selecting the locations of the crimes and merging them on their type of crime. The resulting dataset will be a consolidated dataset of all the crimes in Boston from July 2012 to current with their locations and whether or not they are a related crime. This creates the allCrimesMaster dataset.
 
-To run this script: `$ python3 mergeAllCrimes.py`
+To run this script: `$ python3 project#1/mergeAllCrimes.py`
 
 Transformation 2: The second transformation is similar to the first except it only grabs the crimes that are not drug related and puts them in their own dataset. This creates the noDrugCrimesMaster dataset.
 
-To run this script: `$ python3 mergeAllWithoutCrimes.py`
+To run this script: `$ python3 project#1/mergeAllWithoutCrimes.py`
 
 Transformation 3: This third tranformation is also similar to the first. It only grabs the crimes that are drug related. This creates the allDrugCrimesMaster dataset.
 
-To run this script: `$ python3 mergeDrugCrimes`
+To run this script: `$ python3 project#1/mergeDrugCrimes`
 
 Transformation 4: This tranformation merges the public school and private school datasets. This will select the school name and location while preserving if the school is private or public. Because some of the latitue and longitude values were unavailable, their latitudes and longitudes were converted from their physical adresses using the geopy package. This creates the schoolsMaster dataset.
 
-To run this script: `$ python3 mergeSchools.py`
+To run this script: `$ python3 project#1/mergeSchools.py`
 
 Transofmation 5: This transformation merges the day camps, public daycares and private daycares datasets while just selecting certain columns from the child feeding programs dataset. It merges the day camps, public daycares and private daycares and preserves name, type of establishment and location. Location and name are selected from the child feeding programs dataset. This script creates the childFeedingProgramsTrimmed and dayCampdayCaresMaster datasets.
 
-To run this script: `$ python3 mergeChildren.py`
+To run this script: `$ python3 project#1/mergeChildren.py`
+
+#Run Instructions
+
+`$ python3 project#1/getDataAndMerge.py`
 
 #Project Part 2
 
 We intend to see a correlation exists between certain establishments associated with children and proximity to drug crimes. Pulling data from the Private Schools, Public Schools, Child Feeding Programs, Day Camps, Public Daycares, Private Daycares, and Crimes data sets gives us the location in address or latitude and longitude format of an establishment or crime. We intend to then take each crime, drug related or not, and find the frequency of each type of establishment within a specific distance/radius to the crime. Then we take each drug related crime and find their frequencies within the same distance. Then we want to compare these two by plotting frequencies for each type of establishment on histograms. The goal is to find, while comparing the histogram with all crimes against the histogram with only drug crimes, a contrast in the peaks of the histograms. This will point to a correlation between the specific type of establishment and drug crimes. We also intend to implement an optimization function to optimize the size of the radius which dictates how many establishments will be within range to be counted in the frequencies. The optimization function will give us a specific distance which will create the largest or most obvious difference in peaks on the histograms we create.
 
 #Run Instructions
-Instead of having to run the scripts individually, enter file path of chromedriver into scrapePrivateDaycares.py and then run getDataAndMerge.py followed by getData3.py
+Running `$ python3 project#2/prepData3.py` will run prepData1.py and prepData2.py. But they will only iterate through integer radius values (1-6). Also it will only output the averages as a result. It does not save the distributions for later usage. Running this sequence:
+```
+$ python3 project#2/dataForOptimization.py
+$ python3 project#2/megaMapReduce.py
+$ python3 project#2/averaging.py
+```
+This will run the same calculations but with the precision of 0.1 miles. This way, we can check the averages from range(0,5) incrementing by 0.1 miles. This will create new collections in the mongo dabatabse for every radius. This way when we found the optimal radius, we were able to just reference the corresponding collection in the database.
 
 #Analysis
 prepData1.py: This script takes an argument r and the allCrimesMaster, allDrugCrimesMaster, childFeedingProgramsTrimmed, dayCampdayCaresMaster and schoolsMaster datasets. Then, using r as a distance, takes every single crime in the allCrimesMaster data set and finds the frequency of the different types of establishments found within that distance. These frequencies are then put into the numberOfEstablishmentsinRadius dataset. The same thing is done to the allDrugCrimesMaster dataset but creates the numberOfEstablishmentsinRadiusDrug dataset
 
-To run this script: `$ python3 prepData1.py`
+To run this script: `$ python3 project#2/prepData1.py`
 Note: execute function is commented out here to allow for function call with parameter by prepData3.py
 
 prepData2.py: This script takes the two datasets created by prepData1.py. It implements a map reduce function on each that returns a distribution of the number of crimes that have x children establishments within the specified proximity from prepData1. It will also have a product of the crimes by establishments with an appended temporary variable used to collapse the data in the reduce function. Another map reduce is applied on the resulting datasets of the above map reduce to produce the total sum of establishments around each crime and the total sum of crimes. Using these values, the average number of establishments around each crime is calculated.
 
-To run this script: `$ python3 prepData2.py`
+To run this script: `$ python3 project#2/prepData2.py`
 
 prepData3.py: This script functions as a wrapper around prepData1 and prepData2. It iterates through a range of distances to pass to prepData1. It will execute prepData1 with the specified distance, then execute prepData2, and finally calculate the averages of the frequencies of all crimes near the specified establishments compared to just drug crimes near the specified establishments. Using the data here, we are capable of pin pointing the optimal distance to use when running a linear regression on the proximities. 
 
-To run this script: `$ python3 prepData3.py`
-
-prepData4.py: Generates the histogram and linear regression values.
-
-To run this script: `$ python3 visualization.py`
+To run this script: `$ python3 project#2/prepData3.py`
 
 #Results
 
@@ -149,6 +155,8 @@ Child Establishment Datasets: Supplementary datasets contain the locations of es
 
 max(|average number of child establishments within r distance of any crime - average number of child establishments within distance r of drug crimes|)
 
+After first running the optimization for project 2 with integer radius values, we found the radius of 2 miles to be the optimal radius for our analysis. But to be sure, we decided to be more precise with our radius measurement and incremented by 0.1 instead of 1.
+
 The following steps were implemented for each radius value r in range(0, 5) miles to a precision of 0.1 miles.
 
 #Step 1
@@ -171,18 +179,20 @@ Plot difference between average number of establishments around all crimes and a
 
 ![alt tag](images/Radius.png)
 
+To run this visualization run `$ python3 project#3/visualisationScatter.py`
+
 |Radius|Absolute Difference|
 |------|------------------:|
 | ...  | ...			   |
 |1.8   | 2.845			   |
 |1.9   | 3.169             |
-|**2.0**   | **3.225**             |
+|**2.0**   | **3.225**     |
 |2.1   | 3.178             |
 |2.2   | 3.184             |
 | ...  | ...			   |
 
 
-The radius of 2 miles has the largest absolute difference and therefor is the optimized value for our analysis.
+The radius of 2 miles has the largest absolute difference and therefor is the optimized value for our analysis. The computations for this portion were the heaviest in our project. For every single crime, we summed up the number of child establishments within each incremented radius. The average computation time for each mile was about two and half hours. 
 
 Data from radius > 5 trended towards constant values as distance approcahes Boston boundaries.
 
@@ -204,6 +214,7 @@ The second analysis compared the total number of establishments with a specific 
 
 
 ![alt tag](images/obj_func.png)
+To run this visualization run `$ python3 project#3/visualisation.py`
 
 #Conclusion
 

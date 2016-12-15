@@ -84,15 +84,15 @@ class visualisationScatter(dml.Algorithm):
         doc.add_namespace('cob', 'https://data.cityofboston.gov/resource/')
         doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/datasets/')
 
-        this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#prepData4', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        prepD4 = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Prep Data 4', prov.model.PROV_TYPE:'ont:Computation'})
-        doc.wasAssociatedWith(prepD4, this_script)
+        this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#visualisationScatter', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        visSCAT = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Visualisation Scatter Plot', prov.model.PROV_TYPE:'ont:Computation'})
+        doc.wasAssociatedWith(visSCAT, this_script)
 
         crimesPerNumberOfEstablishment = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesPerNumberOfEstablishment', {'prov:label':'Number Of All Crimes per Establishments', prov.model.PROV_TYPE:'ont:Dataset'})
-        doc.usage(prepD4, crimesPerNumberOfEstablishment, startTime)
+        doc.usage(visSCAT, crimesPerNumberOfEstablishment, startTime)
 
         drugCrimesPerNumberOfEstablishment = doc.entity('dat:aditid_benli95_teayoon_tyao#drugCrimesPerNumberOfEstablishment', {'prov:label':'Number Of Drug Crimes per Establishments', prov.model.PROV_TYPE:'ont:Dataset'})
-        doc.usage(prepD4, drugCrimesPerNumberOfEstablishment, startTime)
+        doc.usage(visSCAT, drugCrimesPerNumberOfEstablishment, startTime)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
