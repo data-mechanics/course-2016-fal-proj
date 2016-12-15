@@ -1,0 +1,12 @@
+{
+  "name": "cs591webservice",
+  "version": "1.0.0",
+  "description": "Web Service for CS591 project Fall 2016",
+  "dependencies": {
+    "express": "~4.0.0",
+    "mongodb": "^2.2.12",
+    "request": "~2.34.0",
+    "ejs": "^2.5.2",
+    "body-parser": "^1.15.2"
+  }
+}
