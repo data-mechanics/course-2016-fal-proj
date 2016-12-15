@@ -57,7 +57,8 @@ class constraintSatisfaction(dml.Algorithm):
 					noTransit += 1
 
 		endTime = datetime.datetime.now()
-		print(noTrans)
+		#print(noTrans)
+		#print(noTransit)
 		if noTransit > 0:
 			return {"success": False, "start": startTime, "end": endTime}
 		else:
@@ -98,7 +99,7 @@ class constraintSatisfaction(dml.Algorithm):
 		return doc
 
 constraintSatisfaction.execute()
-#doc = constraintSatisfaction.provenance()
-#print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+doc = constraintSatisfaction.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
