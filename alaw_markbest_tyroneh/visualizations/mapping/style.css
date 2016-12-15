@@ -1,0 +1,21 @@
+
+#map{
+  width: 1080px;
+  height: 600px;
+}
+
+svg {
+  position: relative;
+}
+
+path {
+  fill: #ffffff;
+  fill-opacity: .2;
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+path:hover {
+  fill: brown;
+  fill-opacity: .7;
+}
