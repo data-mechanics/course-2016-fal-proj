@@ -1,4 +1,5 @@
-﻿README
+README
+
 First start the mongoDB with command mongod -- auth --dbpath “YOUR DB PATH” first navigate to the directory ll0406_siboz on terminal or command line.
 The algorithm of this Project is divided to four parts:
 1st part: proj1.py
