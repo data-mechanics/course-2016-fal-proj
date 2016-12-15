@@ -1,4 +1,4 @@
-#Boston Crime Rates in Relation to Hospitals, Police Districts and Property
+#Boston Crime Rates Relations
 
 ##Introduction
 In this project, using data from the city of Boston we seek to understand crime rates in relation to hospitals, police 
@@ -48,6 +48,9 @@ Reports and Property Assessments data sets to calculate the correlation coeffici
 if hospitals are located near areas with more crime as to make ambulances and emergency services respond efficiently.
 There is no auth.json file since I did not use any keys to access any of the data sets used in this project.
 
+Heat Map of Crimes from August 2015 - November 2016
+![Heat Map of Crime](/ggelinas/visuals/crime_heatmap.png)
+
 ##Transformations
 
 1. getData.py obtains all of the data sets and stores them as collections within MongoDB.
@@ -84,7 +87,7 @@ Based on the calculations it yielded these results.
 Correlation Coefficient: -0.3138711
 P-value: 1.0
 
-![Property and Crime Correlation graph](/ggelinas/crime_prop_corr.png)
+![Property and Crime Correlation graph](/ggelinas/visuals/crime_prop_corr.png)
 
 This correlation coefficient shows that it is a moderate/weak negative correlation. With a high p-value, it states that this
 observation is a non-significant result that will not prove the Null hypothesis false.
@@ -136,7 +139,10 @@ Difference between hospitals and optimal K means clusters: [(0.01741664592483260
 (0.02528326347081844, 0.029142105544323726), (0.006361870350502841, 0.020228005075580313), 
 (0.018059394711443133, 0.03609693151976501)]
 
-![Optimal Hospital locations](/ggelinas/optimalhospitals.png)
+Hospital vs. Optimal Hospital Locations
+![Optimal Hospital locations](/ggelinas/visuals/optimalhospitals.png)
+* Red: Current Hospitals
+* Blue: Optimal Hospitals
 
 ##Results
 In our hypothesis, we assumed in finding a negative correlation with the average property
@@ -147,6 +153,7 @@ November 2016. There are more data sets of crime incidents provided by Boston an
 results in adding other years as well. With this negative correlation, we can assume that these variables
 may have moderate relationship in affecting each other. The high p-value suggests that it would support the
 hypothesis.
+
 In regards to hospital locations, 
 
 
