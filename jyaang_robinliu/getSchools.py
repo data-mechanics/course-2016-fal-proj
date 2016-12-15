@@ -28,12 +28,12 @@ class getSchools(dml.Algorithm):
         schoolData = r['data']
         a = []
         for school in schoolData:
-            city = school[12][0]
-            city = city[1:-1].split(',')
-            city = str(city[1]).split(':')[1]
-            city = city.strip("\"")
-            city = city.upper()
-            a.append({"name" : school[10] , "city" : city , "coord" : school[-1][1:3] })
+            #zipcode = school[12][0]
+            #zipcode = zipcode[1:-1].split(',')
+            #zipcode = str(zipcode[3]).split(':')[1]
+            #zipcode = zipcode.strip("\"")
+            #a.append({"schoolName" : school[10] , "zipcode" : zipcode , "coord" : school[-1][1:3] })
+            a.append({"schoolName" : school[10], "coord" : school[-1][1:3] })
 
         repo.dropPermanent("school")
         repo.createPermanent("school")
@@ -65,12 +65,11 @@ class getSchools(dml.Algorithm):
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
         this_script = doc.agent('alg:jyaang_robinliu106#getschools', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        resource = doc.entity('bdp:wc8w-nujj', {'prov:label':'School Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        resource = doc.entity('bdp:e29s-ympv', {'prov:label':'School Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         get_school = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(get_school, this_script)
         doc.usage(get_school, resource, startTime, None,
-                {prov.model.PROV_TYPE:'ont:Retrieval',
-                 'ont:Query':'?type=school&$select=schoolName,city,coord'
+                {prov.model.PROV_TYPE:'ont:Retrieval'
                 }
             )
 
