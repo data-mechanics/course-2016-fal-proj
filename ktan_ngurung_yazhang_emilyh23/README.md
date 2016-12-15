@@ -1,11 +1,11 @@
 #Ad-Opt: Find Optimal Advertisement Placement in Boston
 ### *by Nisa Gurung, Kristel Tan, Yao Zhang, Emily Hou*
 
-# Narrative
+## Narrative
 
 In this project, we are looking into optimal zip codes for advertisment placement in Boston. By using five raw datasets (MBTA bus stops, MBTA T stops, Big Belly garbage locations, college campuses, and Hubway stations), we were able to create an optimization tool in the form of a web service to determine the best locations by zip code in Boston, adjusted to individual need. 
 
-#Datasets
+##Datasets
 
 1. [MBTA Bus](https://boston.opendatasoft.com/explore/dataset/mbta-bus-stops/)
 2. [T Stops](http://erikdemaine.org/maps/mbta/mbta.yaml)
@@ -13,7 +13,7 @@ In this project, we are looking into optimal zip codes for advertisment placemen
 4. [College/University Locations](https://boston.opendatasoft.com/explore/dataset/colleges-and-universities/)
 5. [Hubway Locations](https://boston.opendatasoft.com/explore/dataset/hubway-stations-in-boston/)
 
-#Interactive Web Service & Visualization (description below)
+##Interactive Web Service & Visualization (description below)
 Preparation: After complete set up of the MongoDB database, run the retrieval and transformation scripts outlined below.
 
 To run the web service:
@@ -28,7 +28,6 @@ In a separate window, run the optimization scripts:
 $ python zipcodeRatings.py
 
 $ python optimize.py
-
 ```
 Then, run the script for the tree map visualization:
 
@@ -45,7 +44,7 @@ The web page can be found at http://localhost:5000/index.html.
 Likewise, the web page for our visualization can be found at http://localhost:5000/visualization.html. This can be reached by the "Visualization" tab.
 
 
-#Running Scripts: 
+##Running Scripts: 
 
 **Retrieval**
 
