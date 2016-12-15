@@ -43,7 +43,7 @@ Transofmation 5: This transformation merges the day camps, public daycares and p
 
 To run this script: `$ python3 project#1/mergeChildren.py`
 
-#To Run the Entirety of Project 1
+#Run Instructions
 
 `$ python3 project#1/getDataAndMerge.py`
 
@@ -155,6 +155,8 @@ Child Establishment Datasets: Supplementary datasets contain the locations of es
 
 max(|average number of child establishments within r distance of any crime - average number of child establishments within distance r of drug crimes|)
 
+After first running the optimization for project 2 with integer radius values, we found the radius of 2 miles to be the optimal radius for our analysis. But to be sure, we decided to be more precise with our radius measurement and incremented by 0.1 instead of 1.
+
 The following steps were implemented for each radius value r in range(0, 5) miles to a precision of 0.1 miles.
 
 #Step 1
@@ -190,7 +192,7 @@ To run this visualization run `$ python3 project#3/visualisationScatter.py`
 | ...  | ...			   |
 
 
-The radius of 2 miles has the largest absolute difference and therefor is the optimized value for our analysis.
+The radius of 2 miles has the largest absolute difference and therefor is the optimized value for our analysis. The computations for this portion were the heaviest in our project. For every single crime, we summed up the number of child establishments within each incremented radius. The average computation time for each mile was about two and half hours. 
 
 Data from radius > 5 trended towards constant values as distance approcahes Boston boundaries.
 
