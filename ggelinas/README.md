@@ -94,10 +94,10 @@ This suggests that the Null hypothesis: "Crimes decreasing and property value in
 ##Hospital Location Analysis
 Another inquiry is to determine if hospitals are optimally located against crime. We believe
 that hospitals may be located around areas with crime in order to reduce time and increase efficiency in treating victims.
-We decided to use the k-means algorithm to compute the difference. 
-This analysis is to determine if the current hospital locations are placed in optimal locations by comparing it towards
-K means of the 26 hospitals. The algorithm takes in the Boston Hospital Locations and Boston Crime Reports data set.
-It compares the current location of the hospitals and compares the distance for each location with the most crimes.
+We decided to use the k-means algorithm to compute the difference. The k-means algorithm takes in geographical coordinates from
+the crimes data set and clusters points to form k clusters determined by the input. For this experiment, we used the number of hospitals
+in the hospitals data set as the k value in order to compare distances. After running the k-means algorithm and computing the difference in
+distance between current hospitals and optimal hospitals it clearly showed very little difference.
 
 Here are the results:
 
@@ -136,11 +136,21 @@ Difference between hospitals and optimal K means clusters: [(0.01741664592483260
 (0.02528326347081844, 0.029142105544323726), (0.006361870350502841, 0.020228005075580313), 
 (0.018059394711443133, 0.03609693151976501)]
 
-Analyzing the difference in the K means algorithm and the current locations sow that the locations of the Hospitals are
-not far off from the optimal locations determined by the most number of crimes.
-
 ![Optimal Hospital locations](/ggelinas/optimalhospitals.png)
 
+##Results
+In our hypothesis, we assumed in finding a negative correlation with the average property
+value and the number of crimes in each district. The results displayed a moderate to weak
+correlation between those two variables in addition to a high p-value. The weak correlation may
+be a result of not having enough crime data as the sample was only taken from August 2015 through
+November 2016. There are more data sets of crime incidents provided by Boston and there may be different
+results in adding other years as well. With this negative correlation, we can assume that these variables
+may have moderate relationship in affecting each other. The high p-value suggests that it would support the
+hypothesis.
+In regards to hospital locations, 
+
+
 ##Conclusion
+
 
 With these results, we can conclude that 
