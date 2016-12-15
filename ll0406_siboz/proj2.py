@@ -38,13 +38,10 @@ class proj2(dml.Algorithm):
         liquorModified = []
 
         
-        ct = 0
         for item in rawLiquor:
-            ct+=1
             temp = {k:v for k,v in item.items() if (k == "issdttm" or k=="location")} 
             liquorModifiedTemp.append(temp)
 
-        print(ct)
 
         for item in liquorModifiedTemp:
             #print(item["location"])
@@ -64,7 +61,7 @@ class proj2(dml.Algorithm):
                 liquorPartial_1.append(item)
 
 
-        ## 2013-2016
+        ## 2014-2016
         for item in liquorModified:
             if item["year"] >= 2014: 
                 liquorPartial_2.append(item)
@@ -122,7 +119,7 @@ class proj2(dml.Algorithm):
         liquorCluster2 = coordKMeans(liquorPartial_2_initial, liquorPartial_2_GeoList)
 
 
-        ## Find the cloest matched crime cluster point for the old cluster point
+        ## Find the cloest matched liquor cluster point for the old cluster point
         L1L2D = [(l1, l2, geoDist(l1,l2)) for (l1, l2) in product(liquorCluster1, liquorCluster2)]
         L1Ds = [(l1, geoDist(l1,l2)) for (l1,l2,d) in L1L2D]
         L1D = aggregate(L1Ds, min)
@@ -282,9 +279,6 @@ class proj2(dml.Algorithm):
 
 
 
-
-
-
         ##The Second part of project 2 will be a constraint problem on determining on effective the police station is:
         ##The objective function is pretty obvious, Z = 10 * (distance shooting crimeCluster moved away from police station)
         ##And we are setting the threshhold to be . If the threshold is passed, then we determine the police station as effective.
@@ -316,7 +310,6 @@ class proj2(dml.Algorithm):
         print("According to the constraints given, the effective police stations are at locations: ")
         for k in effectiveP:
             print(k)
-
 
 
 
@@ -396,11 +389,15 @@ class proj2(dml.Algorithm):
                     }
                 )
             doc.usage(get_Liquor, Liquor_Resource, startTime, None,
-                    {prov.model.PROV_TYPE:'ont:Retrieval',
+                    {prov.model.PROV_TYPE:'ont:Retrieval'
                     }
                 )
             doc.usage(compute_EffectivePoliceStation, Shooting_crime_Resource, startTime, None,
-                    {prov.model.PROV_TYPE:'ont:Retrieval',
+                    {prov.model.PROV_TYPE:'ont:Retrieval'
+                    }
+                )
+            doc.usage(compute_CorreCoef, Shooting_crime_Resource, startTime,
+                    {prov.model.PROV_TYPE:'ont:Compute'
                     }
                 )
 
@@ -437,7 +434,7 @@ proj2.execute()
 doc = proj2.provenance()
 open('plan.json','w').write(json.dumps(json.loads(doc.serialize()), indent=4))
 print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 
 ## eof

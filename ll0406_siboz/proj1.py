@@ -11,12 +11,6 @@ from sodapy import Socrata
 from dataRetrieval import *
 from generalHelperTemplate import *
 
-UPPER_LATITUDE = 42.40851
-UPPER_LONGITUDE = -70.993137
-LOWER_LATITUDE = 42.211017
-LOWER_LONGITUDE = -71.138191
-
-
 class proj1(dml.Algorithm):
     contributor = 'll0406_siboz'
     reads = []
@@ -32,29 +26,46 @@ class proj1(dml.Algorithm):
         repo = client.repo
         repo.authenticate('ll0406_siboz', 'll0406_siboz')
 
-        retrieval()
+        ##The retrieval code should run only once after any change to the retrieval algorithm, since it may take many time to
+        ##Retrieve one huge data set
+
+        #retrieval()
 
         rawCrime = repo['ll0406_siboz.crimeIncident'].find({});
+        rawNewCrime = repo['ll0406_siboz.newCrimeIncident'].find({});
         rawPoliceStation = repo['ll0406_siboz.policeLocation'].find({});
-        rawLiquor = repo['ll0406_siboz.liquorLocation'].find({});
-        rawFood = repo['ll0406_siboz.foodLocation'].find({});
-        rawEntertain = repo['ll0406_siboz.printentertainmentLocation'].find({});
+
+        interestedCrimeType = ["AGGRAVATED ASSAULT", "aggravated assault", "arrest", "Bomb", "CRIMES AGAINST CHILDREN",
+                        "Drug Violation", "Firearm Violations", "HOMICIDE", "Homicide", "Robbery", "ROBBERY", "Vandalism",
+                        "VANDLAISM", "WEAPONS CHARGE", "Aggravated Assault", "Explosives", "HOME INVASION"]
 
         ##Data Cleanup, mainly through selection
         ##Crime data
         CrimeModifiedData = []
-        for item in rawCrime:
-            temp = {k:v for k,v in item.items() if (k == "shooting" or k == "incident_type_description" or k == "location")} 
-            CrimeModifiedData.append(temp)
 
-        """
+        ##Modifiy the new Crime data (2015/8 to date) and subsitute the key "offense_code_group" as "incident_type_description"
+        ##So we can merge them together as one dictionary. 
+        for item in rawNewCrime:
+            temp = {k:v for k,v in item.items() if (k == "year" or k == "offense_code_group" or k == "location")}
+            if ((temp["location"]["coordinates"][0] != 0 and temp["location"]["coordinates"][0] != -1) and temp["offense_code_group"] in interestedCrimeType):
+                temp["incident_type_description"] = temp.pop("offense_code_group")
+                CrimeModifiedData.append(temp)
+
+        for item in rawCrime:
+            temp = {k:v for k,v in item.items() if (k == "year" or k == "incident_type_description" or k == "location")}
+            if ((temp["location"]["coordinates"][0] != 0 and temp["location"]["coordinates"][0] != -1) and temp["incident_type_description"] in interestedCrimeType):
+                CrimeModifiedData.append(temp)
+
+
         #The following random process has already been run once
 
 
         #Since the data set is still too large to for computing a k-means clutering algorithm.
         #The program will further randomly select 2000 samples from all the data points.
 
-        #Create a random indicies array 
+        #Create a random indicies array
+
+        """
         randomInd = []
         for i in range (0, 1000):
             randomInd.append(int(len(CrimeModifiedData) * numpy.random.rand()))
@@ -63,22 +74,21 @@ class proj1(dml.Algorithm):
         SampleCrimeData = []
         for i in range (0, 1000):
             SampleCrimeDataTemp.append(CrimeModifiedData[randomInd[i]])
-
-		"""
-
+        """
+		
 
 
        	"""After we examined the nature of our project carefully, we think that to many factors of ranom would make it nearly
-        impossible for us to make any meaningful progress later on for the optimization and stat inference. So here we will
+        impossible for us to make any meaningful progress later on for the optimization and statistical inference. So here we will
         sample the crime data once and store it locally, and later everytime we run the code, the random sample would always be the same
         and will produce consistent result"""
-        """
+        
         #The SampleCrimeData.json has already been generated
-
+        """
         with open('localData\sampleCrimeData.json', 'w') as outfile:
         	json.dump(SampleCrimeDataTemp, outfile)
+        """
 
-		"""
         with open('localData\sampleCrimeData.json') as data_file:
         	SampleCrimeData = json.load(data_file)
 
@@ -101,25 +111,25 @@ class proj1(dml.Algorithm):
         jsonTemp = []
         initialPoints = []
 
-        """
+
+        
         #The same as above, the random process and the localData has already been generated,
         #To make sure we have consistent result, this section of code will be commented out
-        for i in range(0, 8):
-        	initialPointsTemp.append(crimeGeoList[int(len(CrimeModifiedData) * numpy.random.rand())])
+        """
+        for i in range(0, 9):
+        	initialPointsTemp.append(crimeGeoList[int(len(crimeGeoList) * numpy.random.rand())])
 
         with open('localData\initialKMeans.json', 'w') as outfile:
         	json.dump(initialPointsTemp, outfile)
-
-		"""
+        """
+	
         with open('localData\initialKMeans.json') as data_file:
         	jsonTemp = json.load(data_file)
 
         for l in jsonTemp:
         	initialPoints.append((l[0],l[1]))
-        print(crimeGeoList)
-        print(initialPoints)
-        print(type(initialPoints))
-        print(type(crimeGeoList))
+
+
         crimeCluster = coordKMeans(initialPoints, crimeGeoList)
 
 
@@ -146,6 +156,10 @@ class proj1(dml.Algorithm):
         #print(CP)
         CP = [(c, p) for ((c,p,d),(c2,d2)) in product(CPD, CD) if c == c2 and d == d2]
 
+        for c, p in CP:
+            print(str(c[1]) + ',' + str(c[0]))
+            print(str(p[1]) + ',' + str(p[0]))
+
 
         distList = []
         for item in CP:
@@ -160,6 +174,15 @@ class proj1(dml.Algorithm):
         repo.createPermanent("crimeDistToPoliceSation")
         repo['ll0406_siboz.crimeDistToPoliceSation'].insert_many(distance)
         repo['ll0406_siboz.crimeDistToPoliceSation'].find({});
+
+        """
+        repo.dropPermanent("generalCrimeCluster")
+        repo.createPermanent("generalCrimeCluster")
+        for coord in entertainClusters:
+            temp = {"type":"Point", "coordinates":[coord[0], coord[1]]}
+            repo['ll0406_siboz.entertainmentCluster'].insert_one(temp)
+
+        """
 
 
         repo.logout()
@@ -231,6 +254,5 @@ doc = proj1.provenance()
 open('plan.json','w').write(json.dumps(json.loads(doc.serialize()), indent=4))
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
-
 
 ## eof

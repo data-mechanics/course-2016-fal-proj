@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>House Scores</title>
+        <link rel="stylesheet" href="d3/d3.slider.css" /> 
+        <script type="text/javascript" src="d3/d3.v3.js"></script>
+        <script type="text/javascript" src="d3/d3.slider.js"></script>
+    </head>
+    <style></style>
+    <body>
+        <p/ id ="mainCanvas">
+        <p/ id ="slider1">
+
+        <script type="text/javascript">
+                //d3 slider credit to
+                //git://github.com/turban/d3.slider
+                
+                d3.json("https://gist.githubusercontent.com/anonymous/91bd054daef41aeba5f38b75ae1669b8/raw/f36e990baa8f580bea2bd7a27aacecd16f045620/41fd7dd8-c1fc-11e6-871b-b5cf0cabab38.json", function(error, json){
+                    
+                    var width = 1400,
+                    height = 785;
+
+                var averageScore = 108.332404527,
+                    scoreStd = 46.1744044288;
+
+                var lonScale = d3.scale.linear()
+                                    .domain([-71.191108, -70.923168])
+                                    .range([300, 1100]);
+
+                var latScale = d3.scale.linear()
+                                    .domain([42.228018,42.398881])
+                                    .range([785, 100]);
+
+                var svg = d3.select("#mainCanvas").append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+                var pic = svg.append("g");
+                var img = pic.append("svg:image")
+                    .attr("xlink:href", "http://svgshare.com/i/Q6.svg")
+                    .attr("width", 800)
+                    .attr("height", 685)
+                    .attr("x", 300)
+                    .attr("y", 100);
+
+            
+                svg.append("text")
+                    .text("Residential Buildings Locations Display (Baed on Scores)")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "40px")
+                    .attr("fill", "steelblue")
+                    .attr("x", 20)
+                    .attr("y", 50);
+
+                svg.append("circle")
+                    .attr("cx", 30)
+                    .attr("cy", 260)
+                    .attr("r", 10)
+                    .attr("fill", "green")
+                    .attr("stroke", "orange")
+                    .attr("stroke-width", 5);
+
+                svg.append("text")
+                    .text("--- Crime Cluster")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "20px")
+                    .attr("fill", "gray")
+                    .attr("x", 55)
+                    .attr("y", 265);
+
+                svg.append("circle")
+                    .attr("cx", 30)
+                    .attr("cy", 300)
+                    .attr("r", 10)
+                    .attr("fill", "white")
+                    .attr("stroke", "red")
+                    .attr("stroke-width", 5);
+
+                svg.append("text")
+                    .text("--- Entertainment Cluster")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "20px")
+                    .attr("fill", "gray")
+                    .attr("x", 55)
+                    .attr("y", 305);
+
+                svg.append("circle")
+                    .attr("cx", 30)
+                    .attr("cy", 340)
+                    .attr("r", 5)
+                    .attr("fill", "red");
+
+                svg.append("text")
+                    .text("--- Residential Building")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "20px")
+                    .attr("fill", "gray")
+                    .attr("x", 55)
+                    .attr("y", 345);
+
+                svg.append("text")
+                    .text("Only locations with scores higher than threshold will be displayed")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "16px")
+                    .attr("fill", "gray")
+                    .attr("x", 30)
+                    .attr("y", 385);
+
+                svg.append("text")
+                    .text("Threshold = average score + std * std multiplier")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "16px")
+                    .attr("fill", "gray")
+                    .attr("x", 30)
+                    .attr("y", 410);
+
+                svg.append("text")
+                    .text("You can adjust std multiplier by using the slider on the bottom")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "16px")
+                    .attr("fill", "gray")
+                    .attr("x", 30)
+                    .attr("y", 435);
+
+
+
+                var crimeCluster_2016 = [[-71.06171430519481,42.35006317207789],
+                                    [-71.13827732857142,42.351586799999986],
+                                    [-71.08221884322029,42.286341216101675],
+                                    [-71.08221884322029,42.286341216101675],
+                                    [-71.13433572881357,42.28415966101694],
+                                    [-71.06482936912752,42.30862312080537],
+                                    [-71.08810018716576,42.32808756417114],
+                                    [-71.08810018716576,42.32808756417114]];
+
+                var entertainmentCluster = [[-71.14080667187497,42.35023845312501],
+                                    [-71.14069483636365,42.27492298181818],
+                                    [-71.09252651181103,42.34455402362205],
+                                    [-71.05476186440679,42.35678139265538],
+                                    [-71.02855139062498,42.37710234375],
+                                    [-71.05978558730159,42.30468855555555],
+                                    [-71.10627855102042,42.30597051020407],
+                                    [-71.07136365196078,42.34836224019606]];
+
+                var cp = svg.append("g")
+                cp.selectAll("circle")
+                    .data(crimeCluster_2016)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d, i){
+                        return lonScale(d[0])
+                    })
+                    .attr("cy", function(d){
+                        return latScale(d[1])
+                    })
+                    .attr("r", 7)
+                    .attr("fill", "green")
+                    .attr("stroke", "orange")
+                    .attr("stroke-width", 2);
+
+                var ep = svg.append("g")
+                ep.selectAll("circle")
+                    .data(entertainmentCluster)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d, i){
+                        return lonScale(d[0])
+                    })
+                    .attr("cy", function(d){
+                        return latScale(d[1])
+                    })
+                    .attr("r", 7)
+                    .attr("fill", "white")
+                    .attr("stroke", "red")
+                    .attr("stroke-width", 2)
+
+
+                var stdMulti = 1.85;
+                var threshold = averageScore + stdMulti * scoreStd;
+                var numDisplayed = 0;
+
+                var multiInfo = svg.append("text")
+                    .text("Current Multiplier is: " + stdMulti)
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "20px")
+                    .attr("fill", "gray")
+                    .attr("x", 30)
+                    .attr("y", 700);
+
+                var threshInfo = svg.append("text")
+                    .text("Current Threshold is: " + threshold)
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "20px")
+                    .attr("fill", "gray")
+                    .attr("x", 30)
+                    .attr("y", 725);
+
+                var points = svg.append("g");
+                points.selectAll("circle")
+                    .data(json.Loc_Score_s)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d, i){
+                        return lonScale(d[0][0])
+                    })
+                    .attr("cy", function(d){
+                        return latScale(d[0][1])
+                    })
+                    .attr("r", 2)
+                    .attr("fill", "red")
+                    .attr("fill-opacity", function(d, i){
+                        if (d[1] > threshold){
+                            numDisplayed++;
+                            return "1";
+                        }
+                        else
+                            return "0";
+                    });
+
+                var numInfo = svg.append("text")
+                    .text("Locations displayed: " + numDisplayed)
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "20px")
+                    .attr("fill", "gray")
+                    .attr("x", 30)
+                    .attr("y", 750);
+
+                d3.select('#slider1').call(d3.slider()
+                                        .axis(true)
+                                        .min(-3)
+                                        .max(3)
+                                        .value(stdMulti)
+                                        .on("slide", function(evt, value) {
+                                                numDisplayed = 0;
+                                                stdMulti = value;
+                                                threshold = averageScore + stdMulti * scoreStd;
+                                                multiInfo.text("Current Multiplier is: " + stdMulti);
+                                                threshInfo.text("Current Threshold is: " + threshold);
+                                                points.selectAll("circle")
+                                                    .attr("fill-opacity", function(d, i){
+                                                        if (d[1] > threshold){
+                                                            numDisplayed++;
+                                                            return "1";
+                                                        }
+                                                        else
+                                                            return "0";
+                                                    });
+                                                numInfo.text("Locations displayed: " + numDisplayed);
+                                            }))
+
+        });
+
+        </script>
+    </body>
+</html>   

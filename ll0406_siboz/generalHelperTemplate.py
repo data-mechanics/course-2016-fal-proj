@@ -11,18 +11,21 @@ def coordKMeans (initial, points):
     while notEqual:
         ##print(OLD == M)
         ct = 0
+        breakFlag = 0
         if OLD != []:
             for i in range(0, len(M)):
                 print(i)
-                if(math.isclose(OLD[i][0], M[i][0], rel_tol=1e-8) and math.isclose(OLD[i][1], M[i][1], rel_tol=1e-8)):
+                if(math.isclose(OLD[i][0], M[i][0], rel_tol=1e-9) and math.isclose(OLD[i][1], M[i][1], rel_tol=1e-9)):
                     ct = ct + 1
                     if(i == len(M) - 1):
                         notEqual = False
                     continue
                 else:
-                    print(str(i) + " Something wrong")
+                    print(str(OLD[i][0]) + ',' + str(OLD[i][1]) + " not equal to " + str(M[i][0]) + ',' + str(M[i][1]))
+                    breakFlag = breakFlag + 1
                     break
         print(ct)
+        print("breakFlag: " + str(breakFlag))
         OLD = M
         #print("Start")
         MPD = [(m, p, dist(m,p)) for (m, p) in product(M, P)]
@@ -100,3 +103,12 @@ def geoDist(p1,p2):
     return d
 
 
+#This function helps to transform the string coordinate to a tuple of (longitude, latitude)
+def stringLocToNumLoc(s):
+    tempS = s[1:-1]
+    sTuple = tempS.split(',')
+    return (float(sTuple[0]), float(sTuple[1]))
+
+def houseEval(price, distToCrime, distToEntertain):
+    Z = (25 - distToEntertain) * 10 - (3 + distToCrime) * 10 - (price) * 0.5
+    return Z
