@@ -1,21 +1,32 @@
 from flask import Flask
 from flask import request
-from flask import send_from_directory
+from flask import jsonify
 from flask import render_template
-import os
+import json
 
 app = Flask(__name__)
-
-def dir(): 
-	return os.path.dirname(os.path.realpath(__file__))
 
 @app.route('/')
 def index():
 	return 'hello world!'
 
+@app.route('/routeScores')
+def getRouteScores():
+	'''returns json object of all allocation scores per route'''
+	routeScores = json.load(open('../jsons/routeScores.json','r'))
+	return jsonify(routeScores)
+
+@app.route('/allocationScores')
+def getAllocationScores():
+	'''returns json object of all allocation scores per route'''
+	allocationScores = json.load(open('../jsons/allocationScores.json','r'))
+	return jsonify(allocationScores)
+
+
 @app.route('/allocation', methods=['GET'])
 def loadAllocation():
 	'''loads the visualization for bus allocation'''
+
 	return render_template('allocation.html')
 
 if __name__ == '__main__':

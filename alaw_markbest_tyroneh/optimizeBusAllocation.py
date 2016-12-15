@@ -147,7 +147,7 @@ class optimizeBusAllocation(dml.Algorithm):
 		plt.show()
 
 	def outputScores():
-		'''collect allocation scores for each route'''
+		'''collect allocation scores for each route from allocation 401 to 90 (optimum to 1 per route)'''
 
 		client = dml.pymongo.MongoClient()
 		repo = client.repo
@@ -160,15 +160,62 @@ class optimizeBusAllocation(dml.Algorithm):
 		for d in data:
 			route_name = d['Route']
 			scores = d['Allocation Scores']
-			k = d['Optimum Allocation']
+			k = d['Optimum Allocation'] - 1 #adjusting for index not actual allocation
 			n = d['Stops Count']
 
-			output[route_name] = {"scores": scores, "optimal": k, 'numStops': n}
+			output[route_name] = {"scores": scores, "index": k, 'numStops': n}
 
 		repo.logout()
 
-		json.dump(output,open('routeScores.json','w'))
+		routes = {}
+		for r in output:
+			scores = []
+			for i in list(range(100)):
+				scores.append({'x':i+1, 'y': output[r]['scores'][i]})
+			routes[r] = scores
 		
+		json.dump(routes,open('jsons/routeScores.json','w'))
+
+		scores = {}
+
+		scores['401'] = {}
+		for r in output:
+			k = output[r]['index']
+			scores['401'][r] = {'k': k+1, 'score': output[r]['scores'][k], 'size': output[r]['numStops'] }
+
+		for i in list(range(400,89,-1)):
+			scores[str(i)] = {}
+			output = optimizeBusAllocation.reduceAllocation(output,i)
+			for r in output:
+				k = output[r]['index']
+				scores[str(i)][r] = {'k': k+1, 'score': output[r]['scores'][k], 'size': output[r]['numStops'], 'name': r}
+		
+		json.dump(scores,open('jsons/allocationScores.json','w'))
+
+		return scores
+
+	def reduceAllocation(output,i):
+		'''reduce allocation by 1 on each route using the one with the least increase in score'''
+
+		key = ''
+		bestIncrease = 100000
+
+		for r in output:
+			scores = output[r]['scores']
+			opt = output[r]['index']
+
+			if(opt > 0):
+				if(scores[opt-1] - scores[opt] < bestIncrease):
+					bestIncrease = scores[opt-1] - scores[opt]
+					key = r
+
+		if key != '':
+			k = output[key]['index']
+			output[key]['index'] = k - 1
+
+		else:
+			print('Error: iteration ' + str(i) + ' allocated 0 buses for at least one route')
+
 		return output
 
 	@staticmethod
