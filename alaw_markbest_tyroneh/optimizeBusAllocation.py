@@ -178,17 +178,20 @@ class optimizeBusAllocation(dml.Algorithm):
 
 		scores = {}
 
-		scores['401'] = {}
+		line = []
 		for r in output:
 			k = output[r]['index']
-			scores['401'][r] = {'k': k+1, 'score': output[r]['scores'][k], 'size': output[r]['numStops'] }
+			line.append({'k': k+1, 'score': output[r]['scores'][k], 'size': output[r]['numStops'], 'name': r})
+		scores['401'] = line
 
 		for i in list(range(400,89,-1)):
-			scores[str(i)] = {}
 			output = optimizeBusAllocation.reduceAllocation(output,i)
+			line = []
 			for r in output:
 				k = output[r]['index']
-				scores[str(i)][r] = {'k': k+1, 'score': output[r]['scores'][k], 'size': output[r]['numStops'], 'name': r}
+				line.append({'k': k+1, 'score': output[r]['scores'][k], 'size': output[r]['numStops'], 'name': r})
+			scores[str(i)] = line
+
 		
 		json.dump(scores,open('jsons/allocationScores.json','w'))
 
