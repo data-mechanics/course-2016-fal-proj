@@ -35,7 +35,11 @@ class retrieveData(dml.Algorithm):
     setExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
                      'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools']
 
-    authentication_stuff = '?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']
+    with open('auth.json') as data_file:
+        auth = json.load(data_file)
+
+    # authentication_stuff = '?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']
+    authentication_stuff = '?$$app_token=%s' % auth['services']['cityOfBostonDataPortal']['token']
 
 
     writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]
