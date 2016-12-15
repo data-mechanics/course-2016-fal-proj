@@ -87,7 +87,7 @@ class kmeans(dml.Algorithm):
 		doc.used(this_run, constraint, startTime)
 
 		# Our new combined data set
-		maintenance = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#constraintSatisfaction', {prov.model.PROV_LABEL:'finds centers using kmeans', prov.model.PROV_TYPE:'ont:DataSet'})
+		maintenance = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#kmeans', {prov.model.PROV_LABEL:'finds centers using kmeans', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(maintenance, this_script)
 		doc.wasGeneratedBy(maintenance, this_run, endTime)
 		doc.wasDerivedFrom(maintenance, constraint, this_run, this_run, this_run)

@@ -87,7 +87,7 @@ class constraintSatisfaction(dml.Algorithm):
 		doc.used(this_run, addressValue, startTime)
 
 		# Our new combined data set
-		maintenance = doc.entity('dat:constraintSatisfaction', {prov.model.PROV_LABEL:'Returns whether or not the constraint is satisfied', prov.model.PROV_TYPE:'ont:DataSet'})
+		maintenance = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#constraintSatisfaction', {prov.model.PROV_LABEL:'Returns whether or not the constraint is satisfied', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(maintenance, this_script)
 		doc.wasGeneratedBy(maintenance, this_run, endTime)
 		doc.wasDerivedFrom(maintenance, addressValue, this_run, this_run, this_run)
