@@ -11,7 +11,7 @@ We chose to work with these three data sets:
 
 ### Project Description
 
-Our plan is to find if a correlation exists between the number of firearms recovered by the Boston Police Department and the number of crimes involving firearms in Boston. We expect that the number of crimes involving firearms should decrease after a greater number of firearms have been recovered. We want to analyze how effective the recovery of firearms is in decreasing crimes with firearms. The Firearm Recovery Counts data set contains data for about a one year period from 8/20/2014 to 7/27/2015, therefore we only use the crime data from this same time period. We also use police department location data to determine in which areas of Boston firearm crimes are most frequent.
+Our plan is to find if a correlation exists between the number of firearms recovered by the Boston Police Department and the number of crimes involving firearms in Boston. We expect that the number of crimes involving firearms should decrease after a greater number of firearms have been recovered. We want to analyze how effective the recovery of firearms is in decreasing crimes with firearms. The Firearm Recovery Counts data set contains data for about a one year period from 8/20/2014 to 7/27/2015, therefore we only use the crime data from this same time period. We also use police department location data to determine if police departments are ideally located near areas with high rates of firearm crimes.
 
 We performed transformations on Crime Incident Reports, Firearm Recovery Counts, and Police Departments to generate three new data sets.
 
@@ -97,4 +97,3 @@ We found no significant correlation between the number of firearms recovered by 
 ### Future Work
 
 Currently the Firearm Count Recovery dataset contains data for a one year period of 8/20/2014 to 7/27/2015, therefore we could only use the crime data from this same time period.  If more data becomes available, this project would be interesting to repeat to see the new results.  A future analysis could be on the number of firearm crimes that occur in each district in comparison to the number of firearms recovered in that district. This could potentially show the effectiveness of each district in reducing the number of firearm crimes.  
-
