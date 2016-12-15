@@ -12,8 +12,8 @@ import json
 warnings.filterwarnings("ignore")
 
 class optimize(dml.Algorithm):
-    contributor = 'ktan_ngurung_yazhang_emilyh23'
-    reads = ['ktan_ngurung_yazhang_emilyh23.zipcodeRatings']
+    contributor = 'emilyh23_ktan_ngurung_yazhang'
+    reads = ['emilyh23_ktan_ngurung_yazhang.zipcodeRatings']
     writes= []
     
     @staticmethod
@@ -24,7 +24,7 @@ class optimize(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+        repo.authenticate('emilyh23_ktan_ngurung_yazhang', 'emilyh23_ktan_ngurung_yazhang')
         
         global zc_ratings
         global zc_list 
@@ -32,7 +32,7 @@ class optimize(dml.Algorithm):
         global zc_pop_dict
         
         # dictionary of zipcode ratings
-        zc_ratings = repo.ktan_ngurung_yazhang_emilyh23.zipcodeRatings.find_one() 
+        zc_ratings = repo.emilyh23_ktan_ngurung_yazhang.zipcodeRatings.find_one() 
         zc_ratings.pop('_id', None)
     
         zc_list = list(zc_ratings.keys()) # list of zipcodes
@@ -254,15 +254,15 @@ class optimize(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+        repo.authenticate('emilyh23_ktan_ngurung_yazhang', 'emilyh23_ktan_ngurung_yazhang')
         
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 
-        this_script = doc.agent('alg:ktan_ngurung_yazhang_emilyh23#optimize', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        zipcodeRatings_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/zipcode-ratings', {'prov:label':'Critera Rating and Overall Rating for Zipcodes', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_script = doc.agent('alg:emilyh23_ktan_ngurung_yazhang#optimize', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        zipcodeRatings_resource = doc.entity('dat:emilyh23_ktan_ngurung_yazhang/zipcode-ratings', {'prov:label':'Critera Rating and Overall Rating for Zipcodes', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Query'})
 
         doc.wasAssociatedWith(this_run, this_script)

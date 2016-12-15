@@ -9,8 +9,8 @@ app = Flask(__name__)
 auth = HTTPBasicAuth()
 
 app.config['MONGO_DBNAME'] = 'repo'
-app.config['MONGO_USERNAME'] = 'ktan_ngurung_yazhang_emilyh23'
-app.config['MONGO_PASSWORD'] = 'ktan_ngurung_yazhang_emilyh23'
+app.config['MONGO_USERNAME'] = 'emilyh23_ktan_ngurung_yazhang'
+app.config['MONGO_PASSWORD'] = 'emilyh23_ktan_ngurung_yazhang'
 
 @app.route('/index.html')
 def index():
@@ -31,8 +31,8 @@ def optimization(busstops, tstops, colleges, bigbelly, hubways, num_zip):
 def get_hotline():
     client = dml.pymongo.MongoClient()
     repo = client.repo
-    repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
-    treemap_data = repo['ktan_ngurung_yazhang_emilyh23.treeMap'].find_one()
+    repo.authenticate('emilyh23_ktan_ngurung_yazhang', 'emilyh23_ktan_ngurung_yazhang')
+    treemap_data = repo['emilyh23_ktan_ngurung_yazhang.treeMap'].find_one()
     treemap_data.pop("_id")
     print(treemap_data)
     return jsonify(treemap_data)

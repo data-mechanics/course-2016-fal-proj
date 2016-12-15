@@ -8,9 +8,9 @@ import googlemaps
 import re
 
 class tRidershipLocation(dml.Algorithm):
-    contributor = 'ktan_ngurung_yazhang_emilyh23'
-    reads = ['ktan_ngurung_yazhang_emilyh23.ridership', 'ktan_ngurung_yazhang_emilyh23.tstops']
-    writes = ['ktan_ngurung_yazhang_emilyh23.tRidershipLocation']
+    contributor = 'emilyh23_ktan_ngurung_yazhang'
+    reads = ['emilyh23_ktan_ngurung_yazhang.ridership', 'emilyh23_ktan_ngurung_yazhang.tstops']
+    writes = ['emilyh23_ktan_ngurung_yazhang.tRidershipLocation']
 
     @staticmethod
     def execute(trial = False):
@@ -20,11 +20,11 @@ class tRidershipLocation(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+        repo.authenticate('emilyh23_ktan_ngurung_yazhang', 'emilyh23_ktan_ngurung_yazhang')
 
         # Get ridership and tstop location data
-        ridership = repo.ktan_ngurung_yazhang_emilyh23.ridership.find()
-        tstops = repo.ktan_ngurung_yazhang_emilyh23.tStops.find()
+        ridership = repo.emilyh23_ktan_ngurung_yazhang.ridership.find()
+        tstops = repo.emilyh23_ktan_ngurung_yazhang.tStops.find()
         collection = {}
 
         gmaps = googlemaps.Client(key='AIzaSyCnbPRMgv_MDYaPqiq2mVYIpWUy-m_k3Jc')
@@ -74,7 +74,7 @@ class tRidershipLocation(dml.Algorithm):
         # Create new dataset called tRidershipLocation
         repo.dropPermanent("tRidershipLocation")
         repo.createPermanent("tRidershipLocation")
-        repo['ktan_ngurung_yazhang_emilyh23.tRidershipLocation'].insert_one(r)
+        repo['emilyh23_ktan_ngurung_yazhang.tRidershipLocation'].insert_one(r)
     
     @staticmethod
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -87,17 +87,17 @@ class tRidershipLocation(dml.Algorithm):
          # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+        repo.authenticate('emilyh23_ktan_ngurung_yazhang', 'emilyh23_ktan_ngurung_yazhang')
         
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 
-        this_script = doc.agent('alg:ktan_ngurung_yazhang_emilyh23#tRidershipLocation', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        tStops_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/t-stop-locations', {'prov:label':'T-Stop Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        ridership_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/boston-ridership', {'prov:label':'Boston Ridership', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        gmaps_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/boston-ridership', {'prov:label':'Google Maps Geocoder API', prov.model.PROV_TYPE:'ont:DataResource'})
+        this_script = doc.agent('alg:emilyh23_ktan_ngurung_yazhang#tRidershipLocation', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        tStops_resource = doc.entity('dat:emilyh23_ktan_ngurung_yazhang/t-stop-locations', {'prov:label':'T-Stop Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        ridership_resource = doc.entity('dat:emilyh23_ktan_ngurung_yazhang/boston-ridership', {'prov:label':'Boston Ridership', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        gmaps_resource = doc.entity('dat:emilyh23_ktan_ngurung_yazhang/boston-ridership', {'prov:label':'Google Maps Geocoder API', prov.model.PROV_TYPE:'ont:DataResource'})
         this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
 
         doc.wasAssociatedWith(this_run, this_script)
@@ -109,7 +109,7 @@ class tRidershipLocation(dml.Algorithm):
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        tRidershipLocation = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#tRidershipLocation', {prov.model.PROV_LABEL:'Number of Entries for Each Train Location', prov.model.PROV_TYPE:'ont:DataSet'})
+        tRidershipLocation = doc.entity('dat:emilyh23_ktan_ngurung_yazhang#tRidershipLocation', {prov.model.PROV_LABEL:'Number of Entries for Each Train Location', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(tRidershipLocation, this_script)
         doc.wasGeneratedBy(tRidershipLocation, this_run, endTime)
         doc.wasDerivedFrom(tRidershipLocation, tStops_resource, this_run, this_run, this_run)

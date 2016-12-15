@@ -14,9 +14,9 @@ import itertools
 import collections
 
 class zipcodeRatings(dml.Algorithm):
-    contributor = 'ktan_ngurung_yazhang_emilyh23'
-    reads = ['ktan_ngurung_yazhang_emilyh23.tRidershipLocation', 'ktan_ngurung_yazhang_emilyh23.hubwayBigBellyCounts', 'ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts']
-    writes = ['ktan_ngurung_yazhang_emilyh23.zipcodeRatings']
+    contributor = 'emilyh23_ktan_ngurung_yazhang'
+    reads = ['emilyh23_ktan_ngurung_yazhang.tRidershipLocation', 'emilyh23_ktan_ngurung_yazhang.hubwayBigBellyCounts', 'emilyh23_ktan_ngurung_yazhang.collegeBusStopCounts']
+    writes = ['emilyh23_ktan_ngurung_yazhang.zipcodeRatings']
 
     @staticmethod
     def get_rating(l, ct, z, star):
@@ -101,12 +101,12 @@ class zipcodeRatings(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+        repo.authenticate('emilyh23_ktan_ngurung_yazhang', 'emilyh23_ktan_ngurung_yazhang')
 
         #Get bus stop and college location complete data
-        hbbCounts = repo.ktan_ngurung_yazhang_emilyh23.hubwayBigBellyCounts.find_one()
-        cbsCounts = repo.ktan_ngurung_yazhang_emilyh23.collegeBusStopCounts.find_one()
-        tRideCounts = repo.ktan_ngurung_yazhang_emilyh23.tRidershipLocation.find_one() 
+        hbbCounts = repo.emilyh23_ktan_ngurung_yazhang.hubwayBigBellyCounts.find_one()
+        cbsCounts = repo.emilyh23_ktan_ngurung_yazhang.collegeBusStopCounts.find_one()
+        tRideCounts = repo.emilyh23_ktan_ngurung_yazhang.tRidershipLocation.find_one() 
 
 
         #3b. Capability to run algorithm in trial mode
@@ -306,7 +306,7 @@ class zipcodeRatings(dml.Algorithm):
         # Create new dataset called zipcodeRatings
         repo.dropPermanent("zipcodeRatings")
         repo.createPermanent("zipcodeRatings")
-        repo['ktan_ngurung_yazhang_emilyh23.zipcodeRatings'].insert_one(r)
+        repo['emilyh23_ktan_ngurung_yazhang.zipcodeRatings'].insert_one(r)
 
     @staticmethod           
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -319,17 +319,17 @@ class zipcodeRatings(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+        repo.authenticate('emilyh23_ktan_ngurung_yazhang', 'emilyh23_ktan_ngurung_yazhang')
         
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 
-        this_script = doc.agent('alg:ktan_ngurung_yazhang_emilyh23#merge', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        collegeBusStops_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/collegeBusStopCounts', {'prov:label':'Number of Colleges And Bus Stops for Each Zip code', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        tRidershipLocation_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/tRidershipLocation', {'prov:label':'Number of Entries for Each Train Location', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
-        hubwayBigBelly_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/hubwayBigBelly', {'prov:label':'Number of Hubways and Big Belly for Each Zip code', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_script = doc.agent('alg:emilyh23_ktan_ngurung_yazhang#merge', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        collegeBusStops_resource = doc.entity('dat:emilyh23_ktan_ngurung_yazhang/collegeBusStopCounts', {'prov:label':'Number of Colleges And Bus Stops for Each Zip code', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        tRidershipLocation_resource = doc.entity('dat:emilyh23_ktan_ngurung_yazhang/tRidershipLocation', {'prov:label':'Number of Entries for Each Train Location', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        hubwayBigBelly_resource = doc.entity('dat:emilyh23_ktan_ngurung_yazhang/hubwayBigBelly', {'prov:label':'Number of Hubways and Big Belly for Each Zip code', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
 
         doc.wasAssociatedWith(this_run, this_script)
@@ -344,7 +344,7 @@ class zipcodeRatings(dml.Algorithm):
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        zipcode_ratings = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#zipcode_ratings', {prov.model.PROV_LABEL:'Critera Rating and Overall Rating for Zipcodes', prov.model.PROV_TYPE:'ont:DataSet'})
+        zipcode_ratings = doc.entity('dat:emilyh23_ktan_ngurung_yazhang#zipcode_ratings', {prov.model.PROV_LABEL:'Critera Rating and Overall Rating for Zipcodes', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(zipcode_ratings, this_script)
         doc.wasGeneratedBy(zipcode_ratings, this_run, endTime)
         doc.wasDerivedFrom(zipcode_ratings, collegeBusStops_resource, this_run, this_run, this_run)

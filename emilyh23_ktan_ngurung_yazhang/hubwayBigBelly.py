@@ -8,9 +8,9 @@ import geocoder
 from collections import Counter
 
 class hubwayBigBelly(dml.Algorithm):
-    contributor = 'ktan_ngurung_yazhang_emilyh23'
-    reads = ['ktan_ngurung_yazhang_emilyh23.colleges', 'ktan_ngurung_yazhang_emilyh23.busStops']
-    writes = ['ktan_ngurung_yazhang_emilyh23.hubwayBigBellyCounts']
+    contributor = 'emilyh23_ktan_ngurung_yazhang'
+    reads = ['emilyh23_ktan_ngurung_yazhang.colleges', 'emilyh23_ktan_ngurung_yazhang.busStops']
+    writes = ['emilyh23_ktan_ngurung_yazhang.hubwayBigBellyCounts']
 
     @staticmethod
     def execute(trial = False):
@@ -20,11 +20,11 @@ class hubwayBigBelly(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+        repo.authenticate('emilyh23_ktan_ngurung_yazhang', 'emilyh23_ktan_ngurung_yazhang')
 
         # Get bus stop and college location data
-        hubways = repo.ktan_ngurung_yazhang_emilyh23.hubways.find() 
-        bigBelly = repo.ktan_ngurung_yazhang_emilyh23.bigBelly.find()
+        hubways = repo.emilyh23_ktan_ngurung_yazhang.hubways.find() 
+        bigBelly = repo.emilyh23_ktan_ngurung_yazhang.bigBelly.find()
         hbbDict = {}
 
         # Commented block below can only be a when query limit for geocoder library has not been used up
@@ -93,7 +93,7 @@ class hubwayBigBelly(dml.Algorithm):
         # Create new dataset called hubwayBigBellyCounts
         repo.dropPermanent("hubwayBigBellyCounts")
         repo.createPermanent("hubwayBigBellyCounts")
-        repo['ktan_ngurung_yazhang_emilyh23.hubwayBigBellyCounts'].insert_one(r)
+        repo['emilyh23_ktan_ngurung_yazhang.hubwayBigBellyCounts'].insert_one(r)
 
     @staticmethod           
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -106,7 +106,7 @@ class hubwayBigBelly(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+        repo.authenticate('emilyh23_ktan_ngurung_yazhang', 'emilyh23_ktan_ngurung_yazhang')
         
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
@@ -114,8 +114,8 @@ class hubwayBigBelly(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:ktan_ngurung_yazhang_emilyh23#hubwayBigBelly', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        hubway_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/hubway-stations-in-boston', {'prov:label':'Hubway Stations in Boston', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_script = doc.agent('alg:emilyh23_ktan_ngurung_yazhang#hubwayBigBelly', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        hubway_resource = doc.entity('dat:emilyh23_ktan_ngurung_yazhang/hubway-stations-in-boston', {'prov:label':'Hubway Stations in Boston', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         bigBelly_resource = doc.entity('bdp:42qi-w8d7', {'prov:label':'Big Belly Locations', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
 
         this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
@@ -129,7 +129,7 @@ class hubwayBigBelly(dml.Algorithm):
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        hubwayBigBelly = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#hubwayBigBelly', {prov.model.PROV_LABEL:'Number of Hubways and Big Belly for Each Zip code', prov.model.PROV_TYPE:'ont:DataSet'})
+        hubwayBigBelly = doc.entity('dat:emilyh23_ktan_ngurung_yazhang#hubwayBigBelly', {prov.model.PROV_LABEL:'Number of Hubways and Big Belly for Each Zip code', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(hubwayBigBelly, this_script)
         doc.wasGeneratedBy(hubwayBigBelly, this_run, endTime)
         doc.wasDerivedFrom(hubwayBigBelly, hubway_resource, this_run, this_run, this_run)

@@ -14,9 +14,9 @@ import itertools
 import collections
 
 class treeMap(dml.Algorithm):
-    contributor = 'ktan_ngurung_yazhang_emilyh23'
-    reads = ['ktan_ngurung_yazhang_emilyh23.zipcodeRatings']
-    writes = ['ktan_ngurung_yazhang_emilyh23.treeMap']
+    contributor = 'emilyh23_ktan_ngurung_yazhang'
+    reads = ['emilyh23_ktan_ngurung_yazhang.zipcodeRatings']
+    writes = ['emilyh23_ktan_ngurung_yazhang.treeMap']
 
     @staticmethod
     def execute(trial = False):
@@ -26,10 +26,10 @@ class treeMap(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+        repo.authenticate('emilyh23_ktan_ngurung_yazhang', 'emilyh23_ktan_ngurung_yazhang')
 
         # Get zipcodeRatings data
-        zipcodeRatings = repo.ktan_ngurung_yazhang_emilyh23.zipcodeRatings.find_one()
+        zipcodeRatings = repo.emilyh23_ktan_ngurung_yazhang.zipcodeRatings.find_one()
         zipcodeRatings.pop('_id', None)
 
         # create json for tree map configuration
@@ -66,7 +66,7 @@ class treeMap(dml.Algorithm):
         # Create new dataset called zipcodeRatings
         repo.dropPermanent("treeMap")
         repo.createPermanent("treeMap")
-        repo['ktan_ngurung_yazhang_emilyh23.treeMap'].insert_one(r)
+        repo['emilyh23_ktan_ngurung_yazhang.treeMap'].insert_one(r)
 
     @staticmethod           
     def provenance(doc = prov.model.ProvDocument(), startTime = None, endTime = None):
@@ -79,15 +79,15 @@ class treeMap(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+        repo.authenticate('emilyh23_ktan_ngurung_yazhang', 'emilyh23_ktan_ngurung_yazhang')
         
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 
-        this_script = doc.agent('alg:ktan_ngurung_yazhang_emilyh23#treeMap', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        zipcode_ratings_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/zipcoderatings', {'prov:label':'Rating of Each Category and the Overall Rating for each Zipcode', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_script = doc.agent('alg:emilyh23_ktan_ngurung_yazhang#treeMap', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        zipcode_ratings_resource = doc.entity('dat:emilyh23_ktan_ngurung_yazhang/zipcoderatings', {'prov:label':'Rating of Each Category and the Overall Rating for each Zipcode', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
 
         doc.wasAssociatedWith(this_run, this_script)
@@ -95,7 +95,7 @@ class treeMap(dml.Algorithm):
         doc.usage(this_run, zipcode_ratings_resource, startTime, None,
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )      
-        treeMap = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#treeMap', {prov.model.PROV_LABEL:'Data for tree map configuration', prov.model.PROV_TYPE:'ont:DataSet'})
+        treeMap = doc.entity('dat:emilyh23_ktan_ngurung_yazhang#treeMap', {prov.model.PROV_LABEL:'Data for tree map configuration', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(treeMap, this_script)
         doc.wasGeneratedBy(treeMap, this_run, endTime)
         doc.wasDerivedFrom(treeMap, zipcode_ratings_resource, this_run, this_run, this_run)
