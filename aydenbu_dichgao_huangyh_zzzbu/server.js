@@ -3,13 +3,6 @@ const app = express();
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient
 
-
-
-
-
-
-
-
 var db
 
 MongoClient.connect('mongodb://localhost:27017/repo', (err, database) => {
@@ -27,13 +20,8 @@ app.use(express.static('public'))
 
 
 app.get('/', (req, res) => {
-//  res.sendFile('/Users/hongyuzhou/Desktop/411/project' + '/goog.html')
   db.collection("aydenbu_huangyh.statistic_data").find().toArray((err, result) => {
     if (err) return console.log(err)
-//    res.sendFile('/Users/hongyuzhou/Desktop/411/project/views' + '/bubble.html')
-//    result = filter(result);
-//    result.push()
-//    console.log(filter(result))
     res.render('bubble.ejs', {tdata: result})
   })
 })
