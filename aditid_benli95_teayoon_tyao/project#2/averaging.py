@@ -70,25 +70,5 @@ print(arr_of_diff)
 
 
 
-#find max
-
-
-
-# In[5]:
-
-repo_string_all = "repo_all = repo.aditid_benli95_teayoon_tyao.averageAll" + str(11) + ".find()"
-    
-    
-exec(repo_string_all)
-
-
-# In[6]:
-
-for a in repo_all:
-    print(a)
-
-
-# In[ ]:
-
 
 

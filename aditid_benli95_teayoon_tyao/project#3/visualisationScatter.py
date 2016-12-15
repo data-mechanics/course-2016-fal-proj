@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[6]:
+# In[ ]:
 
 import json
 import dml
@@ -45,16 +45,29 @@ class visualisationScatter(dml.Algorithm):
         for tpl in tuple_format:
             x.append(tpl[0])
             y.append(tpl[1])
-        
 
+        fig = plt.figure(figsize=(16,8))
+        fig.patch.set_facecolor('white')
+        ax = plt.gca()
+        ax.set_axis_bgcolor('white')
+        
         plt.scatter(x, y)
         pyplot.xlabel("Radius from Crime")
         pyplot.ylabel("Difference")
-#         pyplot.legend(loc='upper left')
-        pyplot.show()
-
-
-
+        
+        plt.plot(x, [0 for i in x], color='black')
+#         plt.plot([0 for i in y], y, color='black')
+#         plt.grid(True)
+        plt.xlim(0,5)
+#         plt.ylim(-1,1)        
+        
+        plt.title("Difference against Distance", fontsize=32, y=1.03, fontweight='medium', color='darkblue')
+        plt.ylabel('Avg(child est. around crimes) \n - Avg(child est. around drug crimes)', fontsize=24, fontweight='medium', color='orange')
+        plt.xlabel('Distance around crime (miles)', fontsize=24, fontweight='medium', color='orange')
+        
+        plt.savefig('obj_func.png')
+        plt.show()
+    
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}
 
