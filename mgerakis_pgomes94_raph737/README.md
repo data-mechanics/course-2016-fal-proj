@@ -101,3 +101,45 @@ The second problem we are going to solve is to recommend possible locations for 
 Then from the returned points to choose the one that maximizes the distance to all the far proximity clusters. This is an optimization problem defined as:
 argmax x`,y` summation across all cluster centers x,y with proximity=='F': Euclidean Distance((x`,y`), (x,y))
 
+---
+The 2 visualizations/services for Project 3
+---
+
+solved in webapp/ 
+
+Make sure the python scripts all have ran and updated the collections in mongodb
+For the best results, use google chrome to see the features since for some reason on safari
+the google maps does not appear when the page loads.
+
+To Run:
+npm install
+npm install body-parser *weird bug that requires you to install this locally separately from npm install
+
+mongodb *make sure mongo is running since we will be querying and retrieving data from it*
+node webapp\ 
+
+Visual 1 :
+to view interactive google maps and our data points visit:
+localhost:3000
+
+Api:
+To view server resources:
+localhost:3000/api/hospitals
+localhost:3000/api/crimes
+localhost:3000/api/mbtastops
+localhost:3000/api/policestations
+localhost:3000/api/optimalcoords
+localhost:3000/api/clusters
+localhost:3000/api/trafficlocs
+
+Visual/Interaction 2:
+to view our score calculator that takes in a name and lattitude longitude coordinates, calculates and runs our algorithm against the coordinates and outputs a score to the user visit:
+localhost:3000/hospitalcalculator or click the score calculator button at visual 1
+
+Posterboard PDF:
+poster.pdf in mgerakis_pgomes94_raph737 directory
+
+Final Report: 
+Report.pdf inside mgerakis_pgomes94)raph737 directory
+
+
