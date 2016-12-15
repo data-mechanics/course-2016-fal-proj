@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Bus route in Boston</title>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+
+<script src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+
+<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+
+<style type="text/css">
+  #map {
+    width: 700px;
+    height: 300px;
+  }
+  .feature {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1px;
+      stroke-linejoin: round;
+  }
+  .mesh {
+    fill: none;
+      stroke: lightgrey;
+      stroke-width: 2px;
+      stroke-linejoin: round;
+  }
+  path {
+    fill: #000;
+    fill-opacity: .2;
+    stroke: #fff;
+    stroke-width: 1.5px;
+  }
+
+  h1 {
+    font-family: sans-serif;
+  }
+</style>
+</head>
+<body>
+  <h1>Boston's bus routes, mapped with Leaflet and D3</h1>
+
+  <div id="map"></div>
+
+
+<script type="text/javascript" src="mapScript.js">
+
+
+</script>
+    
+</body>
+</html>
+
