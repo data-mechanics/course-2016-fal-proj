@@ -168,9 +168,9 @@ Fig. 2: Community Heat Map — We take 1000x1000-ft cells in a grid of cells acr
 
 
 
-[IMG]http://i67.tinypic.com/19roth.png[/IMG]
+![alt tag](http://i67.tinypic.com/19roth.png)
 
-[IMG]http://i68.tinypic.com/2d6w36o.png[/IMG]
+![alt tag](http://i68.tinypic.com/2d6w36o.png)
 
 
 ##Observations
