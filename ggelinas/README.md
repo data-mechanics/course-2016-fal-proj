@@ -1,3 +1,16 @@
+#Boston Crime Rates in Relation to Hospitals, Police Districts and Property
+
+##Introduction
+In this project, using data from the city of Boston we seek to understand
+crime rates in relation to hospitals, police districts, and property. We
+wanted to determine:
+<ol>
+    <li>If crime were more likely in areas of lower property values
+    <li>Are hospitals optimally located around crime areas
+</ol>
+
+
+
 # course-2016-fal-proj-2 (ggelinas)
 Project repository for the course project in the Fall 2016 iteration of the Data Mechanics course at Boston University.
 
