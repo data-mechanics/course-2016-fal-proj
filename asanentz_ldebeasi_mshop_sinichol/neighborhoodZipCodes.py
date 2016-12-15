@@ -8,7 +8,7 @@ class neighborhoodZipCodes(dml.Algorithm):
 
 	# Authenticate with MongoDB
 	contributor = 'asanentz_ldebeasi_mshop_sinichol'
-	reads = ['asanentz_ldebeasi_mshop_sinichol.neighborhoods']
+	reads = ['asanentz_ldebeasi_mshop_sinichol.addresses', "asanentz_ldebeasi_mshop_sinichol.income"]
 	writes = ['asanentz_ldebeasi_mshop_sinichol.neighborhoods']
 
 	@staticmethod

@@ -6,7 +6,7 @@ import json
 
 class constraintSatisfaction(dml.Algorithm):
 	contributor = "asanentz_ldebeasi_mshop_sinichol"
-	reads = ["asanentz_ldebeasi_mshop_sinichol.constraintSatisfaction"]
+	reads = ["asanentz_ldebeasi_mshop_sinichol.addressValue"]
 	writes = ["asanentz_ldebeasi_mshop_sinichol.constraintSatisfaction"]
 
 	@staticmethod
@@ -23,12 +23,14 @@ class constraintSatisfaction(dml.Algorithm):
 		repo.createPermanent("constraintSatisfaction")
 
 		values = repo.asanentz_ldebeasi_mshop_sinichol.addressValue.find()
-
+		noTrans = {}
 		noTransit = 0
 		for value in values:
 			tstops = value['T STOPS']
 			buses = value['BUSES']
 			hubway = value['HUBWAYS']
+
+			
 
 			if tstops == 0 and buses == 0 and hubway == 0:
 				town = ' '.join(value['TOWN'].split()).upper() # gets rid of extraneous spaces
@@ -39,6 +41,10 @@ class constraintSatisfaction(dml.Algorithm):
 					temp['ZIP'] = value['ZIP']
 					temp['LAT'] = value['LATITUDE']
 					temp['LONG'] = value['LONGITUDE']
+					if town in noTrans:
+						noTrans[town] += 1
+					else:
+						noTrans[town] = 1
 
 
 					res = repo.asanentz_ldebeasi_mshop_sinichol.constraintSatisfaction.insert_one(temp)
@@ -51,7 +57,7 @@ class constraintSatisfaction(dml.Algorithm):
 					noTransit += 1
 
 		endTime = datetime.datetime.now()
-
+		print(noTrans)
 		if noTransit > 0:
 			return {"success": False, "start": startTime, "end": endTime}
 		else:
@@ -92,7 +98,7 @@ class constraintSatisfaction(dml.Algorithm):
 		return doc
 
 constraintSatisfaction.execute()
-doc = constraintSatisfaction.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#doc = constraintSatisfaction.provenance()
+#print(doc.get_provn())
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
 

@@ -8,7 +8,7 @@ class income(dml.Algorithm):
 
 	# Authenticate with MongoDB
 	contributor = 'asanentz_ldebeasi_mshop_sinichol'
-	reads = ['asanentz_ldebeasi_mshop_sinichol.income']
+	reads = []
 	writes = ['asanentz_ldebeasi_mshop_sinichol.income']
 
 	@staticmethod

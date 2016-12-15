@@ -17,7 +17,7 @@ class addressValue(dml.Algorithm):
 
 
 	contributor = "asanentz_ldebeasi_mshop_sinichol"
-	reads = ["asanentz_ldebeasi_mshop_sinichol.addressValue"]
+	reads = ["asanentz_ldebeasi_mshop_sinichol.transit", "asanentz_ldebeasi_mshop_sinichol.addresses"]
 	writes = ["asanentz_ldebeasi_mshop_sinichol.addressValue"]
 
 	@staticmethod

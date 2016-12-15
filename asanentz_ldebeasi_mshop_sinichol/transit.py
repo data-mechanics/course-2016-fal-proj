@@ -27,11 +27,12 @@ class transit(dml.Algorithm):
 		return [(key, f([v for (k,v) in R if k == key])) for key in keys]
 
 	contributor = "asanentz_ldebeasi_mshop_sinichol"
-	reads = ["asanentz_ldebeasi_mshop_sinichol.transit"]
+	reads = ["asanentz_ldebeasi_mshop_sinichol.busStops", "asanentz_ldebeasi_mshop_sinichol.hubway", "asanentz_ldebeasi_mshop_sinichol.mbta"]
 	writes = ["asanentz_ldebeasi_mshop_sinichol.transit"]
 
 	@staticmethod
 	def execute(trial = False):
+		f = open('weesnaw.txt', 'w')
 		client = dml.pymongo.MongoClient()
 		repo = client.repo
 		repo.authenticate("asanentz_ldebeasi_mshop_sinichol", "asanentz_ldebeasi_mshop_sinichol")
@@ -56,7 +57,7 @@ class transit(dml.Algorithm):
 			entry['properties']['TYPE'] = 'BUS'
 			entry['properties']['LONGITUDE'] = entry['geometry']['coordinates'][0]
 			entry['properties']['LATITUDE']  = entry['geometry']['coordinates'][1]
-
+			#print(entry['properties'], file = f)
 				#I've taken all meaningfull data from the geometry portion of entry
 			res = repo.asanentz_ldebeasi_mshop_sinichol.transit.insert_one(entry['properties'])
 
@@ -88,6 +89,7 @@ class transit(dml.Algorithm):
 			del entry['properties']['public_'] #why even have columns if they're all the same?
 			del entry['properties']['lastUpdate']
 			del entry['properties']['temporary_']
+			#print(entry['properties'], file = f)
 
 			res = repo.asanentz_ldebeasi_mshop_sinichol.transit.insert_one(entry['properties'])
 
@@ -106,6 +108,7 @@ class transit(dml.Algorithm):
 			t['LONGITUDE'] = t['longitude']
 			del t['latitude']
 			del t['longitude']
+			#print(t, file = f)
 
 			res = repo.asanentz_ldebeasi_mshop_sinichol.transit.insert_one(t)
 			if trial:

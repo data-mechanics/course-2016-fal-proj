@@ -9,7 +9,7 @@ class MBTAStops(dml.Algorithm):
 
 	# Authenticate with MongoDB
 	contributor = 'asanentz_ldebeasi_mshop_sinichol'
-	reads = ['asanentz_ldebeasi_mshop_sinichol.mbta']
+	reads = []
 	writes = ['asanentz_ldebeasi_mshop_sinichol.mbta']
 
 	@staticmethod

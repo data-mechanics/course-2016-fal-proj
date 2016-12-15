@@ -7,7 +7,7 @@ import uuid
 
 class hubway(dml.Algorithm):
     contributor = "asanentz_ldebeasi_mshop_sinichol"
-    reads = ["asanentz_ldebeasi_mshop_sinichol.hubway"]
+    reads = []
     writes = ["asanentz_ldebeasi_mshop_sinichol.hubway"]
 
     @staticmethod

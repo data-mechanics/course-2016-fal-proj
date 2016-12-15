@@ -23,7 +23,7 @@ def evaluate_clusters(X,max_clusters):
 
 class kmeans(dml.Algorithm):
 	contributor = "asanentz_ldebeasi_mshop_sinichol"
-	reads = ["asanentz_ldebeasi_mshop_sinichol.kmeans"]
+	reads = ["asanentz_ldebeasi_mshop_sinichol.constraintSatisfaction"]
 	writes = ["asanentz_ldebeasi_mshop_sinichol.kmeans"]
 
 	@staticmethod
