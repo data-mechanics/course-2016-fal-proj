@@ -110,7 +110,7 @@ Moreover, make sure you run the files in this order:
 5. `combineRestaurantEnt.py`
 6. `scoreLocations.py`
 7. `gridCenters.py`
-8. `distances.py`
+8. `distancesCommunityScoreCalculations.py`
 9. `crimeRates.py`
 
 

@@ -12,7 +12,8 @@ import urllib.request
 class prop_retr(dml.Algorithm):
     contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
     reads = []
-    writes = ['aliyevaa_bsowens_dwangus_jgtsui.prop_retr']
+    # writes = ['aliyevaa_bsowens_dwangus_jgtsui.prop_retr']
+    writes = ['aliyevaa_bsowens_dwangus_jgtsui.property_assessment']
     @staticmethod
     def execute(trial = False):
         startTime = datetime.datetime.now()

@@ -8,9 +8,9 @@ import ast
 from geopy.distance import vincenty as vct
 from bson.code import Code
 
-import shapefile
-import pyproj
-from pyproj import transform
+#import shapefile
+#import pyproj
+#from pyproj import transform
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt

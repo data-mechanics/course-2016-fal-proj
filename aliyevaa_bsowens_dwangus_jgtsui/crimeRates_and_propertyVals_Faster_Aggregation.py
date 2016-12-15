@@ -51,22 +51,27 @@ class crimeRates(dml.Algorithm):
 
         myrepo = repo.aliyevaa_bsowens_dwangus_jgtsui
 
-
-
-        
-        #'''
-        cellCoordinates = repo[crimeRates.reads[1]]
+        '''
+        # code that david would use, which read in 'cell_GPS_center_coordinates'
+        cellCoordinates = repo[crimeRates_and_propertyVals_Faster_Aggregation.reads[1]]
         coordinates = []
         for cellCoord in cellCoordinates.find():
             coordinates.append((cellCoord['longitude'],cellCoord['latitude']))
         #'''
 
-        '''
+        #'''
+        # Edited by Jen -- since most of us don't have access to the db called 'cell_GPS_center_coordinates'
+        # as we can't run gridCenters.py due to dependency issues
+
+        # note: each line in centers.txt is in the form of
+        # longitude latitude
+        # where the coordinates are separated by a space.
         lines = [line.rstrip('\n') for line in open('centers.txt')]
         coordinates = []
         for line in lines:
             if line != '':
-                coordinates.append([float(x) for x in line.split()])
+                point = [float(x) for x in line.split()]
+                coordinates.append((point[0], point[1]))
         #'''
         ###From previous method of aggregating crimes into cells
         '''
@@ -76,14 +81,12 @@ class crimeRates(dml.Algorithm):
         #'''
         ###
 
-
         print("# Total Cell Coordinates: {}".format(len(coordinates)))
-
         
-        #Boston GPS Map is X: Longitudes, from -71.2 to -70.95 (approximately)
-        #Boston GPS Map is Y: Latitudes, from 42.2 to 42.4 (approximately)
+        # Boston GPS Map is X: Longitudes, from -71.2 to -70.95 (approximately)
+        # Boston GPS Map is Y: Latitudes, from 42.2 to 42.4 (approximately)
 
-        #My updated code for faster crime aggregation
+        # David's updated code for faster crime aggregation
         cellCenterDict = {}
         for coord in coordinates:
             gpslong = coord[0]
@@ -93,14 +96,11 @@ class crimeRates(dml.Algorithm):
             else:
                 cellCenterDict[gpslong] = {gpslat: 0}
         
-        #My updated code for faster crime aggregation
-        longitudeKeys = np.array(list(cellCenterDict.keys()))#sorted(list(cellCenterDict.keys()))
+        # David's updated code for faster crime aggregation
+        longitudeKeys = np.array(list(cellCenterDict.keys())) # sorted(list(cellCenterDict.keys()))
         print(longitudeKeys)
         for lo in longitudeKeys:
             cellCenterDict[lo]['latitudes'] = np.array(list(cellCenterDict[lo].keys()))#sorted(list(cellCenterDict[lo].keys()))
-
-
-
 
         
         ################# Added by Asselya #################
@@ -118,8 +118,7 @@ class crimeRates(dml.Algorithm):
                     longProperty = elem['location']['coordinates'][0]
                     latProperty = elem['location']['coordinates'][1]
 
-                    
-                    ###From Asselya's previous method of aggregating property values into cells
+                    ### From Asselya's previous method of aggregating property values into cells
                     '''
                     closest_so_far = calculate(long, lat, coordinates[0][0], coordinates[0][1])
                     closest_center = str(coordinates[0][0]) + ' ' + str(coordinates[0][1])
@@ -147,8 +146,6 @@ class crimeRates(dml.Algorithm):
 
         print('FINISHED PROPERTIES.')
         ####################################################
-
-
 
 
         print('NOW PROCESSING CRIMES.')
@@ -233,8 +230,8 @@ class crimeRates(dml.Algorithm):
 
         ###Commented-Out, for old (fast) method of just lumping frequency of crimes by cell
         #'''
-        #With this method, got a crime to community correlation of -0.018864163011454722
-        ###My updated code for faster crime aggregation
+        # With this method, got a crime to community correlation of -0.018864163011454722
+        ### David's updated code for faster crime aggregation
         for e in cellCenterDict.keys():
             curLong = cellCenterDict[e]
             curLongStr = str(e) + ' '

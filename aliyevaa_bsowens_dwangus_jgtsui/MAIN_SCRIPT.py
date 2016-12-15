@@ -22,8 +22,8 @@ import entertainment_full_retrieval as entertainments
 print("Importing file 8.")
 import food_full_retrieval as foods
 
-print("Importing file 9.")
-import gridCenters as centers
+#print("Importing file 9.")
+#import gridCenters as centers
 
 print("Importing file 10.")
 import libraries
@@ -90,8 +90,8 @@ nL()
 posnegScores.main()
 nL()
 
-centers.main()
-nL()
+#centers.main()    # doesn't work for anyone besides david, since we can't get the deprecated version of
+#nL()              # some of the packages he uses.
 
 crimes.main()
 nL()
