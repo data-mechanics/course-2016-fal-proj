@@ -192,35 +192,35 @@ class megaMapReduce(dml.Algorithm):
         doc.add_namespace('cob', 'https://data.cityofboston.gov/resource/')
         doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/datasets/')
 
-        this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#prepData2', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        prepD2 = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Prep Data 2', prov.model.PROV_TYPE:'ont:Computation'})
-        doc.wasAssociatedWith(prepD2, this_script)
+        this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#megaMapReduce', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        megaMR = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Mega Map Reduce', prov.model.PROV_TYPE:'ont:Computation'})
+        doc.wasAssociatedWith(megaMR, this_script)
 
         numberOfEstablishmentsinRadius = doc.entity('dat:aditid_benli95_teayoon_tyao#numberOfEstablishmentsinRadius', {'prov:label':'Number Of Establishments near All Crimes', prov.model.PROV_TYPE:'ont:Dataset'})
-        doc.usage(prepD2, numberOfEstablishmentsinRadius, startTime)
+        doc.usage(megaMR, numberOfEstablishmentsinRadius, startTime)
 
         numberOfEstablishmentsinRadiusDrug = doc.entity('dat:aditid_benli95_teayoon_tyao#numberOfEstablishmentsinRadiusDrug', {'prov:label':'Number Of Establishments near Drug Crimes', prov.model.PROV_TYPE:'ont:Dataset'})
-        doc.usage(prepD2, numberOfEstablishmentsinRadiusDrug, startTime)
+        doc.usage(megaMR, numberOfEstablishmentsinRadiusDrug, startTime)
 
         crimesPerNumberOfEstablishment = doc.entity('dat:aditid_benli95_teayoon_tyao#crimesPerNumberOfEstablishment', {'prov:label':'Number Of All Crimes per Establishments', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.wasAttributedTo(crimesPerNumberOfEstablishment, this_script)
-        doc.wasGeneratedBy(crimesPerNumberOfEstablishment, prepD2, endTime)
-        doc.wasDerivedFrom(crimesPerNumberOfEstablishment, numberOfEstablishmentsinRadius, prepD2, prepD2, prepD2)
+        doc.wasGeneratedBy(crimesPerNumberOfEstablishment, megaMR, endTime)
+        doc.wasDerivedFrom(crimesPerNumberOfEstablishment, numberOfEstablishmentsinRadius, megaMR, megaMR, megaMR)
         
         drugCrimesPerNumberOfEstablishment = doc.entity('dat:aditid_benli95_teayoon_tyao#drugCrimesPerNumberOfEstablishment', {'prov:label':'Number Of Drug Crimes per Establishments', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.wasAttributedTo(drugCrimesPerNumberOfEstablishment, this_script)
-        doc.wasGeneratedBy(drugCrimesPerNumberOfEstablishment, prepD2, endTime)
-        doc.wasDerivedFrom(drugCrimesPerNumberOfEstablishment, numberOfEstablishmentsinRadiusDrug, prepD2, prepD2, prepD2)
+        doc.wasGeneratedBy(drugCrimesPerNumberOfEstablishment, megaMR, endTime)
+        doc.wasDerivedFrom(drugCrimesPerNumberOfEstablishment, numberOfEstablishmentsinRadiusDrug, megaMR, megaMR, megaMR)
 
         averageAll = doc.entity('dat:aditid_benli95_teayoon_tyao#averageAll', {'prov:label':'Average of Establishments near All Crimes', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.wasAttributedTo(averageAll, this_script)
-        doc.wasGeneratedBy(averageAll, prepD2, endTime)
-        doc.wasDerivedFrom(averageAll, numberOfEstablishmentsinRadius, prepD2, prepD2, prepD2)
+        doc.wasGeneratedBy(averageAll, megaMR, endTime)
+        doc.wasDerivedFrom(averageAll, numberOfEstablishmentsinRadius, megaMR, megaMR, megaMR)
 
         averageDrug = doc.entity('dat:aditid_benli95_teayoon_tyao#averageDrug', {'prov:label':'Average of Establishments near Drug Crimes', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.wasAttributedTo(averageDrug, this_script)
-        doc.wasGeneratedBy(averageDrug, prepD2, endTime)
-        doc.wasDerivedFrom(averageDrug, numberOfEstablishmentsinRadiusDrug, prepD2, prepD2, prepD2)
+        doc.wasGeneratedBy(averageDrug, megaMR, endTime)
+        doc.wasDerivedFrom(averageDrug, numberOfEstablishmentsinRadiusDrug, megaMR, megaMR, megaMR)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
@@ -228,9 +228,9 @@ class megaMapReduce(dml.Algorithm):
         return doc
 
 megaMapReduce.execute()
-# doc = prepData2.provenance()
-# print(doc.get_provn())
-# print(json.dumps(json.loads(doc.serialize()), indent=4))
+doc = megaMapReduce.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 
 

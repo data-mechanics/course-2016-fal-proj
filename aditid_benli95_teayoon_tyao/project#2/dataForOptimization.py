@@ -12,7 +12,7 @@ import uuid
 from bson.code import Code
 from geopy.distance import great_circle   
 
-class prepData1(dml.Algorithm):
+class dataForOptimization(dml.Algorithm):
     contributor = 'aditid_benli95_teayoon_tyao'
     reads = ['aditid_benli95_teayoon_tyao.allCrimesMaster', 'aditid_benli95_teayoon_tyao.allDrugCrimesMaster' , 'aditid_benli95_teayoon_tyao.childFeedingProgramsTrimmed', 'aditid_benli95_teayoon_tyao.dayCampsdayCaresmaster', 'aditid_benli95_teayoon_tyao.schoolsMaster']
     writes = ['aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius', 'aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug']
@@ -25,7 +25,7 @@ class prepData1(dml.Algorithm):
         repo = client.repo
         repo.authenticate('aditid_benli95_teayoon_tyao', 'aditid_benli95_teayoon_tyao')
 
-        print("hello from prepData1")
+        print("hello from dataForOptimization")
 
         
         """
@@ -236,48 +236,48 @@ class prepData1(dml.Algorithm):
         doc.add_namespace('cob', 'https://data.cityofboston.gov/resource/')
         doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/datasets/')
 
-        this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#prepData1', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        prepD1 = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Prep Data 1', prov.model.PROV_TYPE:'ont:Computation'})
-        doc.wasAssociatedWith(prepD1, this_script)
+        this_script = doc.agent('alg:aditid_benli95_teayoon_tyao#dataForOptimization', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        dataFO = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime, {'prov:label':'Data For Optimization', prov.model.PROV_TYPE:'ont:Computation'})
+        doc.wasAssociatedWith(dataFO, this_script)
 
         allCrimesMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#allCrimesMaster', {'prov:label':'All Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
-        doc.usage(prepD1, allCrimesMaster, startTime)
+        doc.usage(dataFO, allCrimesMaster, startTime)
 
         allDrugCrimesMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#allDrugCrimesMaster', {'prov:label':'All Drug Crime Incident Reports', prov.model.PROV_TYPE:'ont:Dataset'})
-        doc.usage(prepD1, allDrugCrimesMaster, startTime)
+        doc.usage(dataFO, allDrugCrimesMaster, startTime)
 
         childFeedingProgramsTrimmed = doc.entity('dat:aditid_benli95_teayoon_tyao#childFeedingProgramsTrimmed', {'prov:label':'Child Feeding Programs', prov.model.PROV_TYPE:'ont:Dataset'})
-        doc.usage(prepD1, childFeedingProgramsTrimmed, startTime)
+        doc.usage(dataFO, childFeedingProgramsTrimmed, startTime)
 
         dayCampdayCaresMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#dayCampdayCaresMaster', {'prov:label':'Day Camps and Daycares', prov.model.PROV_TYPE:'ont:Dataset'})
-        doc.usage(prepD1, dayCampdayCaresMaster, startTime)
+        doc.usage(dataFO, dayCampdayCaresMaster, startTime)
 
         schoolsMaster = doc.entity('dat:aditid_benli95_teayoon_tyao#schoolsMaster', {'prov:label':'All Schools', prov.model.PROV_TYPE:'ont:Dataset'})
-        doc.usage(prepD1, schoolsMaster, startTime)
+        doc.usage(dataFO, schoolsMaster, startTime)
 
         numberOfEstablishmentsinRadius = doc.entity('dat:aditid_benli95_teayoon_tyao#numberOfEstablishmentsinRadius', {'prov:label':'Number Of Establishments near All Crimes', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.wasAttributedTo(numberOfEstablishmentsinRadius, this_script)
-        doc.wasGeneratedBy(numberOfEstablishmentsinRadius, prepD1, endTime)
-        doc.wasDerivedFrom(numberOfEstablishmentsinRadius, allCrimesMaster, prepD1, prepD1, prepD1)
-        doc.wasDerivedFrom(numberOfEstablishmentsinRadius, childFeedingProgramsTrimmed, prepD1, prepD1, prepD1)
-        doc.wasDerivedFrom(numberOfEstablishmentsinRadius, dayCampdayCaresMaster, prepD1, prepD1, prepD1)
-        doc.wasDerivedFrom(numberOfEstablishmentsinRadius, schoolsMaster, prepD1, prepD1, prepD1)
+        doc.wasGeneratedBy(numberOfEstablishmentsinRadius, dataFO, endTime)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadius, allCrimesMaster, dataFO, dataFO, dataFO)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadius, childFeedingProgramsTrimmed, dataFO, dataFO, dataFO)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadius, dayCampdayCaresMaster, dataFO, dataFO, dataFO)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadius, schoolsMaster, dataFO, dataFO, dataFO)
         
         numberOfEstablishmentsinRadiusDrug = doc.entity('dat:aditid_benli95_teayoon_tyao#numberOfEstablishmentsinRadiusDrug', {'prov:label':'Number Of Establishments near Drug Crimes', prov.model.PROV_TYPE:'ont:Dataset'})
         doc.wasAttributedTo(numberOfEstablishmentsinRadiusDrug, this_script)
-        doc.wasGeneratedBy(numberOfEstablishmentsinRadiusDrug, prepD1, endTime)
-        doc.wasDerivedFrom(numberOfEstablishmentsinRadiusDrug, allDrugCrimesMaster, prepD1, prepD1, prepD1)
-        doc.wasDerivedFrom(numberOfEstablishmentsinRadiusDrug, childFeedingProgramsTrimmed, prepD1, prepD1, prepD1)
-        doc.wasDerivedFrom(numberOfEstablishmentsinRadiusDrug, dayCampdayCaresMaster, prepD1, prepD1, prepD1)
-        doc.wasDerivedFrom(numberOfEstablishmentsinRadiusDrug, schoolsMaster, prepD1, prepD1, prepD1)
+        doc.wasGeneratedBy(numberOfEstablishmentsinRadiusDrug, dataFO, endTime)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadiusDrug, allDrugCrimesMaster, dataFO, dataFO, dataFO)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadiusDrug, childFeedingProgramsTrimmed, dataFO, dataFO, dataFO)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadiusDrug, dayCampdayCaresMaster, dataFO, dataFO, dataFO)
+        doc.wasDerivedFrom(numberOfEstablishmentsinRadiusDrug, schoolsMaster, dataFO, dataFO, dataFO)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
 
         return doc
 
-prepData1.execute(3) #IGNORE THIS VALUE
-#doc = prepData1.provenance()
-#print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+dataForOptimization.execute(3) #Ignore This Value
+doc = dataForOptimization.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 

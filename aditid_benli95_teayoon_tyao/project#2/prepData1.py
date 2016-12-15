@@ -219,7 +219,7 @@ class prepData1(dml.Algorithm):
 
         return doc
 
-#prepData1.execute(3)
-#doc = prepData1.provenance()
-#print(doc.get_provn())
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
+prepData1.execute(3)
+doc = prepData1.provenance()
+print(doc.get_provn())
+print(json.dumps(json.loads(doc.serialize()), indent=4))
