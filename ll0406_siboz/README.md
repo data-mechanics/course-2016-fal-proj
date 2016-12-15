@@ -2,10 +2,15 @@ README
 
 First start the mongoDB with command mongod -- auth --dbpath “YOUR DB PATH” first navigate to the directory ll0406_siboz on terminal or command line.
 The algorithm of this Project is divided to four parts:
+
 1st part: proj1.py
+
 2nd part: proj2.py
+
 3rd part: part3.py, part3_2.py
+
 4th part: part4.py
+
 Data Retrieval and General Helper: dataRetrieval.py, generalHelperTemplate.py
 
 There are separate folder of local data. There are several random sampled we generated before and stored them as json files in it. The purpose of having the local data for now is to produce a consistent K-means algorithm output, and later vector projections.
