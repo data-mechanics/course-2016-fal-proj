@@ -20,6 +20,21 @@ text {
   fill: #777;
 }
 
+.allocation.label {
+  font: 500 196px "Helvetica Neue";
+  fill: #ddd;
+}
+
+.allocation.label.active {
+  fill: #aaa;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+  cursor: ew-resize;
+}
+
 </style>
 <html>
 
@@ -33,12 +48,12 @@ text {
 
 			// Chart dimensions.
 			var margin = {top: 23.5, right: 19.5, bottom: 23.5, left: 39.5}; 
-			var width = 960 - margin.right;
-			var height = 540 - margin.top - margin.bottom;
+			var width = 680 - margin.right;
+			var height = 880 - margin.top - margin.bottom;
 
 			// Various scales. These domains make assumptions of data, naturally.
 			var xScale = d3.scaleLinear().domain([1, 40]).range([0, width]);
-			var yScale = d3.scaleLinear().domain([0, 120]).range([height, 0]);
+			var yScale = d3.scaleLinear().domain([0, 180]).range([height, 0]);
 			var radiusScale = d3.scaleSqrt().domain([0, 90]).range([0, 40]);
 
 			// Create the SVG container and set the origin.
@@ -76,6 +91,15 @@ text {
 				.attr("transform", "rotate(-90)")
 				.text("Score");
 
+			// Add the year label; the value is set on transition.
+			var label = svg.append("text")
+				.attr("class", "allocation label")
+				.attr("text-anchor", "end")
+				.attr("y", height - 24)
+				.attr("x", width)
+				.text(90);
+
+
 			// Draw line on SVG for all scores
 			var valueline = d3.line()
 				.x(function(d) { return xScale(d.x); })
@@ -94,7 +118,6 @@ text {
 			});
 
 			//dimensional functions for each dot
-
 			function x(route) {return route.k}
 			function y(route) {return route.score}
 			function size(route) {return route.size}
