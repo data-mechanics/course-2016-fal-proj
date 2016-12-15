@@ -76,19 +76,25 @@ have more crimes as a means to afford living. We decided to group property value
 samples from different areas around boston in order to calculate correlation. Property values however do not have an attribute for police districts.
 In order to account for this we decided to use a python package called pyzipcode which would take the zip codes from each entry in the property data set and it will
 find the nearest police district within its one mile radius range. Once found the property value will be added to the closest police district. After iterating through
-the property data set, we computed the average for all property value in each district. 
+the property data set, we computed the average for all property value in each district. Using the average property value and sum of crimes for each district, we applied
+the pearson correlation coefficient algorithm and used multiple permutations. 
 
+Based on the calculations it yielded these results.
 
-Before the analysis, I predicted that there would be a negative correlation coefficient as number of crimes going down
-and property value increasing within police districts. We assumed that more safety within an area would result in an increase
-in value based on protection provided. A method that can be used to find such a relation  Based on the calculations it yielded these results.
-
-Correlation Coefficient: -0.6809827474468138
+Correlation Coefficient: -0.3138711
 P-value: 1.0
 
-This correlation coefficient shows that it is a strong negative correlation.
+![Property and Crime Correlation graph](/ggelinas/crime_prop_corr.png)
+
+This correlation coefficient shows that it is a moderate/weak negative correlation. With a high p-value, it states that this
+observation is a non-significant result that will not prove the Null hypothesis false.
+This suggests that the Null hypothesis: "Crimes decreasing and property value increasing" may be true.
+
 
 ##Hospital Location Analysis
+Another inquiry is to determine if hospitals are optimally located against crime. We believe
+that hospitals may be located around areas with crime in order to reduce time and increase efficiency in treating victims.
+We decided to use the k-means algorithm to compute the difference. 
 This analysis is to determine if the current hospital locations are placed in optimal locations by comparing it towards
 K means of the 26 hospitals. The algorithm takes in the Boston Hospital Locations and Boston Crime Reports data set.
 It compares the current location of the hospitals and compares the distance for each location with the most crimes.
@@ -131,4 +137,10 @@ Difference between hospitals and optimal K means clusters: [(0.01741664592483260
 (0.018059394711443133, 0.03609693151976501)]
 
 Analyzing the difference in the K means algorithm and the current locations sow that the locations of the Hospitals are
-not far off from the optimal locations determined by the most number of crimes. 
+not far off from the optimal locations determined by the most number of crimes.
+
+![Optimal Hospital locations](/ggelinas/optimalhospitals.png)
+
+##Conclusion
+
+With these results, we can conclude that 
