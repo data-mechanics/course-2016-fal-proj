@@ -216,6 +216,8 @@ The second analysis compared the total number of establishments with a specific 
 ![alt tag](images/obj_func.png)
 To run this visualization run `$ python3 project#3/visualisation.py`
 
+To run the interactive visualization navigate into the project#3/histogram folder then run `$ python3 -m http.server` and open a webbrowser to localhost:8000. If you want to display it at another port you can add the number after the command: `$ python3 -m http.server 9000` will display the visualization on port 9000.
+
 #Conclusion
 
 We can see that there are two peaks in our histogram of Number of Crimes per Number of Establishments. These two peaks represent that there are about 1100 crimes with around 125 children establishments in its radius and there are about 1100 crimes with around 190 children establishments in its radius. We suspect that these peaks are a result of a hotspot of crimes within the optimized radius. 
