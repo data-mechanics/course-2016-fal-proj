@@ -204,9 +204,14 @@ class retrieveData(dml.Algorithm):
 
         return doc
 
-retrieveData.execute()
-doc = retrieveData.provenance()
+#retrieveData.execute()
+#doc = retrieveData.provenance()
 #print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
+
+def main():
+    print("Executing: retrieveData.py")
+    retrieveData.execute()
+    doc = retrieveData.provenance()
 
 ## eof

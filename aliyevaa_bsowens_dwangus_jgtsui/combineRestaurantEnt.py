@@ -49,8 +49,8 @@ class combineRestaurantEnt(dml.Algorithm):
         repo.dropPermanent(key)
         repo.createPermanent(key)
 
-        print("Now copying  and transforming {} entries from food_licenses to create new dataset {}.\n".format(myrepo['food_licenses'].count(), combineRestaurantEnt.setExtension))
-
+        print("Now copying and transforming {} entries from food_licenses to create new dataset {}.".format(myrepo['food_licenses'].count(), combineRestaurantEnt.setExtension))
+        print("Num entries in entertainment table: {}".format(myrepo['entertainment_licenses'].count()))
         myrepo[key].insert_many(myrepo['entertainment_licenses'].find())
 
         newSet = myrepo[key]
@@ -142,7 +142,8 @@ class combineRestaurantEnt(dml.Algorithm):
                             if similarityPercent < float(1/3):
                                 newSet.remove({'_id': doc['_id']})
 
-
+        print("Entertainment Licenses before: {} entries".format(myrepo['entertainment_licenses'].count()))
+        print("Entertainment Licenses w/o restaurants after (in data-set entertainment_licenses_no_restaurants): {} entries".format(newSet.count()))
         endTime = datetime.datetime.now()
         print("Creating {} took {} seconds.".format(key, time.time() - start))
         repo.logout()
@@ -187,9 +188,13 @@ class combineRestaurantEnt(dml.Algorithm):
         return doc
 
 
-combineRestaurantEnt.execute()
-doc = combineRestaurantEnt.provenance()
+#combineRestaurantEnt.execute()
+#doc = combineRestaurantEnt.provenance()
 # print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
+def main():
+    print("Executing: combineRestaurantEnt.py")
+    combineRestaurantEnt.execute()
+    doc = combineRestaurantEnt.provenance()

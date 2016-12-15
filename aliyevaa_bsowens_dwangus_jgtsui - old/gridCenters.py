@@ -31,7 +31,7 @@ class gridCenters(dml.Algorithm):
         dataSetDict[setExtensions[i]] = (writes[i], titles[i])
 
     @staticmethod
-    def execute(inputResolution = 1000, trial = False):
+    def execute(trial = False):
         startTime = datetime.datetime.now()
         print("Starting execution of script @{}".format(startTime))
         start = time.time()
@@ -87,7 +87,7 @@ class gridCenters(dml.Algorithm):
                 gpsDifference_1000Feet = 0.0028
                 return (numFeet/1000.0)*0.0028
             
-            squareHeight = resolution(inputResolution)
+            squareHeight = resolution(1000)
             sHalf = squareHeight/2.0
             xStart = -71.20 + sHalf
             xEnd = -70.95 - sHalf
@@ -153,14 +153,8 @@ class gridCenters(dml.Algorithm):
 
         return doc
 
-#gridCenters.execute()
-#doc = gridCenters.provenance()
-#print(json.dumps(json.loads(doc.serialize()), indent=4))
-
-def main(inputCellWidthResolution=1000):
-    print("Executing: gridCenters.py")
-    gridCenters.execute(inputResolution = inputCellWidthResolution)
-    doc = gridCenters.provenance()
-    #print(json.dumps(json.loads(doc.serialize()), indent=4))
+gridCenters.execute()
+doc = gridCenters.provenance()
+print(json.dumps(json.loads(doc.serialize()), indent=4))
 
 ## eof
