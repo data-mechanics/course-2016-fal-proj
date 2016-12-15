@@ -152,3 +152,31 @@ The transformations/algorithms used to create the five new data sets occurred in
 
 	* We looked at the crime data and the output from Boston Grid Cell GPS Centers(1000-FT Cells). From here, we keep a running count of how many crimes occured within each 1000x1000ft cell, as determined by finding the geographically closest cell's GPS center for this current crime's reported location.
 
+
+##Methodology
+
+The public fishing locations, community supported agriculture pickups, and library locations were grouped and taken to be "community indicators”.
+
+The entertainment, active food establishment license, and parking lot locations were taken to be "anti-community indicators" — with the rationale that entertainment is a form of escapism from where one currently is (with large parking lots/garages designated as private, doing no public good), and that food establishments similarly exist to give people a break from eating around their community (and often being tourist spots as well).
+
+
+Analysis Techniques
+
+Fig. 1: Crime Heat Map — We looked at the crime data and the output from Boston Grid Cell GPS Centers(1000-FT Cells). The former data was computed by us, and it splits up Boston into 1000x1000-ft. cells and finds the center of that point (which is stored as a latitude and longitude). For each GPS center, we calculated the distance between itself and all the crime location points using the distance formula. Next, we multiplied each respective calculated distance by the community score (from 'Community Indicators Location and Score') to obtain the overall impact on the cell's GPS center. Then, we took the inverse of the entire sum and took that to be that specific cell's “Crime Score”.
+
+Fig. 2: Community Heat Map — We take 1000x1000-ft cells in a grid of cells across Boston, and compute the indicator of how "strong" or "weak" community at that location is. The higher community areas have a redder coloring. 
+
+
+
+[IMG]http://i67.tinypic.com/19roth.png[/IMG]
+
+[IMG]http://i68.tinypic.com/2d6w36o.png[/IMG]
+
+
+##Observations
+
+Given the correlations, we found that there was a negative correlation between the community score and both crime and property values, respectively. Property values’ correlation coefficient with community (as we defined it) appeared to be more negative than community’s correlation coefficient with crime, which means that property value is more negatively correlated with community. 
+
+To extend on this, we may choose to extend on the idea of these correlations with community further. This would be interesting because the correlation coefficient may be a result, or even a victim of the ways that we obtained certain data sets. More specifically, the way that we created the community dataset may have introduced significant bias that we would have to overcome. To remedy this, we may find a point of comparison by calculating the p-value and considering every permutation of the data.
+
+
