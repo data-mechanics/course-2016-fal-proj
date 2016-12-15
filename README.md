@@ -1,5 +1,3 @@
-# This is not the final report. The final report is the Report.pdf file in this directory.
-
 # course-2016-fal-proj
 Project repository for the course project in the Fall 2016 iteration of the Data Mechanics course at Boston University.
 
