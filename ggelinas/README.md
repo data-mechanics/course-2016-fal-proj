@@ -1,13 +1,37 @@
 #Boston Crime Rates in Relation to Hospitals, Police Districts and Property
 
 ##Introduction
-In this project, using data from the city of Boston we seek to understand
-crime rates in relation to hospitals, police districts, and property. We
-wanted to determine:
+In this project, using data from the city of Boston we seek to understand crime rates in relation to hospitals, police 
+districts, and property. We wanted to determine:
 <ol>
     <li>If crime were more likely in areas of lower property values
-    <li>Are hospitals optimally located around crime areas
+    <li>If hospitals are optimally located around crime areas
 </ol>
+
+The data sets being used for analysis are acquired publicly from the city of Boston data portal. Furthermore, the techniques
+being used within this project are correlation coefficient and k-means clustering. With these techniques, we hope
+to yield desirable results.
+
+##Data Sets
+
+###Boston Police Stations
+This database contains information about the 12 police districts within the city of Boston. The data set contains the name
+of each police district with their respective district number. Furthermore, it provides addresses, geographical coordinate,
+and zip codes.
+
+###Boston Hospitals
+This data set contains information about hospitals within the city of Boston. It contains hospital names, geographical coordinates,
+addresses, and zip codes. 
+
+###Boston Crime Reports
+This data set is from the city of Boston police department that contains incident reports from August 2015 to today's date.
+For every entry in this data set it contains an inident number, offense code, offense description, district, date, street
+address and geographical coordinates. The dat set that was collected for this analysis were from August 2015 until 18 November 2016.
+
+###Boston Property Assessments
+This data set contains tax assessment of property for the year of 2016. Each entry in this data set contains an address, zip
+code, owner, mailing address, average land value, average building value, average total value, gross tax and other descriptors
+for the property. 
 
 
 
