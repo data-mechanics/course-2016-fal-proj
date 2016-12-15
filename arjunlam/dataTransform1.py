@@ -211,38 +211,32 @@ class convertToGeo(dml.Algorithm):
         
         pothole_entity = doc.entity('bdp:wivc-syw7', {'prov:label':'Closed Pothole Cases', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         
-        get_crime = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        get_closed311 = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        get_develop = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        get_hotline = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        get_potholes = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_convertToGeo = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+
         
-        doc.wasAssociatedWith(get_crime, this_script)
-        doc.wasAssociatedWith(get_closed311, this_script)
-        doc.wasAssociatedWith(get_develop, this_script)
-        doc.wasAssociatedWith(get_hotline, this_script)
-        doc.wasAssociatedWith(get_potholes, this_script)
+        doc.wasAssociatedWith(get_convertToGeo, this_script)
+
         
-        doc.usage(get_crime, crime_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
-        doc.usage(get_closed311, closed311_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
-        doc.usage(get_develop, develop_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
-        doc.usage(get_hotline, hotline_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
-        doc.usage(get_potholes, pothole_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(get_convertToGeo, crime_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(get_convertToGeo, closed311_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(get_convertToGeo, develop_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(get_convertToGeo, hotline_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(get_convertToGeo, pothole_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
         
         crime = doc.entity('dat:arjunlam#crime', {prov.model.PROV_LABEL:'Crime Incident Report', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(crime, this_script)
-        doc.wasGeneratedBy(crime, get_crime, endTime)
-        doc.wasDerivedFrom(crime, crime_entity, get_crime, get_crime, get_crime)
+        doc.wasGeneratedBy(crime, get_convertToGeo, endTime)
+        doc.wasDerivedFrom(crime, crime_entity, get_convertToGeo, get_convertToGeo, get_convertToGeo)
 
         closed311 = doc.entity('dat:arjunlam#closed311', {prov.model.PROV_LABEL:'Closed 311', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(closed311, this_script)
-        doc.wasGeneratedBy(closed311, get_closed311, endTime)
-        doc.wasDerivedFrom(closed311, closed311_entity, get_closed311, get_closed311, get_closed311)
+        doc.wasGeneratedBy(closed311, get_convertToGeo, endTime)
+        doc.wasDerivedFrom(closed311, closed311_entity, get_convertToGeo, get_convertToGeo, get_convertToGeo)
         
         develop = doc.entity('dat:arjunlam#develop', {prov.model.PROV_LABEL:'DND Developed Property', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(develop, this_script)
-        doc.wasGeneratedBy(develop, get_develop, endTime)
-        doc.wasDerivedFrom(develop, develop_entity, get_develop, get_develop, get_develop)
+        doc.wasGeneratedBy(develop, get_convertToGeo, endTime)
+        doc.wasDerivedFrom(develop, develop_entity, get_convertToGeo, get_convertToGeo, get_convertToGeo)
         
         hotline = doc.entity('dat:arjunlam#hotline', {prov.model.PROV_LABEL:'Mayor 24hr Hotline', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(hotline, this_script)
@@ -251,8 +245,8 @@ class convertToGeo(dml.Algorithm):
         
         potholes = doc.entity('dat:arjunlam#potholes', {prov.model.PROV_LABEL:'Closed Pothole Cases', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(potholes, this_script)
-        doc.wasGeneratedBy(potholes, get_potholes, endTime)
-        doc.wasDerivedFrom(potholes, pothole_entity, get_potholes, get_potholes, get_potholes)
+        doc.wasGeneratedBy(potholes, get_convertToGeo, endTime)
+        doc.wasDerivedFrom(potholes, pothole_entity, get_convertToGeo, get_convertToGeo, get_convertToGeo)
 
         
 
