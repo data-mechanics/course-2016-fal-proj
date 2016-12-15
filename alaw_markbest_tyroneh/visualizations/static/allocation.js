@@ -50,14 +50,8 @@ function increaseAllocation(routes){
 }
 
 
-function x(routes,key) {
-	return routes.key.optimal
-}
+function x(routes,key) { return routes.key.optimal; }
+function y(routes,key) { return routes.key.scores[routes.key.optimal - 1];}
+function radius(routes,key) { return routes.key.numStops; }
 
-function y(routes,key) {
-	return routes.key.scores[routes.key.optimal - 1]
-}
 
-function radius(routes,key) { 
-	return routes.key.numStops; 
-}
