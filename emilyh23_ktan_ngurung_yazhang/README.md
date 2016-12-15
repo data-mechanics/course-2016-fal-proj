@@ -85,7 +85,7 @@ $ python statCorrelation.py
 
 ```
 
-![statsCorr](https://github.com/ktango/course-2016-fal-proj/blob/master/ktan_ngurung_yazhang_emilyh23/statCorrelation.png)
+![statsCorr](https://github.com/ktango/course-2016-fal-proj/blob/master/emilyh23_ktan_ngurung_yazhang/statCorrelation.png)
 
 Results: There does not seem to be any strong positive or negative correlations among any of two landmark ratings. 
 
@@ -118,7 +118,7 @@ $ python optimize.py
 
 To better visualize, we created a web service that allows users to test out our optimization algorithm:
 
-![webService](https://github.com/ktango/course-2016-fal-proj/blob/master/ktan_ngurung_yazhang_emilyh23/webservice.png)
+![webService](https://github.com/ktango/course-2016-fal-proj/blob/master/emilyh23_ktan_ngurung_yazhang/webservice.png)
 
 The web service incorporates Leaflet, an open-source JavaScript library that displays an interactive map. Our map illustrates the zip codes by area, colored by gradients. A darker color represents a higher rating and lighter color represents a lower rating. After users input their queries for the optimal zip code(s), the map will zoom in/out to frame new pin(s) that are dropped on the optimal zip code location area(s). 
 
@@ -128,10 +128,10 @@ On the top right corner of our map, there is a toggle that allows users to selec
 
 For our interactive visualization, we chose to do a zoomable tree map. It is implemented in D3.js, allowing for users to view the full dataset of overall rating scores in a compact way (by zooming in and out). 
 
-![treeMap1](https://github.com/ktango/course-2016-fal-proj/blob/master/ktan_ngurung_yazhang_emilyh23/treemap_ratings.jpg)
+![treeMap1](https://github.com/ktango/course-2016-fal-proj/blob/master/emilyh23_ktan_ngurung_yazhang/treemap_ratings.jpg)
 
 The sizes of these rating sections are determined by number of zip codes that possess that numeric rating. Clicking on a rating section will result in a zoom that shows the next level in the hierarchy. 
 
-![treeMap2](https://github.com/ktango/course-2016-fal-proj/blob/master/ktan_ngurung_yazhang_emilyh23/treemap_zoomed.jpg)
+![treeMap2](https://github.com/ktango/course-2016-fal-proj/blob/master/emilyh23_ktan_ngurung_yazhang/treemap_zoomed.jpg)
 
 The sizes of each zip code section are determined by zip code area size and the gradient color of each section is determined by population density. In this view, we display the median household income for each zip code to provide a better idea for their target audience. 
