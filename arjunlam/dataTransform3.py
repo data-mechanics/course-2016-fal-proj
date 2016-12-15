@@ -87,21 +87,18 @@ class crimePotholes(dml.Algorithm):
         
         pothole_entity = doc.entity('bdp:wivc-syw7', {'prov:label':'Closed Pothole Cases', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         
-        get_crime = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        get_potholes = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        get_crimePotholes = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         
-        doc.wasAssociatedWith(get_crime, this_script)
-        doc.wasAssociatedWith(get_potholes, this_script)
+        doc.wasAssociatedWith(get_crimePotholes, this_script)
         
-        doc.usage(get_crime, crime_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
-        doc.usage(get_potholes, pothole_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(get_crimePotholes, crime_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(get_crimePotholes, pothole_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
         
         crimePotholes = doc.entity('dat:arjunlam#crime', {prov.model.PROV_LABEL:'Crime And Potholes', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(crimePotholes, this_script)
-        doc.wasGeneratedBy(get_crime, get_crime, endTime)
-        doc.wasGeneratedBy(get_potholes, get_potholes, endTime)
-        doc.wasDerivedFrom(get_crime, crime_entity, get_crime, get_crime, get_crime)
-        doc.wasDerivedFrom(get_potholes, pothole_entity, get_potholes, get_potholes, get_potholes)
+        doc.wasGeneratedBy(crimePotholes, get_crimePotholes, endTime)
+        doc.wasDerivedFrom(crimePotholes, crime_entity, get_crimePotholes, get_crimePotholes, get_crimePotholes)
+        doc.wasDerivedFrom(crimePotholes, pothole_entity, get_crimePotholes, get_crimePotholes, get_crimePotholes)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
