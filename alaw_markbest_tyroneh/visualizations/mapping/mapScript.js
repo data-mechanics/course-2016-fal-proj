@@ -4,9 +4,23 @@ var map = new L.Map("map", {center: [42.35, -71.1], zoom: 11.5})
 var svg = d3.select(map.getPanes().overlayPane).append("svg"),
     g = svg.append("g").attr("class", "leaflet-zoom-hide"); 
 
-d3.json("/routesGeoJSONs.json", function(error, collection) {
+d3.json("routesGeoJSONs.json", function(error, routes) {
   if (error) return error;
+  function projectPoint(x, y) {
+    var point = map.latLngToLayerPoint(new L.LatLng(x, y));
+    this.stream.point(point.x, point.y);
+  }
 
+  var transform = d3.geoTransform({point: projectPoint}),
+      path = d3.geoPath().projection(transform);
+
+  var route = g.selectAll("path")
+                 .data([routes["39300"]])
+                 .enter().append("path");
+  route.attr("d", path(routes["39300"].geometry));
+});
+
+/*
   var transform = d3.geoTransform({point: projectPoint}),
       path = d3.geoPath().projection(transform);
 
@@ -38,4 +52,4 @@ d3.json("/routesGeoJSONs.json", function(error, collection) {
     var point = map.latLngToLayerPoint(new L.LatLng(y, x));
     this.stream.point(point.x, point.y);
   }
-});
+});*/
