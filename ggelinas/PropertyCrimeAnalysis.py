@@ -91,7 +91,7 @@ class PropertyCrimeAnalysis(dml.Algorithm):
 
         print("P-value: " + str(PropertyCrimeAnalysis.p(NumCrimes, PropValue)))
         print(len(NumCrimes))
-        print(PropValue)
+        print(len(PropValue))
         ############################
         districts = ['A1', 'D4', 'E13', 'B3', 'E18', 'D14', 'A7', 'C6', 'B2', 'E5', 'C11']
         scat = plt.scatter(NumCrimes, PropValue, alpha=0.5)
@@ -103,8 +103,9 @@ class PropertyCrimeAnalysis(dml.Algorithm):
         plt.title("Crime Rates and Average Property Value within Police Districts")
         plt.ylim(0, 12000000)
         plt.xlim(0, 180)
-
+        plt.savefig('crime_prop_corr.png')
         plt.show()
+
 
         ####################################
         repo.logout()

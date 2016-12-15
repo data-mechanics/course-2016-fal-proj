@@ -25,18 +25,13 @@ addresses, and zip codes.
 
 ###Boston Crime Reports
 This data set is from the city of Boston police department that contains incident reports from August 2015 to today's date.
-For every entry in this data set it contains an inident number, offense code, offense description, district, date, street
+For every entry in this data set it contains an incident number, offense code, offense description, district, date, street
 address and geographical coordinates. The dat set that was collected for this analysis were from August 2015 until 18 November 2016.
 
 ###Boston Property Assessments
 This data set contains tax assessment of property for the year of 2016. Each entry in this data set contains an address, zip
 code, owner, mailing address, average land value, average building value, average total value, gross tax and other descriptors
 for the property. 
-
-
-
-# course-2016-fal-proj-2 (ggelinas)
-Project repository for the course project in the Fall 2016 iteration of the Data Mechanics course at Boston University.
 
 ##Data Sets
 
@@ -46,7 +41,6 @@ Project repository for the course project in the Fall 2016 iteration of the Data
 'Boston Hospital Locations': https://data.cityofboston.gov/resource/u6fv-m8v4.json
 
 ##Description
-
 Using the data sets above, I wanted to observe if there was a correlation between number of crimes within a police 
 district and the average property value within that district. My hypothesis is that there should be a negative correlation 
 with property value increasing and number of crimes decreasing. I will be using the Boston Police Stations, Boston Crime 
@@ -58,20 +52,36 @@ There is no auth.json file since I did not use any keys to access any of the dat
 
 1. getData.py obtains all of the data sets and stores them as collections within MongoDB.
 
-2. Within DistrictNumCrimes.py I take Boston Crime Reports and Boston Police Stations data sets and take the total 
-number of crimes for each district from the Boston Crime Reports and add a new column within the Boston Police Stations
+2. DistrictNumCrimes.py takes in Boston Crime Reports and Boston Police Stations data sets and it computes the total 
+number of crimes for each district from the Boston Crime Reports and adds a new column within the Boston Police Stations
  data set called num_crimes that corresponds to its specific district.
 
 3. PropertyMean.py takes the Boston Property Assessment and Boston Police Stations data sets and transforms them to obtain
-the average property value within a 1 mile range from each police district. I used a package called pyszipcode that must
+the average property value within a 1 mile range from each police district. I used a package called pyzipcode that must
 be installed in order to run this file. pyzipcode provides a database of zipcodes and functions that provide nearby
 zip codes within a range of a specific zipcode you are focused on. Although the full installation of pyzipcode might not
 fully install it should be able to still install pyzipcode without sqlite3.
 
-##Property Crime Analysis
+##Correlation of Property Value and Crime
+In order to determine a relationship between property value and crime rates, a method that could be used is correlation.
+Correlation coefficient is a measure that determines the degree to which two variables movements are associated/related.
+The range of values for the correlation coefficient are between -1 and 1. From computing the coefficient value it can yield
+a positive, negative or no correlation relationship. A positive correlation is when one variable increases along with the other
+variable or one variable decreases along with the other variable. For a negative correlation indicates that when one variable
+increases the other variable decreases. As for no correlation, there is no relationship between those two variables. 
+
+Before performing the analysis, we predicted that there would be a negative correlation. As property value increases then crime rates would decrease.
+We assumed that property value increases in regards to safety leading to less crimes within that area. In addition, we assumed that low income areas may
+have more crimes as a means to afford living. We decided to group property values and crimes within the police districts. These groupings will help provide
+samples from different areas around boston in order to calculate correlation. Property values however do not have an attribute for police districts.
+In order to account for this we decided to use a python package called pyzipcode which would take the zip codes from each entry in the property data set and it will
+find the nearest police district within its one mile radius range. Once found the property value will be added to the closest police district. After iterating through
+the property data set, we computed the average for all property value in each district. 
+
 
 Before the analysis, I predicted that there would be a negative correlation coefficient as number of crimes going down
-and property value increasing within police districts. Based on the calculations it yielded these results.
+and property value increasing within police districts. We assumed that more safety within an area would result in an increase
+in value based on protection provided. A method that can be used to find such a relation  Based on the calculations it yielded these results.
 
 Correlation Coefficient: -0.6809827474468138
 P-value: 1.0
