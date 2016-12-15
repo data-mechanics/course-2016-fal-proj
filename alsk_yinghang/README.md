@@ -96,9 +96,9 @@ First, you need to install the dependencies
 ```shell
 npm install
 ```
-Then, edit line 4 in web_app/models/models.js to the appropriate db uri
+Then, edit line 4 in web_app/models/models.js to the appropriate mongo database uri
 
-```shell
+```javascript
 var connect = 'mongodb://admin:example@localhost:27017/repo';
 ```
 
@@ -107,4 +107,19 @@ Lastly, start the server and visit http://localhost:3000
 ```shell
 npm start
 ```
+
+### Limitations & potential issues
+
+- Visualization #2 is done in a way where the browser is actually making API calls using jQuery/AJAX to the backend to obtain the data points and then plotting them out. However, due to the huge size of the datasets (150k+ items), it usually takes the browser a while to handle the data and sometimes it might even freezes. Because of that, we're currently only requesting 80k+ datapoints and that can be changed at your own discretion in the **web_app/views/index.jade** file, line 59 & 75
+
+  ```shell
+  url: 'http://localhost:3000/crimes/40000'
+  ```
+
+### Web Stack
+
+- Front-end: jQuery + D3 + Leaflet + MapBox
+- Back-end: Node.js + Express
+- Visualization #1 - D3.js + data file
+- Visualization #2 - Making REST-ful calls to backend and plotting it out
 
