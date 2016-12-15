@@ -1,0 +1,75 @@
+<!doctype html>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <title>Trends in Boston</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <div class=page style="margin-left:10px;">
+    <h1>Trends in Boston</h1>
+    <div class="dropdown">
+      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> 
+        {{ session.beingshown }}
+      <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li><a href="{{ url_for('earnings') }}">Earnings</a></li>
+        <li><a href="{{ url_for('crimes') }}">Crime Reports</a></li>
+        <li><a href="{{ url_for('buildings') }}">Building Permits</a></li>
+        <li><a href="{{ url_for('allinfo') }}">All</a></li>
+      </ul>
+    </div>
+    {% block body %}
+      {% if session.beingshown=="all" %}
+        <ul class=entries>
+        <li> 
+          <h2>Employee Earnings Reports</h2>
+          <p>Linear Regression for Means</p>
+          <img src="/static/earnings.png" >
+          <p>P-Value for 2012-2013: 0.807</p>
+          <p>P-Value for 2013-2014: 0.0</p>
+          <p>P-Value for 2014-2015: 0.0345</p>
+        </li>
+        <li>
+          <h2>Crime Reports</h2>
+          <p>Linear Regression for Means</p>
+          <img src="/static/crimes.png" >
+          <p>P-Value for 2012-2013: 0.928</p>
+          <p>P-Value for 2013-2014: 1.0</p>
+          <p>P-Value for 2014-2015: 0.4905</p> </li>
+        <li> 
+          <h2>Approved Building Permits</h2>
+          <p>Linear Regression for Means</p>
+          <img src="/static/buildings.png" >
+          <p>P-Value for 2012-2013: 0.725</p>
+          <p>P-Value for 2013-2014: 0.0</p>
+          <p>P-Value for 2014-2015: 0.5345</p></li>
+        </ul>
+      {% else %}
+        <ul class=entries>
+          {% for entry in entries %}
+            {% if session.beingshown == "earnings" %}
+              <h2>Employee Earnings Reports</h2>
+              <p>Linear Regression for Means</p>
+              <img src="/static/earnings.png" >
+              <p>P-Value for 2012-2013: 0.807</p>
+              <p>P-Value for 2013-2014: 0.0</p>
+              <p>P-Value for 2014-2015: 0.0345</p>
+            {% elif session.beingshown == "crimes" %}
+              <h2>Crime Reports</h2>
+              <p>Linear Regression for Means</p>
+              <img src="/static/crimes.png" >
+               <p>P-Value for 2012-2013: 0.928</p>
+              <p>P-Value for 2013-2014: 1.0</p>
+              <p>P-Value for 2014-2015: 0.4905</p>
+            {% elif session.beingshown == "buildings" %}
+              <h2>Approved Building Permits</h2>
+              <p>Linear Regression for Means</p>
+              <img src="/static/buildings.png" >
+               <p>P-Value for 2012-2013: 0.725</p>
+              <p>P-Value for 2013-2014: 0.0</p>
+              <p>P-Value for 2014-2015: 0.5345</p>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endblock %}
+  </div>
+</html>

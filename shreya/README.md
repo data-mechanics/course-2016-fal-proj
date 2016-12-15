@@ -55,4 +55,9 @@ Earnings K-Means Regression
 The p-score and correlation calculations will provide more detailed information on the relationship between the trends and indicate whether or not this shows an overall progression in certain directions.  
 
 In trial mode, the script only runs on 3 of the means for each of the datasets. This runs almost instantly but probably isn't as accurate since now the closest data point in the next year may not even be in the data set being evaluated. Also, in trial mode linear regression is not graphed.
-			
+
+#Project 3
+The visualizations for this project are the graphs of linear regression generated from Project 2. Future work would include plotting the points on a map for better understanding. The web service allows you to select which dataset's analysis to view. To run the Flask application:
+`cd flaskr`
+`export FLASK_APP=flaskr.py`
+`flask run`
