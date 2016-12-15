@@ -12,7 +12,7 @@ from bson.code import Code
 class regression(dml.Algorithm):
     contributor = 'anuragp1_jl101995'
     reads = ['anuragp_jl101995.subway_pedestriancount', 'anuragp']
-    writes = ['anuragp1_jl101995.regression_data']
+    writes = []
 
     @staticmethod
     def execute(Trial=False):
@@ -45,7 +45,7 @@ class regression(dml.Algorithm):
         		return eval(coll_name)
 
 
-        #         # Collection combining desired turnstile and station data
+        # # Collection combining desired turnstile and station data
         # repo.dropPermanent('turnstile_station')
         # repo.createPermanent('turnstile_station')
 
@@ -235,16 +235,6 @@ class regression(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         
         this_script = doc.agent('alg:anuragp1_jl101995#corr_weather', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-
-        regression_resource = doc.entity('dat:anuragp1_jl101995#regression', {'prov:label':'Regression', prov.model.PROV_TYPE:'ont:DataSet'})
-        get_regression = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime,{prov.model.PROV_TYPE:'ont:Computation'})
-        doc.wasAssociatedWith(get_regression, this_script)
-        doc.used(get_regression, regression_resource, startTime)
-
-        regression = doc.entity('dat:anurgp1_jl101995#regression',{prov.model.PROV_LABEL:'Regression', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(regression, this_script)
-        doc.wasGeneratedBy(regression, this_script, endTime)
-        doc.wasDerivedFrom(regression, regression, get_regression, get_regression, get_regression)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()

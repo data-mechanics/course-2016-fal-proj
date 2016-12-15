@@ -161,21 +161,21 @@ class retrieve_data(dml.Algorithm):
         weather_resource = doc.entity('mch:weather', {'prov:label':'NYC Weather Data', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'csv'})
         turnstile_resource = doc.entity('mta:turnstile', {'prov:label':'Turnstile Data', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'txt'})
         citibike_resource = doc.entity('cbd:tripdata', {'prov:label':'CitiBike Trip Data', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'csv'})
-        # geoturnstile_resource
+        geoturnstile_resource = doc.entity('mch:geoturnstile', {'prov:label':'Geocoded Turnstile Data', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'csv'})
 
         get_stations = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_pedestrian = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_weather = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_turnstile = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         get_citibike = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        # get_geoturnstile_resource
+        get_geoturnstile = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
    
         doc.wasAssociatedWith(get_stations, this_script)
         doc.wasAssociatedWith(get_pedestrian, this_script)
         doc.wasAssociatedWith(get_weather, this_script)
         doc.wasAssociatedWith(get_turnstile, this_script)
         doc.wasAssociatedWith(get_citibike, this_script)
-        # associated geoturnstile
+        doc.wasAssociatedWith(get_geoturnstile, this_script)
 
         doc.usage(get_stations, stations_resource, startTime, None,
                   {prov.model.PROV_TYPE:'ont:Retrieval'} )
@@ -187,7 +187,8 @@ class retrieve_data(dml.Algorithm):
                   {prov.model.PROV_TYPE:'ont:Retrieval'} )
         doc.usage(get_citibike, citibike_resource, startTime, None,
                   {prov.model.PROV_TYPE:'ont:Retrieval'} )
-        # geoturnstile
+        doc.usage(get_geoturnstile, geoturnstile_resource, startTime, None,
+                  {prov.model.PROV_TYPE:'ont:Retrieval'} )
     
         stations = doc.entity('dat:anuragp1_jl101995#subway_stations', {prov.model.PROV_LABEL:'NYC Subway Stations', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(stations, this_script)
@@ -214,10 +215,10 @@ class retrieve_data(dml.Algorithm):
         doc.wasGeneratedBy(citibike, get_citibike, endTime)
         doc.wasDerivedFrom(citibike, citibike_resource, get_citibike, get_citibike, get_citibike)
         
-        # geoturnstile
-        # geoturnstile
-        # geoturnstile
-        # geoturnstile
+        geoturnstile = doc.entity('dat:anuragp1_jl101995#geocoded_turnstile', {prov.model.PROV_LABEL:'Geocoded Turnstile Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(geoturnstile, this_script)
+        doc.wasGeneratedBy(geoturnstile, get_geoturnstile, endTime)
+        doc.wasDerivedFrom(geoturnstile, geoturnstile_resource, get_geoturnstile, get_geoturnstile, get_geoturnstile)
         
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()

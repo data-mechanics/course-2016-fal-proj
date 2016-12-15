@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 class corr_weather(dml.Algorithm):
     contributor = 'anuragp1_jl101995'
     reads = ['anuragp1_jl101995.turnstile_weather', 'anuragp1_jl101995.citibike_weather']
-    writes = ['anuragp1_jl101995.weather_correlations']
+    writes = []
 
     @staticmethod
     def execute(Trial=False):
@@ -78,10 +78,6 @@ class corr_weather(dml.Algorithm):
         print('Correlation between precipitation and citibike usage is ' + str(precip_citi_result[0]) + ' with a p-value of ' + str(precip_citi_result[1]))
         print('Correlation between temperature and citibike usage is ' + str(temp_citi_result[0]) + ' with a p-value of ' + str(temp_citi_result[1]))
 
-        repo.dropPermanent('weather_correlations')
-        # repo.createPermanent('weather_correlations')
-
-
     @staticmethod
     def provenance(doc=prov.model.ProvDocument(), startTime=None, endTime=None):
         '''
@@ -100,16 +96,6 @@ class corr_weather(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
  
         this_script = doc.agent('alg:anuragp1_jl101995#corr_weather', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-
-        weather_correlation_resource = doc.entity('dat:anuragp1_jl101995#corr_weather', {'prov:label':'Werather Correlation', prov.model.PROV_TYPE:'ont:DataSet'})
-        get_corr = doc.activity('log:a'+str(uuid.uuid4()), startTime, endTime,{prov.model.PROV_TYPE:'ont:Computation'})
-        doc.wasAssociatedWith(get_corr, this_script)
-        doc.used(get_corr, weather_correlation_resource, startTime)
- 
-        weather_corr = doc.entity('dat:anurgp1_jl101995#corr_weather',{prov.model.PROV_LABEL:'Weather Correlation', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(weather_corr, this_script)
-        doc.wasGeneratedBy(weather_corr, this_script, endTime)
-        doc.wasDerivedFrom(weather_corr, weather_corr, get_corr, get_corr, get_corr)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()

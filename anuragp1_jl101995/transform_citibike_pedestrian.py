@@ -10,9 +10,8 @@ from bson.code import Code
 
 '''
 Matches subway_station names to their regions pedestrian counts 
-    -> Need to match this to the turnstile counts to see subway usage vs pedestrian counts 
-
-Matches citibike usage to the regions pedestrian counts 
+-> Need to match this to the turnstile counts to see subway usage vs pedestrian counts 
+Matches citibike usage to the region's pedestrian counts 
 '''
 class transform_citibike_pedestrian(dml.Algorithm):
     contributor = 'anuragp1_jl101995'

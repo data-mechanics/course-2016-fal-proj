@@ -5,7 +5,6 @@ import prov.model
 import datetime
 import uuid
 
-
 class transform_citibike_loc(dml.Algorithm):
     contributor = 'anuragp1_jl101995'
     reads = ['anuragp1_jl101995.citibike', 'anuragp1_jl101995.pedestriancounts']
