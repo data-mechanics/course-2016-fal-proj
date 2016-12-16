@@ -33,13 +33,6 @@ This data set contains tax assessment of property for the year of 2016. Each ent
 code, owner, mailing address, average land value, average building value, average total value, gross tax and other descriptors
 for the property. 
 
-##Data Sets
-
-'Boston Police Stations': https://data.cityofboston.gov/resource/pyxn-r3i2.json
-'Boston Crime Reports': https://data.cityofboston.gov/resource/29yf-ye7n.json
-'Boston Property Assessments': https://data.cityofboston.gov/resource/g5b5-xrwi.json
-'Boston Hospital Locations': https://data.cityofboston.gov/resource/u6fv-m8v4.json
-
 ##Description
 Using the data sets above, I wanted to observe if there was a correlation between number of crimes within a police 
 district and the average property value within that district. My hypothesis is that there should be a negative correlation 
@@ -83,6 +76,10 @@ entry in the property data set and it will find the nearest police district with
 the property value will be added to the closest police district. After iterating through the property data set, we computed 
 the average for all property value in each district. Using the average property value and sum of crimes for each district, we 
 applied the pearson correlation coefficient algorithm and used multiple permutations. 
+
+There were difficulties in being able to map property value in certain districts based on no real boundaries between the districts.
+I compromised and computed the groupings by taking a list of zipcodes within a 1 mile radius of the property and matching that zip
+code with the police districts zip code.
 
 Based on the calculations it yielded these results.
 
@@ -158,13 +155,23 @@ may have moderate relationship in affecting each other. The high p-value suggest
 hypothesis.
 
 In regards to hospital locations, computing the difference between hospitals and crime supported our
-original hypothesis that hospitals are located near crime. 
+original hypothesis that hospitals are located near crime. Show in the map above, hospitals in downtown
+Boston show very acute distances. However, stretching out towards the outskirts of the city limits
+distance does tend to increase between the optimal k-means cluster and the original hospital location.
 
 
 ##Conclusion
-With these results, we can conclude that there is a small coorrelation between crime rates
+With these results, we can conclude that there is a small correlation between crime rates
 and property value. Furthermore we can also see that hospital locations are located near
-areas of crime. 
+areas of crime. Future work would involve adding more crime data into the correlation algorithm.
+We were unable to add in other crime sets into the database. In addition to adding more crime
+data from previous years, the data set currently being used is constantly updating with information.
+It would interesting to see the development of property value and crimes over time. As for hospital
+locations, future analysis could involve performing the correlation equation between hospitals and 
+low income areas. 
+
+##References
+City of Boston Data: https://data.cityofboston.gov/
 
 ##Setup
 Initialize mongodb
