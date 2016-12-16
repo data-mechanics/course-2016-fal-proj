@@ -1,11 +1,16 @@
-Bus Route Optimization
+Algorithmic Optimizations of Boston's Public Bus System
 =======================
 
 Contributors: Adrian Law (alaw), Mark Bestavros (markbest),  Tyrone Hou (tyroneh)
 
+##Introduction and Motivation
+
+Through various personal experiences as well as a plurality of opinion from the media and the general public, we know that Boston's public bus system is in dire need of improvement. Buses are frequently late, trips take a long time, and the system is generally unreliable and inefficient. We want to take steps to change that with this project by applying big-data techniques and algorithms to existing transit data (among other things) and developing approaches to optimize the efficiency and effectiveness of Boston's bus system.
+
 ##Goals for the Project
-Optimize access and coverage to public transportation by changing bus stops along routes  
-Determine a stable bus schedule given information about traffic (Google maps API/NextBus) & determine optimum bus allocation for maximum efficency and performance 
+We have outlined two primary optimizations we wish to pursue with our project:
+* Optimize access and coverage to public transportation by changing bus stops along routes
+* Determine a stable bus schedule given information about traffic (Google maps API/NextBus) & determine optimum bus allocation for maximum efficency and performance 
   
 ##To Run the project
 
