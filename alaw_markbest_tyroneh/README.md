@@ -8,40 +8,17 @@ Contributors: Adrian Law (alaw), Mark Bestavros (markbest),  Tyrone Hou (tyroneh
 Through various personal experiences as well as a plurality of opinion from the media and the general public, we know that Boston's public bus system is in dire need of improvement. Buses are frequently late, trips take a long time, and the system is generally unreliable and inefficient. We want to take steps to change that with this project by applying big-data techniques and algorithms to existing transit data (among other things) and developing approaches to optimize the efficiency and effectiveness of Boston's bus system.
 
 ##Goals for the Project
-We have outlined two primary optimizations we wish to pursue with our project:
-* Optimize access and coverage to public transportation by changing bus stops along routes
-* Determine a stable bus schedule given information about traffic (Google maps API/NextBus) & determine optimum bus allocation for maximum efficency and performance 
-  
-##To Run the project
-
-####Installing Dependencies
-* dml
-* prov
-* xmltodict
-* pyshp
-* pyproj
-* dbfread
-* random
-* rtree (requires libspatialindex; see below)
-    * [libspatialindex] (https://libspatialindex.github.io/)
-\* **MAKE SURE YOU HAVE MONGOD RUNNING FIRST AND AUTH'D** \*
-  
-**main.py**: executes all scripts in order and performs optimizations (-t: trial mode to do Algo R Sampling on datasets, -v: produce graphs for optimizations)  
-**getData.py**: Pulls raw data and stores them inside MongoDB and records prov  
-**transformData.py**: Retrieves raw data and reformats/transforms them for optimization use and records prov  
-**mapData.py (TEMP)**: Simple matplotlib scatter plot of current points in datset for visualization purposes (Please replace with D3)
-  
-data2Geo.js contains the map-reduce functions for transforming the location based datasets to geoJSON format. Functions are called by the execute() in transformData.py.  
-getAvgVels.js contains the map-reduce functions for calculates bus velocities based on nextBus data. Functions are called by the execute() in transformData.py
-  
-Run main.py to execute scripts in order, use flags to customize speed and output of algorithms
+We have outlined two optimizations we wish to pursue with our project.
+* Optimize access to and coverage of public transportation by moving existing stops along routes
+* Determine a stable bus schedule given information about traffic (Google Maps API/NextBus) and determine optimum bus allocation for maximum efficiency and performance on all of Boston's bus routes
   
 ##Data Sources 
   
+We looked at a significant amount of data sets for this project, most of which were used in at least one of the optimizations we ended up doing. 
 For current bus data
 *	Bus Routes and Stations (MassGIS) 
 *	Bus Route Mileage (MassGIS) 
-*	Real time next-bus api (NextBus API scraping) 
+*	Real time next-bus API (NextBus API scraping) 
 	*	Mbta bus location data (for a few weeks)
   
 For modeling 
@@ -76,6 +53,32 @@ For modeling
 > Score for Allocation = \(\(Average Time / Buses\) \* Stops\) \+ \(\(Area of Intersection between N\(0,Deviation\) and N\(Average Time / Buses\)\) \* Buses \)
 
 Total latency is simplified in that inter-stop distance is not calculated, rather latency is the average interarrival time (completion time / k) multiplied by n, where n is the number of stops and k is the number of buses. Inefficiency can be measured by the total area of intersection of k normal distributions multiplied by the number of buses. Output in the collection OptimumAllocation stores the optimal number of buses for each route.
+
+
+
+##To Run the Project
+
+####Installing Dependencies
+* dml
+* prov
+* xmltodict
+* pyshp
+* pyproj
+* dbfread
+* random
+* rtree (requires libspatialindex; see below)
+    * [libspatialindex] (https://libspatialindex.github.io/)
+\* **MAKE SURE YOU HAVE MONGOD RUNNING FIRST AND AUTH'D** \*
+  
+**main.py**: executes all scripts in order and performs optimizations (-t: trial mode to do Algo R Sampling on datasets, -v: produce graphs for optimizations)  
+**getData.py**: Pulls raw data and stores them inside MongoDB and records prov  
+**transformData.py**: Retrieves raw data and reformats/transforms them for optimization use and records prov  
+**mapData.py (TEMP)**: Simple matplotlib scatter plot of current points in datset for visualization purposes (Please replace with D3)
+  
+data2Geo.js contains the map-reduce functions for transforming the location based datasets to geoJSON format. Functions are called by the execute() in transformData.py.  
+getAvgVels.js contains the map-reduce functions for calculates bus velocities based on nextBus data. Functions are called by the execute() in transformData.py
+  
+Run main.py to execute scripts in order, use flags to customize speed and output of algorithms
 
 
   
