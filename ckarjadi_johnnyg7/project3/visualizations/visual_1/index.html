@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+
+<!-- Example based on http://bl.ocks.org/mbostock/3887118 -->
+<!-- Tooltip example from http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html -->
+
+<style>
+body {
+  font: 11px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.dot {
+  stroke: #000;
+}
+
+.tooltip {
+  position: absolute;
+  width: 200px;
+  height: 28px;
+  pointer-events: none;
+}
+div.tooltip { 
+    position: absolute;     
+    text-align: center;     
+    width: 235px;          
+    height: 14px;         
+    padding: 2px;       
+    font: 12px sans-serif;    
+    /*background: lightsteelblue; */
+    border: 0px;    
+    border-radius: 8px;     
+    pointer-events: none;     
+}
+.grid .tick {
+    stroke: lightgrey;
+    opacity: 0.7;
+}
+.grid path {
+      stroke-width: 0;
+}
+.legend rect {
+  fill:white;
+  stroke:black;
+  opacity:0.8;}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+    padding = 30;
+var div = d3.select("body").append("div") 
+    .attr("class", "tooltip")       
+    .style("opacity", 0);
+/* 
+ * value accessor - returns the value to encode for a given data object.
+ * scale - maps value to a visual display encoding, such as a pixel position.
+ * map function - maps from data value to display value
+ * axis - sets up axis
+ */ 
+
+// setup x 
+var xValue = function(d) { return d.zip_code;}, // data -> latitude is 2nd index in coordinates
+    xScale = d3.scale.linear().range([0, width]), // value -> display
+    xMap = function(d) { return xScale(xValue(d));}, // data -> display
+    xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+
+// setup y
+var yValue = function(d) { return d.avg;}, // data -> longitude is 1st index in coordinates
+    yScale = d3.scale.linear().range([height, 0]), // value -> display
+    yMap = function(d) { return yScale(yValue(d));}, // data -> display
+    yAxis = d3.svg.axis().scale(yScale).orient("left");
+
+var y1Value = function(d) { return d.num_hospitals;}, // data -> value
+    y1Scale = d3.scale.linear().range([height, 0]), // value -> display
+    y1Map = function(d) { return y1Scale(y1Value(d));}, // data -> display
+    y1Axis = d3.svg.axis().scale(y1Scale).orient("right");
+
+// setup fill color
+//var cValue = function(d) { return d.Manufacturer;},
+//    color = d3.scale.category10();
+var color = d3.scale.category10();
+//console.log(color);
+// add the graph canvas to the body of the webpage
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// add the tooltip area to the webpage
+var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+function make_x_axis() {        
+    return d3.svg.axis()
+        .scale(xScale)
+         .orient("bottom")
+         .ticks(30)
+}
+
+function make_y_axis() {        
+    return d3.svg.axis()
+        .scale(yScale)
+        .orient("left")
+        .ticks(14)
+}
+
+d3.json("h_Loc_X_avg_p_Vals_OUTPUT.json", function(error,data) {
+  //if (error) alert(error);
+  //console.log(data[25]);
+  data.forEach(function(d) {
+    //d.Latitude = +d.latitude;
+    //d.Longitude = +d.longitude;
+    //console.log(d.zip_code);
+    d.zip_code = +d.zip_code;
+    d.num_hospitals = +d.num_hospitals;
+    d.avg = +d.avg;
+
+    //console.log(d)
+    //console.log(d.location["coordinates"][1]);
+
+  });
+//console.log(data);
+
+  //xScale.domain([d3.min(data, xValue)-10, d3.max(data, xValue)+10]);
+  xScale.domain([d3.min(data, xValue)-10, d3.max(data, xValue)+5]);
+  //xScale.domain([2100,2400]);
+  yScale.domain([d3.min(data, yValue)-350000, d3.max(data, yValue)+350000]);
+  y1Scale.domain([d3.min(data, y1Value)-1, d3.max(data, y1Value)+1]);
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + (height-5) + ")")
+      .call(xAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", -6)
+      .attr("transform", "translate(-250,0)")
+      .style("text-anchor", "end")
+      .text("Zip_Code");
+  svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2)+5)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text("Average Property Values ($) and Number of Hospitals by Zip Code");
+  // y-axis
+  svg.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(25 , 0)")
+      .call(yAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .style("fill", "red")
+      .text("Average_Property_Value");
+  // y1-axis
+  svg.append("g")
+      .attr("class", "y axis")
+      
+      .attr("transform", "translate(" + (width-10) + " , 0)")
+      .call(y1Axis)
+    .append("text")
+      .attr("class", "label")
+
+      //.attr("transform", "rotate(-90)")
+      .attr("transform", "translate(-10,0)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .style("fill", "blue")
+      .text("Number_Hospitals");
+
+  // draw dots
+  svg.selectAll(".red.dot")
+      .data(data)
+    .enter().append("circle")
+      .attr("class", "red dot")
+      .attr("r", 3.5)
+      .attr("cx", xMap)
+      .attr("cy", yMap)
+      .style("fill", "red")
+   //   .attr('fill', function(d,i) {
+       // return color(d.avg);
+     // })
+    .on("mouseover", function(d) {
+      div.transition()
+        .duration(200)
+        .style("opacity",.9);
+      div .html("(" + d.zip_code + "," + d.avg + ")")
+        .style("left", (d3.event.pageX-120) + "px")
+        .style("top",(d3.event.pageY-25) + "px");
+  })
+    .on("mouseout",function(d) {
+      div.transition()
+        .duration(500)
+        .style("opacity",0);
+
+
+    });    
+  // draw dots
+  svg.selectAll(".blue.dot")
+      .data(data)
+    .enter().append("circle")
+      .attr("class", "blue dot")
+      .attr("r", 3.5)
+      .attr("cx", xMap)
+      .attr("cy", y1Map)
+      .style("fill", "blue")
+    .on("mouseover", function(d) {
+      div.transition()
+        .duration(200)
+        .style("opacity",.9);
+      div .html("(" + d.zip_code + "," + d.num_hospitals + ")")
+        .style("left", (d3.event.pageX-110) + "px")
+        .style("top",(d3.event.pageY-20) + "px");
+  })
+    .on("mouseout",function(d) {
+      div.transition()
+        .duration(500)
+        .style("opacity",0);
+
+
+    });    
+  svg.append("g")         
+        .attr("class", "grid")
+        .attr("transform", "translate(0," + height + ")")
+        .call(make_x_axis()
+            .tickSize(-height, 0, 0)
+            .tickFormat("")
+        )
+
+    svg.append("g")         
+        .attr("class", "grid")
+        .call(make_y_axis()
+            .tickSize(-width, 0, 0)
+            .tickFormat("")
+        )  
+
+
+  });    
+</script>

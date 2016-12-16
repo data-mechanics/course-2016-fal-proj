@@ -1,0 +1,155 @@
+<!-- API key: AIzaSyDGwsoFS8JUcrj1KR0YR-n_YyyGCayw4PA -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- <link rel="stylesheet" href="main.css" -->
+	<title>Hospitals in Boston</title><br>
+	Preexisting hospitals
+  	<style>
+  	#container {
+  		display: flex;
+  		justify-content: space-around;
+  	}
+  	.map {
+  		flex: 1;
+  	}
+  	#form {
+  		flex: 1;
+  	}
+  	#john {
+  		margin-left: 10px;
+  	}
+  	#legend {
+  		margin-top: 25px;
+  	}
+  </style>
+
+</head>
+<body>
+	<div id='container'>
+		<div class="map">
+
+		<img src="https://maps.googleapis.com/maps/api/
+		staticmap?center=Boston,MA&size=450x450&maptype=roadmap&zoom=12
+		&markers=color:red%7Clabel:Old%7C42.30025000839615,-71.10737910445549
+		&markers=color:red%7Clabel:Old%7C42.3438499996779,-71.08983000035408
+		&markers=color:red%7Clabel:Old%7C42.31856289432221, -71.09165569529381
+		&markers=color:red%7Clabel:Old%7C42.329611374844326, -71.10616871232227
+		&markers=color:red%7Clabel:Old%7C42.27137912172521, -71.08168028446168 
+		&markers=color:red%7Clabel:Old%7C42.3371094801158, -71.07139912234962
+		&markers=color:red%7Clabel:Old%7C42.329611374844326, -71.10616871232227
+		&markers=color:red%7Clabel:Old%7C42.34665771451756, -71.14136122385321
+		&markers=color:red%7Clabel:Old%7C42.33587602903896, -71.10741054246668
+		&markers=color:red%7Clabel:Old%7C42.27854306401838, -71.06631280050811
+		&markers=color:red%7Clabel:Old%7C42.349946522039204, -71.0634111017112
+		&markers=color:red%7Clabel:Old%7C42.30021828265608, -71.12789683059322
+		&markers=color:red%7Clabel:Old%7C42.349656455743144, -71.14822103232248
+		&markers=color:red%7Clabel:Old%7C42.27598935537618, -71.17245195460838
+		&markers=color:red%7Clabel:Old%7C42.36327718561898, -71.0668523937257
+		&markers=color:red%7Clabel:Old%7C42.337592548462226, -71.10472284437952
+		&markers=color:red%7Clabel:Old%7C42.31617666213941, -71.11272670363542
+		&markers=color:red%7Clabel:Old%7C42.29738386053219, -71.13150465441208
+		&markers=color:red%7Clabel:Old%7C42.314030311294516, -71.06406449543488
+		&key=AIzaSyDGwsoFS8JUcrj1KR0YR-n_YyyGCayw4PA&zoom=10">
+		</div>
+
+		<img src="https://maps.googleapis.com/maps/api/staticmap?center=Boston,MA&size=450x450&maptype=roadmap&zoom=12
+		&markers=color:blue%7Clabel:Old%7C42.3287634470056, -71.07348689925142
+		&markers=color:blue%7Clabel:Old%7C42.32061775683341, -71.1066826058546
+		&markers=color:blue%7Clabel:Old%7C42.33356428417887, -71.10784689451464
+		&key=AIzaSyDGwsoFS8JUcrj1KR0YR-n_YyyGCayw4PA&zoom=10">
+		<br>3 Newly added hospitals
+
+	</div>
+	<div id='container'>
+		<img src="https://maps.googleapis.com/maps/api/staticmap?center=Boston,MA&size=450x450&maptype=roadmap&zoom=12
+		&markers=color:blue%7Clabel:Old%7C42.330803557542275, -71.06985314004295
+		&markers=color:blue%7Clabel:Old%7C42.32800573434317, -71.10671315021943
+		&markers=color:blue%7Clabel:Old%7C42.32352015813767, -71.13986284336728
+		&markers=color:blue%7Clabel:Old%7C42.341328049983005, -71.09749919127363
+		&markers=color:blue%7Clabel:Old%7C42.31418733878678, -71.10204866001222
+		&markers=color:blue%7Clabel:Old%7C42.32804572248447, -71.10883145496781
+		&markers=color:blue%7Clabel:Old%7C42.335925371008436, -71.07378404269969
+		&key=AIzaSyDGwsoFS8JUcrj1KR0YR-n_YyyGCayw4PA&zoom=10">
+		<br>7 Newly added hospitals
+
+		<img src="https://maps.googleapis.com/maps/api/staticmap?center=Boston,MA&size=450x450&maptype=roadmap&zoom=12
+		&markers=color:blue%7Clabel:Old%7C42.318679744255974, -71.08938911340255
+		&markers=color:blue%7Clabel:Old%7C42.34917544323291, -71.08832889395957
+		&markers=color:blue%7Clabel:Old%7C42.31617666213941, -71.11272670363542
+		&markers=color:blue%7Clabel:Old%7C42.31418733878678, -71.10204866001222
+		&markers=color:blue%7Clabel:Old%7C42.31132353494687, -71.1569065892308
+		&markers=color:blue%7Clabel:Old%7C42.35075018538926, -71.08991610023897
+		&markers=color:blue%7Clabel:Old%7C42.27854306401838, -71.06631280050811
+		&markers=color:blue%7Clabel:Old%7C42.29738386053219, -71.13150465441208
+		&markers=color:blue%7Clabel:Old%7C42.342790913375794, -71.11100253751108
+		&markers=color:blue%7Clabel:Old%7C42.35574894517964, -71.07773865128027
+		&markers=color:blue%7Clabel:Old%7C42.31890541555916, -71.11630983748637
+		&markers=color:blue%7Clabel:Old%7C42.33348065673311, -71.10666948858768
+		&markers=color:blue%7Clabel:Old%7C42.33198841666686, -71.06373779857304
+		&key=AIzaSyDGwsoFS8JUcrj1KR0YR-n_YyyGCayw4PA&zoom=10">
+		<br>13 Newly added hospitals<br>
+		</div>
+
+		<div id='form'>
+			<div id='john'>
+
+				<!-- <label>Enter the number of hospitals to be added:</label><br>
+				<input type="text">
+				<input type="submit" value="Submit"><br> -->
+
+
+
+				<!-- Will try to implement zoom at a later time
+
+				<script type="text/javascript">
+			  	('#in').click(function(){
+			    var map = $('img').attr('src');
+			    var zoomPat = /(.+)(zoom=)([\d]*)/;
+			    var zoomLevel = map.match(zoomPat);
+			    var zoomLevelNum = Number(zoomLevel[3]); 
+
+			    if(zoomLevelNum == 14){
+			       alert('Maximum level reached');
+			    } 
+			    else{    
+			    var newZoom = zoomLevel[1] + zoomLevel[2] + (zoomLevelNum + 1);
+			    ('img').attr('src', newZoom);           
+			    } });
+
+				('#out').click(function(){
+			    var map = $('img').attr('src');
+			    var zoomPat = /(.+)(zoom=)([\d]*)/;
+			    var zoomLevel = map.match(zoomPat);
+			    var zoomLevelNum = Number(zoomLevel[3]); 
+
+			    if(zoomLevelNum == 9){
+			       alert('Minimum level reached');
+			    } 
+			    else{    
+			    var newZoom = zoomLevel[1] + zoomLevel[2] + (zoomLevelNum - 1);
+			    ('img').attr('src', newZoom);           
+			    } });
+			    </script> -->
+
+			<div>
+		</div>
+		<br><br>
+		<b>Key:</b>
+		
+		<div id='legend'>
+			<img src='https://upload.wikimedia.org/wikipedia/commons/5/5b/174-free-google-maps-pointer.png' 
+			style='width:30px;height:45px'> &nbsp; &nbsp; &nbsp; = Exisiting hospitals<br><br><br>
+			<img src='http://www.clker.com/cliparts/0/V/t/A/W/N/google-maps-gris.svg'
+			style='width:60px;height:55px'>= Newly added hospitals<br><br><br>
+
+			<!-- Buttons for static map zoom:
+
+			<input type="submit" id="in" value="Zoom in" />
+			<input type="submit" id="out" value="Zoom out" />
+			<img src='http://www.clker.com/cliparts/B/B/1/E/y/r/marker-pin-google.svg'
+			style='width:50px;height:100px'> = New hospitals -->
+	</div>
+</body>
+</html>
