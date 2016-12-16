@@ -1,6 +1,8 @@
 ## Exploring New York City Transit
 #### The Relationship Between Subway Usage and CitiBike Usage in NYC
+
 Anurag Prasad (```anuragp1@bu.edu```) and Jarrod Lewis (```jl101995@bu.edu```)
+
 CS591: Data Mechanics for Pervasive Systems and Urban Applications, Fall 2016
 ___
 
@@ -167,10 +169,9 @@ ___
 
 Most of the correlations we expected to find were not found. There was a strong relationship between CitiBike usage and temperature, but not precipitation. There was no correlation between Subway Turnstile usage and weather factors. Also, we did not find a correlation between pedestrian counts and station usage. The lack of correlation seems to point toward variables which we did not have the opportunity to investigate. The Subway time series data shows a very strong weekly cycle, under which the usage is much higher during weekdays than during weekends. This suggests that subway usage is controlled by social and economic factors such as commute during working days.
 
-**What implications does this investigation have for Boston?**
-The subway system in New York operates on a much larger scale than the T in Boston. Despite having lower complexity than other transportation systems, the MBTA is still viewed as “a system reaching for expansion even as its core deteriorated.” ([Boston Globe 2015](https://www.bostonglobe.com/metro/2015/02/14/transportation/U7vNqP861gKQFRly2jmjdL/story.html)) We hope our findings motivate Boston city planners to explore whether or not such expansion is more valuable than expansion of alternative modes of transport such as bikes, taxis, and ridesharing services. Whereas in New York City the subway is a necessity and CitiBikes are dispensable, in Boston the T is often substituted for alternative modes of transportation. Therefore, we suspect that further investment in the T may not be as beneficial as investment in alternate modes of transportation.
+What implications does this investigation have for Boston?* The subway system in New York operates on a much larger scale than the T in Boston. Despite having lower complexity than other transportation systems, the MBTA is still viewed as “a system reaching for expansion even as its core deteriorated.” ([Boston Globe 2015](https://www.bostonglobe.com/metro/2015/02/14/transportation/U7vNqP861gKQFRly2jmjdL/story.html)) We hope our findings motivate Boston city planners to explore whether or not such expansion is more valuable than expansion of alternative modes of transport such as bikes, taxis, and ridesharing services. Whereas in New York City the subway is a necessity and CitiBikes are dispensable, in Boston the T is often substituted for alternative modes of transportation. Therefore, we suspect that further investment in the T may not be as beneficial as investment in alternate modes of transportation.
 
-**Looking Ahead**
+#### Looking Ahead
 We hope to build on this project in a variety of ways. 
 
 First, our analysis would be stronger if we compared the usages of CitiBike stations and subway stations in the *same geographic area*. This would require a more specific nearest neighbhors approach. The challenge with this method is that each subway station would have multiple CitiBike stations near it. 
