@@ -9,8 +9,8 @@ Based off of: https://plot.ly/javascript/3d-scatter-plots/ (thanks!!)
 	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
+	<h1 style="font-family:verdana;text-align:center;">Community Score vs. Crime Score vs. Property Score</h1>
 	<div id="myDiv" style="width:1200px;height:500px;">
-		
 		<script>
 			//Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/3d-scatter.csv', function(err, rows){
 			Plotly.d3.csv('https://raw.githubusercontent.com/dwangus/course-2016-fal-proj/master/aliyevaa_bsowens_dwangus_jgtsui/communityScatter.csv', function(err, rows){
@@ -68,6 +68,7 @@ Based off of: https://plot.ly/javascript/3d-scatter-plots/ (thanks!!)
 				b: 0,
 				t: 0
 			  }};
+
 			Plotly.newPlot('myDiv', data, layout);
 			});
 		</script>
