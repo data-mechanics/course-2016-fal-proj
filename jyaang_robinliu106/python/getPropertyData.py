@@ -8,7 +8,7 @@ import uuid
 class getPropertyData(dml.Algorithm):
 	contributor = 'jyaang_robinliu106'
 	reads=[]
-	writes=['jyaang_robinliu106.property', 'jyaang_robinliu106.found']
+	writes=['jyaang_robinliu106.property']
 
 	@staticmethod
 	def execute(trial=False):
