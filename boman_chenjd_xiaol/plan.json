@@ -1,0 +1,162 @@
+{
+    "wasGeneratedBy": {
+        "_:id9": {
+            "prov:activity": "dat:crime_cluster",
+            "prov:entity": "dat:crime_cluster"
+        },
+        "_:id6": {
+            "prov:activity": "dat:c_garden",
+            "prov:entity": "dat:c_garden"
+        },
+        "_:id12": {
+            "prov:activity": "dat:liquor_cluster1",
+            "prov:entity": "dat:liquor_cluster1"
+        },
+        "_:id15": {
+            "prov:activity": "dat:richlist",
+            "prov:entity": "dat:richlist"
+        }
+    },
+    "wasAttributedTo": {
+        "_:id11": {
+            "prov:agent": "alg:proj2",
+            "prov:entity": "dat:liquor_cluster1"
+        },
+        "_:id14": {
+            "prov:agent": "alg:proj2",
+            "prov:entity": "dat:richlist"
+        },
+        "_:id5": {
+            "prov:agent": "alg:proj2",
+            "prov:entity": "dat:c_garden"
+        },
+        "_:id8": {
+            "prov:agent": "alg:proj2",
+            "prov:entity": "dat:crime_cluster"
+        }
+    },
+    "used": {
+        "_:id19": {
+            "prov:activity": "dat:liquor_cluster1",
+            "prov:entity": "bdp:hda6-fnsh"
+        },
+        "_:id18": {
+            "prov:activity": "dat:crime_cluster",
+            "prov:entity": "bdp:ufcx-3fdn"
+        },
+        "_:id17": {
+            "prov:activity": "dat:c_garden",
+            "prov:entity": "bdp:cr3i-jj7v"
+        }
+    },
+    "prefix": {
+        "log": "http://datamechanics.io/log/",
+        "dat": "http://datamechanics.io/data/boman_chenjd_xiaol/",
+        "bdp": "https://data.cityofboston.gov/resource/",
+        "alg": "http://datamechanics.io/algorithm/boman_chenjd_xiaol/",
+        "ont": "http://datamechanics.io/ontology#"
+    },
+    "wasDerivedFrom": {
+        "_:id10": {
+            "prov:activity": "dat:crime_cluster",
+            "prov:generatedEntity": "dat:crime_cluster",
+            "prov:generation": "dat:crime_cluster",
+            "prov:usage": "dat:crime_cluster",
+            "prov:usedEntity": "bdp:ufcx-3fdn"
+        },
+        "_:id7": {
+            "prov:activity": "dat:c_garden",
+            "prov:generatedEntity": "dat:c_garden",
+            "prov:generation": "dat:c_garden",
+            "prov:usage": "dat:c_garden",
+            "prov:usedEntity": "bdp:cr3i-jj7v"
+        },
+        "_:id16": {
+            "prov:generatedEntity": "dat:richlist",
+            "prov:usedEntity": "bdp:g5b5-xrwi"
+        },
+        "_:id13": {
+            "prov:activity": "dat:liquor_cluster1",
+            "prov:generatedEntity": "dat:liquor_cluster1",
+            "prov:generation": "dat:liquor_cluster1",
+            "prov:usage": "dat:liquor_cluster1",
+            "prov:usedEntity": "bdp:hda6-fnsh"
+        }
+    },
+    "entity": {
+        "dat:c_garden": {
+            "prov:type": "ont:DataSet",
+            "prov:label": "c_garden"
+        },
+        "bdp:ufcx-3fdn": {
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource",
+            "prov:label": "crime incident"
+        },
+        "bdp:g5b5-xrwi": {
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource",
+            "prov:label": "property"
+        },
+        "dat:liquor_cluster1": {
+            "prov:type": "ont:DataSet",
+            "prov:label": "liquor_cluster1"
+        },
+        "bdp:cxb7-aa9j": {
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource",
+            "prov:label": "school garden"
+        },
+        "bdp:hda6-fnsh": {
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource",
+            "prov:label": "liquor license"
+        },
+        "dat:richlist": {
+            "prov:type": "ont:DataSet",
+            "prov:label": "richlist"
+        },
+        "bdp:cr3i-jj7v": {
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource",
+            "prov:label": "community garden"
+        },
+        "dat:crime_cluster": {
+            "prov:type": "ont:DataSet",
+            "prov:label": "crime_cluster"
+        }
+    },
+    "activity": {
+        "log:uuid1b9d7417-d215-45ce-91e8-54e023cd73d0": {},
+        "log:uuid046252cf-362c-4ff9-89f0-3c92d01eb2a8": {},
+        "log:uuid909d995e-145d-4aad-9bad-2e0f12b3cde8": {},
+        "log:uuid496a7f1e-f99e-405d-aa04-c9d0ca672d1f": {}
+    },
+    "wasAssociatedWith": {
+        "_:id2": {
+            "prov:agent": "alg:proj2",
+            "prov:activity": "log:uuid909d995e-145d-4aad-9bad-2e0f12b3cde8"
+        },
+        "_:id3": {
+            "prov:agent": "alg:proj2",
+            "prov:activity": "log:uuid496a7f1e-f99e-405d-aa04-c9d0ca672d1f"
+        },
+        "_:id4": {
+            "prov:agent": "alg:proj2",
+            "prov:activity": "log:uuid046252cf-362c-4ff9-89f0-3c92d01eb2a8"
+        },
+        "_:id1": {
+            "prov:agent": "alg:proj2",
+            "prov:activity": "log:uuid1b9d7417-d215-45ce-91e8-54e023cd73d0"
+        }
+    },
+    "agent": {
+        "alg:proj2": {
+            "ont:Extension": "py",
+            "prov:type": {
+                "$": "prov:SoftwareAgent",
+                "type": "prov:QUALIFIED_NAME"
+            }
+        }
+    }
+}

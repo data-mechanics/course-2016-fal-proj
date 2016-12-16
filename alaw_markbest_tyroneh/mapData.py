@@ -6,7 +6,7 @@ class mapData():
 	reads = ['alaw_markbest_tyroneh.PropertyGeoJSONs','alaw_markbest_tyroneh.StationsGeoJSONs']
 	writes = []
 
-	@staticmethod
+	
 	def data():
 		'''Opens and retrieves data from Residental and Stations GeoJSONs'''
 
@@ -17,10 +17,9 @@ class mapData():
 		#pull Property and stations data
 		data = (repo['alaw_markbest_tyroneh.PropertyGeoJSONs'].find(),repo['alaw_markbest_tyroneh.StationsGeoJSONs'].find())
 
-		#repo.logout()
-
 		return data
 
+	@staticmethod
 	def visualize():
 		'''Outputs matplotlib scatterplot'''
 
@@ -58,11 +57,13 @@ class mapData():
 		# print(len(sx))
 		plt.figure(figsize=(10,10))
 		plt.scatter(rx, ry, color='blue')
-		plt.scatter(cx, cy, color='green')
+		plt.scatter(cx, cy, color='blue')
 		plt.scatter(sx, sy, color='red')
 		#plt.ylim(42.23,42.41)
 		#plt.xlim(-71.18,-70.993)
 		plt.show()
+
+		repo.logout()
 
 # if __name__ == '__main__':
 # 	mapData.visualize()

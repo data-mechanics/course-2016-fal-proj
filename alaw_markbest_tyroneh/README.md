@@ -17,7 +17,8 @@ Determine a stable bus schedule given information about traffic (Google maps API
 * pyproj
 * dbfread
 * random
-  
+* rtree (requires libspatialindex; see below)
+    * [libspatialindex] (https://libspatialindex.github.io/)
 \* **MAKE SURE YOU HAVE MONGOD RUNNING FIRST AND AUTH'D** \*
   
 **main.py**: executes all scripts in order and performs optimizations (-t: trial mode to do Algo R Sampling on datasets, -v: produce graphs for optimizations)  
