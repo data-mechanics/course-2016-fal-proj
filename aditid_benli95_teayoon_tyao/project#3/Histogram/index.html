@@ -55,6 +55,34 @@ h2 {
     margin: 35px 0;
 }
 
+.legend {
+    width: 300px;
+    height: 150px;
+    border: 1px solid black;
+    margin-top: 5px;
+    padding: 15px;
+}
+
+.box {
+    width: 300px;
+    opacity: 0.5;
+    background-color: green;
+    margin-top: 15px;
+    padding: 10px;
+    color: white;
+}
+
+.box2 {
+    width: 300px;
+    opacity: 0.5;
+    background-color: steelblue;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    padding: 10px;
+    color: white;
+
+}
 
 </style>
 <body>
@@ -62,6 +90,13 @@ h2 {
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="d3-slider/d3.slider.js"></script>
 
+
+<div class="box">
+    All Crimes
+</div>
+<div class="box2">
+    Drug Crimes
+</div>
 <form>
   <label for="binwidth">Binwidth</label>
   <select id="binwidth">
@@ -74,6 +109,7 @@ h2 {
 
   </select>
 </form>
+
 
 <script>
 
@@ -235,6 +271,49 @@ d3.json("data.json", function(error, allData) {
         .call(yAxis);
         
         
+        // Get the data
+        var avgData;
+        var avg_all, avg_drug, diff, r1, r2;
+        
+        //Make an SVG Container
+        var svgContainer = d3.select("body").append("svg")
+        .attr("width", 1000)
+        .attr("height", 1000)
+        .attr("orient", "middle");
+        
+        var circ = 1;
+        if( circ ==  1) {
+        d3.json("average.json", function(error, allData2) {
+                var radius = "2.0";
+                avgData = allData2;
+                avg_all = allData2[radius]["avg_all"];
+                avg_drug = allData2[radius]["avg_drug"];
+                diff = allData2[radius]["diff"]*10;
+                r1 = (avg_all / 8) + 150;
+                r2 = (avg_drug / 8) + 150;
+                
+                
+                //Draw the Circle
+                var circle = svgContainer.append("circle")
+                .attr("cx", 500)
+                .attr("cy", 250)
+                .attr("r", r1)
+                .attr("fill", "steelblue")
+                .attr("opacity", "0.5");
+                
+                var circle2 = svgContainer.append("circle")
+                .attr("cx", 500)
+                .attr("cy", 250)
+                .attr("r", r2 + diff)
+                .attr("fill", "green")
+                .attr("opacity", "0.5");
+                
+                
+                });
+        }
+        
+        
+        
         
         //update function
         
@@ -333,9 +412,29 @@ d3.json("data.json", function(error, allData) {
         
         d3.select(".y.axis").call(yAxis);
         d3.select(".x.axis").call(xAxis);
+
+        
+        svgContainer.selectAll("circle").remove();
+        
+        circle = svgContainer.append("circle")
+        .attr("cx", 500)
+        .attr("cy", 250)
+        .attr("r", r1)
+        .attr("fill", "steelblue")
+        .attr("opacity", "0.5");
+        
+        circle2 = svgContainer.append("circle")
+        .attr("cx", 500)
+        .attr("cy", 250)
+        .attr("r", r2 + diff)
+        .attr("fill", "green")
+        .attr("opacity", "0.5");
+        
+        
         }
         
         
+        //slider
         
         d3.select('#slider1')
         .call(d3.slider()
@@ -374,17 +473,26 @@ d3.json("data.json", function(error, allData) {
                   d2 = [];
                   d2.x = xArr2;
                   d2.y = yArr2;
+                  
+                  radius2 = value;
+                  avg_all = avgData[radius2]["avg_all"];
+                  avg_drug = avgData[radius2]["avg_drug"];
+                  diff = avgData[radius2]["diff"] *10;
+                  r1 = (avg_all / 8) + 150;
+                  r2 = (avg_drug / 8) + 150;
+                  
+                  update();
+
+                  }));
   
-                    update();
-                }));
 
 
-        
-        
-        
         });
-        
-    </script>
+
+
+
+
+</script>
     <div class="wrapper">
     <div id="slider1"></div>
 

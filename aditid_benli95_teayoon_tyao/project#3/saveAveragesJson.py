@@ -27,50 +27,51 @@ repo.dropPermanent('aditid_benli95_teayoon_tyao.listOfAverages')
 repo.createPermanent('aditid_benli95_teayoon_tyao.listOfAverages')
 
 """Change this Radius accordingly"""
-radius = 3
+radius = 0
 
 diffJson = {}
 
-for d in range(0,10):             #to account for floats
-    rad = radius + (d/10)
-    
-    add_on = (radius*10)+d
+for d in range(0,50):             #to account for floats
+    if d >= 20 and d < 30:
+        pass
+    else:
+        rad = radius + (d/10)
+        add_on = (radius*10)+d
 
+        repo_string_all = "repo_all = repo.aditid_benli95_teayoon_tyao.averageAll" + str(add_on) + ".find()"
+        exec(repo_string_all)
     
-    repo_string_all = "repo_all = repo.aditid_benli95_teayoon_tyao.averageAll" + str(add_on) + ".find()"
-    exec(repo_string_all)
-    
-    for a in repo_all:
-        avgDict = dict(a)
+        for a in repo_all:
+            avgDict = dict(a)
         
-        numer = avgDict["value"]["product"]
-        denom = avgDict["value"]["crimes"]
-        avg_all = numer / denom
-        #print("avg_all: " + str(avg_all) )
+            numer = avgDict["value"]["product"]
+            denom = avgDict["value"]["crimes"]
+            avg_all = numer / denom
+            #print("avg_all: " + str(avg_all) )
     
-    repo_string_drug = "repo_drug = repo.aditid_benli95_teayoon_tyao.averageDrug" + str(add_on) + ".find()"
-    exec(repo_string_drug)
+        repo_string_drug = "repo_drug = repo.aditid_benli95_teayoon_tyao.averageDrug" + str(add_on) + ".find()"
+        exec(repo_string_drug)
     
-    for a in repo_drug:
-        avgDict = dict(a)
+        for a in repo_drug:
+            avgDict = dict(a)
         
-        numer = avgDict["value"]["product"]
-        denom = avgDict["value"]["crimes"]
-        avg_drug = numer / denom
-        #print("avg_drug: " + str(avg_drug) )
+            numer = avgDict["value"]["product"]
+            denom = avgDict["value"]["crimes"]
+            avg_drug = numer / denom
+                #print("avg_drug: " + str(avg_drug) )
 
 
-    thisEntry = {"avg_all": avg_all, "avg_drug": avg_drug, "difference": avg_all - avg_drug, "distance": rad}
-    #print("diff: " + str(avg_all - avg_drug) )
+        thisEntry = {"avg_all": avg_all, "avg_drug": avg_drug, "difference": avg_all - avg_drug, "distance": rad}
+            #print("diff: " + str(avg_all - avg_drug) )
 
-    res = repo.aditid_benli95_teayoon_tyao.listOfAverages.insert_one(thisEntry)
-    diffJson[rad] = {}
-    diffJson[rad]["avg_all"] = avg_all
-    diffJson[rad]["avg_drug"] = avg_drug
-    diffJson[rad]["diff"] = avg_all - avg_drug
+        res = repo.aditid_benli95_teayoon_tyao.listOfAverages.insert_one(thisEntry)
+        diffJson[rad] = {}
+        diffJson[rad]["avg_all"] = avg_all
+        diffJson[rad]["avg_drug"] = avg_drug
+        diffJson[rad]["diff"] = avg_all - avg_drug
 
 
-with open('average.json', 'w') as f: 
+with open('average.json', 'w') as f:
     json.dump(diffJson, f)
 
 
