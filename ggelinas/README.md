@@ -73,14 +73,16 @@ a positive, negative or no correlation relationship. A positive correlation is w
 variable or one variable decreases along with the other variable. For a negative correlation indicates that when one variable
 increases the other variable decreases. As for no correlation, there is no relationship between those two variables. 
 
-Before performing the analysis, we predicted that there would be a negative correlation. As property value increases then crime rates would decrease.
-We assumed that property value increases in regards to safety leading to less crimes within that area. In addition, we assumed that low income areas may
-have more crimes as a means to afford living. We decided to group property values and crimes within the police districts. These groupings will help provide
-samples from different areas around boston in order to calculate correlation. Property values however do not have an attribute for police districts.
-In order to account for this we decided to use a python package called pyzipcode which would take the zip codes from each entry in the property data set and it will
-find the nearest police district within its one mile radius range. Once found the property value will be added to the closest police district. After iterating through
-the property data set, we computed the average for all property value in each district. Using the average property value and sum of crimes for each district, we applied
-the pearson correlation coefficient algorithm and used multiple permutations. 
+Before performing the analysis, we predicted that there would be a negative correlation. As property value increases 
+then crime rates would decrease. We assumed that property value increases in regards to safety leading to less crimes within 
+that area. In addition, we assumed that low income areas may have more crimes as a means to afford living. We decided to 
+group property values and crimes within the police districts. These groupings will help provide samples from different areas 
+around boston in order to calculate correlation. Property values however do not have an attribute for police districts.
+In order to account for this we decided to use a python package called pyzipcode which would take the zip codes from each 
+entry in the property data set and it will find the nearest police district within its one mile radius range. Once found 
+the property value will be added to the closest police district. After iterating through the property data set, we computed 
+the average for all property value in each district. Using the average property value and sum of crimes for each district, we 
+applied the pearson correlation coefficient algorithm and used multiple permutations. 
 
 Based on the calculations it yielded these results.
 
@@ -97,10 +99,11 @@ This suggests that the Null hypothesis: "Crimes decreasing and property value in
 ##Hospital Location Analysis
 Another inquiry is to determine if hospitals are optimally located against crime. We believe
 that hospitals may be located around areas with crime in order to reduce time and increase efficiency in treating victims.
-We decided to use the k-means algorithm to compute the difference. The k-means algorithm takes in geographical coordinates from
-the crimes data set and clusters points to form k clusters determined by the input. For this experiment, we used the number of hospitals
-in the hospitals data set as the k value in order to compare distances. After running the k-means algorithm and computing the difference in
-distance between current hospitals and optimal hospitals it clearly showed very little difference.
+We decided to use the k-means algorithm to compute the difference. The k-means algorithm takes in geographical coordinates 
+from the crimes data set and clusters points to form k clusters determined by the input. For this experiment, we used the 
+number of hospitals in the hospitals data set as the k value in order to compare distances. After running the k-means 
+algorithm and computing the difference in distance between current hospitals and optimal hospitals it clearly showed very 
+little difference.
 
 Here are the results:
 
@@ -154,10 +157,42 @@ results in adding other years as well. With this negative correlation, we can as
 may have moderate relationship in affecting each other. The high p-value suggests that it would support the
 hypothesis.
 
-In regards to hospital locations, 
+In regards to hospital locations, computing the difference between hospitals and crime supported our
+original hypothesis that hospitals are located near crime. 
 
 
 ##Conclusion
+With these results, we can conclude that there is a small coorrelation between crime rates
+and property value. Furthermore we can also see that hospital locations are located near
+areas of crime. 
 
-
-With these results, we can conclude that 
+##Setup
+Initialize mongodb
+```
+mongod
+```
+Open up mongo shell
+```
+mongo
+```
+###To collect data
+```
+python getData.py
+```
+###To perform correlation with property and crime
+```
+python DistrictNumCrimes.py
+python PropertyMean.py
+python PropertyCrimeAnalysis.py
+```
+###To perform k-means hospitals
+```
+python HospitalLocationAnalysis.py
+```
+###To perform visualization
+You must run all of the previous files first. This file grabs values from the database.
+Running file will bring up one visual and the rest will be saved as html in the current directory.
+opening the html will show the interactive maps
+```
+python visual.py
+```
