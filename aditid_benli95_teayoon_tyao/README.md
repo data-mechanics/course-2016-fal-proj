@@ -216,7 +216,7 @@ The second analysis compared the total number of establishments with a specific 
 ![alt tag](images/obj_func.png)
 To run this visualization run `$ python3 project#3/visualisation.py`
 
-To run the interactive visualization, navigate into the project#3/Histogram folder then run `$ python3 -m http.server` and open a webbrowser to localhost:8000. If you want to display it at another port you can add the number after the command: `$ python3 -m http.server 9000` will display the visualization on port 9000. This histogram visualization displays the number of establishments with a certain number of drug crimes within the 2 mile radius and the number of normalized all crimes within the 2 mile radius. The slider below the histogram allows you to scale the x-axis. The circle visualization displays the ratio between all crimes and drug crimes at the radius the slider is set to.
+To run the interactive visualization, navigate into the project#3/Histogram folder then run `$ python3 -m http.server` and open a webbrowser to localhost:8000. If you want to display it at another port you can add the number after the command: `$ python3 -m http.server 9000` will display the visualization on port 9000. This histogram visualization displays the number of establishments with a certain number of drug crimes within the 2 mile radius and the number of normalized all crimes within the 2 mile radius. The slider below the histogram allows you to scale the x-axis. Our second visualization is a circle visualization that displays the ratio between all crimes and drug crimes at the radius the slider is set to.
 
 #Conclusion
 
