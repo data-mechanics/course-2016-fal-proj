@@ -49,7 +49,7 @@ However, our algorithm also consistently under-allocates the number of buses per
 
 Though the datasets we produced as part of our analysis are interesting and generally seem to fit the characteristics of the bus system, there are certainly a few things that can be improved upon in future work, as mentioned in the analysis sections above. Expanding our datasets to include commercial data in addition to residential data would go a long way towards improving our stop placement analysis analysis to more accurately reflect how many people actually use the public bus system: to travel to and from work. Additionally, many routes expand beyond the scope of our current datasets, so including more data in general beyond the core neighborhoods of Boston, Cambridge, Brookline, and Somerville would also be a prudent next step. Finally, further study of the factors behind bus stop allocation is certainly warranted, given the noted discrepancy between our analysis and the actual allocations.
 
-Looking forward, it's natural to ask how these optimizations could be applied in the real world. Unfortunately, there are some practical barriers that make the application of this study difficult--specifically, politics. This is much more of an issue for the stop placement optimization: the [politics](https://en.wikipedia.org/wiki/NIMBY) and cost involved with moving one bus stop--let alone every single one in the city--is absurd.
+Looking forward, it's natural to ask how these optimizations could be applied in the real world. Unfortunately, there are some practical barriers that make the application of this study difficult--specifically, politics. This is much more of an issue for the stop placement optimization: the [politics](https://en.wikipedia.org/wiki/NIMBY) and cost involved with moving one bus stop--let alone every single one in the city--is absurd. Though it would still be hard to apply the allocation optimization due to internal MBTA politics, it would be significantly easier given the small amount of change that would be needed to get it working. With this in mind, the best candidate for a project to expand this study into the future would be **a system or service that the MBTA could actually use in practice to allocate buses based on historical and real-time data with derivative algorithms from this study.** We hope to pursue this as a re\search project next semester.
 
 ##Data Sources 
   
@@ -93,28 +93,24 @@ For modeling
 * pyshp
 * pyproj
 * dbfread
-* numpy
 * random
-* matplotlib
-* flask
 * rtree (requires libspatialindex; see below)
     * [libspatialindex] (https://libspatialindex.github.io/)
-  
 \* **MAKE SURE YOU HAVE MONGOD RUNNING FIRST AND AUTH'D** \*
   
 **main.py**: executes all scripts in order and performs optimizations (-t: trial mode to do Algo R Sampling on datasets, -v: produce graphs for optimizations)  
 **getData.py**: Pulls raw data and stores them inside MongoDB and records prov  
 **transformData.py**: Retrieves raw data and reformats/transforms them for optimization use and records prov  
-**mapData.py (TEMP)**: Simple matplotlib scatter plot of current points in datset for visualization purposes (Please use D3 visualizations instead)
+**mapData.py (TEMP)**: Simple matplotlib scatter plot of current points in datset for visualization purposes (Please replace with D3)
   
 data2Geo.js contains the map-reduce functions for transforming the location based datasets to geoJSON format. Functions are called by the execute() in transformData.py.  
 getAvgVels.js contains the map-reduce functions for calculates bus velocities based on nextBus data. Functions are called by the execute() in transformData.py
   
 Run main.py to execute scripts in order, use flags to customize speed and output of algorithms
+
+
   
-**Running Visualizations**: run the server.py file under /visualizations  
-**127.0.0.1:5000/kmeans**: Bus Stop Optimization Visualization for Route 39  
-**127.0.0.1:5000/allocation**: Bus Allocation Optimization Visualization  
+
 
 
 
