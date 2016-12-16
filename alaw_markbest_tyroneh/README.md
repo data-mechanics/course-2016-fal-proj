@@ -96,11 +96,11 @@ For modeling
 * numpy
 * random
 * matplotlib
+* flask
 * rtree (requires libspatialindex; see below)
     * [libspatialindex] (https://libspatialindex.github.io/)
-* flask
   
-  \* **MAKE SURE YOU HAVE MONGOD RUNNING FIRST AND AUTH'D** \*
+\* **MAKE SURE YOU HAVE MONGOD RUNNING FIRST AND AUTH'D** \*
   
 **main.py**: executes all scripts in order and performs optimizations (-t: trial mode to do Algo R Sampling on datasets, -v: produce graphs for optimizations)  
 **getData.py**: Pulls raw data and stores them inside MongoDB and records prov  
