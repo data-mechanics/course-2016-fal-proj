@@ -1,22 +1,23 @@
 #Boston Crime Rates Relations
 
 ##Introduction
-In this project, using data from the city of Boston we seek to understand crime rates in relation to hospitals, police 
-districts, and property. We wanted to determine:
+In this project we used data from the city of Boston to try and understand crime rates and their relation to hospitals, police 
+districts, and property value. We wanted to determine:
 <ol>
-    <li>If crime were more likely in areas of lower property values
-    <li>If hospitals are optimally located around crime areas
+    <li>If crime was more likely to happen in areas with lower property values
+    <li>If hospitals are located around crime areas
 </ol>
 
-The data sets being used for analysis are acquired publicly from the city of Boston data portal. Furthermore, the techniques
-being used within this project are correlation coefficient and k-means clustering. With these techniques, we hope
-to yield desirable results.
+The data sets being used for this analysis are acquired from the city of Boston's data portal. The techniques
+that we used in this project are correlation coefficient and k-means clustering. With these techniques, we hope
+to find out if crime is more likely to occur in areas with lower property value and if hospitals are strategically 
+located closer to areas with high crime rates.
 
 ##Data Sets
 
 ###Boston Police Stations
-This database contains information about the 12 police districts within the city of Boston. The data set contains the name
-of each police district with their respective district number. Furthermore, it provides addresses, geographical coordinate,
+This data set contains information about the 12 police districts within the city of Boston. It includes the name
+of each police district and their respective district number. It also provides addresses, geographical coordinates,
 and zip codes.
 
 ###Boston Hospitals
@@ -24,22 +25,25 @@ This data set contains information about hospitals within the city of Boston. It
 addresses, and zip codes. 
 
 ###Boston Crime Reports
-This data set is from the city of Boston police department that contains incident reports from August 2015 to today's date.
-For every entry in this data set it contains an incident number, offense code, offense description, district, date, street
-address and geographical coordinates. The dat set that was collected for this analysis were from August 2015 until 18 November 2016.
+This data set is from the city of Boston's police department and contains incident reports from August 2015 to the present day.
+Each relation in this data set consists of an incident number, offense code, offense description, district, date, street
+address and geographical coordinates. The data set that was used for this analysis included crime reports from August 2015 until 
+18 November 2016.
 
 ###Boston Property Assessments
-This data set contains tax assessment of property for the year of 2016. Each entry in this data set contains an address, zip
-code, owner, mailing address, average land value, average building value, average total value, gross tax and other descriptors
-for the property. 
+This data set contains the tax assessment of property for 2016. Each entry in this data set contains an address, zip
+code, owner, mailing address, average land value, average building value, average total value, gross tax, as well as other descriptors
+of the property. 
 
 ##Description
-Using the data sets above, I wanted to observe if there was a correlation between number of crimes within a police 
+Using the data sets above, I wanted to observe if there was a correlation between the number of crimes in a police 
 district and the average property value within that district. My hypothesis is that there should be a negative correlation 
-with property value increasing and number of crimes decreasing. I will be using the Boston Police Stations, Boston Crime 
-Reports and Property Assessments data sets to calculate the correlation coefficient and p-value. I also wanted to see
-if hospitals are located near areas with more crime as to make ambulances and emergency services respond efficiently.
-There is no auth.json file since I did not use any keys to access any of the data sets used in this project.
+between property value and crime rate. As property value increase I expect for the number of crimes to decrease. 
+I will be using the Boston Police Stations, Boston Crime Reports, and Property Assessments data sets to calculate the
+correlation coefficient and p-value of the relationship between crime and property value. I also wanted to see
+if hospitals are located near areas with more crime. I hypothesized that it would be so that ambulances and emergency 
+services would be able to respond to emergencies more quickly. There is no auth.json file since I did not use any keys 
+to access any of the data sets used in this project.
 
 Heat Map of Crimes from August 2015 - November 2016
 ![Heat Map of Crime](/ggelinas/visuals/crime_heatmap.png)
@@ -63,8 +67,9 @@ In order to determine a relationship between property value and crime rates, a m
 Correlation coefficient is a measure that determines the degree to which two variables movements are associated/related.
 The range of values for the correlation coefficient are between -1 and 1. From computing the coefficient value it can yield
 a positive, negative or no correlation relationship. A positive correlation is when one variable increases along with the other
-variable or one variable decreases along with the other variable. For a negative correlation indicates that when one variable
-increases the other variable decreases. As for no correlation, there is no relationship between those two variables. 
+variable or one variable decreases along with the other variable. While a negative correlation indicates that when one variable
+increases the other variable decreases. As for a 0 correlation coefficient, this means that there is no relationship between 
+those two variables. 
 
 Before performing the analysis, we predicted that there would be a negative correlation. As property value increases 
 then crime rates would decrease. We assumed that property value increases in regards to safety leading to less crimes within 
@@ -77,7 +82,7 @@ the property value will be added to the closest police district. After iterating
 the average for all property value in each district. Using the average property value and sum of crimes for each district, we 
 applied the pearson correlation coefficient algorithm and used multiple permutations. 
 
-There were difficulties in being able to map property value in certain districts based on no real boundaries between the districts.
+There were difficulties in mapping property value in certain districts because of the lack of real boundaries between the districts.
 I compromised and computed the groupings by taking a list of zipcodes within a 1 mile radius of the property and matching that zip
 code with the police districts zip code.
 
@@ -88,7 +93,7 @@ P-value: 1.0
 
 ![Property and Crime Correlation graph](/ggelinas/visuals/crime_prop_corr.png)
 
-This correlation coefficient shows that it is a moderate/weak negative correlation. With a high p-value, it states that this
+This correlation coefficient shows that a moderate/weak negative correlation. With a high p-value, it states that this
 observation is a non-significant result that will not prove the Null hypothesis false.
 This suggests that the Null hypothesis: "Crimes decreasing and property value increasing" may be true.
 
@@ -145,7 +150,7 @@ Hospital vs. Optimal Hospital Locations
 * Blue: Optimal Hospitals
 
 ##Results
-In our hypothesis, we assumed in finding a negative correlation with the average property
+In our hypothesis, we predicted that we would find a negative correlation between the average property
 value and the number of crimes in each district. The results displayed a moderate to weak
 correlation between those two variables in addition to a high p-value. The weak correlation may
 be a result of not having enough crime data as the sample was only taken from August 2015 through
@@ -154,8 +159,8 @@ results in adding other years as well. With this negative correlation, we can as
 may have moderate relationship in affecting each other. The high p-value suggests that it would support the
 hypothesis.
 
-In regards to hospital locations, computing the difference between hospitals and crime supported our
-original hypothesis that hospitals are located near crime. Show in the map above, hospitals in downtown
+In regards to hospital locations, computing the distance between hospitals and crime supported our
+original hypothesis that hospitals are located near crime areas. Shown in the map above, hospitals in downtown
 Boston show very acute distances. However, stretching out towards the outskirts of the city limits
 distance does tend to increase between the optimal k-means cluster and the original hospital location.
 
@@ -164,11 +169,10 @@ distance does tend to increase between the optimal k-means cluster and the origi
 With these results, we can conclude that there is a small correlation between crime rates
 and property value. Furthermore we can also see that hospital locations are located near
 areas of crime. Future work would involve adding more crime data into the correlation algorithm.
-We were unable to add in other crime sets into the database. In addition to adding more crime
-data from previous years, the data set currently being used is constantly updating with information.
-It would interesting to see the development of property value and crimes over time. As for hospital
-locations, future analysis could involve performing the correlation equation between hospitals and 
-low income areas. 
+In addition to adding more crime data from previous years, the data set currently being used is 
+constantly updating with information. It would interesting to see the relationship between property value
+and crimes over time. As for hospital locations, additional analysis could involve performing the correlation
+equation between hospitals and low income areas in order to see if there is a relationship between them. 
 
 ##References
 City of Boston Data: https://data.cityofboston.gov/
