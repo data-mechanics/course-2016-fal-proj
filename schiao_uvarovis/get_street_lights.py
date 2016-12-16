@@ -11,7 +11,7 @@ import uuid
 token = json.loads(open('../auth.json').read())['services']['cityofbostondataportal']['token']
 
 # Boston street lights in json format
-data_url = 'https://data.cityofboston.gov/resource/fbdp-b7et.json?$$app_token=' + token
+data_url = 'https://data.cityofboston.gov/resource/fbdp-b7et.json?$$app_token=' + token + '&$limit=100000'
 team_name = 'schiao_uvarovis'
 dataset_name = 'street_lights'
 collection_name = team_name + '.' + dataset_name

@@ -40,7 +40,7 @@ class analyze_car_accidents(dml.Algorithm):
         accidents_count = repo[accidents_collection].count()
         current = 0
         accidents_analysis = list()
-        max_distance = 100
+        max_distance = 300
 
         for doc in repo[accidents_collection].find():
             num_of_lights = len(repo.command(
