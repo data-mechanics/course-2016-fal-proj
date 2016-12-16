@@ -194,7 +194,7 @@ class getData(dml.Algorithm):
 
         return doc
 
-
+#getData.execute(True)
 getData.execute()
 doc = getData.provenance()
 print(doc.get_provn())

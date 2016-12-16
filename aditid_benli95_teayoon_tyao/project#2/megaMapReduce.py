@@ -28,154 +28,109 @@ class megaMapReduce(dml.Algorithm):
 
         print("hello from megaMapReduce")
         
-        """
-        CHANGE RADIUS VALUE HERE!!
-        """
-        radius = 5
         
-        
+        for i in range(0, 5):
 
-        ''' This commented out portion will be important for data visualisation later on '''
-
-        #'''The following map reduce code takes the numberOfEstablishmentsinRadius and the numberOfEstablishmentsinRadiusDrug repos and returns a distribution of the number of crimes that have x children establishments within a certain proximity '''
-        #
-        ##find the number of crimes with the same number of establishments
-        #map_function = Code('''function() {
-        #    emit(this.total, {count:1, fake:0});
-        #    }''')
-        #
-        #
-        #reduce_function = Code('''function(k, vs) {
-        #    var total = 0;
-        #    for (var i = 0; i < vs.length; i++)
-        #    total += vs[i].count;
-        #    return {count:total, fake: 0};
-        #    }''')
-        #
-        ##reset resulting directory
-        #repo.dropPermanent('aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment')
-        #repo.createPermanent('aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment')
-        #
-        #repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment');
-        #
-        #
-        ##find the number of drug crimes with the same number of establishments
-        #
-        #
-        ##reset resulting directory
-        #repo.dropPermanent('aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment')
-        #repo.createPermanent('aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment')
-        #
-        #repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment');
+            map_function = Code('''function() {
+                emit(this.total, {crimes:1, total:this.total, product:this.total, temp:5});
+                }''')
 
 
-        '''The following map reduce code takes the numberOfEstablishmentsinRadius and the 
-        numberOfEstablishmentsinRadiusDrug repos and returns a distribution of the number of crimes 
-        that have x children establishments within a certain proximity as well as the product of 
-        the crimes by establishments and a temporary variable (temp) that will allow for the entire 
-        repo to be collapsed into a single key during the next map reduce '''
+            reduce_function = Code('''function(k, vs) {
+                var total_crimes = 0;
+                var tot = vs[0].total;
+                
+                for (var i = 0; i < vs.length; i++)
+                total_crimes += vs[i].crimes;
+                
+                var prod = tot * total_crimes
+                return {crimes:total_crimes, total:vs[0].total, product: prod, temp:5};
+                }''')
+
+            base_source_all = 'repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius'
+            base_source_drugs = 'repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug'
+
+            base_result_all = 'aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment'
+            base_result_drugs = 'aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment'
+
+            for num in range(0,10):
+                add_on = str((radius*10) + num)      #creates string of integer values (50, 51, ...)
+
+                repo_source_all = base_source_all + add_on
+                repo_result_all = base_result_all + add_on
+
+                repo.dropPermanent(repo_result_all)
+                repo.createPermanent(repo_result_all)
+
+                string_for_execution_all = repo_source_all + ".map_reduce(map_function, reduce_function, '" + repo_result_all + "')"
+                exec(string_for_execution_all)
+
+                repo_source_drug = base_source_drugs + add_on
+                repo_result_drug = base_result_drugs + add_on
+
+                repo.dropPermanent(repo_result_drug)
+                repo.createPermanent(repo_result_drug)
+
+                string_for_execution_drug = repo_source_drug + ".map_reduce(map_function, reduce_function, '" + repo_result_drug + "')"
+                exec(string_for_execution_drug)
+                    
+                    
+                    
+            repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment');
+            repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment');
 
 
-        map_function = Code('''function() {
-            emit(this.total, {crimes:1, total:this.total, product:this.total, temp:5});
-            }''')
+            ''' This takes the previous map reduced repositories and returns the total sum of establishments around crimes and the number of crimes. Using these values the average number of establishments around each crime can be calculated.'''
 
 
-        reduce_function = Code('''function(k, vs) {
-            var total_crimes = 0;
-            var tot = vs[0].total;
+            #find the number of crimes with the same number of establishments
+            map_function = Code('''function() {
+                for(var i in this.value) {
+                emit(this.value[i].temp, {crimes:this.value.crimes, product:this.value.product});
+                break;
+                }
+                }''')
+
+
+            reduce_function = Code('''function(k, vs) {
+                var total_crime = 0;
+                var total_prod = 0;
+                for (var i = 0; i < vs.length; i++)
+                {
+                total_crime += vs[i].crimes;
+                total_prod += vs[i].product;
+                }
+                return {crimes:total_crime, product:total_prod};
+                }''')
+
+            base_source_all = 'repo.aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment'
+            base_source_drugs = 'repo.aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment'
+
+            base_result_all = 'aditid_benli95_teayoon_tyao.averageAll'
+            base_result_drugs = 'aditid_benli95_teayoon_tyao.averageDrug'
+
+            for num in range(0,10):
+                add_on = str((radius*10) + num)      #creates string of integer values (50, 51, ...)
+
+                repo_source_all = base_source_all + add_on
+                repo_result_all = base_result_all + add_on
+
+                repo.dropPermanent(repo_result_all)
+                repo.createPermanent(repo_result_all)
+
+                string_for_execution_all = repo_source_all + ".map_reduce(map_function, reduce_function, '" + repo_result_all + "')"
+                exec(string_for_execution_all)
+
+                repo_source_drug = base_source_drugs + add_on
+                repo_result_drug = base_result_drugs + add_on
+
+                repo.dropPermanent(repo_result_drug)
+                repo.createPermanent(repo_result_drug)
+
+                string_for_execution_drug = repo_source_drug + ".map_reduce(map_function, reduce_function, '" + repo_result_drug + "')"
+                exec(string_for_execution_drug)
             
-            for (var i = 0; i < vs.length; i++)
-            total_crimes += vs[i].crimes;
             
-            var prod = tot * total_crimes
-            return {crimes:total_crimes, total:vs[0].total, product: prod, temp:5};
-            }''')
-
-        base_source_all = 'repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius'
-        base_source_drugs = 'repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug'
-
-        base_result_all = 'aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment'
-        base_result_drugs = 'aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment'
-
-        for num in range(0,10):
-            add_on = str((radius*10) + num)      #creates string of integer values (50, 51, ...)
-
-            repo_source_all = base_source_all + add_on
-            repo_result_all = base_result_all + add_on
-
-            repo.dropPermanent(repo_result_all)
-            repo.createPermanent(repo_result_all)
-
-            string_for_execution_all = repo_source_all + ".map_reduce(map_function, reduce_function, '" + repo_result_all + "')"
-            exec(string_for_execution_all)
-
-            repo_source_drug = base_source_drugs + add_on
-            repo_result_drug = base_result_drugs + add_on
-
-            repo.dropPermanent(repo_result_drug)
-            repo.createPermanent(repo_result_drug)
-
-            string_for_execution_drug = repo_source_drug + ".map_reduce(map_function, reduce_function, '" + repo_result_drug + "')"
-            #exec(string_for_execution_drug)
-                
-                
-                
-        repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment');
-        repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug.map_reduce(map_function, reduce_function, 'aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment');
-
-
-        ''' This takes the previous map reduced repositories and returns the total sum of establishments around crimes and the number of crimes. Using these values the average number of establishments around each crime can be calculated.'''
-
-
-        #find the number of crimes with the same number of establishments
-        map_function = Code('''function() {
-            for(var i in this.value) {
-            emit(this.value[i].temp, {crimes:this.value.crimes, product:this.value.product});
-            break;
-            }
-            }''')
-
-
-        reduce_function = Code('''function(k, vs) {
-            var total_crime = 0;
-            var total_prod = 0;
-            for (var i = 0; i < vs.length; i++)
-            {
-            total_crime += vs[i].crimes;
-            total_prod += vs[i].product;
-            }
-            return {crimes:total_crime, product:total_prod};
-            }''')
-
-        base_source_all = 'repo.aditid_benli95_teayoon_tyao.crimesPerNumberOfEstablishment'
-        base_source_drugs = 'repo.aditid_benli95_teayoon_tyao.drugCrimesPerNumberOfEstablishment'
-
-        base_result_all = 'aditid_benli95_teayoon_tyao.averageAll'
-        base_result_drugs = 'aditid_benli95_teayoon_tyao.averageDrug'
-
-        for num in range(0,10):
-            add_on = str((radius*10) + num)      #creates string of integer values (50, 51, ...)
-
-            repo_source_all = base_source_all + add_on
-            repo_result_all = base_result_all + add_on
-
-            repo.dropPermanent(repo_result_all)
-            repo.createPermanent(repo_result_all)
-
-            string_for_execution_all = repo_source_all + ".map_reduce(map_function, reduce_function, '" + repo_result_all + "')"
-            exec(string_for_execution_all)
-
-            repo_source_drug = base_source_drugs + add_on
-            repo_result_drug = base_result_drugs + add_on
-
-            repo.dropPermanent(repo_result_drug)
-            repo.createPermanent(repo_result_drug)
-
-            string_for_execution_drug = repo_source_drug + ".map_reduce(map_function, reduce_function, '" + repo_result_drug + "')"
-            #exec(string_for_execution_drug)
-        
-        
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}
 

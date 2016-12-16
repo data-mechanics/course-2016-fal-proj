@@ -27,198 +27,182 @@ class dataForOptimization(dml.Algorithm):
 
         print("hello from dataForOptimization")
 
-        
-        """
-        The following code drops and creates 10 repositories. So if the radius given is 5 the repositories
-        created are 50, 51, ..., 59 for the radius's 5.0, 5.1, ... 5.9 miles respectively.
-        """
-        
-        """
-        CHANGE THIS VALUE OF RADIUS HERE!!
-        WE'RE DOING IT ALPHABETICALLY:
-        ADITI - 1
-        ANDREW - 2
-        BEN - 3
-        TONY - 4
-        
-        OTHER VALUES IF YOU HAVE TIME:
-        0, 5, 6, 7(MAYBE)
-        """
-        
-        
-        #radius = r
-        radius = 5 #miles
-        radius_arr = []
-        
-        base_string_all = 'aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius'
-        base_string_drugs = 'aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug'
-        
-        for k in range(0,10):
-            radius_denom = radius + (k/10)
-            radius_arr.append(radius_denom)    #saves float values in array (5.0, 5.1, ...)
-            
-            add_on = str((radius*10)+k)      #creates string of integer values (50, 51, ...)
-            repo_string_all = base_string_all + add_on
-            repo_string_drug = base_string_drugs + add_on
-            
-            repo.dropPermanent(repo_string_all)
-            repo.createPermanent(repo_string_all)
-
-            repo.dropPermanent(repo_string_drug)
-            repo.createPermanent(repo_string_drug)
-
-
-        if (trial == True):
-            crime = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.aggregate([ { sample: { size: 50 } } ])
-        else:
-            crimes = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.find().batch_size(10)
-        for crime in crimes:
-            crimeDict = dict(crime)
-
-            if crimeDict["latitude"] == None or crimeDict["longitude"] == None:
-                pass
-            else:
-                crimeLatLong = (crimeDict["latitude"], crimeDict["longitude"])
-
-                countSchools = [0] * 10
-                countPrivateSchools = [0] * 10
-                countPublicSchool = [0] * 10
-                countDayCares = [0] * 10
-                countDayCamps = [0] * 10
-                countPrivateDayCares = [0] * 10
-                countPublicDayCares = [0] * 10
-                countChildFeedingPrograms = [0] * 10
-
-                schools = repo.aditid_benli95_teayoon_tyao.schoolsMaster.find()
-                for school in schools:
-                    schoolDict = dict(school)
-                    schoolLatLong = (schoolDict["latitude"], schoolDict["longitude"])
-
-                    dist = great_circle(crimeLatLong, schoolLatLong).miles
-
-                    if dist <= (radius + 0.9):
-                        for num in range(0,10):
-                            if dist <= radius_arr[num]:
-                                countSchools[num] += 1
-                                if schoolDict["type"] == "public":
-                                    countPublicSchool[num] += 1
-                                else:
-                                    countPrivateSchools[num] += 1
-
-                dayCampdayCares = repo.aditid_benli95_teayoon_tyao.dayCampdayCaresMaster.find()
-                for dayCampdayCare in dayCampdayCares:
-                    dayCampdayCareLatLong = (dayCampdayCare["latitude"], dayCampdayCare["longitude"])
-
-                    dist = great_circle(crimeLatLong, dayCampdayCareLatLong).miles
-
-                    if dist <= (radius + 0.9):
-                        for num in range(0,10):
-                            if dist <= radius_arr[num]:
-                                if dayCampdayCare["type"] == "private daycare":
-                                    countDayCares[num] += 1
-                                    countPrivateDayCares[num] += 1
-                                if dayCampdayCare["type"] == "public daycare":
-                                    countDayCares[num] += 1
-                                    countPublicDayCares[num] += 1
-                                if dayCampdayCare["type"] == "day camp":
-                                    countDayCamps[num] += 1
-
-                childFeedingPrograms = repo.aditid_benli95_teayoon_tyao.childFeedingProgramsTrimmed.find()
-                for program in childFeedingPrograms:
-                    programLatLong = (program['latitude'], program['longitude'])
-
-                    dist = great_circle(crimeLatLong, programLatLong).miles
-
-                    if dist <= (radius + 0.9):
-                        for num in range(0,10):
-                            if dist <= radius_arr[num]:
-                                countChildFeedingPrograms[num] += 1
-                                
-                base_string_1 = "repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius"
-                base_string_2 = ".insert_one(thisCrime)"
-                for num in range(0,10):
-                    thisCrime = {"location": crimeLatLong, "schoolsInRadius": countSchools[num], "privateSchoolsInRadius": countPrivateSchools[num], "publicSchoolsInRadius": countPublicSchool[num], "dayCaresInRadius": countDayCares[num], "privateDayCaresInRadius": countPrivateDayCares[num], "publicDayCaresInRaidus": countPublicDayCares[num], "dayCampsInRadius": countDayCamps[num], "childFeedingProgramsInRadius": countChildFeedingPrograms[num], "total": countSchools[num] + countDayCamps[num] + countDayCares[num] + countChildFeedingPrograms[num]}
-                
-                    add_on = (radius * 10) + num
-                    whole_string = base_string_1 + str(add_on) + base_string_2
-                    exec(whole_string)
     
+        for i in range(0, 5):
 
+            radius = i
 
-        if (trial == True):
-            crime = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.aggregate([ { sample: { size: 50 } } ])
-        else:
-            crimes = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.find().batch_size(10)
-        for crime in crimes:
-            crimeDict = dict(crime)
-            if crimeDict["latitude"] == None or crimeDict["longitude"] == None:
-                pass
-            else:
-                crimeLatLong = (crimeDict["longitude"], crimeDict["latitude"])
-
-                countSchools = [0] * 10
-                countPrivateSchools = [0] * 10
-                countPublicSchool = [0] * 10
-                countDayCares = [0] * 10
-                countDayCamps = [0] * 10
-                countPrivateDayCares = [0] * 10
-                countPublicDayCares = [0] * 10
-                countChildFeedingPrograms = [0] * 10
-
-                schools = repo.aditid_benli95_teayoon_tyao.schoolsMaster.find()
-                for school in schools:
-                    schoolDict = dict(school)
-                    schoolLatLong = (schoolDict["latitude"], schoolDict["longitude"])
-
-                    dist = great_circle(crimeLatLong, schoolLatLong).miles
-
-                    if dist <= (radius + 0.9):
-                        for num in range(0,10):
-                            if dist <= radius_arr[num]:
-                                countSchools[num] += 1
-                                if schoolDict["type"] == "public":
-                                    countPublicSchool[num] += 1
-                                else:
-                                    countPrivateSchools[num] += 1
-
-                dayCampdayCares = repo.aditid_benli95_teayoon_tyao.dayCampdayCaresMaster.find()
-                for dayCampdayCare in dayCampdayCares:
-                    dayCampdayCareLatLong = (dayCampdayCare["latitude"], dayCampdayCare["longitude"])
-
-                    dist = great_circle(crimeLatLong, dayCampdayCareLatLong).miles
-
-                    if dist <= (radius + 0.9):
-                        for num in range(0,10):
-                            if dist <= radius_arr[num]:
-                                if dayCampdayCare["type"] == "private daycare":
-                                    countDayCares[num] += 1
-                                    countPrivateDayCares[num] += 1
-                                if dayCampdayCare["type"] == "public daycare":
-                                    countDayCares[num] += 1
-                                    countPublicDayCares[num] += 1
-                                if dayCampdayCare["type"] == "day camp":
-                                    countDayCamps[num] += 1
-
-                childFeedingPrograms = repo.aditid_benli95_teayoon_tyao.childFeedingProgramsTrimmed.find()
-                for program in childFeedingPrograms:
-                    programLatLong = (program['latitude'], program['longitude'])
-
-                    dist = great_circle(crimeLatLong, programLatLong).miles
-
-                    if dist <= (radius + 0.9):
-                        for num in range(0,10):
-                            if dist <= radius_arr[num]:
-                                countChildFeedingPrograms[num] += 1
-
-                base_string_1 = "repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug"
-                base_string_2 = ".insert_one(thisCrime)"
-                for num in range(0,10):
-                    
-                    thisCrime = {"location": crimeLatLong, "schoolsInRadius": countSchools[num], "privateSchoolsInRadius": countPrivateSchools[num], "publicSchoolsInRadius": countPublicSchool[num], "dayCaresInRadius": countDayCares[num], "privateDayCaresInRadius": countPrivateDayCares[num], "publicDayCaresInRaidus": countPublicDayCares[num], "dayCampsInRadius": countDayCamps[num], "childFeedingProgramsInRadius": countChildFeedingPrograms[num], "total": countSchools[num] + countDayCamps[num] + countDayCares[num] + countChildFeedingPrograms[num]}
+            radius_arr = []
+            
+            base_string_all = 'aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius'
+            base_string_drugs = 'aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug'
+            
+            for k in range(0,10):
+                radius_denom = radius + (k/10)
+                radius_arr.append(radius_denom)    #saves float values in array (5.0, 5.1, ...)
                 
-                    add_on = (radius * 10) + num
-                    whole_string = base_string_1 + str(add_on) + base_string_2
-                    exec(whole_string)
+                add_on = str((radius*10)+k)      #creates string of integer values (50, 51, ...)
+                repo_string_all = base_string_all + add_on
+                repo_string_drug = base_string_drugs + add_on
+                
+                repo.dropPermanent(repo_string_all)
+                repo.createPermanent(repo_string_all)
+
+                repo.dropPermanent(repo_string_drug)
+                repo.createPermanent(repo_string_drug)
+
+
+            if (trial == True):
+                crime = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.aggregate([ { sample: { size: 50 } } ])
+            else:
+                crimes = repo.aditid_benli95_teayoon_tyao.allCrimesMaster.find().batch_size(10)
+            for crime in crimes:
+                crimeDict = dict(crime)
+
+                if crimeDict["latitude"] == None or crimeDict["longitude"] == None:
+                    pass
+                else:
+                    crimeLatLong = (crimeDict["latitude"], crimeDict["longitude"])
+
+                    countSchools = [0] * 10
+                    countPrivateSchools = [0] * 10
+                    countPublicSchool = [0] * 10
+                    countDayCares = [0] * 10
+                    countDayCamps = [0] * 10
+                    countPrivateDayCares = [0] * 10
+                    countPublicDayCares = [0] * 10
+                    countChildFeedingPrograms = [0] * 10
+
+                    schools = repo.aditid_benli95_teayoon_tyao.schoolsMaster.find()
+                    for school in schools:
+                        schoolDict = dict(school)
+                        schoolLatLong = (schoolDict["latitude"], schoolDict["longitude"])
+
+                        dist = great_circle(crimeLatLong, schoolLatLong).miles
+
+                        if dist <= (radius + 0.9):
+                            for num in range(0,10):
+                                if dist <= radius_arr[num]:
+                                    countSchools[num] += 1
+                                    if schoolDict["type"] == "public":
+                                        countPublicSchool[num] += 1
+                                    else:
+                                        countPrivateSchools[num] += 1
+
+                    dayCampdayCares = repo.aditid_benli95_teayoon_tyao.dayCampdayCaresMaster.find()
+                    for dayCampdayCare in dayCampdayCares:
+                        dayCampdayCareLatLong = (dayCampdayCare["latitude"], dayCampdayCare["longitude"])
+
+                        dist = great_circle(crimeLatLong, dayCampdayCareLatLong).miles
+
+                        if dist <= (radius + 0.9):
+                            for num in range(0,10):
+                                if dist <= radius_arr[num]:
+                                    if dayCampdayCare["type"] == "private daycare":
+                                        countDayCares[num] += 1
+                                        countPrivateDayCares[num] += 1
+                                    if dayCampdayCare["type"] == "public daycare":
+                                        countDayCares[num] += 1
+                                        countPublicDayCares[num] += 1
+                                    if dayCampdayCare["type"] == "day camp":
+                                        countDayCamps[num] += 1
+
+                    childFeedingPrograms = repo.aditid_benli95_teayoon_tyao.childFeedingProgramsTrimmed.find()
+                    for program in childFeedingPrograms:
+                        programLatLong = (program['latitude'], program['longitude'])
+
+                        dist = great_circle(crimeLatLong, programLatLong).miles
+
+                        if dist <= (radius + 0.9):
+                            for num in range(0,10):
+                                if dist <= radius_arr[num]:
+                                    countChildFeedingPrograms[num] += 1
+                                    
+                    base_string_1 = "repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadius"
+                    base_string_2 = ".insert_one(thisCrime)"
+                    for num in range(0,10):
+                        thisCrime = {"location": crimeLatLong, "schoolsInRadius": countSchools[num], "privateSchoolsInRadius": countPrivateSchools[num], "publicSchoolsInRadius": countPublicSchool[num], "dayCaresInRadius": countDayCares[num], "privateDayCaresInRadius": countPrivateDayCares[num], "publicDayCaresInRaidus": countPublicDayCares[num], "dayCampsInRadius": countDayCamps[num], "childFeedingProgramsInRadius": countChildFeedingPrograms[num], "total": countSchools[num] + countDayCamps[num] + countDayCares[num] + countChildFeedingPrograms[num]}
+                    
+                        add_on = (radius * 10) + num
+                        whole_string = base_string_1 + str(add_on) + base_string_2
+                        exec(whole_string)
+        
+
+
+            if (trial == True):
+                crime = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.aggregate([ { sample: { size: 50 } } ])
+            else:
+                crimes = repo.aditid_benli95_teayoon_tyao.allDrugCrimesMaster.find().batch_size(10)
+            for crime in crimes:
+                crimeDict = dict(crime)
+                if crimeDict["latitude"] == None or crimeDict["longitude"] == None:
+                    pass
+                else:
+                    crimeLatLong = (crimeDict["longitude"], crimeDict["latitude"])
+
+                    countSchools = [0] * 10
+                    countPrivateSchools = [0] * 10
+                    countPublicSchool = [0] * 10
+                    countDayCares = [0] * 10
+                    countDayCamps = [0] * 10
+                    countPrivateDayCares = [0] * 10
+                    countPublicDayCares = [0] * 10
+                    countChildFeedingPrograms = [0] * 10
+
+                    schools = repo.aditid_benli95_teayoon_tyao.schoolsMaster.find()
+                    for school in schools:
+                        schoolDict = dict(school)
+                        schoolLatLong = (schoolDict["latitude"], schoolDict["longitude"])
+
+                        dist = great_circle(crimeLatLong, schoolLatLong).miles
+
+                        if dist <= (radius + 0.9):
+                            for num in range(0,10):
+                                if dist <= radius_arr[num]:
+                                    countSchools[num] += 1
+                                    if schoolDict["type"] == "public":
+                                        countPublicSchool[num] += 1
+                                    else:
+                                        countPrivateSchools[num] += 1
+
+                    dayCampdayCares = repo.aditid_benli95_teayoon_tyao.dayCampdayCaresMaster.find()
+                    for dayCampdayCare in dayCampdayCares:
+                        dayCampdayCareLatLong = (dayCampdayCare["latitude"], dayCampdayCare["longitude"])
+
+                        dist = great_circle(crimeLatLong, dayCampdayCareLatLong).miles
+
+                        if dist <= (radius + 0.9):
+                            for num in range(0,10):
+                                if dist <= radius_arr[num]:
+                                    if dayCampdayCare["type"] == "private daycare":
+                                        countDayCares[num] += 1
+                                        countPrivateDayCares[num] += 1
+                                    if dayCampdayCare["type"] == "public daycare":
+                                        countDayCares[num] += 1
+                                        countPublicDayCares[num] += 1
+                                    if dayCampdayCare["type"] == "day camp":
+                                        countDayCamps[num] += 1
+
+                    childFeedingPrograms = repo.aditid_benli95_teayoon_tyao.childFeedingProgramsTrimmed.find()
+                    for program in childFeedingPrograms:
+                        programLatLong = (program['latitude'], program['longitude'])
+
+                        dist = great_circle(crimeLatLong, programLatLong).miles
+
+                        if dist <= (radius + 0.9):
+                            for num in range(0,10):
+                                if dist <= radius_arr[num]:
+                                    countChildFeedingPrograms[num] += 1
+
+                    base_string_1 = "repo.aditid_benli95_teayoon_tyao.numberOfEstablishmentsinRadiusDrug"
+                    base_string_2 = ".insert_one(thisCrime)"
+                    for num in range(0,10):
+                        
+                        thisCrime = {"location": crimeLatLong, "schoolsInRadius": countSchools[num], "privateSchoolsInRadius": countPrivateSchools[num], "publicSchoolsInRadius": countPublicSchool[num], "dayCaresInRadius": countDayCares[num], "privateDayCaresInRadius": countPrivateDayCares[num], "publicDayCaresInRaidus": countPublicDayCares[num], "dayCampsInRadius": countDayCamps[num], "childFeedingProgramsInRadius": countChildFeedingPrograms[num], "total": countSchools[num] + countDayCamps[num] + countDayCares[num] + countChildFeedingPrograms[num]}
+                    
+                        add_on = (radius * 10) + num
+                        whole_string = base_string_1 + str(add_on) + base_string_2
+                        exec(whole_string)
 
         endTime = datetime.datetime.now()
         return {"Start ":startTime, "End ":endTime}
