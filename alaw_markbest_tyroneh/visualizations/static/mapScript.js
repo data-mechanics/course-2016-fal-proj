@@ -1,5 +1,5 @@
   
-var map = L.map('map').setView([42.35, -71.1], 13);//[-41.2858, 174.7868], 13);
+var map = L.map('map').setView([42.32, -71.09], 13);//[-41.2858, 174.7868], 13);
 mapLink = 
     '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 L.tileLayer(
@@ -64,7 +64,7 @@ L.tileLayer(
       .enter().append("circle")
       .style("stroke", "black")  
       .style("opacity", 1) 
-      .style("fill", "red")
+      .style("fill", "#ffc091")
       .attr("r", 5);
 
     var new_stops_svg = g.selectAll("newstops")
@@ -72,7 +72,7 @@ L.tileLayer(
       .enter().append("circle")
       .style("stroke", "black")  
       .style("opacity", 1) 
-      .style("fill", "green")
+      .style("fill", "#ff6e00")
       .attr("r", 5);
 
     
