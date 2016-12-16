@@ -9,7 +9,7 @@ import math
 
 class getNeighborhoodScores(dml.Algorithm):
     contributor = 'jyaang_robinliu106'
-    reads = []
+    reads = ['jyaang_robinliu106.hospital', 'jyaang_robinliu106.school', 'jyaang_robinliu106.dayCamp', 'jyaang_robinliu106.crime', 'jyaang_robinliu106.property']
     writes = ['jyaang_robinliu106.hospital_coord', 'jyaang_robinliu106.school_coord', 'jyaang_robinliu106.DayCamp_coord', 'jyaang_robinliu106.neighborhood_scores']
 
     @staticmethod
