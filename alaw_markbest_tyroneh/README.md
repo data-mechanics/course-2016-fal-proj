@@ -107,8 +107,10 @@ data2Geo.js contains the map-reduce functions for transforming the location base
 getAvgVels.js contains the map-reduce functions for calculates bus velocities based on nextBus data. Functions are called by the execute() in transformData.py
   
 Run main.py to execute scripts in order, use flags to customize speed and output of algorithms
-
-
+  
+**Running Visualizations**: run the server.py file under /visualizations  
+**127.0.0.1:5000/kmeans**: Bus Stop Optimization Visualization for Route 39  
+**127.0.0.1:5000/allocation**: Bus Allocation Optimization Visualization  
   
 
 
