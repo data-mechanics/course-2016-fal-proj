@@ -3,7 +3,9 @@ extends layout
 block content
   h1 CS591
   p Welcome to CS591's Demo Page
+  p Visualization #1: Crimes (y-axis) vs Street Lights (x-axis)
   svg(width='960', height='500', id='viz')
+  p Visualization #2: Heatmap of street lights and crime - street lights are represented by the heat map and crime are represented by the numbers
   #mapid
   script(type="text/javascript").
     var svg = d3.select("#viz"),
