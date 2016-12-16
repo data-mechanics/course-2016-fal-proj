@@ -91,7 +91,7 @@ in MongoDB's databases (see [this](https://docs.mongodb.com/manual/core/2dsphere
 	- The existing 'location' field was renamed to 'location_details'
 	- The 'location' field was added and, from the existing (now) 'location_details' field, we parsed their location_details.latitude and
 		location_details.longitude sub-fields (both strings) and added the geolocation data in correct GeoJSON format
-	- For project two, we decided to not include this dataset because there was no way of determing where the truck was coming from and going to.
+	- For project two, we decided to not include this dataset because there was no way of determing where the truck was coming from and going to. We didn't include this in the final submission either, as there wasn't enough time to integrate it. 
 - Year Round Swimming Pools
 	- We transformed the included coordinate system in a similar way to how we transformed the Issued Moving Truck Permits. However, since the coordinates were in a format that we didn't understand, we manually input each address into GeoPy to find the latitude and longitude for each pool.
 	- We decided to not transform this dataset any further for project two, because we still need to find a way to distinguish between the public pools (which are an indicator of positive community) and the pools that require an admission fee (which we would categorize an a negative community indicator).
@@ -100,6 +100,52 @@ in MongoDB's databases (see [this](https://docs.mongodb.com/manual/core/2dsphere
 - Parking Lots/Garages:
 	- Scraped GPS locations using GoogleMaps API and other resources listing parking lots/garages in Boston
 	
+### Project 2 and 3 algorithms
+
+The transformations/algorithms used to create the five new data sets occurred in the following manner.
+
+1. Community Indicators Location and Score
+
+	* First, we took seven datasets:
+	
+		- Crime Incident Reports (from July 2012 - August 2015)
+		- Public Access Fishing Locations, Issued Moving Truck Permits
+		- Active Food Establishment Licenses, Entertainment Licenses
+		- Community Supported Agriculture Pickups
+		- Year-Round Swimming Pools.
+		- Boston Parking Lots
+		- Boston Libaries
+		
+	* We assumed that Fishing Locations, CSA pickups, year round pools and libraries have positive effect on a community. That is why we assigned community_score = 1 for each location. (for now, we ignored the pools dataset; will incorporate in Project 3)
+	* Analogously, for each location that fell under the category of "anti-community" (such as Restaurant Licenses, Parking, and Entertainment Licenses), we assigned a community_score = -1.
+	* Then, we multiply each "anti-community" community_score by the ratio that was detailed above.
+
+2. Boston Grid Cell GPS Centers (1000-FT Cells)
+
+	* Taking the Boston Shapefile (downloaded from this resource: http://www.arcgis.com/home/item.html?id=734463787ac44a648fe9119af4e98cae) and its coordinate points (while also finding the necessary coordinate-system reprojection into standard GPS coordinates), we found/used only the mainland and airport/East Boston geographic divisions of the shapefile, and subsequently divided up Boston into a grid of roughly ~1000x~1000-ft cells, and output into the "Boston Grid Cell GPS Centers (1000-FT Cells)" dataset the list of about ~1700 coordinates ((longitude, latitude) as (x,y) coordinates), each coordinate the respective center of a cell/box in the Boston-divided grid.
+	* Note: this may not run for you. We've included a file called `centers.txt` which contains the output equivalent to what would be stored in the database. The code where we stored to the database is still included, but our code depends on `centers.txt` for the sake of being flexible.
+	
+
+3. Boston Grid Cells Inverse Community Score
+
+	* For each GPS center, we calculated the distance between itself and all the location points using the distance formula.
+	* Then, we multpled each respective calculated distance by the community score (from 'Community Indicators Location and Score') to obtain the overall impact on the cell's GPS center.
+	* Then, we took the inverse of the entire sum and took that to be that specific cell's "Community Score/Value".
+
+4. Distinct Entertainment Licenses (without restaurants)
+
+	* First, we cleaned up the Entertainment Licenses dataset to exclude multiple entries for one license.
+	* Then, we looked for the overlap between the Restaurant Licenses and the Entertainment Licenses by comparing the latitude, longitude, street name, street number, city, etc.
+	* If it was the case that the same entry was found in both datasets, remove the entry from the Entertainment Licenses dataset, as that means that specific entry is actually a restaurant.
+
+5. Boston Grid Cells Crime Incidence 2012 - 2015
+
+	* We looked at the crime data and the output from Boston Grid Cell GPS Centers(1000-FT Cells). From here, we keep a running count of how many crimes occured within each 1000x1000ft cell, as determined by finding the geographically closest cell's GPS center for this current crime's reported location.
+
+6. Property Assessment 2016
+	
+	* We looked at the property value data and the output from the Boston Grid GPS Centers(1000-FT Cells). From here, we take the log of the average property value in a given cell.
+
 ## Dependencies
 
 Please make sure to install the following using pip:
