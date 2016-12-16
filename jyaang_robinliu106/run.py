@@ -1,4 +1,0 @@
-import getHospitals
-import getSchools
-import getCrimes
-import getNeighborhoodScores
