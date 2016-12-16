@@ -96,7 +96,11 @@ For modeling
 * random
 * rtree (requires libspatialindex; see below)
     * [libspatialindex] (https://libspatialindex.github.io/)
-\* **MAKE SURE YOU HAVE MONGOD RUNNING FIRST AND AUTH'D** \*
+* flask
+* matplotlib
+* numpy
+  
+  \* **MAKE SURE YOU HAVE MONGOD RUNNING FIRST AND AUTH'D** \*
   
 **main.py**: executes all scripts in order and performs optimizations (-t: trial mode to do Algo R Sampling on datasets, -v: produce graphs for optimizations)  
 **getData.py**: Pulls raw data and stores them inside MongoDB and records prov  
@@ -107,10 +111,10 @@ data2Geo.js contains the map-reduce functions for transforming the location base
 getAvgVels.js contains the map-reduce functions for calculates bus velocities based on nextBus data. Functions are called by the execute() in transformData.py
   
 Run main.py to execute scripts in order, use flags to customize speed and output of algorithms
-
-
   
-
+**Running Visualizations**: run the server.py file under /visualizations  
+**127.0.0.1:5000/kmeans**: Bus Stop Optimization Visualization for Route 39
+**127.0.0.1:5000/allocation**: Bus Allocation Optimization Visualization
 
 
 
