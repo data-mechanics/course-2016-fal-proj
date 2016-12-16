@@ -3,6 +3,8 @@ Project repository for the course project in the Fall 2016 iteration of the Data
 
 ## Group Members
 
+Assel Aliyeva, Benjamin Owens, David Wang, and Jennifer Tsui
+
 ## Introduction
 
 The interesting question we are trying to solve is this: if, given different "types" of city establishments/infrastructure that can either be categorized as 
@@ -31,13 +33,17 @@ The six new data sets we have created as a result of these 7 data sets are calle
 
 - created in `combineRestaurantEnt.py`
 	- Distinct Entertainment Licenses (without restaurants)
+	
 - created in `gridCenters.py` 
 	- Boston Grid Cell GPS Centers (1000-FT Cells)
 	- *Note:* Only David can run this file, since he used a deprecated package that we don't have access to. As a result, we kept track of the cell centers by referring to the file titles `centers.txt`
+	
 - created in `scoreLocations.py`
 	- Community Indicators Location and Score
+	
 - created in `distancesCommunityScoreCalculations.py`
 	- Boston Grid Cells Inverse Community Score
+	
 - created in `crimeRates_and_propertyVals_Faster_Aggregation.py`
 	- Boston Grid Cells Crime Incidence 2012 - 2015
 	- Property Assessment 2016
@@ -322,5 +328,3 @@ To extend on this, we may choose to extend on the idea of these correlations wit
 Furthermore, we could fine turn the metric of getting the crime score by taking each GPS center and calculating the distance between itself and all the crime location points using the distance formula. Then, we could multiply each respective calculated distance by the community score (from 'Community Indicators Location and Score') to obtain the overall impact on the cell's GPS center. Then, take the inverse of the entire sum and took that to be that specific cell's “Crime Score”. We tried to do this using a numpy matrix, but it proved to be too computationally intensive. 
 
 Another way to extend on this project would be to take into account other datasets (such as Issued Moving Truck Permits) and finding how those would be correlated to community. 
-
-
