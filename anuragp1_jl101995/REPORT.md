@@ -62,6 +62,7 @@ The following outlines the series of data transformations, computations, and/or 
 
 * **Create JSON Files for D3 Map Visualization**
     To create a D3 visualization of subway station, CitiBike station, and pedestrian region on a map with their usages, we needed to get each station with their coordinates and usage in the following JSON format:
+    
     ```{ "1 Ave & E 30 St":[-73.97536082, 40.74144387, 43713.0], 
          "Point_Name" : [Longitude, Latitude, Usage], ... }
     ```
