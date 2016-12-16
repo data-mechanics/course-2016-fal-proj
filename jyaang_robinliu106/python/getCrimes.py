@@ -8,7 +8,7 @@ import uuid
 class getCrimes(dml.Algorithm):
     contributor = 'jyaang_robinliu106'
     reads = []
-    writes = ['jyaang_robinliu106.crime', 'jyaang_robinliu106.found']
+    writes = ['jyaang_robinliu106.crime']
 
     @staticmethod
     def execute(trial = False):
