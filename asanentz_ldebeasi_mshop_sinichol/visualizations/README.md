@@ -2,7 +2,7 @@
 
 ## How to Use
 * Download/Clone this repo
-* Start mongo using `mongod --auth`. macOS users may need `mongod --auth --dbpath /data/db"`.
+* Start mongo using `mongod --auth`. macOS users may need `mongod --auth --dbpath "/data/db"`.
 * Be sure to run all files under "To Run" here: <https://github.com/liamdebeasi/course-2016-fal-proj/tree/master/asanentz_ldebeasi_mshop_sinichol>
 * Navigate to `visualizations/`
 * Run `npm install` to install all Node dependencies. macOS users may need to run `sudo npm install`.
