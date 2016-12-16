@@ -93,12 +93,12 @@ For modeling
 * pyshp
 * pyproj
 * dbfread
+* numpy
 * random
 * rtree (requires libspatialindex; see below)
     * [libspatialindex] (https://libspatialindex.github.io/)
 * flask
 * matplotlib
-* numpy
   
   \* **MAKE SURE YOU HAVE MONGOD RUNNING FIRST AND AUTH'D** \*
   
