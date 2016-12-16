@@ -30,7 +30,7 @@ class megaMapReduce(dml.Algorithm):
         
         
         for i in range(0, 5):
-
+            radius = i
             map_function = Code('''function() {
                 emit(this.total, {crimes:1, total:this.total, product:this.total, temp:5});
                 }''')
