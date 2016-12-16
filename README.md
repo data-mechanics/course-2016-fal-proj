@@ -100,7 +100,6 @@ in MongoDB's databases (see [this](https://docs.mongodb.com/manual/core/2dsphere
 - Parking Lots/Garages:
 	- Scraped GPS locations using GoogleMaps API and other resources listing parking lots/garages in Boston
 	
-	
 ## Dependencies
 
 Please make sure to install the following using pip:
@@ -117,15 +116,12 @@ pip3 install pyproj
 pip3 install -U googlemaps
 ```
 
-Moreover, make sure you run the files in this order:
+Then, run the following file. The command line prompt would look like this:
 
-1. `retrieveData.py`
-2. `libraries.py`
-3. `parking.py`
-4. `cleanup.py`
-5. `combineRestaurantEnt.py`
-6. `scoreLocations.py`
-7. `gridCenters.py`
+```
+python3 MAIN_SCRIPT.py
+```
+
 ## Algorithms, Tools, and Methods
 
 The following data sets were retrieved, stored, and transformed in some specific way, all in order to facilitate the
