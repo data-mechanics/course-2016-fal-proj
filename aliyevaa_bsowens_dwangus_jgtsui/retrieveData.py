@@ -38,8 +38,8 @@ class retrieveData(dml.Algorithm):
     with open('auth.json') as data_file:
         auth = json.load(data_file)
 
-    # authentication_stuff = '?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']
-    authentication_stuff = '?$$app_token=%s' % auth['services']['cityOfBostonDataPortal']['token']
+    authentication_stuff = '?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']
+   # authentication_stuff = '?$$app_token=%s' % auth['services']['cityOfBostonDataPortal']['token']
 
 
     writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]

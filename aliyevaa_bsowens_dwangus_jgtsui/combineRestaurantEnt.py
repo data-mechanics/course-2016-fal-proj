@@ -193,8 +193,10 @@ class combineRestaurantEnt(dml.Algorithm):
 # print(doc.get_provn())
 #print(json.dumps(json.loads(doc.serialize()), indent=4))
 
-## eof
+
 def main():
     print("Executing: combineRestaurantEnt.py")
     combineRestaurantEnt.execute()
     doc = combineRestaurantEnt.provenance()
+
+## eof
