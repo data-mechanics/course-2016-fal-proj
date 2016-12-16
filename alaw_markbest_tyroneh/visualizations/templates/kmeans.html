@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>d3.js with leaflet.js</title>
+		<link 
+		rel="stylesheet" 
+		href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"
+		/>
+	</head>
+	<body>
+		<div id = "content" style="height: 800px; text-align:center;">
+			<div id="map" style=" float: left; width: 60%; height: 780px; margin: 2%; margin-right: 5px;"></div>
+			<div id = "box" style="float: left;  width: 400px; margin: 2%; margin-left: 5px; font-family: 'Arial',sans-serif; color: #4e74ba" >
+				<h1 id = 'title' style = "color: #e36c09;" >Optimal Bus Allocations</h1>
+				<p style="text-align: left;">
+					<br>
+					The goal of our bus allocation function is to <b>minimize waiting time at each stop</b> and the <b>frustration of buses that “overtake” each other</b>. We calculated a scoring function, which accounts for the <b>average total waiting time at every stop</b> given K buses on that route, and the <b>average inefficiency of a route with K buses</b> determined by the total probability a bus would overtake another. This is minimized by varying the allocation of buses for all routes and calculating the score for K buses allocated for each.
+					<br><br>
+					Secondly, we also determined the optimal allocation of buses across all routes given a number of buses. The interactive D3 Element to the left is the result.
+					<br> <br>
+					<b>X axis:</b> Allocation of buses / route.
+					<br><br>
+					<b>Y axis:</b> Allocation score determined by the scoring function.
+					<br><br>
+					<b>Orange points</b> are the optimum scores and allocations for that route (mouse over to see which route).
+					<br><br>
+					<b>Blue lines</b> are the score curves for each route.
+					<br><br>
+					Mouse over the number to <b>change the total allocation</b> of buses for all routes
+				</p>
+				<div id='box-bottom' style="margin-top: 30px; width: 400px; font-size: 12px; text-align: left;" >
+					 <a href="/allocation">Go To Bus Allocation Optimization</a>  &nbsp;
+					 <a href="http://datamechanics.org/">Data Mechanics Class</a>  &nbsp; &nbsp;
+					 <a href="https://github.com/tyronehou/course-2016-fal-proj/tree/master/">Our GitHub</a> 
+				</div>
+		</div>
+		<script src="{{ url_for('static', filename='d3/d3.min.js') }}"></script>
+		<script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"> </script>
+		<script src="{{ url_for('static', filename='mapScript.js') }}"></script>
+
+	</body>
+</html>

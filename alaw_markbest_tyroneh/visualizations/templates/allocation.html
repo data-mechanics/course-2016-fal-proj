@@ -58,7 +58,7 @@ text {
 					Mouse over the number to <b>change the total allocation</b> of buses for all routes
 				</p>
 				<div id='box-bottom' style="margin-top: 30px; width: 400px; font-size: 12px; text-align: left;" >
-					 <a href="/">Go To Bus Stop Optimization</a>  &nbsp; &nbsp; &nbsp; &nbsp;
+					 <a href="/kmeans">Go To Bus Stop Optimization</a>  &nbsp; &nbsp; &nbsp; &nbsp;
 					 <a href="http://datamechanics.org/">Data Mechanics Class</a>  &nbsp; &nbsp; &nbsp; &nbsp;
 					 <a href="https://github.com/tyronehou/course-2016-fal-proj/tree/master/">Our GitHub</a> 
 				</div>
@@ -143,7 +143,7 @@ text {
 			function y(dot) {return dot.score}
 			function radius(dot) {return dot.size}
 			function key(dot) { return dot.name; }
-
+			
 			// Load the data.
 			d3.json("/allocationScores", function(error,routes) {
 				if (error) throw error;

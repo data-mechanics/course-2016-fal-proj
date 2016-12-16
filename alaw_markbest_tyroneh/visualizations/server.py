@@ -37,7 +37,7 @@ def loadAllocation():
 def loadKMeans():
 	'''loads the visualization for bus allocation'''
 
-	return render_template('index.html')
+	return render_template('kmeans.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
