@@ -15,8 +15,8 @@ $ python run.py
 
 To view our page:
 
-$ npm install
-$ node app.js
+jyaang_robinliu106 $ npm install
+jyaang_robinliu106 $ node app.js
 
 In your Browser, go to "localhost:8000" to view page.
 
