@@ -1,4 +1,4 @@
-# Finding Community Hotspots in Boston
+# Finding Community Hotspots in Boston -- Report
 Project repository for the course project in the Fall 2016 iteration of the Data Mechanics course at Boston University.
 
 ## Group Members
