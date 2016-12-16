@@ -51,8 +51,7 @@ For modeling
 
 2. **Bus allocation optimization**: The second most important consideration in optimizing bus routes is the number of buses each route should be allocated. Using MBTA bus location data with estimates of their average speed and deviation, the average completion time of a route per bus plus the deviation of that time can be derived. Two metrics used to measure the allocation is the latency of the route (on average how long it takes for a stop to be serviced) and the inefficiency of the allocation (the probability that two bus schedules will overlap each other at some point).  Assuming that the distribution of completion time is normally distributed, and that buses will be sent out at equal intervals to maximize coverage, the formula for optimization is below:  
   
-![Allocation Score Formula](/poster/optimalAllocationFormula.gif)
-Format: ![Alt Text](url)
+![Allocation Score Formula](https://raw.githubusercontent.com/tyronehou/course-2016-fal-proj/master/alaw_markbest_tyroneh/poster/optimalAllocationFormula.gif)
 
 Total latency is simplified in that inter-stop distance is not calculated, rather latency is the average interarrival time (completion time / k) multiplied by n, where n is the number of stops and k is the number of buses. Inefficiency can be measured by the total area of intersection of k normal distributions multiplied by the number of buses. Output in the collection OptimumAllocation stores the optimal number of buses for each route.
 
@@ -61,8 +60,7 @@ Total latency is simplified in that inter-stop distance is not calculated, rathe
 
 ####Bus Allocation
 
-![Optimal Allocation Graph](/poster/optimalAllocation.png)
-Format: ![Alt Text](url)
+![Optimal Allocation Graph](https://raw.githubusercontent.com/tyronehou/course-2016-fal-proj/master/alaw_markbest_tyroneh/poster/optimalAllocation.png)
 
 The results we found from the optimization algorithm did consistently correlate with the results from actual allocations of each route; those routes that generally had more buses running on them due to length or importance were generally allocated more buses by our algorithm. This is most likely due to the fact that the importance, length and ridership of a route were captured by the number of stops on a route and the average and deviation of completion time per bus on that route. 
 
