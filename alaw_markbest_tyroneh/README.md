@@ -105,7 +105,7 @@ For modeling
 **main.py**: executes all scripts in order and performs optimizations (-t: trial mode to do Algo R Sampling on datasets, -v: produce graphs for optimizations)  
 **getData.py**: Pulls raw data and stores them inside MongoDB and records prov  
 **transformData.py**: Retrieves raw data and reformats/transforms them for optimization use and records prov  
-**mapData.py (TEMP)**: Simple matplotlib scatter plot of current points in datset for visualization purposes (Please replace with D3)
+**mapData.py (TEMP)**: Simple matplotlib scatter plot of current points in datset for visualization purposes (Please use D3 visualizations instead)
   
 data2Geo.js contains the map-reduce functions for transforming the location based datasets to geoJSON format. Functions are called by the execute() in transformData.py.  
 getAvgVels.js contains the map-reduce functions for calculates bus velocities based on nextBus data. Functions are called by the execute() in transformData.py
