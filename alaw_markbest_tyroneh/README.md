@@ -95,10 +95,10 @@ For modeling
 * dbfread
 * numpy
 * random
+* matplotlib
 * rtree (requires libspatialindex; see below)
     * [libspatialindex] (https://libspatialindex.github.io/)
 * flask
-* matplotlib
   
   \* **MAKE SURE YOU HAVE MONGOD RUNNING FIRST AND AUTH'D** \*
   
