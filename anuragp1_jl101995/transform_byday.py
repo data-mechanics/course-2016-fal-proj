@@ -7,14 +7,13 @@ import uuid
 import statistics
 import pandas as pd
 from bson.code import Code
-
 import numpy as np
 import scipy.stats
 import matplotlib.pyplot as plt
 import pylab
 import seaborn as sns
 
-class byday(dml.Algorithm):
+class transform_byday(dml.Algorithm):
     contributor = 'anuragp1_jl101995'
     reads = ['anuragp1_jl101995.citibike_startstation_byday', 'anuragp1_jl101995.turnstile_total_byday']
     writes = ['anuragp1_jl101995.timeseries_csv']
@@ -40,10 +39,7 @@ class byday(dml.Algorithm):
             repo.dropPermanent(sample_coll_name)
             repo.createPermanent(sample_coll_name)
 
-
             return eval(coll_name)
-
-
 
         def scaleCiti(OldValue):
             OldMax = 400
@@ -108,15 +104,12 @@ class byday(dml.Algorithm):
                 
             rows.append(station_row)
 
-
-
         dates = [k for k in list(rows[0].keys()) if k not in ['Station', 'StationCode']]
         dates = np.array(dates)
         dates = list(np.sort(dates))
 
         cols = ['Station', 'StationCode'] + dates
         timeseries_df = pd.DataFrame(rows, columns=cols)
-
 
         cats = pd.DataFrame(df, columns=['StationCode', 'Type'])
 
@@ -126,12 +119,12 @@ class byday(dml.Algorithm):
         timeseries_df_cleaned[dates] = timeseries_df_cleaned[dates].filter(regex='^20').interpolate(axis=1)
         timeseries_df_cleaned[dates] = timeseries_df_cleaned[dates].apply(pd.to_numeric)
 
-
-
         # export to csv
         print('Creating csv files for d3 visualization')
-        timeseries_df_cleaned.to_csv('station_usage.csv', index=False)
-        cats.to_csv('station_types.csv', index=False)
+        # timeseries_df_cleaned.to_csv('station_usage.csv', index=False)
+        # cats.to_csv('station_types.csv', index=False)
+        timeseries_df_cleaned.to_csv('visualizations/usage_vis/station_usage_cleaned.csv', index=False)
+        cats.to_csv('visualizations/usage_vis/station_types_cleaned.csv', index=False)
 
         print('Merging dataframes to create final dataframe')
         final_df = pd.merge(timeseries_df_cleaned, cats, how='left', on=['StationCode'])
@@ -147,7 +140,6 @@ class byday(dml.Algorithm):
         timeseries_records = json.loads(final_df.to_json()).values()
         repo.anuragp1_jl101995.timeseries_csv.insert(timeseries_records)
 
-
         print('Running linear regression comparing subway and citibike usage')
         x = final_df['C']
         y = final_df['S']
@@ -155,7 +147,7 @@ class byday(dml.Algorithm):
         r_squared = r_value**2
         print('~~~~~~~~~~~~~~~~~~ Linear Regression Values ~~~~~~~~~~~~~~~~~~')
         print('\n\n\n')
-
+f
         print('slope is ' + str(slope))
         print('intercept is ' + str(intercept))
         print('r-squared is ' + str(r_squared))
@@ -178,7 +170,7 @@ class byday(dml.Algorithm):
         plt.title('CitiBike & Subway Usage by Day')  
         plt.xlabel('CitiBike Entries')
         plt.ylabel('Subway Entries')
-        plt.savefig('scatter_subwayciti.png')
+        plt.savefig('visualizations/usage_vis/scatter_subwayciti.png')
 
     @staticmethod
     def provenance(doc=prov.model.ProvDocument(), startTime=None, endTime=None):
@@ -200,41 +192,17 @@ class byday(dml.Algorithm):
         doc.add_namespace('cny', 'https://data.cityofnewyork.us/resource/') # NYC Open Data
         doc.add_namespace('mta', 'http://web.mta.info/developers/') # MTA Data (turnstile source)
 
-        this_script = doc.agent('alg:anuragp1_jl101995#transformation5', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:anuragp1_jl101995#transform_byday', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
 
-        # Transform associating weather with turnstile
-        turnstile_weather_resource = doc.entity('dat:subway_regions',{'prov:label':'Turnstile Weather Data', prov.model.PROV_TYPE:'ont:DataSet'})
-        get_turnstile_weather = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        doc.wasAssociatedWith(get_turnstile_weather, this_script)
-        doc.usage(get_turnstile_weather, turnstile_weather_resource, startTime, None,
-                  {prov.model.PROV_TYPE:'ont:Computation'} )
-        turnstile_weather = doc.entity('dat:anuragp1_jl101995#turnstile_weather', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(turnstile_weather, this_script)
-        doc.wasGeneratedBy(turnstile_weather, get_turnstile_weather, endTime)
-        doc.wasDerivedFrom(turnstile_weather, turnstile_weather_resource, get_turnstile_weather, get_turnstile_weather, get_turnstile_weather)
-
-        # Subway Stations Data
-        stations_resource = doc.entity('cny:subway_stations',{'prov:label':'Subway Stations Data', prov.model.PROV_TYPE:'ont:DataSet'})
-        get_stations = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        doc.wasAssociatedWith(get_stations, this_script)
-        doc.usage(get_stations, stations_resource, startTime, None,
-                  {prov.model.PROV_TYPE:'ont:DataSet'} )
-        stations = doc.entity('dat:anuragp1_jl101995#subway_stations', {prov.model.PROV_LABEL:'NYC Subway Stations', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(stations, this_script)
-        doc.wasGeneratedBy(stations, get_stations, endTime)
-        doc.wasDerivedFrom(stations, stations_resource, get_stations, get_stations, get_stations)
-
-        # Turnstile Data
-        turnstile_resource = doc.entity('mta:turnstile', {'prov:label':'Turnstile Data', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'txt'})
-        get_turnstile = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime) 
-        doc.wasAssociatedWith(get_turnstile, this_script)
-        doc.usage(get_turnstile, turnstile_resource, startTime, None,
-                  {prov.model.PROV_TYPE:'ont:DataSet'} )
-        turnstile = doc.entity('dat:anuragp1_jl101995#turnstile', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(turnstile, this_script)
-        doc.wasGeneratedBy(turnstile, get_turnstile, endTime)
-        doc.wasDerivedFrom(turnstile, turnstile_resource, get_turnstile, get_turnstile, get_turnstile)
-
+        # Transform creating timeseries_csv collection
+        timeseries_csv_resource = doc.entity('dat:timeseries_csv',{'prov:label':'Time Series CSV Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        get_timeseries_csv = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        doc.wasAssociatedWith(get_timeseries_csv, this_script)
+        doc.usage(get_timeseries_csv, timeseries_csv_resource, startTime, None, {prov.model.PROV_TYPE:'ont:Computation'} )
+        timeseries_csv = doc.entity('dat:anuragp1_jl101995#timeseries_csv', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(timeseries_csv, this_script)
+        doc.wasGeneratedBy(timeseries_csv, get_timeseries_csv, endTime)
+        doc.wasDerivedFrom(timeseries_csv, timeseries_csv_resource, get_timeseries_csv, get_timeseries_csv, get_timeseries_csv)
 
         repo.record(doc.serialize())  # Record the provenance document.
         repo.logout()
@@ -242,6 +210,6 @@ class byday(dml.Algorithm):
         return doc
 
 
-byday_tocsv.execute(Trial=False)
-doc = byday.provenance()
+transform_byday.execute(Trial=False)
+doc = transform_byday.provenance()
 

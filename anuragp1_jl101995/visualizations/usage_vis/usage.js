@@ -1,7 +1,5 @@
-// TODO: fix highlight toggle upon filter selection
-// TODO: properly parse date
 // TODO: fix date math --> need to get average for the entire station
-// TODO: visualization by borough (need to match each station with borough based on reverse geocoded coordinates)
+// TODO: visualization by cluster/borough (need to match each station with borough based on reverse geocoded coordinates)
 
 var types = { "S": "Subway Stations" , "C": "CitiBike Stations"},
 	w = 925,

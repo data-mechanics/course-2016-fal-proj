@@ -156,7 +156,7 @@ class transform_citibike_pedestrian(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('cny', 'https://data.cityofnewyork.us/resource/') # NYC Open Data
 
-        this_script = doc.agent('alg:anuragp1_jl101995#transforma_citibike_pedestrian', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:anuragp1_jl101995#transform_citibike_pedestrian', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
 
         # Transform getting daily pedestrian
         daily_pedestrian_resource = doc.entity('dat:daily_pedestrian',{'prov:label':'Daily Pedestrian Data', prov.model.PROV_TYPE:'ont:DataSet'})

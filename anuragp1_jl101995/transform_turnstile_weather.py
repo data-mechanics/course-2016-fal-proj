@@ -191,7 +191,7 @@ class transform_turnstile_weather(dml.Algorithm):
         doc.add_namespace('cny', 'https://data.cityofnewyork.us/resource/') # NYC Open Data
         doc.add_namespace('mta', 'http://web.mta.info/developers/') # MTA Data (turnstile source)
 
-        this_script = doc.agent('alg:anuragp1_jl101995#transforma_turnstile_weather', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:anuragp1_jl101995#transform_turnstile_weather', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
 
         # Transform associating weather with turnstile
         turnstile_weather_resource = doc.entity('dat:turnstile_weather',{'prov:label':'Turnstile Weather Data', prov.model.PROV_TYPE:'ont:DataSet'})

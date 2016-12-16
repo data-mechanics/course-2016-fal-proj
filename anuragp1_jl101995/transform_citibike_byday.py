@@ -8,13 +8,12 @@ import statistics
 import pandas as pd
 from bson.code import Code
 
-
-class transform_citibike_weather(dml.Algorithm):
+class transform_citibike_byday(dml.Algorithm):
     contributor = 'anuragp1_jl101995'
-    reads = ['anuragp1_jl101995.citibike,' 'anuragp1_jl101995.weather']
-    writes = ['anuragp1_jl101995.citibike_weather']
+    reads = ['anuragp1_jl101995.citibike']
+    writes = ['anuragp1_jl101995.citibike_startstation_byday']
 
-    @staticmethod
+    @staticmethod 
     def execute(Trial=False):
         '''Retrieve some datasets'''
 
@@ -35,20 +34,15 @@ class transform_citibike_weather(dml.Algorithm):
             repo.dropPermanent(sample_coll_name)
             repo.createPermanent(sample_coll_name)
 
-            if Trial == True:
-                sample = eval(coll_name).aggregate(
-                    [{'$sample': {'size': SIZE}}])
-                for s in sample:
-                    eval('repo.anuragp1_jl101995.%s' %
-                         (sample_coll_name)).insert_one(s)
-                return eval('repo.anuragp1_jl101995.%s' % (sample_coll_name))
-            else:
-                return eval(coll_name)
+            return eval(coll_name)
 
         print('Loading citibike_data from Mongo')
         citibike_data = repo.anuragp1_jl101995.citibike.find()
 
         print('Cleaning citibike_data')
+        #
+        # Citibike date format changed halfway through the records 
+        #
         cb_data = []
         for entry in citibike_data:
             date = entry['starttime']
@@ -60,18 +54,18 @@ class transform_citibike_weather(dml.Algorithm):
             # 5/31/2015 12:12:12
             # date = ['5', '31, '2015']
             # [2015 - 4 - 10]
-            
+
             if len(date[0]) < 2:
                 date[0] = '0' + date[0]
             if len(date[1]) < 2:
                 date[1] = '0' + date[1]
             if len(date[2]) < 2:
                 date[2] = '0' + date[2]
-                
+
             if date[0] in ['2014', '2015', '2016']:
                 new_date = date[0] + date[1] + date[2]
                 cb_data.append([new_date, entry['start station name']])
-                
+
             elif date[2] in ['2014', '2015', '2016']:
                 new_date = date[2] + date[0] + date[1]
                 cb_data.append([new_date, entry['start station name']])
@@ -79,40 +73,20 @@ class transform_citibike_weather(dml.Algorithm):
         print('Creating pandas dataframe from cleaned citibike_data')
         cb_df = pd.DataFrame(cb_data, columns = ['date', 'start_station_name'])
 
-
         print('Getting citibike totals for each day')
         cb_df['Count'] = cb_df['start_station_name']
-        counted_cb_df = pd.DataFrame(cb_df.groupby(['date'], as_index=False)['Count'].count())
+        counted_cb_df = pd.DataFrame(cb_df.groupby(['date','start_station_name'], as_index=False)['Count'].count())
+        counted_cb_df
 
-        weatherdata = repo.anuragp1_jl101995.weather.find()
-        date_weather = []
+        print('Inserting into Mongo')
+        repo.dropPermanent('citibike_startstation_byday')
+        repo.createPermanent('citibike_startstation_byday')
 
-        # Collection for associating daily weather with each turnstile entry
-        repo.dropPermanent('citibike_weather')
-        repo.createPermanent('citibike_weather')
+        for index, row in counted_cb_df.iterrows():
+            #datestring = str(row[0])[4:6] + '/' + str(row[0])[6:8] + '/' + str(row[0])[0:4]
+            insert_this = {'Date': row[0], 'Start_Station' : row[1], 'Count': int(row[2])}
+            repo.anuragp1_jl101995.citibike_startstation_byday.insert_one(insert_this)
 
-        print('Comparing weatherdata and counted_cb_df') ######
-
-        for w in weatherdata:
-
-            for index, row in counted_cb_df.iterrows():
-
-                if int(float(w['DATE'])) == int(row[0]):
-
-                    datestring = str(w['DATE'])[4:6] + '/' + str(w['DATE'])[6:8] + '/' + str(w['DATE'])[0:4]
-                    avgtemp = statistics.mean([w['TMAX'], w['TMIN']])
-                    insert_weather = {'Date': datestring, 'AvgTemp': avgtemp, 'Precip': w['PRCP'], 'Citibike_Usage' : int(row[1])}
-                    repo.anuragp1_jl101995.citibike_weather.insert_one(insert_weather)
-
-                    break
-
-        print('Finished combining weatherdata and citibike_data')
-        # end database connection
-        repo.logout()
-
-        endTime = datetime.datetime.now()
-
-        return {"start": startTime, "end": endTime}
 
     @staticmethod
     def provenance(doc=prov.model.ProvDocument(), startTime=None, endTime=None):
@@ -131,30 +105,25 @@ class transform_citibike_weather(dml.Algorithm):
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
-        doc.add_namespace('mch', 'http://datamechanics.io/data/anuragp1_jl101995/')  # Data Mechanics S3 bucket (weather file source)
-        doc.add_namespace('cbd', 'https://www.citibikenyc.com/system-data/') # CitiBike System Data 
+        doc.add_namespace('cny', 'https://data.cityofnewyork.us/resource/') # NYC Open Data
+        doc.add_namespace('mta', 'http://web.mta.info/developers/') # MTA Data (turnstile source)
 
-        this_script = doc.agent('alg:anuragp1_jl101995#transform_citibike_weather', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:anuragp1_jl101995#transform_citibike_byday', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
 
-        citibike_weather_resource = doc.entity('dat:citibike_weather', {'prov:label':'CitiBike and Weather Data', prov.model.PROV_TYPE:'ont:DataSet'})
-        get_citibike_weather = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        doc.wasAssociatedWith(get_citibike_weather, this_script)
-        doc.usage(get_citibike_weather, citibike_weather_resource, startTime, None,
-                  {prov.model.PROV_TYPE:'ont:Computation'} )
-        citibike_weather = doc.entity('dat:anuragp1_jl101995#citibike_weather', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(citibike_weather, this_script)
-        doc.wasGeneratedBy(citibike_weather, get_citibike_weather, endTime)
-        doc.wasDerivedFrom(citibike_weather, turnstile_citibike_resource, get_citibike_weather, get_citibike_weather, get_citibike_weather)
+        # Transformation for CitiBike startstation by day Data
+        citibike_byday_resource = doc.entity('dat:citibike_byday', {'prov:label':'CitiBike by Day Data', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'txt'})
+        get_citibike_byday = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime) 
+        doc.wasAssociatedWith(get_citibike_byday, this_script)
+        doc.usage(get_citibike_byday, citibike_byday_resource, startTime, None, {prov.model.PROV_TYPE:'ont:DataSet'} )
+        citibike_byday = doc.entity('dat:anuragp1_jl101995#citibike_byday', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(citibike_byday, this_script)
+        doc.wasGeneratedBy(citibike_byday, get_citibike_byday, endTime)
+        doc.wasDerivedFrom(citibike_byday, citibike_byday_resource, get_citibike_byday, get_citibike_byday, get_citibike_byday)
 
         repo.record(doc.serialize())  # Record the provenance document.
         repo.logout()
 
         return doc
 
-
-transform_citibike_weather.execute(Trial=False)
-doc = transform_citibike_weather.provenance()
-# print(doc.get_provn())
-# print(json.dumps(json.loads(doc.serialize()), indent=4))
-
-# eof
+transform_citibike_byday.execute(Trial=False)
+doc = transform_citibike_byday.provenance()

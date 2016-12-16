@@ -8,7 +8,7 @@ import statistics
 import pandas as pd
 from bson.code import Code
 
-class pedestrian_coordinates(dml.Algorithm):
+class transform_usage_json(dml.Algorithm):
     contributor = 'anuragp1_jl101995'
     reads = ['anuragp1_jl101995.pedestriancounts','anuragp1_jl101995.daily_pedestrian', 'anuragp1_jl101995.citibike', 
              'anuragp1_jl101995.turnstile_total_byday', 'anuragp1_jl101995.subway_pedestriancount', 'anuragp1_jl101995.subway_stations']
@@ -49,12 +49,12 @@ class pedestrian_coordinates(dml.Algorithm):
         final_ped_df = final_ped_df.T
 
         print('Creating initial json for pedestrian coordinates and traffic')
-        final_ped_df.to_json('ped_coord_init.json')
+        final_ped_df.to_json('visualizations/map_vis/ped_coord_init.json')
 
         repo.dropPermanent('ped_coord_json')
         repo.createPermanent('ped_coord_json')
         ped_records = json.loads(final_ped_df.to_json()).values()
-        repo.ped_coord_json.insert(ped_records)
+        repo.anuragp1_jl101995.ped_coord_json.insert(ped_records)
 
         print('Loading citibike from Mongo')
         citi_data = repo.anuragp1_jl101995.citibike.find()
@@ -66,7 +66,9 @@ class pedestrian_coordinates(dml.Algorithm):
         count_citi_df = pd.DataFrame(data, columns = ['count', 'lat', 'street'])
 
         print('Creating citibike dataframe for counts')
-        count_citi_df = citi_df.groupby('street', as_index = False ).count()
+        count_citi_df = pd.DataFrame(data, columns = ['count', 'lat', 'street'])
+        temp_count_citi_df = count_citi_df
+        count_citi_df = temp_count_citi_df.groupby('street', as_index = False ).count()
         temp_df = count_citi_df
         count_citi_df.columns = ['street', 'count', 'lat']
 
@@ -77,16 +79,23 @@ class pedestrian_coordinates(dml.Algorithm):
 
         print('Combining citibike dataframes ')
         final_citi_df = pd.merge(citi_df, temp_df, how='left', on=['street'])
+        final_citi_df = final_citi_df.drop_duplicates('street')
         final_citi_df = final_citi_df.set_index('street')
+
+        temp_final_citi_df = final_citi_df
+        temp_final_citi_df.columns = ['lng','lat','count','drop']
+        temp_final_citi_df.drop('drop', 1)
+
+        final_citi_df = temp_final_citi_df
         final_citi_df= final_citi_df.T
 
         print('Creating initial json for citibike coordinates and usage')
-        final_citi_df.to_json('citi_coord_init.json')
+        final_citi_df.to_json('visualizations/map_vis/citi_coord_init.json')
 
         repo.dropPermanent('citi_coord_json')
         repo.createPermanent('citi_coord_json')
         citi_records = json.loads(final_citi_df.to_json()).values()
-        repo.citi_coord_json.insert(citi_records)
+        repo.anuragp1_jl101995.citi_coord_json.insert(citi_records)
 
         print('Matching subways to turnstiles based on matched data')
         manual_matches = {'103rd St - Corona Plaza': '103 ST-CORONA', '116th St - Columbia University': '116 ST-COLUMBIA', '137th St - City College': '137 ST CITY COL',  '138th St - Grand Concourse': '138/GRAND CONC', '149th St - Grand Concourse': '149/GRAND CONC', '15th St - Prospect Park': '15 ST-PROSPECT',  '161st St - Yankee Stadium': '161/YANKEE STAD', '163rd St - Amsterdam Av': '163 ST-AMSTERDM', '182nd-183rd Sts': '182-183 STS',  '21st St - Queensbridge': '21 ST-QNSBRIDGE', '34th St - Penn Station': '34 ST-PENN STA', '3rd Ave - 138th St': '3 AV 138 ST',  '3rd Ave - 149th St': '3 AV-149 ST', '40th St': '40 ST LOWERY ST', '42nd St - Bryant Pk': '42 ST-BRYANT PK', '42nd St - Port Authority Bus Term': '42 ST-PORT AUTH',  '47th-50th Sts - Rockefeller Ctr': '47-50 STS ROCK', '4th Ave': '4 AV-9 ST', '52nd St': '52 ST', '59th St - Columbus Circle': '59 ST COLUMBUS',  '5th Ave - 53rd St': '5 AV/53 ST', '5th Ave - 59th St': '5 AV/59 ST', '5th Ave - Bryant Pk': '5 AVE', '63rd Dr - Rego Park': '63 DR-REGO PARK',  '66th St - Lincoln Ctr': '66 ST-LINCOLN', '68th St - Hunter College': '68ST-HUNTER CO', '72nd St': '72 ST', '74th St - Broadway': '74 ST-BROADWAY',  '75th St - Eldert Ln': '75 ST-ELDERTS', '81st St': '81 ST-MUSEUM', '82nd St - Jackson Hts': '82 ST-JACKSON H', '8th St - NYU': '8 ST-NYU',  '90th St - Elmhurst Av': '90 ST-ELMHURST', '9th St': '4 AV-9 ST', 'Aqueduct - North Conduit Av': 'AQUEDUCT N.COND', 'Astoria - Ditmars Blvd': 'ASTORIA DITMARS',  'Atlantic Av - Pacific St': 'ATL AV-BARCLAY', 'Ave H': 'AVENUE H', 'Ave I': 'AVENUE I', 'Ave J': 'AVENUE J', 'Ave M': 'AVENUE M', 'Ave N': 'AVENUE N',  'Ave P': 'AVENUE P', 'Ave U': 'AVENUE U', 'Ave X': 'AVENUE X', 'Bay Pky': 'BAY PKWY', 'Bay Ridge - 95th St': 'BAY RIDGE-95 ST', 'Bedford - Nostrand Aves': 'BEDFORD-NOSTRAN',  'Bedford Park Blvd': 'BEDFORD PK BLVD', 'Bleecker St (Downtown)': 'BLEECKER ST', 'Briarwood - Van Wyck Blvd': 'BRIARWOOD', 'Broadway - Lafayette St': "B'WAY-LAFAYETTE",  'Broadway - Nassau St': 'NASSAU ST', 'Broadway Junction': 'BROADWAY JCT', 'Brooklyn Bridge - City Hall': 'BROOKLYN BRIDGE', 'Brooklyn College - Flatbush Ave': 'FLATBUSH AV-B.C',  'Bushwick - Aberdeen': 'BUSHWICK AV', 'Canarsie - Rockaway Pkwy': 'CANARSIE-ROCKAW', 'Cathedral Pkwy (110th St)': 'CATHEDRAL PKWY', 'Central Park North (110th St)': 'CENTRAL PK N110',  'Christopher St - Sheridan Sq': 'CHRISTOPHER ST', 'Clinton - Washington Aves': 'CLINTON-WASH AV', 'Coney Island - Stillwell Av': 'CONEY IS-STILLW',  'Cortlandt St (NB only)': 'CORTLANDT ST', 'Cortlandt St (Temporarily Closed)': 'CORTLANDT ST', 'Crown Hts - Utica Ave': 'CROWN HTS-UTICA', 'Delancey St': 'DELANCEY/ESSEX',  'E 105th St': 'EAST 105 ST', "E 143rd St - St Mary's St": "E 143/ST MARY'S", 'Eastchester - Dyre Ave': 'EASTCHSTER/DYRE', 'Eastern Pkwy - Bklyn Museum': 'EASTN PKWY-MUSM',  'Essex St': 'DELANCEY/ESSEX', 'Far Rockaway - Mott Ave': 'FAR ROCKAWAY', 'Flushing - Main St': 'FLUSHING-MAIN', 'Forest Hills - 71st Av': 'FOREST HILLS 71',  'Ft Hamilton Pkwy': 'FT HAMILTON PKY', 'Grand Army Plaza': 'GRAND ARMY PLAZ', 'Grand Ave - Newtown': 'GRAND-NEWTOWN', 'Grand Central - 42nd St': 'GRD CNTRL-42 ST',  'Harlem - 148 St': 'HARLEM 148 ST', 'Herald Sq - 34th St': '34 ST-HERALD SQ', 'Howard Beach - JFK Airport': 'HOWARD BCH JFK', 'Hoyt - Schermerhorn Sts': 'HOYT-SCHER',  'Hunters Point Ave': 'HUNTERS PT AV', 'Inwood - 207th St': 'INWOOD-207 ST', 'Jackson Hts - Roosevelt Av': '82 ST-JACKSON H', 'Jamaica - 179th St': 'JAMAICA 179 ST',  'Jamaica - Van Wyck': 'JAMAICA VAN WK', 'Jamaica Ctr - Parsons / Archer': 'JAMAICA CENTER', 'Jay St - Borough Hall': 'JAY ST-METROTEC', 'Kew Gardens - Union Tpke': 'KEW GARDENS',  'Kingston - Throop Aves': 'KINGSTON-THROOP', 'Knickerbocker Ave': 'KNICKERBOCKER', 'Lexington Ave - 53rd St': 'LEXINGTON AV/53', 'Lexington Ave - 63rd St': 'LEXINGTON AV/63',  'Long Island City - Court Sq': 'COURT SQ', 'Lower East Side - 2nd Ave': '2 AV', 'Marble Hill - 225th St': 'MARBLE HILL-225', 'Mets - Willets Point': 'METS-WILLETS PT',  'Myrtle-Willoughby Aves': 'MYRTLE-WILLOUGH', 'Nereid Ave (238 St)': 'NEREID AV', 'Norwood - 205th St': 'NORWOOD 205 ST', 'Ozone Park - Lefferts Blvd': 'OZONE PK LEFFRT',  'Park Pl': 'PARK PLACE', 'Queens Plz': 'QUEENS PLAZA', 'Rockaway Park - Beach 116 St': 'ROCKAWAY PARK B', 'Roosevelt Island - Main St': 'ROOSEVELT ISLND',  'Smith - 9th Sts': 'SMITH-9 ST', 'Sutphin Blvd - Archer Av': 'SUTPHIN-ARCHER', 'Sutter Ave - Rutland Road': 'SUTTER AV-RUTLD', 'Times Sq - 42nd St': 'TIMES SQ-42 ST',  'Union Sq - 14th St': '14 ST-UNION SQ', 'Van Cortlandt Park - 242nd St': 'V.CORTLANDT PK', 'Vernon Blvd - Jackson Ave': 'VERNON-JACKSON', 'W 4th St - Washington Sq (Upper)': 'W 4 ST-WASH SQ',  'W 8th St - NY Aquarium': 'W 8 ST-AQUARIUM', 'Wakefield - 241st St': 'WAKEFIELD/241', 'West Farms Sq - E Tremont Av': 'WEST FARMS SQ',  'Westchester Sq - E Tremont Ave': 'WESTCHESTER SQ', 'Whitehall St': 'WHITEHALL S-FRY', 'Woodside - 61st St': '61 ST WOODSIDE', 'World Trade Center': 'WORLD TRADE CTR', 'Wyckoff Ave': 'MYRTLE-WYCKOFF'}
@@ -155,29 +164,29 @@ class pedestrian_coordinates(dml.Algorithm):
         final_subway_df= final_subway_df.T
 
         print('Creating initial json for subway coordinates and usage')
-        final_subway_df.to_json('subway_coord_init.json')
+        final_subway_df.to_json('visualizations/map_vis/subway_coord_init.json')
 
         repo.dropPermanent('subway_coord_json')
         repo.createPermanent('subway_coord_json')
         subway_records = json.loads(final_subway_df.to_json()).values()
-        repo.subway_coord_json.insert(subway_records)
+        repo.anuragp1_jl101995.subway_coord_json.insert(subway_records)
 
 
         #### NOTE: The above code performs the original transformations and creates the necesary JSON files,
         #### but the following code loads in the cleaned JSON files that are needed for D3 map visualization
         url = "http://datamechanics.io/data/anuragp1_jl101995/citi_coord.json"
-        urllib.request.urlretrieve(url, 'citi_coord.json')
+        urllib.request.urlretrieve(url, 'visualizations/map_vis/citi_coord.json')
         url = "http://datamechanics.io/data/anuragp1_jl101995/ped_coord_v2.json"
-        urllib.request.urlretrieve(url, 'ped_coord.json')
+        urllib.request.urlretrieve(url, 'visualizations/map_vis/ped_coord.json')
         url = "http://datamechanics.io/data/anuragp1_jl101995/subway_coord.json"
-        urllib.request.urlretrieve(url, 'subway_coord.json')
+        urllib.request.urlretrieve(url, 'visualizations/map_vis/subway_coord.json')
 
         repo.logout()
         endTime = datetime.datetime.now()
         return {"start": startTime, "end": endTime}
 
 
-@staticmethod
+    @staticmethod
     def provenance(doc=prov.model.ProvDocument(), startTime=None, endTime=None):
         '''
         Create the provenance document describing everything happening
@@ -196,7 +205,7 @@ class pedestrian_coordinates(dml.Algorithm):
         doc.add_namespace('cny', 'https://data.cityofnewyork.us/resource/') # NYC Open Data
         doc.add_namespace('mta', 'http://web.mta.info/developers/') # MTA Data (turnstile source)
 
-        this_script = doc.agent('alg:anuragp1_jl101995#transform_pedestrian_coordinates', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:anuragp1_jl101995#transform_usage_json', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
 
         # Transform creating citi_coord_json
         citi_coord_json_resource = doc.entity('dat:citi_coord_json',{'prov:label':'CitiBike Station Coordinates and Usage JSON', prov.model.PROV_TYPE:'ont:DataSet'})
@@ -233,5 +242,5 @@ class pedestrian_coordinates(dml.Algorithm):
 
         return doc
 
-pedestrian_coordinates.execute()
-doc = pedestrian_coordinates.provenance()
+transform_usage_json.execute()
+doc = transform_usage_json.provenance()
