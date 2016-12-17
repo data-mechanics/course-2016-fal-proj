@@ -10,7 +10,7 @@ from helpers import *
 
 
 
-class PublicandEarning(dml.Algorithm):
+class PublicEarningCrime(dml.Algorithm):
     contributor = 'aydenbu_huangyh'
     reads = ['aydenbu_huangyh.public_earning','aydenbu_huangyh.zip_crime_count']
     writes = ['aydenbu_huangyh.public_earning_crime']
@@ -145,36 +145,36 @@ class PublicandEarning(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/')  # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:aydenbu_huangyh#public_earning',
+        this_script = doc.agent('alg:aydenbu_huangyh#public_earning_crime',
                                 {prov.model.PROV_TYPE: prov.model.PROV['SoftwareAgent'], 'ont:Extension': 'py'})
 
-        resource_public = doc.entity('dat:zip_public',
-                              {'prov:label': 'zip_public', prov.model.PROV_TYPE: 'ont:DataResource',
+        resource_public = doc.entity('dat:public_earning',
+                              {'prov:label': 'public earning', prov.model.PROV_TYPE: 'ont:DataResource',
                                'ont:Extension': 'json'})
-        resource_earning = doc.entity('dat:zip_avg_earnings',
-                                     {'prov:label': 'zip_avg_earnings', prov.model.PROV_TYPE: 'ont:DataResource',
+        resource_earning = doc.entity('dat:crime',
+                                     {'prov:label': 'crime', prov.model.PROV_TYPE: 'ont:DataResource',
                                       'ont:Extension': 'json'})
 
 
-        get_public_earning = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
-                                               {prov.model.PROV_LABEL: "Count the avg earnings and number of public buildings"})
-        doc.wasAssociatedWith(get_public_earning, this_script)
+        get_public_earning_crime = doc.activity('log:uuid' + str(uuid.uuid4()), startTime, endTime,
+                                               {prov.model.PROV_LABEL: "Combine public_earning with Crimes"})
+        doc.wasAssociatedWith(get_public_earning_crime, this_script)
 
-        doc.usage(get_public_earning, resource_public, startTime, None,
+        doc.usage(get_public_earning_crime, resource_public, startTime, None,
                   {prov.model.PROV_TYPE: 'ont:Computation'})
-        doc.usage(get_public_earning, resource_earning, startTime, None,
+        doc.usage(get_public_earning_crime, resource_earning, startTime, None,
                   {prov.model.PROV_TYPE: 'ont:Computation'})
 
-        public_earning = doc.entity('dat:aydenbu_huangyh#public_earning',
+        public_earning_crime = doc.entity('dat:aydenbu_huangyh#public_earning',
                                          {prov.model.PROV_LABEL: 'Public Building and avg earnings count',
                                           prov.model.PROV_TYPE: 'ont:DataSet'})
 
-        doc.wasAttributedTo(public_earning, this_script)
-        doc.wasGeneratedBy(public_earning,get_public_earning, endTime)
-        doc.wasDerivedFrom(public_earning, resource_earning, get_public_earning, get_public_earning,
-                           get_public_earning)
-        doc.wasDerivedFrom(public_earning, resource_public, get_public_earning, get_public_earning,
-                           get_public_earning)
+        doc.wasAttributedTo(public_earning_crime, this_script)
+        doc.wasGeneratedBy(public_earning_crime,get_public_earning_crime, endTime)
+        doc.wasDerivedFrom(public_earning_crime, resource_earning, get_public_earning_crime, get_public_earning_crime,
+                           get_public_earning_crime)
+        doc.wasDerivedFrom(public_earning_crime, resource_public, get_public_earning_crime, get_public_earning_crime,
+                           get_public_earning_crime)
 
         repo.record(doc.serialize())  # Record the provenance document.
         repo.logout()
@@ -182,8 +182,8 @@ class PublicandEarning(dml.Algorithm):
         return doc
 
 
-PublicandEarning.execute()
-doc = PublicandEarning.provenance()
+PublicEarningCrime.execute()
+doc = PublicEarningCrime.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
 
