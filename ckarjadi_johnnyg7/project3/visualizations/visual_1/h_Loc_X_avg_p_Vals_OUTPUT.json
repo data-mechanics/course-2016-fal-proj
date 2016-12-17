@@ -1,0 +1,16 @@
+[{"_id":{"$oid":"5848d3a03549ed1cd4eb44de"},"num_hospitals":1,"avg":1162794,"zip_code":"02126"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44df"},"num_hospitals":1,"avg":2934972,"zip_code":"02111"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44e0"},"num_hospitals":1,"avg":1072810,"zip_code":"02134"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44e1"},"num_hospitals":2,"avg":1728945,"zip_code":"02118"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44e2"},"num_hospitals":1,"avg":731303,"zip_code":"02124"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44e3"},"num_hospitals":1,"avg":492241,"zip_code":"02131"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44e4"},"num_hospitals":1,"avg":716748,"zip_code":"02119"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44e5"},"num_hospitals":2,"avg":1876782,"zip_code":"02120"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44e6"},"num_hospitals":1,"avg":2868625,"zip_code":"02215"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44e7"},"num_hospitals":4,"avg":7785397,"zip_code":"02114"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44e8"},"num_hospitals":1,"avg":664740,"zip_code":"02132"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44e9"},"num_hospitals":3,"avg":923196,"zip_code":"02130"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44ea"},"num_hospitals":1,"avg":1606449,"zip_code":"02125"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44eb"},"num_hospitals":4,"avg":12572278,"zip_code":"02115"}
+,{"_id":{"$oid":"5848d3a03549ed1cd4eb44ec"},"num_hospitals":2,"avg":3761574,"zip_code":"02135"}
+]
