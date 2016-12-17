@@ -60,7 +60,7 @@ class getColleges(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bod', 'http://bostonopendata.boston.opendata.arcgis.com/datasets/')
 
-        this_script = doc.agent('alg:Colleges', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:getColleges', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         resource_colleges = doc.entity('bod:cbf14bb032ef4bd38e20429f71acb61a_2', {'prov:label':'Colleges and Universities', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'geojson'})
         get_colleges = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
 

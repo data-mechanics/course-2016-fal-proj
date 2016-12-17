@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Datamechanics</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link href="css/clean-blog.min.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
+
+
+</head>
+
+<body>
+
+   <!-- <div class="names">Joe Zhou & Ekaterina Prokopeva</div> -->
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('img/backoverlay.jpg')">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1 style="text-transform: uppercase;">Datamechanics</h1>
+                        <hr class="small">
+                        <span style="text-transform: uppercase;" class="subheading">Final Project Fall 2016</span>
+                        <span style="font-size: 18px" class="subheading">Joe Zhou & Ekaterina Prokopeva</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-preview">
+                   
+                        <h2 class="post-title">The goal</h2>
+                        <p>
+                            The goal of this project is to analyze the factors that influence crime rates across districts in the Boston Area.
+                        </p>
+                </div>
+                <hr>
+
+                <div class="post-preview">
+                   
+                        <h2 class="post-title">Narrative</h2>
+                        <p>
+                            The five datasets are employee earnings in Boston, location of public schools in Boston, crime incidents in Boston, colleges and universities in Boston and street lights in Boston. These datasets can be combined on location to see various statistics relating to crime in different counties of Greater Boston area. Specifically, we want to see the presences of schools on the occurrences and different crimes. Also, we want to see if there is a correlation between wage of police officers and general crime in an area. These questions are interesting because politicians often point to increasing security and education as ways to improve living conditions.
+                        </p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    
+                    <h2 class="post-title">
+                        Datasets Used:
+                    </h2>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <h2 class="post-title">
+                        Crime Incidents In Boston
+                    </h2>
+
+                    <p>
+                        The given dataset contains crime incident reports provided by the Boston Police Department between July 2012 - August 2015.
+                        <br>
+                        <br>
+                        Various fields including a weapon type, the day of the week, location, and the report district are included in the report. For our project we only require the zip code of the crime, which is derived from the reporting district. 
+                        <br>
+                        <br>
+                        <strong>Techniques used:</strong> <br>
+                        Map Reduce to map the report district and calculate the number of crimes in every district.<br>
+                        We created our own dataset that maps the reporting district to a zip code.
+                    </p>
+                    <h3>The following results were obtained: </h3>
+                    <canvas id="myChart1" ></canvas>
+                    <br>
+                    <p class="post-meta post-meta2"><a href="https://dev.socrata.com/foundry/data.cityofboston.gov/ufcx-3fdn">Go to the source page</a></p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <h2>Location of Public Schools in Boston</h2>
+                        <p>
+                        The given dataset contains the location of Boston Public Schools for the school year 2012-2013.
+                        <br>
+                        <br>
+                        The dataset contains fileds including building name, coordinates, and the location zip. To obtain the number of schools per zip code, we used a <strong>map reduce</strong> algorithm.
+                    </p>
+                    <h3>The following results were obtained: </h3>
+                    <canvas id="myChart2" ></canvas>
+                    <br>
+
+                    <p class="post-meta post-meta2"><a href="https://dev.socrata.com/foundry/data.cityofboston.gov/492y-i77g">Go to the source page</a></p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <h2>Location of Colleges and Universities in Boston</h2>
+                        <p>
+                        The given dataset contains the location of colleges and universities within Boston.
+                        <br>
+                        <br>
+                        The dataset contains fileds including building name, coordinates, address, number of students, and the location zip. We did not use this dataset to generate any data.
+                    </p>
+                    <br>
+
+                    <p class="post-meta post-meta2"><a href="http://bostonopendata.boston.opendata.arcgis.com/datasets/cbf14bb032ef4bd38e20429f71acb61a_2?uiTab=table">Go to the source page</a></p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <h2>Employee Earnings of Public Workers</h2>
+                        <p>
+                        The given dataset contains the earnings of government workers for city of Boston for calendar year 2015.
+                        <br>
+                        <br>
+                        The dataset contains fields including the name of the employee, department name, zip code, and salary per month. To obtain the average salary of employees of a certain field, such as police officers in a zip code, we used <strong>Map Reduce</strong>.
+                        <br>
+                        <br>
+                        There is possible sampling bias in this dataset as the average salaries of workers tend to be significantly higher than that found through google. In addition, it seems that the dataset contains many more data in the upper range of wages for any specific fields than there are for lower to middle incomes. This could be due to unwillingness of individuals with low income to publicize their name and earnings.
+                    </p>
+                    <h3>The following results were obtained: </h3>
+                    <canvas id="myChart3" ></canvas>
+                    <br>
+                    <p class="post-meta post-meta2"><a href="https://dev.socrata.com/foundry/data.cityofboston.gov/bejm-5s9g">Go to the source page</a></p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <h2>Street Lights</h2>
+                        <p>
+                        The given dataset contains the coordinates of all street lights in Boston Area.
+                        <br>
+                        <br>
+                        For the purpose of our project we had to obtain the number of street lights in every district of Boston. In order to retrieve the zip codes, we used a google maps api that takes longitute and latitude and returns a json file with the corresponding address. From this file one can extract a zip code. 
+                        <br>
+                        <br>
+                        First, we found the coordinates of street lights, then we ran an algorithm that adds a zip code value to every entry in the file.
+                        Using <strong>Map Reduce</strong> we managed to obtain the number of street lights for every zip code.
+                    </p>
+                    <h3>The following results were obtained: </h3>
+                    <canvas id="myChart4" ></canvas>
+                    <br>
+                    <p class="post-meta post-meta2"><a href="https://data.cityofboston.gov/resource/fbdp-b7et.json?$$app_token=">Go to the source page</a></p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <h2>Number of Crimes to Number of Public Schools</h2>
+                        <p>
+                        The scatter plot contains the number of crimes compared to the number of public schools in Boston zipcodes.
+                        <br>
+                        <br>
+                        Using flask in app.py to retrieve map reduced data on the number of crimes and public schools by zip code, we then combined the two to create the coordinates needed for the scatter plot. This allows us to see if there's a correlation between the number of crimes and public schools in a location.
+                        <br>
+                    </p>
+                    <h3>The following results were obtained: </h3>
+                    <canvas id="myChart5" ></canvas>
+                    <br>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <h2>Interactive Map of Average Earnings to Crime in Different Zip Codes</h2>
+                        <p>
+                        The map would have contained a ranking of earnings to crime rates by available zip codes.
+                        <br>
+                        <br>
+                        We attempted but were unable to make a map using d3, csv, and topojson. If we were successful, this interactive map would have contained colored zip code in a ranking system, based on average salary to crime rates. The user would have been able to select the type of government worker, such as police officer, firemen, or patrol officers to compare with crime rates. The map and our functions are contained in the map-playground folder.
+                        <br>
+                    </p>
+                    <br>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <h2 class="post-title">
+                        Statistical Analysis
+                    </h2>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <h2 class="post-subtitle">p-value</h2>
+                    <h3>Definition</h3>
+                    <p>The p-value is the probability that a given statistical model would be the same as or more extreme than the actual observed results.</p>
+                    <h3>Our Hypothesis</h3>
+                    <p>
+                        <strong>Null Hypothesis:</strong> The average earnings of police officers HAS NO effect on the number of crimes. Therefore, the average number of crimes should have no correlation with earnings of police officers.
+                        <br><br>
+                        <strong>Alternative Hypothesis:</strong> The average earnings of police officers HAS an effect on the number of crimes. Therefore, the average number of crimes should be negatevily correlated with the average earnings of police officers.
+                        <br><br>
+                        <strong>Sample data:</strong><br>
+                        Avg earnings: [88222.93, 2369.58, 138971.46, 135889.69]
+                        <br>
+                        Number of Crimes: [178.0, 109.0, 118.0, 81.0]
+                        <br><br>
+                        After executing the p-value algorithm, we found a p-value equal to 1. Therefore, we cannot conclude that a significant difference exists between the null and alternative hypotheses.
+                        <br><br>
+
+                    </p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <h2 class="post-subtitle">k-means</h2>
+                    <h3>Definition</h3>
+                    <p>
+                        k-means is a simple and  easy  way  to classify a given data set  through a certain number of  clusters (assume k clusters) fixed a priori.
+                    </p>
+                    <p>
+                        We used the k-means algorithm in order to find the point with the highest density of crimes.
+                        <br>
+                        By traversing the dataset that contains crime incidents and their coordinates, we obtained the value equal to <strong>(-71.08306194165799, 42.3237643132037)</strong>, which is the mean value should there be one cluster for crimes.
+                    </p>
+                    <div id="map"></div>
+                </div>
+                
+                <div class="post-preview">
+                    <h2 class="post-subtitle">Summary</h2>
+                    <p>
+                        In our project we explored factors that influence crime rates in the Boston area. We tried to answer questions about the effects of education, government worker salary, and lighting on public safety. These questions may aid in future legislations on reducing crime rates within various cities.
+                    </p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <h2 class="post-subtitle">Future Ideas</h2>
+                    <p>
+                        In the future we would wish to explore datasets of other major cities such as New York or Chicago to further test our hypothesis about the correlation between crime and our other datasets. Also, we would like to find datasets that are less subjective to bias and perhaps conduct our own surveys on salaries of local workers. Finally, we would like to make a more interactive representaion of the data such as real time maps that show crimes as soon as they get reported.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer></footer>
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="js/clean-blog.min.js"></script>
+
+    <script src="js/chart.js"></script>
+    
+    <script>
+        function myMap() {
+          var myCenter = new google.maps.LatLng(42.3237643132037,-71.08306194165799);
+          var mapCanvas = document.getElementById("map");
+
+          var mapOptions = {center: myCenter, zoom: 13, scrollwheel: false};
+          var map = new google.maps.Map(mapCanvas, mapOptions);
+          var marker = new google.maps.Marker({position:myCenter});
+          marker.setMap(map);
+
+          // Zoom to 9 when clicking on marker
+          google.maps.event.addListener(marker,'click',function() {
+            map.setZoom(9);
+            map.setCenter(marker.getPosition());
+          });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=myMap"></script>
+</body>
+
+</html>
