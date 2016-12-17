@@ -1,50 +1,111 @@
-# course-2016-fal-proj-2 (ggelinas)
-Project repository for the course project in the Fall 2016 iteration of the Data Mechanics course at Boston University.
+#Boston Crime Rates Relations
+
+##Introduction
+In this project we used data from the city of Boston to try and understand crime rates and their relation to hospitals, police 
+districts, and property value. We wanted to determine:
+<ol>
+    <li>If crime was more likely to happen in areas with lower property values
+    <li>If hospitals are located around crime areas
+</ol>
+
+The data sets being used for this analysis are acquired from the city of Boston's data portal. The techniques
+that we used in this project are correlation coefficient and k-means clustering. With these techniques, we hope
+to find out if crime is more likely to occur in areas with lower property value and if hospitals are strategically 
+located closer to areas with high crime rates.
 
 ##Data Sets
 
-'Boston Police Stations': https://data.cityofboston.gov/resource/pyxn-r3i2.json
-'Boston Crime Reports': https://data.cityofboston.gov/resource/29yf-ye7n.json
-'Boston Property Assessments': https://data.cityofboston.gov/resource/g5b5-xrwi.json
-'Boston Hospital Locations': https://data.cityofboston.gov/resource/u6fv-m8v4.json
+###Boston Police Stations
+This data set contains information about the 12 police districts within the city of Boston. It includes the name
+of each police district and their respective district number. It also provides addresses, geographical coordinates,
+and zip codes.
+
+###Boston Hospitals
+This data set contains information about hospitals within the city of Boston. It contains hospital names, geographical coordinates,
+addresses, and zip codes. 
+
+###Boston Crime Reports
+This data set is from the city of Boston's police department and contains incident reports from August 2015 to the present day.
+Each relation in this data set consists of an incident number, offense code, offense description, district, date, street
+address and geographical coordinates. The data set that was used for this analysis included crime reports from August 2015 until 
+18 November 2016.
+
+###Boston Property Assessments
+This data set contains the tax assessment of property for 2016. Each entry in this data set contains an address, zip
+code, owner, mailing address, average land value, average building value, average total value, gross tax, as well as other descriptors
+of the property. 
 
 ##Description
-
-Using the data sets above, I wanted to observe if there was a correlation between number of crimes within a police 
+Using the data sets above, I wanted to observe if there was a correlation between the number of crimes in a police 
 district and the average property value within that district. My hypothesis is that there should be a negative correlation 
-with property value increasing and number of crimes decreasing. I will be using the Boston Police Stations, Boston Crime 
-Reports and Property Assessments data sets to calculate the correlation coefficient and p-value. I also wanted to see
-if hospitals are located near areas with more crime as to make ambulances and emergency services respond efficiently.
-There is no auth.json file since I did not use any keys to access any of the data sets used in this project.
+between property value and crime rate. As property value increase I expect for the number of crimes to decrease. 
+I will be using the Boston Police Stations, Boston Crime Reports, and Property Assessments data sets to calculate the
+correlation coefficient and p-value of the relationship between crime and property value. I also wanted to see
+if hospitals are located near areas with more crime. I hypothesized that it would be so that ambulances and emergency 
+services would be able to respond to emergencies more quickly. There is no auth.json file since I did not use any keys 
+to access any of the data sets used in this project.
+
+Heat Map of Crimes from August 2015 - November 2016
+![Heat Map of Crime](/ggelinas/visuals/crime_heatmap.png)
 
 ##Transformations
 
 1. getData.py obtains all of the data sets and stores them as collections within MongoDB.
 
-2. Within DistrictNumCrimes.py I take Boston Crime Reports and Boston Police Stations data sets and take the total 
-number of crimes for each district from the Boston Crime Reports and add a new column within the Boston Police Stations
+2. DistrictNumCrimes.py takes in Boston Crime Reports and Boston Police Stations data sets and it computes the total 
+number of crimes for each district from the Boston Crime Reports and adds a new column within the Boston Police Stations
  data set called num_crimes that corresponds to its specific district.
 
 3. PropertyMean.py takes the Boston Property Assessment and Boston Police Stations data sets and transforms them to obtain
-the average property value within a 1 mile range from each police district. I used a package called pyszipcode that must
+the average property value within a 1 mile range from each police district. I used a package called pyzipcode that must
 be installed in order to run this file. pyzipcode provides a database of zipcodes and functions that provide nearby
 zip codes within a range of a specific zipcode you are focused on. Although the full installation of pyzipcode might not
 fully install it should be able to still install pyzipcode without sqlite3.
 
-##Property Crime Analysis
+##Correlation of Property Value and Crime
+In order to determine a relationship between property value and crime rates, a method that could be used is correlation.
+Correlation coefficient is a measure that determines the degree to which two variables movements are associated/related.
+The range of values for the correlation coefficient are between -1 and 1. From computing the coefficient value it can yield
+a positive, negative or no correlation relationship. A positive correlation is when one variable increases along with the other
+variable or one variable decreases along with the other variable. While a negative correlation indicates that when one variable
+increases the other variable decreases. As for a 0 correlation coefficient, this means that there is no relationship between 
+those two variables. 
 
-Before the analysis, I predicted that there would be a negative correlation coefficient as number of crimes going down
-and property value increasing within police districts. Based on the calculations it yielded these results.
+Before performing the analysis, we predicted that there would be a negative correlation. As property value increases 
+then crime rates would decrease. We assumed that property value increases in regards to safety leading to less crimes within 
+that area. In addition, we assumed that low income areas may have more crimes as a means to afford living. We decided to 
+group property values and crimes within the police districts. These groupings will help provide samples from different areas 
+around boston in order to calculate correlation. Property values however do not have an attribute for police districts.
+In order to account for this we decided to use a python package called pyzipcode which would take the zip codes from each 
+entry in the property data set and it will find the nearest police district within its one mile radius range. Once found 
+the property value will be added to the closest police district. After iterating through the property data set, we computed 
+the average for all property value in each district. Using the average property value and sum of crimes for each district, we 
+applied the pearson correlation coefficient algorithm and used multiple permutations. 
 
-Correlation Coefficient: -0.6809827474468138
+There were difficulties in mapping property value in certain districts because of the lack of real boundaries between the districts.
+I compromised and computed the groupings by taking a list of zipcodes within a 1 mile radius of the property and matching that zip
+code with the police districts zip code.
+
+Based on the calculations it yielded these results.
+
+Correlation Coefficient: -0.3138711
 P-value: 1.0
 
-This correlation coefficient shows that it is a strong negative correlation.
+![Property and Crime Correlation graph](/ggelinas/visuals/crime_prop_corr.png)
+
+This correlation coefficient shows that a moderate/weak negative correlation. With a high p-value, it states that this
+observation is a non-significant result that will not prove the Null hypothesis false.
+This suggests that the Null hypothesis: "Crimes decreasing and property value increasing" may be true.
+
 
 ##Hospital Location Analysis
-This analysis is to determine if the current hospital locations are placed in optimal locations by comparing it towards
-K means of the 26 hospitals. The algorithm takes in the Boston Hospital Locations and Boston Crime Reports data set.
-It compares the current location of the hospitals and compares the distance for each location with the most crimes.
+Another inquiry is to determine if hospitals are optimally located against crime. We believe
+that hospitals may be located around areas with crime in order to reduce time and increase efficiency in treating victims.
+We decided to use the k-means algorithm to compute the difference. The k-means algorithm takes in geographical coordinates 
+from the crimes data set and clusters points to form k clusters determined by the input. For this experiment, we used the 
+number of hospitals in the hospitals data set as the k value in order to compare distances. After running the k-means 
+algorithm and computing the difference in distance between current hospitals and optimal hospitals it clearly showed very 
+little difference.
 
 Here are the results:
 
@@ -83,5 +144,66 @@ Difference between hospitals and optimal K means clusters: [(0.01741664592483260
 (0.02528326347081844, 0.029142105544323726), (0.006361870350502841, 0.020228005075580313), 
 (0.018059394711443133, 0.03609693151976501)]
 
-Analyzing the difference in the K means algorithm and the current locations sow that the locations of the Hospitals are
-not far off from the optimal locations determined by the most number of crimes. 
+Hospital vs. Optimal Hospital Locations
+![Optimal Hospital locations](/ggelinas/visuals/optimalhospitals.png)
+* Red: Current Hospitals
+* Blue: Optimal Hospitals
+
+##Results
+In our hypothesis, we predicted that we would find a negative correlation between the average property
+value and the number of crimes in each district. The results displayed a moderate to weak
+correlation between those two variables in addition to a high p-value. The weak correlation may
+be a result of not having enough crime data as the sample was only taken from August 2015 through
+November 2016. There are more data sets of crime incidents provided by Boston and there may be different
+results in adding other years as well. With this negative correlation, we can assume that these variables
+may have moderate relationship in affecting each other. The high p-value suggests that it would support the
+hypothesis.
+
+In regards to hospital locations, computing the distance between hospitals and crime supported our
+original hypothesis that hospitals are located near crime areas. Shown in the map above, hospitals in downtown
+Boston show very acute distances. However, stretching out towards the outskirts of the city limits
+distance does tend to increase between the optimal k-means cluster and the original hospital location.
+
+
+##Conclusion
+With these results, we can conclude that there is a small correlation between crime rates
+and property value. Furthermore we can also see that hospital locations are located near
+areas of crime. Future work would involve adding more crime data into the correlation algorithm.
+In addition to adding more crime data from previous years, the data set currently being used is 
+constantly updating with information. It would interesting to see the relationship between property value
+and crimes over time. As for hospital locations, additional analysis could involve performing the correlation
+equation between hospitals and low income areas in order to see if there is a relationship between them. 
+
+##References
+City of Boston Data: https://data.cityofboston.gov/
+
+##Setup
+Initialize mongodb
+```
+mongod
+```
+Open up mongo shell
+```
+mongo
+```
+###To collect data
+```
+python getData.py
+```
+###To perform correlation with property and crime
+```
+python DistrictNumCrimes.py
+python PropertyMean.py
+python PropertyCrimeAnalysis.py
+```
+###To perform k-means hospitals
+```
+python HospitalLocationAnalysis.py
+```
+###To perform visualization
+You must run all of the previous files first. This file grabs values from the database.
+Running file will bring up one visual and the rest will be saved as html in the current directory.
+opening the html will show the interactive maps
+```
+python visual.py
+```

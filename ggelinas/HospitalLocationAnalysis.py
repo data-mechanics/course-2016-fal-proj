@@ -10,7 +10,7 @@ class HospitalLocationAnalysis(dml.Algorithm):
     contributor = 'ggelinas'
     reads = ['ggelinas.hospitals',
              'ggelinas.incidents']
-    writes = []
+    writes = ['ggelinas.kmeanshospital']
 
     def dist(p, q):
         (x1, y1) = p
@@ -44,6 +44,7 @@ class HospitalLocationAnalysis(dml.Algorithm):
         repo.authenticate('ggelinas', 'ggelinas')
 
         Hospital = []
+        Hospitalname = []
         Crime = []
         X = []
         Y = []
@@ -51,6 +52,7 @@ class HospitalLocationAnalysis(dml.Algorithm):
         for h in repo['ggelinas.hospitals'].find():
             try:
                 if not (h['location']['coordinates'] == [0,0]):
+                    Hospitalname.append(h['name'])
                     Hospital.append((h['location']['coordinates'][1], h['location']['coordinates'][0]))
                     X.append(h['location']['coordinates'][1])
                     Y.append(h['location']['coordinates'][0])
@@ -86,11 +88,36 @@ class HospitalLocationAnalysis(dml.Algorithm):
             G = HospitalLocationAnalysis.aggregate(F, sum)
             M = [HospitalLocationAnalysis.scale(t,c) for ((m,t),(m2,c)) in HospitalLocationAnalysis.product(E, G) if m == m2]
 
+        repo.dropPermanent("kmeanshospital")
+        repo.createPermanent("kmeanshospital")
+
+        for i in M:
+            repo['ggelinas.kmeanshospital'].insert({'latitude': i[0], 'longitude': i[1]})
+
         XM = [float(i[0]) for i in M]
         XY = [float(i[1]) for i in M]
         Xdiff = [abs(x-y) for x, y in zip(XM, X)]
         Ydiff = [abs(x-y) for x, y in zip(XY, Y)]
         XY = [(x,y) for x,y in zip(Xdiff, Ydiff)]
+
+        print(Hospital)
+        print(M)
+        ###################################################
+        # plotting map
+        # import folium
+        # output = 'hospital.html'
+        # hospitalmap = folium.Map(location=[42.355, -71.0609], zoom_start=13)
+        # for i in range(len(Hospital)):
+        #     lat, long = Hospital[i]
+        #     name = Hospitalname[i]
+        #     folium.CircleMarker(location=[lat, long], popup=name, color='#ff0000',  fill_color='#ff0000', radius=50, fill_opacity=0.7).add_to(hospitalmap)
+        # for j in range(len(M)):
+        #     lat, long = M[j]
+        #     name = Hospitalname[j]
+        #     folium.CircleMarker(location=[lat, long], popup='Optimal ' + name, color='#0000ff', fill_color='#0000ff', radius=50, fill_opacity=0.7).add_to(hospitalmap)
+        # hospitalmap.save('hospitalmap.html')
+
+        ###################################################
 
         print("this is the locations of current Hospital station: " + str(Hospital))
         print("K means Hospital locations: " + str(M))
@@ -155,11 +182,11 @@ class HospitalLocationAnalysis(dml.Algorithm):
 
         #Unsure about documenting since the algorithm does not write new data and stores it
 
-        # stations = doc.entity('dat:ggelinas#hospitals',
-        #                       {prov.model.PROV_LABEL: 'Hospital locations', prov.model.PROV_TYPE: 'ont:DataSet'})
-        # doc.wasAttributedTo(stations, this_script)
-        # doc.wasGeneratedBy(stations, this_run, endTime)
-        # doc.wasDerivedFrom(stations, stations_resource, this_run, this_run, this_run)
+        stations = doc.entity('dat:ggelinas#kmeanshospital',
+                              {prov.model.PROV_LABEL: 'K means Hospital locations', prov.model.PROV_TYPE: 'ont:DataSet'})
+        doc.wasAttributedTo(stations, this_script)
+        doc.wasGeneratedBy(stations, this_run, endTime)
+        doc.wasDerivedFrom(stations, stations_resource, this_run, this_run, this_run)
         #
         # incidents = doc.entity('dat:ggelinas#incidents',
         #                        {prov.model.PROV_LABEL: 'Crime locations', prov.model.PROV_TYPE: 'ont:DataSet'})

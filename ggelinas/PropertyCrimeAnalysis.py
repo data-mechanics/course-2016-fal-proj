@@ -7,6 +7,11 @@ import datetime
 from math import sqrt
 from random import shuffle
 
+import numpy
+import matplotlib.pyplot as plt
+import matplotlib.ticker as tkr
+import scipy.stats
+
 class PropertyCrimeAnalysis(dml.Algorithm):
     contributor = 'ggelinas'
     reads = ['ggelinas.stations',
@@ -85,7 +90,24 @@ class PropertyCrimeAnalysis(dml.Algorithm):
         print("Correlation Coefficient: " + str(PropertyCrimeAnalysis.corr(NumCrimes, PropValue)))
 
         print("P-value: " + str(PropertyCrimeAnalysis.p(NumCrimes, PropValue)))
+        # print(len(NumCrimes))
+        # print(len(PropValue))
+        ############################
+        # districts = ['A1', 'D4', 'E13', 'B3', 'E18', 'D14', 'A7', 'C6', 'B2', 'E5', 'C11']
+        # scat = plt.scatter(NumCrimes, PropValue, alpha=0.5)
+        # plt.plot(NumCrimes, numpy.poly1d(numpy.polyfit(NumCrimes, PropValue, 1))(NumCrimes))
+        # for i, txt in enumerate(districts):
+        #     plt.annotate(txt, (NumCrimes[i], PropValue[i]))
+        # plt.xlabel('Number of Crimes in Police District')
+        # plt.ylabel('Average Property Value')
+        # plt.title("Crime Rates and Average Property Value within Police Districts")
+        # plt.ylim(0, 12000000)
+        # plt.xlim(0, 180)
+        # plt.savefig('crime_prop_corr.png')
+        # plt.show()
 
+
+        ####################################
         repo.logout()
 
         endTime = datetime.datetime.now()

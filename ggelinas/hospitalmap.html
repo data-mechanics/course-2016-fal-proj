@@ -1,0 +1,1518 @@
+
+        <!DOCTYPE html>
+        <head>
+            
+        
+            <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        
+            
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster-src.js"></script>
+        
+        
+        
+            
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css" />
+        
+        
+        
+            
+        
+            <link rel="stylesheet" href="https://raw.githubusercontent.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css" />
+        
+        
+        
+            
+            <style>
+
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                }
+
+            #map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+            
+        
+            
+            <style> #map_eabe41e5491e481f86664b694e41ca9d {
+                position : relative;
+                width : 100.0%;
+                height: 100.0%;
+                left: 0.0%;
+                top: 0.0%;
+                }
+            </style>
+        
+        
+        
+        </head>
+        <body>
+            
+        
+            
+            <div class="folium-map" id="map_eabe41e5491e481f86664b694e41ca9d" ></div>
+        
+        
+        
+        </body>
+        <script>
+            
+        
+            
+
+            var southWest = L.latLng(-90, -180);
+            var northEast = L.latLng(90, 180);
+            var bounds = L.latLngBounds(southWest, northEast);
+
+            var map_eabe41e5491e481f86664b694e41ca9d = L.map('map_eabe41e5491e481f86664b694e41ca9d', {
+                                           center:[42.355,-71.0609],
+                                           zoom: 13,
+                                           maxBounds: bounds,
+                                           layers: [],
+                                           crs: L.CRS.EPSG3857
+                                         });
+            
+        
+        
+            
+            var tile_layer_6c90e6003d86479a8f919c0f9f73e993 = L.tileLayer(
+                'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                {
+                    maxZoom: 18,
+                    minZoom: 1,
+                    attribution: 'Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.',
+                    detectRetina: false
+                    }
+                ).addTo(map_eabe41e5491e481f86664b694e41ca9d);
+
+        
+        
+            
+
+            var circle_marker_a4053898d93044d5ae165e802e39d078 = L.circle(
+                [42.30025000839615,-71.10737910445549],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_f68b28c1fafb48078fa756bc33690640 = L.popup({maxWidth: '300'});
+
+            
+                var html_03eb35b4d3654a07a3681d42b59ff7b7 = $('         <div id="html_03eb35b4d3654a07a3681d42b59ff7b7"                 style="width: 100.0%; height: 100.0%;">                 Lemuel Shattuck Hospital</div>                 ')[0];
+                popup_f68b28c1fafb48078fa756bc33690640.setContent(html_03eb35b4d3654a07a3681d42b59ff7b7);
+            
+
+            circle_marker_a4053898d93044d5ae165e802e39d078.bindPopup(popup_f68b28c1fafb48078fa756bc33690640);
+
+            
+        
+        
+            
+
+            var circle_marker_9f774ae860fb4744891b69d6059afa85 = L.circle(
+                [42.3438499996779,-71.08983000035408],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_bfab74f6f2aa4607bb90667a11f6bbc2 = L.popup({maxWidth: '300'});
+
+            
+                var html_0467d1f507ee4bdc911e24cf4ba852e7 = $('         <div id="html_0467d1f507ee4bdc911e24cf4ba852e7"                 style="width: 100.0%; height: 100.0%;">                 Beth Israel Deaconess Medical Center East Cam</div>                 ')[0];
+                popup_bfab74f6f2aa4607bb90667a11f6bbc2.setContent(html_0467d1f507ee4bdc911e24cf4ba852e7);
+            
+
+            circle_marker_9f774ae860fb4744891b69d6059afa85.bindPopup(popup_bfab74f6f2aa4607bb90667a11f6bbc2);
+
+            
+        
+        
+            
+
+            var circle_marker_065f1786efff4b3f86985c84e071b37c = L.circle(
+                [42.31856289432221,-71.09165569529381],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_9c643f0524914b3da1cebd269e8ebaf7 = L.popup({maxWidth: '300'});
+
+            
+                var html_3a59bcc377214ee39789d0f18765cd9d = $('         <div id="html_3a59bcc377214ee39789d0f18765cd9d"                 style="width: 100.0%; height: 100.0%;">                 Jewish Memorial Hospital</div>                 ')[0];
+                popup_9c643f0524914b3da1cebd269e8ebaf7.setContent(html_3a59bcc377214ee39789d0f18765cd9d);
+            
+
+            circle_marker_065f1786efff4b3f86985c84e071b37c.bindPopup(popup_9c643f0524914b3da1cebd269e8ebaf7);
+
+            
+        
+        
+            
+
+            var circle_marker_a0253c6c51c948b1a55ee4d2e44701ce = L.circle(
+                [42.329611374844326,-71.10616871232227],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_fcc92be1ba3c4365b4957ea23e099209 = L.popup({maxWidth: '300'});
+
+            
+                var html_3bbc93d5cd964e13a2c727c9c90b95c3 = $('         <div id="html_3bbc93d5cd964e13a2c727c9c90b95c3"                 style="width: 100.0%; height: 100.0%;">                 New England Baptist Hospital</div>                 ')[0];
+                popup_fcc92be1ba3c4365b4957ea23e099209.setContent(html_3bbc93d5cd964e13a2c727c9c90b95c3);
+            
+
+            circle_marker_a0253c6c51c948b1a55ee4d2e44701ce.bindPopup(popup_fcc92be1ba3c4365b4957ea23e099209);
+
+            
+        
+        
+            
+
+            var circle_marker_153eeacf7dfb47019006ae71a1987985 = L.circle(
+                [42.27137912172521,-71.08168028446168],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_ea5cb3dbe4874032ac22e021dab2ab05 = L.popup({maxWidth: '300'});
+
+            
+                var html_47535c909b1b4a849368f775c4f80bfb = $('         <div id="html_47535c909b1b4a849368f775c4f80bfb"                 style="width: 100.0%; height: 100.0%;">                 Boston Specialty &amp; Rehabilitation Hospital</div>                 ')[0];
+                popup_ea5cb3dbe4874032ac22e021dab2ab05.setContent(html_47535c909b1b4a849368f775c4f80bfb);
+            
+
+            circle_marker_153eeacf7dfb47019006ae71a1987985.bindPopup(popup_ea5cb3dbe4874032ac22e021dab2ab05);
+
+            
+        
+        
+            
+
+            var circle_marker_41f1976aaf7d466fa4d210f53e928965 = L.circle(
+                [42.3371094801158,-71.07139912234962],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_3338a5a6618f4f1599b199208f1925cd = L.popup({maxWidth: '300'});
+
+            
+                var html_bc3702db5e0a442298ab76f818a80c0f = $('         <div id="html_bc3702db5e0a442298ab76f818a80c0f"                 style="width: 100.0%; height: 100.0%;">                 Boston Medical Center</div>                 ')[0];
+                popup_3338a5a6618f4f1599b199208f1925cd.setContent(html_bc3702db5e0a442298ab76f818a80c0f);
+            
+
+            circle_marker_41f1976aaf7d466fa4d210f53e928965.bindPopup(popup_3338a5a6618f4f1599b199208f1925cd);
+
+            
+        
+        
+            
+
+            var circle_marker_d81d70f9c20d40c6908185ca8cfb0433 = L.circle(
+                [42.329611374844326,-71.10616871232227],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_b57470de0c854096a3ceba1339d3093f = L.popup({maxWidth: '300'});
+
+            
+                var html_d5ffd1e3c2054735a1ccadfa886df862 = $('         <div id="html_d5ffd1e3c2054735a1ccadfa886df862"                 style="width: 100.0%; height: 100.0%;">                 Va Hospital</div>                 ')[0];
+                popup_b57470de0c854096a3ceba1339d3093f.setContent(html_d5ffd1e3c2054735a1ccadfa886df862);
+            
+
+            circle_marker_d81d70f9c20d40c6908185ca8cfb0433.bindPopup(popup_b57470de0c854096a3ceba1339d3093f);
+
+            
+        
+        
+            
+
+            var circle_marker_1e6b73b103e7453cafd09091797f5cb5 = L.circle(
+                [42.36297141612903,-71.07043169540236],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_b99e9e8fef4245628cb5abc910768ec8 = L.popup({maxWidth: '300'});
+
+            
+                var html_f85eeb807c1742fc8d5e15b7b8722dc2 = $('         <div id="html_f85eeb807c1742fc8d5e15b7b8722dc2"                 style="width: 100.0%; height: 100.0%;">                 Massachusetts Eye &amp; Ear Infirmary</div>                 ')[0];
+                popup_b99e9e8fef4245628cb5abc910768ec8.setContent(html_f85eeb807c1742fc8d5e15b7b8722dc2);
+            
+
+            circle_marker_1e6b73b103e7453cafd09091797f5cb5.bindPopup(popup_b99e9e8fef4245628cb5abc910768ec8);
+
+            
+        
+        
+            
+
+            var circle_marker_e13527b2ebb447f38c004a9e32e815c5 = L.circle(
+                [42.34665771451756,-71.14136122385321],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_2fb1d5fcc6ac4475bbd66ce8871f6aeb = L.popup({maxWidth: '300'});
+
+            
+                var html_92a3ea4f7df240c6b42c913c1d83f4cb = $('         <div id="html_92a3ea4f7df240c6b42c913c1d83f4cb"                 style="width: 100.0%; height: 100.0%;">                 Kindred Hospital</div>                 ')[0];
+                popup_2fb1d5fcc6ac4475bbd66ce8871f6aeb.setContent(html_92a3ea4f7df240c6b42c913c1d83f4cb);
+            
+
+            circle_marker_e13527b2ebb447f38c004a9e32e815c5.bindPopup(popup_2fb1d5fcc6ac4475bbd66ce8871f6aeb);
+
+            
+        
+        
+            
+
+            var circle_marker_8214fa4fdfcb4ab28b8a8535ea70452a = L.circle(
+                [42.33587602903896,-71.10741054246668],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_32212088561d4690ba401173838ff10a = L.popup({maxWidth: '300'});
+
+            
+                var html_0236d3e08e5949708a227e42cb7ab5fc = $('         <div id="html_0236d3e08e5949708a227e42cb7ab5fc"                 style="width: 100.0%; height: 100.0%;">                 Brigham And Women&#39;s Hospital</div>                 ')[0];
+                popup_32212088561d4690ba401173838ff10a.setContent(html_0236d3e08e5949708a227e42cb7ab5fc);
+            
+
+            circle_marker_8214fa4fdfcb4ab28b8a8535ea70452a.bindPopup(popup_32212088561d4690ba401173838ff10a);
+
+            
+        
+        
+            
+
+            var circle_marker_478cef5e542f4b2eb1a9605f636508ff = L.circle(
+                [42.27854306401838,-71.06631280050811],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_9aeadd65b89d4856a8ec471117e75a50 = L.popup({maxWidth: '300'});
+
+            
+                var html_f59c4a998adb4ded82cc625a93131472 = $('         <div id="html_f59c4a998adb4ded82cc625a93131472"                 style="width: 100.0%; height: 100.0%;">                 Carney Hospital</div>                 ')[0];
+                popup_9aeadd65b89d4856a8ec471117e75a50.setContent(html_f59c4a998adb4ded82cc625a93131472);
+            
+
+            circle_marker_478cef5e542f4b2eb1a9605f636508ff.bindPopup(popup_9aeadd65b89d4856a8ec471117e75a50);
+
+            
+        
+        
+            
+
+            var circle_marker_f91a44ae755948fc90db509ec770f83f = L.circle(
+                [42.349946522039204,-71.0634111017112],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_b0bc16e15e3b40d4beda9c58e8060ef6 = L.popup({maxWidth: '300'});
+
+            
+                var html_897eea9f4cd6407e80ac897e09e5b93e = $('         <div id="html_897eea9f4cd6407e80ac897e09e5b93e"                 style="width: 100.0%; height: 100.0%;">                 New England Medical Center</div>                 ')[0];
+                popup_b0bc16e15e3b40d4beda9c58e8060ef6.setContent(html_897eea9f4cd6407e80ac897e09e5b93e);
+            
+
+            circle_marker_f91a44ae755948fc90db509ec770f83f.bindPopup(popup_b0bc16e15e3b40d4beda9c58e8060ef6);
+
+            
+        
+        
+            
+
+            var circle_marker_86cf66686cfd4c4b99e1c04651dee769 = L.circle(
+                [42.30021828265608,-71.12789683059322],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_d324ac440d0f40f09f464ca286b5d02f = L.popup({maxWidth: '300'});
+
+            
+                var html_9be0199c1a8349fd8259053861c748eb = $('         <div id="html_9be0199c1a8349fd8259053861c748eb"                 style="width: 100.0%; height: 100.0%;">                 Faulkner Hospital</div>                 ')[0];
+                popup_d324ac440d0f40f09f464ca286b5d02f.setContent(html_9be0199c1a8349fd8259053861c748eb);
+            
+
+            circle_marker_86cf66686cfd4c4b99e1c04651dee769.bindPopup(popup_d324ac440d0f40f09f464ca286b5d02f);
+
+            
+        
+        
+            
+
+            var circle_marker_b44d60095469484e914c296b76a66a6b = L.circle(
+                [42.349656455743144,-71.14822103232248],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_dcc137c054de4ae8b298a031e51eb8d8 = L.popup({maxWidth: '300'});
+
+            
+                var html_008e4b7c5d574b03bcf542f66d12d7a3 = $('         <div id="html_008e4b7c5d574b03bcf542f66d12d7a3"                 style="width: 100.0%; height: 100.0%;">                 St. Elizabeth&#39;s Hospital</div>                 ')[0];
+                popup_dcc137c054de4ae8b298a031e51eb8d8.setContent(html_008e4b7c5d574b03bcf542f66d12d7a3);
+            
+
+            circle_marker_b44d60095469484e914c296b76a66a6b.bindPopup(popup_dcc137c054de4ae8b298a031e51eb8d8);
+
+            
+        
+        
+            
+
+            var circle_marker_e4ba73a8c808446d8f7cf1d1cb670b32 = L.circle(
+                [42.27598935537618,-71.17245195460838],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_e1b3d092c7204a169762608983e71990 = L.popup({maxWidth: '300'});
+
+            
+                var html_ec1c0c399e984788a9f48fac197ef89d = $('         <div id="html_ec1c0c399e984788a9f48fac197ef89d"                 style="width: 100.0%; height: 100.0%;">                 VA Hospital</div>                 ')[0];
+                popup_e1b3d092c7204a169762608983e71990.setContent(html_ec1c0c399e984788a9f48fac197ef89d);
+            
+
+            circle_marker_e4ba73a8c808446d8f7cf1d1cb670b32.bindPopup(popup_e1b3d092c7204a169762608983e71990);
+
+            
+        
+        
+            
+
+            var circle_marker_f650e2924a3b43788dc866794456d0e6 = L.circle(
+                [42.36327718561898,-71.0668523937257],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_c0a77fac44c74a4b999a940a236620c6 = L.popup({maxWidth: '300'});
+
+            
+                var html_59b271957ebf46c78aeb07447cb3b23f = $('         <div id="html_59b271957ebf46c78aeb07447cb3b23f"                 style="width: 100.0%; height: 100.0%;">                 Shriners Burns Institute</div>                 ')[0];
+                popup_c0a77fac44c74a4b999a940a236620c6.setContent(html_59b271957ebf46c78aeb07447cb3b23f);
+            
+
+            circle_marker_f650e2924a3b43788dc866794456d0e6.bindPopup(popup_c0a77fac44c74a4b999a940a236620c6);
+
+            
+        
+        
+            
+
+            var circle_marker_9b5c195a8b554568a1f1d924fde0f60d = L.circle(
+                [42.337592548462226,-71.10472284437952],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_4b598040a4c74ba899196ea7fc329aa0 = L.popup({maxWidth: '300'});
+
+            
+                var html_48b6d1fe8ace41458726b865b6736fd6 = $('         <div id="html_48b6d1fe8ace41458726b865b6736fd6"                 style="width: 100.0%; height: 100.0%;">                 Children&#39;s Hospital</div>                 ')[0];
+                popup_4b598040a4c74ba899196ea7fc329aa0.setContent(html_48b6d1fe8ace41458726b865b6736fd6);
+            
+
+            circle_marker_9b5c195a8b554568a1f1d924fde0f60d.bindPopup(popup_4b598040a4c74ba899196ea7fc329aa0);
+
+            
+        
+        
+            
+
+            var circle_marker_67c362a686ca4f3a90f9cf8a789c7aef = L.circle(
+                [42.31617666213941,-71.11272670363542],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_a490361a00344dfbb3177f213d81700b = L.popup({maxWidth: '300'});
+
+            
+                var html_28cbe0d3b34f43f6a2f78869c5ec9d69 = $('         <div id="html_28cbe0d3b34f43f6a2f78869c5ec9d69"                 style="width: 100.0%; height: 100.0%;">                 Arbour Hospital</div>                 ')[0];
+                popup_a490361a00344dfbb3177f213d81700b.setContent(html_28cbe0d3b34f43f6a2f78869c5ec9d69);
+            
+
+            circle_marker_67c362a686ca4f3a90f9cf8a789c7aef.bindPopup(popup_a490361a00344dfbb3177f213d81700b);
+
+            
+        
+        
+            
+
+            var circle_marker_8e01cf724fc9471b9a73f12778b74b06 = L.circle(
+                [42.29738386053219,-71.13150465441208],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_a0949b77b41a46c5a1d8b8944bc0e353 = L.popup({maxWidth: '300'});
+
+            
+                var html_f8370f9c2f1a4979a05458a7e4bc1646 = $('         <div id="html_f8370f9c2f1a4979a05458a7e4bc1646"                 style="width: 100.0%; height: 100.0%;">                 Hebrew Rehabilitation Center</div>                 ')[0];
+                popup_a0949b77b41a46c5a1d8b8944bc0e353.setContent(html_f8370f9c2f1a4979a05458a7e4bc1646);
+            
+
+            circle_marker_8e01cf724fc9471b9a73f12778b74b06.bindPopup(popup_a0949b77b41a46c5a1d8b8944bc0e353);
+
+            
+        
+        
+            
+
+            var circle_marker_4bc59fa3f8a04542a71ac040be3d8a71 = L.circle(
+                [42.314030311294516,-71.06406449543488],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_4afc44839b36433d8b8c3b77d9b6ce6e = L.popup({maxWidth: '300'});
+
+            
+                var html_ea7ff2714cd24f05b28dd235bd83d473 = $('         <div id="html_ea7ff2714cd24f05b28dd235bd83d473"                 style="width: 100.0%; height: 100.0%;">                 St. Margaret&#39;s Hospital For Women</div>                 ')[0];
+                popup_4afc44839b36433d8b8c3b77d9b6ce6e.setContent(html_ea7ff2714cd24f05b28dd235bd83d473);
+            
+
+            circle_marker_4bc59fa3f8a04542a71ac040be3d8a71.bindPopup(popup_4afc44839b36433d8b8c3b77d9b6ce6e);
+
+            
+        
+        
+            
+
+            var circle_marker_23d4a1d205ae4fd98d06d6dba7eb73ca = L.circle(
+                [42.36764789068138,-71.06564730220646],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_554d3b90c8804ea79b5a516614ee6d43 = L.popup({maxWidth: '300'});
+
+            
+                var html_ca61d4b05c9142a7ac33cbbba6c0e62b = $('         <div id="html_ca61d4b05c9142a7ac33cbbba6c0e62b"                 style="width: 100.0%; height: 100.0%;">                 Spaulding Rehabilitation Hospital</div>                 ')[0];
+                popup_554d3b90c8804ea79b5a516614ee6d43.setContent(html_ca61d4b05c9142a7ac33cbbba6c0e62b);
+            
+
+            circle_marker_23d4a1d205ae4fd98d06d6dba7eb73ca.bindPopup(popup_554d3b90c8804ea79b5a516614ee6d43);
+
+            
+        
+        
+            
+
+            var circle_marker_bad1daef85664a9f9550ad8c59c58ef3 = L.circle(
+                [42.352620000312925,-71.13281000028115],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_96df08ec957642ce90e0fa859fc8622d = L.popup({maxWidth: '300'});
+
+            
+                var html_8a10b8a10f684967b088206c8f2c0b77 = $('         <div id="html_8a10b8a10f684967b088206c8f2c0b77"                 style="width: 100.0%; height: 100.0%;">                 Franciscan Children&#39;s  Hospital</div>                 ')[0];
+                popup_96df08ec957642ce90e0fa859fc8622d.setContent(html_8a10b8a10f684967b088206c8f2c0b77);
+            
+
+            circle_marker_bad1daef85664a9f9550ad8c59c58ef3.bindPopup(popup_96df08ec957642ce90e0fa859fc8622d);
+
+            
+        
+        
+            
+
+            var circle_marker_b533527382d44d768abbc445e36da989 = L.circle(
+                [42.3385289546495,-71.10940050507557],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_128a0fc2fed14062ac658977f0835232 = L.popup({maxWidth: '300'});
+
+            
+                var html_93914f80828140c890f6669a8eeebabc = $('         <div id="html_93914f80828140c890f6669a8eeebabc"                 style="width: 100.0%; height: 100.0%;">                 Beth Israel Deaconess Medical Center West Cam</div>                 ')[0];
+                popup_128a0fc2fed14062ac658977f0835232.setContent(html_93914f80828140c890f6669a8eeebabc);
+            
+
+            circle_marker_b533527382d44d768abbc445e36da989.bindPopup(popup_128a0fc2fed14062ac658977f0835232);
+
+            
+        
+        
+            
+
+            var circle_marker_58ce628ec77348d0b8a6baa6e25b1118 = L.circle(
+                [42.33734993862189,-71.1071702648531],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_9df73f739527433aa4067e5476915ed2 = L.popup({maxWidth: '300'});
+
+            
+                var html_fac0e34a6388477d92c03e9c1e2bb9f0 = $('         <div id="html_fac0e34a6388477d92c03e9c1e2bb9f0"                 style="width: 100.0%; height: 100.0%;">                 Dana-farber Cancer Institute</div>                 ')[0];
+                popup_9df73f739527433aa4067e5476915ed2.setContent(html_fac0e34a6388477d92c03e9c1e2bb9f0);
+            
+
+            circle_marker_58ce628ec77348d0b8a6baa6e25b1118.bindPopup(popup_9df73f739527433aa4067e5476915ed2);
+
+            
+        
+        
+            
+
+            var circle_marker_e759983dd17341d8b6de15d56742f59d = L.circle(
+                [42.36247485742686,-71.06924724545246],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_bdd83586c82d4775a93296c679e764ff = L.popup({maxWidth: '300'});
+
+            
+                var html_7f790b3e70b44005b0462fab8e70f9a3 = $('         <div id="html_7f790b3e70b44005b0462fab8e70f9a3"                 style="width: 100.0%; height: 100.0%;">                 Massachusetts General Hospital</div>                 ')[0];
+                popup_bdd83586c82d4775a93296c679e764ff.setContent(html_7f790b3e70b44005b0462fab8e70f9a3);
+            
+
+            circle_marker_e759983dd17341d8b6de15d56742f59d.bindPopup(popup_bdd83586c82d4775a93296c679e764ff);
+
+            
+        
+        
+            
+
+            var circle_marker_eb724f9ebae54e87964e77d9898882f5 = L.circle(
+                [42.335925371008436,-71.07378404269969],
+                50,
+                {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_45086c2df6be431db153d982407472a4 = L.popup({maxWidth: '300'});
+
+            
+                var html_c12940b3153f4873b765abc73551fe23 = $('         <div id="html_c12940b3153f4873b765abc73551fe23"                 style="width: 100.0%; height: 100.0%;">                 Boston City Hospital</div>                 ')[0];
+                popup_45086c2df6be431db153d982407472a4.setContent(html_c12940b3153f4873b765abc73551fe23);
+            
+
+            circle_marker_eb724f9ebae54e87964e77d9898882f5.bindPopup(popup_45086c2df6be431db153d982407472a4);
+
+            
+        
+        
+            
+
+            var circle_marker_41c94e25ec64433ca92045b7352080ea = L.circle(
+                [42.31757528915661,-71.08875954216867],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_72d58dba8ff5423c9e7124e5e630dcdb = L.popup({maxWidth: '300'});
+
+            
+                var html_d9542e2c963740d3b74a9c1c1f0b3889 = $('         <div id="html_d9542e2c963740d3b74a9c1c1f0b3889"                 style="width: 100.0%; height: 100.0%;">                 Optimal Lemuel Shattuck Hospital</div>                 ')[0];
+                popup_72d58dba8ff5423c9e7124e5e630dcdb.setContent(html_d9542e2c963740d3b74a9c1c1f0b3889);
+            
+
+            circle_marker_41c94e25ec64433ca92045b7352080ea.bindPopup(popup_72d58dba8ff5423c9e7124e5e630dcdb);
+
+            
+        
+        
+            
+
+            var circle_marker_4f11b3a8ccab4610bfe42f79232a0469 = L.circle(
+                [42.33592913888887,-71.06380638888888],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_ac0f292aecb148d3a11ff477153c74fa = L.popup({maxWidth: '300'});
+
+            
+                var html_73de6200928d4b988a6ca5ae6e1fa43c = $('         <div id="html_73de6200928d4b988a6ca5ae6e1fa43c"                 style="width: 100.0%; height: 100.0%;">                 Optimal Beth Israel Deaconess Medical Center East Cam</div>                 ')[0];
+                popup_ac0f292aecb148d3a11ff477153c74fa.setContent(html_73de6200928d4b988a6ca5ae6e1fa43c);
+            
+
+            circle_marker_4f11b3a8ccab4610bfe42f79232a0469.bindPopup(popup_ac0f292aecb148d3a11ff477153c74fa);
+
+            
+        
+        
+            
+
+            var circle_marker_1df79f6fd1474207a58f743935e1ba18 = L.circle(
+                [42.27667847619047,-71.09316147619046],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_f0c65e2bcac1463fbcbcffd62c82c55e = L.popup({maxWidth: '300'});
+
+            
+                var html_2f0da6cdba1f4f9aa6bfb9d44ff6880a = $('         <div id="html_2f0da6cdba1f4f9aa6bfb9d44ff6880a"                 style="width: 100.0%; height: 100.0%;">                 Optimal Jewish Memorial Hospital</div>                 ')[0];
+                popup_f0c65e2bcac1463fbcbcffd62c82c55e.setContent(html_2f0da6cdba1f4f9aa6bfb9d44ff6880a);
+            
+
+            circle_marker_1df79f6fd1474207a58f743935e1ba18.bindPopup(popup_f0c65e2bcac1463fbcbcffd62c82c55e);
+
+            
+        
+        
+            
+
+            var circle_marker_cca131ab59d3402da83137d2055e4d92 = L.circle(
+                [42.291095285714285,-71.10303747619048],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_d8896038f71941529e87a0388daa3230 = L.popup({maxWidth: '300'});
+
+            
+                var html_7f3e993aa786402b9a33393164fdaa2c = $('         <div id="html_7f3e993aa786402b9a33393164fdaa2c"                 style="width: 100.0%; height: 100.0%;">                 Optimal New England Baptist Hospital</div>                 ')[0];
+                popup_d8896038f71941529e87a0388daa3230.setContent(html_7f3e993aa786402b9a33393164fdaa2c);
+            
+
+            circle_marker_cca131ab59d3402da83137d2055e4d92.bindPopup(popup_d8896038f71941529e87a0388daa3230);
+
+            
+        
+        
+            
+
+            var circle_marker_6d3b18f734c3464bbfd72b8b1a839f0e = L.circle(
+                [42.3534265,-71.0765595],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_de642ae4011d49aaaebebd8e7263cddb = L.popup({maxWidth: '300'});
+
+            
+                var html_0571e165acad4d06951023e8d327507b = $('         <div id="html_0571e165acad4d06951023e8d327507b"                 style="width: 100.0%; height: 100.0%;">                 Optimal Boston Specialty &amp; Rehabilitation Hospital</div>                 ')[0];
+                popup_de642ae4011d49aaaebebd8e7263cddb.setContent(html_0571e165acad4d06951023e8d327507b);
+            
+
+            circle_marker_6d3b18f734c3464bbfd72b8b1a839f0e.bindPopup(popup_de642ae4011d49aaaebebd8e7263cddb);
+
+            
+        
+        
+            
+
+            var circle_marker_88d0079474294edf9866280283928788 = L.circle(
+                [42.3454383,-71.141537],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_30b8d0964bca4471b1ebdc9a464da86e = L.popup({maxWidth: '300'});
+
+            
+                var html_2968f14e65d24f77a3c79b0ec6ac0dc7 = $('         <div id="html_2968f14e65d24f77a3c79b0ec6ac0dc7"                 style="width: 100.0%; height: 100.0%;">                 Optimal Boston Medical Center</div>                 ')[0];
+                popup_30b8d0964bca4471b1ebdc9a464da86e.setContent(html_2968f14e65d24f77a3c79b0ec6ac0dc7);
+            
+
+            circle_marker_88d0079474294edf9866280283928788.bindPopup(popup_30b8d0964bca4471b1ebdc9a464da86e);
+
+            
+        
+        
+            
+
+            var circle_marker_bc0060d6ab9c4ce7bb83fd69f040fde0 = L.circle(
+                [42.33503033333333,-71.10632700000001],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_8962eb3d2c344cc7ab046d7bef96485d = L.popup({maxWidth: '300'});
+
+            
+                var html_c8aa1e3ec872420a83950a6fae6e5cd7 = $('         <div id="html_c8aa1e3ec872420a83950a6fae6e5cd7"                 style="width: 100.0%; height: 100.0%;">                 Optimal Va Hospital</div>                 ')[0];
+                popup_8962eb3d2c344cc7ab046d7bef96485d.setContent(html_c8aa1e3ec872420a83950a6fae6e5cd7);
+            
+
+            circle_marker_bc0060d6ab9c4ce7bb83fd69f040fde0.bindPopup(popup_8962eb3d2c344cc7ab046d7bef96485d);
+
+            
+        
+        
+            
+
+            var circle_marker_5e29d2648c614c7481f7ada901b6c28a = L.circle(
+                [39.85005504225354,-67.11951911267604],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_1babf4932b3140f2876a77829fa86162 = L.popup({maxWidth: '300'});
+
+            
+                var html_26f2cdd23e9e46d79e5451621511d9b7 = $('         <div id="html_26f2cdd23e9e46d79e5451621511d9b7"                 style="width: 100.0%; height: 100.0%;">                 Optimal Massachusetts Eye &amp; Ear Infirmary</div>                 ')[0];
+                popup_1babf4932b3140f2876a77829fa86162.setContent(html_26f2cdd23e9e46d79e5451621511d9b7);
+            
+
+            circle_marker_5e29d2648c614c7481f7ada901b6c28a.bindPopup(popup_1babf4932b3140f2876a77829fa86162);
+
+            
+        
+        
+            
+
+            var circle_marker_2afbf22bdd7042079b7acd248fe5d1ab = L.circle(
+                [42.35392395652173,-71.13129017391303],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_0f13893bc4084e56ace401c5234630ef = L.popup({maxWidth: '300'});
+
+            
+                var html_7601a35b708e48d598e243bfa43adafa = $('         <div id="html_7601a35b708e48d598e243bfa43adafa"                 style="width: 100.0%; height: 100.0%;">                 Optimal Kindred Hospital</div>                 ')[0];
+                popup_0f13893bc4084e56ace401c5234630ef.setContent(html_7601a35b708e48d598e243bfa43adafa);
+            
+
+            circle_marker_2afbf22bdd7042079b7acd248fe5d1ab.bindPopup(popup_0f13893bc4084e56ace401c5234630ef);
+
+            
+        
+        
+            
+
+            var circle_marker_aabf050599af47afb13f560ac20dffbb = L.circle(
+                [42.31136064347827,-71.06373972173911],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_dc769964f54946899b82bb662690d625 = L.popup({maxWidth: '300'});
+
+            
+                var html_7a2101370751410581c0e619d96c5798 = $('         <div id="html_7a2101370751410581c0e619d96c5798"                 style="width: 100.0%; height: 100.0%;">                 Optimal Brigham And Women&#39;s Hospital</div>                 ')[0];
+                popup_dc769964f54946899b82bb662690d625.setContent(html_7a2101370751410581c0e619d96c5798);
+            
+
+            circle_marker_aabf050599af47afb13f560ac20dffbb.bindPopup(popup_dc769964f54946899b82bb662690d625);
+
+            
+        
+        
+            
+
+            var circle_marker_3ad4273fad1a44c29ae3be1f7bd55210 = L.circle(
+                [42.33455438181818,-71.07742892727275],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_bc41ebc0c2364c90a296ae59f445f02d = L.popup({maxWidth: '300'});
+
+            
+                var html_d1e3bc21bb284d9b8c8831288b844c17 = $('         <div id="html_d1e3bc21bb284d9b8c8831288b844c17"                 style="width: 100.0%; height: 100.0%;">                 Optimal Carney Hospital</div>                 ')[0];
+                popup_bc41ebc0c2364c90a296ae59f445f02d.setContent(html_d1e3bc21bb284d9b8c8831288b844c17);
+            
+
+            circle_marker_3ad4273fad1a44c29ae3be1f7bd55210.bindPopup(popup_bc41ebc0c2364c90a296ae59f445f02d);
+
+            
+        
+        
+            
+
+            var circle_marker_67bd56aedc92441a9d47eaa067d45ae9 = L.circle(
+                [42.340216,-71.109561],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_559cf351e0fd4d3fbada3839d93122a8 = L.popup({maxWidth: '300'});
+
+            
+                var html_4df459c1b60c4527adfe8a461e53c689 = $('         <div id="html_4df459c1b60c4527adfe8a461e53c689"                 style="width: 100.0%; height: 100.0%;">                 Optimal New England Medical Center</div>                 ')[0];
+                popup_559cf351e0fd4d3fbada3839d93122a8.setContent(html_4df459c1b60c4527adfe8a461e53c689);
+            
+
+            circle_marker_67bd56aedc92441a9d47eaa067d45ae9.bindPopup(popup_559cf351e0fd4d3fbada3839d93122a8);
+
+            
+        
+        
+            
+
+            var circle_marker_9412c41f34b04d04a21b1505f4a53c1c = L.circle(
+                [42.375783823529424,-71.0453179607843],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_a8aa3fdfae034ce4abf2c9c7edb9388b = L.popup({maxWidth: '300'});
+
+            
+                var html_9c9c406138cf48b19b383116858daa29 = $('         <div id="html_9c9c406138cf48b19b383116858daa29"                 style="width: 100.0%; height: 100.0%;">                 Optimal Faulkner Hospital</div>                 ')[0];
+                popup_a8aa3fdfae034ce4abf2c9c7edb9388b.setContent(html_9c9c406138cf48b19b383116858daa29);
+            
+
+            circle_marker_9412c41f34b04d04a21b1505f4a53c1c.bindPopup(popup_a8aa3fdfae034ce4abf2c9c7edb9388b);
+
+            
+        
+        
+            
+
+            var circle_marker_d981caf74bd14b5da06b22fedd34f63b = L.circle(
+                [42.34872236912752,-71.0592411610738],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_54279d48cc93414b88eac6a5b706243e = L.popup({maxWidth: '300'});
+
+            
+                var html_9ae7ededef55434f87bb48b2c3922b17 = $('         <div id="html_9ae7ededef55434f87bb48b2c3922b17"                 style="width: 100.0%; height: 100.0%;">                 Optimal St. Elizabeth&#39;s Hospital</div>                 ')[0];
+                popup_54279d48cc93414b88eac6a5b706243e.setContent(html_9ae7ededef55434f87bb48b2c3922b17);
+            
+
+            circle_marker_d981caf74bd14b5da06b22fedd34f63b.bindPopup(popup_54279d48cc93414b88eac6a5b706243e);
+
+            
+        
+        
+            
+
+            var circle_marker_955922d4e7e6459aaf7509d962d3dcef = L.circle(
+                [42.29444540000001,-71.12223839999999],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_bbb8e56b2f46419a8649b156c0e607b8 = L.popup({maxWidth: '300'});
+
+            
+                var html_815d38488aab47a8a59927fb2e924ffa = $('         <div id="html_815d38488aab47a8a59927fb2e924ffa"                 style="width: 100.0%; height: 100.0%;">                 Optimal VA Hospital</div>                 ')[0];
+                popup_bbb8e56b2f46419a8649b156c0e607b8.setContent(html_815d38488aab47a8a59927fb2e924ffa);
+            
+
+            circle_marker_955922d4e7e6459aaf7509d962d3dcef.bindPopup(popup_bbb8e56b2f46419a8649b156c0e607b8);
+
+            
+        
+        
+            
+
+            var circle_marker_a28358eabe2e4dd48bd50bb63407a1b7 = L.circle(
+                [42.348920892857144,-71.15455242857145],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_83a5d7891b7b42b5a95a4dfb17f000e2 = L.popup({maxWidth: '300'});
+
+            
+                var html_5ddfb0ca1f3344498c5529b717e55222 = $('         <div id="html_5ddfb0ca1f3344498c5529b717e55222"                 style="width: 100.0%; height: 100.0%;">                 Optimal Shriners Burns Institute</div>                 ')[0];
+                popup_83a5d7891b7b42b5a95a4dfb17f000e2.setContent(html_5ddfb0ca1f3344498c5529b717e55222);
+            
+
+            circle_marker_a28358eabe2e4dd48bd50bb63407a1b7.bindPopup(popup_83a5d7891b7b42b5a95a4dfb17f000e2);
+
+            
+        
+        
+            
+
+            var circle_marker_8ba5777fe47f4e98bc49f468d0937ed6 = L.circle(
+                [42.26455007142857,-71.15290428571429],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_6ca46800d2dc49eba7cb4f0e5e7fb123 = L.popup({maxWidth: '300'});
+
+            
+                var html_5982f1d45f1c42a58ee3c2eae8e16ee4 = $('         <div id="html_5982f1d45f1c42a58ee3c2eae8e16ee4"                 style="width: 100.0%; height: 100.0%;">                 Optimal Children&#39;s Hospital</div>                 ')[0];
+                popup_6ca46800d2dc49eba7cb4f0e5e7fb123.setContent(html_5982f1d45f1c42a58ee3c2eae8e16ee4);
+            
+
+            circle_marker_8ba5777fe47f4e98bc49f468d0937ed6.bindPopup(popup_6ca46800d2dc49eba7cb4f0e5e7fb123);
+
+            
+        
+        
+            
+
+            var circle_marker_9cbd0d5e3d1a4d9b91cda245b24b3b6d = L.circle(
+                [42.360640384615394,-71.06025907692306],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_b7823ff5f9c54b1383dee61d07a38860 = L.popup({maxWidth: '300'});
+
+            
+                var html_3481311d61d54b1c82a94e9fb845a28b = $('         <div id="html_3481311d61d54b1c82a94e9fb845a28b"                 style="width: 100.0%; height: 100.0%;">                 Optimal Arbour Hospital</div>                 ')[0];
+                popup_b7823ff5f9c54b1383dee61d07a38860.setContent(html_3481311d61d54b1c82a94e9fb845a28b);
+            
+
+            circle_marker_9cbd0d5e3d1a4d9b91cda245b24b3b6d.bindPopup(popup_b7823ff5f9c54b1383dee61d07a38860);
+
+            
+        
+        
+            
+
+            var circle_marker_c1d701e791664f43b4ec55a7a9eff695 = L.circle(
+                [42.33726285714285,-71.09945085714284],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_e51feb50678643ab94674e8a11d14b0f = L.popup({maxWidth: '300'});
+
+            
+                var html_28252f9977aa46db9e5f54711b85ccbf = $('         <div id="html_28252f9977aa46db9e5f54711b85ccbf"                 style="width: 100.0%; height: 100.0%;">                 Optimal Hebrew Rehabilitation Center</div>                 ')[0];
+                popup_e51feb50678643ab94674e8a11d14b0f.setContent(html_28252f9977aa46db9e5f54711b85ccbf);
+            
+
+            circle_marker_c1d701e791664f43b4ec55a7a9eff695.bindPopup(popup_e51feb50678643ab94674e8a11d14b0f);
+
+            
+        
+        
+            
+
+            var circle_marker_906a869e7fa543e484efce76f7d0c8fc = L.circle(
+                [42.316876400000005,-71.11061939999999],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_6231c2c355e14bfb806af8b6e7ae845c = L.popup({maxWidth: '300'});
+
+            
+                var html_1c47069ec149487b8de21ce3d2f4f670 = $('         <div id="html_1c47069ec149487b8de21ce3d2f4f670"                 style="width: 100.0%; height: 100.0%;">                 Optimal St. Margaret&#39;s Hospital For Women</div>                 ')[0];
+                popup_6231c2c355e14bfb806af8b6e7ae845c.setContent(html_1c47069ec149487b8de21ce3d2f4f670);
+            
+
+            circle_marker_906a869e7fa543e484efce76f7d0c8fc.bindPopup(popup_6231c2c355e14bfb806af8b6e7ae845c);
+
+            
+        
+        
+            
+
+            var circle_marker_3c0aaa54be2c4c72bed80e668a454ad7 = L.circle(
+                [42.275648624999995,-71.13125483333334],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_be2d3fce9dc643e2b70ede7531bb1cf4 = L.popup({maxWidth: '300'});
+
+            
+                var html_b9dc999545884dfa9be49ba137eff6ec = $('         <div id="html_b9dc999545884dfa9be49ba137eff6ec"                 style="width: 100.0%; height: 100.0%;">                 Optimal Spaulding Rehabilitation Hospital</div>                 ')[0];
+                popup_be2d3fce9dc643e2b70ede7531bb1cf4.setContent(html_b9dc999545884dfa9be49ba137eff6ec);
+            
+
+            circle_marker_3c0aaa54be2c4c72bed80e668a454ad7.bindPopup(popup_be2d3fce9dc643e2b70ede7531bb1cf4);
+
+            
+        
+        
+            
+
+            var circle_marker_c99f9bc9a3b84f92b37cbb2f4c5d19e4 = L.circle(
+                [42.32733541176471,-71.1040715882353],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_66df22eb26df4d58ba9f0ada899a98d6 = L.popup({maxWidth: '300'});
+
+            
+                var html_1472acbab2544d398f70e884e55a4c4e = $('         <div id="html_1472acbab2544d398f70e884e55a4c4e"                 style="width: 100.0%; height: 100.0%;">                 Optimal Franciscan Children&#39;s  Hospital</div>                 ')[0];
+                popup_66df22eb26df4d58ba9f0ada899a98d6.setContent(html_1472acbab2544d398f70e884e55a4c4e);
+            
+
+            circle_marker_c99f9bc9a3b84f92b37cbb2f4c5d19e4.bindPopup(popup_66df22eb26df4d58ba9f0ada899a98d6);
+
+            
+        
+        
+            
+
+            var circle_marker_42641f6a929a4079aa080cccdac12554 = L.circle(
+                [42.344441976744186,-71.08899488372093],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_06fc467604324b5e88eeee8a98803ae4 = L.popup({maxWidth: '300'});
+
+            
+                var html_55f427eec36740d492324ffd5d332cf0 = $('         <div id="html_55f427eec36740d492324ffd5d332cf0"                 style="width: 100.0%; height: 100.0%;">                 Optimal Beth Israel Deaconess Medical Center West Cam</div>                 ')[0];
+                popup_06fc467604324b5e88eeee8a98803ae4.setContent(html_55f427eec36740d492324ffd5d332cf0);
+            
+
+            circle_marker_42641f6a929a4079aa080cccdac12554.bindPopup(popup_06fc467604324b5e88eeee8a98803ae4);
+
+            
+        
+        
+            
+
+            var circle_marker_e47c8951823b4db89d9f2ee9e6552310 = L.circle(
+                [42.355409333333334,-71.07107333333333],
+                50,
+                {
+                    color: '#0000ff',
+                    fillColor: '#0000ff',
+                    fillOpacity: 0.7
+                    }
+                )
+                .addTo(map_eabe41e5491e481f86664b694e41ca9d);
+            
+        
+            
+            var popup_8bdf197382824c45847620c89af2a548 = L.popup({maxWidth: '300'});
+
+            
+                var html_f5181be25db14ba581c397a630cb0d7f = $('         <div id="html_f5181be25db14ba581c397a630cb0d7f"                 style="width: 100.0%; height: 100.0%;">                 Optimal Dana-farber Cancer Institute</div>                 ')[0];
+                popup_8bdf197382824c45847620c89af2a548.setContent(html_f5181be25db14ba581c397a630cb0d7f);
+            
+
+            circle_marker_e47c8951823b4db89d9f2ee9e6552310.bindPopup(popup_8bdf197382824c45847620c89af2a548);
+
+            
+        
+        
+        
+        </script>
+        
