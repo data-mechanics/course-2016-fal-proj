@@ -112,7 +112,18 @@ We then use python's K-D tree library to find all points within a certain radius
 To ensure the algorithm does not return the same regions for every iteration, if the algorithm is searching for multiple trash collection units to install it will 'ignore' regions that have already been selected by previous iterations.
 
 
+##Web Service
 
+We utilized leafletJS in order to use our optimization algorithm and present it in the form of an interactive web page. The site allows a user to specify the number of trash collection sites they want to implement and also asks the user for the expected radius of coverage (in m) of one trash collection unit.  
+
+###How to run:
+```
+$ python3 service.py
+```
+
+The web page should be found at http://localhost:3000
+
+note: successfully running the above is contingent on the instance of mongo with all the previous databases still running. 
 
 
 
