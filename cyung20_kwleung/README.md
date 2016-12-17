@@ -81,4 +81,4 @@ Selected Crimes Avg Within 100 meters of Liquor Store (Fri-Sun): 123.0
 
 **2. crime_time_correlation.py**
 
-Stastical Analysis was used to determine if there is a correlation between crimes and the hour they were committed. After calculations, we received a correlation coefficient with a magnitude of 0.589, which tells us that the two variables have a positive, moderately strong correlation. The time_crime.PNG picture illustrates our graph for this correlation.
+Stastical Analysis was used to determine if there is a correlation between crimes and the hour they were committed. After calculations, we received a correlation coefficient with a magnitude of 0.589, which tells us that the two variables have a positive, moderately strong correlation.
