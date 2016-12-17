@@ -1,3 +1,5 @@
+# CS591 Data Mechanics Final Report
+
 # Introduction
 
 According to the Boston Globe, “major crime in Boston dropped 9 percent between 2014 and 2015, bringing the figure to its lowest point in a decade.” While the diminishing crime rate is certainly an accomplishment for Boston, it is still necessary to analyze the effect certain factors have on crime incidences. As stated by the US National Library of Medicine, “place-based” factors are particularly useful for evaluating crime in that “states and cities can build on such information to strengthen their alcohol control and policing policies.” Therefore in order to evaluate crime incidence in Boston, we believe looking at the influencers that are most commonly associated with crimes will help confirm whether people have an actual need to worry about them when they're out and about.
@@ -65,3 +67,13 @@ This algorithm was written with the intent of seeing whether the time of day mig
 From our results, while we cannot state any facts definitively (since correlation does not mean causation), we may, however, confirm that there is certainly a moderately strong correlation between crimes and the usual factors they’re associated with. For our first analysis, the averge number of crimes committed over the span of the weekend is greater than the average crimes committed over the span of the weekdays - which was expected. For our second analysis, while it made sense that crimes were lowest in the early morning, it was interesting to observe that crime rates were generally high from the afternoon to late evening. With regards to our results in our first image produced by our third transformation, we cannot confidently make any direct claims without knowing more information about each district (ie. how many resources are allocated to each station, how many police officers each station has, etc.), but it is interesting to observe how districts with jurisdiction over smaller populations don’t necessarily have fewer crimes (similarly, the same can be said about larger populations not necessarily having higher numbers of crimes). 
 
 It's obvious that there are a countless number of other factors which could be tested to further strengthen our project (such as checking the general safeness in areas with mutliple street lights or common areas such as public transporation stops at different times of the day or days of the week) and that this project will never really have a permanent solution. However, the more we analyze the different crime influencers, the more measures can be taken to, at the very least, decrease criminal activity in Boston.
+
+# Citations
+
+1) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3673267/
+2) https://www.bostonglobe.com/metro/2016/01/15/major-crime-drops-boston/TrO5ZAhmOD3bFDqdBX8vwN/story.html
+3) https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-August-2015-To-Date-Source-/fqn4-4qap
+4) https://data.cityofboston.gov/dataset/Liquor-Licenses/hda6-fnsh
+5) https://data.cityofboston.gov/Public-Safety/Boston-Police-District-Stations/23yb-cufe
+6) http://worldmap.harvard.edu/data/geonode:boston_police_districts_f55
+7) https://en.wikipedia.org/wiki/Boston_Police_Department
