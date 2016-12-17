@@ -9,7 +9,7 @@ class MBTAStops(dml.Algorithm):
 
 	# Authenticate with MongoDB
 	contributor = 'asanentz_ldebeasi_mshop_sinichol'
-	reads = ['asanentz_ldebeasi_mshop_sinichol.mbta']
+	reads = []
 	writes = ['asanentz_ldebeasi_mshop_sinichol.mbta']
 
 	@staticmethod
@@ -54,8 +54,8 @@ class MBTAStops(dml.Algorithm):
 
 		# Provenance Data
 		doc = prov.model.ProvDocument()
-		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/asanentz_ldebeasi_mshop_sinichol') # The scripts are in <folder>#<filename> format.
-		doc.add_namespace('dat', 'http://datamechanics.io/data/asanentz_ldebeasi_mshop_sinichol') # The data sets are in <user>#<collection> format.
+		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+		doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
 		doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
 		doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')

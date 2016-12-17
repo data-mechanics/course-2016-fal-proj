@@ -7,7 +7,7 @@ import uuid
 
 class addresses(dml.Algorithm):
     contributor = "asanentz_ldebeasi_mshop_sinichol"
-    reads = ["asanentz_ldebeasi_mshop_sinichol.addresses"]
+    reads = []
     writes = ["asanentz_ldebeasi_mshop_sinichol.addresses"]
 
     @staticmethod

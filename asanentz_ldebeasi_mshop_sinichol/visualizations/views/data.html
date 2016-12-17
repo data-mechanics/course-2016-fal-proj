@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name = "viewport" content = "width = device-width, user-scalable = no, maximum-scale = 1.0">
+		<link rel="stylesheet" href="leaflet/leaflet.css" />
+		<title>Data points</title>
+		<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+		<style>
+    		body {
+        		margin: 0px;
+    		}
+    		
+    		#mapid { 
+        		height: 100vh;
+            }
+            
+            #legend {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                width: 250px;
+                height: 180px;
+                background-color: rgba(255,255,255,0.75);
+                z-index: 10000;
+                border-radius: 6px;
+                -webkit-backdrop-filter: blur(20px) saturate(150%);
+                backdrop-filter: blur(20px) saturate(150%);
+            }
+            
+            .circle {
+                width: 26px;
+                height: 26px;
+                background-color: #eee;
+                float: left;
+                border-radius: 100px;
+            }
+            
+            #red {
+                background-color: red;
+            }
+            
+            #green {
+                background-color: green;
+            }
+            
+            #blue {
+                background-color: blue;
+            }
+            
+            ul {
+                -webkit-padding-start: 0px;
+            }
+            
+            ul li {
+                line-height: 26px;
+                list-style: none;
+                text-indent: 10px;
+                margin: 10px 20px;
+                font-family: "Roboto";
+            }
+            
+            img {
+                float: left;
+            }
+            
+            ul li#special {
+                line-height: 41px;
+            }
+        </style>
+        
+    </head>
+	<body>
+    	
+    	<div id="legend">
+        	<ul>
+            	<li>
+            	    <div class="circle" id="red"></div>
+            	    Hubway
+                </li>
+            	<li>
+            	    <div class="circle" id="green"></div>
+            	    MBTA Bus Stops
+                </li>
+                <li>
+            	    <div class="circle" id="blue"></div>
+            	    MBTA Subway Stops
+                </li>
+                <li id="special">
+                    <img src="leaflet/images/marker-icon.png">
+                    Optimal Stop Location
+                </li>
+        	</ul>
+    	</div>
+    	<div id="mapid"></div>    	
+    	
+    	<script src="leaflet/leaflet.js"></script>
+    	<script src="js/jquery.js"></script>
+		<script src="js/app.js"></script>
+	</body>
+</html>

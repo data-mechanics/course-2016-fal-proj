@@ -23,7 +23,7 @@ def evaluate_clusters(X,max_clusters):
 
 class kmeans(dml.Algorithm):
 	contributor = "asanentz_ldebeasi_mshop_sinichol"
-	reads = ["asanentz_ldebeasi_mshop_sinichol.kmeans"]
+	reads = ["asanentz_ldebeasi_mshop_sinichol.constraintSatisfaction"]
 	writes = ["asanentz_ldebeasi_mshop_sinichol.kmeans"]
 
 	@staticmethod
@@ -70,8 +70,8 @@ class kmeans(dml.Algorithm):
 		repo.authenticate("asanentz_ldebeasi_mshop_sinichol", "asanentz_ldebeasi_mshop_sinichol")
 		# Provenance Data
 		doc = prov.model.ProvDocument()
-		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/asanentz_ldebeasi_mshop_sinichol') # The scripts are in <folder>#<filename> format.
-		doc.add_namespace('dat', 'http://datamechanics.io/data/asanentz_ldebeasi_mshop_sinichol') # The data sets are in <user>#<collection> format.
+		doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
+		doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
 		doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
 		doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 		doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
@@ -87,7 +87,7 @@ class kmeans(dml.Algorithm):
 		doc.used(this_run, constraint, startTime)
 
 		# Our new combined data set
-		maintenance = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#constraintSatisfaction', {prov.model.PROV_LABEL:'finds centers using kmeans', prov.model.PROV_TYPE:'ont:DataSet'})
+		maintenance = doc.entity('dat:asanentz_ldebeasi_mshop_sinichol#kmeans', {prov.model.PROV_LABEL:'finds centers using kmeans', prov.model.PROV_TYPE:'ont:DataSet'})
 		doc.wasAttributedTo(maintenance, this_script)
 		doc.wasGeneratedBy(maintenance, this_run, endTime)
 		doc.wasDerivedFrom(maintenance, constraint, this_run, this_run, this_run)
