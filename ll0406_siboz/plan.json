@@ -1,122 +1,378 @@
 {
-    "activity": {
-        "log:uuiddd24e2f1-012a-45dd-9009-27a1513cb8ff": {},
-        "log:uuid08013ffe-1067-4d8d-a665-c12f1e51460c": {},
-        "log:uuidb58d4381-b63f-402e-9b4b-33ea77034a27": {}
-    },
-    "used": {
-        "_:id3": {
-            "prov:type": "ont:Retrieval",
-            "ont:Query": "?$where=location.longitude!=0",
-            "prov:activity": "log:uuidb58d4381-b63f-402e-9b4b-33ea77034a27",
-            "prov:entity": "bdp:ufcx-3fdn"
+    "wasAssociatedWith": {
+        "_:id2": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:activity": "log:uuid92c24ed4-dcd1-4040-b17e-744a379c664d"
         },
-        "_:id4": {
-            "prov:type": "ont:Retrieval",
-            "ont:Query": "?$select=location",
-            "prov:activity": "log:uuid08013ffe-1067-4d8d-a665-c12f1e51460c",
-            "prov:entity": "bdp:pyxn-r3i2"
-        }
-    },
-    "agent": {
-        "alg:ll0406_siboz#prjo1": {
-            "ont:Extension": "py",
-            "prov:type": {
-                "type": "prov:QUALIFIED_NAME",
-                "$": "prov:SoftwareAgent"
-            }
-        }
-    },
-    "wasAttributedTo": {
-        "_:id5": {
-            "prov:agent": "alg:ll0406_siboz#prjo1",
-            "prov:entity": "dat:ll0406_siboz#Criminal"
+        "_:id1": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:activity": "log:uuidacb412d7-be96-4b63-9b83-e65883916ee0"
         },
-        "_:id8": {
-            "prov:agent": "alg:ll0406_siboz#prjo1",
-            "prov:entity": "dat:ll0406_siboz#PoliceLoc"
-        },
-        "_:id11": {
-            "prov:agent": "alg:ll0406_siboz#prjo1",
-            "prov:entity": "dat:ll0406_siboz#Crim_Police_dist"
-        }
-    },
-    "entity": {
-        "dat:ll0406_siboz#Criminal": {
-            "prov:type": "ont:DataSet",
-            "prov:label": "Criminal Location"
-        },
-        "bdp:ufcx-3fdn": {
-            "ont:Extension": "json",
-            "prov:type": "ont:Crim_Resource",
-            "prov:label": "Crime Incident Reports"
-        },
-        "dat:ll0406_siboz#Crim_Police_dist": {
-            "prov:type": "ont:DataSet",
-            "prov:label": "Crim Police distance"
-        },
-        "dat:ll0406_siboz#PoliceLoc": {
-            "prov:type": "ont:DataSet",
-            "prov:label": "PoliceStation Location"
-        },
-        "bdp:pyxn-r3i2": {
-            "ont:Extension": "json",
-            "prov:type": "ont:PoliceLoc_Resource",
-            "prov:label": "Boston Police District Stations"
-        }
-    },
-    "prefix": {
-        "bdp": "https://data.cityofboston.gov/resource/",
-        "dat": "http://datamechanics.io/data/",
-        "log": "http://datamechanics.io/log/",
-        "ont": "http://datamechanics.io/ontology#",
-        "alg": "http://datamechanics.io/algorithm/"
-    },
-    "wasGeneratedBy": {
         "_:id9": {
-            "prov:activity": "log:uuid08013ffe-1067-4d8d-a665-c12f1e51460c",
-            "prov:entity": "dat:ll0406_siboz#PoliceLoc"
-        },
-        "_:id12": {
-            "prov:activity": "log:uuiddd24e2f1-012a-45dd-9009-27a1513cb8ff",
-            "prov:entity": "dat:ll0406_siboz#Crim_Police_dist"
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:activity": "log:uuid7a89e8dc-3a0b-47fa-88f7-188d0b8871f8"
         },
         "_:id6": {
-            "prov:activity": "log:uuidb58d4381-b63f-402e-9b4b-33ea77034a27",
-            "prov:entity": "dat:ll0406_siboz#Criminal"
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:activity": "log:uuidf059e7b2-24a7-43bb-9935-0e14198fe486"
+        },
+        "_:id4": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:activity": "log:uuid00365cca-fffc-4a9d-b928-89c98375f2cf"
+        },
+        "_:id3": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:activity": "log:uuidb9a4746d-cc4d-4687-995d-c61f188b5f2c"
+        },
+        "_:id5": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:activity": "log:uuidefc16e6c-22c0-4122-be8f-8eee4a2fe9b4"
+        },
+        "_:id8": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:activity": "log:uuid7b38de7a-d548-4e95-8142-bba2bca96e3b"
+        },
+        "_:id7": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:activity": "log:uuidf0ff27aa-4be1-41fd-8793-0ca06851d0af"
         }
     },
     "wasDerivedFrom": {
-        "_:id7": {
-            "prov:generation": "log:uuidb58d4381-b63f-402e-9b4b-33ea77034a27",
-            "prov:activity": "log:uuidb58d4381-b63f-402e-9b4b-33ea77034a27",
-            "prov:generatedEntity": "dat:ll0406_siboz#Criminal",
-            "prov:usage": "log:uuidb58d4381-b63f-402e-9b4b-33ea77034a27",
-            "prov:usedEntity": "bdp:ufcx-3fdn"
+        "_:id43": {
+            "prov:usage": "log:uuidf0ff27aa-4be1-41fd-8793-0ca06851d0af",
+            "prov:activity": "log:uuidf0ff27aa-4be1-41fd-8793-0ca06851d0af",
+            "prov:generation": "log:uuidf0ff27aa-4be1-41fd-8793-0ca06851d0af",
+            "prov:usedEntity": "bdp:jsri-cpsq",
+            "prov:generatedEntity": "dat:ll0406_siboz#propAssess2014"
         },
-        "_:id13": {
-            "prov:generation": "log:uuiddd24e2f1-012a-45dd-9009-27a1513cb8ff",
-            "prov:activity": "dat:ll0406_siboz#PoliceLoc",
-            "prov:generatedEntity": "dat:ll0406_siboz#Crim_Police_dist",
-            "prov:usage": "log:uuid08013ffe-1067-4d8d-a665-c12f1e51460c",
-            "prov:usedEntity": "dat:ll0406_siboz#Criminal"
+        "_:id37": {
+            "prov:usage": "log:uuid00365cca-fffc-4a9d-b928-89c98375f2cf",
+            "prov:activity": "log:uuid00365cca-fffc-4a9d-b928-89c98375f2cf",
+            "prov:generation": "log:uuid00365cca-fffc-4a9d-b928-89c98375f2cf",
+            "prov:usedEntity": "bdp:fdxy-gydq",
+            "prov:generatedEntity": "dat:ll0406_siboz#foodLocation"
         },
-        "_:id10": {
-            "prov:generation": "log:uuid08013ffe-1067-4d8d-a665-c12f1e51460c",
-            "prov:activity": "log:uuid08013ffe-1067-4d8d-a665-c12f1e51460c",
-            "prov:generatedEntity": "dat:ll0406_siboz#PoliceLoc",
-            "prov:usage": "log:uuid08013ffe-1067-4d8d-a665-c12f1e51460c",
-            "prov:usedEntity": "bdp:pyxn-r3i2"
+        "_:id31": {
+            "prov:usage": "log:uuid71250824-e924-4ec5-b142-b60975c26b93",
+            "prov:activity": "log:uuid71250824-e924-4ec5-b142-b60975c26b93",
+            "prov:generation": "log:uuid71250824-e924-4ec5-b142-b60975c26b93",
+            "prov:usedEntity": "bdp:pyxn-r3i2",
+            "prov:generatedEntity": "dat:ll0406_siboz#policeLocation"
+        },
+        "_:id34": {
+            "prov:usage": "log:uuidefc16e6c-22c0-4122-be8f-8eee4a2fe9b4",
+            "prov:activity": "log:uuidefc16e6c-22c0-4122-be8f-8eee4a2fe9b4",
+            "prov:generation": "log:uuidefc16e6c-22c0-4122-be8f-8eee4a2fe9b4",
+            "prov:usedEntity": "bdp:g9d9-7sj6",
+            "prov:generatedEntity": "dat:ll0406_siboz#liquorLocation"
+        },
+        "_:id25": {
+            "prov:usage": "log:uuidacb412d7-be96-4b63-9b83-e65883916ee0",
+            "prov:activity": "log:uuidacb412d7-be96-4b63-9b83-e65883916ee0",
+            "prov:generation": "log:uuidacb412d7-be96-4b63-9b83-e65883916ee0",
+            "prov:usedEntity": "bdp:ufcx-3fdn",
+            "prov:generatedEntity": "dat:ll0406_siboz#crimeIncident"
+        },
+        "_:id40": {
+            "prov:usage": "log:uuidf059e7b2-24a7-43bb-9935-0e14198fe486",
+            "prov:activity": "log:uuidf059e7b2-24a7-43bb-9935-0e14198fe486",
+            "prov:generation": "log:uuidf059e7b2-24a7-43bb-9935-0e14198fe486",
+            "prov:usedEntity": "bdp:29yf-ye7n,ufcx-3fdn",
+            "prov:generatedEntity": "dat:ll0406_siboz#shootingCrimeIncident"
+        },
+        "_:id46": {
+            "prov:usage": "log:uuid7b38de7a-d548-4e95-8142-bba2bca96e3b",
+            "prov:activity": "log:uuid7b38de7a-d548-4e95-8142-bba2bca96e3b",
+            "prov:generation": "log:uuid7b38de7a-d548-4e95-8142-bba2bca96e3b",
+            "prov:usedEntity": "bdp:n7za-nsjh",
+            "prov:generatedEntity": "dat:ll0406_siboz#propAssess2015"
+        },
+        "_:id22": {
+            "prov:usage": "log:uuidb9a4746d-cc4d-4687-995d-c61f188b5f2c",
+            "prov:activity": "log:uuidb9a4746d-cc4d-4687-995d-c61f188b5f2c",
+            "prov:generation": "log:uuidb9a4746d-cc4d-4687-995d-c61f188b5f2c",
+            "prov:usedEntity": "bdp:cz6t-w69j",
+            "prov:generatedEntity": "dat:ll0406_siboz#entertainmentLocation"
+        },
+        "_:id49": {
+            "prov:usage": "log:uuid7a89e8dc-3a0b-47fa-88f7-188d0b8871f8",
+            "prov:activity": "log:uuid7a89e8dc-3a0b-47fa-88f7-188d0b8871f8",
+            "prov:generation": "log:uuid7a89e8dc-3a0b-47fa-88f7-188d0b8871f8",
+            "prov:usedEntity": "bdp:g5b5-xrwi",
+            "prov:generatedEntity": "dat:ll0406_siboz#propAssess2016"
+        },
+        "_:id28": {
+            "prov:usage": "log:uuid92c24ed4-dcd1-4040-b17e-744a379c664d",
+            "prov:activity": "log:uuid92c24ed4-dcd1-4040-b17e-744a379c664d",
+            "prov:generation": "log:uuid92c24ed4-dcd1-4040-b17e-744a379c664d",
+            "prov:usedEntity": "bdp:29yf-ye7n",
+            "prov:generatedEntity": "dat:ll0406_siboz#newCrimeIncident"
         }
     },
-    "wasAssociatedWith": {
-        "_:id1": {
-            "prov:activity": "log:uuidb58d4381-b63f-402e-9b4b-33ea77034a27",
-            "prov:agent": "alg:ll0406_siboz#prjo1"
-        },
-        "_:id2": {
-            "prov:activity": "log:uuid08013ffe-1067-4d8d-a665-c12f1e51460c",
-            "prov:agent": "alg:ll0406_siboz#prjo1"
+    "agent": {
+        "alg:ll0406_siboz#dataRetrieval": {
+            "ont:Extension": "py",
+            "prov:type": {
+                "$": "prov:SoftwareAgent",
+                "type": "prov:QUALIFIED_NAME"
+            }
         }
+    },
+    "wasGeneratedBy": {
+        "_:id30": {
+            "prov:entity": "dat:ll0406_siboz#policeLocation",
+            "prov:activity": "log:uuid71250824-e924-4ec5-b142-b60975c26b93"
+        },
+        "_:id36": {
+            "prov:entity": "dat:ll0406_siboz#foodLocation",
+            "prov:activity": "log:uuid00365cca-fffc-4a9d-b928-89c98375f2cf"
+        },
+        "_:id42": {
+            "prov:entity": "dat:ll0406_siboz#propAssess2014",
+            "prov:activity": "log:uuidf0ff27aa-4be1-41fd-8793-0ca06851d0af"
+        },
+        "_:id24": {
+            "prov:entity": "dat:ll0406_siboz#crimeIncident",
+            "prov:activity": "log:uuidacb412d7-be96-4b63-9b83-e65883916ee0"
+        },
+        "_:id39": {
+            "prov:entity": "dat:ll0406_siboz#shootingCrimeIncident",
+            "prov:activity": "log:uuidf059e7b2-24a7-43bb-9935-0e14198fe486"
+        },
+        "_:id27": {
+            "prov:entity": "dat:ll0406_siboz#newCrimeIncident",
+            "prov:activity": "log:uuid92c24ed4-dcd1-4040-b17e-744a379c664d"
+        },
+        "_:id33": {
+            "prov:entity": "dat:ll0406_siboz#liquorLocation",
+            "prov:activity": "log:uuidefc16e6c-22c0-4122-be8f-8eee4a2fe9b4"
+        },
+        "_:id45": {
+            "prov:entity": "dat:ll0406_siboz#propAssess2015",
+            "prov:activity": "log:uuid7b38de7a-d548-4e95-8142-bba2bca96e3b"
+        },
+        "_:id21": {
+            "prov:entity": "dat:ll0406_siboz#entertainmentLocation",
+            "prov:activity": "log:uuidb9a4746d-cc4d-4687-995d-c61f188b5f2c"
+        },
+        "_:id48": {
+            "prov:entity": "dat:ll0406_siboz#propAssess2016",
+            "prov:activity": "log:uuid7a89e8dc-3a0b-47fa-88f7-188d0b8871f8"
+        }
+    },
+    "used": {
+        "_:id12": {
+            "prov:entity": "bdp:cz6t-w69j",
+            "prov:activity": "log:uuidb9a4746d-cc4d-4687-995d-c61f188b5f2c",
+            "ont:Query": "",
+            "prov:type": "ont:Retrieval"
+        },
+        "_:id19": {
+            "prov:entity": "bdp:pyxn-r3i2",
+            "prov:activity": "log:uuid71250824-e924-4ec5-b142-b60975c26b93",
+            "ont:Query": "?$select=location",
+            "prov:type": "ont:Retrieval"
+        },
+        "_:id13": {
+            "prov:entity": "bdp:fdxy-gydq",
+            "prov:activity": "log:uuid00365cca-fffc-4a9d-b928-89c98375f2cf",
+            "ont:Query": "",
+            "prov:type": "ont:Retrieval"
+        },
+        "_:id11": {
+            "prov:entity": "bdp:29yf-ye7n",
+            "prov:activity": "log:uuid92c24ed4-dcd1-4040-b17e-744a379c664d",
+            "ont:Query": "",
+            "prov:type": "ont:Retrieval"
+        },
+        "_:id16": {
+            "prov:entity": "bdp:jsri-cpsq",
+            "prov:activity": "log:uuidf0ff27aa-4be1-41fd-8793-0ca06851d0af",
+            "ont:Query": "",
+            "prov:type": "ont:Retrieval"
+        },
+        "_:id10": {
+            "prov:entity": "bdp:ufcx-3fdn",
+            "prov:activity": "log:uuidacb412d7-be96-4b63-9b83-e65883916ee0",
+            "ont:Query": "",
+            "prov:type": "ont:Retrieval"
+        },
+        "_:id18": {
+            "prov:entity": "bdp:g5b5-xrwi",
+            "prov:activity": "log:uuid7a89e8dc-3a0b-47fa-88f7-188d0b8871f8",
+            "ont:Query": "",
+            "prov:type": "ont:Retrieval"
+        },
+        "_:id14": {
+            "prov:entity": "bdp:g9d9-7sj6",
+            "prov:activity": "log:uuidefc16e6c-22c0-4122-be8f-8eee4a2fe9b4",
+            "ont:Query": "",
+            "prov:type": "ont:Retrieval"
+        },
+        "_:id15": {
+            "prov:entity": "bdp:29yf-ye7n,ufcx-3fdn",
+            "prov:activity": "log:uuidf059e7b2-24a7-43bb-9935-0e14198fe486",
+            "ont:Query": "?shooting=Yes",
+            "prov:type": "ont:Retrieval"
+        },
+        "_:id17": {
+            "prov:entity": "bdp:n7za-nsjh",
+            "prov:activity": "log:uuid7b38de7a-d548-4e95-8142-bba2bca96e3b",
+            "ont:Query": "",
+            "prov:type": "ont:Retrieval"
+        }
+    },
+    "activity": {
+        "log:uuidf0ff27aa-4be1-41fd-8793-0ca06851d0af": {},
+        "log:uuidf059e7b2-24a7-43bb-9935-0e14198fe486": {},
+        "log:uuidb9a4746d-cc4d-4687-995d-c61f188b5f2c": {},
+        "log:uuid00365cca-fffc-4a9d-b928-89c98375f2cf": {},
+        "log:uuidacb412d7-be96-4b63-9b83-e65883916ee0": {},
+        "log:uuid7a89e8dc-3a0b-47fa-88f7-188d0b8871f8": {},
+        "log:uuid92c24ed4-dcd1-4040-b17e-744a379c664d": {},
+        "log:uuidefc16e6c-22c0-4122-be8f-8eee4a2fe9b4": {},
+        "log:uuid7b38de7a-d548-4e95-8142-bba2bca96e3b": {},
+        "log:uuid71250824-e924-4ec5-b142-b60975c26b93": {}
+    },
+    "entity": {
+        "bdp:n7za-nsjh": {
+            "prov:label": "Property Assessment 2015",
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource"
+        },
+        "bdp:cz6t-w69j": {
+            "prov:label": "Entertainment License",
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource"
+        },
+        "dat:ll0406_siboz#entertainmentLocation": {
+            "prov:label": "Entertainment Location",
+            "prov:type": "ont:DataSet"
+        },
+        "bdp:29yf-ye7n": {
+            "prov:label": "Crime Incident Reports 2015-2016",
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource"
+        },
+        "bdp:29yf-ye7n,ufcx-3fdn": {
+            "prov:label": "Shooting Crime",
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource"
+        },
+        "dat:ll0406_siboz#foodLocation": {
+            "prov:label": "Restaurant Data",
+            "prov:type": "ont:DataSet"
+        },
+        "dat:ll0406_siboz#propAssess2015": {
+            "prov:label": "Property Assessment Data 2015",
+            "prov:type": "ont:DataSet"
+        },
+        "bdp:g9d9-7sj6": {
+            "prov:label": "Liquor License",
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource"
+        },
+        "bdp:fdxy-gydq": {
+            "prov:label": "Restaurant License",
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource"
+        },
+        "dat:ll0406_siboz#crimeIncident": {
+            "prov:label": "2012-2015 Crime Data",
+            "prov:type": "ont:DataSet"
+        },
+        "bdp:g5b5-xrwi": {
+            "prov:label": "Property Assessment 2016",
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource"
+        },
+        "dat:ll0406_siboz#newCrimeIncident": {
+            "prov:label": "2015-2016 Crime Data",
+            "prov:type": "ont:DataSet"
+        },
+        "bdp:ufcx-3fdn": {
+            "prov:label": "Crime Incident Reports 2012-2015",
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource"
+        },
+        "dat:ll0406_siboz#shootingCrimeIncident": {
+            "prov:label": "Shooting Crime Data",
+            "prov:type": "ont:DataSet"
+        },
+        "dat:ll0406_siboz#policeLocation": {
+            "prov:label": "Police Station Location",
+            "prov:type": "ont:DataSet"
+        },
+        "dat:ll0406_siboz#liquorLocation": {
+            "prov:label": "Liquor Store Data",
+            "prov:type": "ont:DataSet"
+        },
+        "dat:ll0406_siboz#propAssess2016": {
+            "prov:label": "Property Assessment Data 2016",
+            "prov:type": "ont:DataSet"
+        },
+        "dat:ll0406_siboz#propAssess2014": {
+            "prov:label": "Property Assessment Data 2014",
+            "prov:type": "ont:DataSet"
+        },
+        "bdp:pyxn-r3i2": {
+            "prov:label": "Boston Police District Stations",
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource"
+        },
+        "bdp:jsri-cpsq": {
+            "prov:label": "Property Assessment 2014",
+            "ont:Extension": "json",
+            "prov:type": "ont:DataResource"
+        }
+    },
+    "wasAttributedTo": {
+        "_:id26": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:entity": "dat:ll0406_siboz#newCrimeIncident"
+        },
+        "_:id23": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:entity": "dat:ll0406_siboz#crimeIncident"
+        },
+        "_:id41": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:entity": "dat:ll0406_siboz#propAssess2014"
+        },
+        "_:id20": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:entity": "dat:ll0406_siboz#entertainmentLocation"
+        },
+        "_:id47": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:entity": "dat:ll0406_siboz#propAssess2016"
+        },
+        "_:id32": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:entity": "dat:ll0406_siboz#liquorLocation"
+        },
+        "_:id35": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:entity": "dat:ll0406_siboz#foodLocation"
+        },
+        "_:id38": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:entity": "dat:ll0406_siboz#shootingCrimeIncident"
+        },
+        "_:id29": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:entity": "dat:ll0406_siboz#policeLocation"
+        },
+        "_:id44": {
+            "prov:agent": "alg:ll0406_siboz#dataRetrieval",
+            "prov:entity": "dat:ll0406_siboz#propAssess2015"
+        }
+    },
+    "prefix": {
+        "dat": "http://datamechanics.io/data/",
+        "alg": "http://datamechanics.io/algorithm/",
+        "log": "http://datamechanics.io/log/",
+        "ont": "http://datamechanics.io/ontology#",
+        "bdp": "https://data.cityofboston.gov/resource/"
     }
 }
