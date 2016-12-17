@@ -48,14 +48,17 @@ This algorithm was written with the intent of seeing whether the time of day mig
 
 # Results
 
-**Transformation #3: crimesNearBPDS.py Results:**<br>
+**Transformation #3: crimesNearBPDS.py Results:**
+
 ![alt_text](https://github.com/CalvinYL/course-2016-fal-proj/blob/master/cyung20_kwleung/crimesNearBPDS%20Table.png)
 
-**Statistical Analysis #1: liquorAndCrime.py Results:**<br>
+**Statistical Analysis #1: liquorAndCrime.py Results:**
+
 ![alt text](https://github.com/CalvinYL/course-2016-fal-proj/blob/master/cyung20_kwleung/liquorAndCrime%20Table.png)
 
-**Statistical Analysis #2: crime_time_correlation.py Results:**<br>
-![alt_text](https://github.com/CalvinYL/course-2016-fal-proj/blob/master/cyung20_kwleung/visualization/Image%20of%20lin_reg.png)
+**Statistical Analysis #2: crime_time_correlation.py Results:**
+
+![alt_text](https://github.com/CalvinYL/course-2016-fal-proj/blob/master/cyung20_kwleung/visualization/Image%20of%20lin_reg.PNG)
 
 # Conclusion
 
