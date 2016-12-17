@@ -18,10 +18,20 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-    <!-- Custom styles for this template -->
-    <link href="/static/style.css?version=299" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+
+    <script type="text/javascript" src="static/boston.js?version=1.1"></script>
+    <script type="text/javascript" src="static/hubway.js?version=1.1"></script>
+    <script type="text/javascript" src="static/tstop.js?version=1.2"></script>
+    <script type="text/javascript" src="static/busstop.js?version=1.1"></script>
+    <script type="text/javascript" src="static/colleges.js?version=1.1"></script>
+    <script type="text/javascript" src="static/bigbelly.js?version=1.1"></script>
+    <script type="text/javascript" src="static/markers.js?version=1.3"></script>
+    <script src="static/index.js?version=2.6"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="/static/style.css?version=2063" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
 
   </head>
 
@@ -49,18 +59,22 @@
 
     <div class="container" id="home-container">
       <div class="starter-template">
-        <h1>Find Your Next Optimal Ad Placement</h1>
-        <p class="lead">We will put a description of what the ratings mean here.</p>
+        <h1 style="font-size:30px">Find Your Next Optimal Ad Placement</h1>
+        <p class="lead" style="font-size:15px"> The ratings are 1 to 3 from least optimal to the most optimal. </p>
+        <div class="alert alert-warning" style="display:none" id="no-results">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>Sorry!</strong> We could not find any zipcodes that match your query.
+        </div>
       </div>
       <div class="row">
           <div class="col-sm-4">
-              <form>
+              <form onsubmit="return false">
                 <div class="form-group row">
                     <label for="numzip">Enter the no. of zipcodes you would like returned:</label>
                     <input class="form-control" type="number" value="1" id="num-zip" min="1" max="22">
                 </div>
                 <div class="form-group row">
-                    <label for="hubways">Select your desired rating for <span style="color:#563F7A"> hubways</span>:</label>
+                    <label for="hubways">Select your desired rating for <span style="color:#EA5455"> hubways</span>:</label>
                     <select class="form-control" id="hubways">
                         <option>1</option>
                         <option>2</option>
@@ -68,7 +82,7 @@
                     </select>
                 </div>
                 <div class="form-group row">
-                    <label for="tstops">Select your desired rating for <span style="color:#563F7A"> t-stops</span>:</label>
+                    <label for="tstops">Select your desired rating for <span style="color:#EA5455"> t-stops</span>:</label>
                     <select class="form-control" id="tstops">
                         <option>1</option>
                         <option>2</option>
@@ -76,7 +90,7 @@
                     </select>
                 </div>
                 <div class="form-group row">
-                    <label for="busstops">Select your desired rating for <span style="color:#563F7A"> bus stops</span>:</label>
+                    <label for="busstops">Select your desired rating for <span style="color:#EA5455"> bus stops</span>:</label>
                     <select class="form-control" id="busstops">
                         <option>1</option>
                         <option>2</option>
@@ -84,7 +98,7 @@
                     </select>
                 </div>
                 <div class="form-group row">
-                    <label for="colleges">Select your desired rating for <span style="color:#563F7A"> colleges</span>:</label>
+                    <label for="colleges">Select your desired rating for <span style="color:#EA5455"> colleges</span>:</label>
                     <select class="form-control" id="colleges">
                         <option>1</option>
                         <option>2</option>
@@ -92,14 +106,14 @@
                     </select>
                 </div>
                 <div class="form-group row">
-                    <label for="bigbelly">Select your desired rating for <span style="color:#563F7A"> big belly's</span>:</label>
+                    <label for="bigbelly">Select your desired rating for <span style="color:#EA5455"> big belly's</span>:</label>
                     <select class="form-control" id="bigbelly">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary form-group row">Submit</button>
+                <button type="submit" class="btn btn-primary form-group row" onClick="getResult()">Submit</button>
               </form>
           </div>
           <div id="mapid" class="col-sm-8"></div>
@@ -111,17 +125,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-    <script>
-        var map = L.map('mapid').setView([42.3601, -71.0589], 12);
 
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        L.marker([42.3601, -71.0589]).addTo(map)
-            .bindPopup('This is Boston.')
-            .openPopup();
-
-    </script>
   </body>
+
 </html>

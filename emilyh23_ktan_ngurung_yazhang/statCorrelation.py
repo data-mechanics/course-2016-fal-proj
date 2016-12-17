@@ -17,9 +17,9 @@ warnings.filterwarnings("ignore")
 
 class statCorrelation(dml.Algorithm):
 
-    contributor = 'ktan_ngurung_yazhang_emilyh23'
-    reads = ['ktan_ngurung_yazhang_emilyh23.zipcodeRatings']
-    writes = ['ktan_ngurung_yazhang_emilyh23.statCorrelation'] 
+    contributor = 'emilyh23_ktan_ngurung_yazhang'
+    reads = ['emilyh23_ktan_ngurung_yazhang.zipcodeRatings']
+    writes = ['emilyh23_ktan_ngurung_yazhang.statCorrelation'] 
 
     @staticmethod
     def execute():
@@ -29,10 +29,10 @@ class statCorrelation(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+        repo.authenticate('emilyh23_ktan_ngurung_yazhang', 'emilyh23_ktan_ngurung_yazhang')
 
         # Get bus stop and college location data
-        zipcode_ratings = repo.ktan_ngurung_yazhang_emilyh23.zipcodeRatings.find_one() 
+        zipcode_ratings = repo.emilyh23_ktan_ngurung_yazhang.zipcodeRatings.find_one() 
         zipcode_ratings_df = pd.DataFrame(zipcode_ratings)
         del zipcode_ratings_df['_id']
         zipcode_ratings_df = zipcode_ratings_df.transpose()
@@ -76,7 +76,7 @@ class statCorrelation(dml.Algorithm):
         # Create new dataset called statCorrelation
         repo.dropPermanent("statCorrelation")
         repo.createPermanent("statCorrelation")
-        repo['ktan_ngurung_yazhang_emilyh23.statCorrelation'].insert_one(r)
+        repo['emilyh23_ktan_ngurung_yazhang.statCorrelation'].insert_one(r)
 
         # Plot the ratings for each zipcode to visualize any correlation
 
@@ -130,15 +130,15 @@ class statCorrelation(dml.Algorithm):
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
-        repo.authenticate('ktan_ngurung_yazhang_emilyh23', 'ktan_ngurung_yazhang_emilyh23')
+        repo.authenticate('emilyh23_ktan_ngurung_yazhang', 'emilyh23_ktan_ngurung_yazhang')
         
         doc.add_namespace('alg', 'http://datamechanics.io/algorithm/') # The scripts are in <folder>#<filename> format.
         doc.add_namespace('dat', 'http://datamechanics.io/data/') # The data sets are in <user>#<collection> format.
         doc.add_namespace('ont', 'http://datamechanics.io/ontology#') # 'Extension', 'DataResource', 'DataSet', 'Retrieval', 'Query', or 'Computation'.
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
 
-        this_script = doc.agent('alg:ktan_ngurung_yazhang_emilyh23#statCorrelation', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
-        zipcodeRatings_resource = doc.entity('dat:ktan_ngurung_yazhang_emilyh23/zipcode-ratings', {'prov:label':'Critera Rating and Overall Rating for Zipcodes', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        this_script = doc.agent('alg:emilyh23_ktan_ngurung_yazhang#statCorrelation', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        zipcodeRatings_resource = doc.entity('dat:emilyh23_ktan_ngurung_yazhang/zipcode-ratings', {'prov:label':'Critera Rating and Overall Rating for Zipcodes', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         this_run = doc.activity('log:a' + str(uuid.uuid4()), startTime, endTime, {prov.model.PROV_TYPE:'ont:Computation'})
 
         doc.wasAssociatedWith(this_run, this_script)
@@ -147,7 +147,7 @@ class statCorrelation(dml.Algorithm):
                 {prov.model.PROV_TYPE:'ont:Retrieval'}
             )
 
-        statCorrelation = doc.entity('dat:ktan_ngurung_yazhang_emilyh23#statCorrelation', {prov.model.PROV_LABEL:'Correlation Coefficient of Every Criteria to Each Other', prov.model.PROV_TYPE:'ont:DataSet'})
+        statCorrelation = doc.entity('dat:emilyh23_ktan_ngurung_yazhang#statCorrelation', {prov.model.PROV_LABEL:'Correlation Coefficient of Every Criteria to Each Other', prov.model.PROV_TYPE:'ont:DataSet'})
         doc.wasAttributedTo(statCorrelation, this_script)
         doc.wasGeneratedBy(statCorrelation, this_run, endTime)
         doc.wasDerivedFrom(statCorrelation, zipcodeRatings_resource, this_run, this_run, this_run)

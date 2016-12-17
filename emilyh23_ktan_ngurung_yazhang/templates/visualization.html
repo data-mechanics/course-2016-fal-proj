@@ -19,14 +19,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <!-- Custom styles for this template -->
-    <link href="/static/style.css?version=52" rel="stylesheet">
+    <link href="/static/style.css?version=2061" rel="stylesheet">
 
     <style>
 
         text {
           pointer-events: none;
-          fill: #666;
-          font-weight: bold;
+          fill: #ffffff;
         }
 
         rect {
@@ -39,7 +38,7 @@
         }
 
         .grandparent:hover rect {
-          fill: #ffe463;
+          fill: #1d2a3a;
         }
 
         .children rect.parent, .grandparent rect {
@@ -60,6 +59,32 @@
 
         .children:hover rect.parent {
           opacity: 0;
+        }
+
+        #tooltip {
+          position: absolute;
+          width: 220px;
+          height: auto;
+          padding: 10px;
+          background-color: white;
+          -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+          border-radius: 10px;
+          -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+          -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+          box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+          pointer-events: none;
+        }
+
+        #tooltip.hidden {
+          display: none;
+        }
+
+        #tooltip p {
+          margin: 0;
+          font-family: sans-serif;
+          font-size: 16px;
+          line-height: 20px;
         }
 
     </style>
@@ -90,10 +115,15 @@
 
     <div class="container">
       <div class="starter-template">
-        <h1>Zoomable Zipcode Treemap</h1>
-        <p class="lead">We will put a description of the treemap here.</p>
+        <h1 style="font-size:30px">Zoomable Zipcode Treemap</h1>
+        <p class="lead col-md-8 col-md-offset-2" class="lead" style="font-size:15px">This is a display of the heirarchical information for the zipcodes. The uppermost level consists of the overall ratings. For each rating, the zipcode blocks are sized according to their area size. They are also colored based on the population density for the zipcodes: the darker the color, the more densely populated. For each zipcode, the information displayed in tuple their ratings for hubway, bus stops, big belly, T stations, college and average_household_income in order. </p>
       </div>
       <div id="chart"></div>
+      <div id="tooltip" class="hidden">
+        <p><span id="area"></span></p>
+        <p><span id="bigBelly_star"></span></p>
+        <p><span id="hubway_star"></span></p>
+      </div>
     </div><!-- /.container -->
 
     <!-- Bootstrap core JavaScript
@@ -105,11 +135,11 @@
     <script>
 
         var margin = {top: 30, right: 0, bottom: 20, left: 0},
-            width = 960,
+            width = 1000,
             height = 450 - margin.top - margin.bottom,
             formatNumber = d3.format(",%"),
-            colorDomain = [-0.6, 0, 0.6],
-            colorRange = ["#ffd338", '#fcfaf4', "#ffe484"],
+            colorDomain = [-1.0, 0, 1.0],
+            colorRange = ["#5175a5", "#4c6e9b", "#3d577a"],
             transitioning;
 
         // sets x and y scale to determine size of visible boxes
@@ -208,7 +238,8 @@
             return (parseInt(hexcolor.replace('#', ''), 16) > 0x666666/3) ? 'black':'white';
         }
 
-        d3.json("static/zoomabletreemap.json?version=102", function(root) {
+        var url = "http://localhost:5000/treemap"
+        d3.json(url, function(root) {
           console.log(root)
           initialize(root);
           accumulate(root);
@@ -226,7 +257,7 @@
             grandparent
               .datum(d.parent)
               .select("rect")
-              .attr("fill", function(){console.log(color(d.rate)); return color(d['rate'])})
+              .attr("fill", function(){return color(d['rate'])})
 
             var g1 = svg.insert("g", ".grandparent")
                 .datum(d)
@@ -250,12 +281,47 @@
                 .attr("class", "parent")
                 .call(rect)
                 .append("title")
-                .text(function(d) {console.log(typeof(d.value), d.value); return d.name + ', Cases of TB: ' + d.value + ', percent change: ' + formatNumber(d.rate); });
+                .text(function(d) {return d.name + ': Area Size = ' + d.value + ' sq. miles / Population Density = ' + (d.rate*10000); });
 
-            g.append("text")
+            var t = g.append("text")
                 .attr("dy", ".75em")
+                .attr("class", "ptext")
+                .attr("text-anchor", "start")
                 .text(function(d) { return d.name; })
                 .call(text);
+
+            if (d._children[0].name != "rating 3" || d._children[1].name != "rating 2" || d._children[2].name != "rating 1") {
+                t.append("tspan")
+                    .attr("dy", "1.0em")
+                    .attr("text-anchor", "start")
+                    .text(function(d) { return 'Area Size = ' + d.value;});
+
+                t.append("tspan")
+                    .attr("dy", "1.0em")
+                    .attr("text-anchor", "start")
+                    .text(function(d) { return '(' + d.hubway_star + "," + d.bus_star + "," + d.bigBelly_star + "," + d.station_star + "," + d.college_star + "," + d.average_household_income + ")";});
+
+                t.call(text);
+            }
+
+            // var mousemove = function(d) {
+            //     var xPosition = d3.event.pageX + 5;
+            //     var yPosition = d3.event.pageY + 5;
+            //     d3.select("#tooltip")
+            //         .style("left", xPosition + "px")
+            //         .style("top", yPosition + "px");
+            //     d3.select("#tooltip #area")
+            //         .text(d.bigBelly_star);
+            //     d3.select("#tooltip #bigBelly_star")
+            //         .text(d.bigBelly_star);
+            //     d3.select("#tooltip #hubway_star")
+            //         .text(d.hubway_star);
+            //     d3.select("#tooltip").classed("hidden", false);
+            // };
+
+            // var mouseout = function() {
+            //     d3.select("#tooltip").classed("hidden", true);
+            // };
 
             function transition(d) {
               if (transitioning || !d) return;
