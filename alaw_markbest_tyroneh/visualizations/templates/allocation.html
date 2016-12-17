@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<style>
+
+text {
+	color: #e36c09;
+	font: 16px sans-serif;
+}
+
+.axis path, .axis line {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+}
+
+.label {
+	fill: #777;
+}
+
+.allocation.label {
+	font: 500 72px "Helvetica Neue";
+	fill: #ddd;
+}
+
+.allocation.label.active {
+	fill: #aaa;
+}
+
+.overlay {
+	fill: none;
+	pointer-events: all;
+	cursor: ew-resize;
+}
+
+
+</style>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Bus Allocation Optimization</title>
+	</head>
+	<body>
+		
+		<div id = "content" style="height: 800px; text-align:center;">
+			<div id = "chart" style="float: left; width: 60%; margin: 2%; margin-right: 5px;"></div>
+			<div id = "box" style="float: left;  width: 400px; margin: 2%; margin-left: 5px; font-family: 'Arial',sans-serif; color: #4e74ba" >
+				<h1 id = 'title' style = "color: #e36c09;" >Optimal Bus Allocations</h1>
+				<p style="text-align: left;">
+					<br>
+					The goal of our bus allocation function is to <b>minimize waiting time at each stop</b> and the <b>frustration of buses that “overtake” each other</b>. We calculated a scoring function, which accounts for the <b>average total waiting time at every stop</b> given K buses on that route, and the <b>average inefficiency of a route with K buses</b> determined by the total probability a bus would overtake another. This is minimized by varying the allocation of buses for all routes and calculating the score for K buses allocated for each.
+					<br><br>
+					Secondly, we also determined the optimal allocation of buses across all routes given a number of buses. The interactive D3 Element to the left is the result.
+					<br> <br>
+					<b>X axis:</b> Allocation of buses / route.
+					<br><br>
+					<b>Y axis:</b> Allocation score determined by the scoring function.
+					<br><br>
+					<b>Orange points</b> are the optimum scores and allocations for that route (mouse over to see which route).
+					<br><br>
+					<b>Blue lines</b> are the score curves for each route.
+					<br><br>
+					Mouse over the number to <b>change the total allocation</b> of buses for all routes
+				</p>
+				<div id='box-bottom' style="margin-top: 30px; width: 400px; font-size: 12px; text-align: left;" >
+					 <a href="/kmeans">Go To Bus Stop Optimization</a>  &nbsp; &nbsp; &nbsp; &nbsp;
+					 <a href="http://datamechanics.org/">Data Mechanics Class</a>  &nbsp; &nbsp; &nbsp; &nbsp;
+					 <a href="https://github.com/tyronehou/course-2016-fal-proj/tree/master/">Our GitHub</a> 
+				</div>
+			</div>
+		</div>
+
+		<script src="{{ url_for('static', filename='d3/d3.min.js') }}" ></script>
+		<script type="text/javascript">
+
+			// Chart dimensions.
+			var margin = {top: 23.5, right: 19.5, bottom: 23.5, left: 39.5}; 
+			var width = 680 - margin.right;
+			var height = 780 - margin.top - margin.bottom;
+
+			// Various scales. These domains make assumptions of data, naturally.
+			var xScale = d3.scaleLinear().domain([0, 25]).range([0, width]);
+			var yScale = d3.scaleLinear().domain([0, 180]).range([height, 0]);
+			var radiusScale = d3.scaleSqrt().domain([0, 90]).range([0, 10]);
+
+			// Create the SVG container and set the origin.
+			var svg = d3.select("#chart").append("svg:svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+				.append("g")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+			// Add the x-axis.
+			svg.append("g")
+				.attr("class", "x axis")
+				.attr("transform", "translate(0," + height + ")")
+				.call(d3.axisBottom().scale(xScale));
+
+			// Add the y-axis.
+			svg.append("g")
+				.attr("class", "y axis")
+				.call(d3.axisLeft().scale(yScale));
+
+			// Add an x-axis label.
+			svg.append("text")
+				.attr("class", "x label")
+				.attr("text-anchor", "end")
+				.attr("x", width)
+				.attr("y", height - 6)
+				.text("Allocation");
+
+			// Add a y-axis label.
+			svg.append("text")
+				.attr("class", "y label")
+				.attr("text-anchor", "end")
+				.attr("y", 6)
+				.attr("dy", ".75em")
+				.attr("transform", "rotate(-90)")
+				.text("Score");
+
+			// Add the year label; the value is set on transition.
+			var label = svg.append("text")
+				.attr("class", "allocation label")
+				.attr("text-anchor", "end")
+				.attr("y", 90)
+				.attr("x", width)
+				.text(90 + ' Buses');
+
+			// Draw line on SVG for all scores
+			var valueline = d3.line()
+				.x(function(d) { return xScale(d.x); })
+				.y(function(d) { return yScale(d.y); });
+
+			d3.json("/routeScores", function(error,routes) {
+				if (error) throw error;
+				for(var data in routes){
+					svg.append("path")
+						.data(routes[data])
+						.attr("d", valueline(routes[data]))
+						.attr('stroke', '#4e74ba')
+						.attr('stroke-width', 1)
+						.attr('fill', 'none');
+				}
+			});
+
+			//dimensional functions for each dot
+			function x(dot) {return dot.k}
+			function y(dot) {return dot.score}
+			function radius(dot) {return dot.size}
+			function key(dot) { return dot.name; }
+			
+			// Load the data.
+			d3.json("/allocationScores", function(error,routes) {
+				if (error) throw error;
+
+				// Add a dot per route. Initialize the data at 90, and set the colors.
+				var dot = svg.append("g")
+					.attr("class", "dots")
+					.selectAll(".dot")
+					.data(interpolateData(90))
+					.enter().append("circle")
+					.attr("class", "dot")
+					.style("fill", '#e36c09')
+					.call(position)
+					.sort(order);
+
+				// Add a title.
+				dot.append("title")
+					.text(function(d) { return 'Route #' + d.name; });
+
+				// Add an overlay for the allocation label.
+				var box = label.node().getBBox();
+
+				var overlay = svg.append("rect")
+					.attr("class", "overlay")
+					.attr("x", box.x)
+					.attr("y", box.y)
+					.attr("width", box.width)
+					.attr("height", box.height)
+					.on("mouseover", enableInteraction);
+
+				// After the transition finishes, you can mouseover to change the allocation.
+				function enableInteraction() {
+					var kScale = d3.scaleLinear()
+						.domain([90, 401])
+						.range([box.x + 10, box.x + box.width - 10])
+						.clamp(true);
+
+					// Cancel the current transition, if any.
+					svg.transition().duration(0);
+
+					overlay
+						.on("mouseover", mouseover)
+						.on("mouseout", mouseout)
+						.on("mousemove", mousemove)
+						.on("touchmove", mousemove);
+
+					function mouseover() { label.classed("active", true); }
+
+					function mouseout() { label.classed("active", false); }
+
+					function mousemove() { displayK(kScale.invert(d3.mouse(this)[0])); }
+				}
+
+				// function which interpolates data per dot
+				function interpolateData(k) {
+					k = parseInt(k).toString()
+					data = routes[k]
+					return data.map(function(d) {
+						return {
+							name: d.name,
+							k: d.k,
+							score: d.score,
+							size: d.size
+						};
+					});
+				}
+
+				// Updates the display to show the specified year.
+				function displayK(k) {
+					dot.data(interpolateData(k), key).call(position).sort(order);
+					label.text(Math.round(k) + ' Buses');
+				}
+
+				// Positions the dots based on data.
+				function position(dot) {
+					dot .attr("cx", function(d) { return xScale(x(d)); })
+						.attr("cy", function(d) { return yScale(y(d)); })
+						.attr("r", function(d) { return radiusScale(radius(d)); });
+				}
+
+				// Defines a sort order so that the smallest dots are drawn on top.
+				function order(a, b) {
+					return radius(b) - radius(a);
+				}
+
+			});
+		</script>
+
+	</body>
+
+</html>

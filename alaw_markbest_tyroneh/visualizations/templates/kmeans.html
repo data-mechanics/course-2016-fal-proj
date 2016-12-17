@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Bus Route Optimization</title>
+		<link 
+		rel="stylesheet" 
+		href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"
+		/>
+	</head>
+	<body>
+		<div id = "content" style="height: 800px; text-align:center;">
+			<div id="map" style=" float: left; width: 60%; height: 780px; margin: 2%; margin-right: 5px;"></div>
+			<div id = "box" style="float: left;  width: 400px; margin: 2%; margin-left: 5px; font-family: 'Arial',sans-serif; color: #4e74ba" >
+				<h1 id = 'title' style = "color: #e36c09;" >Optimal Bus Stops for Route 39</h1>
+				<p style="text-align: left;">
+					<br>
+					The goal of our bus stop optimization function is to correlate <b>bus stop location</b> with <b>urban population density</b> in order to minimize the <b>total distance from all residential areas to the closest bus stop</b>. We projected all residential points within <b>0.5km</b> of a route onto the route, then ran a k-means algorithm to determine optimal stop placement, where the means were the locations of new bus stops.
+					<br><br>
+					The map on the left depicts the result of running the algorithm on <b>Route 39</b> from <b>Forest Hills Station</b> to <b>Back Bay Station</b> via <b>Huntington Ave</b>.
+					<br><br>
+					<b>Light orange:</b> old bus stops
+					<br><br>
+					<b>Dark orange:</b> new bus stops
+					<br><br>
+				</p>
+				<div id='box-bottom' style="margin-top: 30px; width: 400px; font-size: 12px; text-align: left;" >
+					 <a href="/allocation">Go To Bus Allocation Optimization</a>  &nbsp;
+					 <a href="http://datamechanics.org/">Data Mechanics Class</a>  &nbsp; &nbsp;
+					 <a href="https://github.com/tyronehou/course-2016-fal-proj/tree/master/">Our GitHub</a> 
+				</div>
+		</div>
+		<script src="{{ url_for('static', filename='d3/d3.min.js') }}"></script>
+		<script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"> </script>
+		<script src="{{ url_for('static', filename='mapScript.js') }}"></script>
+
+	</body>
+</html>
