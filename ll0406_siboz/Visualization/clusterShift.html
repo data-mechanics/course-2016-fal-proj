@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Clusters</title>
+        <script type="text/javascript" src="d3/d3.v3.js"></script>
+    </head>
+    <style>
+        div.bar {
+            display: inline-block;
+            width: 20px;
+            height: 75px;   /* We'll override this later */
+            background-color: teal;
+            margin-right: 2px;
+        }
+    </style>
+    <body>
+        <script type="text/javascript">
+                var width = 1400,
+                    height = 885;
+
+                var lonScale = d3.scale.linear()
+                                    .domain([-71.191108, -70.923168])
+                                    .range([300, 1100]);
+
+                var latScale = d3.scale.linear()
+                                    .domain([42.228018,42.398881])
+                                    .range([785, 100]);
+
+                var svg = d3.select("body").append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+                var pic = svg.append("g");
+                var img = pic.append("svg:image")
+                    .attr("xlink:href", "http://svgshare.com/i/Q6.svg")
+                    .attr("width", 800)
+                    .attr("height", 685)
+                    .attr("x", 300)
+                    .attr("y", 100);
+
+            
+                svg.append("text")
+                    .text("Boston Crime Clusters and Low Value Properties Clusters")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "40px")
+                    .attr("fill", "steelblue")
+                    .attr("x", 20)
+                    .attr("y", 50);
+
+                svg.append("text")
+                    .text("2014 - 2016")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "40px")
+                    .attr("fill", "steelblue")
+                    .attr("x", 20)
+                    .attr("y", 90);
+
+                svg.append("text")
+                    .text("Your are at time: ")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "25px")
+                    .attr("fill", "gray")
+                    .attr("x", 20)
+                    .attr("y", 170);
+
+
+                var timeLineData = ["2014", "2015", "2016"];
+                var crimePointFill = ["yellow", "red", "orange"]
+                var crimePointStroke = ["orange", "yellow", "red"]
+                var lowValPointFill = ["blue", "violet", "indigo"]
+                var lowValPointStroke = ["indigo", "blue", "violet"]
+                var currentTime = 0;
+
+                var timeLine = svg.append("text");
+                timeLine.text(timeLineData[currentTime])
+                        .attr("font-family", "sans-serif")
+                        .attr("font-size", "30px")
+                        .attr("fill", "rgba(255, 0, 0, 0.6)")
+                        .attr("stroke", "rgba(255, 0, 0, 0.6)")
+                        .attr("x", 210)
+                        .attr("y", 170);
+
+                var crimeSample = svg.append("circle")
+                    .attr("cx", 30)
+                    .attr("cy", 260)
+                    .attr("r", 10)
+                    .attr("fill", crimePointFill[currentTime])
+                    .attr("stroke", crimePointStroke[currentTime])
+                    .attr("stroke-width", 5);
+
+                svg.append("text")
+                    .text("--- Crime Cluster")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "20px")
+                    .attr("fill", "gray")
+                    .attr("x", 55)
+                    .attr("y", 265);
+
+                var lowValSample = svg.append("circle")
+                    .attr("cx", 30)
+                    .attr("cy", 300)
+                    .attr("r", 10)
+                    .attr("class", "lowValSample")
+                    .attr("fill", lowValPointFill[currentTime])
+                    .attr("stroke", lowValPointStroke[currentTime])
+                    .attr("stroke-width", 5);
+
+                svg.append("text")
+                    .text("--- Low Value Properties Cluster")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "20px")
+                    .attr("fill", "gray")
+                    .attr("x", 55)
+                    .attr("y", 305);
+
+                var moveBefore = svg.append("circle")
+                    .attr("cx", 30)
+                    .attr("cy", 450)
+                    .attr("r", 15)
+                    .attr("fill", "gray")
+                    .attr("stroke", "black")
+                    .attr("stroke-width", 5)
+                    .on("mouseover", function(d) {
+                        d3.select(this)
+                        .attr("fill", "orange") 
+                    })
+                    .on("mouseout", function(d) {
+                        d3.select(this)
+                            .transition()
+                            .duration(250)
+                            .attr("fill", "gray");
+                    });
+
+                svg.append("text")
+                    .text("Move one year before")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "20px")
+                    .attr("fill", "gray")
+                    .attr("x", 60)
+                    .attr("y", 460);
+
+                var  moveAfter = svg.append("circle")
+                    .attr("cx", 30)
+                    .attr("cy", 500)
+                    .attr("r", 15)
+                    .attr("fill", "gray")
+                    .attr("stroke", "black")
+                    .attr("stroke-width", 5)
+                    .on("mouseover", function(d) {
+                        d3.select(this)
+                        .attr("fill", "orange") 
+                    })
+                    .on("mouseout", function(d) {
+                        d3.select(this)
+                            .transition()
+                            .duration(250)
+                            .attr("fill", "gray");
+                    });
+
+                svg.append("text")
+                    .text("Move one year after")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "20px")
+                    .attr("fill", "gray")
+                    .attr("x", 60)
+                    .attr("y", 510);
+
+
+                var crimeCluster = [[[-71.1232020958904,42.27146883561642],
+                                    [-71.05220872809667,42.361024643504564],
+                                    [-71.08901272435894,42.28402672435899],
+                                    [-71.10071369798656,42.31979617449664],
+                                    [-71.07138127364865,42.313890354729715],
+                                    [-71.06599231034481,42.2930526321839],
+                                    [-71.08174866260163,42.338185203252024],
+                                    [-71.13890764,42.35215323999998]],
+                                    [[-71.13433572881357,42.28415966101694],
+                                    [-71.06171430519481,42.35006317207789],
+                                    [-71.08221884322029,42.286341216101675],
+                                    [-71.08810018716576,42.32808756417114],
+                                    [-71.06482936912752,42.30862312080537],
+                                    [-71.08221884322029,42.286341216101675],
+                                    [-71.08810018716576,42.32808756417114],
+                                    [-71.13827732857142,42.351586799999986]], 
+                                    [[-71.06171430519481,42.35006317207789],
+                                    [-71.13827732857142,42.351586799999986],
+                                    [-71.08221884322029,42.286341216101675],
+                                    [-71.08221884322029,42.286341216101675],
+                                    [-71.13433572881357,42.28415966101694],
+                                    [-71.06482936912752,42.30862312080537],
+                                    [-71.08810018716576,42.32808756417114],
+                                    [-71.08810018716576,42.32808756417114]]];
+
+                var lowValCluster = [[[-71.11888421568631,42.27117725490195],
+                                    [-71.05930071739131,42.357665065217404],
+                                    [-71.08449876639348,42.28875514754096],
+                                    [-71.09291491131498,42.3159798256881],
+                                    [-71.0706106206896,42.30776068620689],
+                                    [-71.08449876639348,42.28875514754096],
+                                    [-71.08233876576577,42.3302403873874],
+                                    [-71.13703500000001,42.351412866666664]], 
+                                    [[-71.13096016666664,42.26312008333333],
+                                    [-71.0381227804878,42.37715909756097],
+                                    [-71.08108340825693,42.291521463302765],
+                                    [-71.09280714285724,42.31645392717083],
+                                    [-71.0730933507462,42.30775645522385],
+                                    [-71.08108340825693,42.291521463302765],
+                                    [-71.0740954820513,42.32875657435895],
+                                    [-71.12311692957746,42.34412850704224]],
+                                    [[-71.13173024223603,42.27121372670808],
+                                    [-71.06005932295724,42.351509361867706],
+                                    [-71.08201700458714,42.28488029357795],
+                                    [-71.08065930859368,42.33534752343752],
+                                    [-71.06532432835823,42.30849005223884],
+                                    [-71.08201700458714,42.28488029357795],
+                                    [-71.08065930859368,42.33534752343752],
+                                    [-71.13834407352942,42.35119863235293]]];
+
+                
+                var cp = svg.append("g")
+                cp.selectAll("circle")
+                    .data(crimeCluster[currentTime])
+                    .enter()
+                    .append("circle")
+                    .attr("class", "crimePoints")
+                    .attr("cx", function(d, i){
+                        return lonScale(d[0])
+                    })
+                    .attr("cy", function(d){
+                        return latScale(d[1])
+                    })
+                    .attr("r", 10)
+                    .attr("fill", crimePointFill[currentTime])
+                    .attr("stroke", crimePointStroke[currentTime])
+                    .attr("stroke-width", 5)
+
+                console.log("Check")
+                var lp = svg.append("g")
+                lp.selectAll("circle")
+                    .data(lowValCluster[currentTime])
+                    .enter()
+                    .append("circle")
+                    .attr("class", "lowValPoints")
+                    .attr("cx", function(d){
+                        return lonScale(d[0])
+                    })
+                    .attr("cy", function(d){
+                        if (d[1] == 42.357665065217404){
+                            console.log("Yes")
+                        }
+                        return latScale(d[1]);
+                    })
+                    .attr("r", 10)
+                    .attr("fill", lowValPointFill[currentTime])
+                    .attr("stroke", lowValPointStroke[currentTime])
+                    .attr("stroke-width", 5)
+
+
+                
+                moveAfter.on("click", function(){
+                    if (currentTime < 2)
+                    {//Update all circles
+                        currentTime = currentTime + 1;
+                        console.log(currentTime);
+                        crimeSample.transition()
+                                    .duration(1000)
+                                    .attr("fill", crimePointFill[currentTime])
+                                    .attr("stroke", crimePointStroke[currentTime]);
+
+                        lowValSample.transition()
+                                    .duration(1000)
+                                    .attr("fill", lowValPointFill[currentTime])
+                                    .attr("stroke", lowValPointStroke[currentTime]);
+
+                        timeLine.transition()
+                                .duration(1000)
+                                .text(timeLineData[currentTime]);
+
+                        cp.selectAll("circle")
+                            .data(crimeCluster[currentTime])
+                            .transition()
+                            .delay(function(d, i) {
+                                return i / 8 * 1000;
+                            })
+                            .duration(1000)
+                            .attr("cx", function(d){
+                                return lonScale(d[0])
+                            })
+                            .attr("cy", function(d){
+                                return latScale(d[1])
+                            })
+                            .attr("r", 10)
+                            .attr("fill", crimePointFill[currentTime])
+                            .attr("stroke", crimePointStroke[currentTime])
+                            .attr("stroke-width", 5);
+
+                        lp.selectAll("circle")
+                            .data(lowValCluster[currentTime])
+                            .transition()
+                            .delay(function(d, i) {
+                                return i / 8 * 1000;
+                            })
+                            .duration(1000)
+                            .attr("cx", function(d){
+                                return lonScale(d[0])
+                            })
+                            .attr("cy", function(d){
+                                return latScale(d[1])
+                            })
+                            .attr("r", 10)
+                            .attr("fill", lowValPointFill[currentTime])
+                            .attr("stroke", lowValPointStroke[currentTime])
+                            .attr("stroke-width", 5);
+                        }
+
+                    });
+
+                    moveBefore.on("click", function(){
+                        if (currentTime > 0)
+                        {//Update all circles
+                            currentTime = currentTime - 1;
+                            console.log(currentTime);
+                            crimeSample.transition()
+                                        .duration(1000)
+                                        .attr("fill", crimePointFill[currentTime])
+                                        .attr("stroke", crimePointStroke[currentTime]);
+
+                            lowValSample.transition()
+                                        .duration(1000)
+                                        .attr("fill", lowValPointFill[currentTime])
+                                        .attr("stroke", lowValPointStroke[currentTime]);
+
+                            timeLine.transition()
+                                .duration(1000)
+                                .text(timeLineData[currentTime]);
+
+
+
+                            cp.selectAll("circle")
+                                .data(crimeCluster[currentTime])
+                                .transition()
+                                .delay(function(d, i) {
+                                    return i / 8 * 1000;
+                                })
+                                .duration(1000)
+                                .attr("cx", function(d){
+                                    return lonScale(d[0])
+                                })
+                                .attr("cy", function(d){
+                                    return latScale(d[1])
+                                })
+                                .attr("r", 10)
+                                .attr("fill", crimePointFill[currentTime])
+                                .attr("stroke", crimePointStroke[currentTime])
+                                .attr("stroke-width", 5);
+
+                            lp.selectAll("circle")
+                                .data(lowValCluster[currentTime])
+                                .transition()
+                                .delay(function(d, i) {
+                                    return i / 8 * 1000;
+                                })
+                                .duration(1000)
+                                .attr("cx", function(d){
+                                    return lonScale(d[0])
+                                })
+                                .attr("cy", function(d){
+                                    return latScale(d[1])
+                                })
+                                .attr("r", 10)
+                                .attr("fill", lowValPointFill[currentTime])
+                                .attr("stroke", lowValPointStroke[currentTime])
+                                .attr("stroke-width", 5);
+                            }
+
+                    });
+        </script>
+    </body>
+</html>   
