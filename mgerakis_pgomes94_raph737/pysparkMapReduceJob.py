@@ -25,7 +25,7 @@ class pysparkMapReduceJob(dml.Algorithm):
 	contributor = 'mgerakis_pgomes94_raph737'
 	reads = [
 		'mgerakis_pgomes94_raph737.hospital_locations',
-		'mgerakis_pgomes94_raph737.proximity_clusters'
+		'mgerakis_pgomes94_raph737.proximity_clusters_centers'
 	]
 	writes = ['mgerakis_pgomes94_raph737.hospital_scores']
 

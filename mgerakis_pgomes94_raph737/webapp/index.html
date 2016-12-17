@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Marker Labels</title>
+    <link rel="stylesheet" type="text/css" href="./index.css"/>
+  </head>
+  <body>
+    <div id ="header">CS591 Data Map</div>
+    <div id="legend">
+      <u>Legend</u><br> 
+      <div id="legendText">
+        Yellow: Hospital <br> 
+        Red: locations to avoid <br> 
+        Green: locations to be near</div>
+      </div>
+    <div id="map"></div>
+    <div id="checkboxes"><span><u>Markers</u></span><br></div>
+    <a href='/hospitalcalculator'><div id="redirect">Score Calculator</div></a>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD38LEOz1r5lOB9u4bWBNZCEFCc780hgiU"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+    <script src="./map.js"></script>
+  </body>
+</html>

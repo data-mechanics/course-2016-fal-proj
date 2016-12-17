@@ -1,3 +1,5 @@
+This is not the final report, the final report is in Report.pdf
+
 Michael Gerakis, Patrick Gomes and Raphael Baysa
 
 We decided to look into the optimal area to build a new hospital in the Boston area. The data sets we are using include current hospital locations, police station locations, mbta/train stops, traffic points and crime rates. The new hopsital would be located far from current hospital locations and from police stations, but near high population density locations, preferably near two or more clusters. Accessibility is a concern so it would have to be close to a bus or train stop, but far away from high traffic areas for ambulances. If possible, the optimal hospital would also be located near, but not in, a crime cluster for faster response. 
@@ -23,6 +25,7 @@ Setting up auth.json
 Two keys required, you can get a key at: https://dev.socrata.com/register and https://developers.google.com/places/web-service/details
 
 auth.json was formatted:
+```javascript
 {
     "services": {
         "cityofbostondataportal": {
@@ -37,6 +40,7 @@ auth.json was formatted:
         }
     }
 }
+```
 
 ---
 Getting the data
@@ -98,4 +102,46 @@ Sovled in recommend.py
 The second problem we are going to solve is to recommend possible locations for the new hospital. To do this, we solve for the top 5 coordinates that minimizes the Euclidean distance to all the close proximity clusters calculated in the previous transformations. Ideally Manhattan distance would be used, but it would require remapping the data points and roads into a grid like shape which we haven't done, so we will be using the shortest straight distance from one point to another. To find these 5 points we are going to use kmeans.
 Then from the returned points to choose the one that maximizes the distance to all the far proximity clusters. This is an optimization problem defined as:
 argmax x`,y` summation across all cluster centers x,y with proximity=='F': Euclidean Distance((x`,y`), (x,y))
+
+---
+The 2 visualizations/services for Project 3
+---
+
+solved in webapp/ 
+
+Make sure the python scripts all have ran and updated the collections in mongodb
+For the best results, use google chrome to see the features since for some reason on safari
+the google maps does not appear when the page loads.
+
+To Run:
+npm install
+npm install body-parser *weird bug that requires you to install this locally separately from npm install
+
+mongodb *make sure mongo is running since we will be querying and retrieving data from it*
+node webapp\ 
+
+Visual 1 :
+to view interactive google maps and our data points visit:
+localhost:3000
+
+Api:
+To view server resources:
+localhost:3000/api/hospitals
+localhost:3000/api/crimes
+localhost:3000/api/mbtastops
+localhost:3000/api/policestations
+localhost:3000/api/optimalcoords
+localhost:3000/api/clusters
+localhost:3000/api/trafficlocs
+
+Visual/Interaction 2:
+to view our score calculator that takes in a name and lattitude longitude coordinates, calculates and runs our algorithm against the coordinates and outputs a score to the user visit:
+localhost:3000/hospitalcalculator or click the score calculator button at visual 1
+
+Posterboard PDF:
+poster.pdf in mgerakis_pgomes94_raph737 directory
+
+Final Report: 
+Report.pdf inside mgerakis_pgomes94)raph737 directory
+
 
