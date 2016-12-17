@@ -1,0 +1,30 @@
+<html>
+ <head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var array = [[0, 5876], [1, 3792], [2, 3164], [3, 1881], [4, 1325], [5, 1298], [6, 1907], [7, 3455], [8, 5028], [9, 5795], [10, 6371], [11, 6382], [12, 7316], [13, 6476], [14, 6716], [15, 6357], [16, 7704], [17, 8218], [18, 8153], [19, 7035], [20, 6261], [21, 5521], [22, 5190], [23, 4235]]
+
+      var data = google.visualization.arrayToDataTable([
+        ['Hour', 'Number of Crimes'], ...array]);
+
+      var options = {
+        title: 'Hour of the Day vs. Number of Crimes Committed During Hour',
+        hAxis: {title: 'Hour (in military time)'},
+        vAxis: {title: 'Number of Crimes'},
+        legend: 'none',
+        trendlines: { 0: {} }    // Draw a trendline for data series 0.
+      };
+
+      var chart = new google.visualization.ScatterChart(document.getElementById('polynomial2_div'));
+      chart.draw(data, options);
+    }
+  </script>
+ </head>
+ <body>
+  <div id='polynomial2_div' style='width: 900px; height: 500px;'></div>
+  <div> Correlation coefficient = 0.5898 and the p-value is 0.0024 </div>
+ </body>
+</html>

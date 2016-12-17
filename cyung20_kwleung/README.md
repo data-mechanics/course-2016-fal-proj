@@ -1,6 +1,10 @@
+**Go to the 'visualization' folder to see the Final Report, visualization implementations, and our poster.**
+
+Below is our initial project proposal, a list of the datasets we looked at and used, transformations performed on our datasets, and constraint satisfaction + statistical analysis implementations - all written in python.
+
 #Project Proposal
 
-For our project, we will be looking at Crime Incident Reports, as released by the City of Boston, and linking them to various other datasets to see if we can determine how safe areas might be based on the businesses, public services, etc. that encompass these areas. This may be used by anyone to estimate how safe they may be wherever they are, provided they are near one of the variables we analyze. In particular, we will be looking at the following datasets: Crime Incident Reports (made between August 2015 to now); businesses that have a liquor license; locations of streetlights; MBTA T Stop Locations; and the locations of all Boston Police District Stations.
+For our project, we will be looking at Crime Incident Reports, as released by the City of Boston, and linking them to various other datasets to see if we can determine how safe areas might be based on the businesses, public services, etc. that encompass these areas. This may be used by anyone to estimate how safe they may be wherever they are, provided they are near one of the variables we analyze. In particular, we will be looking at the following datasets: Crime Incident Reports (made between August 2015 to now); businesses that have a liquor license; and the locations of all Boston Police District Stations.
 
 Below are the following techniques we have implemented in order to further address our problem for Project 2:
 
@@ -77,4 +81,4 @@ Selected Crimes Avg Within 100 meters of Liquor Store (Fri-Sun): 123.0
 
 **2. crime_time_correlation.py**
 
-Stastical Analysis was used to determine if there is a correlation between crimes and the hour they were committed. After calculations, we received a correlation coefficient with a magnitude of 0.589, which tells us that the two variables have a positive, moderately strong correlation. The time_crime.PNG picture illustrates our graph for this correlation.
+Stastical Analysis was used to determine if there is a correlation between crimes and the hour they were committed. After calculations, we received a correlation coefficient with a magnitude of 0.589, which tells us that the two variables have a positive, moderately strong correlation.
