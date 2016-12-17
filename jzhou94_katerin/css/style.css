@@ -1,0 +1,19 @@
+h2 {
+	font-size: 34px;
+}
+
+.names {
+	float: top; 
+	float: left;
+	color: white;
+}
+
+.post-meta2 {
+	margin-top: 0; 
+	text-decoration: underline;
+}
+
+#map {
+	height: 400px;
+	width: 100%;
+}
