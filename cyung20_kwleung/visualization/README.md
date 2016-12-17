@@ -29,7 +29,7 @@ We performed three transformations in order to prepare our data for the two stat
 
 **Transformation #1: liquorAndCrime.py**
 
-This program was written initially to [delete below and add explanation of what it does]
+This program was written initially to look for crime incidents that are close enough to one or more liquor store (25 meters in our case) to be potentially significant and to keep the data of both the crime and the liquor store.
 < This transformation takes the product of 1) a set containing the name of the liquor store and its location in longitude and latitude and 2) a set containing the location of a crime. Selection is used to make sure that the essential data from liquor stores (location, name) that are located 25 meters or less from a location in which a crime was reported committed are included in the new data set. There is a double count. >
 
 **Transformation #2: liquorAndBPDS.py**
