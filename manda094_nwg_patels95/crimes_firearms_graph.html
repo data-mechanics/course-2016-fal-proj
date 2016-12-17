@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Crimes and Firearm Recovery Graph</title>
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script src="crimes_firearms_graph_data.js"></script>
+		<script src="d3.legend.js"></script>
+		<style>
+		.domain { 
+		  fill: none; 
+		  stroke: black; 
+		  stroke-width: 1.5; 
+		} 
+
+		.legend rect {
+		  fill:white;
+		  stroke:black;
+		  opacity:0.8;
+		}
+
+		</style>
+	</head>
+	<body>
+		<svg id="graph" width="1000" height="510"></svg>
+		<script>
+			function lineGraph() {
+                var graph = d3.select("#graph"),
+                    WIDTH = 1000,
+                    HEIGHT = 500,
+                    MARGINS = {
+                        top: 20,
+                        right: 20,
+                        bottom: 20,
+                        left: 50
+                    },
+
+                    format = d3.time.format("%Y-%m-%d");
+                   	minDate = format.parse("2014-08-20");
+                   	maxDate = format.parse("2015-07-27");
+
+                    xScale = d3.time.scale().range([MARGINS.left, WIDTH - MARGINS.right]).domain([minDate, maxDate]),
+                    yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 14]),
+                    xAxis = d3.svg.axis()
+                    .orient("bottom")
+                    .scale(xScale),
+                    yAxis = d3.svg.axis()
+                    .scale(yScale)
+                    .orient("left");
+                
+                graph.append("svg:g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+                    .attr("stroke-width", 1)
+                    .call(xAxis);
+                graph.append("svg:g")
+                    .attr("class", "y axis")
+                    .attr("transform", "translate(" + (MARGINS.left) + ",0)")
+                    .call(yAxis);
+                var lineGen = d3.svg.line()
+                    .x(function(d) {
+                    	var format = d3.time.format("%Y-%m-%d");
+                    	var date = format.parse(d.date);
+                    	console.log(date);
+                        return xScale(date);
+                    })
+                    .y(function(d) {
+                        return yScale(d.count);
+                    })
+                    .interpolate("basis");
+                graph.append('svg:path')
+                    .attr('d', lineGen(crimes_firearms.crimes))
+                    .attr('stroke', 'green')
+                    .attr('stroke-width', 1.5)
+                    .attr('data-legend', 'Crimes')
+                    .attr('fill', 'none');
+                graph.append('svg:path')
+                    .attr('d', lineGen(crimes_firearms.firearms))
+                    .attr('stroke', 'blue')
+                    .attr('stroke-width', 1.5)
+                    .attr('data-legend', "Firearms Recovered")
+                    .attr('fill', 'none');
+
+                legend = graph.append("svg:g")
+                	.attr('class', 'legend')
+                	.attr('transform', 'translate(800, 50)')
+                	.style('font-size', '12px')
+                	.call(d3.legend)
+            }
+            lineGraph();
+		</script>
+	</body>
+</html>
