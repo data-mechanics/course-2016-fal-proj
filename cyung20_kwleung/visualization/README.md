@@ -68,7 +68,7 @@ Coordinates for districts were taken from json file provided by WorldMap - Harve
 
 # Conclusion
 
-From our results, while we cannot state any facts definitively (since correlation does not mean causation), we may, however, confirm that a relationship does exist between crimes and the usual factors they’re associated with.
+From our results, while we cannot state any facts definitively (since correlation does not mean causation), we may, however, confirm that a fairly strong relationship does indeed exist between crimes and the usual factors they’re associated with.
 
 For our first analysis, the averge number of crimes committed over the span of the weekend is greater than the average crimes committed over the span of the weekdays - which was expected.
 
