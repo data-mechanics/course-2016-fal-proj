@@ -9,10 +9,10 @@ import pandas as pd
 from bson.code import Code
 
 
-class transformation5(dml.Algorithm):
+class transform_turnstile_weather(dml.Algorithm):
     contributor = 'anuragp1_jl101995'
     reads = ['anuragp1_jl101995.subway_stations,' 'anuragp1_jl101995.turnstile']
-    writes = ['anuragp1_jl101995.turnstile_weather']
+    writes = ['anuragp1_jl101995.turnstile_weather', 'anuragp1_jl101995.turnstile_total_byday']
 
     @staticmethod
     def execute(Trial=False):
@@ -61,7 +61,6 @@ class transformation5(dml.Algorithm):
         df_max = df
         df_max = df_max.groupby(by=['STATION', 'DATE'], as_index=False)['ENTRIES'].max()
         
-
         temp_df1 = df_max
         temp_arr1 = []
         for index, row in temp_df1.iterrows():
@@ -78,6 +77,7 @@ class transformation5(dml.Algorithm):
         last_entry = 0
         temp_arr = []
         last_nonzero = ['place', 0]
+
         for index, row in temp_df.iterrows():
             
             if row[0] == last_station:
@@ -88,15 +88,42 @@ class transformation5(dml.Algorithm):
                     if last_nonzero[0] == row[0]:
                         row_2 = abs(row[2] - last_nonzero[1])
                 else:
-                    last_nonzero = [row[0], row[2]]     
-                if row_2 < 200000 and row_2 != 0:            
+                    last_nonzero = [row[0], row[2]] 
+     
+                # 
+                # Incase the data is messy we insert 200,000 as it is the cap we determined 
+                #
+                if row[0] == 'WINTHROP ST' and row_2 > 5000:
+                    temp_arr.append([row[0], row[1], 3000])
+                elif row[0] == 'JAMAICA CENTER' and row_2 > 10000:
+                    temp_arr.append([row[0], row[1], 7000])
+                elif row[0] == 'NEWARK C' and row_2 > 1000:
+                    temp_arr.append([row[0], row[1], 500])
+                elif row[0] ==  'HOWARD BCH JFK' and row_2 > 1000:
+                    temp_arr.append([row[0], row[1], 750])
+                elif row[0] ==  '157 ST' and row_2 > 4500:
+                    temp_arr.append([row[0], row[1], 3500])
+                elif row[0] ==  '163 ST-AMSTERDM' and row_2 >  3000:
+                    temp_arr.append([row[0], row[1], 2200])
+                elif row[0] ==  'TWENTY THIRD ST' and row_2 >  5000:
+                    temp_arr.append([row[0], row[1], 3800])
+
+
+
+                if row_2 < 10000 and row_2 != 0:            
                     temp_arr.append([row[0], row[1], row_2])
+
+                else: #row_2 > 20000 and row_2 != 0:            
+                    temp_arr.append([row[0], row[1], 2000])
+
                 last_entry = temp  
             
             else:
                 temp = row[2]
                 row_2 = 0
-                last_entry = temp     
+                last_entry = temp  
+
+                temp_arr.append([row[0], row[1], 0])   
                 
             last_station = row[0]
             
@@ -114,28 +141,28 @@ class transformation5(dml.Algorithm):
 
         temp_df = pd.DataFrame(temp_df.groupby(by=['DATE'])['ENTRIES'].sum())
 
-        print('Loading weatherdata')
-        weatherdata = repo.anuragp1_jl101995.weather.find()
-        date_weather = []
+        # print('Loading weatherdata')
+        # weatherdata = repo.anuragp1_jl101995.weather.find()
+        # date_weather = []
 
-        # Collection for associating daily weather with each turnstile entry
-        repo.dropPermanent('turnstile_weather')
-        repo.createPermanent('turnstile_weather')
+        # # Collection for associating daily weather with each turnstile entry
+        # repo.dropPermanent('turnstile_weather')
+        # repo.createPermanent('turnstile_weather')
 
-        print('Combining weatherdata and daily turnstile totals') ######
+        # print('Combining weatherdata and daily turnstile totals') ######
 
-        for w in weatherdata:
-            for index, row in temp_df.iterrows():
-            #print('w is ' + str(int(w['DATE'])) + ' and row[1] is ' + str(row[1]))
-                if int(w['DATE']) == index:
-                #print('MATCH: w is ' + str(w) + ' and row[1] is ' + str(row[1]))
-                    datestring = str(w['DATE'])[4:6] + '/' + str(w['DATE'])[6:8] + '/' + str(w['DATE'])[0:4]
-                    avgtemp = statistics.mean([w['TMAX'], w['TMIN']])
-                    insert_weather = {'Date': datestring, 'AvgTemp': avgtemp, 'Precip': w['PRCP'], 'Entries' : int(row[0])}
-                    repo.anuragp1_jl101995.turnstile_weather.insert_one(insert_weather)
+        # for w in weatherdata:
+        #     for index, row in temp_df.iterrows():
+        #     #print('w is ' + str(int(w['DATE'])) + ' and row[1] is ' + str(row[1]))
+        #         if int(w['DATE']) == index:
+        #         #print('MATCH: w is ' + str(w) + ' and row[1] is ' + str(row[1]))
+        #             datestring = str(w['DATE'])[4:6] + '/' + str(w['DATE'])[6:8] + '/' + str(w['DATE'])[0:4]
+        #             avgtemp = statistics.mean([w['TMAX'], w['TMIN']])
+        #             insert_weather = {'Date': datestring, 'AvgTemp': avgtemp, 'Precip': w['PRCP'], 'Entries' : int(row[0])}
+        #             repo.anuragp1_jl101995.turnstile_weather.insert_one(insert_weather)
 
-                    break
-        print('Finished combining weather and turnstiles')
+        #             break
+        # print('Finished combining weather and turnstiles')
 
 
         repo.logout()
@@ -164,10 +191,10 @@ class transformation5(dml.Algorithm):
         doc.add_namespace('cny', 'https://data.cityofnewyork.us/resource/') # NYC Open Data
         doc.add_namespace('mta', 'http://web.mta.info/developers/') # MTA Data (turnstile source)
 
-        this_script = doc.agent('alg:anuragp1_jl101995#transformation5', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        this_script = doc.agent('alg:anuragp1_jl101995#transform_turnstile_weather', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
 
         # Transform associating weather with turnstile
-        turnstile_weather_resource = doc.entity('dat:subway_regions',{'prov:label':'Turnstile Weather Data', prov.model.PROV_TYPE:'ont:DataSet'})
+        turnstile_weather_resource = doc.entity('dat:turnstile_weather',{'prov:label':'Turnstile Weather Data', prov.model.PROV_TYPE:'ont:DataSet'})
         get_turnstile_weather = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         doc.wasAssociatedWith(get_turnstile_weather, this_script)
         doc.usage(get_turnstile_weather, turnstile_weather_resource, startTime, None,
@@ -177,28 +204,16 @@ class transformation5(dml.Algorithm):
         doc.wasGeneratedBy(turnstile_weather, get_turnstile_weather, endTime)
         doc.wasDerivedFrom(turnstile_weather, turnstile_weather_resource, get_turnstile_weather, get_turnstile_weather, get_turnstile_weather)
 
-        # Subway Stations Data
-        stations_resource = doc.entity('cny:subway_stations',{'prov:label':'Subway Stations Data', prov.model.PROV_TYPE:'ont:DataSet'})
-        get_stations = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
-        doc.wasAssociatedWith(get_stations, this_script)
-        doc.usage(get_stations, stations_resource, startTime, None,
-                  {prov.model.PROV_TYPE:'ont:DataSet'} )
-        stations = doc.entity('dat:anuragp1_jl101995#subway_stations', {prov.model.PROV_LABEL:'NYC Subway Stations', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(stations, this_script)
-        doc.wasGeneratedBy(stations, get_stations, endTime)
-        doc.wasDerivedFrom(stations, stations_resource, get_stations, get_stations, get_stations)
-
-        # Turnstile Data
-        turnstile_resource = doc.entity('mta:turnstile', {'prov:label':'Turnstile Data', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'txt'})
-        get_turnstile = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime) 
-        doc.wasAssociatedWith(get_turnstile, this_script)
-        doc.usage(get_turnstile, turnstile_resource, startTime, None,
-                  {prov.model.PROV_TYPE:'ont:DataSet'} )
-        turnstile = doc.entity('dat:anuragp1_jl101995#turnstile', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(turnstile, this_script)
-        doc.wasGeneratedBy(turnstile, get_turnstile, endTime)
-        doc.wasDerivedFrom(turnstile, turnstile_resource, get_turnstile, get_turnstile, get_turnstile)
-
+        # Transform getting daily weather with daily entries total 
+        turnstile_daily_resource = doc.entity('dat:',{'prov:label':'Turnstile Total by Day', prov.model.PROV_TYPE:'ont:DataSet'})
+        get_turnstile_daily = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        doc.wasAssociatedWith(get_turnstile_daily, this_script)
+        doc.usage(get_turnstile_daily, turnstile_daily_resource, startTime, None,
+                  {prov.model.PROV_TYPE:'ont:Computation'} )
+        turnstile_daily = doc.entity('dat:anuragp1_jl101995#turnstile_daily', {prov.model.PROV_LABEL:'', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(turnstile_daily, this_script)
+        doc.wasGeneratedBy(turnstile_daily, get_turnstile_daily, endTime)
+        doc.wasDerivedFrom(turnstile_daily, turnstile_daily_resource, get_turnstile_daily, get_turnstile_daily, get_turnstile_daily)        
 
         repo.record(doc.serialize())  # Record the provenance document.
         repo.logout()
@@ -206,8 +221,8 @@ class transformation5(dml.Algorithm):
         return doc
 
 
-transformation5.execute(Trial=False)
-doc = transformation5.provenance()
+transform_turnstile_weather.execute(Trial=False)
+doc = transform_turnstile_weather.provenance()
 # print(doc.get_provn())
 # print(json.dumps(json.loads(doc.serialize()), indent=4))
 

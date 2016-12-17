@@ -1,19 +1,14 @@
-## Relationship Between Subway and CitiBike Usage in New York City 
-<br>
-### Project 1: Data Retrieval, Storage, Provenance, and Transformations
+## Exploring New York City Transit
+#### The Relationship Between Subway Usage and CitiBike Usage in NYC
+Anurag Prasad (```anuragp1@bu.edu```) and Jarrod Lewis (```jl101995@bu.edu```)
 ___
 
-#### Introduction
-Is there a relationship between subway ridership and CitiBike usage in New York City?
-This project aims to discover if there are patterns between these two major forms of 
-commute. This could potentially help identify smart locations for bike hubs based on
-proximity to subways. Our hypothesis is that it would be smarter to place more Bike Hubs
-around overcrowded subway stations. In addition to comparing these forms of transport, 
-this project will explore subway and CitiBike usage based on pedestrian traffic and weather
-in the stations' respective regions. With this information, we can see where it would be
-worth adding or removing CitiBike stations if there is a level of usage disproportional
-to the pedestrian traffic, or during which months maintenance of these services is most 
-important.
+#### Part I: Data Retrieval, Storage, Provenance, and Transformations
+
+#### Overview
+The objective of this project is to discover patterns or relationships between CitiBike usage and subway usage in New York City. This has potential to spot smart locations for bike hubs based on proximity to subways. With this information, we can see where it would be worth adding or removing CitiBike stations if there is a level of usage disproportional to the pedestrian traffic, or during which periods maintenance of these services is most important.
+
+Note: for more detail, check out ```REPORT.md```.
 
 #### Datasets
 1. [Subway Stations](https://data.cityofnewyork.us/Transportation/Subway-Stations/arq3-7z49)
@@ -23,162 +18,157 @@ important.
 5. [Central Park Weather Data](https://www.ncdc.noaa.gov/cdo-web/datasets/GHCND/stations/GHCND:USW00094728/detail)
 
 #### Project Dependencies 
-* python3.5+
+* python3.4+
 * [dml](https://pypi.python.org/pypi/dml)
 * [prov](https://pypi.python.org/pypi/prov)
+* [pandas](http://pandas.pydata.org/)
+* [matplotlib](http://matplotlib.org/)
 
 #### Retrieve Data
-1. Install project dependencies sand make sure you have ```retrievedata.py```, ```citizip_urls.txt```, and the three ```transformation[#].py``` (```[#]``` being 1, 2, 3) files in your working directory
-
+1. Install project dependencies sand make sure you have ```retrieve_data.py``` and ```citizip_urls.txt``` in your working directory 
 2. Run MongoDB with authentication
-
 3. Retrieve the five initial datasets: ```$ python3 retrieve_data.py```
 
 #### Data Transformations
-Now we can run the following transformations on the data: (```user``` refers to the MongoDB user):
+Now the following transformations on the data (```user``` refers to the MongoDB user) can be run. Please run them in order. The transformation scripts are separated so that users can run transformations incrementally. 
 
-**Transformation 1: Classifying subway station by NYC region** <br>
-**File**: ```transformation1.py``` <br>
-**Uses**: ```user.subway_stations```, ```user.pedestriancounts``` <br>
-**Rationale**: The pedestrian counts in the [bi-annual pedestrian counts dataset](http:/www.nyc.gov/html/dot/downloads/pdf/bi-annual-ped-count-readme.pdf) is based on "114 
-locations, including 100 on-street locations (primarily retail corridors), 13 East River and
-Harlem River bridge locations, and the Hudson River Greenway." The subway dataset
-contains coordinates of each subway station, but we wanted a way to classify each subway
-by a rgion so we can eventually analyze each station's activity by foot traffic (pedestrian
-count) in its region. The bi-annual pedestrian counts dataset has carefully selected locations
-that are well-suited as standardized regions for measurement.<br>
-**Creates**: ```user.subway_regions```<br>
-**Activities:** Uses 2D-sphere to classify each subway station into a region in bi-annual pedestrian counts
-dataset
+**Transformation 1: Classify Subway Station by NYC Region**
+**File**: ```transform_subway_region.py``` 
+**Uses**: ```user.subway_stations```, ```user.pedestriancounts``` <!-- **Rationale**: The pedestrian counts in the [bi-annual pedestrian counts dataset](http:/www.nyc.gov/html/dot/downloads/pdf/bi-annual-ped-count-readme.pdf) is based on "114 locations, including 100 on-street locations (primarily retail corridors), 13 East River and Harlem River bridge locations, and the Hudson River Greenway." The subway dataset contains coordinates of each subway station, but we wanted a way to classify each subway by a region so we can eventually analyze each station's activity by foot traffic (pedestrian count) in its region. The bi-annual pedestrian counts dataset has carefully selected locations that are well-suited as standardized regions for measurement. --> 
+**Creates**: ```user.subway_regions```
+**Activities:**
 
-**Transformation 2: Fix CitiBike station coordinates and classify by NYC region** <br>
-**File**: ```transformation2.py``` <br>
-**Uses**: ```user.citibike``` , ```user.pedstriancounts``` <br>
-**Rationale**: In order to do interesting things with CitiBike station coordinates, we need to get the coordinates in a more standardized, usable form. Also, we want to classify each CitiBike station by region like we did with subway stations. <br>
-**Creates**: ```user.citibike_by_region``` <br>
+* Uses 2D-sphere to classify each subway station into a region in bi-annual pedestrian counts dataset
+
+**Transformation 2: Fix CitiBike Station Coordinates and Classify by NYC Region** 
+**File**: ```transform_citibike_loc.py``` 
+**Uses**: ```user.citibike``` , ```user.pedstriancounts``` <!-- **Rationale**: In order to do interesting things with CitiBike station coordinates, we need to get the coordinates in a more standardized, usable form. Also, we want to classify each CitiBike station by region like we did with subway stations. -->
+**Creates**: ```user.citibikecoordinates```, ```user.citibike_by_region``` 
 **Activities**: 
 
-* location information and consolidate separate longitude/latitud fields to ```'the_geom' : {'type': 'Point', 'coordinates': [long, lat]}}``` format
+* Get location information and consolidate separate longitude/latitude fields to ```'the_geom' : {'type': 'Point', 'coordinates': [long, lat]}}``` format
 * Uses 2D-sphere to classify each CitiBike station into a region in bi-annual pedestrian counts dataset
 
-**Transformation 3: Add Weather fields to turnstile data** <br>
-**File**: ```transformation3.py``` <br>
-**Uses**: ```user.weather```, ```user.turnstile``` <br>
-**Rationale**: Adding weather to daily turnstile data will give us context of how subway usage varies with weather <br>
-**Creates**: ```user.turnstiles_and_weather``` <br>
+**Transformation 3: Get Total Subway Usage and Weather for Each Day** 
+**File**: ```transform_turnstile_weather.py```
+**Uses**: ```user.subway_stations```, ```user.turnstile```, ```user.weather``` <!-- **Rationale**:  To see the relationship between daily turnstile usage and weather. -->
+**Creates**: ```user.turnstile_weather```, ```turnstile_total_byday```
 **Activities**:
 
-* Create new table joining relevant turnstile data and weather by date
-* Corrects exits column label (gets rid of extraneous spaces) in dataset <br>
-
-
-**Transformation 4: Add weather to CitiBike station data** <br>
-**File**:  ```transformation4.py``` <br>
-**Uses**:  ```user.weather```, ```user.citibike```<br>
-**Creates**:  ```user.citibike_weather``` <br>
-
-* Create new table joining relevant turnstile data and weather by date
-
-**Transformation 5: Add weather to SubwayStation and Turnstiles <br>
-**File**: ```transformation5.py```<br>
-**Uses**: ```user.subway_stations```, ```user.turnstile```, ```user.weather```  <br>
-**Creates**: ```user.turnstile_weather```, ```user.turnstile_station```  <br>
-
-
-* Compute turnstile usage by day for each subway station
+* Compute turnstile usage by day
 * Combine weather data with daily subway usage 
 
-**Transformation 6: Add Pedestrian counts to citibike and subway stations** <br>
-**File**:  ```transformation6.py``` <br>
-**Uses**: ```user.subway_regions```, ```user.pedestriancounts```, ```user.citibike_by_region```<br>
-**Creates**:  ```user.daily_pedestrian```, ```user.subway_pedestriancount```, ```user.citibike_pedestriancount```<br>
+**Transformation 4:  Get Total CitiBike Usage by Day and Weather for Each Day** 
+**File**:  ```transform_citibike_weather.py``` 
+**Uses**:  ```user.citibike```, ```user.weather``` <!-- **Rationale**: To see the relationship between daily CitiBike usage and weather. -->
+**Creates**:  ```user.citibike_weather``` 
+**Activities**: 
+
+* Compute CitiBike usage by day
+* Combine weather data with daily citibike usage 
+
+**Transformation 5: Add Pedestrian Counts to Citibike and Subway Stations** 
+**File**:  ```transform_citibike_pedestrian.py``` 
+**Uses**: ```user.subway_regions```, ```user.pedestriancounts```, ```user.citibike_pedestrian.``` <!-- **Rationale**: To analyze the impact of pedestrian traffic on transit usage, we must link stations with their respective region's pedestrian counts -->
+**Creates**:  ```user.daily_pedestrian```, ```user.subway_pedestriancount```, ```user.citibike_pedestriancount```
 **Activities**:
 
-* Count usage of citibike by day
-* Count usage of subway stations by day 
-* Combine counts of subway and citibike usage with the pedestrian regions 
+* Compute daily average pedestrian count for each of the 114 pedestrian count regions
+* Count usage of CitiBike stations by day and combine with pedestrian count for the station's corresponding region
+* Count usage of subway stations by day and combine with pedestrian count for the station's corresponding region
 
-**Transformation 7:  Get total CitiBike usage and weather for each day** <br>
+**Transformation 6: Creates Three JSON Files for D3 Map Visualization**
+**File**: ```transform_usage_json.py```
+**Uses**: ```user.pedestriancounts```,```user.daily_pedestrian```, ```user.citibike```, 
+          ```user.turnstile_total_byday```, ```user.subway_pedestriancount```', ```user.subway_stations```] <!-- **Rationale**: To create a D3 visualization of subway station, CitiBike station, and pedestrian region on a map with their usages, it is necessary to get each station with their coordinates and usage in JSON format. -->
+**Creates**: ```user.citi_coord_json```, ```user.ped_coord_json```, ```user.subway_coord_json```
+**Activities**:
+
+* Get subway station coordinates and their usages 
+* Get CitiBike station coordinates and their usages
+* Get pedestrian region coordinates and their pedestrian counts 
+* NOTE: The above code performs the original transformations and creates the necesary JSON files, but the following code loads in the cleaned JSON files that are needed for D3 map visualization
+
+**Transformation 7: Get CitiBike Usage by Day**
+**File**: ```transform_citibike_byday.py```
+**Uses**: ```user.citibike``` <!-- **Rationale**: CitiBike usage by day is needed to later be combined to execute Transformation 8, in which we will include this usage in a time series. -->
+**Creates**: ```user.citibike_startstation_byday```
+**Activities**: 
+
+* Load CitiBike data and clean erroneous date formats
+* Get total usage of each CitiBike stations per day
+
+**Transformation 8: Create CSVs for Time Series Visualizations, Calculate Correlation between Subway and CitiBike usage (and plot)**
+**File**: ```transform_byday.py```
+**Uses**: ```user.citibike_startstation_byday```, ```userturnstile_total_byday``` <!-- **Rationale**: To create a time series of Subway and CitiBike station usage by day and see the relationship between total subway usage and CitiBike usage -->
+**Creates**: ```user.timeseries_csv```
+**Activities**:  
+
+* Combine CitiBike station usage by day and subway station usage by day into a usage time series for each station
+* Make a CSV to be used for the D3 usage visualization
+* Calculate the correlation coefficient between total subway usage and total CitiBike usage
+* Create image of scatterplot between subway and CitiBike usage
+
+**Transformation 9: Plot Effect of Weather on CitiBike/Subway Usage**
+**File**: ```transform_plot_weather.py```
+**Uses**: ```user.citibike_weather```, ```user.turnstile_weather``` <!-- **Rationale**: -->
+**Creates**: ```citibike_temp_regression.png```, ```subway_temp_regression.png``` (no collections loaded into Mongo, only saving plot images)
+**Activities**:
+
+* Get temperature by day and join with subway/CitiBike usage by date
+* Get precipitation by day and join with subway/CitiBike usage by date
+* Calculate the correlation between temperature/precipitation and both CitiBike usage and subway usage
 
 
+--- 
+### Part II: Statistical Analysis Results
+##### Statistical Analysis 1: Weather and Station Usage
 
-#### Considerations and Limitations
-* To ensure all stations had a region classification, we had to use a 8000m radius (~5miles). While most subway stations were within a much shorter distance from a region, we realize this radius may be too large to properly classify other stations.
-* This project topic will continue to be refined as the project progresses and more insights are discovered.
-
-<br><br>
-### Project 2: Modelling, Optimization, and Statistical Analysis
-___
-
-#### Narrative 
-With subway usage, citibike usage, annual weather, and regional pedestrian counts, we can figure out the relationship between these variables using statistical methods such as correlation and regression. With our datasets, we will see how Citibike and subway usage varies with weather, as well as how they are affected by the region's population/pedestrian traffic.
-
-We aim to answer the following family of problems:
-
-1. **How does CitiBike/subway usage vary with weather? Do riders prefer one over the other in certain weather conditions?**
-	* Hypotheses:
-		* There is a positive correlation between precipitation and subway ridership
-		* 	There is slight positive correlation between temperature and subway ridership
-		* 	There is a negative correlation between precipitation and CitiBike ridership
-		* There is a positive correlation between temperature and CitiBike ridership 
-
-	We can solve this problem by combining subway usage, CitiBike usage, and weather by date. 	Once we have the total subway usage and totaly CitiBike usage for each day, we can find the 	correlation between each of these usages and weather. 
-
-2. **Can we predict subway usage from pedestrian count of a region using a linear regression model?** 
-
-#### Statistical Analysis Results
-
-For statistical analysis #1, we found the folllwing results: 
-* Correlation between precipitation and subway usage is -0.0781896796422 with a p-value of 0.0478418069172
-* Correlation between temperature and subway usage is 0.0205902690486 with a p-value of 0.602825476302
-* Correlation between precipitation and citibike usage is **-0.252789181096** with a p-value of **1.05252365339e-14**
-* Correlation between temperature and citibike usage is **0.759934770081** with a p-value of **1.09959733967e-171 **
+| Independent Variable | Dependent Variable | Correlation | p-value |
+| ------- | ----- | ------ | ------- |
+| Precipitation | Subway Usage | -0.078 | 0.0478 |
+| Temperature | Subway Usage | 0.206 | 0.603 |
+| **Precipitation** | **CitiBike Usage** | **-0.253** | **1.053e-14** |  
+| **Temperature** | **CitiBike Usage** | **.760** | **1.100e-171** |
 
 It is apparent that citibike usage is much more sensitive to weather than subway usage. We expected the negative and positive correlations between CitiBike usage and precipitation/temperature respectively. These correlations make sense because New Yorkers take the subway no matter what conditions. Therefore, there wouldn't be much correlation between weather 
 
-For statistical analysis #2, we got the following results from the regression on subway usage based on pedestrian count: 
+##### Statistical Analysis 2: Regression of Pedestrian Count on Subway Usage
+After conducting a linear regression of region pedestrian count on the subway station entries, we generated the following regression parameters:
 
-slope is 18.9080077596<br>
-intercept is 517937.435161<br>
-r-squared is 0.0854615984247<br>
-Our regression equation is : Subway_Usage = 517937 + 18.9*(Region_Pedestrian_Count)
+| Regression component | value |
+| -------------------- | ------|
+| slope     | 18.908     |
+| intercept | 517937.435 | 	
+| r-squared | 0.0855     |
 
-<!--
-* **If we had a budget reduction and had to remove one station, which station would be the best choice to remove?**
-	* Approach: Assume that the  optimal chioce of station to remove would be the station that has the lowest relative usage compared to the pedestrian count of the region in which the station is located. 
-	* State space: *2^N*, where *N* is the number of stations
-	* For each of the N stations, 0 signifies not removing and 1 signifies removing the station
-		* Constraint: Choose 1 station to remove (i.e. should be only a single 1 in a permutation)
-	* If the ratio *r* = (station usage / pedestrian count) for the n-th station, *s* is the choice to remove or keep the n-th station (0 or 1), and each list [ ... ] represents a possbile permutation, then our objective function *f*  is as follows:<br>
-		sum( [ (s1 * r1), (s2 * r2), .... , (sn * rn) ] , [ ... ], [ ... ] )<br>
-	* We're looking to minimize this objective function: <br>
-		*argmin s ∈ S f(s)* 
+This yields the regression equation:
+ ```Subway_Usage = 517937 + 18.9*(Region_Pedestrian_Count)```
+ Unfortunately the r-squared value indicates that the variation in pedestrian count by region *cannot* explain the variation in subway usage. This is a surprising finding for us because we expected subway station usage would be heavily effected by the pedestrian traffic in that station's region.
+ 
+##### Statistical Analysis 3: Correlation between Aggregate Daily Subway Usage and CitiBike Usage
+To see how subway usage varies with CitiBike usage, we ran a correlation on total usage by day for each of the transportation methods. Their correlation is 0.36 with a low p-value of 4.3 e-06. The following scatterplot displays the relationship between daily usage for each station type.
+![SubwayCiti Scatter](visualizations/usage_vis/scatter_subwayciti.png)
+
+--- 
+
+### Part III: Visualizations
+To view the interactive visualizations (1 and 2):
+
+* Install [http-server](https://www.npmjs.com/package/http-server)
+* Navigate to the ```usage_vis``` or ```map_vis``` directory for the usage timeseries visualization or station usage visualization, respectively.
+* ```$ http-server -c-1```
+* View the ```.html``` page from the localhost
+
+##### 1. Station Usage Timeseries
+![Usage Visualization](visualizations/usage_vis/usage.gif)
+
+##### 2. Mapped Stations
+![Map Visualization](visualizations/map_vis/map.png)
+
+##### 3. Effect of Weather
+![Temperature on CitiBike Usage](visualizations/citibike_temp_regression.png)
+![Temperature on Subway Usage](visualizations/subway_temp_regression.png)
 
 
-___
-#### TODO
-* change retrieval algorithm to get subway_stations from datamechanics.io repository
-* Fix prov mistake in Project 1, Problem 3. (25 pts) 20/ 25: <br>
-           (1) In transformation provenance()
-             functions, you use the "cny" namespace
-             for your own data sets; it should be "dat". <br>
-           (2) The provenance information is excessive;
-             retrieving your own data set does not need
-             to be its own activity in every transformations.
-             It is enough for the transformation itself
-             to correspond to one activity. See the alice_bob
-             example. 
-
-#### Tasks <br>
-
-* At least three Non-trivial Problem-solving methods:
-	* Statistical Analysis
-		* Subway usage vs citibike usage based on weather/season
-		* ratios by region: (station usage / pedestrian count) and (citibike usage / pedestrian count). compare and see where there is an excessive ratio of pedestrians to station usage. more stations could be added here
-
-	* Optimization
-		* something about distance from closest subway for each citibike station
-
-* Provenance for scripts/algorithms (do this correctly!)
--->
 
