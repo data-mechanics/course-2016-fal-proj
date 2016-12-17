@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Data Mechanics Project</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../css/portfolio-item.css" rel="stylesheet">
+
+    <!-- Bootstrap Select CSS -->
+    <!-- https://silviomoreto.github.io/bootstrap-select/examples/#multiple-select-boxes -->
+    <link rel="stylesheet" href="../css/bootstrap-select.css">
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Bootstrap Select JS -->
+    <script src="../js/bootstrap-select.min.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Visualization techniques -->
+    <script src="http://maps.google.com/maps/api/js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="../js/load-map.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Toaster alerts CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <!-- Toaster alert JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</head>
+
+<style>
+    #map {
+      width: 100%;
+      height: 500px;
+    }
+
+    .patrols, .patrols svg {
+      position: absolute;
+    }
+
+    .patrols svg {
+      width: 60px;
+      height: 20px;
+      padding-right: 100px;
+      font: 10px sans-serif;
+    }
+
+    .has-error .help-block {
+        font-size: 10px;
+        margin-bottom: 5px;
+    }
+
+    .hide {
+        display: none;
+    }
+</style>
+
+<body onload="initMap()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Data Mechanics Project</a>
+            </div>
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <!-- Portfolio Item Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Location Optimizer
+                    <small>for placing Police Patrols</small>
+                </h1>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Portfolio Item Row -->
+        <div class="row">
+            <div class="col-md-8">
+                <div id="map"></div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-md-4" style="margin-bottom: 20px">
+                <h3>Instructions</h3>
+                Insert the minimum and maximum amount of police patrols that you have at your disposal in the form below, the minimum distance those patrols should cover, and which crime codes have priority over the others in the placement of the patrols.
+            </div>
+
+            <div class="col-md-4">
+                <form class="form-horizontal">
+                    <div class="form-group" id="min-patrols-group">
+                        <label class="col-md-4 col-sm-3 control-label">Min patrols</label>
+                        <div class="col-sm-9 col-md-8">
+                            <input type="number" class="form-control" id="min-patrols" placeholder="min patrols">
+                            <span id="help-block-1" class="hide help-block">Min patrols cannot be empty</span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="max-patrols-group">
+                        <label class="col-md-4 col-sm-3 control-label">Max patrols</label>
+                        <div class="col-sm-9 col-md-8">
+                            <input type="number" class="form-control" id="max-patrols" placeholder="max patrols">
+                            <span id="help-block-2" class="hide help-block">Max patrols cannot be empty</span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="min-distance-group">
+                        <label class="col-md-4 col-sm-3 control-label">Min distance</label>
+                        <div class="col-sm-9 col-md-8">
+                            <input type="number" class="form-control" id="min-distance" placeholder="min distance">
+                            <span id="help-block-3" class="hide help-block">Min distance cannot be empty</span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="crime-codes-group">
+                        <label class="col-md-4 col-sm-3 control-label">Crime codes</label>
+                        <div class="col-sm-9 col-md-8">
+                            <select class="selectpicker form-control" id="crime-codes" data-size="10" style="width: 100%" multiple>
+                                <option>Larceny From Motor Vehicle</option>
+                                <option>Mvacc</option>
+                                <option>Vandalism</option>
+                                <option>Service</option>
+                                <option>Val</option>
+                                <option>Medassist</option>
+                                <option>Drug Charges</option>
+                                <option>Towed</option>
+                                <option>Sexreg</option>
+                                <option>Trespass</option>
+                                <option>Propdam</option>
+                                <option>Invper</option>
+                                <option>Auto Theft</option>
+                                <option>Proplost</option>
+                                <option>Invprop</option>
+                                <option>Other Larceny</option>
+                                <option>Crimes Against Children</option>
+                                <option>Fraud</option>
+                                <option>Benoprop</option>
+                                <option>Simple Assault</option>
+                                <option>Persloc</option>
+                                <option>32Gun</option>
+                                <option>Weapons Charge</option>
+                                <option>Commercial Burglary</option>
+                                <option>Aggravated Assault</option>
+                                <option>Robbery</option>
+                                <option>Death Investigation</option>
+                                <option>Gather</option>
+                                <option>Propfound</option>
+                                <option>Arrest</option>
+                                <option>Embezellment</option>
+                                <option>Fire</option>
+                                <option>Residential Burglary</option>
+                                <option>Forgery</option>
+                                <option>Vandalism</option>
+                                <option>Landlord</option>
+                                <option>Disorderly</option>
+                                <option>Restrain</option>
+                                <option>Other</option>
+                                <option>07Rv</option>
+                                <option>Stolen Property Charges</option>
+                                <option>Licviol</option>
+                                <option>Fraud</option>
+                                <option>Argue</option>
+                                <option>Pubdrink</option>
+                                <option>Violation Of Liquor Laws</option>
+                                <option>Persmiss</option>
+                                <option>Investigate Person</option>
+                                <option>Ballist</option>
+                                <option>Phonecalls</option>
+                                <option>Skipfare</option>
+                                <option>Robbery</option>
+                                <option>Hazardous</option>
+                                <option>Operating Under Influence</option>
+                                <option>Violations</option>
+                                <option>Drug Violation</option>
+                                <option>Explos</option>
+                                <option>Larceny From Motor Vehicle</option>
+                                <option>Homicide</option>
+                                <option>Searchwarr</option>
+                                <option>Plates</option>
+                                <option>Motor Vehicle Accident Response</option>
+                                <option>Harass</option>
+                                <option>Missing Person Located</option>
+                                <option>Harbor</option>
+                                <option>Larceny</option>
+                                <option>Medical Assistance</option>
+                                <option>Aggravated Assault</option>
+                                <option>Counterfeiting</option>
+                                <option>Arson</option>
+                                <option>Simple Assault</option>
+                                <option>Other</option>
+                                <option>Property Lost</option>
+                                <option>Prostitution Charges</option>
+                                <option>Burgtools</option>
+                                <option>Prison</option>
+                                <option>Disorderly Conduct</option>
+                                <option>Residential Burglary</option>
+                                <option>Invveh</option>
+                                <option>Missing Person Reported</option>
+                                <option>Property Found</option>
+                                <option>Warrant Arrests</option>
+                                <option>Confidence Games</option>
+                                <option>Runaway</option>
+                                <option>Police Service Incidents</option>
+                                <option>Assembly Or Gathering Violations</option>
+                                <option>Auto Theft</option>
+                                <option>Towed</option>
+                                <option>Investigate Property</option>
+                                <option>Landlord/Tenant Disputes</option>
+                                <option>Prostitution</option>
+                                <option>License Plate Related Incidents</option>
+                                <option>Firearm Violations</option>
+                                <option>Hatecrim</option>
+                                <option>Verbal Disputes</option>
+                                <option>Ballistics</option>
+                                <option>Restraining Order Violations</option>
+                                <option>Property Related Damage</option>
+                                <option>Offenses Against Child/Family</option>
+                                <option>Fire Related Reports</option>
+                                <option>Bomb</option>
+                                <option>Auto Theft Recovery</option>
+                                <option>Search Warrants</option>
+                                <option>Operating Under The Influence</option>
+                                <option>Aircraft</option>
+                                <option>Gambling Offense</option>
+                                <option>Liquor Violation</option>
+                                <option>Evading Fare</option>
+                                <option>Commercial Burglary</option>
+                                <option>Homicide</option>
+                                <option>Embezzlement</option>
+                                <option>Firearm Discovery</option>
+                                <option>Prisoner Related Incidents</option>
+                                <option>Sex Offender Registration</option>
+                                <option>Indecent Assault</option>
+                                <option>Recovered Stolen Property</option>
+                                <option>Labor</option>
+                                <option>License Violation</option>
+                                <option>Other Burglary</option>
+                                <option>Manslaug</option>
+                                <option>Harbor Related Incidents</option>
+                                <option>Criminal Harassment</option>
+                                <option>Explosives</option>
+                                <option>Rape And Attempted</option>
+                                <option>Arson</option>
+                                <option>Biothreat</option>
+                                <option>Bomb Hoax</option>
+                            </select>
+                            <span id="help-block-4" class="hide help-block">Choose at least one crime code</span>
+                        </div>
+                    </div>
+                    <button type="button" id="execute" onclick="findPatrols()" class="btn btn-info col-sm-12 col-md-12 col-lg-12" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Loading">
+                        Submit
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Boston University, <a href="http://www.datamechanics.org/">Data Mechanics</a></p> 
+                </div>
+            </div>
+            <!-- /.row -->
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
