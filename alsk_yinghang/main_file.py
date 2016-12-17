@@ -20,8 +20,15 @@ import crime_lights
 print("Continuing with crime_police_station")
 import crime_police_station
 #------------------------------------------------------------
-#WARNING.......CRIME_PROPERTIES will take 10-15 mins to run
+#WARNING.......CRIME_PROPERTIES non-trial mode will take 10-15 mins to run
 #------------------------------------------------------------
-print("Lastly....crime_properties")
+print("Crime_properties")
 import crime_properties
+
+print("Correlation & p-values for lights vs crimes")
+import correlation_lights_crimes
+
+print("Correlation & p-values for average property value vs crims")
+import correlation_propval_crime
+
 
