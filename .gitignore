@@ -100,4 +100,4 @@ auth.json
 *.xml
 
 # exclude node_modules
-**/node_modules
+node_modules/
