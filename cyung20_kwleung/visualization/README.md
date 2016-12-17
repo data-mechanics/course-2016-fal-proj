@@ -70,10 +70,10 @@ It's obvious that there are a countless number of other factors which could be t
 
 # Citations
 
-1) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3673267/
-2) https://www.bostonglobe.com/metro/2016/01/15/major-crime-drops-boston/TrO5ZAhmOD3bFDqdBX8vwN/story.html
-3) https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-August-2015-To-Date-Source-/fqn4-4qap
-4) https://data.cityofboston.gov/dataset/Liquor-Licenses/hda6-fnsh
-5) https://data.cityofboston.gov/Public-Safety/Boston-Police-District-Stations/23yb-cufe
-6) http://worldmap.harvard.edu/data/geonode:boston_police_districts_f55
-7) https://en.wikipedia.org/wiki/Boston_Police_Department
+1) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3673267/<br>
+2) https://www.bostonglobe.com/metro/2016/01/15/major-crime-drops-boston/TrO5ZAhmOD3bFDqdBX8vwN/story.html<br>
+3) https://data.cityofboston.gov/Public-Safety/Crime-Incident-Reports-August-2015-To-Date-Source-/fqn4-4qap<br>
+4) https://data.cityofboston.gov/dataset/Liquor-Licenses/hda6-fnsh<br>
+5) https://data.cityofboston.gov/Public-Safety/Boston-Police-District-Stations/23yb-cufe<br>
+6) http://worldmap.harvard.edu/data/geonode:boston_police_districts_f55<br>
+7) https://en.wikipedia.org/wiki/Boston_Police_Department<br>
