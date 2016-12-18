@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="d3-slider/d3.slider.css" />
+<style>
+  svg {
+    font: 10px sans-serif;
+  }
+
+  .axis line, .axis path {
+    shape-rendering: crispEdges;
+    stroke: black;
+    fill: none;
+  }
+
+  .bar {
+    fill: steelblue;
+    opacity: 0.5;
+    shape-rendering: crispEdges;
+  }
+
+  .bar2 {
+    fill: green;
+    opacity: 0.5;
+    shape-rendering: crispEdges;
+    }
+
+  .text {
+    fill: #fff;
+  }
+
+  .text2 {
+    fill: #fff;
+  }
+
+
+body {
+    font-family: Verdana,Arial,sans-serif;
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2 {
+    font-size: 1.2em;
+    margin: 60px 0 5px 0;
+}
+
+.wrapper {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wrapper > div {
+    margin: 35px 0;
+}
+
+.legend {
+    width: 300px;
+    height: 150px;
+    border: 1px solid black;
+    margin-top: 5px;
+    padding: 15px;
+}
+
+.box {
+    width: 300px;
+    opacity: 0.5;
+    background-color: green;
+    margin-top: 15px;
+    padding: 10px;
+    color: white;
+}
+
+.box2 {
+    width: 300px;
+    opacity: 0.5;
+    background-color: steelblue;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    padding: 10px;
+    color: white;
+
+}
+
+</style>
+<body>
+    
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="d3-slider/d3.slider.js"></script>
+
+
+<div class="box">
+    All Crimes
+</div>
+<div class="box2">
+    Drug Crimes
+</div>
+<form>
+  <label for="binwidth">Binwidth</label>
+  <select id="binwidth">
+      <option value="1">1</option>
+    <option value="5">5</option>
+    <option selected value="10">10</option>
+    <option value="15">15</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+
+  </select>
+</form>
+
+
+<script>
+
+
+  var margin = {top: 30, right: 20, bottom: 30, left: 50}
+          , width = 960 - margin.left - margin.right
+          , height = 450 - margin.top - margin.bottom;
+
+  var xScale = d3.scale.linear()
+          .range([0, width]);
+
+
+  var yScale = d3.scale.linear()
+          .range([height, 0]);
+          
+
+  var xAxis = d3.svg.axis()
+          .scale(xScale)
+          .orient("bottom").ticks(5);
+
+  var yAxis = d3.svg.axis()
+          .scale(yScale)
+          .orient("left").ticks(5);
+
+
+  var svg = d3.select('body').append('svg')
+          .attr('width', width + margin.right + margin.left)
+          .attr('height', height + margin.top + margin.bottom)
+          .append('g')
+          .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+          
+// Get the data
+d3.json("data.json", function(error, allData) {
+    var radius = 20;
+    data = allData[radius]["all"];
+    var data = allData[radius]["all"];
+    var xArr = [];
+    var yArr = [];
+    for (var key in data){
+        var range = data[key]/21.5;
+        for (i = 0; i < range; i++){
+            yArr.push(data[key]);
+            xArr.push(parseInt(key));
+        }
+        }
+    var d = [];
+    d.x = xArr;
+    d.y = yArr;
+        
+    //histogram2
+    data2 = allData[radius]["drug"];
+    var data2 = allData[radius]["drug"];
+    var xArr2 = [];
+    var yArr2 = [];
+    for (var key2 in data2){
+        var range2 = data2[key2];
+        for (i = 0; i < range2; i++){
+            yArr2.push(data2[key2]);
+            xArr2.push(parseInt(key2));
+        }
+        }
+    var d2 = [];
+    d2.x = xArr2;
+    d2.y = yArr2;
+        
+        
+        var binwidth = parseInt(d3.select("#binwidth").node().value);
+        xScale.domain([0, 250]);
+
+        
+        hist = d3.layout.histogram()
+        .bins(d3.range(xScale.domain()[0], xScale.domain()[1]+binwidth, binwidth))
+        (d.x);
+
+        xBinwidth = width / hist.length -1;
+        
+        
+        //histogram2
+        var binwidth2 = parseInt(d3.select("#binwidth").node().value);
+        
+        hist2 = d3.layout.histogram()
+        .bins(d3.range(xScale.domain()[0], xScale.domain()[1]+binwidth2, binwidth2))
+        (d2.x);
+        
+        xBinwidth2 = width / hist2.length -1;
+        
+        //close
+        
+        hist1max = d3.max(hist, function(d) { return d.y; })
+        hist2max = d3.max(hist2, function(d2) { return d2.y; })
+        maxy = Math.max(hist1max,hist2max)
+        yScale.domain([0, maxy])
+
+
+        svg.selectAll(".bar")
+        .data(hist)
+        .enter().append("rect")
+        .attr("class", "bar")
+        .attr("width", function(d) { return xBinwidth})
+        .attr("height", function(d) { return height- yScale(d.y)-1; })
+        .attr("x", function(d) {return xScale(d.x)})
+        .attr("y", function(d) {return yScale(d.y)});
+        
+        svg.selectAll(".text")
+        .data(hist)
+        .enter()
+        .append("text")
+        .attr("class", "text")
+        .attr("x", function(d) {return xScale(d.x + binwidth/2)})
+        .attr("y", function(d) {return yScale(d.y) + 14})
+        .attr("text-anchor", "middle")
+        .text(function(d) { return d.y; });
+        
+        svg.append("text")
+        .attr("class", "x label")
+        .attr("text-anchor", "middle")
+        .attr("x", width/2)
+        .attr("y", height + margin.bottom-3)
+        .text("Number of Establishments");
+        
+        
+        
+        //histogram2
+
+        
+        svg.selectAll(".bar2")
+        .data(hist2)
+        .enter().append("rect")
+        .attr("class", "bar2")
+        .attr("width", function(d2) { return xBinwidth2})
+        .attr("height", function(d2) { return height- yScale(d2.y)-1; })
+        .attr("x", function(d2) {return xScale(d2.x)})
+        .attr("y", function(d2) {return yScale(d2.y)});
+        
+        svg.selectAll(".text")
+        .data(hist2)
+        .enter()
+        .append("text")
+        .attr("class", "text")
+        .attr("x", function(d2) {return xScale(d2.x + binwidth2/2)})
+        .attr("y", function(d2) {return yScale(d2.y) + 14})
+        .attr("text-anchor", "middle")
+        .text(function(d2) { return d2.y; });
+        
+
+        
+        d3.selectAll("#binwidth").on("change", update);
+
+        
+        // draw the x axis
+        svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+        
+        // draw the x axis
+        svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+        
+        
+        // Get the data
+        var avgData;
+        var avg_all, avg_drug, diff, r1, r2;
+        
+        //Make an SVG Container
+        var svgContainer = d3.select("body").append("svg")
+        .attr("width", 1000)
+        .attr("height", 1000)
+        .attr("orient", "middle");
+        
+        var circ = 1;
+        if( circ ==  1) {
+        d3.json("average.json", function(error, allData2) {
+                var radius = "2.0";
+                avgData = allData2;
+                avg_all = allData2[radius]["avg_all"];
+                avg_drug = allData2[radius]["avg_drug"];
+                diff = allData2[radius]["diff"]*10;
+                r1 = (avg_all / 8) + 150;
+                r2 = (avg_drug / 8) + 150;
+                
+                
+                //Draw the Circle
+                var circle = svgContainer.append("circle")
+                .attr("cx", 500)
+                .attr("cy", 250)
+                .attr("r", r1)
+                .attr("fill", "steelblue")
+                .attr("opacity", "0.5");
+                
+                var circle2 = svgContainer.append("circle")
+                .attr("cx", 500)
+                .attr("cy", 250)
+                .attr("r", r2 + diff)
+                .attr("fill", "green")
+                .attr("opacity", "0.5");
+                
+                
+                });
+        }
+        
+        
+        
+        
+        //update function
+        
+        function update() {
+        
+        
+        binwidth = parseInt(d3.select("#binwidth").node().value);
+        binwidth2 = parseInt(d3.select("#binwidth").node().value);
+
+
+        xScale.domain([0, radius*12])  //same for both
+        
+        hist = d3.layout.histogram()
+        .bins(d3.range(xScale.domain()[0], xScale.domain()[1]+binwidth, binwidth))
+        (d.x);
+        
+        hist2 = d3.layout.histogram()
+        .bins(d3.range(xScale.domain()[0], xScale.domain()[1]+binwidth2, binwidth2))
+        (d2.x);
+        
+        hist1max = d3.max(hist, function(d) { return d.y; })
+        hist2max = d3.max(hist2, function(d2) { return d2.y; })
+        maxy = Math.max(hist1max,hist2max)
+        yScale.domain([0, maxy]);
+
+        xBinwidth =  width / hist.length -1
+        xBinwidth2 =  width / hist2.length -1
+
+        
+        svg.selectAll(".bar").data(hist)
+        .enter().append("rect")
+        .attr("class", "bar");
+        
+        svg.selectAll(".bar2").data(hist2)
+        .enter().append("rect")
+        .attr("class", "bar2");
+        
+        svg.selectAll(".bar").data(hist)
+        .attr("height", function(d) { return height- yScale(d.y)-1; })
+        .attr("width", function(d) { return xBinwidth; })
+        .attr("x", function(d) {return xScale(d.x)})
+        .attr("y", function(d) {return yScale(d.y)})
+        .attr("text-anchor", "middle")
+        .text(function(d) { return d.y; });
+        
+        svg.selectAll(".bar2").data(hist2)
+        .attr("height", function(d2) { return height- yScale(d2.y)-1; })
+        .attr("width", function(d2) { return xBinwidth2; })
+        .attr("x", function(d2) {return xScale(d2.x)})
+        .attr("y", function(d2) {return yScale(d2.y)})
+        .attr("text-anchor", "middle")
+        .text(function(d2) { return d2.y; });
+
+        svg.selectAll(".bar").data(hist).exit()
+        .remove();
+        
+        svg.selectAll(".bar2").data(hist).exit()
+        .remove();
+        
+        if (binwidth > 10) {
+        
+        svg.selectAll(".text").data(hist)
+        .enter().append("text")
+        .attr("class", "text")
+        .attr("text-anchor", "middle");
+        
+        svg.selectAll(".text2").data(hist2)
+        .enter().append("text2")
+        .attr("class", "text2")
+        .attr("text-anchor", "middle");
+        
+        svg.selectAll(".text").data(hist)
+        .attr("x", function(d) {return xScale(d.x + binwidth/2)})
+        .attr("y", function(d) {return yScale(d.y) + 14 })
+        .text(function(d) { return d.y; })
+        
+        svg.selectAll(".text").data(hist2)
+        .attr("x", function(d2) {return xScale(d2.x + binwidth2/2)})
+        .attr("y", function(d2) {return yScale(d2.y) + 14 })
+        .text(function(d2) { return d2.y; })
+        
+        svg.selectAll(".text").data(hist).exit()
+        .remove();
+        
+        
+        svg.selectAll(".text").data(hist2).exit()
+        .remove();
+        }
+        
+        else {
+        svg.selectAll(".text").data(hist).remove()
+        svg.selectAll(".text").data(hist2).remove();
+
+        }
+        
+        
+        d3.select(".y.axis").call(yAxis);
+        d3.select(".x.axis").call(xAxis);
+
+        
+        svgContainer.selectAll("circle").remove();
+        
+        circle = svgContainer.append("circle")
+        .attr("cx", 500)
+        .attr("cy", 250)
+        .attr("r", r1)
+        .attr("fill", "steelblue")
+        .attr("opacity", "0.5");
+        
+        circle2 = svgContainer.append("circle")
+        .attr("cx", 500)
+        .attr("cy", 250)
+        .attr("r", r2 + diff)
+        .attr("fill", "green")
+        .attr("opacity", "0.5");
+        
+        
+        }
+        
+        
+        //slider
+        
+        d3.select('#slider1')
+        .call(d3.slider()
+              .value(2.0)
+              .axis(true)
+              .min(0.1)
+              .max(4.9)
+              .step(0.1)
+              .on("slide", function(evt, value){
+                  radius = value*10;
+                  data = allData[radius]["all"];
+                  xArr = [];
+                  yArr = [];
+                  for (var key in data){
+                    var range = data[key]/21.5;
+                    for (i = 0; i < range; i++){
+                        yArr.push(data[key]);
+                        xArr.push(parseInt(key));
+                        }
+                    }
+                    d = [];
+                    d.x = xArr;
+                    d.y = yArr;
+                  
+                  
+                  data2 = allData[radius]["drug"];
+                  xArr2 = [];
+                  yArr2 = [];
+                  for (var key2 in data2){
+                    var range2 = data2[key2];
+                    for (i = 0; i < range2; i++){
+                        yArr2.push(data2[key2]);
+                        xArr2.push(parseInt(key2));
+                        }
+                    }
+                  d2 = [];
+                  d2.x = xArr2;
+                  d2.y = yArr2;
+                  
+                  radius2 = value;
+                  avg_all = avgData[radius2]["avg_all"];
+                  avg_drug = avgData[radius2]["avg_drug"];
+                  diff = avgData[radius2]["diff"] *10;
+                  r1 = (avg_all / 8) + 150;
+                  r2 = (avg_drug / 8) + 150;
+                  
+                  update();
+
+                  }));
+  
+
+
+        });
+
+
+
+
+</script>
+    <div class="wrapper">
+    <div id="slider1"></div>
+
+    </div>
+
+
+
+
+
+
+</body>
+
+
+
+
+
+
+
+
+
+
