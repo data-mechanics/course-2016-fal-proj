@@ -11,13 +11,22 @@ from bson.code import Code
 class scoreLocations(dml.Algorithm):
     contributor = 'aliyevaa_bsowens_dwangus_jgtsui'
 
+    #oldSetExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
+    #                 'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools','parking', \
+    #                 'libraries']
+    #oldTitles = ['Crime Incident Reports (July 2012 - August 2015) (Source: Legacy System)', \
+    #          'Public Access Fishing Locations', 'Issued Moving Truck Permits', 'Active Food Establishment Licenses', \
+    #          'Entertainment Licenses', 'Community Supported Agriculture (CSA) Pickups ', 'Year-Round Swimming Pools', \
+    #          'Parking Lots', 'Public Libraries']
+    
+    #Forgot to include 'entertainment_licenses_no_restaurants' dataset -- 'Distinct Entertainment Licenses (without restaurants)' title
     oldSetExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
-                     'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools','parking', \
+                     'food_licenses', 'entertainment_licenses_no_restaurants', 'csa_pickups', 'year_round_pools','parking', \
                      'libraries']
     oldTitles = ['Crime Incident Reports (July 2012 - August 2015) (Source: Legacy System)', \
-              'Public Access Fishing Locations', 'Issued Moving Truck Permits', 'Active Food Establishment Licenses', \
-              'Entertainment Licenses', 'Community Supported Agriculture (CSA) Pickups ', 'Year-Round Swimming Pools', \
-              'Parking Lots', 'Public Libraries']
+                 'Public Access Fishing Locations', 'Issued Moving Truck Permits', 'Active Food Establishment Licenses', \
+                 'Distinct Entertainment Licenses (without restaurants)', 'Community Supported Agriculture (CSA) Pickups ', \
+                 'Year-Round Swimming Pools', 'Parking Lots', 'Public Libraries']
     
     titles = ['Community Indicators Location and Score']
     setExtensions = ['community_indicators']
@@ -47,53 +56,72 @@ class scoreLocations(dml.Algorithm):
         indicatorsColl = myrepo[newName]
         repo.dropPermanent(newName)
         repo.createPermanent(newName)
+        
+        #communityIndicators = ['public_fishing_access_locations','csa_pickups','year_round_pools','libraries']#No year round pools!
+        communityIndicators = ['public_fishing_access_locations','csa_pickups','libraries']
+        anti_communityIndicators = ['food_licenses', 'entertainment_licenses_no_restaurants','parking']
 
         pos_count = 0
         neg_count = 0
-        ratio = 198/1858 # ratio is pos/neg counts
+        #ratio = 198/1858 # ratio is pos/neg counts # --> Man, don't hardcode values!
+        
+        for key in scoreLocations.oldSetExtensions:
+            print("Counting {} dataset.".format(key))
+            tempBefore = pos_count + neg_count
+            countingSet = myrepo[key]
+            if key in communityIndicators:
+                for doc in countingSet.find(modifiers={"$snapshot": True}):
+                    if 'location' in doc.keys():
+                        pos_count += 1
+            elif key in anti_communityIndicators:
+                for doc in countingSet.find(modifiers={"$snapshot": True}):
+                    if 'location' in doc.keys():
+                        neg_count += 1
+            print("Difference in counted entries vs. size of {} dataset: {} vs. {}".format(key, pos_count+neg_count-tempBefore, countingSet.count()))
+        
+        posRatio = neg_count/pos_count if pos_count > neg_count else 1
+        negRatio = pos_count/neg_count if neg_count > pos_count else 1
+        print("Finished counting all positive and negative indicators: + {}, - {}".format(pos_count, neg_count))
+        print("Positive factor-weight: {}, Negative factor-weight: {}".format(posRatio, negRatio))
+        
         for key in scoreLocations.oldSetExtensions:
             begin = time.time()
-
             newSet = myrepo[key]
-
-            communityIndicators = ['public_fishing_access_locations','csa_pickups','year_round_pools','libraries']
-            anti_communityIndicators = ['food_licenses', 'entertainment_licenses','parking']
 
             print("Generating from old {} dataset...".format(key))
             if key in communityIndicators:
                 i = 0
                 for doc in newSet.find(modifiers={"$snapshot": True}):
-                    if (i%100 == 0):
+                    if (i%100 == 0) and i > 0:
                         print(i)
                     i += 1
                     if 'location' in doc.keys():
 
                         #get the title of the business, based on common title keys
-
                         if key == 'public_fishing_access_locations':
                             title = doc['name']
                         elif key == 'csa_pickups':
                             title = doc['name']
-                        elif key == 'year_round_pools':
-                            title = doc['business_name']
+                        #elif key == 'year_round_pools':
+                        #    title = doc['business_name']
                         elif key == 'libraries':
                             title = doc['name']
                         else: title = "unknownName " + i
 
-                        pos_count += 1
                         indicatorsColl.insert({'title': title, 'type':key,
                                              'location': doc['location'],
-                                            'community_score': 1})
+                                            'community_score': 1*posRatio})
 
             elif key in anti_communityIndicators:
                 i = 0
                 for doc in newSet.find(modifiers={"$snapshot": True}):
-                    if (i % 100 == 0):
+                    if (i % 100 == 0) and i > 0:
                         print(i)
                     i += 1
                     if 'location' in doc.keys():
                         # get the title of the business, based on common title keys
-                        if key == 'entertainment_licenses':
+                        if key == 'entertainment_licenses_no_restaurants':
+                        #if key == 'entertainment_licenses':
                             title = doc['dbaname']
                         elif key == 'food_licenses':
                             title = doc['businessname']
@@ -101,11 +129,11 @@ class scoreLocations(dml.Algorithm):
                             title = doc['name']
                         else: title = 'unknownName ' + i
 
-                        neg_count += 1
                         # note: s
                         indicatorsColl.insert({'id': doc['_id'], 'title': title, 'type': key,
                                                     'location': doc['location'],
-                                               'community_score': -1*ratio})
+                                               'community_score': -1*negRatio})
+                        
             print("Processing {} took {} seconds.\n".format(key, time.time() - begin))
 
         repo.logout()
@@ -154,8 +182,13 @@ class scoreLocations(dml.Algorithm):
 
         return doc
 
-scoreLocations.execute()
-doc = scoreLocations.provenance()
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#scoreLocations.execute()
+#doc = scoreLocations.provenance()
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
+
+def main():
+    print("Executing: scoreLocations.py")
+    scoreLocations.execute()
+    doc = scoreLocations.provenance()
 
 ## eof

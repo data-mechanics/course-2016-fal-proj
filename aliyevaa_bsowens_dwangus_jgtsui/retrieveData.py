@@ -35,7 +35,11 @@ class retrieveData(dml.Algorithm):
     setExtensions = ['crime2012_2015', 'public_fishing_access_locations', 'moving_truck_permits', \
                      'food_licenses', 'entertainment_licenses', 'csa_pickups', 'year_round_pools']
 
+    with open('auth.json') as data_file:
+        auth = json.load(data_file)
+
     authentication_stuff = '?$$app_token=%s' % dml.auth['services']['cityOfBostonDataPortal']['token']
+   # authentication_stuff = '?$$app_token=%s' % auth['services']['cityOfBostonDataPortal']['token']
 
 
     writes = ['aliyevaa_bsowens_dwangus_jgtsui.' + dataSet for dataSet in setExtensions]
@@ -204,9 +208,14 @@ class retrieveData(dml.Algorithm):
 
         return doc
 
-retrieveData.execute()
-doc = retrieveData.provenance()
+#retrieveData.execute()
+#doc = retrieveData.provenance()
 #print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
+
+def main():
+    print("Executing: retrieveData.py")
+    retrieveData.execute()
+    doc = retrieveData.provenance()
 
 ## eof
