@@ -1,0 +1,254 @@
+{% extends "page.html" %}
+
+{% block title %}Analysis of car accidents in Boston{% endblock %}
+
+{% block pagecontent %}
+  <section class="title">
+    <div class="row">
+      <h1>Analyzing car accidents in Boston, MA</h1>
+      <p>Project by Ivan Uvarov (uvarovis@bu.edu) and Stephanie Chiao (schiao@bu.edu)</p>
+    </div>
+  </section>
+  <section class="description">
+    <div class="row">
+      <h2>Introduction</h2>
+      <p>Our goal in this project was to use the City of Boston’s data to find a relationship between car accidents and other factors. Our first step was to find areas where car accidents are most common. Then we found a correlation between street lights, traffic signals, MBTA stops, and car accident locations. We can use this data to find ways to decrease the number of car accidents throughout Boston.</p>
+      <h2>Data Sets</h2>
+      <ol>
+        <li><a href="http://services.massdot.state.ma.us/crashportal/" target="_blank">Car Accidents (MassDOT)</a>  &mdash; contains information about all registered car accidents in 2013: their location, type of crash, weather information etc. Dataset is 3 years old, but it shouldn’t affect the results because locations of street lights and traffic signals don’t change very often.</li>
+        <li><a href="http://bostonopendata.boston.opendata.arcgis.com/datasets/de08c6fe69c942509089e6db98c716a3_10" target="_blank">Traffic Signals (Boston Open Data)</a> &mdash; contains locations of traffic signals in Boston.</li>
+        <li><a href="http://bostonopendata.boston.opendata.arcgis.com/datasets/f953f854b672496fb0aa18ad92278f07_5" target="_blank">Transportation Districts (Boston Open Data)</a> &mdash; contains coordinates of all 6 transportation districts in Boston.</li>
+        <li><a href="http://bostonopendata.boston.opendata.arcgis.com/datasets/f1a43ad3c46b4ac89b74cdaba393ccac_4" target="_blank">MBTA Bus Stops (Boston Open Data)</a> &mdash; contains locations of MBTA bus stops in Boston.</li>
+        <li><a href="https://data.cityofboston.gov/Facilities/Streetlight-Locations/7hu5-gg2y/data" target="_blank">Streetlight Locations (City Of Boston Data)</a> &mdash; contains locations of traffic signals in Boston.</li>
+      </ol>
+      <h2>Transformations (part 1)</h2>
+      <ol>
+        <li><b>analyze_car_accidents.py</b> &mdash; analyzes car accidents by finding number of streetlights, traffic lights and mbta stops near every accident.</li>
+        <li><b>analyze_mbta_stops.py</b> &mdash; analyzes mbta stops by finding number of streetlights, traffic lights and car accidents near every accident.</li>
+        <li><b>combine_data_by_districts.py</b> &mdash; counts number of traffic signals, streetlights, car accidents and mbta stops in different transportation regions.</li>
+      </ol>
+      <h2>Statistical Analysis (part 2)</h2>
+      <p>For this part of the project, we decided to implement k-means clustering algorithm and compute p-value.</p>
+      <p>There're 2 files that perform mentioned algorithms:</p>
+      <ol>
+        <li><b>kmeans.py</b> &mdash; runs kmeans algorithms on given input (using functions mentioned in class).</li>
+        <li><b>pval.py</b> &mdash; finds p-value for a given dataset (using functions mentioned in class).</li>
+      </ol>
+      <p>Actual data analysis is done in the following files:</p>
+      <ol>
+        <li><b>lights_accidents_correlation.py</b> &mdash; we wanted to find if there's any correlation between number of street lights and number of car accidents. We used transportation regions that we obtained previously and calculated the p-value. At the moment, it's not super interesting because there're only 6 transportation districts. Later, we might split data on zip codes, so we have more data points to analyze.</li>
+        <li><b>accident_clusters.py</b> &mdash; in this script we found 2 clusters for car accidents using k-means algorithms. This data can be used to find places where more traffic control needed.</li>
+      </ol>
+      <p><b>(NOTE)</b> We did not use most of the data obtained in these 2 transformations due to the lack of interesting data that we could obtain from it.</p>
+      <h2>Web Service (part 3)</h2>
+      <p>This website is implemented using Python with Flask, MongoDB, and Chart.js. We have one API implementation and 3 data visualizations.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="row">
+      <h2>Results</h2>
+      <p>We implemented a wide range of algorithms to analyze the data we have, but not all of them gave us useful results. In this section we decided to show only interesting data that we obtained.</p>
+    </div>
+  </section>
+
+  <section class="search-for-area">
+    <div class="row">
+      <h3>Area Information Lookup</h3>
+      <p>We implemented a simple service where you can enter coordinates of an area and find information about it:</p>
+
+      <p>Examples:</p>
+      <ul>
+        <li><a href="/area-information/?x=-71.16620880350536&y=42.2821864513474">(-71.16620880350536, 42.2821864513474)</a></li>
+        <li><a href="/area-information/?x=-71.1203446404382&y=42.24583553277904">(-71.1203446404382, 42.24583553277904)</a></li>
+      </ul>
+
+      <form class="check-coordinates" action="/area-information" method="GET">
+        <p>Enter coordinates:</p>
+        <input type="number" name="x" placeholder="x">
+        <input type="number" name="y" placeholder="y">
+        <input type="submit" value="check">
+      </form>
+    </div>
+  </section>
+
+  <section class="street-lights-analysis">
+    <div class="row">
+      <h3>Streetlights and Car Accidents</h3>
+      <p>We grouped car accidents by the number of streetlights that were present near the accident. We can see that there's a strong correlation between number of streetlights and number of car accidents.</p>
+      <!-- bar chart canvas element -->
+      <canvas id="sl-chart"></canvas>
+    </div>
+  </section>
+
+  <section class="traffic-signals-analysis">
+    <div class="row">
+      <h3>Traffic Signals and Car Accidents</h3>
+      <p>Similar to streetlights, we grouped car accidents by the number of traffic signals that were present near the accident. We can see that there's a strong correlation between number of traffic signals and number of car accidents.</p>
+      <!-- bar chart canvas element -->
+      <canvas id="ts-chart"></canvas>
+    </div>
+  </section>
+
+  <section class="transportation-districts-analysis">
+    <div class="row">
+      <h3>Transportation Districts</h3>
+      <p>We grouped all of our data by transportation districts (there are 6 of them in Boston) to get an overview of all information available to us (street light counts are divided by 20).</p>
+      <p>You can click on district labels to show or hide certain districts.</p>
+      <!-- bar chart canvas element -->
+      <canvas id="td-chart"></canvas>
+    </div>
+  </section>
+
+  <section>
+    <div class="row">
+      <h2>Future Work</h2>
+      <p>We know that results that we obtained can be inaccurate since there are other factors influencing the number of car accidents. If were to continue to work on this project, we would focus on finding some extra data points to use on our analysis.</p>
+      <p>Additionally, we would take into acccount other information about car accidents that we have in our dataset: weather information, time of the accident, cars involved etc.</p>
+    </div>
+  </section>
+
+  <script>
+    // ----------------------------------
+    // Building street lights bar chart
+    var slBarData = {
+      labels: [
+        {% for item in sl["labels"] %}
+          "{{ item }}",
+        {% endfor %}
+      ],
+      datasets: [
+        {
+          label: "Street Lights",
+          borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)'
+          ],
+          borderWidth: 1,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)'
+          ],
+          data: [
+            {% for item in sl["values"] %}
+              {{ item }},
+            {% endfor %}
+          ]
+        }
+      ]
+    };
+    var slchart = document.getElementById("sl-chart").getContext("2d");
+    var slChart = new Chart(slchart, {
+      type: "bar",
+      data: slBarData
+    });
+
+
+    // ----------------------------------
+    // Building traffic signals bar chart
+    var tsBarData = {
+      labels: [
+        {% for item in ts["labels"] %}
+          "{{ item }}",
+        {% endfor %}
+      ],
+      datasets: [
+        {
+          label: "Traffic Signals",
+          borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          data: [
+            {% for item in ts["values"] %}
+              {{ item }},
+            {% endfor %}
+          ]
+        }
+      ]
+    };
+    var tschart = document.getElementById("ts-chart").getContext("2d");
+    var tsChart = new Chart(tschart, {
+      type: "bar",
+      data: tsBarData
+    });
+
+
+    // ----------------------------------
+    // Building transportation districts bar chart
+    bgColors = [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(255, 206, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(255, 159, 64, 0.2)'
+    ];
+
+    borderColors = [
+      'rgba(255,99,132,1)',
+      'rgba(54, 162, 235, 1)',
+      'rgba(255, 206, 86, 1)',
+      'rgba(75, 192, 192, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(255, 159, 64, 1)'
+    ];
+
+    var tdBarData = {
+      labels: [
+        "Accidents", "Traffic Signals", "MBTA Stops", "Street Lights (divided by 20)"
+      ],
+      datasets: [
+        {% for item in td %}
+          {
+            label: "District {{ item['id'] }}",
+            backgroundColor: bgColors[parseInt({{ item['id'] }}) - 1],
+            borderColor: borderColors[parseInt({{ item['id'] }}) - 1],
+            data: [
+              {{ item["num_accidents"] }},
+              {{ item["num_signals"] }},
+              {{ item["num_mbta"] }},
+              {{ item["num_lights"] }} / 20
+            ]
+          },
+        {% endfor %}
+      ]
+    };
+
+    var tdchart = document.getElementById("td-chart").getContext("2d");
+    var tdChart = new Chart(tdchart, {
+      type: "radar",
+      data: tdBarData
+    });
+
+  </script>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "page.html" %}
+
+{% block title %}Area Information{% endblock %}
+
+{% block pagecontent %}
+  <section>
+    <div class="row">
+      <p><a href="/">&#8592; back</a></p>
+      <h1>Area Information</h1>
+      <p>X: {{ x }}</p>
+      <p>Y: {{ y }}</p>
+      <p>Street lights: {{ info.num_lights }}</p>
+      <p>Traffic signals: {{ info.num_signals }}</p>
+      <p>MBTA stops: {{ info.num_mbta }}</p>
+      <form class="check-coordinates" action="/area-information" method="GET">
+        <p>Enter coordinates:</p>
+        <input type="number" name="x" placeholder="x">
+        <input type="number" name="y" placeholder="y">
+        <input type="submit" value="check">
+      </form>
+    </div>
+  </section>
+{% endblock %}
