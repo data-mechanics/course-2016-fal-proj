@@ -1,0 +1,78 @@
+<!-- 
+Created By: Jennifer Tsui
+Based off of: https://plot.ly/javascript/3d-scatter-plots/ (thanks!!)
+12/15/16
+-->
+
+<html>
+<head>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+	<h1 style="font-family:verdana;text-align:center;">Community Score vs. Crime Score vs. Property Score</h1>
+	<div id="myDiv" style="width:1200px;height:500px;">
+		<script>
+			//Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/3d-scatter.csv', function(err, rows){
+			Plotly.d3.csv('https://raw.githubusercontent.com/dwangus/course-2016-fal-proj/master/aliyevaa_bsowens_dwangus_jgtsui/communityScatter.csv', function(err, rows){
+			function unpack(rows, key) {
+				return rows.map(function(row)
+				{ return row[key]; });}
+
+			var community = { // community is blue; corresponds to trace 1
+				x:unpack(rows, 'x1'), y: unpack(rows, 'y1'), z: unpack(rows, 'z1'),
+				mode: 'markers',
+				marker: {
+					size: 3,
+					line: {
+					color: 'rgba(217, 217, 217, 0.14)',
+					width: 0.5},
+					opacity: 0.8},
+				name: 'Community',
+				type: 'scatter3d'
+			};
+
+			var property = { // property is green; corresponds to trace 2
+				x:unpack(rows, 'x2'), y: unpack(rows, 'y2'), z: unpack(rows, 'z2'),
+				mode: 'markers',
+				marker: {
+					color: 'rgb(140, 242, 152)',
+					size: 3,
+					symbol: 'circle',
+					line: {
+					color: 'rgb(204, 204, 204)',
+					width: 1},
+					opacity: 0.8},
+				name: 'Property',
+				type: 'scatter3d'
+			};
+
+			var crimes = {  // crimes are purple; corresponds to trace 3
+				x:unpack(rows, 'x3'), y: unpack(rows, 'y3'), z: unpack(rows, 'z3'),
+				mode: 'markers',
+				marker: {
+					color: 'rgb(192, 165, 255)',
+					size: 3,
+					symbol: 'circle',
+					line: {
+					color: 'rgba(217, 217, 217, 0.14)',
+					width: 1},
+					opacity: 0.8},
+				name: 'Crimes',
+				type: 'scatter3d'
+			};
+
+			var data = [community, property, crimes];
+			var layout = {margin: {
+				l: 0,
+				r: 0,
+				b: 0,
+				t: 0
+			  }};
+
+			Plotly.newPlot('myDiv', data, layout);
+			});
+		</script>
+	</div>
+
+</body>
+</html>

@@ -44,6 +44,7 @@ class cleanup(dml.Algorithm):
 				del item['_id']
 				lic.append(item)		
 
+		print("Num entries before dropping Entertainment Licenses table: {}".format(mrepo.aliyevaa_bsowens_dwangus_jgtsui.entertainment_licenses.count()))
 		mrepo.dropPermanent("entertainment_licenses")
 		mrepo.createPermanent("entertainment_licenses")
 		#print(lic)
@@ -52,7 +53,7 @@ class cleanup(dml.Algorithm):
 
 	
 		mrepo['aliyevaa_bsowens_dwangus_jgtsui.entertainment_licenses'].insert_many(r)
-
+		print("Num entries after re-inserting Entertainment Licenses table: {}".format(mrepo.aliyevaa_bsowens_dwangus_jgtsui.entertainment_licenses.count()))
 		
 		mrepo.logout()
 		endTime = datetime.datetime.now()
@@ -86,7 +87,12 @@ class cleanup(dml.Algorithm):
 
 		return
 
-cleanup.execute()
-doc = cleanup.provenance()
-print(doc.get_provn())
-print(json.dumps(json.loads(doc.serialize()), indent=4))
+#cleanup.execute()
+#doc = cleanup.provenance()
+#print(doc.get_provn())
+#print(json.dumps(json.loads(doc.serialize()), indent=4))
+
+def main():
+        print("Executing: cleanup.py")
+        cleanup.execute()
+        doc = cleanup.provenance()
