@@ -9,7 +9,7 @@ import math
 
 class getNeighborhoodScores(dml.Algorithm):
     contributor = 'jyaang_robinliu106'
-    reads = []
+    reads = ['jyaang_robinliu106.hospital', 'jyaang_robinliu106.school', 'jyaang_robinliu106.dayCamp', 'jyaang_robinliu106.crime', 'jyaang_robinliu106.property']
     writes = ['jyaang_robinliu106.hospital_coord', 'jyaang_robinliu106.school_coord', 'jyaang_robinliu106.DayCamp_coord', 'jyaang_robinliu106.neighborhood_scores']
 
     @staticmethod
@@ -30,6 +30,10 @@ class getNeighborhoodScores(dml.Algorithm):
             c = entry['coord']
             Hospital_coord.append([n,c])
             # Ex. [ "Lemuel Shattuck Hospital", [ "42.30025000839615", "-71.10737910445549" ] ]
+
+        ### DEMO DEMO DEMO
+        json.dump(Hospital_coord, open('hospital.json', 'w'))
+
 
         School_coord = []
         School_cursor = repo['jyaang_robinliu106.school'].find()
@@ -61,7 +65,14 @@ class getNeighborhoodScores(dml.Algorithm):
         #repo.createPermanent("crime_coord")
         #repo["jyaang_robinliu106.crime_coord"].insert(Crime_coord)
 
-
+        Property_coord = []
+        Property_cursor = repo['jyaang_robinliu106.property'].find()
+        for entry in Property_cursor:
+            n = entry['LU']
+            c = entry['coord']
+            v = entry['value']
+            Property_coord.append([n,c,v])
+            #print(Property_coord)
 
         neighborhoods = [
         ['Allston', [42.3539, -71.1337]],
@@ -100,6 +111,7 @@ class getNeighborhoodScores(dml.Algorithm):
 
         def deg2rad(deg):
           return deg * (math.pi/180)
+
         # Optimizing distance by min (optimization problem)
         def minHospital(category):
             if (trial):
@@ -139,24 +151,51 @@ class getNeighborhoodScores(dml.Algorithm):
 
             return countPerCity
 
+        def propCalc(data):
+            if (trial):
+                data = data[:5]
+
+            countPerCity = [0] * len(neighborhoods)
+            threshold = 3
+
+            for i in range(len(neighborhoods)):
+                calc = 0
+                count = 0
+
+                for t in range(len(data)):
+                    currentDistance = getDistance(neighborhoods[i][1][0], neighborhoods[i][1][1], float(data[t][1][0]), float(data[t][1][1]))
+                    if currentDistance < threshold: # the property is within 3km radius
+                        calc += int(data[t][-1])
+                        count += 1
+                        countPerCity[i] = [neighborhoods[i], calc]
+                if calc == 0:
+                    countPerCity[i] = [neighborhoods[i], calc]
+                countPerCity[i] = [neighborhoods[i], calc//count]
+                # divide total value of all nearby residence properties by the number of nearby residence properties
+            return countPerCity
+
         #count of each category per neighborhood
         crime_Count = countCategory(Crime_coord)
         hospital_Count = minHospital(Hospital_coord)
+        #print(hospital_Count)
         school_Count = countCategory(School_coord)
+        prop_Count = propCalc(Property_coord)
+        #print(prop_Count)
 
 
         result = [[x for x in range(2)] for y in range(len(neighborhoods))]
 
         a = []
-        # Scoring algorithm 
+        # Scoring algorithm
         for i in range(len(neighborhoods)):
             result[i][0] = neighborhoods[i][0]
 
             # Calculate score
             result[i][1] = hospital_Count[i][-1] * 0.25
-            result[i][1] += school_Count[i][-1] * 0.5
-            result[i][1] -= (crime_Count[i][-1] / 10000) * 0.25
-            a.append({'neighborhood' : result[i][0], 'score': result[i][1]})
+            result[i][1] += school_Count[i][-1] * 0.25
+            result[i][1] -= crime_Count[i][-1] * 0.25
+            result[i][1] -= prop_Count[i][-1] * 0.25
+            a.append({'neighborhood' : result[i][0], 'hosptial_count': hospital_Count[i][-1], 'school_count': school_Count[i][-1], 'crime_rate': crime_Count[i][-1], 'property_value': prop_Count[i][-1], 'score': ((-1)/result[i][1]) * 1000000})
 
 
         repo.dropPermanent("neighborhood_scores")
@@ -202,7 +241,7 @@ class getNeighborhoodScores(dml.Algorithm):
         return doc
 
 
-getNeighborhoodScores.execute(trial=True)
+getNeighborhoodScores.execute(trial=False)
 doc = getNeighborhoodScores.provenance()
 print(doc.get_provn())
 print(json.dumps(json.loads(doc.serialize()), indent=4))
