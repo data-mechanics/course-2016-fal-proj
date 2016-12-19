@@ -27,8 +27,8 @@ class convertToGeo(dml.Algorithm):
 
         #Set up geojson format
         def crimeGeoJason(crimeData):
-            type = crimeData['location_2']['type']
-            geometryType = crimeData['location_2']['type']
+            type = crimeData['location']['type']
+            geometryType = crimeData['location']['type']
             longitude = crimeData['long']
             latitude = crimeData['lat']
             police_district = crimeData['district']
@@ -139,9 +139,9 @@ class convertToGeo(dml.Algorithm):
                 rowId = row['_id']
     
                 if (collection == repo.arjunlam.crime):
-                    if ('location_2' in row) and ('district' in row): #check if the fields exists
+                    if ('location' in row) and ('district' in row) and ('long' in row) and ('lat' in row): #check if the fields exists
                         output = crimeGeoJason(row)
-                        collection.update({'_id': rowId}, {'$unset': {'location_2': 1}})
+                        collection.update({'_id': rowId}, {'$unset': {'location': 1}})
                         collection.update({'_id': rowId}, {'$unset': {'lat': 1}})
                         collection.update({'_id': rowId}, {'$unset': {'long': 1}})
                 elif (collection == repo.arjunlam.hotline):

@@ -15,57 +15,80 @@ class collectData(dml.Algorithm):
     def execute(trial = False):
         '''Retrieve some data sets (not using the API here for the sake of simplicity).'''
         startTime = datetime.datetime.now()
-        
+
         # Set up the database connection.
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('arjunlam', 'arjunlam')
 
         #Crime incident report
-        url = 'https://data.cityofboston.gov/resource/29yf-ye7n.json'
+        url = 'https://data.cityofboston.gov/resource/29yf-ye7n.json?$limit=150000&$$app_token=lWIyWqpeAAochCKL22wq3DVpf&$order=occurred_on_date%20DESC'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
         repo.dropPermanent("crime")
         repo.createPermanent("crime")
         repo['arjunlam.crime'].insert_many(r)
 
-        #311 Service requests
-        url = 'https://data.cityofboston.gov/resource/wc8w-nujj.json'
+        #311 Service requests (you can run this but it will take a while to download)
+        url = 'https://data.cityofboston.gov/resource/wc8w-nujj.json?$limit=150000&$$app_token=lWIyWqpeAAochCKL22wq3DVpf&$order=open_dt%20DESC'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
+        
+        url2 = 'https://data.cityofboston.gov/resource/wc8w-nujj.json?$$app_token=lWIyWqpeAAochCKL22wq3DVpf&$order=open_dt%20DESC&$limit=50000&$offset=150000'
+        response2 = urllib.request.urlopen(url2).read().decode("utf-8")
+        r2 = json.loads(response2)
+        
+        url3 = 'https://data.cityofboston.gov/resource/wc8w-nujj.json?$$app_token=lWIyWqpeAAochCKL22wq3DVpf&$order=open_dt%20DESC&$limit=50000&$offset=200000'
+        response3 = urllib.request.urlopen(url3).read().decode("utf-8")
+        r3 = json.loads(response3)
+        
+        url4 = 'https://data.cityofboston.gov/resource/wc8w-nujj.json?$$app_token=lWIyWqpeAAochCKL22wq3DVpf&$order=open_dt%20DESC&$limit=50000&$offset=250000'
+        response4 = urllib.request.urlopen(url4).read().decode("utf-8")
+        r4 = json.loads(response4)
+
+        
+        url5 = 'https://data.cityofboston.gov/resource/wc8w-nujj.json?$$app_token=lWIyWqpeAAochCKL22wq3DVpf&$order=open_dt%20DESC&$limit=50000&$offset=300000'
+        response5 = urllib.request.urlopen(url5).read().decode("utf-8")
+        r5 = json.loads(response5)
+
+        
         repo.dropPermanent("closed311")
         repo.createPermanent("closed311")
         repo['arjunlam.closed311'].insert_many(r)
+        repo['arjunlam.closed311'].insert_many(r2)
+        repo['arjunlam.closed311'].insert_many(r3)
+        repo['arjunlam.closed311'].insert_many(r4)
+        repo['arjunlam.closed311'].insert_many(r5)
+
 
         #Department of development developed property
-        url = 'https://data.cityofboston.gov/resource/k26b-7bmj.json'
+        url = 'https://data.cityofboston.gov/resource/k26b-7bmj.json?$limit=50000'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
+        #s = json.dumps(r, sort_keys=True, indent=2)
         repo.dropPermanent("develop")
         repo.createPermanent("develop")
         repo['arjunlam.develop'].insert_many(r)
         
         #mayor hotline city services
-        url = 'https://data.cityofboston.gov/resource/jbcd-dknd.json'
+        url = 'https://data.cityofboston.gov/resource/jbcd-dknd.json?$limit=50000&$$app_token=lWIyWqpeAAochCKL22wq3DVpf'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
+        #s = json.dumps(r, sort_keys=True, indent=2)
         repo.dropPermanent("hotline")
         repo.createPermanent("hotline")
         repo['arjunlam.hotline'].insert_many(r)
         
-        #Closed potholes cases
-        url = 'https://data.cityofboston.gov/resource/wivc-syw7.json'
+        #Closed potholes cases 17000
+        url = 'https://data.cityofboston.gov/resource/wivc-syw7.json?$limit=50000&$$app_token=lWIyWqpeAAochCKL22wq3DVpf'
         response = urllib.request.urlopen(url).read().decode("utf-8")
         r = json.loads(response)
-        s = json.dumps(r, sort_keys=True, indent=2)
+        #s = json.dumps(r, sort_keys=True, indent=2)
         repo.dropPermanent("potholes")
         repo.createPermanent("potholes")
         repo['arjunlam.potholes'].insert_many(r)
-
+        
+        
         repo.logout()
 
         endTime = datetime.datetime.now()

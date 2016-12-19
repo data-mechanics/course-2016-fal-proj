@@ -5,10 +5,10 @@ import prov.model
 import datetime
 import uuid
 
-class crimePotholes(dml.Algorithm):
+class aggByNeigh(dml.Algorithm):
     contributor = 'arjunlam'
-    reads = ['arjunlam.crime', 'arjunlam.potholes']
-    writes = ['arjunlam.crimePotholes']
+    reads = ['arjunlam.closed311', 'arjunlam.potholes', 'arjunlam.develop']
+    writes = ['arjunlam.aggByNeighData']
 
     @staticmethod
     def execute(trial = False):
@@ -19,41 +19,53 @@ class crimePotholes(dml.Algorithm):
         client = dml.pymongo.MongoClient()
         repo = client.repo
         repo.authenticate('arjunlam', 'arjunlam')
-
-        repo.dropPermanent("crimePotholes")
-        repo.createPermanent("crimePotholes")
+        
+        repo.dropPermanent("aggByNeighData")
+        repo.createPermanent("aggByNeighData")
 
         #Add up crimes/potholes based on zipcode
-        crime = repo.arjunlam.crime
+        closed311 = repo.arjunlam.closed311
         potholes = repo.arjunlam.potholes
-        collectionsArray = [crime, potholes]
+        develop = repo.arjunlam.develop
+        collectionsArray = [closed311, potholes, develop]
         
         
-        numCrimes = {} #store number of crimes per zipcode, the keys are the zipcodes
+        numClosed311 = {} #store number of crimes per zipcode, the keys are the zipcodes
         numPotholes = {}
+        numDevelop = {}
 
         result = []
         for collection in collectionsArray:
             for row in collection.find():
             
-                if (collection == repo.arjunlam.crime):
-                    zip = row['geo_location']['properties']['zipcode']
-                    if zip not in numCrimes:
-                        numCrimes[zip] = 1
+                if (collection == repo.arjunlam.closed311) and ('neighborhood' in row):
+                    n = row['neighborhood']
+                    if n not in numClosed311:
+                        numClosed311[n] = 1
                     else:
-                        numCrimes[zip] += 1
+                        numClosed311[n] += 1
+                elif (collection == repo.arjunlam.develop) and ('neigh' in row):
+                    n = row['neigh']
+                    if n not in numDevelop:
+                        numDevelop[n] = 1
+                    else:
+                        numDevelop[n] += 1
                 else:
-                    zip = row['geo_location']['properties']['zipcode']
-                    if zip not in numPotholes:
-                        numPotholes[zip] = 1
-                    else:
-                        numPotholes[zip] += 1
+                    if ('neighborhood' in row):
+                        n = row['neighborhood']
+                        if n not in numPotholes:
+                            numPotholes[n] = 1
+                        else:
+                            numPotholes[n] += 1
 
-        for zip in numCrimes:
-            if zip in numPotholes:
-                result.append({'zipcode': zip, 'Crime': numCrimes[zip], 'Potholes': numPotholes[zip]})
+        for n in numClosed311:
+            if n in numPotholes:
+                if n not in numDevelop:
+                    result.append({'Neighborhood': n, 'Closed311': numClosed311[n], 'Potholes': numPotholes[n], 'Develop': 0})
+                else:
+                    result.append({'Neighborhood': n, 'Closed311': numClosed311[n], 'Potholes': numPotholes[n], 'Develop': numDevelop[n]})
       
-        repo['arjunlam.crimePotholes'].insert_many(result)
+        repo['arjunlam.aggByNeighData'].insert_many(result)
         
 
         repo.logout()
@@ -81,24 +93,30 @@ class crimePotholes(dml.Algorithm):
         doc.add_namespace('log', 'http://datamechanics.io/log/') # The event log.
         doc.add_namespace('bdp', 'https://data.cityofboston.gov/resource/')
 
-        this_script = doc.agent('alg:arjunlam#crimePotholes', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
+        #Agent
+        this_script = doc.agent('alg:arjunlam#aggByNeighData', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
-        crime_entity = doc.entity('bdp:29yf-ye7n', {'prov:label':'Crime Incident Report', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        #Entity
+        closed311_entity = doc.entity('bdp:29yf-ye7n', {'prov:label':'Closed 311 Requests', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        potholes_entity = doc.entity('bdp:wivc-syw7', {'prov:label':'Closed Pothole Cases', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        develop_entity = doc.entity('bdp:wivc-syw7', {'prov:label':'Boston development properties', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         
-        pothole_entity = doc.entity('bdp:wivc-syw7', {'prov:label':'Closed Pothole Cases', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        #Activity
+        get_aggByNeighData = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         
-        get_crimePotholes = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
+        doc.wasAssociatedWith(get_aggByNeighData, this_script)
         
-        doc.wasAssociatedWith(get_crimePotholes, this_script)
+        doc.usage(get_aggByNeighData, closed311_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(get_aggByNeighData, potholes_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(get_aggByNeighData, develop_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
         
-        doc.usage(get_crimePotholes, crime_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
-        doc.usage(get_crimePotholes, pothole_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
-        
-        crimePotholes = doc.entity('dat:arjunlam#crime', {prov.model.PROV_LABEL:'Crime And Potholes', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(crimePotholes, this_script)
-        doc.wasGeneratedBy(crimePotholes, get_crimePotholes, endTime)
-        doc.wasDerivedFrom(crimePotholes, crime_entity, get_crimePotholes, get_crimePotholes, get_crimePotholes)
-        doc.wasDerivedFrom(crimePotholes, pothole_entity, get_crimePotholes, get_crimePotholes, get_crimePotholes)
+        aggByNeighData = doc.entity('dat:arjunlam#aggByNeighData', {prov.model.PROV_LABEL:'Aggregrate according to neighborhood', prov.model.PROV_TYPE:'ont:DataSet'})
+        doc.wasAttributedTo(aggByNeighData, this_script)
+        doc.wasGeneratedBy(aggByNeighData, get_aggByNeighData, endTime)
+        doc.wasDerivedFrom(aggByNeighData, closed311_entity, get_aggByNeighData, get_aggByNeighData, get_aggByNeighData)
+        doc.wasDerivedFrom(aggByNeighData, potholes_entity, get_aggByNeighData, get_aggByNeighData, get_aggByNeighData)
+        doc.wasDerivedFrom(aggByNeighData, develop_entity, get_aggByNeighData, get_aggByNeighData, get_aggByNeighData)
+
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
@@ -106,8 +124,8 @@ class crimePotholes(dml.Algorithm):
         return doc
 
 
-crimePotholes.execute()
-#doc = crimePotholes.provenance()
+aggByNeigh.execute()
+#doc = aggByNeighData.provenance()
 #print(doc.get_provn())
 #print(json.dumps(json.loads(doc.serialize()), indent=4))
 
