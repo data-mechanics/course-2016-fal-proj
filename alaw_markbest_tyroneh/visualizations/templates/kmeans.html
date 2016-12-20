@@ -12,22 +12,17 @@
 		<div id = "content" style="height: 800px; text-align:center;">
 			<div id="map" style=" float: left; width: 60%; height: 780px; margin: 2%; margin-right: 5px;"></div>
 			<div id = "box" style="float: left;  width: 400px; margin: 2%; margin-left: 5px; font-family: 'Arial',sans-serif; color: #4e74ba" >
-				<h1 id = 'title' style = "color: #e36c09;" >Optimal Bus Allocations</h1>
+				<h1 id = 'title' style = "color: #e36c09;" >Optimal Bus Stops for Route 39</h1>
 				<p style="text-align: left;">
 					<br>
-					The goal of our bus allocation function is to <b>minimize waiting time at each stop</b> and the <b>frustration of buses that “overtake” each other</b>. We calculated a scoring function, which accounts for the <b>average total waiting time at every stop</b> given K buses on that route, and the <b>average inefficiency of a route with K buses</b> determined by the total probability a bus would overtake another. This is minimized by varying the allocation of buses for all routes and calculating the score for K buses allocated for each.
+					The goal of our bus stop optimization function is to correlate <b>bus stop location</b> with <b>urban population density</b> in order to minimize the <b>total distance from all residential areas to the closest bus stop</b>. We projected all residential points within <b>0.5km</b> of a route onto the route, then ran a k-means algorithm to determine optimal stop placement, where the means were the locations of new bus stops.
 					<br><br>
-					Secondly, we also determined the optimal allocation of buses across all routes given a number of buses. The interactive D3 Element to the left is the result.
-					<br> <br>
-					<b>X axis:</b> Allocation of buses / route.
+					The map on the left depicts the result of running the algorithm on <b>Route 39</b> from <b>Forest Hills Station</b> to <b>Back Bay Station</b> via <b>Huntington Ave</b>.
 					<br><br>
-					<b>Y axis:</b> Allocation score determined by the scoring function.
+					<b>Light orange:</b> old bus stops
 					<br><br>
-					<b>Orange points</b> are the optimum scores and allocations for that route (mouse over to see which route).
+					<b>Dark orange:</b> new bus stops
 					<br><br>
-					<b>Blue lines</b> are the score curves for each route.
-					<br><br>
-					Mouse over the number to <b>change the total allocation</b> of buses for all routes
 				</p>
 				<div id='box-bottom' style="margin-top: 30px; width: 400px; font-size: 12px; text-align: left;" >
 					 <a href="/allocation">Go To Bus Allocation Optimization</a>  &nbsp;
