@@ -5,14 +5,24 @@ import prov.model
 import datetime
 import uuid
 import scipy.stats
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.cluster.vq import kmeans2, whiten
+from matplotlib.gridspec import GridSpec
 
 class crimeAnalysis2(dml.Algorithm):
     contributor = 'arjunlam'
-    reads = ['arjunlam.crime311']
-    writes = ['arjunlam.crimeVS311']
+    reads = ['arjunlam.crime', 'arjunlam.closed311']
+    writes = []
     
-    def avg(x): # Average
-        return sum(x)/len(x)
+    
+    def getCoords(collection, x):
+        arr = []
+        for row in collection.find().limit(x):
+            x = row['geo_location']['geometry']['coordinates'][1]
+            y = row['geo_location']['geometry']['coordinates'][0]
+            arr.append((float(x), float(y)))
+        return arr
     
     @staticmethod
     def execute(trial = False):
@@ -24,38 +34,76 @@ class crimeAnalysis2(dml.Algorithm):
         repo = client.repo
         repo.authenticate('arjunlam', 'arjunlam')
 
-        #create new collection
-        repo.dropPermanent("crimeVS311")
-        repo.createPermanent("crimeVS311")
 
-        #crime/potholes dataset
-        crime311 = repo.arjunlam.crime311
-        
-        #crime/311 data is grouped according to zipcode
-        crimeVs311 = [] #store (x, y) pairs where x = # crimes and y = # closed 311 requests
-        
-        result = []
+        #dataset
+        crime = repo.arjunlam.crime
+        closed311 = repo.arjunlam.closed311
+        collectionsArray = [crime, closed311]
+       
+       
+        #longitude = x
+        #latitude = y
         
         x = 0 #gets all the results from find()
         if trial == True:
-            x = 3 #limit to 3 results if trial is True
-            
-        for row in repo.arjunlam.crime311.find().limit(x):
-            #for a given zipcode get # of crimes and # of potholes
-            x = row['Crime']
-            y = row['Closed311']
-            crimeVs311.append((x, y))
+            x = 50000
+         
+        #get coordinates
+        crimeCord  = crimeAnalysis2.getCoords(collectionsArray[0], x)
+        closed311Cord = crimeAnalysis2.getCoords(collectionsArray[1], x)
         
-        #calculate statistics and store in result array
-        x = [xi for (xi, yi) in crimeVs311]
-        y = [yi for (xi, yi) in crimeVs311]
-        p311 = scipy.stats.pearsonr(x, y)
-        avgCrime = crimeAnalysis2.avg(x)
-        avg311 = crimeAnalysis2.avg(y)
-        result.append({'Crime vs Closed311 corr': p311[0], 'Crime Vs Closed311 p-val': p311[1],'Average number of Crimes': avgCrime, 'Average number of 311 Request': avg311})
+        crimeCord = sorted(crimeCord)[15:] #did this because some of the coordinates are (-1, -1)
         
-        repo['arjunlam.crimeVS311'].insert_many(result)
+        #do k means clustering
+        k = 5
+        it = 3000
+        kCentroidsCrime, yCrime = kmeans2(crimeCord, k, iter = it, minit='points') 
+        kCentroids311, y311 = kmeans2(closed311Cord, k, iter = it, minit='points')         
 
+        
+        #plot the centroids  
+        fig = plt.figure()
+        plt.scatter(*zip(*crimeCord)) #plot locations of crimes
+        ll = plt.scatter(*zip(*kCentroidsCrime), c='r', s=50)
+        lh = plt.scatter(*zip(*kCentroids311), c='g', s=50)
+        plt.legend((ll, lh), ("Crime centroids", "311 centroids"), ncol=1, loc="upper left", scatterpoints=1)
+        plt.title("Crime vs 311 Centroid Locations")
+        #plt.savefig('crimevs311centroidslocationk=5_2.png')
+        plt.show() 
+
+        '''
+        #PLOTTING HISTOGRAMS
+        data = crimeCord
+        fig = plt.figure()
+        plt.title("Crime Locations")
+        gs = GridSpec(8,8)
+        plt.subplots_adjust(wspace=0, hspace=0)
+        ax_joint = fig.add_subplot(gs[2:8,0:6])
+        ax_marg_x = fig.add_subplot(gs[0:2,0:6])
+        ax_marg_y = fig.add_subplot(gs[2:8,6:8])
+        x, y = zip(*data)
+        ax_joint.scatter(x,y)
+        numBins = 60
+        ax_marg_x.hist(x,numBins)
+        ax_marg_y.hist(y,numBins,orientation="horizontal")
+        ax_marg_y.set_xlabel('Hist')
+        ax_marg_x.set_ylabel('Hist')
+        ax_joint.set_xlabel('Longitude')
+        ax_joint.set_ylabel('Latitude')
+        
+        #get rid of ticks
+        ax_marg_y.set_xticklabels([])
+        ax_marg_y.set_yticklabels([])
+        ax_marg_x.set_xticklabels([])
+        ax_marg_x.set_yticklabels([])
+        ax_joint.set_xticklabels([])
+        ax_joint.set_yticklabels([])
+
+        plt.savefig('CrimeLocationsHistogram.png')
+        plt.show()
+        '''
+
+        
         repo.logout()
 
         endTime = datetime.datetime.now()
@@ -85,18 +133,16 @@ class crimeAnalysis2(dml.Algorithm):
         this_script = doc.agent('alg:arjunlam#crimeAnalysis2', {prov.model.PROV_TYPE:prov.model.PROV['SoftwareAgent'], 'ont:Extension':'py'})
         
         #Entity
-        crime311_entity = doc.entity('bdp:29yf-ye7n', {'prov:label':'Crime and closed 311 per zipcode', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        crime_entity = doc.entity('bdp:29yf-ye7n', {'prov:label':'Crime coordinates', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
+        closed311_entity = doc.entity('bdp:29yf-ye7n', {'prov:label':'Closed 311 coordinates', prov.model.PROV_TYPE:'ont:DataResource', 'ont:Extension':'json'})
         
         #Activity
         get_crimeAnalysis2 = doc.activity('log:uuid'+str(uuid.uuid4()), startTime, endTime)
         
         doc.wasAssociatedWith(get_crimeAnalysis2, this_script)
-        doc.usage(get_crimeAnalysis2, crime311_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(get_crimeAnalysis2, crime_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
+        doc.usage(get_crimeAnalysis2, closed311_entity, startTime, None, {prov.model.PROV_TYPE:'ont:Retrieval'})
         
-        crimeVS311 = doc.entity('dat:arjunlam#crimeVS311', {prov.model.PROV_LABEL:'Crime And Closed 311 Requests', prov.model.PROV_TYPE:'ont:DataSet'})
-        doc.wasAttributedTo(crimeVS311, this_script)
-        doc.wasGeneratedBy(crimeVS311, get_crimeAnalysis2, endTime)
-        doc.wasDerivedFrom(crimeVS311, crime311_entity, get_crimeAnalysis2, get_crimeAnalysis2, get_crimeAnalysis2)
 
         repo.record(doc.serialize()) # Record the provenance document.
         repo.logout()
